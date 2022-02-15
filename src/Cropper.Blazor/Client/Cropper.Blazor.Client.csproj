@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
     <ProjectReference Include="..\Shared\Cropper.Blazor.Shared.csproj" />
   </ItemGroup>
 
