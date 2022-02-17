@@ -1,0 +1,18 @@
+﻿@page "/cropper"
+<h3>Cropper</h3>
+<div class="img-container">
+    <img @ref="imageReference"
+         class=""
+         onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png'"
+         @onload="OnLoadImage"
+         src="https://fengyuanchen.github.io/cropperjs/images/picture.jpg"
+         alt="Picture">
+</div>
+<div>
+    <div class="">
+        <div class="img-preview preview-lg"></div>
+        <div class="img-preview preview-md"></div>
+        <div class="img-preview preview-sm"></div>
+        <div class="img-preview preview-xs"></div>
+    </div>
+</div>
