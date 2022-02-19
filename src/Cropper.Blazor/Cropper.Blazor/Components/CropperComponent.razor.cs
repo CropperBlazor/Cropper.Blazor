@@ -33,6 +33,26 @@ namespace Cropper.Blazor.Components
         [Parameter]
         public string Class { get; set; }
 
+        [Parameter]
+        public Action? OnLoadImageEvent { get; set; }
+
+        [Parameter]
+        public Action<CropReadyEvent>? OnReadyEvent { get; set; }
+
+        [Parameter]
+        public Action<CropEvent>? OnCropEvent { get; set; }
+
+        [Parameter]
+        public Action<CropStartEvent>? OnCropStartEvent { get; set; }
+
+        [Parameter]
+        public Action<CropEndEvent>? OnCropEndEvent { get; set; }
+
+        [Parameter]
+        public Action<CropMoveEvent>? OnCropMoveEvent { get; set; }
+
+        [Parameter]
+        public Action<ZoomEvent>? OnZoomEvent { get; set; }
 
         protected override void OnInitialized()
         {
@@ -52,44 +72,43 @@ namespace Cropper.Blazor.Components
         {
             ICropperComponentBase cropperComponentBase = this;
             CropperJsIntertop.InitCropper(imageReference, Options, DotNetObjectReference.Create(cropperComponentBase));
+            OnLoadImageEvent?.Invoke();
         }
 
         [JSInvokable]
         public void CropperIsCroped(CropEvent cropEvent)
         {
-            Console.WriteLine($"CropEvent, X: {cropEvent.X}, Y: {cropEvent.Y}, " +
-                $"Height: {cropEvent.Height}, Width: {cropEvent.Width}, " +
-                $"ScaleX: {cropEvent.ScaleX}, ScaleY: {cropEvent.ScaleY}, Rotate: {cropEvent.Rotate}");
+            OnCropEvent?.Invoke(cropEvent);
         }
 
         [JSInvokable]
         public void CropperIsEnded(CropEndEvent cropEndEvent)
         {
-            Console.WriteLine($"CropEndEvent, {cropEndEvent.ActionEvent}");
+            OnCropEndEvent?.Invoke(cropEndEvent);
         }
 
         [JSInvokable]
         public void CropperIsMoved(CropMoveEvent cropMoveEvent)
         {
-            Console.WriteLine($"CropMoveEvent, {cropMoveEvent.ActionEvent}");
+            OnCropMoveEvent?.Invoke(cropMoveEvent);
         }
 
         [JSInvokable]
         public void CropperIsStarted(CropStartEvent cropStartEvent)
         {
-            Console.WriteLine($"CropStartEvent, {cropStartEvent.ActionEvent}");
+            OnCropStartEvent?.Invoke(cropStartEvent);
         }
 
         [JSInvokable]
         public void CropperIsZoomed(ZoomEvent zoomEvent)
         {
-            Console.WriteLine($"ZoomEvent, OldRatio: {zoomEvent.OldRatio}, Ratio: {zoomEvent.Ratio}");
+            OnZoomEvent?.Invoke(zoomEvent);
         }
 
         [JSInvokable]
         public void IsReady(CropReadyEvent cropReadyEvent)
         {
-            Console.WriteLine("IsReady");
+            OnReadyEvent?.Invoke(cropReadyEvent);
         }
     }
 }
