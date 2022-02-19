@@ -1,4 +1,5 @@
 @page "/demo"
+@using Cropper.Blazor.Components
 
 <MudContainer Class="mt-5 px-4">
     <MudGrid Class="mt-2">
@@ -8,10 +9,12 @@
                     <MudGrid>
                         <MudItem md="9">
                             <div class="img-container">
-                                <img @ref="imageReference"
-                                     @onload="OnLoadImage"
-                                     src="https://fengyuanchen.github.io/cropperjs/images/picture.jpg"
-                                     alt="Picture">
+                                <CropperComponent 
+                                    Class="cropper-demo"
+                                    Src="https://fengyuanchen.github.io/cropperjs/images/picture.jpg"
+                                    Options="options">
+
+                                </CropperComponent>
                             </div>
                         </MudItem>
 

@@ -14,8 +14,10 @@ class CropperDecorator {
         //if (imageObject == null) {
         //    throw "Parameter 'imageObject' must be is not null!";
         //}
+
+        //TO DO add dynamic fields to this object///
         const options = {
-            dragMode: optionsImage.dragMode,
+            //dragMode: optionsImage.dragMode,
             viewMode: optionsImage.viewMode,
             aspectRatio: optionsImage.aspectRatio,
             preview: optionsImage.preview,
