@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Cropper.Blazor.Events.CropEndEvent;
+using Cropper.Blazor.Events.CropEvent;
+using Cropper.Blazor.Events.CropMoveEvent;
+using Cropper.Blazor.Events.CropReadyEvent;
+using Cropper.Blazor.Events.CropStartEvent;
+using Cropper.Blazor.Events.ZoomEvent;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -11,37 +17,37 @@ namespace Cropper.Blazor.Base
     public class CropperComponentBase : ICropperComponentBase
     {
         [JSInvokable(nameof(CropperComponentBase.IsReady))]
-        public void IsReady(EventArgs eventArgs)
+        public void IsReady(CropReadyEvent cropReadyEvent)
         {
 
         }
 
         [JSInvokable(nameof(CropperComponentBase.CropperIsStarted))]
-        public void CropperIsStarted(EventArgs eventArgs)
+        public void CropperIsStarted(CropStartEvent cropStartEvent)
         {
 
         }
 
         [JSInvokable(nameof(CropperComponentBase.CropperIsMoved))]
-        public void CropperIsMoved(EventArgs eventArgs)
+        public void CropperIsMoved(CropMoveEvent cropMoveEvent)
         {
 
         }
 
         [JSInvokable(nameof(CropperComponentBase.CropperIsEnded))]
-        public void CropperIsEnded(EventArgs eventArgs)
+        public void CropperIsEnded(CropEndEvent cropEndEvent)
         {
 
         }
 
         [JSInvokable(nameof(CropperComponentBase.CropperIsCroped))]
-        public void CropperIsCroped(EventArgs eventArgs)
+        public void CropperIsCroped(CropEvent cropEvent)
         {
 
         }
 
         [JSInvokable(nameof(CropperComponentBase.CropperIsZoomed))]
-        public void CropperIsZoomed(EventArgs eventArgs)
+        public void CropperIsZoomed(ZoomEvent zoomEvent)
         {
 
         }
