@@ -8,9 +8,9 @@ namespace Cropper.Blazor.Models
 {
     public enum ViewMode
     {
+        Vm0,
         Vm1,
         Vm2,
-        Vm3,
-        Vm4
+        Vm3
     }
 }

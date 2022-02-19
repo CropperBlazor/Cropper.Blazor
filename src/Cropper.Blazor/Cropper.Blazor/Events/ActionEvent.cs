@@ -20,6 +20,7 @@ namespace Cropper.Blazor.Events
         Nw, 
         Se, 
         Sw,
-        All
+        All,
+        None
     }
 }
