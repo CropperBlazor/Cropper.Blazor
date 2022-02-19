@@ -11,21 +11,21 @@ namespace Cropper.Blazor.Base
     public interface ICropperComponentBase
     {
         [JSInvokable(nameof(ICropperComponentBase.CropperIsCroped))]
-        void CropperIsCroped(object data);
+        void CropperIsCroped(EventArgs eventArgs);
 
         [JSInvokable(nameof(ICropperComponentBase.CropperIsEnded))]
-        void CropperIsEnded(object data);
+        void CropperIsEnded(EventArgs eventArgs);
 
         [JSInvokable(nameof(ICropperComponentBase.CropperIsMoved))]
-        void CropperIsMoved(object data);
+        void CropperIsMoved(EventArgs eventArgs);
 
         [JSInvokable(nameof(ICropperComponentBase.CropperIsStarted))]
-        void CropperIsStarted(object data);
+        void CropperIsStarted(EventArgs eventArgs);
 
         [JSInvokable(nameof(ICropperComponentBase.CropperIsZoomed))]
-        void CropperIsZoomed(object data);
+        void CropperIsZoomed(EventArgs eventArgs);
 
         [JSInvokable(nameof(ICropperComponentBase.IsReady))]
-        void IsReady(object data);
+        void IsReady(EventArgs eventArgs);
     }
 }
