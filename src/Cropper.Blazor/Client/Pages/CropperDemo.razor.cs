@@ -38,37 +38,37 @@ namespace Cropper.Blazor.Client.Pages
         }
 
         [JSInvokable]
-        public void CropperIsCroped(object data)
+        public void CropperIsCroped(EventArgs eventArgs)
         {
             Console.WriteLine("CropperIsCroped");
         }
 
         [JSInvokable]
-        public void CropperIsEnded(object data)
+        public void CropperIsEnded(EventArgs eventArgs)
         {
             Console.WriteLine("CropperIsEnded");
         }
 
         [JSInvokable]
-        public void CropperIsMoved(object data)
+        public void CropperIsMoved(EventArgs eventArgs)
         {
             Console.WriteLine("CropperIsMoved");
         }
 
         [JSInvokable]
-        public void CropperIsStarted(object data)
+        public void CropperIsStarted(EventArgs eventArgs)
         {
             Console.WriteLine("CropperIsStarted");
         }
 
         [JSInvokable]
-        public void CropperIsZoomed(object data)
+        public void CropperIsZoomed(EventArgs eventArgs)
         {
             Console.WriteLine("CropperIsZoomed");
         }
 
         [JSInvokable]
-        public void IsReady(object data)
+        public void IsReady(EventArgs eventArgs)
         {
             Console.WriteLine("IsReady");
         }
