@@ -1,18 +1,31 @@
-﻿@page "/cropper"
-<h3>Cropper</h3>
-<div class="img-container">
-    <img @ref="imageReference"
-         class=""
-         onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png'"
-         @onload="OnLoadImage"
-         src="https://fengyuanchen.github.io/cropperjs/images/picture.jpg"
-         alt="Picture">
-</div>
-<div>
-    <div class="">
-        <div class="img-preview preview-lg"></div>
-        <div class="img-preview preview-md"></div>
-        <div class="img-preview preview-sm"></div>
-        <div class="img-preview preview-xs"></div>
-    </div>
-</div>
+﻿@page "/demo"
+
+<MudContainer Class="mt-5 px-4">
+    <MudGrid Class="mt-2">
+        <MudItem xl="12" lg="12" md="12" sm="12" xs="12">
+            <MudCard Elevation="2">
+                <MudCardContent>
+                    <MudGrid>
+                        <MudItem md="9">
+                            <div class="img-container">
+                                <img @ref="imageReference"
+                                     @onload="OnLoadImage"
+                                     src="https://fengyuanchen.github.io/cropperjs/images/picture.jpg"
+                                     alt="Picture">
+                            </div>
+                        </MudItem>
+
+                        <MudItem md="3">
+                            <div class="docs-preview clearfix">
+                                <div class="img-preview preview-lg"></div>
+                                <div class="img-preview preview-md"></div>
+                                <div class="img-preview preview-sm"></div>
+                                <div class="img-preview preview-xs"></div>
+                            </div>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
