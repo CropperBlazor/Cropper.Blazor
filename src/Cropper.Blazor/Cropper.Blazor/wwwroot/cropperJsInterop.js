@@ -15,27 +15,30 @@ class CropperDecorator {
         //    throw "Parameter 'imageObject' must be is not null!";
         //}
         const options = {
+            dragMode: optionsImage.dragMode,
+            viewMode: optionsImage.viewMode,
             aspectRatio: optionsImage.aspectRatio,
             preview: optionsImage.preview,
             ready: function (event) {
                 imageObject.invokeMethodAsync('IsReady', event);
             },
             cropstart: function (event) {
-                imageObject.invokeMethodAsync('CropperIsStarted', event);
+                imageObject.invokeMethodAsync('CropperIsStarted', event.detail);
             },
             cropmove: function (event) {
-                imageObject.invokeMethodAsync('CropperIsMoved', event);
+                imageObject.invokeMethodAsync('CropperIsMoved', event.detail);
             },
             cropend: function (event) {
-                imageObject.invokeMethodAsync('CropperIsEnded', event);
+                imageObject.invokeMethodAsync('CropperIsEnded', event.detail);
             },
             crop: function (event) {
-                imageObject.invokeMethodAsync('CropperIsCroped', event);
+                imageObject.invokeMethodAsync('CropperIsCroped', event.detail);
             },
-            zoom: function (e) {
-                imageObject.invokeMethodAsync('CropperIsZoomed', event);
+            zoom: function (event) {
+                imageObject.invokeMethodAsync('CropperIsZoomed', event.detail);
             }
         };
+        console.log(options);
         this.cropperInstance = new Cropper(image, options);
     }
 }
