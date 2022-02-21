@@ -1,33 +1,40 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Cropper.Blazor.Models
 {
     public class CropperData
     {
-        [JsonProperty("x", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("x")]
         public decimal X { get; set; }
 
-        [JsonProperty("y", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("y")]
         public decimal Y { get; set; }
 
-        [JsonProperty("width", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("width")]
         public decimal Width { get; set; }
 
-        [JsonProperty("height", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("height")]
         public decimal Height { get; set; }
 
-        [JsonProperty("rotate", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("rotate")]
         public decimal Rotate { get; set; }
 
-        [JsonProperty("scaleX", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("scaleX")]
         public decimal ScaleX { get; set; }
 
-        [JsonProperty("scaleY", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("scaleY")]
         public decimal ScaleY { get; set; }
     }
 }
