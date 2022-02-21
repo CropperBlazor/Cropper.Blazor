@@ -1,114 +1,146 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Cropper.Blazor.Models
 {
     public class Options
     {
-        [JsonProperty("aspectRatio", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("aspectRatio")]
         public decimal AspectRatio { get; set; }
 
-        [JsonProperty("preview", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("preview")]
         public string Preview { get; set; }
 
-        [JsonProperty("autoCrop", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("autoCrop")]
         public bool AutoCrop { get; set; }
 
-        [JsonProperty("autoCropArea", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("autoCropArea")]
         public decimal AutoCropArea { get; set; }
 
-        [JsonProperty("background", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("background")]
         public bool Background { get; set; }
 
-        [JsonProperty("center", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("center")]
         public bool Center { get; set; }
 
-        [JsonProperty("checkCrossOrigin", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("checkCrossOrigin")]
         public bool CheckCrossOrigin { get; set; }
 
-        [JsonProperty("checkOrientation", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("checkOrientation")]
         public bool CheckOrientation { get; set; }
 
-        [JsonProperty("cropBoxMovable", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("cropBoxMovable")]
         public bool CropBoxMovable { get; set; }
 
-        [JsonProperty("cropBoxResizable", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("cropBoxResizable")]
         public bool CropBoxResizable { get; set; }
 
-        [JsonProperty("setDataOptions", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("setDataOptions")]
         public SetDataOptions SetDataOptions { get; set; }
 
-        [JsonProperty("dragMode", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("dragMode")]
         [EnumDataType(typeof(DragMode))]
         public string DragMode { get; set; }
 
-        [JsonProperty("guides", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("guides")]
         public bool Guides { get; set; }
 
-        [JsonProperty("highlight", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("highlight")]
         public bool Highlight { get; set; }
 
-        [JsonProperty("initialAspectRatio", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("initialAspectRatio")]
         public decimal InitialAspectRatio { get; set; }
 
-        [JsonProperty("minCanvasHeight", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("minCanvasHeight")]
         public decimal MinCanvasHeight { get; set; }
 
-        [JsonProperty("minCanvasWidth", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("minCanvasWidth")]
         public decimal MinCanvasWidth { get; set; }
 
-        [JsonProperty("minContainerHeight", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("minContainerHeight")]
         public decimal MinContainerHeight { get; set; }
 
-        [JsonProperty("minContainerWidth", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("minContainerWidth")]
         public decimal MinContainerWidth { get; set; }
 
-        [JsonProperty("minCropBoxHeight", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("minCropBoxHeight")]
         public decimal MinCropBoxHeight { get; set; }
 
-        [JsonProperty("minCropBoxWidth", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("minCropBoxWidth")]
         public decimal MinCropBoxWidth { get; set; }
 
-        [JsonProperty("modal", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("modal")]
         public bool Modal { get; set; }
 
-        [JsonProperty("movable", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("movable")]
         public bool Movable { get; set; }
 
-        [JsonProperty("responsive", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("responsive")]
         public bool Responsive { get; set; }
 
-        [JsonProperty("restore", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("restore")]
         public bool Restore { get; set; }
 
-        [JsonProperty("rotatable", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("rotatable")]
         public bool Rotatable { get; set; }
 
-        [JsonProperty("scalable", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("scalable")]
         public bool Scalable { get; set; }
 
-        [JsonProperty("toggleDragModeOnDblclick", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("toggleDragModeOnDblclick")]
         public bool ToggleDragModeOnDblclick { get; set; }
 
-        [JsonProperty("viewMode", NullValueHandling = NullValueHandling.Ignore)]
-        public ViewMode ViewMode { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("viewMode")]
+        public ViewMode? ViewMode { get; set; }
 
-        [JsonProperty("wheelZoomRatio", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("wheelZoomRatio")]
         public decimal WheelZoomRatio { get; set; }
 
-        [JsonProperty("zoomOnTouch", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("zoomOnTouch")]
         public bool ZoomOnTouch { get; set; }
 
-        [JsonProperty("zoomOnWheel", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("zoomOnWheel")]
         public bool ZoomOnWheel { get; set; }
 
-        [JsonProperty("zoomable", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("zoomable")]
         public bool Zoomable { get; set; }
     }
 }
