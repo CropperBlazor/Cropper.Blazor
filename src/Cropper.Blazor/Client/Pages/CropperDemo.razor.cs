@@ -23,7 +23,6 @@ namespace Cropper.Blazor.Client.Pages
             {
                 Preview = ".img-preview",
                 AspectRatio = (decimal)16 / 9,
-                ViewMode = ViewMode.Vm0,
                 //DragMode =  DragMode.Crop.ToString()
             };
         }

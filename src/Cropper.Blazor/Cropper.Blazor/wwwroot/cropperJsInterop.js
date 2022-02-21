@@ -5,42 +5,35 @@ class CropperDecorator {
     }
 
     initCropper(image, optionsImage, imageObject) {
-        //if (image == null) {
-        //    throw "Parameter 'image' must be is not null!";
-        //}
-        //if (optionsImage == null) {
-        //    throw "Parameter 'optionsImage' must be is not null!";
-        //}
-        //if (imageObject == null) {
-        //    throw "Parameter 'imageObject' must be is not null!";
-        //}
-
-        //TO DO add dynamic fields to this object///
-        const options = {
-            //dragMode: optionsImage.dragMode,
-            viewMode: optionsImage.viewMode,
-            aspectRatio: optionsImage.aspectRatio,
-            preview: optionsImage.preview,
-            ready: function (event) {
+        if (image == null) {
+            throw "Parameter 'image' must be is not null!";
+        }
+        const options = {};
+        if (imageObject != null) {
+            options['ready'] = function (event) {
                 imageObject.invokeMethodAsync('IsReady', event);
-            },
-            cropstart: function (event) {
+            };
+            options['cropstart'] = function (event) {
                 imageObject.invokeMethodAsync('CropperIsStarted', event.detail);
-            },
-            cropmove: function (event) {
+            };
+            options['cropmove'] = function (event) {
                 imageObject.invokeMethodAsync('CropperIsMoved', event.detail);
-            },
-            cropend: function (event) {
+            };
+            options['cropend'] = function (event) {
                 imageObject.invokeMethodAsync('CropperIsEnded', event.detail);
-            },
-            crop: function (event) {
+            };
+            options['crop'] = function (event) {
                 imageObject.invokeMethodAsync('CropperIsCroped', event.detail);
-            },
-            zoom: function (event) {
+            };
+            options['zoom'] = function (event) {
                 imageObject.invokeMethodAsync('CropperIsZoomed', event.detail);
-            }
-        };
-        console.log(options);
+            };
+        }
+        if (optionsImage != null) {
+            Object.entries(optionsImage)?.forEach(([key, value]) => {
+                options[key] = value;
+            });
+        }
         this.cropperInstance = new Cropper(image, options);
     }
 }
