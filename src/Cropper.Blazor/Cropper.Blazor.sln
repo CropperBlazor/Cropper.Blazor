@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Server", "Server\Cropper.Blazor.Server.csproj", "{62A3968C-AB74-4CF5-8F5C-3AF53E3D3A85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Blazor.Server", "Server\Cropper.Blazor.Server.csproj", "{62A3968C-AB74-4CF5-8F5C-3AF53E3D3A85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Client", "Client\Cropper.Blazor.Client.csproj", "{3CD2E5C9-8D12-4ABF-9F06-EFB70AA7366D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Blazor.Client", "Client\Cropper.Blazor.Client.csproj", "{3CD2E5C9-8D12-4ABF-9F06-EFB70AA7366D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Shared", "Shared\Cropper.Blazor.Shared.csproj", "{EA03DC07-8523-4B63-A52E-6988F6E375E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Blazor.Shared", "Shared\Cropper.Blazor.Shared.csproj", "{EA03DC07-8523-4B63-A52E-6988F6E375E0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor", "Cropper.Blazor\Cropper.Blazor.csproj", "{FA58CDB6-2BC9-4F10-A3C4-465CDAC628E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Blazor", "Cropper.Blazor\Cropper.Blazor.csproj", "{FA58CDB6-2BC9-4F10-A3C4-465CDAC628E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
