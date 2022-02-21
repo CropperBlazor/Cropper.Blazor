@@ -15,5 +15,9 @@
     <ProjectReference Include="..\Shared\Cropper.Blazor.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 
 </Project>
