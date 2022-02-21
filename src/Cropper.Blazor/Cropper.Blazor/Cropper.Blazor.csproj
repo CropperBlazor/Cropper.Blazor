@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,23 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <ResolveStaticWebAssetsInputsDependsOn>
-      IncludeGeneratedStaticFiles;
-      $(ResolveStaticWebAssetsInputsDependsOn)
-    </ResolveStaticWebAssetsInputsDependsOn>
-  </PropertyGroup>
-  
-  <Target Name="IncludeGeneratedStaticFiles">
-    <Error Condition="!Exists('wwwroot/cropper.css')" Text="Missing Cropper.css in wwwroot" />
-    <Error Condition="!Exists('wwwroot/Cropper.Blazor.css')" Text="Missing Cropper.Blazor.css in wwwroot" />
-    <Error Condition="!Exists('wwwroot/cropper.js')" Text="Missing Cropper.js in wwwroot" />
-    <ItemGroup>
-      <Content Include="wwwroot/cropper.css" Condition="!Exists('wwwroot/cropper.css')" />
-      <Content Include="wwwroot/Cropper.Blazor.css" Condition="!Exists('wwwroot/Cropper.Blazor.css')" />
-      <Content Include="wwwroot/cropper.js" Condition="!Exists('wwwroot/cropper.js')" />
-    </ItemGroup>
-  </Target>
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
@@ -31,50 +14,5 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.1" />
   </ItemGroup>
-	
-	
-	<!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
-	<Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
-		<PropertyGroup>
-			<CleanGeneratedFiles>false</CleanGeneratedFiles>
-		</PropertyGroup>
-	</Target>
 
-	<Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
-		<ItemGroup>
-			<FilesToClean Include="./wwwroot/Cropper.Blazor.min.css" />
-		</ItemGroup>
-		<Delete Files="@(FilesToClean)" />
-	</Target>
-
-	<Target Name="ToolRestore">
-		<Exec Command="dotnet tool restore" StandardOutputImportance="high" />
-	</Target>
-
-	<Target Name="WebCompiler" DependsOnTargets="ToolRestore">
-		<Message Text="Running webcompiler" Importance="high" />
-		<Exec Command="dotnet webcompiler ./Styles/Cropper.Blazor.scss -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-	</Target>
-
-	<!--Output of Excubo webcompiler-->
-	<Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
-		<Error Condition="!Exists('wwwroot/Cropper.Blazor.min.css')" Text="Missing Cropper.Blazor.min.css in wwwroot" />
-		<ItemGroup>
-			<Content Include="wwwroot/Cropper.Blazor.min.css" Condition="!Exists('wwwroot/Cropper.Blazor.min.css')" />
-		</ItemGroup>
-	</Target>
-
-	<!--Dont Include in build output-->
-	<ItemGroup>
-		<Content Remove="compilerconfig.json" />
-		<Content Remove="excubowebcompiler.json" />
-	</ItemGroup>
-	
-	<!--Dont Include in build output-->
-	<ItemGroup>
-		<Watch Include="**/*.scss" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Watch Remove="Styles\Cropper.Blazor.scss" />
-	</ItemGroup>
 </Project>
