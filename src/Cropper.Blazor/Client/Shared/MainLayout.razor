@@ -1,17 +1,72 @@
 ﻿@inherits LayoutComponentBase
+@using Cropper.Blazor.Client.Enums
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<MudThemeProvider Theme="@LayoutService.CurrentTheme" IsDarkMode="@LayoutService.IsDarkMode" IsDarkModeChanged="LayoutService.SetDarkMode"/>
+<MudSnackbarProvider />
+<MudDialogProvider />
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+<MudLayout>
+    <MudAppBar Elevation="25">
+        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+            <MudIconButton OnClick="ToggleDrawer" Icon="@Icons.Rounded.Notes" Color="Color.Inherit" Edge="Edge.Start"/>
+            <MudSpacer/>
+            <NavLink ActiveClass="d-flex" href="/">
+                <div class="mud-avatar mud-avatar-large mud-avatar-square mud-elevation-0 brand-image" style="background-color: transparent;")>
+                    <img src="crop-64.png" class="mud-avatar-img" draggable="false">
+                </div>
+                <MudText Typo="Typo.h4" Class="ml-3 brand-text no-select text-gradient">Cropper.Blazor</MudText>
+            </NavLink>
+            <MudSpacer/>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+           <MudTooltip Duration="1000" Text="@(LayoutService.IsDarkMode ? "Switch to Light Theme" : "Switch to Dark Theme")">
+                <MudIconButton Icon="@(LayoutService.IsDarkMode ? @Icons.Rounded.LightMode : @Icons.Material.Outlined.DarkMode)" 
+                    Color="Color.Inherit" OnClick="@((e) => LayoutService.ToggleDarkMode())"/>
+            </MudTooltip>
+        </MudHidden>
+
+        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+            <NavLink ActiveClass="d-flex" href="/">
+                <div class="mud-avatar mud-avatar-large mud-avatar-square mud-elevation-0 brand-image" style="background-color: transparent")>
+                    <img src="crop-64.png" class="mud-avatar-img" draggable="false">
+                </div>
+                <MudText Typo="Typo.h4" Class="ml-3 brand-text no-select text-gradient">CB</MudText>
+            </NavLink>
+
+            <MudButton Link="/" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Home" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Home)">Home</MudButton>
+            <MudButton Link="/demo" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Crop" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Demo)">Demo</MudButton>
+            <MudButton  Link="/api" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Api" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Api)">Api</MudButton>
+            <MudButton  Link="/about" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.ContactSupport" Color="Color.Inherit" Class="@GetActiveClass(BasePage.About)">About</MudButton>
+
+            <MudSpacer />
+
+            <MudTooltip Duration="1000" Text="@(LayoutService.IsDarkMode ? "Switch to Light Theme" : "Switch to Dark Theme")">
+                <MudIconButton Icon="@(LayoutService.IsDarkMode ? @Icons.Rounded.LightMode : @Icons.Material.Outlined.DarkMode)" Color="Color.Inherit" OnClick="@((e) => LayoutService.ToggleDarkMode())"/>
+            </MudTooltip>
+
+            <MudTooltip Duration="1000" Text="GitHub Repository">
+                <MudIconButton Link="https://github.com/DurkaTechnologies/Cropper.Blazor" Target="_blank" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End"/>
+            </MudTooltip>
+        </MudHidden>
+    </MudAppBar>
+    <MudDrawer Open="@_drawerOpen" OpenChanged="OnDrawerOpenChanged" ClipMode="DrawerClipMode.Docked" Elevation="0" Breakpoint="Breakpoint.Lg">
+        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+            <MudToolBar Dense="true" DisableGutters="true" Class="docs-gray-bg pa-2">
+                <MudIconButton Icon="@Icons.Rounded.Close" Color="Color.Inherit" OnClick="ToggleDrawer"/>
+                <MudSpacer/>
+                <MudTooltip Duration="1000" Text="GitHub Repository">
+                    <MudIconButton Link="https://github.com/DurkaTechnologies/Cropper.Blazor" Target="_blank" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" Class="mr-1"/>
+                </MudTooltip>
+            </MudToolBar>
+
+            <MudNavMenu Color="Color.Primary" Margin="Margin.Dense" Rounded="true" Class="pa-2">
+                <MudNavLink Href="@NavigationManager.BaseUri" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+                <MudNavLink Href="/demo" Icon="@Icons.Material.Filled.Crop">Demo</MudNavLink>
+                <MudNavLink Href="/api" Icon="@Icons.Material.Filled.Api">Api</MudNavLink>
+                <MudNavLink Href="/about" Icon="@Icons.Material.Filled.ContactSupport">About</MudNavLink>
+            </MudNavMenu>
+        </MudHidden>
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
