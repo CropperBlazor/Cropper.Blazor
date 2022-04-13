@@ -16,6 +16,13 @@ namespace Cropper.Blazor.Client.Pages
     public partial class CropperDemo
     {
         private Options options;
+        private decimal? x;
+        private decimal? y;
+        private decimal? height;
+        private decimal? width;
+        private decimal? rotate;
+        private decimal? scaleX;
+        private decimal? scaleY;
 
         protected override void OnInitialized()
         {
@@ -59,9 +66,17 @@ namespace Cropper.Blazor.Client.Pages
 
         public void OnCropEvent(CropEvent cropEvent)
         {
+            x = cropEvent.X;
+            y = cropEvent.Y;
+            width = cropEvent.Width;
+            height = cropEvent.Height;
+            rotate = cropEvent.Rotate;
+            scaleX = cropEvent.ScaleX;
+            scaleY = cropEvent.ScaleY;
             Console.WriteLine($"CropEvent, X: {cropEvent.X}, Y: {cropEvent.Y}, " +
                 $"Height: {cropEvent.Height}, Width: {cropEvent.Width}, " +
                 $"ScaleX: {cropEvent.ScaleX}, ScaleY: {cropEvent.ScaleY}, Rotate: {cropEvent.Rotate}");
+            StateHasChanged();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
