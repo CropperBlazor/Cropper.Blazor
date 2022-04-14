@@ -10,6 +10,7 @@
                         <MudItem md="9">
                             <div class="img-container">
                                 <CropperComponent Class="cropper-demo"
+                                                  @ref="cropperComponent"
                                                   OnCropStartEvent="OnCropStartEvent"
                                                   OnCropEndEvent="OnCropEndEvent"
                                                   OnCropEvent="OnCropEvent"
@@ -94,48 +95,48 @@
                           <div class="col-md-9 docs-buttons">
                             <!-- <h3>Toolbar:</h3> -->
                             <div class="btn-group">
-                              <button type="button" class="btn btn-primary" data-method="setDragMode" data-option="move" title="Move">
-                                <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setDragMode(&quot;move&quot;)">
+                              <button type="button" class="btn btn-primary" title="Move" @onclick="SetMoveDragMode">
+                                <span class="docs-tooltip" data-toggle="tooltip">
                                   <span class="fa fa-arrows-alt"></span>
                                 </span>
                               </button>
-                              <button type="button" class="btn btn-primary" data-method="setDragMode" data-option="crop" title="Crop">
-                                <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setDragMode(&quot;crop&quot;)">
+                              <button type="button" class="btn btn-primary" title="Crop" @onclick="SetCropDragMode">
+                                <span class="docs-tooltip" data-toggle="tooltip">
                                   <span class="fa fa-crop-alt"></span>
                                 </span>
                               </button>
                             </div>
 
                             <div class="btn-group">
-                              <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1" title="Zoom In">
-                                <span class="docs-tooltip" data-toggle="tooltip" title="cropper.zoom(0.1)">
+                              <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1" title="Zoom In" @onclick="@(()=>Zoom(0.1m))">
+                                <span class="docs-tooltip" data-toggle="tooltip">
                                   <span class="fa fa-search-plus"></span>
                                 </span>
                               </button>
-                              <button type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1" title="Zoom Out">
-                                <span class="docs-tooltip" data-toggle="tooltip" title="cropper.zoom(-0.1)">
+                              <button type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1" title="Zoom Out" @onclick="@(()=>Zoom(-0.1m))">
+                                <span class="docs-tooltip" data-toggle="tooltip">
                                   <span class="fa fa-search-minus"></span>
                                 </span>
                               </button>
                             </div>
 
                             <div class="btn-group">
-                              <button type="button" class="btn btn-primary" data-method="move" data-option="-10" data-second-option="0" title="Move Left">
+                              <button type="button" class="btn btn-primary" data-method="move" data-option="-10" data-second-option="0" title="Move Left" @onclick="@(()=>Move(-10, 0))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.move(-10, 0)">
                                   <span class="fa fa-arrow-left"></span>
                                 </span>
                               </button>
-                              <button type="button" class="btn btn-primary" data-method="move" data-option="10" data-second-option="0" title="Move Right">
+                              <button type="button" class="btn btn-primary" data-method="move" data-option="10" data-second-option="0" title="Move Right" @onclick="@(()=>Move(10, 0))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.move(10, 0)">
                                   <span class="fa fa-arrow-right"></span>
                                 </span>
                               </button>
-                              <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="-10" title="Move Up">
+                              <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="-10" title="Move Up" @onclick="@(()=>Move(0, -10))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.move(0, -10)">
                                   <span class="fa fa-arrow-up"></span>
                                 </span>
                               </button>
-                              <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="10" title="Move Down">
+                              <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="10" title="Move Down" @onclick="@(()=>Move(0, 10))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.move(0, 10)">
                                   <span class="fa fa-arrow-down"></span>
                                 </span>
@@ -143,12 +144,12 @@
                             </div>
 
                             <div class="btn-group">
-                              <button type="button" class="btn btn-primary" data-method="rotate" data-option="-45" title="Rotate Left">
+                              <button type="button" class="btn btn-primary" data-method="rotate" data-option="-45" title="Rotate Left" @onclick="@(()=>Rotate(-45))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.rotate(-45)">
                                   <span class="fa fa-undo-alt"></span>
                                 </span>
                               </button>
-                              <button type="button" class="btn btn-primary" data-method="rotate" data-option="45" title="Rotate Right">
+                              <button type="button" class="btn btn-primary" data-method="rotate" data-option="45" title="Rotate Right" @onclick="@(()=>Rotate(45))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.rotate(45)">
                                   <span class="fa fa-redo-alt"></span>
                                 </span>
@@ -156,12 +157,12 @@
                             </div>
 
                             <div class="btn-group">
-                              <button type="button" class="btn btn-primary" data-method="scaleX" data-option="-1" title="Flip Horizontal">
+                              <button type="button" class="btn btn-primary" data-method="scaleX" data-option="-1" title="Flip Horizontal" @onclick="@(()=>ScaleX(-1m*scaleX))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.scaleX(-1)">
                                   <span class="fa fa-arrows-alt-h"></span>
                                 </span>
                               </button>
-                              <button type="button" class="btn btn-primary" data-method="scaleY" data-option="-1" title="Flip Vertical">
+                              <button type="button" class="btn btn-primary" data-method="scaleY" data-option="-1" title="Flip Vertical" @onclick="@(()=>ScaleY(-1m*scaleY))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.scaleY(-1)">
                                   <span class="fa fa-arrows-alt-v"></span>
                                 </span>
@@ -169,12 +170,12 @@
                             </div>
 
                             <div class="btn-group">
-                              <button type="button" class="btn btn-primary" data-method="crop" title="Crop">
+                              <button type="button" class="btn btn-primary" data-method="crop" title="Crop" @onclick="Crop">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.crop()">
                                   <span class="fa fa-check"></span>
                                 </span>
                               </button>
-                              <button type="button" class="btn btn-primary" data-method="clear" title="Clear">
+                              <button type="button" class="btn btn-primary" data-method="clear" title="Clear" @onclick="Clear">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.clear()">
                                   <span class="fa fa-times"></span>
                                 </span>
@@ -182,12 +183,12 @@
                             </div>
 
                             <div class="btn-group">
-                              <button type="button" class="btn btn-primary" data-method="disable" title="Disable">
+                              <button type="button" class="btn btn-primary" data-method="disable" title="Disable" @onclick="Disable">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.disable()">
                                   <span class="fa fa-lock"></span>
                                 </span>
                               </button>
-                              <button type="button" class="btn btn-primary" data-method="enable" title="Enable">
+                              <button type="button" class="btn btn-primary" data-method="enable" title="Enable" @onclick="Enable">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.enable()">
                                   <span class="fa fa-unlock"></span>
                                 </span>
@@ -195,7 +196,7 @@
                             </div>
 
                             <div class="btn-group">
-                              <button type="button" class="btn btn-primary" data-method="reset" title="Reset">
+                              <button type="button" class="btn btn-primary" data-method="reset" title="Reset" @onclick="Reset">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.reset()">
                                   <span class="fa fa-sync-alt"></span>
                                 </span>
@@ -206,7 +207,7 @@
                                   <span class="fa fa-upload"></span>
                                 </span>
                               </label>
-                              <button type="button" class="btn btn-primary" data-method="destroy" title="Destroy">
+                              <button type="button" class="btn btn-primary" data-method="destroy" title="Destroy" @onclick="Destroy">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="cropper.destroy()">
                                   <span class="fa fa-power-off"></span>
                                 </span>
