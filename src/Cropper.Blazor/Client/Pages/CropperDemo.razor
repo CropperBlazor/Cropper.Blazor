@@ -300,31 +300,31 @@
                             <!-- <h3>Toggles:</h3> -->
                             <div class="btn-group d-flex flex-nowrap" data-toggle="buttons">
                               <label class="btn btn-primary active">
-                                <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio" value="1.7777777777777777">
+                                <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio" @onclick="@(()=>SetAspectRatio(1.7777777777777777m))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 16 / 9">
                                   16:9
                                 </span>
                               </label>
                               <label class="btn btn-primary">
-                                <input type="radio" class="sr-only" id="aspectRatio2" name="aspectRatio" value="1.3333333333333333">
+                                <input type="radio" class="sr-only" id="aspectRatio2" name="aspectRatio" @onclick="@(()=>SetAspectRatio(1.3333333333333333m))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 4 / 3">
                                   4:3
                                 </span>
                               </label>
                               <label class="btn btn-primary">
-                                <input type="radio" class="sr-only" id="aspectRatio3" name="aspectRatio" value="1">
+                                <input type="radio" class="sr-only" id="aspectRatio3" name="aspectRatio" @onclick="@(()=>SetAspectRatio(1m))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 1 / 1">
                                   1:1
                                 </span>
                               </label>
                               <label class="btn btn-primary">
-                                <input type="radio" class="sr-only" id="aspectRatio4" name="aspectRatio" value="0.6666666666666666">
+                                <input type="radio" class="sr-only" id="aspectRatio4" name="aspectRatio" @onclick="@(()=>SetAspectRatio(0.6666666666666666m))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 2 / 3">
                                   2:3
                                 </span>
                               </label>
                               <label class="btn btn-primary">
-                                <input type="radio" class="sr-only" id="aspectRatio5" name="aspectRatio" value="NaN">
+                                <input type="radio" class="sr-only" id="aspectRatio5" name="aspectRatio" @onclick="@(()=>SetAspectRatio(0.0m))">
                                 <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: NaN">
                                   Free
                                 </span>

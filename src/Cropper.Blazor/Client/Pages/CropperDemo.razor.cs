@@ -141,6 +141,11 @@ namespace Cropper.Blazor.Client.Pages
             cropperComponent?.Destroy();
         }
 
+        public void SetAspectRatio(decimal aspectRatio)
+        {
+            cropperComponent?.SetAspectRatio(aspectRatio);
+        }
+
         private void Reset()
         {
             cropperComponent?.Reset();
