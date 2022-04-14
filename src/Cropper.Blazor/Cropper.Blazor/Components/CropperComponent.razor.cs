@@ -170,5 +170,10 @@ namespace Cropper.Blazor.Components
         {
             CropperJsIntertop?.Destroy();
         }
+
+        public void SetAspectRatio(decimal aspectRatio)
+        {
+            CropperJsIntertop?.SetAspectRatio(aspectRatio);
+        }
     }
 }
