@@ -1,4 +1,5 @@
 ﻿using Cropper.Blazor.Base;
+using Cropper.Blazor.Components;
 using Cropper.Blazor.Events.CropEndEvent;
 using Cropper.Blazor.Events.CropEvent;
 using Cropper.Blazor.Events.CropMoveEvent;
@@ -15,6 +16,7 @@ namespace Cropper.Blazor.Client.Pages
 {
     public partial class CropperDemo
     {
+        private CropperComponent? cropperComponent;
         private Options options;
         private decimal? x;
         private decimal? y;
@@ -77,6 +79,71 @@ namespace Cropper.Blazor.Client.Pages
                 $"Height: {cropEvent.Height}, Width: {cropEvent.Width}, " +
                 $"ScaleX: {cropEvent.ScaleX}, ScaleY: {cropEvent.ScaleY}, Rotate: {cropEvent.Rotate}");
             StateHasChanged();
+        }
+
+        private void SetMoveDragMode()
+        {
+            cropperComponent?.SetDragMode(DragMode.Move);
+        }
+
+        private void SetCropDragMode()
+        {
+            cropperComponent?.SetDragMode(DragMode.Crop);
+        }
+
+        private void Zoom(decimal ratio)
+        {
+            cropperComponent?.Zoom(ratio);
+        }
+
+        private void Move(decimal offsetX, decimal? offsetY)
+        {
+            cropperComponent?.Move(offsetX, offsetY);
+        }
+
+        private void Rotate(decimal degree)
+        {
+            cropperComponent?.Rotate(degree);
+        }
+
+        private void ScaleX(decimal? scaleX)
+        {
+            cropperComponent?.ScaleX(scaleX ?? 0);
+        }
+
+        private void ScaleY(decimal? scaleY)
+        {
+            cropperComponent?.ScaleY(scaleY ?? 0);
+        }
+
+        private void Crop()
+        {
+            cropperComponent?.Crop();
+        }
+
+        private void Clear()
+        {
+            cropperComponent?.Clear();
+        }
+
+        private void Enable()
+        {
+            cropperComponent?.Enable();
+        }
+
+        private void Disable()
+        {
+            cropperComponent?.Disable();
+        }
+
+        private void Destroy()
+        {
+            cropperComponent?.Destroy();
+        }
+
+        private void Reset()
+        {
+            cropperComponent?.Reset();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -4,6 +4,7 @@ using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
+using Cropper.Blazor.Extensions;
 
 namespace Cropper.Blazor.Services
 {
@@ -254,7 +255,7 @@ namespace Cropper.Blazor.Services
             {
                 await LoadAsync();
             }
-            await jsRuntime!.InvokeVoidAsync("cropper.setDragMode", dragMode);
+            await jsRuntime!.InvokeVoidAsync("cropper.setDragMode", dragMode.ToEnumString());
         }
 
         public async ValueTask Zoom(decimal ratio)

@@ -110,5 +110,65 @@ namespace Cropper.Blazor.Components
         {
             OnReadyEvent?.Invoke(cropReadyEvent);
         }
+
+        public void SetDragMode(DragMode dragMode)
+        {
+            CropperJsIntertop?.SetDragMode(dragMode);
+        }
+
+        public void Zoom(decimal ratio)
+        {
+            CropperJsIntertop?.Zoom(ratio);
+        }
+
+        public void Move(decimal offsetX, decimal? offsetY)
+        {
+            CropperJsIntertop?.Move(offsetX, offsetY);
+        }
+
+        public void Rotate(decimal degree)
+        {
+            CropperJsIntertop?.Rotate(degree);
+        }
+
+        public void ScaleX(decimal scaleX)
+        {
+            CropperJsIntertop?.ScaleX(scaleX);
+        }
+
+        public void ScaleY(decimal scaleY)
+        {
+            CropperJsIntertop?.ScaleY(scaleY);
+        }
+
+        public void Crop()
+        {
+            CropperJsIntertop?.Crop();
+        }
+
+        public void Clear()
+        {
+            CropperJsIntertop?.Clear();
+        }
+
+        public void Enable()
+        {
+            CropperJsIntertop?.Enable();
+        }
+
+        public void Disable()
+        {
+            CropperJsIntertop?.Disable();
+        }
+
+        public void Reset()
+        {
+            CropperJsIntertop?.Reset();
+        }
+
+        public void Destroy()
+        {
+            CropperJsIntertop?.Destroy();
+        }
     }
 }

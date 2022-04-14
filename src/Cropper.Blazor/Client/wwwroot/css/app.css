@@ -91,3 +91,7 @@ a, .btn-link {
     font-weight: 800;
     letter-spacing: 1px
 }
+
+.img-container > .cropper-demo {
+    max-width: 100%;
+}
