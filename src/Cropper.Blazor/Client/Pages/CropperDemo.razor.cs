@@ -25,9 +25,19 @@ namespace Cropper.Blazor.Client.Pages
         private decimal? rotate;
         private decimal? scaleX;
         private decimal? scaleY;
+        private CropBoxData? cropBoxData;
+        private CropperData? cropperData;
+        private ContainerData? containerData;
+        private ImageData? imageData;
+        private CanvasData? canvasData;
 
         protected override void OnInitialized()
         {
+            cropBoxData = new CropBoxData();
+            cropperData = new CropperData();
+            containerData = new ContainerData();
+            imageData = new ImageData();
+            canvasData = new CanvasData();
             options = new Options()
             {
                 Preview = ".img-preview",
@@ -96,9 +106,19 @@ namespace Cropper.Blazor.Client.Pages
             cropperComponent?.Zoom(ratio);
         }
 
+        public void ZoomTo(decimal ratio, decimal pivotX, decimal pivotY)
+        {
+            cropperComponent?.ZoomTo(ratio, pivotX, pivotY);
+        }
+
         private void Move(decimal offsetX, decimal? offsetY)
         {
             cropperComponent?.Move(offsetX, offsetY);
+        }
+
+        public void MoveTo(decimal x, decimal? y)
+        {
+            cropperComponent?.MoveTo(x, y);
         }
 
         private void Rotate(decimal degree)
@@ -114,6 +134,11 @@ namespace Cropper.Blazor.Client.Pages
         private void ScaleY(decimal? scaleY)
         {
             cropperComponent?.ScaleY(scaleY ?? 0);
+        }
+
+        public void Scale(decimal? scaleX, decimal? scaleY)
+        {
+            cropperComponent?.Scale(scaleX??0, scaleY??0);
         }
 
         private void Crop()
@@ -146,9 +171,61 @@ namespace Cropper.Blazor.Client.Pages
             cropperComponent?.SetAspectRatio(aspectRatio);
         }
 
+        public void SetViewMode(ViewMode viewMode)
+        {
+            options.ViewMode = viewMode; 
+            cropperComponent?.Destroy();
+            cropperComponent?.InitCropper();
+        }
+
         private void Reset()
         {
             cropperComponent?.Reset();
+        }
+
+        public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)
+        {
+            cropperComponent?.SetCropBoxData(cropBoxDataOptions);
+        }
+
+        public void SetData(SetDataOptions setDataOptions)
+        {
+            cropperComponent?.SetData(setDataOptions);
+        }
+
+        public void SetCanvasData(SetCanvasDataOptions setCanvasDataOptions)
+        {
+            cropperComponent?.SetCanvasData(setCanvasDataOptions);
+        }
+
+        public async void GetCropBoxData()
+        {
+            cropBoxData = await cropperComponent.GetCropBoxData();
+            StateHasChanged();
+        }
+
+        public async void GetData(bool rounded)
+        {
+            cropperData = await cropperComponent.GetData(rounded);
+            StateHasChanged();
+        }
+
+        public async void GetContainerData()
+        {
+            containerData = await cropperComponent.GetContainerData();
+            StateHasChanged();
+        }
+
+        public async void GetImageData()
+        {
+            imageData = await cropperComponent.GetImageData();
+            StateHasChanged();
+        }
+
+        public async void GetCanvasData()
+        {
+            canvasData = await cropperComponent.GetCanvasData();
+            StateHasChanged();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

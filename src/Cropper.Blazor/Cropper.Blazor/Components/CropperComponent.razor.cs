@@ -70,6 +70,11 @@ namespace Cropper.Blazor.Components
 
         private void OnLoadImage(ProgressEventArgs progressEventArgs)
         {
+            InitCropper();
+        }
+
+        public void InitCropper()
+        {
             ICropperComponentBase cropperComponentBase = this;
             CropperJsIntertop.InitCropper(imageReference, Options, DotNetObjectReference.Create(cropperComponentBase));
             OnLoadImageEvent?.Invoke();
@@ -121,9 +126,19 @@ namespace Cropper.Blazor.Components
             CropperJsIntertop?.Zoom(ratio);
         }
 
+        public void ZoomTo(decimal ratio, decimal pivotX, decimal pivotY)
+        {
+            CropperJsIntertop?.ZoomTo(ratio, pivotX, pivotY);
+        }
+
         public void Move(decimal offsetX, decimal? offsetY)
         {
             CropperJsIntertop?.Move(offsetX, offsetY);
+        }
+
+        public void MoveTo(decimal x, decimal? y)
+        {
+            CropperJsIntertop?.MoveTo(x, y);
         }
 
         public void Rotate(decimal degree)
@@ -139,6 +154,11 @@ namespace Cropper.Blazor.Components
         public void ScaleY(decimal scaleY)
         {
             CropperJsIntertop?.ScaleY(scaleY);
+        }
+
+        public void Scale(decimal scaleX, decimal scaleY)
+        {
+            CropperJsIntertop?.Scale(scaleX, scaleY);
         }
 
         public void Crop()
@@ -174,6 +194,46 @@ namespace Cropper.Blazor.Components
         public void SetAspectRatio(decimal aspectRatio)
         {
             CropperJsIntertop?.SetAspectRatio(aspectRatio);
+        }
+
+        public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)
+        {
+            CropperJsIntertop?.SetCropBoxData(cropBoxDataOptions);
+        }
+
+        public void SetData(SetDataOptions setDataOptions)
+        {
+            CropperJsIntertop?.SetData(setDataOptions);
+        }
+
+        public void SetCanvasData(SetCanvasDataOptions setCanvasDataOptions)
+        {
+            CropperJsIntertop?.SetCanvasData(setCanvasDataOptions);
+        }
+
+        public async ValueTask<CropBoxData> GetCropBoxData()
+        {
+            return await CropperJsIntertop.GetCropBoxData();
+        }
+
+        public async ValueTask<CropperData> GetData(bool rounded)
+        {
+            return await CropperJsIntertop.GetData(rounded);
+        }
+
+        public async ValueTask<ContainerData> GetContainerData()
+        {
+            return await CropperJsIntertop.GetContainerData();
+        }
+
+        public async ValueTask<ImageData> GetImageData()
+        {
+            return await CropperJsIntertop.GetImageData();
+        }
+
+        public async ValueTask<CanvasData> GetCanvasData()
+        {
+            return await CropperJsIntertop.GetCanvasData();
         }
     }
 }
