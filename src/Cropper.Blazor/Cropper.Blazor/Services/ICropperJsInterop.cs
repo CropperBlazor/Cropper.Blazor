@@ -1,14 +1,8 @@
-﻿using Blazor.Extensions.Canvas.Canvas2D;
-using Cropper.Blazor.Base;
+﻿using Cropper.Blazor.Base;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cropper.Blazor.Services
 {
@@ -44,6 +38,7 @@ namespace Cropper.Blazor.Services
         ValueTask NoConflict();
         ValueTask SetDefaults([NotNull] Options options);
         ValueTask SetAspectRatio(decimal aspectRatio);
-        ValueTask<Canvas2DContext> GetCroppedCanvas(GetCroppedCanvasOptions getCroppedCanvasOptions);
+        ValueTask<object> GetCroppedCanvas(GetCroppedCanvasOptions getCroppedCanvasOptions);
+        ValueTask<string> GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions);
     }
 }

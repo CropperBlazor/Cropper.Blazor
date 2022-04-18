@@ -1,5 +1,4 @@
-﻿using Cropper.Blazor.Base;
-using Cropper.Blazor.Components;
+﻿using Cropper.Blazor.Components;
 using Cropper.Blazor.Events.CropEndEvent;
 using Cropper.Blazor.Events.CropEvent;
 using Cropper.Blazor.Events.CropMoveEvent;
@@ -7,10 +6,7 @@ using Cropper.Blazor.Events.CropReadyEvent;
 using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
 using Cropper.Blazor.Models;
-using Cropper.Blazor.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
+using MudBlazor;
 
 namespace Cropper.Blazor.Client.Pages
 {
@@ -226,6 +222,15 @@ namespace Cropper.Blazor.Client.Pages
         {
             canvasData = await cropperComponent.GetCanvasData();
             StateHasChanged();
+        }
+
+        public async void GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        {
+            string croppedCanvasDataURL = await cropperComponent.GetCroppedCanvasDataURL(getCroppedCanvasOptions);
+            var parameters = new DialogParameters();
+            parameters.Add("Src", croppedCanvasDataURL);
+            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -10,11 +10,6 @@ using Cropper.Blazor.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cropper.Blazor.Components
 {
@@ -234,6 +229,16 @@ namespace Cropper.Blazor.Components
         public async ValueTask<CanvasData> GetCanvasData()
         {
             return await CropperJsIntertop.GetCanvasData();
+        }
+
+        public async ValueTask<object> GetCroppedCanvas(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        {
+            return await CropperJsIntertop.GetCroppedCanvas(getCroppedCanvasOptions);
+        }
+
+        public async ValueTask<string> GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        {
+            return await CropperJsIntertop.GetCroppedCanvasDataURL(getCroppedCanvasOptions);
         }
     }
 }

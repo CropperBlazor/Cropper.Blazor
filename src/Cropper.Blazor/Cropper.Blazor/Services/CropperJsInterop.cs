@@ -1,10 +1,9 @@
-using Blazor.Extensions.Canvas.Canvas2D;
 using Cropper.Blazor.Base;
+using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
-using Cropper.Blazor.Extensions;
 
 namespace Cropper.Blazor.Services
 {
@@ -105,13 +104,22 @@ namespace Cropper.Blazor.Services
             return await jsRuntime!.InvokeAsync<CropBoxData>("cropper.getCropBoxData");
         }
 
-        public async ValueTask<Canvas2DContext> GetCroppedCanvas(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        public async ValueTask<object> GetCroppedCanvas(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
             if (module == null)
             {
                 await LoadAsync();
             }
-            return await jsRuntime!.InvokeAsync<Canvas2DContext>("cropper.getCroppedCanvas", getCroppedCanvasOptions);
+            return await jsRuntime!.InvokeAsync<object>("cropper.getCroppedCanvas", getCroppedCanvasOptions);
+        }
+
+        public async ValueTask<string> GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        {
+            if (module == null)
+            {
+                await LoadAsync();
+            }
+            return await jsRuntime!.InvokeAsync<string>("cropper.getCroppedCanvasDataURL", getCroppedCanvasOptions);
         }
 
         public async ValueTask<CropperData> GetData(bool rounded)
