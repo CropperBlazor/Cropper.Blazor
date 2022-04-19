@@ -13,7 +13,7 @@ using MudBlazor;
 
 namespace Cropper.Blazor.Client.Pages
 {
-    public partial class CropperDemo
+    public partial class CropperDemo: IDisposable
     {
         private CropperComponent? cropperComponent;
         private Options options;
@@ -260,6 +260,12 @@ namespace Cropper.Blazor.Client.Pages
 
             }
             await base.OnAfterRenderAsync(firstRender);
+        }
+
+        public void Dispose()
+        {
+            cropperComponent?.Destroy();
+            cropperComponent?.RevokeObjectUrl(Src);
         }
     }
 }
