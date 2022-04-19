@@ -2,6 +2,7 @@ using Cropper.Blazor.Base;
 using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
 
@@ -300,6 +301,28 @@ namespace Cropper.Blazor.Services
                 await LoadAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.setDefaults", options);
+        }
+
+        public async ValueTask<string> GetImageUsingStreaming(IBrowserFile imageFile, long maxAllowedSize = 512000L, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (module == null)
+            {
+                await LoadAsync();
+            }
+
+            var jsImageStream = imageFile.OpenReadStream(maxAllowedSize, cancellationToken);
+            var dotnetImageStream = new DotNetStreamReference(jsImageStream);
+            return await jsRuntime.InvokeAsync<string>("cropper.getImageUsingStreaming", dotnetImageStream);
+        }
+
+        public async ValueTask RevokeObjectUrl(string url)
+        {
+            if (module == null)
+            {
+                await LoadAsync();
+            }
+
+           await jsRuntime.InvokeVoidAsync("cropper.revokeObjectUrl", url);
         }
 
         public async ValueTask DisposeAsync()

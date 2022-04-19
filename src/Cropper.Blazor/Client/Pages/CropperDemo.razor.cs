@@ -6,6 +6,9 @@ using Cropper.Blazor.Events.CropReadyEvent;
 using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
 using Cropper.Blazor.Models;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using MudBlazor;
 
 namespace Cropper.Blazor.Client.Pages
@@ -26,9 +29,14 @@ namespace Cropper.Blazor.Client.Pages
         private ContainerData? containerData;
         private ImageData? imageData;
         private CanvasData? canvasData;
+        private Dictionary<string, object> InputFileAdditionalAttributes = new Dictionary<string, object>() {
+                { "accept", "image/*" }
+        };
+        private string Src = "https://fengyuanchen.github.io/cropperjs/images/picture.jpg";
 
         protected override void OnInitialized()
         {
+            
             cropBoxData = new CropBoxData();
             cropperData = new CropperData();
             containerData = new ContainerData();
@@ -134,7 +142,7 @@ namespace Cropper.Blazor.Client.Pages
 
         public void Scale(decimal? scaleX, decimal? scaleY)
         {
-            cropperComponent?.Scale(scaleX??0, scaleY??0);
+            cropperComponent?.Scale(scaleX ?? 0, scaleY ?? 0);
         }
 
         private void Crop()
@@ -169,7 +177,7 @@ namespace Cropper.Blazor.Client.Pages
 
         public void SetViewMode(ViewMode viewMode)
         {
-            options.ViewMode = viewMode; 
+            options.ViewMode = viewMode;
             cropperComponent?.Destroy();
             cropperComponent?.InitCropper();
         }
@@ -231,6 +239,18 @@ namespace Cropper.Blazor.Client.Pages
             parameters.Add("Src", croppedCanvasDataURL);
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
             var dialog = _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+        }
+
+        public async Task InputFileChange(InputFileChangeEventArgs inputFileChangeEventArgs)
+        {
+            var imageFile = inputFileChangeEventArgs.File;
+            if (imageFile != null)
+            {
+                var oldSrc = Src;
+                Src = await cropperComponent.GetImageUsingStreaming(imageFile, imageFile.Size);
+                cropperComponent?.Destroy();
+                cropperComponent?.RevokeObjectUrl(oldSrc);
+            }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

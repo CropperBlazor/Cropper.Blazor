@@ -18,7 +18,7 @@
                                                   OnCropMoveEvent="OnCropMoveEvent"
                                                   OnReadyEvent="OnCropReadyEvent"
                                                   OnLoadImageEvent="OnLoadImageEvent"
-                                                  Src="https://fengyuanchen.github.io/cropperjs/images/picture.jpg"
+                                                  Src="@Src"
                                                   Options="options">
 
                                 </CropperComponent>
@@ -202,7 +202,7 @@
                                         </span>
                                     </button>
                                     <label class="btn btn-primary btn-upload" for="inputImage" title="Upload image file">
-                                        <input type="file" class="sr-only" id="inputImage" name="file" accept="image/*">
+                                        <InputFile AdditionalAttributes="InputFileAdditionalAttributes" OnChange="InputFileChange" />
                                         <span class="docs-tooltip" data-toggle="tooltip" title="Import image with Blob URLs">
                                             <span class="fa fa-upload"></span>
                                         </span>
@@ -215,20 +215,20 @@
                                 </div>
 
                                 <div class="btn-group btn-group-crop">
-                                    <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }" 
-                                        @onclick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096}))">
+                                    <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }"
+                                            @onclick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096}))">
                                         <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })">
                                             Get Cropped Canvas
                                         </span>
                                     </button>
                                     <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 160, &quot;height&quot;: 90 }"
-                                        @onclick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 90, MaxWidth = 160}))">
+                                            @onclick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 90, MaxWidth = 160}))">
                                         <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getCroppedCanvas({ width: 160, height: 90 })">
                                             160&times;90
                                         </span>
                                     </button>
                                     <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }"
-                                        @onclick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 180, MaxWidth = 320}))">
+                                            @onclick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 180, MaxWidth = 320}))">
                                         <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getCroppedCanvas({ width: 320, height: 180 })">
                                             320&times;180
                                         </span>
@@ -417,21 +417,21 @@
                                         </span>
                                         <input type="text" class="form-control" id="dataTop" @bind-value="@imageData.Top" placeholder="top">
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class="docs-data">
-                                    <div>Canvas Data</div>                                    
+                                    <div>Canvas Data</div>
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-prepend">
                                             <label class="input-group-text" for="dataLeft">Left</label>
                                         </span>
                                         <input type="text" class="form-control" id="dataLeft" @bind-value="@canvasData.Left" placeholder="left">
-                                    </div>                                    
+                                    </div>
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-prepend">
                                             <label class="input-group-text" for="dataTop">Top</label>
                                         </span>
                                         <input type="text" class="form-control" id="dataTop" @bind-value="@canvasData.Top" placeholder="top">
-                                    </div>                                    
+                                    </div>
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-prepend">
                                             <label class="input-group-text" for="dataNaturalHeight">Natural Height</label>
