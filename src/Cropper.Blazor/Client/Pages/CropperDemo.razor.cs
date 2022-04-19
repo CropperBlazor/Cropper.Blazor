@@ -168,6 +168,7 @@ namespace Cropper.Blazor.Client.Pages
         private void Destroy()
         {
             cropperComponent?.Destroy();
+            cropperComponent?.RevokeObjectUrl(Src);
         }
 
         public void SetAspectRatio(decimal aspectRatio)
@@ -264,8 +265,7 @@ namespace Cropper.Blazor.Client.Pages
 
         public void Dispose()
         {
-            cropperComponent?.Destroy();
-            cropperComponent?.RevokeObjectUrl(Src);
+            Destroy();
         }
     }
 }
