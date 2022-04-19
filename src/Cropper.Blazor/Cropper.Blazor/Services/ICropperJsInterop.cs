@@ -1,6 +1,7 @@
 ﻿using Cropper.Blazor.Base;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
 
@@ -40,5 +41,7 @@ namespace Cropper.Blazor.Services
         ValueTask SetAspectRatio(decimal aspectRatio);
         ValueTask<object> GetCroppedCanvas(GetCroppedCanvasOptions getCroppedCanvasOptions);
         ValueTask<string> GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions);
+        ValueTask<string> GetImageUsingStreaming(IBrowserFile imageFile, long maxAllowedSize = 512000L, CancellationToken cancellationToken = default(CancellationToken));
+        ValueTask RevokeObjectUrl(string url);
     }
 }

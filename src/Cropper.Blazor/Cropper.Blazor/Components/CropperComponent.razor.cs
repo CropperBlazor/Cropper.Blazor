@@ -8,6 +8,7 @@ using Cropper.Blazor.Events.ZoomEvent;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
@@ -229,6 +230,16 @@ namespace Cropper.Blazor.Components
         public async ValueTask<CanvasData> GetCanvasData()
         {
             return await CropperJsIntertop.GetCanvasData();
+        }
+
+        public async ValueTask<string> GetImageUsingStreaming(IBrowserFile imageFile, long maxAllowedSize = 512000L, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await CropperJsIntertop.GetImageUsingStreaming(imageFile, maxAllowedSize, cancellationToken);
+        }
+
+        public async ValueTask RevokeObjectUrl(string url)
+        {
+            await CropperJsIntertop.RevokeObjectUrl(url);
         }
 
         public async ValueTask<object> GetCroppedCanvas(GetCroppedCanvasOptions getCroppedCanvasOptions)

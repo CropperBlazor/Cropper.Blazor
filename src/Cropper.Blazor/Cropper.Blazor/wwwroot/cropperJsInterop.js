@@ -124,6 +124,16 @@ class CropperDecorator {
         return Cropper.setDefaults(options);
     }
 
+    async getImageUsingStreaming(imageStream) {
+        const arrayBuffer = await imageStream.arrayBuffer();
+        const blob = new Blob([arrayBuffer]);
+        return URL.createObjectURL(blob);
+    }
+
+    revokeObjectUrl(url) {
+        URL.revokeObjectURL(url);
+    }
+
     initCropper(image, optionsImage, imageObject) {
         if (image == null) {
             throw "Parameter 'image' must be is not null!";
