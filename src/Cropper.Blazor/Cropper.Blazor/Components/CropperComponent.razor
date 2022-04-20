@@ -1,4 +1,16 @@
-﻿<img @ref="imageReference"
+﻿@if (IsErrorLoadImage == true)
+{
+    <img
+     class="@ErrorLoadImageClass"
+     loading="@Loading"
+     src="@ErrorLoadImageSrc">
+}
+else
+{
+    <img @ref="imageReference"
      class="@Class"
+     loading="@Loading"
+     @onerror="@OnErrorLoadImage"
      @onload="OnLoadImage"
      src="@Src">
+}
