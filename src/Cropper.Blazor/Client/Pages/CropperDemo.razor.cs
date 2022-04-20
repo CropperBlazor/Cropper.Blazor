@@ -6,10 +6,9 @@ using Cropper.Blazor.Events.CropReadyEvent;
 using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
 using Cropper.Blazor.Models;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.JSInterop;
 using MudBlazor;
+using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Client.Pages
 {
@@ -33,6 +32,8 @@ namespace Cropper.Blazor.Client.Pages
                 { "accept", "image/*" }
         };
         private string Src = "https://fengyuanchen.github.io/cropperjs/images/picture.jpg";
+        private string ErrorLoadImageSrc = "not-found-image.jpg";
+        private bool IsErrorLoadImage { get; set; } = false;
 
         protected override void OnInitialized()
         {
@@ -78,6 +79,13 @@ namespace Cropper.Blazor.Client.Pages
         public void OnLoadImageEvent()
         {
             Console.WriteLine("Image Is loaded");
+        }
+
+        public void OnErrorLoadImageEvent(ErrorEventArgs errorEventArgs)
+        {
+            IsErrorLoadImage = true;
+            Destroy();
+            StateHasChanged();
         }
 
         public void OnCropEvent(CropEvent cropEvent)
@@ -249,6 +257,7 @@ namespace Cropper.Blazor.Client.Pages
             {
                 var oldSrc = Src;
                 Src = await cropperComponent.GetImageUsingStreaming(imageFile, imageFile.Size);
+                IsErrorLoadImage = false;
                 cropperComponent?.Destroy();
                 cropperComponent?.RevokeObjectUrl(oldSrc);
             }

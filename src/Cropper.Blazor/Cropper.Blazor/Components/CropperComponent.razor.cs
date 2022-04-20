@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Components
 {
@@ -27,7 +28,19 @@ namespace Cropper.Blazor.Components
         public string Src { get; set; }
 
         [Parameter]
+        public string ErrorLoadImageSrc { get; set; }
+
+        [Parameter]
+        public string ErrorLoadImageClass { get; set; }
+
+        [Parameter]
+        public bool IsErrorLoadImage { get; set; }
+
+        [Parameter]
         public string Class { get; set; }
+
+        [Parameter]
+        public string Loading { get; set; }
 
         [Parameter]
         public Action? OnLoadImageEvent { get; set; }
@@ -50,6 +63,9 @@ namespace Cropper.Blazor.Components
         [Parameter]
         public Action<ZoomEvent>? OnZoomEvent { get; set; }
 
+        [Parameter]
+        public Action<ErrorEventArgs>? OnErrorLoadImageEvent { get; set; }
+
         protected override void OnInitialized()
         {
 
@@ -67,6 +83,11 @@ namespace Cropper.Blazor.Components
         private void OnLoadImage(ProgressEventArgs progressEventArgs)
         {
             InitCropper();
+        }
+
+        public void OnErrorLoadImage(ErrorEventArgs errorEventArgs)
+        {
+            OnErrorLoadImageEvent?.Invoke(errorEventArgs);
         }
 
         public void InitCropper()
