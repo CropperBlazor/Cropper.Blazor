@@ -1,6 +1,6 @@
 `Cropper.Blazor` is a component element that wraps around [Cropper.js](https://github.com/fengyuanchen/cropperjs)
 
-# ![Cropper.Blazor](Cropper.Blazor\src\Cropper.Blazor\Client\wwwroot\favicon.ico)
+# ![Cropper.Blazor](src/Cropper.Blazor/Client/wwwroot/crop.png)
 
 ## Demo
 
