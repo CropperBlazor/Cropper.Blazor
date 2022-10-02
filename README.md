@@ -1,9 +1,8 @@
 `Cropper.Blazor` is a component element that wraps around [Cropper.js](https://github.com/fengyuanchen/cropperjs)
 
-<a target="_blank" rel="noopener noreferrer" href="src/Cropper.Blazor/Client/wwwroot/crop.png" style="
-    display: flex;
-    justify-content: center;
-"><img src="src/Cropper.Blazor/Client/wwwroot/crop.png" alt="Cropper.Blazor" style="max-width: 100%;"></a>
+<a target="_blank" rel="noopener noreferrer" href="src/Cropper.Blazor/Client/wwwroot/crop.png" style="display: flex; justify-content: center;">
+    <img src="src/Cropper.Blazor/Client/wwwroot/crop.png" alt="Cropper.Blazor" style="max-width: 100%;">
+</a>
 
 ## Demo
 
