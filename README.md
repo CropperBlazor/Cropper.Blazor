@@ -12,7 +12,7 @@ Import Custom Element:
 @using Cropper.Blazor.Components
 ```
 
-And then use it in Razor file ([for example](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor):
+And then use it in Razor file ([for example](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor)):
 
 ```csharp
 <CropperComponent
