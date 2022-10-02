@@ -1,8 +1,6 @@
-`Cropper.Blazor` is a component element that wraps around [Cropper.js](https://github.com/fengyuanchen/cropperjs)
+Cropper.Blazor is a component element that wraps around [Cropper.js](https://github.com/fengyuanchen/cropperjs)
 
-<div>
-  <img src="src/Cropper.Blazor/Client/wwwroot/crop.png" width="256" height="256" class="d-flex ml-auto mr-auto" />
-<div/>
+<img src="src/Cropper.Blazor/Client/wwwroot/crop.png" width="256" height="256" />
 
 
 ## Demo
