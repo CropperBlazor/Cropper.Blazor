@@ -17,7 +17,38 @@
 </head>
 
 <body>
-    <div id="app">Loading...</div>
+    <div id="app">
+        <style>
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                50% {
+                    transform: rotate(360deg);
+                }
+
+                100% {
+                    transform: rotate(0deg);
+                }
+            }
+
+            .cb-wasm-cont {
+                left: 50%;
+                padding: 10vmin;
+                position: fixed;
+                text-align: center;
+                top: 50%;
+                transform: translate(-50%, -50%)
+            }
+        </style>
+
+        <div style="height:100%;width:100%;margin:0;position:fixed;">
+            <div class="cb-wasm-cont">
+                <img src="/crop.png" Style="height:350px; width:350px; opacity:0.8" />
+            </div>
+        </div>
+    </div>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.

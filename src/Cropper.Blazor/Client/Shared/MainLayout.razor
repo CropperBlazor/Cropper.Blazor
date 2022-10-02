@@ -25,7 +25,7 @@
         </MudHidden>
 
         <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
-            <NavLink ActiveClass="d-flex" href="/">
+            <NavLink ActiveClass="d-flex" href="">
                 <div class="mud-avatar mud-avatar-large mud-avatar-square mud-elevation-0 brand-image" style="background-color: transparent")>
                     <img src="crop-64.png" class="mud-avatar-img" draggable="false">
                 </div>
@@ -33,9 +33,9 @@
             </NavLink>
 
             <MudButton Link="/" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Home" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Home)">Home</MudButton>
-            <MudButton Link="/demo" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Crop" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Demo)">Demo</MudButton>
-            <MudButton  Link="/api" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Api" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Api)">Api</MudButton>
-            <MudButton  Link="/about" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.ContactSupport" Color="Color.Inherit" Class="@GetActiveClass(BasePage.About)">About</MudButton>
+            <MudButton Link="demo" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Crop" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Demo)">Demo</MudButton>
+            <MudButton Link="api" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Api" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Api)">Api</MudButton>
+            <MudButton Link="about" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.ContactSupport" Color="Color.Inherit" Class="@GetActiveClass(BasePage.About)">About</MudButton>
 
             <MudSpacer />
 
@@ -59,10 +59,10 @@
             </MudToolBar>
 
             <MudNavMenu Color="Color.Primary" Margin="Margin.Dense" Rounded="true" Class="pa-2">
-                <MudNavLink Href="@NavigationManager.BaseUri" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-                <MudNavLink Href="/demo" Icon="@Icons.Material.Filled.Crop">Demo</MudNavLink>
-                <MudNavLink Href="/api" Icon="@Icons.Material.Filled.Api">Api</MudNavLink>
-                <MudNavLink Href="/about" Icon="@Icons.Material.Filled.ContactSupport">About</MudNavLink>
+                <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+                <MudNavLink Href="demo" Icon="@Icons.Material.Filled.Crop">Demo</MudNavLink>
+                <MudNavLink Href="api" Icon="@Icons.Material.Filled.Api">Api</MudNavLink>
+                <MudNavLink Href="about" Icon="@Icons.Material.Filled.ContactSupport">About</MudNavLink>
             </MudNavMenu>
         </MudHidden>
     </MudDrawer>
