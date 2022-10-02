@@ -41,9 +41,6 @@ And then use it in Razor file ([for example](https://github.com/DurkaTechnologie
 
 And then use it in [Razor.cs file](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor.cs)
 
-
-See the [Documentation](https://durkatechnologies.github.io/Cropper.Blazor/about) for more options.
-
 ## Contributing
 
 1. Fork it!
