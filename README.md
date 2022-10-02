@@ -5,7 +5,7 @@
 
 ## Demo
 
-https://durkatechnologies.github.io/Cropper.Blazor/demo
+https://durkatechnologies.github.io/Cropper.Blazor
 
 ## Usage
 
