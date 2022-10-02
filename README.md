@@ -1,8 +1,10 @@
-`Cropper.Blazor` is a component element that wraps around Cropper.js
+`Cropper.Blazor` is a component element that wraps around [Cropper.js](https://github.com/fengyuanchen/cropperjs)
+
+# ![Cropper.Blazor](Cropper.Blazor\src\Cropper.Blazor\Client\wwwroot\favicon.ico)
 
 ## Demo
 
-[https://durkatechnologies.github.io/Cropper.Blazor/demo)
+[Click for a Demo](https://durkatechnologies.github.io/Cropper.Blazor/demo)
 
 ## Usage
 
@@ -48,7 +50,3 @@ See the [Documentation](https://durkatechnologies.github.io/Cropper.Blazor/about
 3. Commit your changes: `git commit -m 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
-
-## License
-
-[GPL License](https://opensource.org/licenses/gpl-license)
