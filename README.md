@@ -5,7 +5,7 @@
 
 ## Demo
 
-<p dir="auto"><a href="https://durkatechnologies.github.io/Cropper.Blazor/demo" target="_blank">Click for a Demo</a></p>
+https://durkatechnologies.github.io/Cropper.Blazor/demo
 
 ## Usage
 
