@@ -5,7 +5,7 @@
 <img src="src/Cropper.Blazor/Client/wwwroot/crop.png" width="256" height="256" />
 
 
-## Demo
+## Demo Test
 
 https://durkatechnologies.github.io/Cropper.Blazor
 
