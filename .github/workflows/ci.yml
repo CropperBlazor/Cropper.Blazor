@@ -1,38 +1,36 @@
-name: Extended Checks
+name: Build and run test
 
 on:
   push:
     branches:
-      - 'fix/**'
-      - 'feature/**'
+    - fix/*
+    - feature/*
   pull_request:
     branches:
-      - 'fix/**'
-      - 'feature/**'
-env:
-  DOTNET_VERSION: '6.0.101' # The .NET SDK version to use
-  
+    - fix/*
+    - feature/*
+
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
     steps:
-      # uses GitHub's checkout action to checkout code form the master branch
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     
-      # sets up .NET Core SDK 6
-    - name: Setup .NET 6
-      uses: actions/setup-dotnet@v1
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '6.0.101'
-        include-prerelease: true
+        dotnet-version: 6.0.x
         
     - name: Restore dependencies
       run: dotnet restore
+      working-directory: src/Cropper.Blazor
       
     - name: Build
       run: dotnet build --no-restore
+      working-directory: src/Cropper.Blazor
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      working-directory: src/Cropper.Blazor      
