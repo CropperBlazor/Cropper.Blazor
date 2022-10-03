@@ -5,6 +5,7 @@ on:
     branches:
     - fix/*
     - feature/*
+    - dev
   pull_request:
     branches:
     - fix/*
