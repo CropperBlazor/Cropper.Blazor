@@ -2,10 +2,16 @@ name: Extended Checks
 
 on:
   push:
-    branches: [ dev ]
+    branches:
+      - 'fix/**'
+      - 'feature/**'
   pull_request:
-    branches: [ dev ]
-
+    branches:
+      - 'fix/**'
+      - 'feature/**'
+env:
+  DOTNET_VERSION: '6.0.101' # The .NET SDK version to use
+  
 jobs:
   build:
 
