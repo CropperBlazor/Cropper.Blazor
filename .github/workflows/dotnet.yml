@@ -1,4 +1,4 @@
-name: .NET
+name: Build and run test
 
 on:
   push:
@@ -23,6 +23,7 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
+      working-directory: src/Cropper.Blazor
     - name: Build
       run: dotnet build --no-restore
     - name: Test
