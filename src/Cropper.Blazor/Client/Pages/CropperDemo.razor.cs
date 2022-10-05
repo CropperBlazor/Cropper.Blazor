@@ -12,7 +12,7 @@ using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Client.Pages
 {
-    public partial class CropperDemo: IDisposable
+    public partial class CropperDemo : IDisposable
     {
         private CropperComponent? cropperComponent;
         private Options options;

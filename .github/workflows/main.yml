@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+# Run workflow on every push to the master branch
+on:
+  push:
+    branches: [ dev ]
+    
+jobs:
+  deploy-to-github-pages:
+    # use ubuntu-latest image to run steps on
+    runs-on: ubuntu-latest
+    steps:
+      # uses GitHub's checkout action to checkout code form the master branch
+    - uses: actions/checkout@v2
+    
+      # sets up .NET Core SDK 6
+    - name: Setup .NET 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.101'
+        include-prerelease: true
+        
+     # publishes Blazor project to the release-folder
+    - name: Publish .NET Core Project
+      run: dotnet publish ./src/Cropper.Blazor/Server/Cropper.Blazor.Server.csproj -c Release --output release --nologo
+      
+    - name: Change base-tag in index.html from / to Cropper.Blazor
+      run: sed -i 's/<base href="\/" \/>/<base href="\/Cropper.Blazor\/" \/>/g' release/wwwroot/index.html
+     
+     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+    - name: Add .nojekyll file
+      run: touch release/wwwroot/.nojekyll
+      
+    - name: Uploading files to gh-pages branch
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        BRANCH: gh-pages
+        FOLDER: release/wwwroot
