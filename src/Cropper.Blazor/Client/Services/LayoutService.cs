@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MudBlazor;
 using Cropper.Blazor.Client.Services.UserPreferences;
+using Cropper.Blazor.Client.Enums;
 
 namespace Cropper.Blazor.Client.Services;
 public class LayoutService
@@ -54,5 +55,17 @@ public class LayoutService
     {
         CurrentTheme = theme;
         OnMajorUpdateOccured();
+    }
+
+    public BasePage GetDocsBasePage(string uri)
+    {
+        if (uri.Contains("/demo"))
+            return BasePage.Demo;
+        else if (uri.Contains("/api"))
+            return BasePage.Api;
+        else if (uri.Contains("/about"))
+            return BasePage.About;
+        else
+            return BasePage.None;
     }
 }
