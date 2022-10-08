@@ -9,11 +9,5 @@ namespace Cropper.Blazor.UnitTests.Services
         {
 
         }
-
-        [Fact]
-        public async Task Verify_LoadAsync()
-        {
-            1.Should().Be(2);
-        }
     }
 }
