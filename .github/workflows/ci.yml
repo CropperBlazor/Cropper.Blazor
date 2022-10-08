@@ -34,4 +34,4 @@ jobs:
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: src/Cropper.Blazor      
+      working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
