@@ -35,7 +35,7 @@ namespace Cropper.Blazor.UnitTests.Extensions
             actualValue.Should().Be(expectedString);
         }
 
-        private static IEnumerable<object[]> TestData_ToEnumString()
+        public static IEnumerable<object[]> TestData_ToEnumString()
         {
             yield return WrapArgs(TestEnum.DefaultValue, null);
             yield return WrapArgs(TestEnum.FirstValue, TestEnum_First_Name);

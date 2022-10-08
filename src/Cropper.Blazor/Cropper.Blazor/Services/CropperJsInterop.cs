@@ -18,296 +18,302 @@ namespace Cropper.Blazor.Services
             this.jsRuntime = jsRuntime;
         }
 
-        public async Task LoadAsync()
+        public async Task LoadModuleAsync()
         {
             module = await jsRuntime.InvokeAsync<IJSObjectReference>(
                 "import", "./_content/Cropper.Blazor/cropperJsInterop.js");
         }
 
-        public async ValueTask InitCropper([NotNull] ElementReference image, [NotNull] Options options, [NotNull] DotNetObjectReference<ICropperComponentBase> cropperComponentBase)
+        public async ValueTask InitCropperAsync(
+            [NotNull] ElementReference image,
+            [NotNull] Options options,
+            [NotNull] DotNetObjectReference<ICropperComponentBase> cropperComponentBase)
         {
-            if(module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.initCropper", image, options, cropperComponentBase);
         }
 
-        public async ValueTask Clear()
+        public async ValueTask ClearAsync()
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeAsync<object>("cropper.clear");
         }
 
-        public async ValueTask Crop()
+        public async ValueTask CropAsync()
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.crop");
         }
 
-        public async ValueTask Destroy()
+        public async ValueTask DestroyAsync()
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.destroy");
         }
 
-        public async ValueTask Disable()
+        public async ValueTask DisableAsync()
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.disable");
         }
 
-        public async ValueTask Enable()
+        public async ValueTask EnableAsync()
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.enable");
         }
 
-        public async ValueTask<CanvasData> GetCanvasData()
+        public async ValueTask<CanvasData> GetCanvasDataAsync()
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             return await jsRuntime!.InvokeAsync<CanvasData>("cropper.getCanvasData");
         }
 
-        public async ValueTask<ContainerData> GetContainerData()
+        public async ValueTask<ContainerData> GetContainerDataAsync()
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             return await jsRuntime!.InvokeAsync<ContainerData>("cropper.getContainerData");
         }
 
-        public async ValueTask<CropBoxData> GetCropBoxData()
+        public async ValueTask<CropBoxData> GetCropBoxDataAsync()
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             return await jsRuntime!.InvokeAsync<CropBoxData>("cropper.getCropBoxData");
         }
 
-        public async ValueTask<object> GetCroppedCanvas(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        public async ValueTask<object> GetCroppedCanvasAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             return await jsRuntime!.InvokeAsync<object>("cropper.getCroppedCanvas", getCroppedCanvasOptions);
         }
 
-        public async ValueTask<string> GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        public async ValueTask<string> GetCroppedCanvasDataURLAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             return await jsRuntime!.InvokeAsync<string>("cropper.getCroppedCanvasDataURL", getCroppedCanvasOptions);
         }
 
-        public async ValueTask<CropperData> GetData(bool rounded)
+        public async ValueTask<CropperData> GetDataAsync(bool rounded)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             return await jsRuntime!.InvokeAsync<CropperData>("cropper.getData", rounded);
         }
 
-        public async ValueTask<ImageData> GetImageData()
+        public async ValueTask<ImageData> GetImageDataAsync()
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             return await jsRuntime!.InvokeAsync<ImageData>("cropper.getImageData");
         }
 
-        public async ValueTask Move(decimal offsetX, decimal? offsetY)
+        public async ValueTask MoveAsync(decimal offsetX, decimal? offsetY)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.move", offsetX, offsetY);
         }
 
-        public async ValueTask MoveTo(decimal x, decimal? y)
+        public async ValueTask MoveToAsync(decimal x, decimal? y)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.moveTo", x, y);
         }
 
-        public async ValueTask Replace(string url, bool onlyColorChanged)
+        public async ValueTask ReplaceAsync(string url, bool onlyColorChanged)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.replace", url, onlyColorChanged);
         }
 
-        public async ValueTask Reset()
+        public async ValueTask ResetAsync()
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.reset");
         }
 
-        public async ValueTask Rotate(decimal degree)
+        public async ValueTask RotateAsync(decimal degree)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.rotate", degree);
         }
 
-        public async ValueTask RotateTo(decimal degree)
+        public async ValueTask RotateToAsync(decimal degree)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.rotateTo", degree);
         }
 
-        public async ValueTask Scale(decimal scaleX, decimal scaleY)
+        public async ValueTask ScaleAsync(decimal scaleX, decimal scaleY)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.scale", scaleX, scaleY);
         }
 
-        public async ValueTask ScaleX(decimal scaleX)
+        public async ValueTask ScaleXAsync(decimal scaleX)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.scaleX", scaleX);
         }
 
-        public async ValueTask ScaleY(decimal scaleY)
+        public async ValueTask ScaleYAsync(decimal scaleY)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.scaleY", scaleY);
         }
 
-        public async ValueTask SetAspectRatio(decimal aspectRatio)
+        public async ValueTask SetAspectRatioAsync(decimal aspectRatio)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.setAspectRatio", aspectRatio);
         }
 
-        public async ValueTask SetCanvasData(SetCanvasDataOptions setCanvasDataOptions)
+        public async ValueTask SetCanvasDataAsync(SetCanvasDataOptions setCanvasDataOptions)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.setCanvasData", setCanvasDataOptions);
         }
 
-        public async ValueTask SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)
+        public async ValueTask SetCropBoxDataAsync(SetCropBoxDataOptions cropBoxDataOptions)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.setCropBoxData", cropBoxDataOptions);
         }
 
-        public async ValueTask SetData(SetDataOptions setDataOptions)
+        public async ValueTask SetDataAsync(SetDataOptions setDataOptions)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.setData", setDataOptions);
         }
 
-        public async ValueTask SetDragMode(DragMode dragMode)
+        public async ValueTask SetDragModeAsync(DragMode dragMode)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.setDragMode", dragMode.ToEnumString());
         }
 
-        public async ValueTask Zoom(decimal ratio)
+        public async ValueTask ZoomAsync(decimal ratio)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.zoom", ratio);
         }
 
-        public async ValueTask ZoomTo(decimal ratio, decimal pivotX, decimal pivotY)
+        public async ValueTask ZoomToAsync(decimal ratio, decimal pivotX, decimal pivotY)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.zoomTo", ratio, pivotX, pivotY);
         }
 
-        public async ValueTask NoConflict()
+        public async ValueTask NoConflictAsync()
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.noConflict");
         }
 
-        public async ValueTask SetDefaults([NotNull] Options options)
+        public async ValueTask SetDefaultsAsync([NotNull] Options options)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
             await jsRuntime!.InvokeVoidAsync("cropper.setDefaults", options);
         }
 
-        public async ValueTask<string> GetImageUsingStreaming(IBrowserFile imageFile, long maxAllowedSize = 512000L, CancellationToken cancellationToken = default(CancellationToken))
+        public async ValueTask<string> GetImageUsingStreamingAsync(
+            IBrowserFile imageFile,
+            long maxAllowedSize = 512000L,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
 
             var jsImageStream = imageFile.OpenReadStream(maxAllowedSize, cancellationToken);
@@ -315,14 +321,14 @@ namespace Cropper.Blazor.Services
             return await jsRuntime.InvokeAsync<string>("cropper.getImageUsingStreaming", dotnetImageStream);
         }
 
-        public async ValueTask RevokeObjectUrl(string url)
+        public async ValueTask RevokeObjectUrlAsync(string url)
         {
-            if (module == null)
+            if (module is null)
             {
-                await LoadAsync();
+                await LoadModuleAsync();
             }
 
-           await jsRuntime.InvokeVoidAsync("cropper.revokeObjectUrl", url);
+            await jsRuntime.InvokeVoidAsync("cropper.revokeObjectUrl", url);
         }
 
         public async ValueTask DisposeAsync()

@@ -75,7 +75,7 @@ namespace Cropper.Blazor.Components
         {
             if (firstRender)
             {
-                await CropperJsIntertop.LoadAsync();
+                await CropperJsIntertop.LoadModuleAsync();
             }
             await base.OnAfterRenderAsync(firstRender);
         }
@@ -93,7 +93,7 @@ namespace Cropper.Blazor.Components
         public void InitCropper()
         {
             ICropperComponentBase cropperComponentBase = this;
-            CropperJsIntertop.InitCropper(imageReference, Options, DotNetObjectReference.Create(cropperComponentBase));
+            CropperJsIntertop.InitCropperAsync(imageReference, Options, DotNetObjectReference.Create(cropperComponentBase));
             OnLoadImageEvent?.Invoke();
         }
 
@@ -135,142 +135,142 @@ namespace Cropper.Blazor.Components
 
         public void SetDragMode(DragMode dragMode)
         {
-            CropperJsIntertop?.SetDragMode(dragMode);
+            CropperJsIntertop?.SetDragModeAsync(dragMode);
         }
 
         public void Zoom(decimal ratio)
         {
-            CropperJsIntertop?.Zoom(ratio);
+            CropperJsIntertop?.ZoomAsync(ratio);
         }
 
         public void ZoomTo(decimal ratio, decimal pivotX, decimal pivotY)
         {
-            CropperJsIntertop?.ZoomTo(ratio, pivotX, pivotY);
+            CropperJsIntertop?.ZoomToAsync(ratio, pivotX, pivotY);
         }
 
         public void Move(decimal offsetX, decimal? offsetY)
         {
-            CropperJsIntertop?.Move(offsetX, offsetY);
+            CropperJsIntertop?.MoveAsync(offsetX, offsetY);
         }
 
         public void MoveTo(decimal x, decimal? y)
         {
-            CropperJsIntertop?.MoveTo(x, y);
+            CropperJsIntertop?.MoveToAsync(x, y);
         }
 
         public void Rotate(decimal degree)
         {
-            CropperJsIntertop?.Rotate(degree);
+            CropperJsIntertop?.RotateAsync(degree);
         }
 
         public void ScaleX(decimal scaleX)
         {
-            CropperJsIntertop?.ScaleX(scaleX);
+            CropperJsIntertop?.ScaleXAsync(scaleX);
         }
 
         public void ScaleY(decimal scaleY)
         {
-            CropperJsIntertop?.ScaleY(scaleY);
+            CropperJsIntertop?.ScaleYAsync(scaleY);
         }
 
         public void Scale(decimal scaleX, decimal scaleY)
         {
-            CropperJsIntertop?.Scale(scaleX, scaleY);
+            CropperJsIntertop?.ScaleAsync(scaleX, scaleY);
         }
 
         public void Crop()
         {
-            CropperJsIntertop?.Crop();
+            CropperJsIntertop?.CropAsync();
         }
 
         public void Clear()
         {
-            CropperJsIntertop?.Clear();
+            CropperJsIntertop?.ClearAsync();
         }
 
         public void Enable()
         {
-            CropperJsIntertop?.Enable();
+            CropperJsIntertop?.EnableAsync();
         }
 
         public void Disable()
         {
-            CropperJsIntertop?.Disable();
+            CropperJsIntertop?.DisableAsync();
         }
 
         public void Reset()
         {
-            CropperJsIntertop?.Reset();
+            CropperJsIntertop?.ResetAsync();
         }
 
         public void Destroy()
         {
-            CropperJsIntertop?.Destroy();
+            CropperJsIntertop?.DestroyAsync();
         }
 
         public void SetAspectRatio(decimal aspectRatio)
         {
-            CropperJsIntertop?.SetAspectRatio(aspectRatio);
+            CropperJsIntertop?.SetAspectRatioAsync(aspectRatio);
         }
 
         public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)
         {
-            CropperJsIntertop?.SetCropBoxData(cropBoxDataOptions);
+            CropperJsIntertop?.SetCropBoxDataAsync(cropBoxDataOptions);
         }
 
         public void SetData(SetDataOptions setDataOptions)
         {
-            CropperJsIntertop?.SetData(setDataOptions);
+            CropperJsIntertop?.SetDataAsync(setDataOptions);
         }
 
         public void SetCanvasData(SetCanvasDataOptions setCanvasDataOptions)
         {
-            CropperJsIntertop?.SetCanvasData(setCanvasDataOptions);
+            CropperJsIntertop?.SetCanvasDataAsync(setCanvasDataOptions);
         }
 
         public async ValueTask<CropBoxData> GetCropBoxData()
         {
-            return await CropperJsIntertop.GetCropBoxData();
+            return await CropperJsIntertop.GetCropBoxDataAsync();
         }
 
         public async ValueTask<CropperData> GetData(bool rounded)
         {
-            return await CropperJsIntertop.GetData(rounded);
+            return await CropperJsIntertop.GetDataAsync(rounded);
         }
 
         public async ValueTask<ContainerData> GetContainerData()
         {
-            return await CropperJsIntertop.GetContainerData();
+            return await CropperJsIntertop.GetContainerDataAsync();
         }
 
         public async ValueTask<ImageData> GetImageData()
         {
-            return await CropperJsIntertop.GetImageData();
+            return await CropperJsIntertop.GetImageDataAsync();
         }
 
         public async ValueTask<CanvasData> GetCanvasData()
         {
-            return await CropperJsIntertop.GetCanvasData();
+            return await CropperJsIntertop.GetCanvasDataAsync();
         }
 
         public async ValueTask<string> GetImageUsingStreaming(IBrowserFile imageFile, long maxAllowedSize = 512000L, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await CropperJsIntertop.GetImageUsingStreaming(imageFile, maxAllowedSize, cancellationToken);
+            return await CropperJsIntertop.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken);
         }
 
         public async ValueTask RevokeObjectUrl(string url)
         {
-            await CropperJsIntertop.RevokeObjectUrl(url);
+            await CropperJsIntertop.RevokeObjectUrlAsync(url);
         }
 
         public async ValueTask<object> GetCroppedCanvas(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            return await CropperJsIntertop.GetCroppedCanvas(getCroppedCanvasOptions);
+            return await CropperJsIntertop.GetCroppedCanvasAsync(getCroppedCanvasOptions);
         }
 
         public async ValueTask<string> GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            return await CropperJsIntertop.GetCroppedCanvasDataURL(getCroppedCanvasOptions);
+            return await CropperJsIntertop.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
         }
     }
 }
