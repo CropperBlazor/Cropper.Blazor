@@ -14,8 +14,6 @@ namespace Cropper.Blazor.UnitTests.Services
         private readonly TestContext _testContext;
         private readonly ICropperJsInterop _cropperJsInterop;
 
-        private const string PathToCropperModule = "./_content/Cropper.Blazor/cropperJsInterop.js";
-
         public CropperJsInterop_Should()
         {
             _testContext = new Faker<TestContext>()
@@ -67,7 +65,7 @@ namespace Cropper.Blazor.UnitTests.Services
         private void VerifyLoadCropperModule()
         {
             _testContext.JSInterop
-                .SetupModule(PathToCropperModule);
+                .SetupModule(CropperJsInterop.PathToCropperModule);
         }
 
         public void Dispose()

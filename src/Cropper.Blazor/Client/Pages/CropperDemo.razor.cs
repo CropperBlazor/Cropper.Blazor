@@ -176,7 +176,7 @@ namespace Cropper.Blazor.Client.Pages
         private void Destroy()
         {
             cropperComponent?.Destroy();
-            cropperComponent?.RevokeObjectUrl(Src);
+            cropperComponent?.RevokeObjectUrlAsync(Src);
         }
 
         public void SetAspectRatio(decimal aspectRatio)
@@ -213,37 +213,37 @@ namespace Cropper.Blazor.Client.Pages
 
         public async void GetCropBoxData()
         {
-            cropBoxData = await cropperComponent.GetCropBoxData();
+            cropBoxData = await cropperComponent.GetCropBoxDataAsync();
             StateHasChanged();
         }
 
         public async void GetData(bool rounded)
         {
-            cropperData = await cropperComponent.GetData(rounded);
+            cropperData = await cropperComponent.GetDataAsync(rounded);
             StateHasChanged();
         }
 
         public async void GetContainerData()
         {
-            containerData = await cropperComponent.GetContainerData();
+            containerData = await cropperComponent.GetContainerDataAsync();
             StateHasChanged();
         }
 
         public async void GetImageData()
         {
-            imageData = await cropperComponent.GetImageData();
+            imageData = await cropperComponent.GetImageDataAsync();
             StateHasChanged();
         }
 
         public async void GetCanvasData()
         {
-            canvasData = await cropperComponent.GetCanvasData();
+            canvasData = await cropperComponent.GetCanvasDataAsync();
             StateHasChanged();
         }
 
         public async void GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            string croppedCanvasDataURL = await cropperComponent.GetCroppedCanvasDataURL(getCroppedCanvasOptions);
+            string croppedCanvasDataURL = await cropperComponent.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
             var parameters = new DialogParameters();
             parameters.Add("Src", croppedCanvasDataURL);
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
@@ -256,10 +256,10 @@ namespace Cropper.Blazor.Client.Pages
             if (imageFile != null)
             {
                 var oldSrc = Src;
-                Src = await cropperComponent.GetImageUsingStreaming(imageFile, imageFile.Size);
+                Src = await cropperComponent.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
                 IsErrorLoadImage = false;
                 cropperComponent?.Destroy();
-                cropperComponent?.RevokeObjectUrl(oldSrc);
+                cropperComponent?.RevokeObjectUrlAsync(oldSrc);
             }
         }
 

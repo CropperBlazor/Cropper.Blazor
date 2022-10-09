@@ -66,17 +66,13 @@ namespace Cropper.Blazor.Components
         [Parameter]
         public Action<ErrorEventArgs>? OnErrorLoadImageEvent { get; set; }
 
-        protected override void OnInitialized()
-        {
-
-        }
-
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
                 await CropperJsIntertop.LoadModuleAsync();
             }
+
             await base.OnAfterRenderAsync(firstRender);
         }
 
@@ -228,47 +224,50 @@ namespace Cropper.Blazor.Components
             CropperJsIntertop?.SetCanvasDataAsync(setCanvasDataOptions);
         }
 
-        public async ValueTask<CropBoxData> GetCropBoxData()
+        public async ValueTask<CropBoxData> GetCropBoxDataAsync()
         {
             return await CropperJsIntertop.GetCropBoxDataAsync();
         }
 
-        public async ValueTask<CropperData> GetData(bool rounded)
+        public async ValueTask<CropperData> GetDataAsync(bool isRounded)
         {
-            return await CropperJsIntertop.GetDataAsync(rounded);
+            return await CropperJsIntertop.GetDataAsync(isRounded);
         }
 
-        public async ValueTask<ContainerData> GetContainerData()
+        public async ValueTask<ContainerData> GetContainerDataAsync()
         {
             return await CropperJsIntertop.GetContainerDataAsync();
         }
 
-        public async ValueTask<ImageData> GetImageData()
+        public async ValueTask<ImageData> GetImageDataAsync()
         {
             return await CropperJsIntertop.GetImageDataAsync();
         }
 
-        public async ValueTask<CanvasData> GetCanvasData()
+        public async ValueTask<CanvasData> GetCanvasDataAsync()
         {
             return await CropperJsIntertop.GetCanvasDataAsync();
         }
 
-        public async ValueTask<string> GetImageUsingStreaming(IBrowserFile imageFile, long maxAllowedSize = 512000L, CancellationToken cancellationToken = default(CancellationToken))
+        public async ValueTask<string> GetImageUsingStreamingAsync(
+            IBrowserFile imageFile,
+            long maxAllowedSize = 512000L,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             return await CropperJsIntertop.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken);
         }
 
-        public async ValueTask RevokeObjectUrl(string url)
+        public async ValueTask RevokeObjectUrlAsync(string url)
         {
             await CropperJsIntertop.RevokeObjectUrlAsync(url);
         }
 
-        public async ValueTask<object> GetCroppedCanvas(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        public async ValueTask<object> GetCroppedCanvasAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
             return await CropperJsIntertop.GetCroppedCanvasAsync(getCroppedCanvasOptions);
         }
 
-        public async ValueTask<string> GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        public async ValueTask<string> GetCroppedCanvasDataURLAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
             return await CropperJsIntertop.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
         }
