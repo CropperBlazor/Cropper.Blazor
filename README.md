@@ -1,8 +1,8 @@
 **Cropper.Blazor** is a component element that wraps around [Cropper.js](https://github.com/fengyuanchen/cropperjs)
 
-[![Deploy to GitHub Pages](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/main.yml/badge.svg?branch=dev&event=deployment_status)](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/main.yml)
+[![Deploy to GitHub Pages](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/main.yml/badge.svg?branch=dev)](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/main.yml)
 
-<img src="src/Cropper.Blazor/Client/wwwroot/crop.png" width="256" height="256" />
+<img src="src/Cropper.Blazor/Client/wwwroot/cropperblazor.png" width="256" height="256" />
 
 
 ## Demo
