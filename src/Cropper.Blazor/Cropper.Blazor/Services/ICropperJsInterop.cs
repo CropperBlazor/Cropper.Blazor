@@ -9,39 +9,45 @@ namespace Cropper.Blazor.Services
 {
     public interface ICropperJsInterop
     {
-        Task LoadAsync();
-        ValueTask InitCropper([NotNull] ElementReference image, [NotNull] Options options, [NotNull] DotNetObjectReference<ICropperComponentBase> cropperComponentBase);
-        ValueTask Clear();
-        ValueTask Crop();
-        ValueTask Destroy();
-        ValueTask Disable();
-        ValueTask Enable();
-        ValueTask<CanvasData> GetCanvasData();
-        ValueTask<ContainerData> GetContainerData();
-        ValueTask<CropBoxData> GetCropBoxData();
-        ValueTask<CropperData> GetData(bool rounded);
-        ValueTask<ImageData> GetImageData();
-        ValueTask Move(decimal offsetX, decimal? offsetY);
-        ValueTask MoveTo(decimal x, decimal? y);
-        ValueTask Replace(string url, bool onlyColorChanged);
-        ValueTask Reset();
-        ValueTask Rotate(decimal degree);
-        ValueTask RotateTo(decimal degree);
-        ValueTask Scale(decimal scaleX, decimal scaleY);
-        ValueTask ScaleX(decimal scaleX);
-        ValueTask ScaleY(decimal scaleY);
-        ValueTask SetCanvasData(SetCanvasDataOptions setCanvasDataOptions);
-        ValueTask SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions);
-        ValueTask SetData(SetDataOptions setDataOptions);
-        ValueTask SetDragMode(DragMode dragMode);
-        ValueTask Zoom(decimal ratio);
-        ValueTask ZoomTo(decimal ratio, decimal pivotX, decimal pivotY);
-        ValueTask NoConflict();
-        ValueTask SetDefaults([NotNull] Options options);
-        ValueTask SetAspectRatio(decimal aspectRatio);
-        ValueTask<object> GetCroppedCanvas(GetCroppedCanvasOptions getCroppedCanvasOptions);
-        ValueTask<string> GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions);
-        ValueTask<string> GetImageUsingStreaming(IBrowserFile imageFile, long maxAllowedSize = 512000L, CancellationToken cancellationToken = default(CancellationToken));
-        ValueTask RevokeObjectUrl(string url);
+        Task LoadModuleAsync();
+        ValueTask InitCropperAsync(
+            [NotNull] ElementReference image,
+            [NotNull] Options options,
+            [NotNull] DotNetObjectReference<ICropperComponentBase> cropperComponentBase);
+        ValueTask ClearAsync();
+        ValueTask CropAsync();
+        ValueTask DestroyAsync();
+        ValueTask DisableAsync();
+        ValueTask EnableAsync();
+        ValueTask<CanvasData> GetCanvasDataAsync();
+        ValueTask<ContainerData> GetContainerDataAsync();
+        ValueTask<CropBoxData> GetCropBoxDataAsync();
+        ValueTask<CropperData> GetDataAsync(bool rounded);
+        ValueTask<ImageData> GetImageDataAsync();
+        ValueTask MoveAsync(decimal offsetX, decimal? offsetY);
+        ValueTask MoveToAsync(decimal x, decimal? y);
+        ValueTask ReplaceAsync(string url, bool onlyColorChanged);
+        ValueTask ResetAsync();
+        ValueTask RotateAsync(decimal degree);
+        ValueTask RotateToAsync(decimal degree);
+        ValueTask ScaleAsync(decimal scaleX, decimal scaleY);
+        ValueTask ScaleXAsync(decimal scaleX);
+        ValueTask ScaleYAsync(decimal scaleY);
+        ValueTask SetCanvasDataAsync(SetCanvasDataOptions setCanvasDataOptions);
+        ValueTask SetCropBoxDataAsync(SetCropBoxDataOptions cropBoxDataOptions);
+        ValueTask SetDataAsync(SetDataOptions setDataOptions);
+        ValueTask SetDragModeAsync(DragMode dragMode);
+        ValueTask ZoomAsync(decimal ratio);
+        ValueTask ZoomToAsync(decimal ratio, decimal pivotX, decimal pivotY);
+        ValueTask NoConflictAsync();
+        ValueTask SetDefaultsAsync([NotNull] Options options);
+        ValueTask SetAspectRatioAsync(decimal aspectRatio);
+        ValueTask<object> GetCroppedCanvasAsync(GetCroppedCanvasOptions getCroppedCanvasOptions);
+        ValueTask<string> GetCroppedCanvasDataURLAsync(GetCroppedCanvasOptions getCroppedCanvasOptions);
+        ValueTask<string> GetImageUsingStreamingAsync(
+            IBrowserFile imageFile,
+            long maxAllowedSize = 512000L,
+            CancellationToken cancellationToken = default(CancellationToken));
+        ValueTask RevokeObjectUrlAsync(string url);
     }
 }
