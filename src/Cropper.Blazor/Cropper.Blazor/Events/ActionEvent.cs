@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cropper.Blazor.Events
+﻿namespace Cropper.Blazor.Events
 {
     public enum ActionEvent
     {
@@ -14,11 +7,11 @@ namespace Cropper.Blazor.Events
         Zoom,
         E,
         S,
-        W, 
+        W,
         N,
-        Ne, 
-        Nw, 
-        Se, 
+        Ne,
+        Nw,
+        Se,
         Sw,
         All,
         None

@@ -116,7 +116,7 @@ namespace Cropper.Blazor.UnitTests.Components
             decimal pivotX = faker.Random.Decimal();
             decimal pivotY = faker.Random.Decimal();
 
-            Action ? onLoadImageHandler = () =>
+            Action? onLoadImageHandler = () =>
             {
                 countCallsOnLoadImageHandler++;
             };
@@ -213,15 +213,15 @@ namespace Cropper.Blazor.UnitTests.Components
             _mockCropperJsInterop
                 .Setup(c => c.GetCropBoxDataAsync())
                 .ReturnsAsync(expectedCropBoxData);
-            
+
             _mockCropperJsInterop
                 .Setup(c => c.GetCroppedCanvasAsync(getCroppedCanvasOptions))
                 .ReturnsAsync(expectedCroppedCanvas);
-            
+
             _mockCropperJsInterop
                 .Setup(c => c.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions))
                 .ReturnsAsync(expectedCroppedCanvasDataURL);
-            
+
             _mockCropperJsInterop
                 .Setup(c => c.GetDataAsync(isRounded))
                 .ReturnsAsync(expectedCropperData);
