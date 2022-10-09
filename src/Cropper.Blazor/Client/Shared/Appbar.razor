@@ -1,0 +1,25 @@
+﻿@using Cropper.Blazor.Client.Enums
+<MudHidden Breakpoint="Breakpoint.MdAndUp">
+    <MudIconButton OnClick="DrawerToggleCallback" Icon="@Icons.Rounded.Notes" Color="Color.Inherit" Edge="Edge.Start" />
+    <MudSpacer />
+    <NavLink ActiveClass="d-flex" href="">
+        <CropperBlazorLogo Class="cropperblazor-logo" />
+        <MudText Typo="Typo.h4" Class="ml-3 brand-text text-gradient">CB</MudText>
+    </NavLink>
+    <MudSpacer />
+    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" Href="https://github.com/ColdForeign/TaskPicker" />
+</MudHidden>
+<MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+    <NavLink ActiveClass="d-flex" href="">
+        <CropperBlazorLogo Class="cropperblazor-logo" />
+        <MudText Typo="Typo.h4" Class="ml-3 brand-text text-gradient">Cropper.Blazor</MudText>
+    </NavLink>
+    <MudButton Link="demo" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Crop" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Demo)">Demo</MudButton>
+    <MudButton Link="api" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Api" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Api)">Api</MudButton>
+    <MudButton Link="about" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.ContactSupport" Color="Color.Inherit" Class="@GetActiveClass(BasePage.About)">About</MudButton>
+    <MudSpacer />
+    <AppbarButtons />
+    <MudTooltip Duration="1000" Text="GitHub Repository">
+        <MudIconButton Link="https://github.com/DurkaTechnologies/Cropper.Blazor" Target="_blank" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" />
+    </MudTooltip>
+</MudHidden>

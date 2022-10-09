@@ -13,14 +13,10 @@ public partial class MainLayout : LayoutComponentBase
 
     [Inject] IResizeService ResizeService { get; set; }
 
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-
-    public bool IsDarkMode { get; private set; }
-
     protected override void OnInitialized()
     {
         LayoutService.MajorUpdateOccured += LayoutServiceOnMajorUpdateOccured;
-        LayoutService.SetBaseTheme(Theme.DefaultTheme);
+        LayoutService.SetBaseTheme(Theme.CropperBlazorDocsTheme());
         base.OnInitialized();
     }
 
@@ -102,7 +98,7 @@ public partial class MainLayout : LayoutComponentBase
         }
         else
         {
-            return BasePage.Home;
+            return BasePage.None;
         }
     }
 }
