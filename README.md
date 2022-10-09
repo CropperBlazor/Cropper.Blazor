@@ -2,7 +2,7 @@
 
 [![Deploy to GitHub Pages](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/main.yml/badge.svg?branch=dev)](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/main.yml)
 
-<img src="src/Cropper.Blazor/Client/wwwroot/cropperblazoe.png" width="256" height="256" />
+<img src="src/Cropper.Blazor/Client/wwwroot/cropperblazor.png" width="256" height="256" />
 
 
 ## Demo
