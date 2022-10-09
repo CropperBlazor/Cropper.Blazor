@@ -12,41 +12,85 @@
     <link href="manifest.json" rel="manifest" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
     <link href="_content/Cropper.Blazor/cropper.css" rel="stylesheet" />
-    <link href="_content/Cropper.Blazor/Cropper.Blazor.min.css" rel="stylesheet" />
-    <link href="css/app.css" rel="stylesheet" />
+    <!--<link href="_content/Cropper.Blazor/Cropper.Blazor.min.css" rel="stylesheet" />-->
     <link href="Cropper.Blazor.Client.styles.css" rel="stylesheet" />
+    <link href="css/Cropper.Blazor.Client.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
 </head>
 
 <body>
     <div id="app">
-        <style>
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-
-                50% {
-                    transform: rotate(360deg);
-                }
-
-                100% {
-                    transform: rotate(0deg);
-                }
-            }
-
-            .cb-wasm-cont {
-                left: 50%;
-                padding: 10vmin;
-                position: fixed;
-                text-align: center;
-                top: 50%;
-                transform: translate(-50%, -50%)
-            }
-        </style>
-
         <div style="height:100%;width:100%;margin:0;position:fixed;">
-            <div class="cb-wasm-cont">
-                <img src="crop.png" Style="height:350px; width:350px; opacity:1" />
+            <div style="display: flex;justify-content: center;align-items:center;height:100%;width:100%;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 650" height="400px">
+                    <defs>
+                        <filter id="inset-shadow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feComponentTransfer in="SourceAlpha">
+                                <feFuncA type="table" tableValues="1 0" />
+                            </feComponentTransfer>
+                            <feGaussianBlur stdDeviation="4" />
+                            <feOffset dx="3" dy="3" result="offsetblur" />
+                            <feFlood flood-color="#242424" result="color" />
+                            <feComposite in2="offsetblur" operator="in" />
+                            <feComposite in2="SourceAlpha" operator="in" />
+                            <feMerge>
+                                <feMergeNode in="SourceGraphic" />
+                                <feMergeNode />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <style type="text/css">
+                        .st0 {
+                            fill: url(#SVGID_1_);
+                        }
+
+                        .st1 {
+                            fill: url(#SVGID_2_);
+                        }
+                    </style>
+                    <g>
+                        <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="84.1612" y1="565.8389" x2="411.8388" y2="238.1612">
+                            <stop offset="0" style="stop-color:#E73C7E" />
+                            <stop offset="0.4" style="stop-color:#E73C7E" />
+                            <stop offset="0.8" style="stop-color:#009DEA" />
+                            <stop offset="1" style="stop-color:#009DEA" />
+                        </linearGradient>
+                        <path class="st0" filter="url(#inset-shadow)" d="M628,459.5H192.5c-1.1,0-2-0.9-2-2V22c0-6.9-5.6-12.5-12.5-12.5H93c-6.9,0-12.5,5.6-12.5,12.5v56.5
+		                    c0,1.1-0.9,2-2,2H22c-6.9,0-12.5,5.6-12.5,12.5v85c0,6.9,5.6,12.5,12.5,12.5h56.5c1.1,0,2,0.9,2,2V557c0,6.9,5.6,12.5,12.5,12.5
+		                    h364.5c1.1,0,2,0.9,2,2V628c0,6.9,5.6,12.5,12.5,12.5h85c6.9,0,12.5-5.6,12.5-12.5v-56.5c0-1.1,0.9-2,2-2H628
+		                    c6.9,0,12.5-5.6,12.5-12.5v-85C640.5,465.1,634.9,459.5,628,459.5z M80.5,163.5c0,1.1-0.9,2-2,2h-42c-1.1,0-2-0.9-2-2v-56
+		                    c0-1.1,0.9-2,2-2h42c1.1,0,2,0.9,2,2V163.5z M544.5,613.5c0,1.1-0.9,2-2,2h-56c-1.1,0-2-0.9-2-2v-42c0-1.1,0.9-2,2-2h56
+		                    c1.1,0,2,0.9,2,2V613.5z M615.5,542.5c0,1.1-0.9,2-2,2h-506c-1.1,0-2-0.9-2-2v-506c0-1.1,0.9-2,2-2h56c1.1,0,2,0.9,2,2V472
+		                    c0,6.9,5.6,12.5,12.5,12.5h435.5c1.1,0,2,0.9,2,2V542.5z M484.5,178v249c0,6.9-5.6,12.5-12.5,12.5s-12.5-5.6-12.5-12.5V192.5
+		                    c0-1.1-0.9-2-2-2H223c-6.9,0-12.5-5.6-12.5-12.5s5.6-12.5,12.5-12.5h249C478.9,165.5,484.5,171.1,484.5,178z M569.5,93v334
+		                    c0,6.9-5.6,12.5-12.5,12.5s-12.5-5.6-12.5-12.5V107.5c0-1.1-0.9-2-2-2H223c-6.9,0-12.5-5.6-12.5-12.5s5.6-12.5,12.5-12.5h334
+		                    C563.9,80.5,569.5,86.1,569.5,93z" />
+                        <linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="78.5111" y1="571.4889" x2="571.4889" y2="78.5111">
+                            <stop offset="0" style="stop-color:#009DEA">
+                                <animate attributeName="stop-color" values="#009DEA; #E73C7E; #009DEA" dur="3s" repeatCount="indefinite" />
+                            </stop>
+                            <stop offset="1" style="stop-color:#E73C7E">
+                                <animate attributeName="stop-color" values="#E73C7E; #009DEA; #E73C7E" dur="3s" repeatCount="indefinite" />
+                            </stop>
+                        </linearGradient>
+                        <path class="st1" d="M178,9.5c6.9,0,12.5,5.6,12.5,12.5v435.5c0,1.1,0.9,2,2,2H628c6.9,0,12.5,5.6,12.5,12.5v85
+		                    c0,6.9-5.6,12.5-12.5,12.5h-56.5c-1.1,0-2,0.9-2,2V628c0,6.9-5.6,12.5-12.5,12.5h-85c-6.9,0-12.5-5.6-12.5-12.5v-56.5
+		                    c0-1.1-0.9-2-2-2H93c-6.9,0-12.5-5.6-12.5-12.5V192.5c0-1.1-0.9-2-2-2H22c-6.9,0-12.5-5.6-12.5-12.5V93c0-6.9,5.6-12.5,12.5-12.5
+		                    h56.5c1.1,0,2-0.9,2-2V22c0-6.9,5.6-12.5,12.5-12.5H178 M107.5,544.5h506c1.1,0,2-0.9,2-2v-56c0-1.1-0.9-2-2-2H178
+		                    c-6.9,0-12.5-5.6-12.5-12.5V36.5c0-1.1-0.9-2-2-2h-56c-1.1,0-2,0.9-2,2v506C105.5,543.6,106.4,544.5,107.5,544.5 M36.5,165.5h42
+		                    c1.1,0,2-0.9,2-2v-56c0-1.1-0.9-2-2-2h-42c-1.1,0-2,0.9-2,2v56C34.5,164.6,35.4,165.5,36.5,165.5 M486.5,615.5h56c1.1,0,2-0.9,2-2
+		                    v-42c0-1.1-0.9-2-2-2h-56c-1.1,0-2,0.9-2,2v42C484.5,614.6,485.4,615.5,486.5,615.5 M557,80.5c6.9,0,12.5,5.6,12.5,12.5v334
+		                    c0,6.9-5.6,12.5-12.5,12.5s-12.5-5.6-12.5-12.5V107.5c0-1.1-0.9-2-2-2H223c-6.9,0-12.5-5.6-12.5-12.5s5.6-12.5,12.5-12.5H557
+		                     M472,165.5c6.9,0,12.5,5.6,12.5,12.5v249c0,6.9-5.6,12.5-12.5,12.5s-12.5-5.6-12.5-12.5V192.5c0-1.1-0.9-2-2-2H223
+		                    c-6.9,0-12.5-5.6-12.5-12.5s5.6-12.5,12.5-12.5H472 M178,1.5H93c-11.3,0-20.5,9.2-20.5,20.5v50.5H22C10.7,72.5,1.5,81.7,1.5,93v85
+		                    c0,11.3,9.2,20.5,20.5,20.5h50.5V557c0,11.3,9.2,20.5,20.5,20.5h358.5V628c0,11.3,9.2,20.5,20.5,20.5h85c11.3,0,20.5-9.2,20.5-20.5
+		                    v-50.5H628c11.3,0,20.5-9.2,20.5-20.5v-85c0-11.3-9.2-20.5-20.5-20.5H198.5V22C198.5,10.7,189.3,1.5,178,1.5L178,1.5z M113.5,42.5
+		                    h44V472c0,11.3,9.2,20.5,20.5,20.5h429.5v44h-494V42.5L113.5,42.5z M42.5,113.5h30v44h-30V113.5L42.5,113.5z M492.5,577.5h44v30
+		                    h-44V577.5L492.5,577.5z M557,72.5H223c-11.3,0-20.5,9.2-20.5,20.5s9.2,20.5,20.5,20.5h313.5V427c0,11.3,9.2,20.5,20.5,20.5
+		                    s20.5-9.2,20.5-20.5V93C577.5,81.7,568.3,72.5,557,72.5L557,72.5z M472,157.5H223c-11.3,0-20.5,9.2-20.5,20.5s9.2,20.5,20.5,20.5
+		                    h228.5V427c0,11.3,9.2,20.5,20.5,20.5s20.5-9.2,20.5-20.5V178C492.5,166.7,483.3,157.5,472,157.5L472,157.5z" />
+                    </g>
+                </svg>
             </div>
         </div>
     </div>

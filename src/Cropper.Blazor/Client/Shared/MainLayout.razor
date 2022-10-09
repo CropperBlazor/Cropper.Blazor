@@ -5,20 +5,19 @@
 <MudSnackbarProvider />
 <MudDialogProvider />
 
-<MudLayout>
-    <MudAppBar Elevation="25">
+<MudLayout Class="cropperblazor-landingpage">
+    <MudAppBar Class="appbar" Elevation="25">
         <Appbar DrawerToggleCallback="ToggleDrawer" />
     </MudAppBar>
     <MudDrawer Open="@_drawerOpen" OpenChanged="OnDrawerOpenChanged" ClipMode="DrawerClipMode.Docked" Elevation="0" Breakpoint="Breakpoint.Lg">
         <MudHidden Breakpoint="Breakpoint.MdAndUp">
-            <MudToolBar Dense="true" DisableGutters="true" Class="docs-gray-bg pa-2"> @* *@
+            <MudToolBar Dense="true" DisableGutters="true" Class="gray-bg pa-2">
                 <MudIconButton Icon="@Icons.Rounded.Close" Color="Color.Inherit" OnClick="ToggleDrawer" />
                 <MudSpacer />
                 <AppbarButtons />
             </MudToolBar>
 
             <MudNavMenu Color="Color.Primary" Margin="Margin.Dense" Rounded="true" Class="pa-2">
-                <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
                 <MudNavLink Href="demo" Icon="@Icons.Material.Filled.Crop">Demo</MudNavLink>
                 <MudNavLink Href="api" Icon="@Icons.Material.Filled.Api">Api</MudNavLink>
                 <MudNavLink Href="about" Icon="@Icons.Material.Filled.ContactSupport">About</MudNavLink>

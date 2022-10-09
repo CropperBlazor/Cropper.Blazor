@@ -3,22 +3,17 @@
     <MudIconButton OnClick="DrawerToggleCallback" Icon="@Icons.Rounded.Notes" Color="Color.Inherit" Edge="Edge.Start" />
     <MudSpacer />
     <NavLink ActiveClass="d-flex" href="">
-        <div class="mud-avatar mud-avatar-large mud-avatar-square mud-elevation-0 brand-image" style="background-color: transparent;" )>
-            <img src="crop-64.png" class="mud-avatar-img" draggable="false">
-        </div>
-        <MudText Typo="Typo.h4" Class="ml-3 brand-text no-select text-gradient">Cropper.Blazor</MudText>
+        <CropperBlazorLogo Class="cropperblazor-logo" />
+        <MudText Typo="Typo.h4" Class="ml-3 brand-text text-gradient">CB</MudText>
     </NavLink>
     <MudSpacer />
     <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" Href="https://github.com/ColdForeign/TaskPicker" />
 </MudHidden>
 <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
     <NavLink ActiveClass="d-flex" href="">
-        <div class="mud-avatar mud-avatar-large mud-avatar-square mud-elevation-0 brand-image" style="background-color: transparent" )>
-            <img src="crop-64.png" class="mud-avatar-img" draggable="false">
-        </div>
-        <MudText Typo="Typo.h4" Class="ml-3 brand-text no-select text-gradient">CB</MudText>
+        <CropperBlazorLogo Class="cropperblazor-logo" />
+        <MudText Typo="Typo.h4" Class="ml-3 brand-text text-gradient">Cropper.Blazor</MudText>
     </NavLink>
-    <MudButton Link="" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Home" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Home)">Home</MudButton>
     <MudButton Link="demo" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Crop" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Demo)">Demo</MudButton>
     <MudButton Link="api" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Api" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Api)">Api</MudButton>
     <MudButton Link="about" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.ContactSupport" Color="Color.Inherit" Class="@GetActiveClass(BasePage.About)">About</MudButton>
