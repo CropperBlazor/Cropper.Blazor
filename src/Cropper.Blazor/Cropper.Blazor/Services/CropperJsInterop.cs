@@ -12,6 +12,7 @@ namespace Cropper.Blazor.Services
     {
         private readonly IJSRuntime jsRuntime;
         private IJSObjectReference? module = null;
+        public const string PathToCropperModule = "./_content/Cropper.Blazor/cropperJsInterop.js";
 
         public CropperJsInterop(IJSRuntime jsRuntime)
         {
@@ -21,7 +22,7 @@ namespace Cropper.Blazor.Services
         public async Task LoadModuleAsync()
         {
             module = await jsRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "./_content/Cropper.Blazor/cropperJsInterop.js");
+                "import", PathToCropperModule);
         }
 
         public async ValueTask InitCropperAsync(
