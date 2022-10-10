@@ -51,6 +51,6 @@
   },
   "Output": {
     "Preserve": true,
-    "Directory": "./wwwroot"
+    "Directory": "./wwwroot/css"
   }
 }

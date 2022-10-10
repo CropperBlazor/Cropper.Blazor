@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
-    <ProjectReference Include="..\Shared\Cropper.Blazor.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,13 +71,12 @@
 	</Target>
 
 	<!--Dont Include in build output-->
-	<ItemGroup>
-		<Content Remove="compilerconfig.json" />
-		<Content Remove="excubowebcompiler.json" />
-	</ItemGroup>
 	<!--Dont Include in build output-->
 	<ItemGroup>
 		<Watch Include="**/*.scss" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include=".config\dotnet-tools.json" />
 	</ItemGroup>
 	
 </Project>

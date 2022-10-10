@@ -7,13 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Server", "Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Client", "Client\Cropper.Blazor.Client.csproj", "{3CD2E5C9-8D12-4ABF-9F06-EFB70AA7366D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Shared", "Shared\Cropper.Blazor.Shared.csproj", "{EA03DC07-8523-4B63-A52E-6988F6E375E0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor", "Cropper.Blazor\Cropper.Blazor.csproj", "{FA58CDB6-2BC9-4F10-A3C4-465CDAC628E3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E3B241FF-8870-4531-BA32-271802B0ECCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Blazor.UnitTests", "Cropper.Blazor.UnitTests\Cropper.Blazor.UnitTests.csproj", "{BE6E7931-6FBD-4F31-9A70-3B909DB36291}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.UnitTests", "Cropper.Blazor.UnitTests\Cropper.Blazor.UnitTests.csproj", "{BE6E7931-6FBD-4F31-9A70-3B909DB36291}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{3CD2E5C9-8D12-4ABF-9F06-EFB70AA7366D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CD2E5C9-8D12-4ABF-9F06-EFB70AA7366D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CD2E5C9-8D12-4ABF-9F06-EFB70AA7366D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA03DC07-8523-4B63-A52E-6988F6E375E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA03DC07-8523-4B63-A52E-6988F6E375E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA03DC07-8523-4B63-A52E-6988F6E375E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA03DC07-8523-4B63-A52E-6988F6E375E0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FA58CDB6-2BC9-4F10-A3C4-465CDAC628E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA58CDB6-2BC9-4F10-A3C4-465CDAC628E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA58CDB6-2BC9-4F10-A3C4-465CDAC628E3}.Release|Any CPU.ActiveCfg = Release|Any CPU

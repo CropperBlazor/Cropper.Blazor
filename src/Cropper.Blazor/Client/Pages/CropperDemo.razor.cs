@@ -37,7 +37,7 @@ namespace Cropper.Blazor.Client.Pages
 
         protected override void OnInitialized()
         {
-            
+
             cropBoxData = new CropBoxData();
             cropperData = new CropperData();
             containerData = new ContainerData();

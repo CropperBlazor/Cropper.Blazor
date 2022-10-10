@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Client\Cropper.Blazor.Client.csproj" />
-    <ProjectReference Include="..\Shared\Cropper.Blazor.Shared.csproj" />
   </ItemGroup>
 
 
