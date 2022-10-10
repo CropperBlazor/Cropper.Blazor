@@ -1,25 +1,32 @@
-**Cropper.Blazor** is a component element that wraps around [Cropper.js](https://github.com/fengyuanchen/cropperjs)
+<p align="center">
+  <a href="https://durkatechnologies.github.io/Cropper.Blazor">
+    <img src="src/Cropper.Blazor/Client/wwwroot/cropperblazor.png?raw=true" align="center" alt="Cropper.Blazor" width="200 px">
+  </a>
+  <h1 align="center">Cropper.Blazor</h1>
+  <p align="center">
+    <b>Cropper.Blazor</b>  is a component element that wraps around <a href="https://github.com/fengyuanchen/cropperjs"><b>Cropper.js</b></a>
+  </p>
+</p>
 
-[![Deploy to GitHub Pages](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/main.yml/badge.svg?branch=dev)](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/main.yml)
-
-<img src="src/Cropper.Blazor/Client/wwwroot/cropperblazor.png" width="256" height="256" />
-
+[![Build and run test](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/ci.yml)
+[![Deploy to GitHub Pages](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/cd.yml/badge.svg?event=push)](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/cd.yml)
+[![GitHub](https://img.shields.io/github/license/DurkaTechnologies/Cropper.Blazor?color=ff5c9b)](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/LICENSE)
+[![GitHub](https://img.shields.io/github/last-commit/DurkaTechnologies/Cropper.Blazor?color=009DEA)](https://github.com/DurkaTechnologies/Cropper.Blazor)
 
 ## Demo
-
-https://durkatechnologies.github.io/Cropper.Blazor
+- [durkatechnologies.github.io/Cropper.Blazor/demo](https://durkatechnologies.github.io/Cropper.Blazor/demo)
 
 ## Usage
 
 Import Custom Element:
 
-```csharp
+```razor
 @using Cropper.Blazor.Components
 ```
 
 And then use it in Razor file ([for example](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor)):
 
-```csharp
+```razor
 <CropperComponent
   Class="cropper-demo"
   ErrorLoadImageClass="cropper-error-load"
@@ -40,8 +47,7 @@ And then use it in Razor file ([for example](https://github.com/DurkaTechnologie
 </CropperComponent>
 ```
 
-
-And then use it in [Razor.cs file](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor.cs)
+And then use it in [*.razor.cs file](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor.cs)
 
 ## Contributing
 
