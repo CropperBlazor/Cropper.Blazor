@@ -33,5 +33,5 @@ jobs:
       working-directory: src/Cropper.Blazor
       
     - name: Test
-      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
