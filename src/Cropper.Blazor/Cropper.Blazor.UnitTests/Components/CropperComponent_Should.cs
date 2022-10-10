@@ -11,6 +11,7 @@ using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.Services;
+using Cropper.Blazor.Testing;
 using FluentAssertions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;

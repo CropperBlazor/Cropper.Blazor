@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Cropper.Blazor.UnitTests
+namespace Cropper.Blazor.Testing
 {
-    internal static class ServiceDescriptionExtensions
+    public static class ServiceDescriptionExtensions
     {
         public static bool Is<TService, TInstance>(
             this ServiceDescriptor serviceDescriptor,

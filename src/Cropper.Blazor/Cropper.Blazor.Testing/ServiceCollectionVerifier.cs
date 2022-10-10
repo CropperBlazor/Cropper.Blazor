@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Moq;
 
-namespace Cropper.Blazor.UnitTests
+namespace Cropper.Blazor.Testing
 {
-    internal sealed class ServiceCollectionVerifier
+    public sealed class ServiceCollectionVerifier
     {
         private readonly Mock<IServiceCollection> _serviceCollectionMock;
 

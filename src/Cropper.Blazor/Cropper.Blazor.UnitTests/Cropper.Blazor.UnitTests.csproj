@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cropper.Blazor.Testing\Cropper.Blazor.Testing.csproj" />
     <ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
   </ItemGroup>
 

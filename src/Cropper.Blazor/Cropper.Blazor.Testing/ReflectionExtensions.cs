@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 
-namespace Cropper.Blazor.UnitTests
+namespace Cropper.Blazor.Testing
 {
-    internal static class ReflectionExtensions
+    public static class ReflectionExtensions
     {
         /// <summary>
         /// Uses reflection to get the field value from an object.
@@ -12,7 +12,7 @@ namespace Cropper.Blazor.UnitTests
         /// <param name="fieldName">The field's name which is to be fetched.</param>
         ///
         /// <returns>The field value from the object.</returns>
-        internal static object GetInstanceField(this object instance, string fieldName)
+        public static object GetInstanceField(this object instance, string fieldName)
         {
             BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
                 | BindingFlags.Static;

@@ -1,5 +1,6 @@
 ﻿using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Services;
+using Cropper.Blazor.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
