@@ -1,7 +1,7 @@
+using Cropper.Blazor.Client.Enums;
+using Cropper.Blazor.Client.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Cropper.Blazor.Client.Services;
-using Cropper.Blazor.Client.Enums;
 
 namespace Cropper.Blazor.Client.Shared;
 

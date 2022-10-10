@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Cropper.Blazor.Client.Enums;
 using Cropper.Blazor.Client.Services;
+using Microsoft.AspNetCore.Components;
 using MudBlazor.Services;
-using Microsoft.JSInterop;
-using Cropper.Blazor.Client.Enums;
 
 namespace Cropper.Blazor.Client.Shared;
 public partial class MainLayout : LayoutComponentBase

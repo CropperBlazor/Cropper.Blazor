@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using MudBlazor;
+﻿using Cropper.Blazor.Client.Enums;
 using Cropper.Blazor.Client.Services.UserPreferences;
-using Cropper.Blazor.Client.Enums;
+using MudBlazor;
 
 namespace Cropper.Blazor.Client.Services;
 public class LayoutService
