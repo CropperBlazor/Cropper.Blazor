@@ -4,6 +4,7 @@ using Cropper.Blazor.Base;
 using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.Services;
+using Cropper.Blazor.Testing;
 using FluentAssertions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -656,6 +657,23 @@ namespace Cropper.Blazor.UnitTests.Services
 
             // act
             await _cropperJsInterop.ZoomToAsync(ratio, pivotX, pivotY);
+        }
+
+        [Fact]
+        public async Task Verify_DisposeAsync()
+        {
+            // arrange
+            CropperJsInterop cropperJsInterop = new CropperJsInterop(_testContext.JSInterop.JSRuntime);
+
+            // assert
+            VerifyLoadCropperModule();
+
+            // act
+            await cropperJsInterop.DisposeAsync();
+
+            // assert
+            IJSObjectReference? jSObjectReference = (IJSObjectReference?)cropperJsInterop.GetInstanceField("module");
+            jSObjectReference.Should().BeNull();
         }
 
         private void VerifyLoadCropperModule()
