@@ -10,6 +10,7 @@
 
 [![Build and run test](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/ci.yml)
 [![Deploy to GitHub Pages](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/cd.yml/badge.svg?event=push)](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/cd.yml)
+[![coverage](https://codecov.io/github/DurkaTechnologies/Cropper.Blazor/branch/dev/graph/badge.svg?token=39M66DO85T)](https://codecov.io/github/DurkaTechnologies/Cropper.Blazor)
 [![GitHub](https://img.shields.io/github/license/DurkaTechnologies/Cropper.Blazor?color=ff5c9b)](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/LICENSE)
 [![GitHub](https://img.shields.io/github/last-commit/DurkaTechnologies/Cropper.Blazor?color=009DEA)](https://github.com/DurkaTechnologies/Cropper.Blazor)
 
