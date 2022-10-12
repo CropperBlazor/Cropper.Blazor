@@ -35,3 +35,9 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
+      
+    - name: Coverage
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: coverage.cobertura.xml
