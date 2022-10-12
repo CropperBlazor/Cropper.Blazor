@@ -16,8 +16,23 @@ namespace Cropper.Blazor.Testing
         {
             BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
                 | BindingFlags.Static;
-            FieldInfo field = instance.GetType().GetField(fieldName, bindFlags);
-            return field.GetValue(instance);
+
+            Type type = instance.GetType();
+            FieldInfo? field = type.GetField(fieldName, bindFlags);
+
+            return field!.GetValue(instance)!;
+        }
+
+        public static TAttribute GetCustomAttribute<TAttribute>(this MethodInfo methodInfo)
+            where TAttribute : Attribute
+        {
+            ArgumentNullException.ThrowIfNull(methodInfo);
+
+            object? attribute = methodInfo.GetCustomAttribute(typeof(TAttribute), false);
+
+            ArgumentNullException.ThrowIfNull(attribute);
+
+            return (TAttribute)attribute;
         }
     }
 }
