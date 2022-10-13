@@ -4,6 +4,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ dev ]
+    paths-ignore:
+      - '**.md'
     
 jobs:
   deploy-to-github-pages:

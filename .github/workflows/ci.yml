@@ -6,10 +6,14 @@ on:
     - fix/*
     - feature/*
     - dev
+    paths-ignore:
+      - '**.md'
   pull_request:
     branches:
     - fix/*
     - feature/*
+    paths-ignore:
+      - '**.md'
 
 jobs:
   build:
