@@ -50,10 +50,10 @@ And then use it in Razor file ([for example](https://github.com/DurkaTechnologie
 
 And then use it in [*.razor.cs file](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor.cs)
 
+
 Add service:
 ```razor
-builder.Services
-.AddCropper()
+builder.Services.AddCropper()
 ```
 
 ## Contributing
