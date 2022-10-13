@@ -669,11 +669,8 @@ namespace Cropper.Blazor.UnitTests.Services
             VerifyLoadCropperModule();
 
             // act
+            await cropperJsInterop.LoadModuleAsync();
             await cropperJsInterop.DisposeAsync();
-
-            // assert
-            IJSObjectReference? jSObjectReference = (IJSObjectReference?)cropperJsInterop.GetInstanceField("module");
-            jSObjectReference.Should().BeNull();
         }
 
         private void VerifyLoadCropperModule()
