@@ -25,6 +25,24 @@ Import Custom Element:
 @using Cropper.Blazor.Components
 ```
 
+Add the following to `index.html` (client-side) or `_Host.cshtml` (server-side) in the `head`
+```razor
+<link href="_content/Cropper.Blazor/cropper.css" rel="stylesheet" />
+```
+
+Add the following to `index.html` or `_Host.cshtml` in the `body`
+```razor
+<script src="_content/Cropper.Blazor/cropper.js"></script>
+```
+
+Add the following to the relevant sections of `Program.cs`
+```c#
+using Cropper.Blazor.Extensions;
+```
+```c#
+builder.Services.AddCropper();
+```
+
 And then use it in Razor file ([for example](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor)):
 
 ```razor
@@ -51,10 +69,7 @@ And then use it in Razor file ([for example](https://github.com/DurkaTechnologie
 And then use it in [*.razor.cs file](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor.cs)
 
 
-Add service:
-```razor
-builder.Services.AddCropper()
-```
+
 
 ## Contributing
 
