@@ -36,7 +36,7 @@ jobs:
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
       
     - name: Coverage
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     
     - name: Super-Linter
       uses: github/super-linter@v4.8.1
