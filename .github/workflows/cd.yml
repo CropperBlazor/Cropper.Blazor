@@ -20,7 +20,23 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: src/Cropper.Blazor
+      
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: src/Cropper.Blazor
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
+      working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
+      
+    - name: Coverage
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
         
      # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
