@@ -5,5 +5,5 @@ namespace Cropper.Blazor.Client.Shared;
 
 public partial class AppbarButtons
 {
-    [Inject] private LayoutService LayoutService { get; set; }
+    [Inject] private LayoutService LayoutService { get; set; } = null!;
 }

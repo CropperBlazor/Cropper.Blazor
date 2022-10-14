@@ -17,30 +17,30 @@ namespace Cropper.Blazor.Components
 {
     public partial class CropperComponent : ICropperComponentBase
     {
-        [Inject] ICropperJsInterop? CropperJsIntertop { get; set; }
+        [Inject] ICropperJsInterop CropperJsIntertop { get; set; } = null!;
 
         private ElementReference imageReference;
 
         [Parameter]
-        public Options? Options { get; set; }
+        public Options Options { get; set; } = null!;
 
         [Parameter]
-        public string? Src { get; set; }
+        public string Src { get; set; } = null!;
 
         [Parameter]
-        public string? ErrorLoadImageSrc { get; set; }
+        public string ErrorLoadImageSrc { get; set; } = null!;
 
         [Parameter]
-        public string? ErrorLoadImageClass { get; set; }
+        public string ErrorLoadImageClass { get; set; } = null!;
 
         [Parameter]
         public bool IsErrorLoadImage { get; set; }
 
         [Parameter]
-        public string? Class { get; set; }
+        public string Class { get; set; } = null!;
 
         [Parameter]
-        public string? Loading { get; set; }
+        public string Loading { get; set; } = null!;
 
         [Parameter]
         public Action? OnLoadImageEvent { get; set; }

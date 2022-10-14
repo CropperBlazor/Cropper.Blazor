@@ -5,39 +5,40 @@
 			$(ResolveStaticWebAssetsInputsDependsOn)
 		</ResolveStaticWebAssetsInputsDependsOn>
 	</PropertyGroup>
-	
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-  </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="Pages\CroppedCanvasDialog.razor" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.9" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.9" PrivateAssets="all" />
-    <PackageReference Include="MudBlazor" Version="6.0.16" />
-	<PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="Pages\CroppedCanvasDialog.razor" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.9" PrivateAssets="all" />
+		<PackageReference Include="MudBlazor" Version="6.0.16" />
+		<PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\CroppedCanvasDialog.razor" />
-  </ItemGroup>
+	<ItemGroup>
+		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\CroppedCanvasDialog.razor" />
-  </ItemGroup>
+	<ItemGroup>
+		<UpToDateCheckInput Remove="Pages\CroppedCanvasDialog.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<_ContentIncludedByDefault Remove="Pages\CroppedCanvasDialog.razor" />
+	</ItemGroup>
 
 	<!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
 	<Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
@@ -71,12 +72,11 @@
 	</Target>
 
 	<!--Dont Include in build output-->
-	<!--Dont Include in build output-->
 	<ItemGroup>
 		<Watch Include="**/*.scss" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Include=".config\dotnet-tools.json" />
+		<Content Include=".config\dotnet-tools.json" />
 	</ItemGroup>
-	
+
 </Project>

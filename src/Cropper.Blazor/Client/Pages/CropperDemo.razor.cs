@@ -14,8 +14,8 @@ namespace Cropper.Blazor.Client.Pages
 {
     public partial class CropperDemo : IDisposable
     {
-        private CropperComponent? cropperComponent;
-        private Options options;
+        private CropperComponent? cropperComponent = null!;
+        private Options options = null!;
         private decimal? x;
         private decimal? y;
         private decimal? height;
@@ -23,11 +23,11 @@ namespace Cropper.Blazor.Client.Pages
         private decimal? rotate;
         private decimal? scaleX;
         private decimal? scaleY;
-        private CropBoxData? cropBoxData;
-        private CropperData? cropperData;
-        private ContainerData? containerData;
-        private ImageData? imageData;
-        private CanvasData? canvasData;
+        private CropBoxData cropBoxData = null!;
+        private CropperData cropperData = null!;
+        private ContainerData containerData = null!;
+        private ImageData imageData = null!;
+        private CanvasData canvasData = null!;
         private Dictionary<string, object> InputFileAdditionalAttributes = new Dictionary<string, object>() {
                 { "accept", "image/*" }
         };
@@ -213,37 +213,37 @@ namespace Cropper.Blazor.Client.Pages
 
         public async void GetCropBoxData()
         {
-            cropBoxData = await cropperComponent.GetCropBoxDataAsync();
+            cropBoxData = await cropperComponent!.GetCropBoxDataAsync();
             StateHasChanged();
         }
 
         public async void GetData(bool rounded)
         {
-            cropperData = await cropperComponent.GetDataAsync(rounded);
+            cropperData = await cropperComponent!.GetDataAsync(rounded);
             StateHasChanged();
         }
 
         public async void GetContainerData()
         {
-            containerData = await cropperComponent.GetContainerDataAsync();
+            containerData = await cropperComponent!.GetContainerDataAsync();
             StateHasChanged();
         }
 
         public async void GetImageData()
         {
-            imageData = await cropperComponent.GetImageDataAsync();
+            imageData = await cropperComponent!.GetImageDataAsync();
             StateHasChanged();
         }
 
         public async void GetCanvasData()
         {
-            canvasData = await cropperComponent.GetCanvasDataAsync();
+            canvasData = await cropperComponent!.GetCanvasDataAsync();
             StateHasChanged();
         }
 
         public async void GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            string croppedCanvasDataURL = await cropperComponent.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+            string croppedCanvasDataURL = await cropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
             var parameters = new DialogParameters();
             parameters.Add("Src", croppedCanvasDataURL);
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
@@ -256,7 +256,7 @@ namespace Cropper.Blazor.Client.Pages
             if (imageFile != null)
             {
                 var oldSrc = Src;
-                Src = await cropperComponent.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
+                Src = await cropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
                 IsErrorLoadImage = false;
                 cropperComponent?.Destroy();
                 cropperComponent?.RevokeObjectUrlAsync(oldSrc);

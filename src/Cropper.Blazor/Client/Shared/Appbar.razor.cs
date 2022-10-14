@@ -8,8 +8,8 @@ namespace Cropper.Blazor.Client.Shared;
 public partial class Appbar
 {
     [Parameter] public EventCallback<MouseEventArgs> DrawerToggleCallback { get; set; }
-    [Inject] private NavigationManager NavigationManager { get; set; }
-    [Inject] private LayoutService LayoutService { get; set; }
+    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+    [Inject] private LayoutService LayoutService { get; set; } = null!;
 
     private string GetActiveClass(BasePage page)
     {
