@@ -43,11 +43,11 @@ namespace Cropper.Blazor.UnitTests.Extensions
 
             object[] WrapArgs(
                 TestEnum enumValue,
-                string expectedString)
+                string? expectedString)
                 => new object[]
                 {
                     enumValue,
-                    expectedString
+                    expectedString!
                 };
         }
     }

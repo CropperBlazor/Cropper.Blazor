@@ -11,7 +11,7 @@ namespace Cropper.Blazor.Models
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [JsonPropertyName("preview")]
-        public string Preview { get; set; }
+        public string? Preview { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [JsonPropertyName("autoCrop")]
@@ -47,12 +47,12 @@ namespace Cropper.Blazor.Models
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [JsonPropertyName("setDataOptions")]
-        public SetDataOptions SetDataOptions { get; set; }
+        public SetDataOptions? SetDataOptions { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [JsonPropertyName("dragMode")]
         [EnumDataType(typeof(DragMode))]
-        public string DragMode { get; set; }
+        public string? DragMode { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [JsonPropertyName("guides")]
