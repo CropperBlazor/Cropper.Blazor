@@ -2,7 +2,9 @@
   <a href="https://durkatechnologies.github.io/Cropper.Blazor">
     <img src="src/Cropper.Blazor/Client/wwwroot/cropperblazor.png?raw=true" align="center" alt="Cropper.Blazor" width="200 px">
   </a>
-  <h1 align="center">Cropper.Blazor</h1>
+  <h1 align="center">
+    Cropper.Blazor
+  </h1>
   <p align="center">
     <b>Cropper.Blazor</b>  is a component element that wraps around <a href="https://github.com/fengyuanchen/cropperjs"><b>Cropper.js</b></a>
   </p>
