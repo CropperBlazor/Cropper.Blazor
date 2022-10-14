@@ -58,3 +58,4 @@ jobs:
         VALIDATE_MARKDOWN: false
         LOG_LEVEL: WARN
         FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
+        HTML_FILE_NAME: '.htmlhintrc'
