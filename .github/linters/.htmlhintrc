@@ -1,0 +1,10 @@
+{
+    "attr-lowercase": ["viewBox", "stdDeviation", "tableValues", "gradientUnits", "repeatCount", "attributeName"],
+    "tagname-lowercase": false,
+    "attr-value-double-quotes": false,
+    "attr-no-duplication": true,
+    "tag-pair": true,
+    "tag-self-close": true,
+    "id-unique": true,
+    "doctype-first": false
+}
