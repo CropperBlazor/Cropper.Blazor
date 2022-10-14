@@ -53,4 +53,5 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         OUTPUT_FOLDER: Reports
         OUTPUT_DETAILS: detailed
+        ERROR_ON_MISSING_EXEC_BIT: true
         VALIDATE_ALL_CODEBASE: true
