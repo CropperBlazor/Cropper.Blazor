@@ -55,3 +55,4 @@ jobs:
         OUTPUT_DETAILS: detailed
         ERROR_ON_MISSING_EXEC_BIT: true
         VALIDATE_ALL_CODEBASE: true
+        LOG_LEVEL: WARN
