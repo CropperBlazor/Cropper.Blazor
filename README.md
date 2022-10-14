@@ -6,7 +6,7 @@
     Cropper.Blazor
   </h1>
   <p align="center">
-    <b>Cropper.Blazor</b>  is a component element that wraps around <a href="https://github.com/fengyuanchen/cropperjs"><b>Cropper.js</b></a>
+    <b>Cropper.Blazor</b> is a component element that wraps around <a href="https://github.com/fengyuanchen/cropperjs"><b>Cropper.js</b></a>
   </p>
 </p>
 
