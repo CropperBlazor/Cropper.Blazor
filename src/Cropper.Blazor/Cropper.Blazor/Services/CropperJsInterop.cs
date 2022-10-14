@@ -415,7 +415,7 @@ namespace Cropper.Blazor.Services
 
         public async ValueTask DisposeAsync()
         {
-            if (module!=null)
+            if (module != null)
             {
                 await module.DisposeAsync();
             }
