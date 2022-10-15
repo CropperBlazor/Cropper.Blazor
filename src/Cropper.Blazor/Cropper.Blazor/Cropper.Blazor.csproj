@@ -7,11 +7,11 @@
 	</PropertyGroup>
 
 	<Target Name="IncludeGeneratedStaticFiles">
-		<Error Condition="!Exists('wwwroot/cropper.css')" Text="Missing Cropper.css in wwwroot" />
-		<Error Condition="!Exists('wwwroot/cropper.js')" Text="Missing Cropper.js in wwwroot" />
+		<Error Condition="!Exists('wwwroot/cropper.min.css')" Text="Missing Cropper.min.css in wwwroot" />
+		<Error Condition="!Exists('wwwroot/cropper.min.js')" Text="Missing Cropper.min.js in wwwroot" />
 		<ItemGroup>
-			<Content Include="wwwroot/cropper.css" Condition="!Exists('wwwroot/cropper.css')" />
-			<Content Include="wwwroot/cropper.js" Condition="!Exists('wwwroot/cropper.js')" />
+			<Content Include="wwwroot/cropper.min.css" Condition="!Exists('wwwroot/cropper.min.css')" />
+			<Content Include="wwwroot/cropper.min.js" Condition="!Exists('wwwroot/cropper.min.js')" />
 		</ItemGroup>
 	</Target>
 
