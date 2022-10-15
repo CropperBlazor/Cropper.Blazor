@@ -58,4 +58,5 @@ jobs:
         VALIDATE_MARKDOWN: false
         LOG_LEVEL: WARN
         FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)|^(service-worker[.]js|cropper[.]js)$'
+        JSCPD_CONFIG_FILE: '.jscpd.json'
         HTML_FILE_NAME: '.htmlhintrc'

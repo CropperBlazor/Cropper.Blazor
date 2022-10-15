@@ -1,0 +1,10 @@
+{
+  "threshold": 0,
+  "reporters": [
+    "consoleFull"
+  ],
+  "ignore": [
+    "**/src/Cropper.Blazor/Cropper.Blazor.UnitTests/**"
+  ],
+  "absolute": true
+}
