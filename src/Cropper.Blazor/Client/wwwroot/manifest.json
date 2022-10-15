@@ -8,14 +8,9 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "crop.png",
+      "src": "cropperblazor.png",
       "type": "image/png",
       "sizes": "512x512"
-    },
-    {
-      "src": "crop-64.png",
-      "type": "image/png",
-      "sizes": "64x64"
     }
   ]
 }

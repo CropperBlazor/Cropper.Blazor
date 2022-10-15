@@ -6,11 +6,11 @@ using MudBlazor.Services;
 namespace Cropper.Blazor.Client.Shared;
 public partial class MainLayout : LayoutComponentBase
 {
-    [Inject] private LayoutService LayoutService { get; set; }
+    [Inject] private LayoutService LayoutService { get; set; } = null!;
 
-    [Inject] private NavigationManager NavigationManager { get; set; }
+    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
-    [Inject] IResizeService ResizeService { get; set; }
+    [Inject] IResizeService ResizeService { get; set; } = null!;
 
     protected override void OnInitialized()
     {
@@ -61,7 +61,7 @@ public partial class MainLayout : LayoutComponentBase
         LayoutService.MajorUpdateOccured -= LayoutServiceOnMajorUpdateOccured;
     }
 
-    private void LayoutServiceOnMajorUpdateOccured(object sender, EventArgs e) => StateHasChanged();
+    private void LayoutServiceOnMajorUpdateOccured(object? sender, EventArgs e) => StateHasChanged();
 
     //private NavMenu _navMenuRef;
     private bool _drawerOpen = false;

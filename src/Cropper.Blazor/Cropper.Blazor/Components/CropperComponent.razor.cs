@@ -17,30 +17,30 @@ namespace Cropper.Blazor.Components
 {
     public partial class CropperComponent : ICropperComponentBase
     {
-        [Inject] ICropperJsInterop CropperJsIntertop { get; set; }
+        [Inject] ICropperJsInterop CropperJsIntertop { get; set; } = null!;
 
         private ElementReference imageReference;
 
         [Parameter]
-        public Options Options { get; set; }
+        public Options Options { get; set; } = null!;
 
         [Parameter]
-        public string Src { get; set; }
+        public string Src { get; set; } = null!;
 
         [Parameter]
-        public string ErrorLoadImageSrc { get; set; }
+        public string ErrorLoadImageSrc { get; set; } = null!;
 
         [Parameter]
-        public string ErrorLoadImageClass { get; set; }
+        public string ErrorLoadImageClass { get; set; } = null!;
 
         [Parameter]
         public bool IsErrorLoadImage { get; set; }
 
         [Parameter]
-        public string Class { get; set; }
+        public string Class { get; set; } = null!;
 
         [Parameter]
-        public string Loading { get; set; }
+        public string Loading { get; set; } = null!;
 
         [Parameter]
         public Action? OnLoadImageEvent { get; set; }
@@ -70,7 +70,7 @@ namespace Cropper.Blazor.Components
         {
             if (firstRender)
             {
-                await CropperJsIntertop.LoadModuleAsync();
+                await CropperJsIntertop!.LoadModuleAsync();
             }
 
             await base.OnAfterRenderAsync(firstRender);
@@ -89,7 +89,7 @@ namespace Cropper.Blazor.Components
         public void InitCropper()
         {
             ICropperComponentBase cropperComponentBase = this;
-            CropperJsIntertop.InitCropperAsync(imageReference, Options, DotNetObjectReference.Create(cropperComponentBase));
+            CropperJsIntertop!.InitCropperAsync(imageReference, Options!, DotNetObjectReference.Create(cropperComponentBase));
             OnLoadImageEvent?.Invoke();
         }
 
@@ -226,27 +226,27 @@ namespace Cropper.Blazor.Components
 
         public async ValueTask<CropBoxData> GetCropBoxDataAsync()
         {
-            return await CropperJsIntertop.GetCropBoxDataAsync();
+            return await CropperJsIntertop!.GetCropBoxDataAsync();
         }
 
         public async ValueTask<CropperData> GetDataAsync(bool isRounded)
         {
-            return await CropperJsIntertop.GetDataAsync(isRounded);
+            return await CropperJsIntertop!.GetDataAsync(isRounded);
         }
 
         public async ValueTask<ContainerData> GetContainerDataAsync()
         {
-            return await CropperJsIntertop.GetContainerDataAsync();
+            return await CropperJsIntertop!.GetContainerDataAsync();
         }
 
         public async ValueTask<ImageData> GetImageDataAsync()
         {
-            return await CropperJsIntertop.GetImageDataAsync();
+            return await CropperJsIntertop!.GetImageDataAsync();
         }
 
         public async ValueTask<CanvasData> GetCanvasDataAsync()
         {
-            return await CropperJsIntertop.GetCanvasDataAsync();
+            return await CropperJsIntertop!.GetCanvasDataAsync();
         }
 
         public async ValueTask<string> GetImageUsingStreamingAsync(
@@ -254,22 +254,22 @@ namespace Cropper.Blazor.Components
             long maxAllowedSize = 512000L,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await CropperJsIntertop.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken);
+            return await CropperJsIntertop!.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken);
         }
 
         public async ValueTask RevokeObjectUrlAsync(string url)
         {
-            await CropperJsIntertop.RevokeObjectUrlAsync(url);
+            await CropperJsIntertop!.RevokeObjectUrlAsync(url);
         }
 
         public async ValueTask<object> GetCroppedCanvasAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            return await CropperJsIntertop.GetCroppedCanvasAsync(getCroppedCanvasOptions);
+            return await CropperJsIntertop!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
         }
 
         public async ValueTask<string> GetCroppedCanvasDataURLAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            return await CropperJsIntertop.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+            return await CropperJsIntertop!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
         }
     }
 }

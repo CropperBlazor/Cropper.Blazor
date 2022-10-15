@@ -5,17 +5,15 @@ using MudBlazor;
 namespace Cropper.Blazor.Client.Services;
 public class LayoutService
 {
-    private readonly IUserPreferencesService _userPreferencesService;
-    private UserPreferences.UserPreferences _userPreferences;
+    private readonly IUserPreferencesService _userPreferencesService = null!;
+    private UserPreferences.UserPreferences _userPreferences = null!;
 
     public bool IsDarkMode { get; private set; } = false;
 
-    public MudTheme CurrentTheme { get; private set; }
+    public MudTheme CurrentTheme { get; private set; } = null!;
+    public event EventHandler MajorUpdateOccured = null!;
 
-    public LayoutService(IUserPreferencesService userPreferencesService)
-    {
-        _userPreferencesService = userPreferencesService;
-    }
+    public LayoutService(IUserPreferencesService userPreferencesService) => _userPreferencesService = userPreferencesService;
 
     public void SetDarkMode(bool value)
     {
@@ -36,8 +34,6 @@ public class LayoutService
             await _userPreferencesService.SaveUserPreferences(_userPreferences);
         }
     }
-
-    public event EventHandler MajorUpdateOccured;
 
     private void OnMajorUpdateOccured() => MajorUpdateOccured?.Invoke(this, EventArgs.Empty);
 

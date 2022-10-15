@@ -403,7 +403,8 @@ namespace Cropper.Blazor.UnitTests.Components
             // arrange
             string errorLoadImageClass = "cropper-error-load";
             string lazyAttributeValue = "lazy";
-            string errorLoadImageSrcAttributeValue = "https://.../not-found-image.jpg";
+            string errorLoadImageSrcAttributeValue = "https://cropper/not-found-image.jpg";
+
             ComponentParameter errorLoadImageClassParameter = ComponentParameter.CreateParameter(
                 nameof(CropperComponent.ErrorLoadImageClass),
                 errorLoadImageClass);
