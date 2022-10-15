@@ -57,5 +57,5 @@ jobs:
         VALIDATE_ALL_CODEBASE: true
         VALIDATE_MARKDOWN: false
         LOG_LEVEL: WARN
-        FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
+        FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)|^(service-worker[.]js|cropper[.]js)$'
         HTML_FILE_NAME: '.htmlhintrc'
