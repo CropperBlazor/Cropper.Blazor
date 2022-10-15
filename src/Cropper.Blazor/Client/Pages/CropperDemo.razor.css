@@ -35,19 +35,19 @@ label.btn {
     margin-left: 140px;
 }
 
-    .carbon-text,
-    .carbon-text:hover,
-    .carbon-text:focus {
-        color: #fff;
-        text-decoration: none;
-    }
+.carbon-text,
+.carbon-text:hover,
+.carbon-text:focus {
+    color: #fff;
+    text-decoration: none;
+}
 
-    .carbon-poweredby,
-    .carbon-poweredby:hover,
-    .carbon-poweredby:focus {
-        color: #ddd;
-        text-decoration: none;
-    }
+.carbon-poweredby,
+.carbon-poweredby:hover,
+.carbon-poweredby:focus {
+    color: #ddd;
+    text-decoration: none;
+}
 
 @media (min-width: 768px) {
     .carbonads {
@@ -74,29 +74,29 @@ label.btn {
     width: 100%;
 }
 
-    .heart:hover {
-        color: #ff4136;
-    }
+.heart:hover {
+    color: #ff4136;
+}
 
-    .heart::before {
-        border-top: 1px solid #eee;
-        content: " ";
-        display: block;
-        height: 0;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 50%;
-    }
+.heart::before {
+    border-top: 1px solid #eee;
+    content: " ";
+    display: block;
+    height: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
+}
 
-    .heart::after {
-        background-color: #fff;
-        content: "♥";
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        position: relative;
-        z-index: 1;
-    }
+.heart::after {
+    background-color: #fff;
+    content: "♥";
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
 
 .docs-demo {
     margin-bottom: 1rem;
@@ -137,9 +137,9 @@ label.btn {
     overflow: hidden;
 }
 
-    .img-preview > img {
-        max-width: 100%;
-    }
+.img-preview > img {
+    max-width: 100%;
+}
 
 .preview-lg {
     height: 9rem;
@@ -193,10 +193,10 @@ label.btn {
     padding: 0.5rem 0.75rem;
 }
 
-    .docs-tooltip > .icon {
-        margin: 0 -0.25rem;
-        vertical-align: top;
-    }
+.docs-tooltip > .icon {
+    margin: 0 -0.25rem;
+    vertical-align: top;
+}
 
 .tooltip-inner {
     white-space: normal;
@@ -211,47 +211,47 @@ label.btn {
     padding: 0.5rem;
 }
 
-    .btn-toggle > .docs-tooltip {
-        margin: -0.5rem;
-        padding: 0.5rem;
-    }
+.btn-toggle > .docs-tooltip {
+    margin: -0.5rem;
+    padding: 0.5rem;
+}
 
 @media (max-width: 400px) {
     .btn-group-crop {
         margin-right: -1rem !important;
     }
 
-        .btn-group-crop > .btn {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-        }
+    .btn-group-crop > .btn {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
 
-        .btn-group-crop .docs-tooltip {
-            margin-left: -0.5rem;
-            margin-right: -0.5rem;
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-        }
+    .btn-group-crop .docs-tooltip {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
 }
 
 .docs-options .dropdown-menu {
     width: 100%;
 }
 
-    .docs-options .dropdown-menu > li {
-        font-size: 0.875rem;
-        padding: 0.125rem 1rem;
-    }
+.docs-options .dropdown-menu > li {
+    font-size: 0.875rem;
+    padding: 0.125rem 1rem;
+}
 
-    .docs-options .dropdown-menu .form-check-label {
-        display: block;
-    }
+.docs-options .dropdown-menu .form-check-label {
+    display: block;
+}
 
 .docs-cropped .modal-body {
     text-align: center;
 }
 
-    .docs-cropped .modal-body > img,
-    .docs-cropped .modal-body > canvas {
-        max-width: 100%;
-    }
+.docs-cropped .modal-body > img,
+.docs-cropped .modal-body > canvas {
+    max-width: 100%;
+}

@@ -1,7 +1,7 @@
 class CropperDecorator {
 
     constructor() {
-        this.cropperInstance = new Object();
+        this.cropperInstance = {};
     }
 
     clear() {
@@ -113,7 +113,7 @@ class CropperDecorator {
     }
 
     zoomTo(ratio, pivotX, pivotY) {
-        return this.cropperInstance.zoomTo(ratio, { pivotX, pivotY });
+        return this.cropperInstance.zoomTo(ratio, {pivotX, pivotY});
     }
 
     noConflict() {
