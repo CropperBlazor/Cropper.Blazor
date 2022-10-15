@@ -1,5 +1,5 @@
 {
-  "plugins": [ "stylelint-prettier" ],
+  "extends": "stylelint-config-standard",
   "rules": {
     "selector-list-comma-newline-after": "never-multi-line",
     "selector-list-comma-newline-before": "never-multi-line",

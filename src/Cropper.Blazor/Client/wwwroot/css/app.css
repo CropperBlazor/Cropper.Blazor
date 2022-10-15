@@ -81,13 +81,11 @@ a, .btn-link {
     animation-iteration-count: infinite;
     animation-timing-function: ease;
     animation-name: flow;
-
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 400% 400%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-
     font-weight: 800;
     letter-spacing: 1px
 }
