@@ -1,8 +1,9 @@
 {
   "extends": "stylelint-config-standard",
   "rules": {
-    "selector-list-comma-newline-after": "never-multi-line",
+    "selector-list-comma-newline-after": "always-multi-line",
     "selector-list-comma-newline-before": "never-multi-line",
-    "block-closing-brace-newline-before": "always"
+    "block-closing-brace-newline-before": "always",
+    "indentation": 4
   }
 }
