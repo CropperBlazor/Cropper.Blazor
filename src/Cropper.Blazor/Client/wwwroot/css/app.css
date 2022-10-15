@@ -58,7 +58,7 @@ a, .btn-link {
 }
 
     .blazor-error-boundary::after {
-        content: "An error has occurred."
+        content: "An error has occurred.";
     }
 
 @keyframes flow {
@@ -87,7 +87,7 @@ a, .btn-link {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
-    letter-spacing: 1px
+    letter-spacing: 1px;
 }
 
 .img-container > .cropper-demo {
