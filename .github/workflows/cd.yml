@@ -49,6 +49,8 @@ jobs:
     - name: Fix service-worker-assets.js hashes
       working-directory: release/wwwroot
       run: |
+        # shellcheck disable=2001
+        # shellcheck disable=2086
         jsFile=$(<service-worker-assets.js)
         # remove JavaScript from contents so it can be interpreted as JSON
         json=$(echo "$jsFile" | sed "s/self.assetsManifest = //g" | sed "s/;//g")
