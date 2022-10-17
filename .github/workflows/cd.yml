@@ -64,10 +64,8 @@ jobs:
           path="${path:1:-1}"
           newHash="sha256-$(openssl dgst -sha256 -binary $path | openssl base64 -A)"
           
-          # shellcheck disable=2086
           if [ $oldHash != $newHash ]; then
             # escape slashes for json
-            # shellcheck disable=2086
             oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
             newHash=$(echo "$newHash" | sed 's;/;\\/;g')
             echo "Updating hash for $path from $oldHash to $newHash"
