@@ -62,14 +62,19 @@ jobs:
           path=$(echo "$asset" | jq '.url')
           #remove leading and trailing quotes
           path="${path:1:-1}"
+          # shellcheck disable=2086
           newHash="sha256-$(openssl dgst -sha256 -binary $path | openssl base64 -A)"
           
+          # shellcheck disable=2086
           if [ $oldHash != $newHash ]; then
             # escape slashes for json
+            # shellcheck disable=2001
             oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
+            # shellcheck disable=2001
             newHash=$(echo "$newHash" | sed 's;/;\\/;g')
             echo "Updating hash for $path from $oldHash to $newHash"
             # escape slashes second time for sed
+            # shellcheck disable=2001
             oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
             jsFile=$(echo -n "$jsFile" | sed "s;$oldHash;$newHash;g")
           fi
