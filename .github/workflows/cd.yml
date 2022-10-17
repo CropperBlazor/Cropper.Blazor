@@ -49,7 +49,6 @@ jobs:
     - name: Fix service-worker-assets.js hashes
       working-directory: release/wwwroot
       run: |
-        # shellcheck disable=2086
         jsFile=$(<service-worker-assets.js)
         # remove JavaScript from contents so it can be interpreted as JSON
         json=$(echo "$jsFile" | sed "s/self.assetsManifest = //g" | sed "s/;//g")
@@ -65,8 +64,10 @@ jobs:
           path="${path:1:-1}"
           newHash="sha256-$(openssl dgst -sha256 -binary $path | openssl base64 -A)"
           
+          # shellcheck disable=2086
           if [ $oldHash != $newHash ]; then
             # escape slashes for json
+            # shellcheck disable=2086
             oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
             newHash=$(echo "$newHash" | sed 's;/;\\/;g')
             echo "Updating hash for $path from $oldHash to $newHash"
