@@ -57,7 +57,6 @@ jobs:
         VALIDATE_ALL_CODEBASE: true
         VALIDATE_MARKDOWN: false
         VALIDATE_JAVASCRIPT_STANDARD: false
-        VALIDATE_BASH: false 
         LOG_LEVEL: WARN
         FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
         JSCPD_CONFIG_FILE: '.jscpd.json'
