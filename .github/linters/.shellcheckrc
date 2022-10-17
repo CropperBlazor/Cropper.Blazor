@@ -1,7 +1,0 @@
-# SC2086: Double quote to prevent globbing and word splitting.
-# https://github.com/koalaman/shellcheck/wiki/SC2086
-disable=SC2086
-
-# SC2001: See if you can use ${variable//search/replace} instead.
-# https://github.com/koalaman/shellcheck/wiki/SC2001
-disable=SC2001
