@@ -34,7 +34,7 @@ jobs:
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
       
     - name: Coverage
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         
@@ -42,9 +42,40 @@ jobs:
     - name: Publish .NET Core Project
       run: dotnet publish ./src/Cropper.Blazor/Server/Cropper.Blazor.Server.csproj -c Release --output release --nologo
       
+     # changes the base-tag in index.html from '/' to 'Cropper.Blazor' to match GitHub Pages repository subdirectory
     - name: Change base-tag in index.html from / to Cropper.Blazor
       run: sed -i 's/<base href="\/" \/>/<base href="\/Cropper.Blazor\/" \/>/g' release/wwwroot/index.html
      
+    - name: Fix service-worker-assets.js hashes
+      working-directory: release/wwwroot
+      run: |
+        jsFile=$(<service-worker-assets.js)
+        # remove JavaScript from contents so it can be interpreted as JSON
+        json=$(echo "$jsFile" | sed "s/self.assetsManifest = //g" | sed "s/;//g")
+        # grab the assets JSON array
+        assets=$(echo "$json" | jq '.assets[]' -c)
+        for asset in $assets
+        do
+          oldHash=$(echo "$asset" | jq '.hash')
+          #remove leading and trailing quotes
+          oldHash="${oldHash:1:-1}"
+          path=$(echo "$asset" | jq '.url')
+          #remove leading and trailing quotes
+          path="${path:1:-1}"
+          newHash="sha256-$(openssl dgst -sha256 -binary $path | openssl base64 -A)"
+          
+          if [ $oldHash != $newHash ]; then
+            # escape slashes for json
+            oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
+            newHash=$(echo "$newHash" | sed 's;/;\\/;g')
+            echo "Updating hash for $path from $oldHash to $newHash"
+            # escape slashes second time for sed
+            oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
+            jsFile=$(echo -n "$jsFile" | sed "s;$oldHash;$newHash;g")
+          fi
+        done
+        echo -n "$jsFile" > service-worker-assets.js
+
      # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
       run: cp release/wwwroot/index.html release/wwwroot/404.html
