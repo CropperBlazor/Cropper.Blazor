@@ -54,6 +54,14 @@ jobs:
         HTML_FILE_NAME: '.htmlhintrc'
         CSS_FILE_NAME: '.stylelintrc.json'
         
+    - name: Wait for codecov to succeed
+      uses: lewagon/wait-on-check-action@v1.0.0
+      with:
+          ref: ${{ github.ref }}
+          check-name: 'Coverage'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+          
      # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
       run: dotnet publish ./src/Cropper.Blazor/Server/Cropper.Blazor.Server.csproj -c Release --output release --nologo
