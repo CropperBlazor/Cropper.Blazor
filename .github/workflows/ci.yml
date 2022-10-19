@@ -14,8 +14,6 @@ jobs:
   build:
     name: Build & Test
     runs-on: ubuntu-latest
-    outputs:
-      build_id: ${{ steps.build_step.outputs.build_id }}
 
     steps:
     - uses: actions/checkout@v3
