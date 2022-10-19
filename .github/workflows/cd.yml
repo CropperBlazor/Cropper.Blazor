@@ -37,22 +37,6 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-
-    - name: Super-Linter
-      uses: github/super-linter@v4.8.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        OUTPUT_FOLDER: Reports
-        OUTPUT_DETAILS: detailed
-        ERROR_ON_MISSING_EXEC_BIT: true
-        VALIDATE_ALL_CODEBASE: true
-        VALIDATE_MARKDOWN: false
-        VALIDATE_JAVASCRIPT_STANDARD: false
-        LOG_LEVEL: WARN
-        FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
-        JSCPD_CONFIG_FILE: '.jscpd.json'
-        HTML_FILE_NAME: '.htmlhintrc'
-        CSS_FILE_NAME: '.stylelintrc.json'
         
      # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project

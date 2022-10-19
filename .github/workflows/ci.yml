@@ -27,7 +27,7 @@ jobs:
       run: dotnet restore
       working-directory: src/Cropper.Blazor
       
-    - name: Build
+    - name: DotNet Build
       run: dotnet build --no-restore
       working-directory: src/Cropper.Blazor
       
