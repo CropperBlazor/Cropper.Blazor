@@ -1,4 +1,4 @@
-name: Build and run test
+name: Build and run tests
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-
+    name: Build & Test
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +27,7 @@ jobs:
       run: dotnet restore
       working-directory: src/Cropper.Blazor
       
-    - name: Build
+    - name: DotNet Build
       run: dotnet build --no-restore
       working-directory: src/Cropper.Blazor
       
@@ -39,14 +39,7 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        
-  lint:
-    
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v3
-    
+      
     - name: Super-Linter
       uses: github/super-linter@v4.8.1
       env:
@@ -62,3 +55,4 @@ jobs:
         JSCPD_CONFIG_FILE: '.jscpd.json'
         HTML_FILE_NAME: '.htmlhintrc'
         CSS_FILE_NAME: '.stylelintrc.json'
+        
