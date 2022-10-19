@@ -41,7 +41,7 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         
   lint:
-    name: Lint
+    name: Lint Code Base
     needs: build
     runs-on: ubuntu-latest
     
