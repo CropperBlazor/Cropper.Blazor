@@ -1,4 +1,4 @@
-name: Build and run test
+name: Build and run tests
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-
+    name: Build & Test
     runs-on: ubuntu-latest
 
     steps:
@@ -41,7 +41,8 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         
   lint:
-    
+    name: Lint
+    needs: build
     runs-on: ubuntu-latest
     
     steps:
