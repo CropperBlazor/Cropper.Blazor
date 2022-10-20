@@ -5,7 +5,11 @@
 			$(ResolveStaticWebAssetsInputsDependsOn)
 		</ResolveStaticWebAssetsInputsDependsOn>
 	</PropertyGroup>
-
+	
+	<PropertyGroup>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+	</PropertyGroup>
+	
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
