@@ -49,6 +49,8 @@
 
 	<Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
 		<ItemGroup>
+			<FilesToClean Include="./Styles/Cropper.Blazor.Client.css" />
+			<FilesToClean Include="./Styles/Cropper.Blazor.Client.min.css" />
 			<FilesToClean Include="./wwwroot/css/Cropper.Blazor.Client.min.css" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
