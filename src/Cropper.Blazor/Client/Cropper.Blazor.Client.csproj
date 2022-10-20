@@ -17,7 +17,12 @@
     <Nullable>enable</Nullable>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
-
+	
+  <PropertyGroup>
+    <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
+    <BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
+  </PropertyGroup>
+	
   <ItemGroup>
     <Content Remove="Pages\CroppedCanvasDialog.razor" />
   </ItemGroup>
@@ -34,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+    <ServiceWorker Include="wwwroot\service-worker.min.js" PublishedContent="wwwroot\service-worker.published.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,7 +61,11 @@
     <ItemGroup>
       <FilesToClean Include="./Styles/Cropper.Blazor.Client.css" />
       <FilesToClean Include="./Styles/Cropper.Blazor.Client.min.css" />
-      <FilesToClean Include="./wwwroot/css/Cropper.Blazor.Client.min.css" />
+      <FilesToClean Include="./wwwroot/Cropper.Blazor.Client.min.css" />
+	  <FilesToClean Include="./wwwroot/app.min.css" />
+	  <FilesToClean Include="./Styles/app.min.css" />
+	  <FilesToClean Include="./wwwroot/service-worker.min.js" />
+	  <FilesToClean Include="./wwwroot/service-worker.published.min.js" />
     </ItemGroup>
     <Delete Files="@(FilesToClean)" />
   </Target>
@@ -69,12 +78,23 @@
     <Message Text="Running webcompiler" Importance="high" />
     <!--Compile and minify scss-->
     <Exec Command="dotnet webcompiler ./Styles/Cropper.Blazor.Client.scss -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+    <!--Compile and minify css-->
+	<Exec Command="dotnet webcompiler ./Styles/app.css -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+    <!--Compile and minify js-->
+    <Exec Command="dotnet webcompiler ./wwwroot/service-worker.published.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+    <Exec Command="dotnet webcompiler ./wwwroot/service-worker.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
   </Target>
 
   <Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
-    <Error Condition="!Exists('wwwroot/css/Cropper.Blazor.Client.min.css')" Text="Missing Cropper.Blazor.Client.min.css in wwwroot/css" />
+    <Error Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" Text="Missing Cropper.Blazor.Client.min.css in wwwroot" />
+	<Error Condition="!Exists('wwwroot/app.min.css')" Text="Missing app.min.css in wwwroot" />
+	<Error Condition="!Exists('wwwroot/service-worker.min.js')" Text="Missing service-worker.min.js in wwwroot" />
+	<Error Condition="!Exists('wwwroot/service-worker.published.min.js')" Text="Missing service-worker.published.min.js in wwwroot" />
     <ItemGroup>
-      <Content Include="wwwroot/css/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/css/Cropper.Blazor.Client.min.css')" />
+	  <Content Include="wwwroot/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" />
+      <Content Include="wwwroot/app.min.css" Condition="!Exists('wwwroot/app.min.css')" />
+	  <Content Include="wwwroot/service-worker.min.js" Condition="!Exists('wwwroot/service-worker.min.js')" />
+      <Content Include="wwwroot/service-worker.published.min.js" Condition="!Exists('wwwroot/service-worker.published.min.js')" />
     </ItemGroup>
   </Target>
 
@@ -85,10 +105,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--For automatic compile on save of the scss use
-    cd ./src/MudBlazor
-    dotnet watch webcompiler ./Styles/MudBlazor.scss -c excubowebcompiler.json
-    -->
     <Watch Include="**/*.scss" />
   </ItemGroup>
 
