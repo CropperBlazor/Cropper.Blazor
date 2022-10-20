@@ -1,87 +1,95 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
-	<PropertyGroup>
-		<ResolveStaticWebAssetsInputsDependsOn>
-			IncludeGeneratedStaticFiles;
-			$(ResolveStaticWebAssetsInputsDependsOn)
-		</ResolveStaticWebAssetsInputsDependsOn>
-	</PropertyGroup>
-	
-	<PropertyGroup>
-		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
-	</PropertyGroup>
-	
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-	</PropertyGroup>
 
-	<ItemGroup>
-		<Content Remove="Pages\CroppedCanvasDialog.razor" />
-	</ItemGroup>
+  <PropertyGroup>
+    <ResolveStaticWebAssetsInputsDependsOn>
+      IncludeGeneratedStaticFiles;
+      $(ResolveStaticWebAssetsInputsDependsOn)
+    </ResolveStaticWebAssetsInputsDependsOn>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.10" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.10" PrivateAssets="all" />
-		<PackageReference Include="MudBlazor" Version="6.0.17" />
-		<PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
-	</ItemGroup>
+  <PropertyGroup>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
-	</ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
-	</ItemGroup>
+  <ItemGroup>
+    <Content Remove="Pages\CroppedCanvasDialog.razor" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<UpToDateCheckInput Remove="Pages\CroppedCanvasDialog.razor" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.10" PrivateAssets="all" />
+    <PackageReference Include="MudBlazor" Version="6.0.17" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<_ContentIncludedByDefault Remove="Pages\CroppedCanvasDialog.razor" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
+  </ItemGroup>
 
-	<!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
-	<Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
-		<PropertyGroup>
-			<CleanGeneratedFiles>false</CleanGeneratedFiles>
-		</PropertyGroup>
-	</Target>
+  <ItemGroup>
+    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
 
-	<Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
-		<ItemGroup>
-			<FilesToClean Include="./Styles/Cropper.Blazor.Client.css" />
-			<FilesToClean Include="./Styles/Cropper.Blazor.Client.min.css" />
-			<FilesToClean Include="./wwwroot/css/Cropper.Blazor.Client.min.css" />
-		</ItemGroup>
-		<Delete Files="@(FilesToClean)" />
-	</Target>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\CroppedCanvasDialog.razor" />
+  </ItemGroup>
 
-	<Target Name="ToolRestore">
-		<Exec Command="dotnet tool restore" StandardOutputImportance="high" />
-	</Target>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\CroppedCanvasDialog.razor" />
+  </ItemGroup>
 
-	<Target Name="WebCompiler" DependsOnTargets="ToolRestore">
-		<Message Text="Running webcompiler" Importance="high" />
-		<Exec Command="dotnet webcompiler ./Styles/Cropper.Blazor.Client.scss -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-	</Target>
+  <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
+  <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
+    <PropertyGroup>
+      <CleanGeneratedFiles>false</CleanGeneratedFiles>
+    </PropertyGroup>
+  </Target>
 
-	<!--Output of Excubo webcompiler-->
-	<Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
-		<Error Condition="!Exists('wwwroot/css/Cropper.Blazor.Client.min.css')" Text="Missing Cropper.Blazor.Client.min.css in wwwroot/css" />
-		<ItemGroup>
-			<Content Include="wwwroot/css/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/css/Cropper.Blazor.Client.min.css')" />
-		</ItemGroup>
-	</Target>
-	
-	<ItemGroup>
-		<Watch Include="**/*.scss" />
-	</ItemGroup>
-	<ItemGroup>
-		<Content Include=".config\dotnet-tools.json" />
-	</ItemGroup>
+  <Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
+    <ItemGroup>
+      <FilesToClean Include="./Styles/Cropper.Blazor.Client.css" />
+      <FilesToClean Include="./Styles/Cropper.Blazor.Client.min.css" />
+      <FilesToClean Include="./wwwroot/css/Cropper.Blazor.Client.min.css" />
+    </ItemGroup>
+    <Delete Files="@(FilesToClean)" />
+  </Target>
+
+  <Target Name="ToolRestore">
+    <Exec Command="dotnet tool restore" StandardOutputImportance="high" />
+  </Target>
+
+  <Target Name="WebCompiler" DependsOnTargets="ToolRestore">
+    <Message Text="Running webcompiler" Importance="high" />
+    <!--Compile and minify scss-->
+    <Exec Command="dotnet webcompiler ./Styles/Cropper.Blazor.Client.scss -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+  </Target>
+
+  <Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
+    <Error Condition="!Exists('wwwroot/css/Cropper.Blazor.Client.min.css')" Text="Missing Cropper.Blazor.Client.min.css in wwwroot/css" />
+    <ItemGroup>
+      <Content Include="wwwroot/css/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/css/Cropper.Blazor.Client.min.css')" />
+    </ItemGroup>
+  </Target>
+
+  <!--Dont Include in build output-->
+  <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+    <Content Remove="excubowebcompiler.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--For automatic compile on save of the scss use
+    cd ./src/MudBlazor
+    dotnet watch webcompiler ./Styles/MudBlazor.scss -c excubowebcompiler.json
+    -->
+    <Watch Include="**/*.scss" />
+  </ItemGroup>
 
 </Project>

@@ -1,62 +1,65 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-	<PropertyGroup>
-		<ResolveStaticWebAssetsInputsDependsOn>
-			IncludeGeneratedStaticFiles;
-			$(ResolveStaticWebAssetsInputsDependsOn)
-		</ResolveStaticWebAssetsInputsDependsOn>
-	</PropertyGroup>
 
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
+  <PropertyGroup>
+    <ResolveStaticWebAssetsInputsDependsOn>
+      IncludeGeneratedStaticFiles;
+      $(ResolveStaticWebAssetsInputsDependsOn)
+    </ResolveStaticWebAssetsInputsDependsOn>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<Content Include=".config\dotnet-tools.json" />
-	</ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<SupportedPlatform Include="browser" />
-	</ItemGroup>
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
 
-	<!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
-	<Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
-		<PropertyGroup>
-			<CleanGeneratedFiles>false</CleanGeneratedFiles>
-		</PropertyGroup>
-	</Target>
+  <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
+  <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
+    <PropertyGroup>
+      <CleanGeneratedFiles>false</CleanGeneratedFiles>
+    </PropertyGroup>
+  </Target>
 
-	<Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
-		<ItemGroup>
-			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js" />
-		</ItemGroup>
-		<Delete Files="@(FilesToClean)" />
-	</Target>
+  <Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
+    <ItemGroup>
+      <FilesToClean Include="./wwwroot/cropperJsInterop.min.js" />
+    </ItemGroup>
+    <Delete Files="@(FilesToClean)" />
+  </Target>
 
-	<Target Name="ToolRestore">
-		<Exec Command="dotnet tool restore" StandardOutputImportance="high" />
-	</Target>
+  <Target Name="ToolRestore">
+    <Exec Command="dotnet tool restore" StandardOutputImportance="high" />
+  </Target>
 
-	<Target Name="WebCompiler" DependsOnTargets="ToolRestore">
-		<Message Text="Running webcompiler" Importance="high" />
-		<Exec Command="dotnet webcompiler ./wwwroot/cropperJsInterop.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-	</Target>
+  <Target Name="WebCompiler" DependsOnTargets="ToolRestore">
+    <Message Text="Running webcompiler" Importance="high" />
+    <!--Minify js-->
+    <Exec Command="dotnet webcompiler ./wwwroot/cropperJsInterop.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+  </Target>
 
-	<!--Output of Excubo webcompiler-->
-	<Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
-		<Error Condition="!Exists('wwwroot/cropper.min.css')" Text="Missing Cropper.min.css in wwwroot" />
-		<Error Condition="!Exists('wwwroot/cropper.min.js')" Text="Missing Cropper.min.js in wwwroot" />
-		<Error Condition="!Exists('wwwroot/cropperJsInterop.min.js')" Text="Missing cropperJsInterop.min.js in wwwroot" />
-		<ItemGroup>
-			<Content Include="wwwroot/cropper.min.css" Condition="!Exists('wwwroot/cropper.min.css')" />
-			<Content Include="wwwroot/cropper.min.js" Condition="!Exists('wwwroot/cropper.min.js')" />
-			<Content Include="wwwroot/cropperJsInterop.min.js" Condition="!Exists('wwwroot/cropperJsInterop.min.js')" />
-		</ItemGroup>
-	</Target>
+  <!--Output of Excubo webcompiler-->
+  <Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
+    <Error Condition="!Exists('wwwroot/cropper.min.css')" Text="Missing Cropper.min.css in wwwroot" />
+    <Error Condition="!Exists('wwwroot/cropper.min.js')" Text="Missing Cropper.min.js in wwwroot" />
+    <Error Condition="!Exists('wwwroot/cropperJsInterop.min.js')" Text="Missing cropperJsInterop.min.js in wwwroot" />
+    <ItemGroup>
+      <Content Include="wwwroot/cropper.min.css" Condition="!Exists('wwwroot/cropper.min.css')" />
+      <Content Include="wwwroot/cropper.min.js" Condition="!Exists('wwwroot/cropper.min.js')" />
+      <Content Include="wwwroot/cropperJsInterop.min.js" Condition="!Exists('wwwroot/cropperJsInterop.min.js')" />
+    </ItemGroup>
+  </Target>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.10" />
-	</ItemGroup>
+  <!--Dont Include in build output-->
+  <ItemGroup>
+    <Content Remove="excubowebcompiler.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.10" />
+  </ItemGroup>
 
 </Project>
