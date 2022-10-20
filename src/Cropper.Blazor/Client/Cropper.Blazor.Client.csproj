@@ -70,8 +70,7 @@
 			<Content Include="wwwroot/css/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/css/Cropper.Blazor.Client.min.css')" />
 		</ItemGroup>
 	</Target>
-
-	<!--Dont Include in build output-->
+	
 	<ItemGroup>
 		<Watch Include="**/*.scss" />
 	</ItemGroup>

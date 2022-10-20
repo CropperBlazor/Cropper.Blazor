@@ -12,7 +12,7 @@ namespace Cropper.Blazor.Services
     {
         private readonly IJSRuntime jsRuntime;
         private IJSObjectReference? module = null;
-        public const string PathToCropperModule = "./_content/Cropper.Blazor/cropperJsInterop.js";
+        public const string PathToCropperModule = "./_content/Cropper.Blazor/cropperJsInterop.min.js";
 
         public CropperJsInterop(IJSRuntime jsRuntime)
         {
