@@ -28,9 +28,6 @@ namespace Cropper.Blazor.Client.Pages
         private ContainerData containerData = null!;
         private ImageData imageData = null!;
         private CanvasData canvasData = null!;
-        private Dictionary<string, object> InputFileAdditionalAttributes = new Dictionary<string, object>() {
-                { "accept", "image/*" }
-        };
         private string Src = "https://fengyuanchen.github.io/cropperjs/images/picture.jpg";
         private string ErrorLoadImageSrc = "not-found-image.jpg";
         private bool IsErrorLoadImage { get; set; } = false;
