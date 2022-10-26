@@ -90,10 +90,6 @@ a, .btn-link {
     letter-spacing: 1px;
 }
 
-.img-container > .cropper-demo {
-    max-width: 100%;
-}
-
 .cropper-error-load {
     max-height: inherit;
     max-width: inherit;

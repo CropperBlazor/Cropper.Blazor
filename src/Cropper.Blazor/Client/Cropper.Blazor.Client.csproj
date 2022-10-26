@@ -24,7 +24,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="bundleconfig.json" />
     <Content Remove="Pages\CroppedCanvasDialog.razor" />
   </ItemGroup>
 
@@ -108,10 +107,6 @@
 
   <ItemGroup>
     <Watch Include="**/*.scss" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="bundleconfig.json" />
   </ItemGroup>
 
 </Project>

@@ -3,557 +3,505 @@
 
 <MudContainer Class="mt-5 px-4">
     <MudGrid Class="mt-2">
-        <MudItem xl="12" lg="12" md="12" sm="12" xs="12">
-            <MudCard Elevation="2">
-                <MudCardContent>
-                    <MudGrid>
-                        <MudItem md="9">
-                            <div class="img-container">
-                                <CropperComponent Class="cropper-demo"
-                                                  ErrorLoadImageClass="cropper-error-load"
-                                                  @ref="cropperComponent"
-                                                  OnCropStartEvent="OnCropStartEvent"
-                                                  OnCropEndEvent="OnCropEndEvent"
-                                                  OnCropEvent="OnCropEvent"
-                                                  OnZoomEvent="OnZoomEvent"
-                                                  OnCropMoveEvent="OnCropMoveEvent"
-                                                  OnReadyEvent="OnCropReadyEvent"
-                                                  OnLoadImageEvent="OnLoadImageEvent"
-                                                  Src="@Src"
-                                                  Loading="lazy"
-                                                  ErrorLoadImageSrc="@ErrorLoadImageSrc"
-                                                  IsErrorLoadImage="@IsErrorLoadImage"
-                                                  OnErrorLoadImageEvent="OnErrorLoadImageEvent"
-                                                  Options="options" />
-                            </div>
-                        </MudItem>
-                        <MudItem md="3">
-                            <div class="docs-preview clearfix">
-                                <div class="img-preview preview-lg"></div>
-                                <div class="img-preview preview-md"></div>
-                                <div class="img-preview preview-sm"></div>
-                                <div class="img-preview preview-xs"></div>
-                            </div>
-                            <div class="docs-data">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-prepend">
-                                        <label class="input-group-text" for="dataX">X</label>
-                                    </span>
-                                    <input type="text" class="form-control" id="dataX" @bind-value="@x" placeholder="x">
-                                    <span class="input-group-append">
-                                        <span class="input-group-text">px</span>
-                                    </span>
-                                </div>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-prepend">
-                                        <label class="input-group-text" for="dataY">Y</label>
-                                    </span>
-                                    <input type="text" class="form-control" id="dataY" @bind-value="@y" placeholder="y">
-                                    <span class="input-group-append">
-                                        <span class="input-group-text">px</span>
-                                    </span>
-                                </div>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-prepend">
-                                        <label class="input-group-text" for="dataWidth">Width</label>
-                                    </span>
-                                    <input type="text" class="form-control" id="dataWidth" @bind-value="@width" placeholder="width">
-                                    <span class="input-group-append">
-                                        <span class="input-group-text">px</span>
-                                    </span>
-                                </div>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-prepend">
-                                        <label class="input-group-text" for="dataHeight">Height</label>
-                                    </span>
-                                    <input type="text" class="form-control" id="dataHeight" @bind-value="@height" placeholder="height">
-                                    <span class="input-group-append">
-                                        <span class="input-group-text">px</span>
-                                    </span>
-                                </div>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-prepend">
-                                        <label class="input-group-text" for="dataRotate">Rotate</label>
-                                    </span>
-                                    <input type="text" class="form-control" id="dataRotate" @bind-value="@rotate" placeholder="rotate">
-                                    <span class="input-group-append">
-                                        <span class="input-group-text">deg</span>
-                                    </span>
-                                </div>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-prepend">
-                                        <label class="input-group-text" for="dataScaleX">ScaleX</label>
-                                    </span>
-                                    <input type="text" class="form-control" id="dataScaleX" @bind-value="@scaleX" placeholder="scaleX">
-                                </div>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-prepend">
-                                        <label class="input-group-text" for="dataScaleY">ScaleY</label>
-                                    </span>
-                                    <input type="text" class="form-control" id="dataScaleY" @bind-value="@scaleY" placeholder="scaleY">
-                                </div>
-                            </div>
-                        </MudItem>
+        <MudItem md="9">
+            <MudPaper Class="pa-4" Elevation="2">
+                <div class="img-container">
+                    <CropperComponent Class="cropper-container"
+                                      ErrorLoadImageClass="cropper-error-load"
+                                      @ref="cropperComponent"
+                                      OnCropStartEvent="OnCropStartEvent"
+                                      OnCropEndEvent="OnCropEndEvent"
+                                      OnCropEvent="OnCropEvent"
+                                      OnZoomEvent="OnZoomEvent"
+                                      OnCropMoveEvent="OnCropMoveEvent"
+                                      OnReadyEvent="OnCropReadyEvent"
+                                      OnLoadImageEvent="OnLoadImageEvent"
+                                      Src="@Src"
+                                      Loading="lazy"
+                                      ErrorLoadImageSrc="@ErrorLoadImageSrc"
+                                      IsErrorLoadImage="@IsErrorLoadImage"
+                                      OnErrorLoadImageEvent="OnErrorLoadImageEvent"
+                                      Options="options" />
+                </div>
+            </MudPaper>
+        </MudItem>
+        <MudItem md="3">
+            <MudPaper Class="pa-4" Elevation="2">
+                <div class="docs-preview clearfix">
+                    <div class="img-preview preview-lg"></div>
+                    <div class="img-preview preview-md"></div>
+                    <div class="img-preview preview-sm"></div>
+                    <div class="img-preview preview-xs"></div>
+                </div>
+                <div class="docs-data">
+                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="x" Label="X, px" Variant="Variant.Text" Step=".2M" />
+                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="y" Label="Y, px" Variant="Variant.Text" Step=".2M" />
+                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="width" Label="Width, px" Variant="Variant.Text" Step=".2M" />
+                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
+                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="rotate" Label="Rotate, deg" Variant="Variant.Text" Step=".2M" />
+                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="scaleX" Label="ScaleX" Variant="Variant.Text" Step=".2M" />
+                    <MudNumericField HideSpinButtons="true" @bind-Value="scaleY" Label="ScaleY" Variant="Variant.Text" Step=".2M" />
+                </div>
+            </MudPaper>
+        </MudItem>
 
-                        <div class="row" id="actions">
+        <MudItem md="9">
+            <MudPaper Class="pa-4" Elevation="2">
 
-                            <div class="col-md-9 docs-buttons">
+                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                    <MudTooltip Text="@("cropper.setDragMode(\"move\")")">
+                        <MudToggleIconButton Icon="@Icons.Material.Filled.OpenWith" ToggledIcon="@Icons.Material.Filled.OpenWith"
+                                             ToggledColor="@Color.Dark" Title="Move" ToggledChanged="SetMoveDragMode" />
+                    </MudTooltip>
+                    <MudTooltip Text="@("cropper.setDragMode(\"crop\")")">
+                        <MudToggleIconButton Icon="@Icons.Material.Filled.Crop" ToggledIcon="@Icons.Material.Filled.Crop"
+                                             ToggledColor="@Color.Dark" Title="Crop" ToggledChanged="SetCropDragMode" />
+                    </MudTooltip>
+                </MudButtonGroup>
 
-                                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-                                    <MudTooltip Text="@("cropper.setDragMode(\"move\")")">
-                                        <MudToggleIconButton Icon="@Icons.Material.Filled.OpenWith" ToggledIcon="@Icons.Material.Filled.OpenWith"
-                                                             ToggledColor="@Color.Dark" Title="Move" ToggledChanged="SetMoveDragMode" />
-                                    </MudTooltip>
-                                    <MudTooltip Text="@("cropper.setDragMode(\"crop\")")">
-                                        <MudToggleIconButton Icon="@Icons.Material.Filled.Crop" ToggledIcon="@Icons.Material.Filled.Crop"
-                                                             ToggledColor="@Color.Dark" Title="Crop" ToggledChanged="SetCropDragMode" />
-                                    </MudTooltip>
-                                </MudButtonGroup>
+                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                    <MudTooltip Text="Zoom In">
+                        <MudIconButton Icon="@Icons.Material.Filled.ZoomIn" OnClick="@(()=>Zoom(0.1m))"
+                                       data-method="zoom" data-option="0.1" Title="Zoom In" />
+                    </MudTooltip>
+                    <MudTooltip Text="Zoom Out">
+                        <MudIconButton Icon="@Icons.Material.Filled.ZoomOut" OnClick="@(()=>Zoom(-0.1m))"
+                                       data-method="zoom" data-option="-0.1" Title="Zoom Out" />
+                    </MudTooltip>
+                </MudButtonGroup>
 
-                                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-                                    <MudTooltip Text="Zoom In">
-                                        <MudIconButton Icon="@Icons.Material.Filled.ZoomIn" OnClick="@(()=>Zoom(0.1m))"
-                                                       data-method="zoom" data-option="0.1" Title="Zoom In" />
-                                    </MudTooltip>
-                                    <MudTooltip Text="Zoom Out">
-                                        <MudIconButton Icon="@Icons.Material.Filled.ZoomOut" OnClick="@(()=>Zoom(-0.1m))"
-                                                       data-method="zoom" data-option="-0.1" Title="Zoom Out" />
-                                    </MudTooltip>
-                                </MudButtonGroup>
+                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                    <MudTooltip Text="cropper.move(-10, 0)">
+                        <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" OnClick="@(()=>Move(-10, 0))"
+                                       data-method="move" data-option="-10" data-second-option="0" Title="Move Left" />
+                    </MudTooltip>
+                    <MudTooltip Text="cropper.move(10, 0)">
+                        <MudIconButton Icon="@Icons.Material.Filled.ArrowRightAlt" OnClick="@(()=>Move(10, 0))"
+                                       data-method="move" data-option="10" data-second-option="0" Title="Move Right" />
+                    </MudTooltip>
+                    <MudTooltip Text="cropper.move(0, -10)">
+                        <MudIconButton Icon="@Icons.Material.Filled.ArrowUpward" OnClick="@(()=>Move(0, -10))"
+                                       data-method="move" data-option="0" data-second-option="-10" Title="Move Up" />
+                    </MudTooltip>
+                    <MudTooltip Text="cropper.move(0, 10)">
+                        <MudIconButton Icon="@Icons.Material.Filled.ArrowDownward" OnClick="@(()=>Move(0, 10))"
+                                       data-method="move" data-option="0" data-second-option="10" title="Move Down" />
+                    </MudTooltip>
+                </MudButtonGroup>
 
-                                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-                                    <MudTooltip Text="cropper.move(-10, 0)">
-                                        <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" OnClick="@(()=>Move(-10, 0))"
-                                                       data-method="move" data-option="-10" data-second-option="0" Title="Move Left" />
-                                    </MudTooltip>
-                                    <MudTooltip Text="cropper.move(10, 0)">
-                                        <MudIconButton Icon="@Icons.Material.Filled.ArrowRightAlt" OnClick="@(()=>Move(10, 0))"
-                                                       data-method="move" data-option="10" data-second-option="0" Title="Move Right" />
-                                    </MudTooltip>
-                                    <MudTooltip Text="cropper.move(0, -10)">
-                                        <MudIconButton Icon="@Icons.Material.Filled.ArrowUpward" OnClick="@(()=>Move(0, -10))"
-                                                       data-method="move" data-option="0" data-second-option="-10" Title="Move Up" />
-                                    </MudTooltip>
-                                    <MudTooltip Text="cropper.move(0, 10)">
-                                        <MudIconButton Icon="@Icons.Material.Filled.ArrowDownward" OnClick="@(()=>Move(0, 10))"
-                                                       data-method="move" data-option="0" data-second-option="10" title="Move Down" />
-                                    </MudTooltip>
-                                </MudButtonGroup>
+                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                    <MudTooltip Text="cropper.rotate(-45)">
+                        <MudIconButton Icon="@Icons.Material.Filled.RotateLeft" OnClick="@(()=>Rotate(-45))"
+                                       data-method="rotate" data-option="-45" Title="Rotate Left" />
+                    </MudTooltip>
+                    <MudTooltip Text="cropper.rotate(45)">
+                        <MudIconButton Icon="@Icons.Material.Filled.RotateRight" OnClick="@(()=>Rotate(45))"
+                                       data-method="rotate" data-option="45" Title="Rotate Right" />
+                    </MudTooltip>
+                </MudButtonGroup>
 
-                                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-                                    <MudTooltip Text="cropper.rotate(-45)">
-                                        <MudIconButton Icon="@Icons.Material.Filled.RotateLeft" OnClick="@(()=>Rotate(-45))"
-                                                       data-method="rotate" data-option="-45" Title="Rotate Left" />
-                                    </MudTooltip>
-                                    <MudTooltip Text="cropper.rotate(45)">
-                                        <MudIconButton Icon="@Icons.Material.Filled.RotateRight" OnClick="@(()=>Rotate(45))"
-                                                       data-method="rotate" data-option="45" Title="Rotate Right" />
-                                    </MudTooltip>
-                                </MudButtonGroup>
+                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                    <MudTooltip Text="cropper.scaleX(-1)">
+                        <MudIconButton Icon="@Icons.Material.Filled.SwapHoriz" OnClick="@(()=>ScaleX(-1m*scaleX))"
+                                       data-method="scaleY" data-option="-1" Title="Flip Horizontal" />
+                    </MudTooltip>
+                    <MudTooltip Text="cropper.scaleY(-1)">
+                        <MudIconButton Icon="@Icons.Material.Filled.SwapVert" OnClick="@(()=>ScaleY(-1m*scaleY))"
+                                       data-method="scaleY" data-option="-1" Title="Flip Vertical" />
+                    </MudTooltip>
+                </MudButtonGroup>
 
-                                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-                                    <MudTooltip Text="cropper.scaleX(-1)">
-                                        <MudIconButton Icon="@Icons.Material.Filled.SwapHoriz" OnClick="@(()=>ScaleX(-1m*scaleX))"
-                                                       data-method="scaleY" data-option="-1" Title="Flip Horizontal" />
-                                    </MudTooltip>
-                                    <MudTooltip Text="cropper.scaleY(-1)">
-                                        <MudIconButton Icon="@Icons.Material.Filled.SwapVert" OnClick="@(()=>ScaleY(-1m*scaleY))"
-                                                       data-method="scaleY" data-option="-1" Title="Flip Vertical" />
-                                    </MudTooltip>
-                                </MudButtonGroup>
+                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                    <MudTooltip Text="cropper.crop()">
+                        <MudIconButton Icon="@Icons.Material.Filled.Done" OnClick="Crop"
+                                       data-method="crop" Title="Crop" />
+                    </MudTooltip>
+                    <MudTooltip Text="cropper.clear()">
+                        <MudIconButton Icon="@Icons.Material.Filled.Clear" OnClick="Clear"
+                                       data-method="clear" Title="Clear" />
+                    </MudTooltip>
+                </MudButtonGroup>
 
-                                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-                                    <MudTooltip Text="cropper.crop()">
-                                        <MudIconButton Icon="@Icons.Material.Filled.Done" OnClick="Crop"
-                                                       data-method="crop" Title="Crop" />
-                                    </MudTooltip>
-                                    <MudTooltip Text="cropper.clear()">
-                                        <MudIconButton Icon="@Icons.Material.Filled.Clear" OnClick="Clear"
-                                                       data-method="clear" Title="Clear" />
-                                    </MudTooltip>
-                                </MudButtonGroup>
+                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                    <MudTooltip Text="cropper.disable()">
+                        <MudIconButton Icon="@Icons.Material.Filled.Lock" OnClick="Disable"
+                                       data-method="disable" Title="Disable" />
+                    </MudTooltip>
+                    <MudTooltip Text="cropper.enable()">
+                        <MudIconButton Icon="@Icons.Material.Filled.LockOpen" OnClick="Enable"
+                                       data-method="enable" Title="Enable" />
+                    </MudTooltip>
+                </MudButtonGroup>
 
-                                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-                                    <MudTooltip Text="cropper.disable()">
-                                        <MudIconButton Icon="@Icons.Material.Filled.Lock" OnClick="Disable"
-                                                       data-method="disable" Title="Disable" />
-                                    </MudTooltip>
-                                    <MudTooltip Text="cropper.enable()">
-                                        <MudIconButton Icon="@Icons.Material.Filled.LockOpen" OnClick="Enable"
-                                                       data-method="enable" Title="Enable" />
-                                    </MudTooltip>
-                                </MudButtonGroup>
+                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                    <MudTooltip Text="cropper.reset()">
+                        <MudIconButton Icon="@Icons.Material.Filled.Sync" OnClick="Reset"
+                                       data-method="reset" Title="Reset" />
+                    </MudTooltip>
+                    <MudTooltip Text="Import image with Blob URLs">
+                        <InputFile id="imageInput" OnChange="InputFileChange" accept="image/*" hidden multiple />
+                        <MudIconButton HtmlTag="label" Icon="@Icons.Filled.PhotoCamera" for="imageInput" Title="Upload image file" />
+                    </MudTooltip>
+                    <MudTooltip Text="cropper.destroy()">
+                        <MudIconButton Icon="@Icons.Material.Filled.PowerOff" OnClick="Destroy"
+                                       data-method="destroy" Title="Destroy" />
+                    </MudTooltip>
+                </MudButtonGroup>
 
-                                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-                                    <MudTooltip Text="cropper.reset()">
-                                        <MudIconButton Icon="@Icons.Material.Filled.Sync" OnClick="Reset"
-                                                       data-method="reset" Title="Reset" />
-                                    </MudTooltip>
-                                    <MudTooltip Text="Import image with Blob URLs">
-                                        <InputFile id="imageInput" OnChange="InputFileChange" accept="image/*" hidden multiple />
-                                        <MudIconButton HtmlTag="label" Icon="@Icons.Filled.PhotoCamera" for="imageInput" Title="Upload image file" />
-                                    </MudTooltip>
-                                    <MudTooltip Text="cropper.destroy()">
-                                        <MudIconButton Icon="@Icons.Material.Filled.PowerOff" OnClick="Destroy"
-                                                       data-method="destroy" Title="Destroy" />
-                                    </MudTooltip>
-                                </MudButtonGroup>
+                <MudButtonGroup Color="Color.Success" Variant="Variant.Filled">
+                    <MudTooltip Text="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })">
+                        <MudButton data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }"
+                                   OnClick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096}))">
+                            Get Cropped Canvas
+                        </MudButton>
+                    </MudTooltip>
+                    <MudTooltip Text="cropper.getCroppedCanvas({ width: 160, height: 90 })">
+                        <MudButton data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 160, &quot;height&quot;: 90 }"
+                                   OnClick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 90, MaxWidth = 160}))">
+                            160&times;90
+                        </MudButton>
+                    </MudTooltip>
 
-                                <MudButtonGroup Color="Color.Success" Variant="Variant.Filled">
-                                    <MudTooltip Text="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })">
-                                        <MudButton data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }"
-                                                   OnClick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096}))">
-                                            Get Cropped Canvas
-                                        </MudButton>
-                                    </MudTooltip>
-                                    <MudTooltip Text="cropper.getCroppedCanvas({ width: 160, height: 90 })">
-                                        <MudButton data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 160, &quot;height&quot;: 90 }"
-                                                   OnClick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 90, MaxWidth = 160}))">
-                                            160&times;90
-                                        </MudButton>
-                                    </MudTooltip>
+                    <MudTooltip Text="cropper.getCroppedCanvas({ width: 320, height: 180 })">
+                        <MudButton data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }"
+                                   OnClick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 180, MaxWidth = 320}))">
+                            320&times;180
+                        </MudButton>
+                    </MudTooltip>
+                </MudButtonGroup>
 
-                                    <MudTooltip Text="cropper.getCroppedCanvas({ width: 320, height: 180 })">
-                                        <MudButton data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }"
-                                                   OnClick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 180, MaxWidth = 320}))">
-                                            320&times;180
-                                        </MudButton>
-                                    </MudTooltip>
-                                </MudButtonGroup>
+                <MudTooltip Text="cropper.getData()">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="getData" data-option data-target="#putData" OnClick="@(()=>GetData(false))">
+                        Get Data
+                    </MudButton>
+                </MudTooltip>
+                <MudTooltip Text="cropper.setData(data)">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="setData" data-target="#putData"
+                               OnClick="@(()=>SetData(new Models.SetDataOptions(){ X = cropperData.X, Y = cropperData.Y, Height = cropperData.Height, Width = cropperData.Width, Rotate = cropperData.Rotate, ScaleX = cropperData.ScaleX, ScaleY = cropperData.ScaleY}))">
+                        Set Data
+                    </MudButton>
+                </MudTooltip>
+                <MudTooltip Text="cropper.getContainerData()">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="getContainerData"
+                               data-option data-target="#putData" OnClick="GetContainerData">
+                        Get Container Data
+                    </MudButton>
+                </MudTooltip>
+                <MudTooltip Text="cropper.getImageData()">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="getImageData"
+                               data-option data-target="#putData" OnClick="GetImageData">
+                        Get Image Data
+                    </MudButton>
+                </MudTooltip>
+                <MudTooltip Text="cropper.getCanvasData()">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="getCanvasData"
+                               data-option data-target="#putData" OnClick="GetCanvasData">
+                        Get Canvas Data
+                    </MudButton>
+                </MudTooltip>
+                <MudTooltip Text="cropper.setCanvasData(data)">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="setCanvasData" data-target="#putData"
+                               OnClick="@(()=>SetCanvasData(new Models.SetCanvasDataOptions(){ Height = canvasData.Height, Left = canvasData.Left, Top = canvasData.Top, Width = canvasData.Width}))">
+                        Set Canvas Data
+                    </MudButton>
+                </MudTooltip>
+                <MudTooltip Text="cropper.getCropBoxData()">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="getCropBoxData"
+                               data-option data-target="#putData" OnClick="GetCropBoxData">
+                        Get Crop Box Data
+                    </MudButton>
+                </MudTooltip>
+                <MudTooltip Text="cropper.setCropBoxData(data)">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="setCropBoxData" data-target="#putData"
+                               OnClick="@(()=>SetCropBoxData(new Models.SetCropBoxDataOptions(){ Height = cropBoxData.Height, Left = cropBoxData.Left, Top = cropBoxData.Top, Width = cropBoxData.Width}))">
+                        Set Crop Box Data
+                    </MudButton>
+                </MudTooltip>
 
-                                <MudTooltip Text="cropper.getData()">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="getData" data-option data-target="#putData" OnClick="@(()=>GetData(false))">
-                                        Get Data
-                                    </MudButton>
-                                </MudTooltip>
-                                <MudTooltip Text="cropper.setData(data)">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="setData" data-target="#putData"
-                                               OnClick="@(()=>SetData(new Models.SetDataOptions(){ X = cropperData.X, Y = cropperData.Y, Height = cropperData.Height, Width = cropperData.Width, Rotate = cropperData.Rotate, ScaleX = cropperData.ScaleX, ScaleY = cropperData.ScaleY}))">
-                                        Set Data
-                                    </MudButton>
-                                </MudTooltip>
-                                <MudTooltip Text="cropper.getContainerData()">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="getContainerData"
-                                               data-option data-target="#putData" OnClick="GetContainerData">
-                                        Get Container Data
-                                    </MudButton>
-                                </MudTooltip>
-                                <MudTooltip Text="cropper.getImageData()">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="getImageData"
-                                               data-option data-target="#putData" OnClick="GetImageData">
-                                        Get Image Data
-                                    </MudButton>
-                                </MudTooltip>
-                                <MudTooltip Text="cropper.getCanvasData()">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="getCanvasData"
-                                               data-option data-target="#putData" OnClick="GetCanvasData">
-                                        Get Canvas Data
-                                    </MudButton>
-                                </MudTooltip>
-                                <MudTooltip Text="cropper.setCanvasData(data)">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="setCanvasData" data-target="#putData"
-                                               OnClick="@(()=>SetCanvasData(new Models.SetCanvasDataOptions(){ Height = canvasData.Height, Left = canvasData.Left, Top = canvasData.Top, Width = canvasData.Width}))">
-                                        Set Canvas Data
-                                    </MudButton>
-                                </MudTooltip>
-                                <MudTooltip Text="cropper.getCropBoxData()">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="getCropBoxData"
-                                               data-option data-target="#putData" OnClick="GetCropBoxData">
-                                        Get Crop Box Data
-                                    </MudButton>
-                                </MudTooltip>
-                                <MudTooltip Text="cropper.setCropBoxData(data)">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="setCropBoxData" data-target="#putData"
-                                               OnClick="@(()=>SetCropBoxData(new Models.SetCropBoxDataOptions(){ Height = cropBoxData.Height, Left = cropBoxData.Left, Top = cropBoxData.Top, Width = cropBoxData.Width}))">
-                                        Set Crop Box Data
-                                    </MudButton>
-                                </MudTooltip>
+                <MudTooltip Text="cropper.moveTo(0)">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="moveTo"
+                               data-option="0" OnClick="@(()=>MoveTo(0, 0))">
+                        Move to [0,0]
+                    </MudButton>
+                </MudTooltip>
 
-                                <MudTooltip Text="cropper.moveTo(0)">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="moveTo"
-                                               data-option="0" OnClick="@(()=>MoveTo(0, 0))">
-                                        Move to [0,0]
-                                    </MudButton>
-                                </MudTooltip>
+                <MudTooltip Text="cropper.zoomTo(1)">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="zoomTo"
+                               data-option="1" OnClick="@(()=>ZoomTo(1, 0, 0))">
+                        Zoom to 100%
+                    </MudButton>
+                </MudTooltip>
 
-                                <MudTooltip Text="cropper.zoomTo(1)">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="zoomTo"
-                                               data-option="1" OnClick="@(()=>ZoomTo(1, 0, 0))">
-                                        Zoom to 100%
-                                    </MudButton>
-                                </MudTooltip>
+                <MudTooltip Text="cropper.rotateTo(180)">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="rotateTo"
+                               data-option="180" OnClick="@(()=>Rotate(180))">
+                        Rotate 180°
+                    </MudButton>
+                </MudTooltip>
 
-                                <MudTooltip Text="cropper.rotateTo(180)">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="rotateTo"
-                                               data-option="180" OnClick="@(()=>Rotate(180))">
-                                        Rotate 180°
-                                    </MudButton>
-                                </MudTooltip>
+                <MudTooltip Text="cropper.scale(-2, -1)">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="scale"
+                               data-option="-2" data-second-option="-1" OnClick="@(()=>Scale(-2 * scaleX, -1 * scaleY))">
+                        Scale (-2, -1)
+                    </MudButton>
+                </MudTooltip>
 
-                                <MudTooltip Text="cropper.scale(-2, -1)">
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" data-method="scale"
-                                               data-option="-2" data-second-option="-1" OnClick="@(()=>Scale(-2 * scaleX, -1 * scaleY))">
-                                        Scale (-2, -1)
-                                    </MudButton>
-                                </MudTooltip>
+                <div class="docs-data">
+                    <div>Cropper Data</div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataX">X</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataX" @bind-value="@cropperData.X" placeholder="x">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataY">Y</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataY" @bind-value="@cropperData.Y" placeholder="y">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataWidth">Width</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataWidth" @bind-value="@cropperData.Width" placeholder="width">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataHeight">Height</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataHeight" @bind-value="@cropperData.Height" placeholder="height">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataRotate">Rotate</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataRotate" @bind-value="@cropperData.Rotate" placeholder="rotate">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataScaleX">ScaleX</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataScaleX" @bind-value="@cropperData.ScaleX" placeholder="scaleX">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataScaleY">ScaleY</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataScaleY" @bind-value="@cropperData.ScaleY" placeholder="scaleY">
+                    </div>
+                </div>
+                <div class="docs-data">
+                    <div>Container Data</div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataHeight">Height</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataHeight" @bind-value="@containerData.Height" placeholder="height">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataHeight">Width</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataWidth" @bind-value="@containerData.Width" placeholder="width">
+                    </div>
+                </div>
+                <div class="docs-data">
+                    <div>Image Data</div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataHeight">Height</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataHeight" @bind-value="@imageData.Height" placeholder="height">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataHeight">Width</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataWidth" @bind-value="@imageData.Width" placeholder="width">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataRotate">Rotate</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataRotate" @bind-value="@imageData.Rotate" placeholder="rotate">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataScaleX">ScaleX</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataScaleX" @bind-value="@imageData.ScaleX" placeholder="scaleX">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataScaleY">ScaleY</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataScaleY" @bind-value="@imageData.ScaleY" placeholder="scaleY">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataNaturalHeight">Natural Height</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataNaturalHeight" @bind-value="@imageData.NaturalHeight" placeholder="naturalHeight">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataNaturalWidth">Natural Width</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataNaturalWidth" @bind-value="@imageData.NaturalWidth" placeholder="naturalWidth">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataAspectRatio">Aspect Ratio</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataAspectRatio" @bind-value="@imageData.AspectRatio" placeholder="aspectRatio">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataLeft">Left</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataLeft" @bind-value="@imageData.Left" placeholder="left">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataTop">Top</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataTop" @bind-value="@imageData.Top" placeholder="top">
+                    </div>
+                </div>
+                <div class="docs-data">
+                    <div>Canvas Data</div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataLeft">Left</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataLeft" @bind-value="@canvasData.Left" placeholder="left">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataTop">Top</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataTop" @bind-value="@canvasData.Top" placeholder="top">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataNaturalHeight">Natural Height</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataNaturalHeight" @bind-value="@canvasData.NaturalHeight" placeholder="naturalHeight">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataNaturalWidth">Natural Width</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataNaturalWidth" @bind-value="@canvasData.NaturalWidth" placeholder="naturalWidth">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataHeight">Height</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataHeight" @bind-value="@canvasData.Height" placeholder="height">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataHeight">Width</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataWidth" @bind-value="@canvasData.Width" placeholder="width">
+                    </div>
+                </div>
+                <div class="docs-data">
+                    <div>Crop Box Data</div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataTop">Top</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataTop" @bind-value="@cropBoxData.Top" placeholder="top">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataLeft">Left</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataLeft" @bind-value="@cropBoxData.Left" placeholder="left">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataHeight">Height</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataHeight" @bind-value="@cropBoxData.Height" placeholder="height">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-prepend">
+                            <label class="input-group-text" for="dataWidth">Width</label>
+                        </span>
+                        <input type="text" class="form-control" id="dataWidth" @bind-value="@cropBoxData.Width" placeholder="width">
+                    </div>
+                </div>
+            </MudPaper>
 
-                                <div class="docs-data">
-                                    <div>Cropper Data</div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataX">X</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataX" @bind-value="@cropperData.X" placeholder="x">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataY">Y</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataY" @bind-value="@cropperData.Y" placeholder="y">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataWidth">Width</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataWidth" @bind-value="@cropperData.Width" placeholder="width">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataHeight">Height</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataHeight" @bind-value="@cropperData.Height" placeholder="height">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataRotate">Rotate</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataRotate" @bind-value="@cropperData.Rotate" placeholder="rotate">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataScaleX">ScaleX</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataScaleX" @bind-value="@cropperData.ScaleX" placeholder="scaleX">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataScaleY">ScaleY</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataScaleY" @bind-value="@cropperData.ScaleY" placeholder="scaleY">
-                                    </div>
-                                </div>
-                                <div class="docs-data">
-                                    <div>Container Data</div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataHeight">Height</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataHeight" @bind-value="@containerData.Height" placeholder="height">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataHeight">Width</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataWidth" @bind-value="@containerData.Width" placeholder="width">
-                                    </div>
-                                </div>
-                                <div class="docs-data">
-                                    <div>Image Data</div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataHeight">Height</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataHeight" @bind-value="@imageData.Height" placeholder="height">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataHeight">Width</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataWidth" @bind-value="@imageData.Width" placeholder="width">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataRotate">Rotate</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataRotate" @bind-value="@imageData.Rotate" placeholder="rotate">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataScaleX">ScaleX</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataScaleX" @bind-value="@imageData.ScaleX" placeholder="scaleX">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataScaleY">ScaleY</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataScaleY" @bind-value="@imageData.ScaleY" placeholder="scaleY">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataNaturalHeight">Natural Height</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataNaturalHeight" @bind-value="@imageData.NaturalHeight" placeholder="naturalHeight">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataNaturalWidth">Natural Width</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataNaturalWidth" @bind-value="@imageData.NaturalWidth" placeholder="naturalWidth">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataAspectRatio">Aspect Ratio</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataAspectRatio" @bind-value="@imageData.AspectRatio" placeholder="aspectRatio">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataLeft">Left</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataLeft" @bind-value="@imageData.Left" placeholder="left">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataTop">Top</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataTop" @bind-value="@imageData.Top" placeholder="top">
-                                    </div>
-                                </div>
-                                <div class="docs-data">
-                                    <div>Canvas Data</div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataLeft">Left</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataLeft" @bind-value="@canvasData.Left" placeholder="left">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataTop">Top</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataTop" @bind-value="@canvasData.Top" placeholder="top">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataNaturalHeight">Natural Height</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataNaturalHeight" @bind-value="@canvasData.NaturalHeight" placeholder="naturalHeight">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataNaturalWidth">Natural Width</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataNaturalWidth" @bind-value="@canvasData.NaturalWidth" placeholder="naturalWidth">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataHeight">Height</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataHeight" @bind-value="@canvasData.Height" placeholder="height">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataHeight">Width</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataWidth" @bind-value="@canvasData.Width" placeholder="width">
-                                    </div>
-                                </div>
-                                <div class="docs-data">
-                                    <div>Crop Box Data</div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataTop">Top</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataTop" @bind-value="@cropBoxData.Top" placeholder="top">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataLeft">Left</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataLeft" @bind-value="@cropBoxData.Left" placeholder="left">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataHeight">Height</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataHeight" @bind-value="@cropBoxData.Height" placeholder="height">
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text" for="dataWidth">Width</label>
-                                        </span>
-                                        <input type="text" class="form-control" id="dataWidth" @bind-value="@cropBoxData.Width" placeholder="width">
-                                    </div>
-                                </div>
-                            </div><!-- /.docs-buttons -->
+        </MudItem>
 
-                            <div class="col-md-3 docs-toggles">
-                                <!-- <h3>Toggles:</h3> -->
-                                <div class="btn-group d-flex flex-nowrap" data-toggle="buttons">
-                                    <label class="btn btn-primary active">
-                                        <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio" @onclick="@(()=>SetAspectRatio(1.7777777777777777m))">
-                                        <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 16 / 9">
-                                            16:9
-                                        </span>
-                                    </label>
-                                    <label class="btn btn-primary">
-                                        <input type="radio" class="sr-only" id="aspectRatio2" name="aspectRatio" @onclick="@(()=>SetAspectRatio(1.3333333333333333m))">
-                                        <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 4 / 3">
-                                            4:3
-                                        </span>
-                                    </label>
-                                    <label class="btn btn-primary">
-                                        <input type="radio" class="sr-only" id="aspectRatio3" name="aspectRatio" @onclick="@(()=>SetAspectRatio(1m))">
-                                        <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 1 / 1">
-                                            1:1
-                                        </span>
-                                    </label>
-                                    <label class="btn btn-primary">
-                                        <input type="radio" class="sr-only" id="aspectRatio4" name="aspectRatio" @onclick="@(()=>SetAspectRatio(0.6666666666666666m))">
-                                        <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 2 / 3">
-                                            2:3
-                                        </span>
-                                    </label>
-                                    <label class="btn btn-primary">
-                                        <input type="radio" class="sr-only" id="aspectRatio5" name="aspectRatio" @onclick="@(()=>SetAspectRatio(0.0m))">
-                                        <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: NaN">
-                                            Free
-                                        </span>
-                                    </label>
-                                </div>
+        <MudItem md="3">
+            <MudPaper Class="pa-4" Elevation="2">
 
-                                <div class="btn-group d-flex flex-nowrap" data-toggle="buttons">
-                                    <label class="btn btn-primary active">
-                                        <input type="radio" class="sr-only" id="viewMode0" name="viewMode" value="0" @onclick="(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm0))" checked>
-                                        <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 0">
-                                            VM0
-                                        </span>
-                                    </label>
-                                    <label class="btn btn-primary">
-                                        <input type="radio" class="sr-only" id="viewMode1" name="viewMode" value="1" @onclick="(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm1))">
-                                        <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 1">
-                                            VM1
-                                        </span>
-                                    </label>
-                                    <label class="btn btn-primary">
-                                        <input type="radio" class="sr-only" id="viewMode2" name="viewMode" value="2" @onclick="(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm2))">
-                                        <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 2">
-                                            VM2
-                                        </span>
-                                    </label>
-                                    <label class="btn btn-primary">
-                                        <input type="radio" class="sr-only" id="viewMode3" name="viewMode" value="3" @onclick="(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm3))">
-                                        <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 3">
-                                            VM3
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </MudGrid>
-                </MudCardContent>
-            </MudCard>
+                <div class="btn-group d-flex flex-nowrap" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio" @onclick="@(()=>SetAspectRatio(1.7777777777777777m))">
+                        <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 16 / 9">
+                            16:9
+                        </span>
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" class="sr-only" id="aspectRatio2" name="aspectRatio" @onclick="@(()=>SetAspectRatio(1.3333333333333333m))">
+                        <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 4 / 3">
+                            4:3
+                        </span>
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" class="sr-only" id="aspectRatio3" name="aspectRatio" @onclick="@(()=>SetAspectRatio(1m))">
+                        <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 1 / 1">
+                            1:1
+                        </span>
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" class="sr-only" id="aspectRatio4" name="aspectRatio" @onclick="@(()=>SetAspectRatio(0.6666666666666666m))">
+                        <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 2 / 3">
+                            2:3
+                        </span>
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" class="sr-only" id="aspectRatio5" name="aspectRatio" @onclick="@(()=>SetAspectRatio(0.0m))">
+                        <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: NaN">
+                            Free
+                        </span>
+                    </label>
+                </div>
+
+                <div class="btn-group d-flex flex-nowrap" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        <input type="radio" class="sr-only" id="viewMode0" name="viewMode" value="0" @onclick="(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm0))" checked>
+                        <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 0">
+                            VM0
+                        </span>
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" class="sr-only" id="viewMode1" name="viewMode" value="1" @onclick="(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm1))">
+                        <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 1">
+                            VM1
+                        </span>
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" class="sr-only" id="viewMode2" name="viewMode" value="2" @onclick="(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm2))">
+                        <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 2">
+                            VM2
+                        </span>
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" class="sr-only" id="viewMode3" name="viewMode" value="3" @onclick="(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm3))">
+                        <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 3">
+                            VM3
+                        </span>
+                    </label>
+                </div>
+            </MudPaper>
         </MudItem>
     </MudGrid>
 </MudContainer>
