@@ -6,7 +6,7 @@
 }
 
 .img-container {
-    max-height: 497px;
+    max-height: 565px;
     min-height: 200px;
 }
 
@@ -20,14 +20,8 @@
     max-width: 100%;
 }
 
-.docs-preview {
-    margin-right: -1rem;
-}
-
 .img-preview {
-    float: left;
-    margin-bottom: 0.5rem;
-    margin-right: 0.5rem;
+ 
     overflow: hidden;
 }
 
@@ -36,22 +30,22 @@
 }
 
 .preview-lg {
-    height: 9rem;
-    width: 16rem;
+    height: 9em;
+    width: 16em;
 }
 
 .preview-md {
-    height: 4.5rem;
-    width: 8rem;
+    height: 4.5em;
+    width: 8em;
 }
 
 .preview-sm {
-    height: 2.25rem;
-    width: 4rem;
+    height: 2.25em;
+    width: 4em;
 }
 
 .preview-xs {
-    height: 1.125rem;
+    height: 1.125em;
     margin-right: 0;
-    width: 2rem;
+    width: 2em;
 }

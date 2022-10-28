@@ -3,7 +3,7 @@
 
 <MudContainer Class="mt-5">
     <MudGrid Class="mt-2">
-        <MudItem md="9">
+        <MudItem xxl="7" xl="9" lg="9" md="9" sm="12" xs="12">
             <MudPaper Class="pa-4" Elevation="2">
                 <div class="img-container">
                     <CropperComponent Class="cropper-container"
@@ -25,28 +25,33 @@
                 </div>
             </MudPaper>
         </MudItem>
-        <MudItem md="3">
-            <MudPaper Class="pa-4" Elevation="2">
-                <div class="docs-preview clearfix">
+        <MudItem xxl="5" xl="3" lg="3" md="3" sm="12" xs="12">
+            <MudPaper Class="pa-4 d-flex flex-column justify-center" Elevation="2">
+                <div class="d-flex flex-row flex-wrap justify-center gap-1">
                     <div class="img-preview preview-lg"></div>
                     <div class="img-preview preview-md"></div>
                     <div class="img-preview preview-sm"></div>
                     <div class="img-preview preview-xs"></div>
                 </div>
                 <div class="docs-data">
-                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="x" Label="X, px" Variant="Variant.Text" Step=".2M" />
-                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="y" Label="Y, px" Variant="Variant.Text" Step=".2M" />
-                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="width" Label="Width, px" Variant="Variant.Text" Step=".2M" />
-                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
-                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="rotate" Label="Rotate, deg" Variant="Variant.Text" Step=".2M" />
+                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="x" Step=".2M" Label="X" Variant="Variant.Text" 
+                        Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Margin="Margin.Dense" />
+                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="y" Label="Y" Step=".2M" Variant="Variant.Text" 
+                        Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Margin="Margin.Dense" />
+                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="width" Label="Width" Step=".2M" Variant="Variant.Text" 
+                        Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Margin="Margin.Dense" />
+                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="height" Label="Height" Step=".2M" Variant="Variant.Text" 
+                        Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Margin="Margin.Dense" />
+                    <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="rotate" Label="Rotate" Step=".2M" Variant="Variant.Text" 
+                        Adornment="Adornment.End" AdornmentText="deg" AdornmentColor="Color.Primary" Margin="Margin.Dense" />
                     <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="scaleX" Label="ScaleX" Variant="Variant.Text" Step=".2M" />
                     <MudNumericField HideSpinButtons="true" @bind-Value="scaleY" Label="ScaleY" Variant="Variant.Text" Step=".2M" />
                 </div>
             </MudPaper>
         </MudItem>
 
-        <MudItem md="9">
-            <MudPaper Class="pa-4" Elevation="2">
+        <MudItem xxl="9" xl="8" lg="8" md="8" sm="12" xs="12">
+             <MudPaper Class="pa-4" Elevation="2">
 
                 <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
                     <MudTooltip Text="@("cropper.setDragMode(\"move\")")">
@@ -173,9 +178,9 @@
                 </MudTooltip>
             </MudPaper>
         </MudItem>
-        <MudItem md="3">
+        <MudItem xxl="3" xl="4" lg="4" md="4" sm="12" xs="12">
             <MudPaper Class="pa-4" Elevation="2">
-                <MudButtonGroup Color="Color.Success" Variant="Variant.Filled">
+                <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" Class="mud-width-full">
                     <MudTooltip Text="aspectRatio: 16 / 9">
                         <MudButton OnClick="@(()=>SetAspectRatio(1.7777777777777777m))">
                             16:9
@@ -202,7 +207,7 @@
                         </MudButton>
                     </MudTooltip>
                 </MudButtonGroup>
-                <MudButtonGroup Color="Color.Success" Variant="Variant.Filled">
+                <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" Class="mud-width-full">
                     <MudTooltip Text="View Mode 0">
                         <MudButton FullWidth="true" OnClick="@(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm0))">
                             VM0
@@ -230,7 +235,7 @@
         <MudItem md="12">
             <MudGrid Class="mt-2">
                 @*//---Cropper Data---//*@
-                <MudItem md="3">
+                <MudItem xxl="3" xl="3" lg="3" md="3" sm="6" xs="6">
                     <MudCard>
                         <MudCardContent>
                             <MudText>Cropper Data</MudText>
@@ -258,7 +263,7 @@
                     </MudCard>
                 </MudItem>
                 @*//---Container and Crop Box Data---//*@
-                <MudItem md="3">
+                <MudItem xxl="3" xl="3" lg="3" md="3" sm="6" xs="6">
                     <MudCard Class="mb-6">
                         <MudCardContent>
                             <MudText>Container Data</MudText>
@@ -298,7 +303,7 @@
                     </MudCard>
                 </MudItem>
                 @*//---Image Data---//*@
-                <MudItem md="3">
+                <MudItem xxl="3" xl="3" lg="3" md="3" sm="6" xs="6">
                     <MudCard>
                         <MudCardContent>
                             <MudText>Image Data</MudText>
@@ -323,7 +328,7 @@
                     </MudCard>
                 </MudItem>
                 @*//---Canvas Data---//*@
-                <MudItem md="3">
+                <MudItem xxl="3" xl="3" lg="3" md="3" sm="6" xs="6">
                     <MudCard>
                         <MudCardContent>
                             <MudText>Canvas Data</MudText>
