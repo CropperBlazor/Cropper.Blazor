@@ -6,13 +6,13 @@
 }
 
 .img-container {
-    max-height: 565px;
+    max-height: 573px;
     min-height: 200px;
 }
 
 @media (min-width: 768px) {
     .img-container {
-        min-height: 497px;
+        min-height: 573px;
     }
 }
 
@@ -21,7 +21,6 @@
 }
 
 .img-preview {
- 
     overflow: hidden;
 }
 
