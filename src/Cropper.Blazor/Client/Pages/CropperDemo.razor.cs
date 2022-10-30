@@ -166,6 +166,7 @@ namespace Cropper.Blazor.Client.Pages
         {
             cropperComponent?.Destroy();
             cropperComponent?.RevokeObjectUrlAsync(Src).AsTask();
+            JSRuntime!.InvokeVoidAsync("console.log", "Cropper Demo component is destroyed");
         }
 
         public void SetAspectRatio(decimal aspectRatio)
@@ -256,8 +257,16 @@ namespace Cropper.Blazor.Client.Pages
 
         public void Dispose()
         {
-            Destroy();
+            Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Destroy();
+            }
         }
     }
 }
