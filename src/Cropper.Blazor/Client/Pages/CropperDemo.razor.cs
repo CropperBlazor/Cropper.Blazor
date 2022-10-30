@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
-using MudBlazor.Extensions;
 using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Client.Pages
@@ -52,7 +51,7 @@ namespace Cropper.Blazor.Client.Pages
 
         public async void OnCropEndEvent(CropEndEvent cropEndEvent)
         {
-             await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {cropEndEvent.ActionEvent}");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {cropEndEvent.ActionEvent}");
             //Console.WriteLine($"CropEndEvent, {cropEndEvent.ActionEvent}");
         }
 
