@@ -26,8 +26,8 @@ namespace Cropper.Blazor.Client.Pages
         private decimal? scaleY;
 
         private string Src = "https://fengyuanchen.github.io/cropperjs/images/picture.jpg";
-        private string ErrorLoadImageSrc = "not-found-image.jpg";
         private bool IsErrorLoadImage { get; set; } = false;
+        private readonly string _errorLoadImageSrc = "not-found-image.jpg";
 
         protected override void OnInitialized()
         {
@@ -91,7 +91,6 @@ namespace Cropper.Blazor.Client.Pages
             Destroy();
             StateHasChanged();
         }
-
 
         private void SetMoveDragMode()
         {
@@ -166,7 +165,7 @@ namespace Cropper.Blazor.Client.Pages
         private void Destroy()
         {
             cropperComponent?.Destroy();
-            cropperComponent?.RevokeObjectUrlAsync(Src);
+            cropperComponent?.RevokeObjectUrlAsync(Src).AsTask();
         }
 
         public void SetAspectRatio(decimal aspectRatio)
@@ -189,10 +188,12 @@ namespace Cropper.Blazor.Client.Pages
         public async void GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
             string croppedCanvasDataURL = await cropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
-            var parameters = new DialogParameters();
-            parameters.Add("Src", croppedCanvasDataURL);
+            DialogParameters parameters = new()
+            {
+                { "Src", croppedCanvasDataURL }
+            };
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
-            var dialog = _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+            _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
         }
 
         public async Task InputFileChange(InputFileChangeEventArgs inputFileChangeEventArgs)
@@ -204,22 +205,68 @@ namespace Cropper.Blazor.Client.Pages
                 Src = await cropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
                 IsErrorLoadImage = false;
                 cropperComponent?.Destroy();
-                cropperComponent?.RevokeObjectUrlAsync(oldSrc);
+                cropperComponent?.RevokeObjectUrlAsync(oldSrc).AsTask();
             }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
-            {
-
-            }
             await base.OnAfterRenderAsync(firstRender);
+        }
+
+        public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)
+        {
+            cropperComponent?.SetCropBoxData(cropBoxDataOptions);
+        }
+
+        public void SetData(SetDataOptions setDataOptions)
+        {
+            cropperComponent?.SetData(setDataOptions);
+        }
+
+        public void SetCanvasData(SetCanvasDataOptions setCanvasDataOptions)
+        {
+            cropperComponent?.SetCanvasData(setCanvasDataOptions);
+        }
+
+        public async ValueTask<CropBoxData> GetCropBoxDataAsync()
+        {
+            return await cropperComponent!.GetCropBoxDataAsync();
+        }
+
+        public async ValueTask<CropperData> GetDataAsync(bool rounded)
+        {
+            return await cropperComponent!.GetDataAsync(rounded);
+        }
+
+        public async ValueTask<ContainerData> GetContainerDataAsync()
+        {
+            return await cropperComponent!.GetContainerDataAsync();
+        }
+
+        public async ValueTask<ImageData> GetImageDataAsync()
+        {
+            return await cropperComponent!.GetImageDataAsync();
+        }
+
+        public async ValueTask<CanvasData> GetCanvasDataAsync()
+        {
+            return await cropperComponent!.GetCanvasDataAsync();
         }
 
         public void Dispose()
         {
-            Destroy();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Destroy();
+                JSRuntime!.InvokeVoidAsync("console.log", "Cropper Demo component is destroyed");
+            }
         }
     }
 }

@@ -13,7 +13,7 @@
         </MudCardContent>
         <MudCardActions Class="d-flex justify-space-between">
             <MudTooltip Text="cropper.getData()">
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@(()=>GetData(false))">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@(()=>GetDataAsync(false))">
                     Get Data
                 </MudButton>
             </MudTooltip>
@@ -36,7 +36,7 @@
         </MudCardContent>
         <MudCardActions>
             <MudTooltip Text="cropper.getContainerData()" RootClass="mud-width-full">
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true" OnClick="GetContainerData">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true" OnClick="GetContainerDataAsync">
                     Get Container Data
                 </MudButton>
             </MudTooltip>
@@ -53,7 +53,7 @@
         </MudCardContent>
         <MudCardActions Class="d-flex justify-space-between">
             <MudTooltip Text="cropper.getCropBoxData()">
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="GetCropBoxData">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="GetCropBoxDataAsync">
                     Get Data
                 </MudButton>
             </MudTooltip>
@@ -84,7 +84,7 @@
         </MudCardContent>
         <MudCardActions>
             <MudTooltip Text="cropper.getImageData()" RootClass="mud-width-full">
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true" OnClick="GetImageData">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true" OnClick="GetImageDataAsync">
                     Get Image Data
                 </MudButton>
             </MudTooltip>
@@ -105,7 +105,7 @@
         </MudCardContent>
         <MudCardActions Class="d-flex justify-space-between">
             <MudTooltip Text="cropper.getCanvasData()">
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="GetCanvasData">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="GetCanvasDataAsync">
                     Get Data
                 </MudButton>
             </MudTooltip>
