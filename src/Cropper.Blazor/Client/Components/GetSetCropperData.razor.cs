@@ -1,14 +1,27 @@
-﻿using Cropper.Blazor.Components;
-using Cropper.Blazor.Models;
+﻿using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cropper.Blazor.Client.Components
 {
     public partial class GetSetCropperData
     {
-        [Parameter]
-        public CropperComponent? cropperComponent { get; set; } = null!;
+        [Parameter, Required]
+        public Action<SetCropBoxDataOptions> SetCropBoxDataOptions { get; set; } = null!;
+        [Parameter, Required]
+        public Action<SetDataOptions> SetDataOptions { get; set; } = null!;
+        [Parameter, Required]
+        public Action<SetCanvasDataOptions> SetCanvasDataOptions { get; set; } = null!;
+        [Parameter, Required]
+        public Func<ValueTask<CropBoxData>> GetCropBoxData { get; set; } = null!;
+        [Parameter, Required]
+        public Func<bool, ValueTask<CropperData>> GetData { get; set; } = null!;
+        [Parameter, Required]
+        public Func<ValueTask<ContainerData>> GetContainerData { get; set; } = null!;
+        [Parameter, Required]
+        public Func<ValueTask<ImageData>> GetImageData { get; set; } = null!;
+        [Parameter, Required]
+        public Func<ValueTask<CanvasData>> GetCanvasData { get; set; } = null!;
 
         private CropBoxData cropBoxData = null!;
         private CropperData cropperData = null!;
@@ -27,46 +40,46 @@ namespace Cropper.Blazor.Client.Components
 
         public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)
         {
-            cropperComponent?.SetCropBoxData(cropBoxDataOptions);
+            SetCropBoxDataOptions.Invoke(cropBoxDataOptions);
         }
 
         public void SetData(SetDataOptions setDataOptions)
         {
-            cropperComponent?.SetData(setDataOptions);
+            SetDataOptions.Invoke(setDataOptions);
         }
 
         public void SetCanvasData(SetCanvasDataOptions setCanvasDataOptions)
         {
-            cropperComponent?.SetCanvasData(setCanvasDataOptions);
+            SetCanvasDataOptions.Invoke(setCanvasDataOptions);
         }
 
-        public async void GetCropBoxData()
+        public async void GetCropBoxDataAsync()
         {
-            cropBoxData = await cropperComponent!.GetCropBoxDataAsync();
+            cropBoxData = await GetCropBoxData.Invoke();
             StateHasChanged();
         }
 
-        public async void GetData(bool rounded)
+        public async void GetDataAsync(bool rounded)
         {
-            cropperData = await cropperComponent!.GetDataAsync(rounded);
+            cropperData = await GetData.Invoke(rounded);
             StateHasChanged();
         }
 
-        public async void GetContainerData()
+        public async void GetContainerDataAsync()
         {
-            containerData = await cropperComponent!.GetContainerDataAsync();
+            containerData = await GetContainerData.Invoke();
             StateHasChanged();
         }
 
-        public async void GetImageData()
+        public async void GetImageDataAsync()
         {
-            imageData = await cropperComponent!.GetImageDataAsync();
+            imageData = await GetImageData.Invoke();
             StateHasChanged();
         }
 
-        public async void GetCanvasData()
+        public async void GetCanvasDataAsync()
         {
-            canvasData = await cropperComponent!.GetCanvasDataAsync();
+            canvasData = await GetCanvasData.Invoke();
             StateHasChanged();
         }
     }

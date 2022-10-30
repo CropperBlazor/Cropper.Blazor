@@ -20,7 +20,7 @@
                                       OnLoadImageEvent="OnLoadImageEvent"
                                       Src="@Src"
                                       Loading="lazy"
-                                      ErrorLoadImageSrc="@ErrorLoadImageSrc"
+                                      ErrorLoadImageSrc="@_errorLoadImageSrc"
                                       IsErrorLoadImage="@IsErrorLoadImage"
                                       OnErrorLoadImageEvent="OnErrorLoadImageEvent"
                                       Options="options" />
@@ -43,7 +43,7 @@
                 <div class="docs-data">
                     <CropperDataPreview @ref="cropperDataPreview" cropperComponent="@cropperComponent"></CropperDataPreview>
                 </div>
-                </MudPaper>
+            </MudPaper>
         </MudItem>
         @*//---Buttons for test cropper functional---//*@
         <MudItem xxl="9" xl="8" lg="7" md="7" sm="12" xs="12">
@@ -223,6 +223,13 @@
             </MudPaper>
         </MudItem>
         @*//+---// Get/Set all cropper data //---+//*@
-        <GetSetCropperData cropperComponent="@cropperComponent"></GetSetCropperData>
+        <GetSetCropperData GetCanvasData="GetCanvasDataAsync"
+                           GetCropBoxData="GetCropBoxDataAsync"
+                           GetData="GetDataAsync"
+                           GetImageData="GetImageDataAsync"
+                           GetContainerData="GetContainerDataAsync"
+                           SetCanvasDataOptions="SetCanvasData"
+                           SetDataOptions="SetData"
+                           SetCropBoxDataOptions="SetCropBoxData" />
     </MudGrid>
 </MudContainer>
