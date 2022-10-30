@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E3B241FF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.UnitTests", "Cropper.Blazor.UnitTests\Cropper.Blazor.UnitTests.csproj", "{BE6E7931-6FBD-4F31-9A70-3B909DB36291}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Blazor.Testing", "Cropper.Blazor.Testing\Cropper.Blazor.Testing.csproj", "{D146B02D-1545-48FB-A0D3-17AF0F97C6E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Testing", "Cropper.Blazor.Testing\Cropper.Blazor.Testing.csproj", "{D146B02D-1545-48FB-A0D3-17AF0F97C6E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,120 @@
+﻿@*//---Cropper Data---//*@
+<MudItem xxl="3" xl="3" lg="3" md="3" sm="6" xs="6">
+    <MudCard>
+        <MudCardContent @key="cropperData">
+            <MudText>Cropper Data</MudText>
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="cropperData.X" Label="X, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="cropperData.Y" Label="Y, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="cropperData.Width" Label="Width, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="cropperData.Height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="cropperData.Rotate" Label="Rotate, deg" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="cropperData.ScaleX" Label="ScaleX" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField HideSpinButtons="true" @bind-Value="cropperData.ScaleY" Label="ScaleY" Variant="Variant.Text" Step=".2M" />
+        </MudCardContent>
+        <MudCardActions Class="d-flex justify-space-between">
+            <MudTooltip Text="cropper.getData()">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@(()=>GetData(false))">
+                    Get Data
+                </MudButton>
+            </MudTooltip>
+            <MudTooltip Text="cropper.setData(data)">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary"
+                           OnClick="@(()=>SetData(new Models.SetDataOptions(){ X = cropperData.X, Y = cropperData.Y, Height = cropperData.Height, Width = cropperData.Width, Rotate = cropperData.Rotate, ScaleX = cropperData.ScaleX, ScaleY = cropperData.ScaleY}))">
+                    Set Data
+                </MudButton>
+            </MudTooltip>
+        </MudCardActions>
+    </MudCard>
+</MudItem>
+@*//---Container and Crop Box Data---//*@
+<MudItem xxl="3" xl="3" lg="3" md="3" sm="6" xs="6">
+    <MudCard Class="mb-6">
+        <MudCardContent @key="containerData">
+            <MudText>Container Data</MudText>
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="containerData.Height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField HideSpinButtons="true" @bind-Value="containerData.Width" Label="Width, px" Variant="Variant.Text" Step=".2M" />
+        </MudCardContent>
+        <MudCardActions>
+            <MudTooltip Text="cropper.getContainerData()" RootClass="mud-width-full">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true" OnClick="GetContainerData">
+                    Get Container Data
+                </MudButton>
+            </MudTooltip>
+        </MudCardActions>
+    </MudCard>
+    @*//---Crop Box Data---//*@
+    <MudCard>
+        <MudCardContent @key="cropBoxData">
+            <MudText>Crop Box Data</MudText>
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="cropBoxData.Left" Label="Left" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="cropBoxData.Top" Label="Top" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="cropBoxData.Height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField HideSpinButtons="true" @bind-Value="cropBoxData.Width" Label="Width, px" Variant="Variant.Text" Step=".2M" />
+        </MudCardContent>
+        <MudCardActions Class="d-flex justify-space-between">
+            <MudTooltip Text="cropper.getCropBoxData()">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="GetCropBoxData">
+                    Get Data
+                </MudButton>
+            </MudTooltip>
+            <MudTooltip Text="cropper.setCropBoxData(data)">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary"
+                           OnClick="@(()=>SetCropBoxData(new Models.SetCropBoxDataOptions(){ Height = cropBoxData.Height, Left = cropBoxData.Left, Top = cropBoxData.Top, Width = cropBoxData.Width}))">
+                    Set Data
+                </MudButton>
+            </MudTooltip>
+        </MudCardActions>
+    </MudCard>
+</MudItem>
+@*//---Image Data---//*@
+<MudItem xxl="3" xl="3" lg="3" md="3" sm="6" xs="6">
+    <MudCard>
+        <MudCardContent @key="imageData">
+            <MudText>Image Data</MudText>
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Width" Label="Width, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Rotate" Label="Rotate, deg" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.ScaleX" Label="ScaleX" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.ScaleY" Label="ScaleY" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.NaturalHeight" Label="Natural Height, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.NaturalWidth" Label="Natural Width, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.AspectRatio" Label="Aspect Ratio" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Left" Label="Left" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField HideSpinButtons="true" @bind-Value="imageData.Top" Label="Top" Variant="Variant.Text" Step=".2M" />
+        </MudCardContent>
+        <MudCardActions>
+            <MudTooltip Text="cropper.getImageData()" RootClass="mud-width-full">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true" OnClick="GetImageData">
+                    Get Image Data
+                </MudButton>
+            </MudTooltip>
+        </MudCardActions>
+    </MudCard>
+</MudItem>
+@*//---Canvas Data---//*@
+<MudItem xxl="3" xl="3" lg="3" md="3" sm="6" xs="6">
+    <MudCard>
+        <MudCardContent @key="canvasData">
+            <MudText>Canvas Data</MudText>
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="canvasData.Left" Label="Left" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="canvasData.Top" Label="Top" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="canvasData.NaturalHeight" Label="Natural Height, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="canvasData.NaturalWidth" Label="Natural Width, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="canvasData.Height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField HideSpinButtons="true" @bind-Value="canvasData.Width" Label="Width, px" Variant="Variant.Text" Step=".2M" />
+        </MudCardContent>
+        <MudCardActions Class="d-flex justify-space-between">
+            <MudTooltip Text="cropper.getCanvasData()">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="GetCanvasData">
+                    Get Data
+                </MudButton>
+            </MudTooltip>
+            <MudTooltip Text="cropper.setCanvasData(data)">
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary"
+                           OnClick="@(()=>SetCanvasData(new Models.SetCanvasDataOptions(){ Height = canvasData.Height, Left = canvasData.Left, Top = canvasData.Top, Width = canvasData.Width}))">
+                    Set Data
+                </MudButton>
+            </MudTooltip>
+        </MudCardActions>
+    </MudCard>
+</MudItem>
