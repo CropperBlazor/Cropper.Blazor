@@ -52,9 +52,9 @@ jobs:
 
     - name: Pack nugets
       run: dotnet pack -c Release --no-build --output .
-      working-directory: src/Cropper.Blazor
+      working-directory: src/Cropper.Blazor/Cropper.Blazor
 
     - name: Push to NuGet
       if: startsWith(github.ref, 'refs/heads/release')
       run: dotnet nuget push "$(env:NUGET_NAME)" -Source "https://api.nuget.org/v3/index.json" -ApiKey ${{secrets.NUGET_API_KEY}}
-      working-directory: src/Cropper.Blazor
+      working-directory: src/Cropper.Blazor/Cropper.Blazor
