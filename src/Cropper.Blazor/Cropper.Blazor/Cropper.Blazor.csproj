@@ -7,28 +7,44 @@
 		</ResolveStaticWebAssetsInputsDependsOn>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<AssemblyVersion>1.0.0.0</AssemblyVersion>
-		<FileVersion>1.0.0.0</FileVersion>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
 		<Version>1.0.0</Version>
-		<RepositoryType>git</RepositoryType>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageIcon>NuGet.png</PackageIcon>
-		<Authors>Max56132, ColdForeign</Authors>
-		<Copyright>Copyright 2022 $(AssemblyName)</Copyright>
-		<Description>$(AssemblyName) is a component element that wraps around Cropper.js</Description>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageTags>Blazor, Blazor Components, Blazor Library, Blazor Cropper, Cropper.js, Cropper, Image, Crop, Resize, image-cropper, crop-image, csharp, blazor-cropper </PackageTags>
+    <Company>Cropper.Blazor</Company>
+    <Authors>Max56132, ColdForeign</Authors>
+		<Copyright>Copyright 2022 Cropper.Blazor</Copyright>
+		<Description>Cropper.Blazor is a component element that wraps around Cropper.js</Description>
+		<PackageTags>Blazor, Cropper.Blazor, Cropper.js, Blazor Components, Blazor Library, Blazor Cropper, Cropper, Image, Crop, Resize, image-cropper, crop-image, csharp, blazor-cropper </PackageTags>
 		<PackageProjectUrl>https://CropperBlazor.github.io</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/CropperBlazor/Cropper.Blazor</RepositoryUrl>
-		<Company></Company>
-	</PropertyGroup>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
 
-	<ItemGroup>
+  <PropertyGroup>
+    <IsTrimmable>true</IsTrimmable>
+    <TrimMode>link</TrimMode>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE" Pack="true" Visible="false" PackagePath="" />
+    <None Include="..\..\..\content\NuGet.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
 
@@ -71,20 +87,6 @@
 	<!--Dont Include in build output-->
 	<ItemGroup>
 		<Content Remove="excubowebcompiler.json" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Include="..\..\..\LICENSE">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	  <None Include="..\..\..\NuGet.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	  <None Include="..\..\..\README.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
