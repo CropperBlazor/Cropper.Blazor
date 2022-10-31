@@ -1,4 +1,4 @@
-name: Deploy to Nuget
+name: Deploy to NuGet
 
 # Run workflow on every push to the master branch
 on:
@@ -6,6 +6,9 @@ on:
     branches: 
       - release/**
   push:
+    branches:
+    - master
+  pull_request:
     branches:
     - master
     
@@ -44,13 +47,8 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
-      
-    - name: Coverage
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
 
     - name: Push to NuGet
-      if: startsWith(github.ref, 'refs/heads/release')
+      if: ${{ github.ref == 'refs/heads/release' }} 
       run: dotnet nuget push "$(env:NUGET_NAME)" -Source "https://api.nuget.org/v3/index.json" -ApiKey ${{secrets.NUGET_API_KEY}}
       working-directory: src/Cropper.Blazor/Cropper.Blazor
