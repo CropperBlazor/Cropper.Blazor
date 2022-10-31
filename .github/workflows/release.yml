@@ -38,7 +38,7 @@ jobs:
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
 
     - name: Push to NuGet Gallery
-      run: dotnet nuget push bin/Release/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{secrets.NUGET_API_KEY}}
+      run: dotnet nuget push bin/Release/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{secrets.NUGET_API_KEY}} --skip-duplicate
       working-directory: src/Cropper.Blazor/Cropper.Blazor
 
     - name: Publish NuGet packages to GitHub Packages
