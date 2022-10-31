@@ -4,7 +4,7 @@ name: Deploy to NuGet
 on:
   create:
     branches: 
-      - release/**
+    - release/**
   push:
     branches:
     - master
@@ -16,10 +16,12 @@ jobs:
   deploy-to-nuget:
     env:
       NUGET_NAME: '**\*.nupkg'
+
     # use ubuntu-latest image to run steps on
     runs-on: ubuntu-latest
     steps:
-      # uses GitHub's checkout action to checkout code form the master branch
+
+    # uses GitHub's checkout action to checkout code form the master branch
     - uses: actions/checkout@v2
 
     - name: Get Build Version
@@ -30,7 +32,7 @@ jobs:
         echo "BUILD_VERSION=$version" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
       shell: pwsh
     
-      # sets up .NET Core SDK 6
+    # sets up .NET Core SDK 6
     - name: Setup .NET 6
       uses: actions/setup-dotnet@v1
       with:
@@ -41,14 +43,16 @@ jobs:
       working-directory: src/Cropper.Blazor
       
     - name: Build
-      run: dotnet build -p:Version="$BUILD_VERSION" --no-restore
+      run: dotnet build --configuration Release -p:Version="$BUILD_VERSION" --no-restore
       working-directory: src/Cropper.Blazor
       
     - name: Test
       run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
 
-    - name: Push to NuGet
-      if: ${{ github.ref == 'refs/heads/release' }} 
+    - name: Push to NuGet Gallery
       run: dotnet nuget push "$(env:NUGET_NAME)" -Source "https://api.nuget.org/v3/index.json" -ApiKey ${{secrets.NUGET_API_KEY}}
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
+      working-directory: release
+
+    - name: Publish NuGet packages to GitHub Packages
+      run: dotnet nuget add source --username Cropper.Blazor --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Cropper.Blazor/index.json"
