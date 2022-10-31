@@ -49,7 +49,7 @@ jobs:
 
     - name: Push to NuGet Gallery
       run: dotnet nuget push "$(env:NUGET_NAME)" -Source "https://api.nuget.org/v3/index.json" -ApiKey ${{secrets.NUGET_API_KEY}}
-      working-directory: release
+      working-directory: src/Cropper.Blazor/Cropper.Blazor
 
     - name: Publish NuGet packages to GitHub Packages
       run: dotnet nuget add source --username Cropper.Blazor --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Cropper.Blazor/index.json"
