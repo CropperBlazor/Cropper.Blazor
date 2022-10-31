@@ -15,7 +15,7 @@
 [![coverage](https://codecov.io/github/DurkaTechnologies/Cropper.Blazor/branch/dev/graph/badge.svg?token=39M66DO85T)](https://codecov.io/github/DurkaTechnologies/Cropper.Blazor)
 [![GitHub](https://img.shields.io/github/license/DurkaTechnologies/Cropper.Blazor?color=ff5c9b)](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/LICENSE)
 [![GitHub](https://img.shields.io/github/last-commit/DurkaTechnologies/Cropper.Blazor?color=009DEA)](https://github.com/DurkaTechnologies/Cropper.Blazor)
-[![NuGet verison](https://img.shields.io/nuget/v/Cropper.Blazor?color=ff5c9b&label=NuGet%20version)](https://www.nuget.org/packages/Cropper.Blazor)
+[![NuGet version](https://img.shields.io/nuget/v/Cropper.Blazor?color=ff5c9b&label=NuGet%20version)](https://www.nuget.org/packages/Cropper.Blazor)
 
 ## Demo
 - [durkatechnologies.github.io/Cropper.Blazor/demo](https://durkatechnologies.github.io/Cropper.Blazor/demo)
