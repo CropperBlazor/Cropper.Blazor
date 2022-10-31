@@ -18,14 +18,6 @@ jobs:
 
     # uses GitHub's checkout action to checkout code form the master branch
     - uses: actions/checkout@v2
-
-    - name: Get Build Version
-      run: |
-        Import-Module .\.github\build\GetBuildVersion.psm1
-        Write-Host $Env:GITHUB_REF
-        $version = GetBuildVersion -VersionString $Env:GITHUB_REF
-        echo "BUILD_VERSION=$version" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-      shell: pwsh
     
     # sets up .NET Core SDK 6
     - name: Setup .NET 6
@@ -38,7 +30,7 @@ jobs:
       working-directory: src/Cropper.Blazor
       
     - name: Build
-      run: dotnet build -c Release -p:Version="$BUILD_VERSION" --no-restore
+      run: dotnet build -c Release --no-restore
       working-directory: src/Cropper.Blazor
       
     - name: Test
@@ -46,7 +38,7 @@ jobs:
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
 
     - name: Push to NuGet Gallery
-      run: dotnet nuget push ./*./*\./*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{secrets.NUGET_API_KEY}}
+      run: dotnet nuget push bin/Release/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{secrets.NUGET_API_KEY}}
       working-directory: src/Cropper.Blazor/Cropper.Blazor
 
     - name: Publish NuGet packages to GitHub Packages
