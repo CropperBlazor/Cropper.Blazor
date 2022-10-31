@@ -1,68 +1,94 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-    <ResolveStaticWebAssetsInputsDependsOn>
-      IncludeGeneratedStaticFiles;
-      $(ResolveStaticWebAssetsInputsDependsOn)
-    </ResolveStaticWebAssetsInputsDependsOn>
-  </PropertyGroup>
+	<PropertyGroup>
+		<ResolveStaticWebAssetsInputsDependsOn>
+			IncludeGeneratedStaticFiles;
+			$(ResolveStaticWebAssetsInputsDependsOn)
+		</ResolveStaticWebAssetsInputsDependsOn>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.0</Version>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<Version>1.0.0</Version>
+		<RepositoryType>git</RepositoryType>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>NuGet.png</PackageIcon>
+		<Authors>Max56132, ColdForeign</Authors>
+		<Copyright>Copyright 2022 $(AssemblyName)</Copyright>
+		<Description>$(AssemblyName) is a component element that wraps around Cropper.js</Description>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageTags>Blazor, Blazor Components, Blazor Library, Blazor Cropper, Cropper.js, Cropper, Image, Crop, Resize, image-cropper, crop-image, csharp, blazor-cropper </PackageTags>
+		<PackageProjectUrl>https://CropperBlazor.github.io</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/CropperBlazor/Cropper.Blazor</RepositoryUrl>
+		<Company></Company>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <SupportedPlatform Include="browser" />
-  </ItemGroup>
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
 
-  <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
-  <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
-    <PropertyGroup>
-      <CleanGeneratedFiles>false</CleanGeneratedFiles>
-    </PropertyGroup>
-  </Target>
+	<!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
+	<Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
+		<PropertyGroup>
+			<CleanGeneratedFiles>false</CleanGeneratedFiles>
+		</PropertyGroup>
+	</Target>
 
-  <Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
-    <ItemGroup>
-      <FilesToClean Include="./wwwroot/cropperJsInterop.min.js" />
-    </ItemGroup>
-    <Delete Files="@(FilesToClean)" />
-  </Target>
+	<Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
+		<ItemGroup>
+			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js" />
+		</ItemGroup>
+		<Delete Files="@(FilesToClean)" />
+	</Target>
 
-  <Target Name="ToolRestore">
-    <Exec Command="dotnet tool restore" StandardOutputImportance="high" />
-  </Target>
+	<Target Name="ToolRestore">
+		<Exec Command="dotnet tool restore" StandardOutputImportance="high" />
+	</Target>
 
-  <Target Name="WebCompiler" DependsOnTargets="ToolRestore">
-    <Message Text="Running webcompiler" Importance="high" />
-    <!--Minify js-->
-    <Exec Command="dotnet webcompiler ./wwwroot/cropperJsInterop.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-  </Target>
+	<Target Name="WebCompiler" DependsOnTargets="ToolRestore">
+		<Message Text="Running webcompiler" Importance="high" />
+		<!--Minify js-->
+		<Exec Command="dotnet webcompiler ./wwwroot/cropperJsInterop.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+	</Target>
 
-  <!--Output of Excubo webcompiler-->
-  <Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
-    <Error Condition="!Exists('wwwroot/cropper.min.css')" Text="Missing Cropper.min.css in wwwroot" />
-    <Error Condition="!Exists('wwwroot/cropper.min.js')" Text="Missing Cropper.min.js in wwwroot" />
-    <Error Condition="!Exists('wwwroot/cropperJsInterop.min.js')" Text="Missing cropperJsInterop.min.js in wwwroot" />
-    <ItemGroup>
-      <Content Include="wwwroot/cropper.min.css" Condition="!Exists('wwwroot/cropper.min.css')" />
-      <Content Include="wwwroot/cropper.min.js" Condition="!Exists('wwwroot/cropper.min.js')" />
-      <Content Include="wwwroot/cropperJsInterop.min.js" Condition="!Exists('wwwroot/cropperJsInterop.min.js')" />
-    </ItemGroup>
-  </Target>
+	<!--Output of Excubo webcompiler-->
+	<Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
+		<Error Condition="!Exists('wwwroot/cropper.min.css')" Text="Missing Cropper.min.css in wwwroot" />
+		<Error Condition="!Exists('wwwroot/cropper.min.js')" Text="Missing Cropper.min.js in wwwroot" />
+		<Error Condition="!Exists('wwwroot/cropperJsInterop.min.js')" Text="Missing cropperJsInterop.min.js in wwwroot" />
+		<ItemGroup>
+			<Content Include="wwwroot/cropper.min.css" Condition="!Exists('wwwroot/cropper.min.css')" />
+			<Content Include="wwwroot/cropper.min.js" Condition="!Exists('wwwroot/cropper.min.js')" />
+			<Content Include="wwwroot/cropperJsInterop.min.js" Condition="!Exists('wwwroot/cropperJsInterop.min.js')" />
+		</ItemGroup>
+	</Target>
 
-  <!--Dont Include in build output-->
-  <ItemGroup>
-    <Content Remove="excubowebcompiler.json" />
-  </ItemGroup>
+	<!--Dont Include in build output-->
+	<ItemGroup>
+		<Content Remove="excubowebcompiler.json" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="..\..\..\LICENSE">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\..\..\NuGet.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\..\..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.10" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.10" />
+	</ItemGroup>
 
 </Project>
