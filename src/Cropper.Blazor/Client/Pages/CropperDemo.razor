@@ -1,6 +1,7 @@
 @page "/demo"
 @using Cropper.Blazor.Client.Components
 @using Cropper.Blazor.Components
+@using Cropper.Blazor.Models
 
 <MudContainer Class="mt-5">
     <MudGrid Class="mt-2">
@@ -158,51 +159,60 @@
         @*//---Aspect Ratio | View Mode | Get Cropped Canvas---//*@
         <MudItem xxl="3" xl="4" lg="5" md="5" sm="12" xs="12">
             <MudPaper Class="pa-4 d-flex flex-column justify-center gap-2" Elevation="2">
-                <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" Class="mud-width-full">
-                    <MudTooltip Text="aspectRatio: 16 / 9" RootClass="mud-width-full">
-                        <MudButton OnClick="@(()=>SetAspectRatio(1.7777777777777777m))" FullWidth="true">
+                <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
+                    <MudTooltip Text="aspectRatio: 16 / 9">
+                        <MudButton OnClick="@(()=>SetAspectRatio(1.7777777777777777m))" Color="Color.Success" Variant="Variant.Filled"
+                            Style="@(aspectRatio == 1.7777777777777777m ? "background-color: var(--mud-palette-success-darken)" : "")">
                             16:9
                         </MudButton>
                     </MudTooltip>
-                    <MudTooltip Text="aspectRatio: 4 / 3" RootClass="mud-width-full">
-                        <MudButton OnClick="@(()=>SetAspectRatio(1.3333333333333333m))" FullWidth="true">
+                    <MudTooltip Text="aspectRatio: 4 / 3">
+                        <MudButton OnClick="@(()=>SetAspectRatio(1.3333333333333333m))" Color="Color.Success" Variant="Variant.Filled"
+                            Style="@(aspectRatio == 1.3333333333333333m ? "background-color: var(--mud-palette-success-darken)" : "")">
                             4:3
                         </MudButton>
                     </MudTooltip>
-                    <MudTooltip Text="aspectRatio: 1 / 1" RootClass="mud-width-full">
-                        <MudButton OnClick="@(()=>SetAspectRatio(1m))" FullWidth="true">
+                    <MudTooltip Text="aspectRatio: 1 / 1">
+                        <MudButton OnClick="@(()=>SetAspectRatio(1m))" Color="Color.Success" Variant="Variant.Filled"
+                            Style="@(aspectRatio == 1m ? "background-color: var(--mud-palette-success-darken)" : "")">
                             1:1
                         </MudButton>
                     </MudTooltip>
-                    <MudTooltip Text="aspectRatio: 2 / 3" RootClass="mud-width-full">
-                        <MudButton OnClick="@(()=>SetAspectRatio(0.6666666666666666m))" FullWidth="true">
+                    <MudTooltip Text="aspectRatio: 2 / 3">
+                        <MudButton OnClick="@(()=>SetAspectRatio(0.6666666666666666m))" Color="Color.Success" Variant="Variant.Filled"
+                            Style="@(aspectRatio == 0.6666666666666666m ? "background-color: var(--mud-palette-success-darken)" : "")">
                             2:3
                         </MudButton>
                     </MudTooltip>
                     <MudTooltip Text="aspectRatio: NaN" RootClass="mud-width-full">
-                        <MudButton OnClick="@(()=>SetAspectRatio(0.0m))" FullWidth="true">
+                        <MudButton OnClick="@(()=>SetAspectRatio(0.0m))" Color="Color.Success" Variant="Variant.Filled"
+                            Style="@(aspectRatio == 0.0m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                             Free
                         </MudButton>
                     </MudTooltip>
                 </MudButtonGroup>
-                <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" Class="mud-width-full">
+                <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
                     <MudTooltip Text="View Mode 0" RootClass="mud-width-full">
-                        <MudButton OnClick="@(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm0))" FullWidth="true">
+                        <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm0))" Color="Color.Success" Variant="Variant.Filled"
+                            Style="@(options.ViewMode == ViewMode.Vm0 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                             VM0
                         </MudButton>
                     </MudTooltip>
                     <MudTooltip Text="View Mode 1" RootClass="mud-width-full">
-                        <MudButton OnClick="@(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm1))" FullWidth="true">
+                        <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm1))" Color="Color.Success" Variant="Variant.Filled"
+                            Style="@(options.ViewMode == ViewMode.Vm1 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                             VM1
                         </MudButton>
                     </MudTooltip>
                     <MudTooltip Text="View Mode 2" RootClass="mud-width-full">
-                        <MudButton OnClick="@(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm2))" FullWidth="true">
+                        <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm2))" Color="Color.Success" Variant="Variant.Filled"
+                            Style="@(options.ViewMode == ViewMode.Vm2 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                             VM2
                         </MudButton>
                     </MudTooltip>
                     <MudTooltip Text="View Mode 3" RootClass="mud-width-full">
-                        <MudButton OnClick="@(()=>SetViewMode(Cropper.Blazor.Models.ViewMode.Vm3))" FullWidth="true">
+                        <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm3))" Color="Color.Success" Variant="Variant.Filled"
+                            Style="@(options.ViewMode == ViewMode.Vm3 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                             VM3
                         </MudButton>
                     </MudTooltip>
