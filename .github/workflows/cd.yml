@@ -90,7 +90,7 @@ jobs:
       run: touch release/wwwroot/.nojekyll
       
     - name: Uploading files to gh-pages branch
-      uses: JamesIves/github-pages-deploy-action@v4
+      uses: JamesIves/github-pages-deploy-action@v4.4.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         branch: gh-pages
