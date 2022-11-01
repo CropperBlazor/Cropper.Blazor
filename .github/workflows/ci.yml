@@ -55,4 +55,3 @@ jobs:
         JSCPD_CONFIG_FILE: '.jscpd.json'
         HTML_FILE_NAME: '.htmlhintrc'
         CSS_FILE_NAME: '.stylelintrc.json'
-        
