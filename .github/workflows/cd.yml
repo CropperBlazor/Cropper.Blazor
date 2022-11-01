@@ -43,8 +43,8 @@ jobs:
       run: dotnet publish ./src/Cropper.Blazor/Server/Cropper.Blazor.Server.csproj -c Release --output release --nologo
       
      # changes the base-tag in index.html from '/' to 'Cropper.Blazor' to match GitHub Pages repository subdirectory
-    - name: Change base-tag in index.html from / to Cropper.Blazor
-      run: sed -i 's/<base href="\/" \/>/<base href="\/Cropper.Blazor\/" \/>/g' release/wwwroot/index.html
+     #- name: Change base-tag in index.html from / to Cropper.Blazor
+     #  run: sed -i 's/<base href="\/" \/>/<base href="\/Cropper.Blazor\/" \/>/g' release/wwwroot/index.html
      
     - name: Fix service-worker-assets.js hashes
       working-directory: release/wwwroot
@@ -90,7 +90,9 @@ jobs:
       run: touch release/wwwroot/.nojekyll
       
     - name: Uploading files to gh-pages branch
-      uses: JamesIves/github-pages-deploy-action@4.1.4
+      uses: JamesIves/github-pages-deploy-action@v4.4.0
       with:
-        BRANCH: gh-pages
-        FOLDER: release/wwwroot
+        token: ${{ secrets.DEPLOY_KEY }}
+        branch: gh-pages
+        folder: release/wwwroot
+        repository-name: CropperBlazor/CropperBlazor.github.io

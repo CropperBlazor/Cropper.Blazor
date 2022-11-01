@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://durkatechnologies.github.io/Cropper.Blazor">
-    <img src="src/Cropper.Blazor/Client/wwwroot/cropperblazor.png?raw=true" align="center" alt="Cropper.Blazor" width="200 px">
+  <a href="https://CropperBlazor.github.io/">
+    <img src="content/cropperblazor.png?raw=true" align="center" alt="Cropper.Blazor" width="200 px">
   </a>
   <h1 align="center">
     Cropper.Blazor
@@ -10,15 +10,15 @@
   </p>
 </p>
 
-[![Build and run test](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/ci.yml)
-[![Deploy to GitHub Pages](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/cd.yml/badge.svg?event=push)](https://github.com/DurkaTechnologies/Cropper.Blazor/actions/workflows/cd.yml)
-[![coverage](https://codecov.io/github/DurkaTechnologies/Cropper.Blazor/branch/dev/graph/badge.svg?token=39M66DO85T)](https://codecov.io/github/DurkaTechnologies/Cropper.Blazor)
-[![GitHub](https://img.shields.io/github/license/DurkaTechnologies/Cropper.Blazor?color=ff5c9b)](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/LICENSE)
-[![GitHub](https://img.shields.io/github/last-commit/DurkaTechnologies/Cropper.Blazor?color=009DEA)](https://github.com/DurkaTechnologies/Cropper.Blazor)
+[![Build and run test](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/ci.yml)
+[![Deploy to GitHub Pages](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/cd.yml/badge.svg?event=push)](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/cd.yml)
+[![coverage](https://codecov.io/github/CropperBlazor/Cropper.Blazor/branch/dev/graph/badge.svg?token=39M66DO85T)](https://codecov.io/github/CropperBlazor/Cropper.Blazor)
+[![GitHub](https://img.shields.io/github/license/CropperBlazor/Cropper.Blazor?color=ff5c9b)](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/LICENSE)
+[![GitHub](https://img.shields.io/github/last-commit/CropperBlazor/Cropper.Blazor?color=009DEA)](https://github.com/CropperBlazor/Cropper.Blazor)
 [![NuGet version](https://img.shields.io/nuget/v/Cropper.Blazor?color=ff5c9b&label=NuGet%20version)](https://www.nuget.org/packages/Cropper.Blazor)
 
 ## Demo
-- [durkatechnologies.github.io/Cropper.Blazor/demo](https://durkatechnologies.github.io/Cropper.Blazor/demo)
+- [CropperBlazor.github.io/Cropper.Blazor/demo](https://CropperBlazor.github.io/demo)
 
 ## Usage
 
@@ -46,7 +46,7 @@ using Cropper.Blazor.Extensions;
 builder.Services.AddCropper();
 ```
 
-And then use it in Razor file ([for example](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor)):
+And then use it in Razor file ([for example](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor)):
 
 ```razor
 <CropperComponent
@@ -69,10 +69,7 @@ And then use it in Razor file ([for example](https://github.com/DurkaTechnologie
 </CropperComponent>
 ```
 
-And then use it in [*.razor.cs file](https://github.com/DurkaTechnologies/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor.cs)
-
-
-
+And then use it in [*.razor.cs file](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor.cs)
 
 ## Contributing
 

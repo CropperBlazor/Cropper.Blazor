@@ -28,12 +28,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <IsTrimmable>true</IsTrimmable>
-    <TrimMode>link</TrimMode>
-    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>

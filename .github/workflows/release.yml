@@ -40,6 +40,10 @@ jobs:
     - name: Push to NuGet Gallery
       run: dotnet nuget push bin/Release/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{secrets.NUGET_API_KEY}} --skip-duplicate
       working-directory: src/Cropper.Blazor/Cropper.Blazor
+      
+    - name: Prep packages
+      run: dotnet nuget add source --username CropperBlazor --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/CropperBlazor/index.json"
 
-    - name: Publish NuGet packages to GitHub Packages
-      run: dotnet nuget add source --username Cropper.Blazor --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Cropper.Blazor/index.json"
+    - name: Publish NuGet package to GitHub packages
+      run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
+      working-directory: src/Cropper.Blazor/Cropper.Blazor
