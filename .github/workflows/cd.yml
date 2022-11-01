@@ -92,7 +92,7 @@ jobs:
     - name: Uploading files to gh-pages branch
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         branch: gh-pages
         folder: release/wwwroot
         repository-name: CropperBlazor/CropperBlazor.github.io
