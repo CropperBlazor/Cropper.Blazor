@@ -94,4 +94,4 @@ jobs:
       with:
         branch: gh-pages
         folder: release/wwwroot
-        repositorty-name: CropperBlazor/CropperBlazor.github.io
+        repository-name: CropperBlazor/CropperBlazor.github.io
