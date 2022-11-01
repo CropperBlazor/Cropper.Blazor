@@ -90,9 +90,9 @@ jobs:
       run: touch release/wwwroot/.nojekyll
       
     - name: Uploading files to gh-pages branch
-      uses: JamesIves/github-pages-deploy-action@v4.4.0
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.DEPLOY_KEY }}
         branch: gh-pages
         folder: release/wwwroot
         repository-name: CropperBlazor/CropperBlazor.github.io
