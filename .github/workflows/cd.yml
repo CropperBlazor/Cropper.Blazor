@@ -1,5 +1,9 @@
 name: Deploy to GitHub Pages
 
+concurrency: 
+  group: github-pages
+  cancel-in-progress: true
+
 # Run workflow on every push to the master branch
 on:
   push:
@@ -11,6 +15,7 @@ jobs:
   deploy-to-github-pages:
     # use ubuntu-latest image to run steps on
     runs-on: ubuntu-latest
+    environment: github-pages
     steps:
       # uses GitHub's checkout action to checkout code form the master branch
     - uses: actions/checkout@v2
