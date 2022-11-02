@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\..\README.md = ..\..\README.md
 	EndProjectSection
+=======
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "linters", "linters", "{42196427-7CE7-4B56-BAA3-717B1CB6C245}"
 	ProjectSection(SolutionItems) = preProject
