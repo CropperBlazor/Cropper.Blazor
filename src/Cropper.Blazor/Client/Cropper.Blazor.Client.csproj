@@ -28,14 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Cropper.Blazor" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.10" PrivateAssets="all" />
     <PackageReference Include="MudBlazor" Version="6.0.17" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
   </ItemGroup>
 
   <ItemGroup>
