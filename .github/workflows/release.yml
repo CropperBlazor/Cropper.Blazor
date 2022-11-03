@@ -44,6 +44,7 @@ jobs:
       
     - name: Add NuGet repository source
       run: dotnet nuget add source --username CropperBlazor --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/CropperBlazor/index.json"
+
     - name: Publish NuGet package to GitHub packages
       run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
       working-directory: src/Cropper.Blazor/Cropper.Blazor
