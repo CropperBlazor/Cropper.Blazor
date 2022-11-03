@@ -2,9 +2,6 @@ name: Deploy to NuGet
 
 # Run workflow on every push to the master branch
 on:
-  create:
-    branches: 
-    - release/**
   push:
     branches:
     - master
