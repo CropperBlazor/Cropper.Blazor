@@ -37,7 +37,7 @@ jobs:
       run: dotnet test -c Release --no-build --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
 
-    - name: Pack NuGet
+    - name: Pack package
       run: dotnet pack -c Release
       working-directory: src/Cropper.Blazor/Cropper.Blazor
 
@@ -45,9 +45,6 @@ jobs:
       run: dotnet nuget push bin/Release/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{secrets.NUGET_API_KEY}} --skip-duplicate
       working-directory: src/Cropper.Blazor/Cropper.Blazor
       
-    - name: Prep packages
-      run: dotnet nuget add source --username CropperBlazor --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/CropperBlazor/index.json"
-
     - name: Publish NuGet package to GitHub packages
       run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
       working-directory: src/Cropper.Blazor/Cropper.Blazor
