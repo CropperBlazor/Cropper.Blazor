@@ -20,6 +20,12 @@
 ## Demo
 - [CropperBlazor.github.io/Cropper.Blazor/demo](https://CropperBlazor.github.io/demo)
 
+## Installation
+
+```
+dotnet add package Cropper.Blazor
+```
+
 ## Usage
 
 Import Custom Element:
