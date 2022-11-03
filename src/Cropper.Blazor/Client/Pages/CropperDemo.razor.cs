@@ -30,6 +30,13 @@ namespace Cropper.Blazor.Client.Pages
         private bool IsErrorLoadImage { get; set; } = false;
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
 
+        public Dictionary<string, object> InputAttributes { get; set; } =
+            new Dictionary<string, object>()
+            {
+                { "loading", "lazy" },
+                { "test-Attribute", "123-test" }
+            };
+
         protected override void OnInitialized()
         {
             options = new Options()

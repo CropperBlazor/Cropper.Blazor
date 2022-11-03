@@ -40,9 +40,6 @@ namespace Cropper.Blazor.Components
         public string Class { get; set; } = null!;
 
         [Parameter]
-        public string Loading { get; set; } = null!;
-
-        [Parameter]
         public Action? OnLoadImageEvent { get; set; }
 
         [Parameter]
@@ -65,6 +62,9 @@ namespace Cropper.Blazor.Components
 
         [Parameter]
         public Action<ErrorEventArgs>? OnErrorLoadImageEvent { get; set; }
+
+        [Parameter(CaptureUnmatchedValues = true)]
+        public Dictionary<string, object> InputAttributes { get; set; }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
