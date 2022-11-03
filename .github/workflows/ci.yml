@@ -1,5 +1,9 @@
 name: Build and run tests
 
+concurrency: 
+  group: ci
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -13,6 +17,7 @@ on:
 jobs:
   build:
     name: Build & Test
+    environment: ci
     runs-on: ubuntu-latest
 
     steps:
