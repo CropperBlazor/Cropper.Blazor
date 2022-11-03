@@ -1,7 +1,7 @@
 name: Build and run tests
 
 concurrency: 
-  group: ci
+  group: ${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 on:
@@ -17,7 +17,6 @@ on:
 jobs:
   build:
     name: Build & Test
-    environment: ci
     runs-on: ubuntu-latest
 
     steps:
