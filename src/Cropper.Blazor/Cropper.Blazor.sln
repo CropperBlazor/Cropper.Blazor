@@ -16,6 +16,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Testing", "Cropper.Blazor.Testing\Cropper.Blazor.Testing.csproj", "{D146B02D-1545-48FB-A0D3-17AF0F97C6E6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{624968C7-925A-4896-8405-4174FD48B9BC}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\README.md = ..\..\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "linters", "linters", "{42196427-7CE7-4B56-BAA3-717B1CB6C245}"
 	ProjectSection(SolutionItems) = preProject
