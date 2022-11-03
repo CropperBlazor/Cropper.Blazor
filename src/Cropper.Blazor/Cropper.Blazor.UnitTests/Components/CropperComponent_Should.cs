@@ -47,6 +47,10 @@ namespace Cropper.Blazor.UnitTests.Components
             string errorLoadImageClass = "cropper-error-load";
             string imageClass = "cropper";
             string lazyAttributeValue = "lazy";
+            Dictionary<string, object> inputAttributes = new Dictionary<string, object>()
+            {
+                { "loading", lazyAttributeValue }
+            };
             string imageSrcAttributeValue = "https://.../image.jpg";
             string errorLoadImageSrcAttributeValue = "https://.../not-found-image.jpg";
             int countCallsOnLoadImageHandler = 0;
@@ -165,8 +169,8 @@ namespace Cropper.Blazor.UnitTests.Components
                 nameof(CropperComponent.ErrorLoadImageClass),
                 errorLoadImageClass);
             ComponentParameter loadingParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.Loading),
-                lazyAttributeValue);
+                nameof(CropperComponent.InputAttributes),
+                inputAttributes);
             ComponentParameter errorLoadImageSrcParameter = ComponentParameter.CreateParameter(
                 nameof(CropperComponent.ErrorLoadImageSrc),
                 errorLoadImageSrcAttributeValue);
@@ -403,14 +407,20 @@ namespace Cropper.Blazor.UnitTests.Components
             // arrange
             string errorLoadImageClass = "cropper-error-load";
             string lazyAttributeValue = "lazy";
+            Dictionary<string, object> inputAttributes = new Dictionary<string, object>()
+            {
+                { "loading", lazyAttributeValue },
+                { "Attribute_TEST", "TEST_VALUE" },
+                { "src", "new_src" }
+            };
             string errorLoadImageSrcAttributeValue = "https://cropper/not-found-image.jpg";
 
             ComponentParameter errorLoadImageClassParameter = ComponentParameter.CreateParameter(
                 nameof(CropperComponent.ErrorLoadImageClass),
                 errorLoadImageClass);
             ComponentParameter loadingParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.Loading),
-                lazyAttributeValue);
+                nameof(CropperComponent.InputAttributes),
+                inputAttributes);
             ComponentParameter errorLoadImageSrcParameter = ComponentParameter.CreateParameter(
                 nameof(CropperComponent.ErrorLoadImageSrc),
                 errorLoadImageSrcAttributeValue);
@@ -435,6 +445,7 @@ namespace Cropper.Blazor.UnitTests.Components
             expectedElement.ClassName.Should().Be(errorLoadImageClass);
             expectedElement.GetAttribute("loading").Should().Be(lazyAttributeValue);
             expectedElement.GetAttribute("src").Should().Be(errorLoadImageSrcAttributeValue);
+            expectedElement.GetAttribute("Attribute_TEST").Should().Be("TEST_VALUE");
             expectedElement.GetAttribute("blazor:elementreference").Should().BeNullOrEmpty();
         }
 

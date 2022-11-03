@@ -2,14 +2,14 @@
 {
     <img
      class="@ErrorLoadImageClass"
-     loading="@Loading"
+     @attributes="InputAttributes"
      src="@ErrorLoadImageSrc">
 }
 else
 {
     <img @ref="imageReference"
      class="@Class"
-     loading="@Loading"
+     @attributes="InputAttributes"
      @onerror="@OnErrorLoadImage"
      @onload="OnLoadImage"
      src="@Src">
