@@ -3,7 +3,7 @@
     <img src="content/cropperblazor.png?raw=true" align="center" alt="Cropper.Blazor" width="200 px">
   </a>
   <h1 align="center">
-    Cropper.Blazor - Test5
+    Cropper.Blazor - Test6
   </h1>
   <p align="center">
     <b>Cropper.Blazor</b>  is a component element that wraps around <a href="https://github.com/fengyuanchen/cropperjs"><b>Cropper.js</b></a>
