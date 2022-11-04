@@ -18,7 +18,13 @@
 [![NuGet version](https://img.shields.io/nuget/v/Cropper.Blazor?color=ff5c9b&label=NuGet%20version)](https://www.nuget.org/packages/Cropper.Blazor)
 
 ## Demo
-- [CropperBlazor.github.io/Cropper.Blazor/demo](https://CropperBlazor.github.io/demo)
+- [CropperBlazor.github.io/demo](https://CropperBlazor.github.io/demo)
+
+## Installation
+
+```
+dotnet add package Cropper.Blazor
+```
 
 ## Usage
 
