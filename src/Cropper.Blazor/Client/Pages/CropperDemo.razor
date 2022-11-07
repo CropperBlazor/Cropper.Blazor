@@ -219,13 +219,13 @@
                 </MudButtonGroup>
                 <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" Class="mud-width-full">
                     <MudTooltip Text="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })" RootClass="mud-width-full">
-                        <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096}))"
+                        <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096}))"
                                    FullWidth="true">
                             Get Cropped Canvas
                         </MudButton>
                     </MudTooltip>
                     <MudTooltip Text="cropper.getCroppedCanvas({ width: 640, height: 360 })">
-                        <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new Models.GetCroppedCanvasOptions(){ MaxHeight = 360, MaxWidth = 480}))">
+                        <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 360, MaxWidth = 480}))">
                             640&times;360
                         </MudButton>
                     </MudTooltip>
