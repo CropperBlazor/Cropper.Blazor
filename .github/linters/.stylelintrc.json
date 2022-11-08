@@ -4,6 +4,12 @@
     "selector-list-comma-newline-after": "always-multi-line",
     "selector-list-comma-newline-before": "never-multi-line",
     "block-closing-brace-newline-before": "always",
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global", "deep"]
+      }
+    ],
     "indentation": 4
   }
 }
