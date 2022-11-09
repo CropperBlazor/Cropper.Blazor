@@ -16,15 +16,15 @@
     }
 }
 
-.img-container > ::deep img {
-    max-width: 100%;
-}
-
 .img-preview {
     overflow: hidden;
 }
 
-.img-preview > img {
+.img-container > ::deep img {
+    max-width: 100%;
+}
+
+.img-preview > ::deep img {
     max-width: 100%;
 }
 
