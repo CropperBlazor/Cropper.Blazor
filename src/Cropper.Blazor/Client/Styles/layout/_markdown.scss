@@ -13,12 +13,53 @@
         direction: ltr;
     }
 
+    & .csharp {
+        & .atSign {
+            color: var(--mud-palette-text-primary);
+            background-color: var(--mud-palette-grey-light);
+        }
+
+        & .keyword {
+            color: var(--mud-palette-primary);
+        }
+
+        & .string {
+            color: #e68c32;
+        }
+
+        & .function {
+            color: #ff9800;
+        }
+
+        & .class {
+            color: #1ec8a5;
+        }
+
+        & .localVar {
+            color: #2196f3;
+        }
+
+        & .interface {
+            color: #ff4081;
+        }
+
+        & .number {
+            color: #b0d7a3;
+        }
+
+        & .enum {
+            color: #b4eb8f;
+        }
+
+        & .comment {
+            color: #57a64a;
+        }
+    }
+
     & .html + .csharp {
         margin-top: 23px;
     }
-}
 
-.mud-codeblock {
     & .html, .codearea {
         mark {
             font-weight: 600;
@@ -80,49 +121,6 @@
             color: #57a64a;
         }
     }
-
-    & .csharp {
-        & .atSign {
-            color: var(--mud-palette-text-primary);
-            background-color: var(--mud-palette-grey-light);
-        }
-
-        & .keyword {
-            color: var(--mud-palette-primary);
-        }
-
-        & .string {
-            color: #e68c32;
-        }
-
-        & .function {
-            color: #ff9800;
-        }
-
-        & .class {
-            color: #1ec8a5;
-        }
-
-        & .localVar {
-            color: #2196f3;
-        }
-
-        & .interface {
-            color: #ff4081;
-        }
-
-        & .number {
-            color: #b0d7a3;
-        }
-
-        & .enum {
-            color: #b4eb8f;
-        }
-
-        & .comment {
-            color: #57a64a;
-        }
-    }
 }
 
 .mud-landingpage-editor {
@@ -155,17 +153,17 @@
 
         & .enum {
             color: #b4eb8f;
-            background-color: rgba(255,255,255,0.15);
+            background-color: rgba(255, 255, 255, 0.15);
         }
 
         & .enumValue, .sharpVariable {
             color: #ededed;
-            background-color: rgba(255,255,255,0.15);
+            background-color: rgba(255, 255, 255, 0.15);
         }
 
         & .keyword {
             color: #61afef;
-            background-color: rgba(255,255,255,0.15);
+            background-color: rgba(255, 255, 255, 0.15);
         }
 
         & .atSign {
