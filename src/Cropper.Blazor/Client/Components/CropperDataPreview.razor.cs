@@ -21,7 +21,7 @@ namespace Cropper.Blazor.Client.Components
         private decimal? scaleX;
         private decimal? scaleY;
 
-        public void OnCropEvent(CropEvent cropEvent)
+        public async void OnCropEvent(CropEvent cropEvent)
         {
             x = cropEvent.X;
             y = cropEvent.Y;
@@ -31,7 +31,7 @@ namespace Cropper.Blazor.Client.Components
             scaleX = cropEvent.ScaleX;
             scaleY = cropEvent.ScaleY;
 
-            JSRuntime!.InvokeVoidAsync("console.log", $"CropEvent");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropEvent");
             StateHasChanged();
         }
     }

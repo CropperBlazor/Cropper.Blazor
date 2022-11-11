@@ -1,19 +1,8 @@
-﻿// Copyright (c) MudBlazor 2021
-// MudBlazor licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-using MudBlazor.Utilities;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using MudBlazor.Utilities;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Cropper.Blazor.Models;
 using MudBlazor;
 using Cropper.Blazor.Client.Models;
-using Cropper.Blazor.Client.Extensions;
 
 namespace Cropper.Blazor.Client.Components;
 
@@ -134,60 +123,9 @@ public partial class SectionContent
                 builder.AddMarkupContent(0, read);
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // todo: log this
+            Console.WriteLine(ex.Message);
         }
     };
-
-    protected virtual async void RunOnTryMudBlazor()
-    {
-        string firstFile = "";
-
-        if (Codes != null)
-        {
-            firstFile = Codes.FirstOrDefault().code;
-        }
-        else
-        {
-            firstFile = Code;
-        }
-
-        // We use a separator that wont be in code so we can send 2 files later
-        var codeFiles = "__Main.razor" + (char)31 + Snippets.GetCode(firstFile);
-
-        // Add dialogs for dialog examples
-        if (firstFile.StartsWith("Dialog"))
-        {
-            var regex = new Regex(@"\Show<(Dialog.*?_Dialog)\>");
-            var dialogCodeName = regex.Match(codeFiles).Groups[1].Value;
-            if (dialogCodeName != string.Empty)
-            {
-                var dialogCodeFile = dialogCodeName + ".razor" + (char)31 + Snippets.GetCode(dialogCodeName);
-                codeFiles = codeFiles + (char)31 + dialogCodeFile;
-            }
-        }
-
-        // Data models
-        if (codeFiles.Contains("MudBlazor.Examples.Data.Models"))
-        {
-            if (Regex.Match(codeFiles, @"\bElement\b").Success)
-            {
-                var elementCodeFile = "Element.cs" + (char)31 + Snippets.GetCode("Element");
-                codeFiles = codeFiles + (char)31 + elementCodeFile;
-            }
-
-            if (Regex.Match(codeFiles, @"\bServer\b").Success)
-            {
-                var serverCodeFile = "Server.cs" + (char)31 + Snippets.GetCode("Server");
-                codeFiles = codeFiles + (char)31 + serverCodeFile;
-            }
-        }
-
-        var codeFileEncoded = codeFiles.ToCompressedEncodedUrl();
-        // var tryMudBlazorLocation = "https://localhost:5001/";
-        var tryMudBlazorLocation = "https://try.mudblazor.com/";
-        var url = $"{tryMudBlazorLocation}snippet/{codeFileEncoded}";
-        await JsApiService.OpenInNewTabAsync(url);
-    }
 }
