@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,9 +29,9 @@ namespace Cropper.Blazor.Services
         }
 
         public async ValueTask InitCropperAsync(
-            ElementReference image,
-            Options options,
-            DotNetObjectReference<ICropperComponentBase> cropperComponentBase,
+            [NotNull] ElementReference image,
+            [NotNull] Options options,
+            [NotNull] DotNetObjectReference<ICropperComponentBase> cropperComponentBase,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             if (module is null)
@@ -38,7 +39,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync(
+            await jsRuntime!.InvokeVoidAsync(
                 "cropper.initCropper",
                 cancellationToken,
                 image,
@@ -53,7 +54,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeAsync<object>("cropper.clear", cancellationToken);
+            await jsRuntime!.InvokeAsync<object>("cropper.clear", cancellationToken);
         }
 
         public async ValueTask CropAsync(CancellationToken cancellationToken = default(CancellationToken))
@@ -63,7 +64,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.crop", cancellationToken);
+            await jsRuntime!.InvokeVoidAsync("cropper.crop", cancellationToken);
         }
 
         public async ValueTask DestroyAsync(CancellationToken cancellationToken = default(CancellationToken))
@@ -73,7 +74,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.destroy", cancellationToken);
+            await jsRuntime!.InvokeVoidAsync("cropper.destroy", cancellationToken);
         }
 
         public async ValueTask DisableAsync(CancellationToken cancellationToken = default(CancellationToken))
@@ -83,7 +84,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.disable", cancellationToken);
+            await jsRuntime!.InvokeVoidAsync("cropper.disable", cancellationToken);
         }
 
         public async ValueTask EnableAsync(CancellationToken cancellationToken = default(CancellationToken))
@@ -93,7 +94,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.enable", cancellationToken);
+            await jsRuntime!.InvokeVoidAsync("cropper.enable", cancellationToken);
         }
 
         public async ValueTask<CanvasData> GetCanvasDataAsync(CancellationToken cancellationToken = default(CancellationToken))
@@ -103,7 +104,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await jsRuntime.InvokeAsync<CanvasData>("cropper.getCanvasData", cancellationToken);
+            return await jsRuntime!.InvokeAsync<CanvasData>("cropper.getCanvasData", cancellationToken);
         }
 
         public async ValueTask<ContainerData> GetContainerDataAsync(CancellationToken cancellationToken = default(CancellationToken))
@@ -113,7 +114,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await jsRuntime.InvokeAsync<ContainerData>("cropper.getContainerData", cancellationToken);
+            return await jsRuntime!.InvokeAsync<ContainerData>("cropper.getContainerData", cancellationToken);
         }
 
         public async ValueTask<CropBoxData> GetCropBoxDataAsync(CancellationToken cancellationToken = default(CancellationToken))
@@ -123,7 +124,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await jsRuntime.InvokeAsync<CropBoxData>("cropper.getCropBoxData", cancellationToken);
+            return await jsRuntime!.InvokeAsync<CropBoxData>("cropper.getCropBoxData", cancellationToken);
         }
 
         public async ValueTask<object> GetCroppedCanvasAsync(
@@ -135,7 +136,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await jsRuntime.InvokeAsync<object>("cropper.getCroppedCanvas", cancellationToken, getCroppedCanvasOptions);
+            return await jsRuntime!.InvokeAsync<object>("cropper.getCroppedCanvas", cancellationToken, getCroppedCanvasOptions);
         }
 
         public async ValueTask<string> GetCroppedCanvasDataURLAsync(
@@ -147,7 +148,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await jsRuntime.InvokeAsync<string>("cropper.getCroppedCanvasDataURL", cancellationToken, getCroppedCanvasOptions);
+            return await jsRuntime!.InvokeAsync<string>("cropper.getCroppedCanvasDataURL", cancellationToken, getCroppedCanvasOptions);
         }
 
         public async ValueTask<CropperData> GetDataAsync(bool rounded, CancellationToken cancellationToken = default(CancellationToken))
@@ -157,7 +158,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await jsRuntime.InvokeAsync<CropperData>("cropper.getData", cancellationToken, rounded);
+            return await jsRuntime!.InvokeAsync<CropperData>("cropper.getData", cancellationToken, rounded);
         }
 
         public async ValueTask<ImageData> GetImageDataAsync(CancellationToken cancellationToken = default(CancellationToken))
@@ -167,7 +168,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await jsRuntime.InvokeAsync<ImageData>("cropper.getImageData", cancellationToken);
+            return await jsRuntime!.InvokeAsync<ImageData>("cropper.getImageData", cancellationToken);
         }
 
         public async ValueTask MoveAsync(
@@ -180,7 +181,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.move", cancellationToken, offsetX, offsetY);
+            await jsRuntime!.InvokeVoidAsync("cropper.move", cancellationToken, offsetX, offsetY);
         }
 
         public async ValueTask MoveToAsync(
@@ -193,7 +194,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.moveTo", cancellationToken, x, y);
+            await jsRuntime!.InvokeVoidAsync("cropper.moveTo", cancellationToken, x, y);
         }
 
         public async ValueTask ReplaceAsync(
@@ -206,7 +207,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.replace", cancellationToken, url, onlyColorChanged);
+            await jsRuntime!.InvokeVoidAsync("cropper.replace", cancellationToken, url, onlyColorChanged);
         }
 
         public async ValueTask ResetAsync(CancellationToken cancellationToken = default(CancellationToken))
@@ -216,7 +217,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.reset", cancellationToken);
+            await jsRuntime!.InvokeVoidAsync("cropper.reset", cancellationToken);
         }
 
         public async ValueTask RotateAsync(
@@ -228,7 +229,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.rotate", cancellationToken, degree);
+            await jsRuntime!.InvokeVoidAsync("cropper.rotate", cancellationToken, degree);
         }
 
         public async ValueTask RotateToAsync(
@@ -240,7 +241,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.rotateTo", cancellationToken, degree);
+            await jsRuntime!.InvokeVoidAsync("cropper.rotateTo", cancellationToken, degree);
         }
 
         public async ValueTask ScaleAsync(
@@ -253,7 +254,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.scale", cancellationToken, scaleX, scaleY);
+            await jsRuntime!.InvokeVoidAsync("cropper.scale", cancellationToken, scaleX, scaleY);
         }
 
         public async ValueTask ScaleXAsync(
@@ -265,7 +266,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.scaleX", cancellationToken, scaleX);
+            await jsRuntime!.InvokeVoidAsync("cropper.scaleX", cancellationToken, scaleX);
         }
 
         public async ValueTask ScaleYAsync(
@@ -277,7 +278,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.scaleY", cancellationToken, scaleY);
+            await jsRuntime!.InvokeVoidAsync("cropper.scaleY", cancellationToken, scaleY);
         }
 
         public async ValueTask SetAspectRatioAsync(
@@ -289,7 +290,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.setAspectRatio", cancellationToken, aspectRatio);
+            await jsRuntime!.InvokeVoidAsync("cropper.setAspectRatio", cancellationToken, aspectRatio);
         }
 
         public async ValueTask SetCanvasDataAsync(
@@ -301,7 +302,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.setCanvasData", cancellationToken, setCanvasDataOptions);
+            await jsRuntime!.InvokeVoidAsync("cropper.setCanvasData", cancellationToken, setCanvasDataOptions);
         }
 
         public async ValueTask SetCropBoxDataAsync(
@@ -313,7 +314,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.setCropBoxData", cancellationToken, cropBoxDataOptions);
+            await jsRuntime!.InvokeVoidAsync("cropper.setCropBoxData", cancellationToken, cropBoxDataOptions);
         }
 
         public async ValueTask SetDataAsync(
@@ -325,7 +326,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.setData", cancellationToken, setDataOptions);
+            await jsRuntime!.InvokeVoidAsync("cropper.setData", cancellationToken, setDataOptions);
         }
 
         public async ValueTask SetDragModeAsync(
@@ -337,7 +338,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.setDragMode", cancellationToken, dragMode.ToEnumString());
+            await jsRuntime!.InvokeVoidAsync("cropper.setDragMode", cancellationToken, dragMode.ToEnumString());
         }
 
         public async ValueTask ZoomAsync(
@@ -349,7 +350,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.zoom", cancellationToken, ratio);
+            await jsRuntime!.InvokeVoidAsync("cropper.zoom", cancellationToken, ratio);
         }
 
         public async ValueTask ZoomToAsync(
@@ -363,7 +364,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.zoomTo", cancellationToken, ratio, pivotX, pivotY);
+            await jsRuntime!.InvokeVoidAsync("cropper.zoomTo", cancellationToken, ratio, pivotX, pivotY);
         }
 
         public async ValueTask NoConflictAsync(CancellationToken cancellationToken = default(CancellationToken))
@@ -373,11 +374,11 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.noConflict", cancellationToken);
+            await jsRuntime!.InvokeVoidAsync("cropper.noConflict", cancellationToken);
         }
 
         public async ValueTask SetDefaultsAsync(
-            Options options,
+            [NotNull] Options options,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             if (module is null)
@@ -385,7 +386,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await jsRuntime.InvokeVoidAsync("cropper.setDefaults", cancellationToken, options);
+            await jsRuntime!.InvokeVoidAsync("cropper.setDefaults", cancellationToken, options);
         }
 
         public async ValueTask<string> GetImageUsingStreamingAsync(
