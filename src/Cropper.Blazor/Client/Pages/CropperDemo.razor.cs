@@ -21,7 +21,13 @@ namespace Cropper.Blazor.Client.Pages
 
         private CropperComponent? cropperComponent = null!;
         private CropperDataPreview? cropperDataPreview = null!;
-        private Options options = null!;
+        private Options options = new Options()
+        {
+            Preview = ".img-preview",
+            AspectRatio = (decimal)16 / 9,
+            ViewMode = ViewMode.Vm0,
+            CropBoxResizable = false
+        };
         private decimal? scaleX;
         private decimal? scaleY;
         private decimal aspectRatio = 1.7777777777777777m;
@@ -34,6 +40,7 @@ namespace Cropper.Blazor.Client.Pages
             new Dictionary<string, object>()
             {
                 { "loading", "lazy" },
+                { "cropBoxResizable", false },
                 { "test-Attribute", "123-test" }
             };
 

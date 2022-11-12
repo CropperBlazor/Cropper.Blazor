@@ -106,6 +106,20 @@
     <Watch Include="**/*.scss" />
   </ItemGroup>
 
+  <!--Update ExampleCode-->
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\**\*.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Examples\InstallationManualImportsExample.razor" />
+    <None Include="Pages\Examples\InstallationManualPackageExample.razor" />
+    <None Include="Pages\ManualMarkdown\InstallScriptManual.razor" />
+    <None Include="Pages\ManualMarkdown\InstallServicesNET5ServerManual.razor" />
+    <None Include="Pages\ManualMarkdown\InstallServicesNET5WasmManual.razor" />
+    <None Include="Pages\ManualMarkdown\InstallServicesNET6Manual.razor" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
   </ItemGroup>

@@ -13,5 +13,9 @@ namespace Cropper.Blazor.Client.Models
                 return $"Snippet for component '{component}' not found!";
             return (string)field.GetValue(null);
         }
+
+        public const string InstallationManualPackageExample = @"dotnet add package Cropper.Blazor";
+        public const string InstallationManualImportsExample = @"@using Cropper.Blazor.Components";
+        public const string InstallationManualCssFontsExample = @"<link href=""_content/Cropper.Blazor/cropper.min.css"" rel=""stylesheet"" />";
     }
 }

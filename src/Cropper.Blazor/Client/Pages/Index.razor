@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Cropper.Blazor.Client.Components
 
 <MudContainer Class="mt-5 px-4">
     <MudGrid Class="mt-2" Justify="Justify.Center">
@@ -39,5 +40,40 @@
                 <img src="https://img.shields.io/github/last-commit/CropperBlazor/Cropper.Blazor?color=009DEA" alt="Last commit" />
             </a>
         </p>
+
+    </MudGrid>
+    <MudGrid Class="mt-2" Justify="Justify.Center">
+
+        <MudItem xl="12" lg="12" md="12" sm="12" xs="12">
+            <MudText Typo="Typo.h3">
+                <b>Quick Installation Guide</b>
+            </MudText>
+
+            <MudText Typo="Typo.h5">
+                <b>Install the package</b>
+            </MudText>
+            <MudText Class="mb-5">Find the package through NuGet Package Manager or install it with following command:</MudText>
+            <SectionContent Code="InstallationManualPackageExample" />
+
+            <MudText Typo="Typo.h5">
+                <b>Add Imports</b>
+            </MudText>
+            <MudText Class="mb-5">After the package is added, you need to add the following in your <CodeInline>_Imports.razor</CodeInline></MudText>
+            <SectionContent Code="InstallationManualImportsExample" />
+
+            <MudText Typo="Typo.h5">
+                <b>Add font and style references</b>
+            </MudText>
+            <MudText Class="mb-5">Add the following to your HTML head section, it's either <CodeInline>index.html</CodeInline> or <CodeInline>_Layout.cshtml</CodeInline>/<CodeInline>_Host.cshtml</CodeInline> depending on whether you're running WebAssembly or Server.</MudText>
+            <SectionContent Code="InstallationManualCssFontsExample"/>
+
+            <MudText Typo="Typo.h5">
+                <b>Add script reference</b>
+            </MudText>
+            <MudText Class="mb-5">In the same file but located in the end of it add the MudBlazor js file, it should be in the same location as the default blazor script.</MudText>
+            <SectionContent Code="InstallScriptManual" />
+
+
+        </MudItem>
     </MudGrid>
 </MudContainer>
