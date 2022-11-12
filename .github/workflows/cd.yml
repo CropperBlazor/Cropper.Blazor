@@ -20,11 +20,13 @@ jobs:
       # uses GitHub's checkout action to checkout code form the master branch
     - uses: actions/checkout@v2
     
-      # sets up .NET Core SDK 6
-    - name: Setup .NET 6
-      uses: actions/setup-dotnet@v1
+      # sets up .NET Core SDK 7, 6
+    - name: Setup .NET 7, 6
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: |
+            6.0.x
+            7.0.x
         
     - name: Restore dependencies
       run: dotnet restore
@@ -41,7 +43,8 @@ jobs:
     - name: Coverage
       uses: codecov/codecov-action@v3
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+        token: ${{ secrets.CODECOV_TOKEN }}    
+        fail_ci_if_error: true
         
      # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
