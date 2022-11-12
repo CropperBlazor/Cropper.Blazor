@@ -1,5 +1,6 @@
 ﻿using Cropper.Blazor.Extensions;
 using FluentAssertions;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Xunit;
 using static Cropper.Blazor.UnitTests.Extensions.EnumExtensions_Should.TestData;
