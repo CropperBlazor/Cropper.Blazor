@@ -3,7 +3,8 @@ using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
-using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Cropper.Blazor.Services
 {
@@ -11,9 +12,9 @@ namespace Cropper.Blazor.Services
     {
         Task LoadModuleAsync(CancellationToken cancellationToken = default(CancellationToken));
         ValueTask InitCropperAsync(
-            [NotNull] ElementReference image,
-            [NotNull] Options options,
-            [NotNull] DotNetObjectReference<ICropperComponentBase> cropperComponentBase,
+            ElementReference image,
+            Options options,
+            DotNetObjectReference<ICropperComponentBase> cropperComponentBase,
             CancellationToken cancellationToken = default(CancellationToken));
         ValueTask ClearAsync(CancellationToken cancellationToken = default(CancellationToken));
         ValueTask CropAsync(CancellationToken cancellationToken = default(CancellationToken));
@@ -78,7 +79,7 @@ namespace Cropper.Blazor.Services
             CancellationToken cancellationToken = default(CancellationToken));
         ValueTask NoConflictAsync(CancellationToken cancellationToken = default(CancellationToken));
         ValueTask SetDefaultsAsync(
-            [NotNull] Options options,
+            Options options,
             CancellationToken cancellationToken = default(CancellationToken));
         ValueTask SetAspectRatioAsync(
             decimal aspectRatio,
