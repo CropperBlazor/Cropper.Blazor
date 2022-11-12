@@ -1,4 +1,5 @@
 codecov:
+  disable_default_path_fixes: true
   notify:
     wait_for_ci: true               # Should Codecov wait for all CI statuses to complete before sending theirs
     
