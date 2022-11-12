@@ -43,7 +43,8 @@ jobs:
     - name: Coverage
       uses: codecov/codecov-action@v3
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+        token: ${{ secrets.CODECOV_TOKEN }}    
+        fail_ci_if_error: true
         
      # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
