@@ -46,6 +46,7 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+        fail_ci_if_error: true
       
     - name: Super-Linter
       uses: github/super-linter@v4.8.1
