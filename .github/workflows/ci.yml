@@ -22,11 +22,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
  
-    # sets up .NET Core SDK 7, 6
-    - name: Setup .NET 7, 6
+    # sets up .NET Core SDK 7, 6, 5
+    - name: Setup .NET 7, 6, 5
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: |
+            5.0.x
             6.0.x
             7.0.x
         

@@ -27,11 +27,17 @@ namespace Cropper.Blazor.Testing
         public static TAttribute GetCustomAttribute<TAttribute>(this MethodInfo methodInfo)
             where TAttribute : Attribute
         {
-            ArgumentNullException.ThrowIfNull(methodInfo);
+            if (methodInfo is null)
+            {
+                throw new ArgumentNullException(nameof(methodInfo));
+            }
 
             object? attribute = methodInfo.GetCustomAttribute(typeof(TAttribute), false);
 
-            ArgumentNullException.ThrowIfNull(attribute);
+            if (attribute is null)
+            {
+                throw new ArgumentNullException(nameof(attribute));
+            }
 
             return (TAttribute)attribute;
         }

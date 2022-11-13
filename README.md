@@ -21,7 +21,7 @@
 - [CropperBlazor.github.io/demo](https://CropperBlazor.github.io/demo)
 
 ## Prerequisites
-- [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0) for v7.x.x or [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0) for v6.x.x
+- [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0) for v7.x.x, [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0) for v6.x.x or [.NET 5.0](https://dotnet.microsoft.com/download/dotnet/5.0) for v5.x.x
 
 ## Installation
 

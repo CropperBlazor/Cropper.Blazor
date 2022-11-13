@@ -311,6 +311,27 @@ namespace Cropper.Blazor.UnitTests.Services
                     .Returns(stream);
 
                 Stream jsImageStream = mockImageFile.Object.OpenReadStream(maxAllowedSize, cancellationToken);
+
+                #if NET5_0
+
+                using (Cropper.Blazor.DotNet5.DotNetStreamReference dotnetImageStream = new Cropper.Blazor.DotNet5.DotNetStreamReference(jsImageStream))
+                {
+                    _testContext.JSInterop
+                        .Setup<string>("cropper.getImageUsingStreaming",
+                                       jSRuntimeInvocation => jSRuntimeInvocation.Arguments.Count == 1 && VerifyStreamArgument(jSRuntimeInvocation))
+                        .SetResult(expectedImageData);
+
+                    bool VerifyStreamArgument(JSRuntimeInvocation jSRuntimeInvocation)
+                    {
+                        Cropper.Blazor.DotNet5.DotNetStreamReference? streamReference = (Cropper.Blazor.DotNet5.DotNetStreamReference?)jSRuntimeInvocation.Arguments.First();
+                        string textStream = Encoding.UTF8.GetString(((MemoryStream)streamReference!.Stream).ToArray());
+
+                        return expectedText == textStream;
+                    }
+                }
+
+                #elif NET6_0_OR_GREATER
+
                 using (DotNetStreamReference dotnetImageStream = new DotNetStreamReference(jsImageStream))
                 {
                     _testContext.JSInterop
@@ -326,6 +347,8 @@ namespace Cropper.Blazor.UnitTests.Services
                         return expectedText == textStream;
                     }
                 }
+
+                #endif
             }
 
             // assert
