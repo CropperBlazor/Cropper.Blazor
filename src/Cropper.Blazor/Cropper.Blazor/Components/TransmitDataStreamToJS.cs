@@ -1,12 +1,13 @@
-﻿using Cropper.Blazor.DotNet5;
-using Microsoft.JSInterop;
-using System;
-using System.Buffers;
-using System.Threading;
-using System.Threading.Tasks;
-
+﻿#if NET5_0
 namespace Cropper.Blazor.Components
 {
+    using Cropper.Blazor.DotNet5;
+    using Microsoft.JSInterop;
+    using System;
+    using System.Buffers;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     /// <Summary>
     /// A stream that pulls each chunk on demand using JavaScript interop. This implementation is used for
     /// WebAssembly and WebView applications.
@@ -84,3 +85,4 @@ namespace Cropper.Blazor.Components
         }
     }
 }
+#endif
