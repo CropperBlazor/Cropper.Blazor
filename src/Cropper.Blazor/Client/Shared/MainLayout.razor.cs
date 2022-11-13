@@ -2,102 +2,106 @@
 using Cropper.Blazor.Client.Services;
 using Microsoft.AspNetCore.Components;
 using MudBlazor.Services;
+using System;
+using System.Threading.Tasks;
 
-namespace Cropper.Blazor.Client.Shared;
-public partial class MainLayout : LayoutComponentBase
+namespace Cropper.Blazor.Client.Shared
 {
-    [Inject] private LayoutService LayoutService { get; set; } = null!;
-
-    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-
-    [Inject] IResizeService ResizeService { get; set; } = null!;
-
-    protected override void OnInitialized()
+    public partial class MainLayout : LayoutComponentBase
     {
-        LayoutService.MajorUpdateOccured += LayoutServiceOnMajorUpdateOccured;
-        LayoutService.SetBaseTheme(Theme.CropperBlazorDocsTheme());
-        base.OnInitialized();
-    }
+        [Inject] private LayoutService LayoutService { get; set; } = null!;
 
-    private Guid _subscriptionId;
+        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
+        [Inject] IResizeService ResizeService { get; set; } = null!;
+
+        protected override void OnInitialized()
         {
-            _subscriptionId = await ResizeService.Subscribe((size) =>
+            LayoutService.MajorUpdateOccured += LayoutServiceOnMajorUpdateOccured;
+            LayoutService.SetBaseTheme(Theme.CropperBlazorDocsTheme());
+            base.OnInitialized();
+        }
+
+        private Guid _subscriptionId;
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
             {
-                if (size.Width > 960)
+                _subscriptionId = await ResizeService.Subscribe((size) =>
                 {
-                    OnDrawerOpenChanged(false);
-                }
+                    if (size.Width > 960)
+                    {
+                        OnDrawerOpenChanged(false);
+                    }
 
-                InvokeAsync(StateHasChanged);
-            }, new MudBlazor.Services.ResizeOptions
-            {
-                ReportRate = 50,
-                NotifyOnBreakpointOnly = false,
-            });
+                    InvokeAsync(StateHasChanged);
+                }, new MudBlazor.Services.ResizeOptions
+                {
+                    ReportRate = 50,
+                    NotifyOnBreakpointOnly = false,
+                });
 
-            var size = await ResizeService.GetBrowserWindowSize();
+                var size = await ResizeService.GetBrowserWindowSize();
 
-            await ApplyUserPreferences();
+                await ApplyUserPreferences();
+                StateHasChanged();
+            }
+
+            await base.OnAfterRenderAsync(firstRender);
+        }
+
+        public async ValueTask DisposeAsync() => await ResizeService.Unsubscribe(_subscriptionId);
+
+        private async Task ApplyUserPreferences()
+        {
+            //var defaultDarkMode = await _mudThemeProvider.GetSystemPreference();
+            await LayoutService.ApplyUserPreferences(true);
+        }
+
+        public void Dispose()
+        {
+            LayoutService.MajorUpdateOccured -= LayoutServiceOnMajorUpdateOccured;
+        }
+
+        private void LayoutServiceOnMajorUpdateOccured(object? sender, EventArgs e) => StateHasChanged();
+
+        //private NavMenu _navMenuRef;
+        private bool _drawerOpen = false;
+
+        private void ToggleDrawer()
+        {
+            _drawerOpen = !_drawerOpen;
+        }
+
+        private void OnDrawerOpenChanged(bool value)
+        {
+            _drawerOpen = value;
             StateHasChanged();
         }
 
-        await base.OnAfterRenderAsync(firstRender);
-    }
-
-    public async ValueTask DisposeAsync() => await ResizeService.Unsubscribe(_subscriptionId);
-
-    private async Task ApplyUserPreferences()
-    {
-        //var defaultDarkMode = await _mudThemeProvider.GetSystemPreference();
-        await LayoutService.ApplyUserPreferences(true);
-    }
-
-    public void Dispose()
-    {
-        LayoutService.MajorUpdateOccured -= LayoutServiceOnMajorUpdateOccured;
-    }
-
-    private void LayoutServiceOnMajorUpdateOccured(object? sender, EventArgs e) => StateHasChanged();
-
-    //private NavMenu _navMenuRef;
-    private bool _drawerOpen = false;
-
-    private void ToggleDrawer()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
-
-    private void OnDrawerOpenChanged(bool value)
-    {
-        _drawerOpen = value;
-        StateHasChanged();
-    }
-
-    private string GetActiveClass(BasePage page)
-    {
-        return page == GetDocsBasePage(NavigationManager.Uri) ? "mud-chip-text mud-chip-color-primary ml-3" : "ml-3";
-    }
-    public BasePage GetDocsBasePage(string uri)
-    {
-        if (uri.Contains("/demo"))
+        private string GetActiveClass(BasePage page)
         {
-            return BasePage.Demo;
+            return page == GetDocsBasePage(NavigationManager.Uri) ? "mud-chip-text mud-chip-color-primary ml-3" : "ml-3";
         }
-        else if (uri.Contains("/api"))
+        public BasePage GetDocsBasePage(string uri)
         {
-            return BasePage.Api;
-        }
-        else if (uri.Contains("/about"))
-        {
-            return BasePage.About;
-        }
-        else
-        {
-            return BasePage.None;
+            if (uri.Contains("/demo"))
+            {
+                return BasePage.Demo;
+            }
+            else if (uri.Contains("/api"))
+            {
+                return BasePage.Api;
+            }
+            else if (uri.Contains("/about"))
+            {
+                return BasePage.About;
+            }
+            else
+            {
+                return BasePage.None;
+            }
         }
     }
 }

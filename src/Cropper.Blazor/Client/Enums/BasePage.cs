@@ -1,9 +1,10 @@
-﻿namespace Cropper.Blazor.Client.Enums;
-
-public enum BasePage
+﻿namespace Cropper.Blazor.Client.Enums
 {
-    None,
-    Demo,
-    Api,
-    About
+    public enum BasePage
+    {
+        None,
+        Demo,
+        Api,
+        About
+    }
 }

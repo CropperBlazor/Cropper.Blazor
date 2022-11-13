@@ -125,6 +125,7 @@ class CropperDecorator {
     }
 
     async getImageUsingStreaming(imageStream) {
+        console.log(imageStream);
         const arrayBuffer = await imageStream.arrayBuffer();
         const blob = new Blob([arrayBuffer]);
         return URL.createObjectURL(blob);

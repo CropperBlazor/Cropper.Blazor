@@ -1,4 +1,5 @@
 using Cropper.Blazor.Base;
+using Cropper.Blazor.Components;
 using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
@@ -403,11 +404,12 @@ namespace Cropper.Blazor.Services
 
 #if NET5_0
             var dotnetImageStream = new Cropper.Blazor.DotNet5.DotNetStreamReference(jsImageStream);
+            var id = TransmitDataStreamToJS.BeginTransmittingStream(dotnetImageStream);
+            return await jsRuntime.InvokeAsync<string>("cropper.getImageUsingStreaming", cancellationToken, $"{{\"__dotNetStream\":{id}}}");
 #elif NET6_0_OR_GREATER
             var dotnetImageStream = new DotNetStreamReference(jsImageStream);
-#endif
-
             return await jsRuntime.InvokeAsync<string>("cropper.getImageUsingStreaming", cancellationToken, dotnetImageStream);
+#endif           
         }
 
         public async ValueTask RevokeObjectUrlAsync(
