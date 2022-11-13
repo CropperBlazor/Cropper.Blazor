@@ -312,7 +312,7 @@ namespace Cropper.Blazor.UnitTests.Services
 
                 Stream jsImageStream = mockImageFile.Object.OpenReadStream(maxAllowedSize, cancellationToken);
 
-                #if NET5_0
+#if NET5_0
 
                 using (Cropper.Blazor.DotNet5.DotNetStreamReference dotnetImageStream = new Cropper.Blazor.DotNet5.DotNetStreamReference(jsImageStream))
                 {
@@ -330,7 +330,7 @@ namespace Cropper.Blazor.UnitTests.Services
                     }
                 }
 
-                #elif NET6_0_OR_GREATER
+#elif NET6_0_OR_GREATER
 
                 using (DotNetStreamReference dotnetImageStream = new DotNetStreamReference(jsImageStream))
                 {
@@ -348,7 +348,7 @@ namespace Cropper.Blazor.UnitTests.Services
                     }
                 }
 
-                #endif
+#endif
             }
 
             // assert

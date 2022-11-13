@@ -14,16 +14,16 @@ namespace Cropper.Blazor.Extensions
             // as same provided below for .NET 6 or greater because this method throws
             // a NullReferenceException if no such dependency currently exists
             // in the IServiceCollection for .NET 5
-            #if NET5_0
-                TryAddTransient<ICropperJsInterop, CropperJsInterop>(services);
-            #elif NET6_0_OR_GREATER
-                services.TryAddTransient<ICropperJsInterop, CropperJsInterop>();
-            #endif
+#if NET5_0
+            TryAddTransient<ICropperJsInterop, CropperJsInterop>(services);
+#elif NET6_0_OR_GREATER
+            services.TryAddTransient<ICropperJsInterop, CropperJsInterop>();
+#endif
 
             return services;
         }
 
-        #if NET5_0
+#if NET5_0
 
         /// <summary>
         /// Adds the specified <typeparamref name="TService"/> as a <see cref="ServiceLifetime.Transient"/> service
@@ -110,6 +110,6 @@ namespace Cropper.Blazor.Extensions
             collection.Add(descriptor);
         }
 
-        #endif
+#endif
     }
 }

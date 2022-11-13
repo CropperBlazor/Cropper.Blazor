@@ -401,11 +401,11 @@ namespace Cropper.Blazor.Services
 
             var jsImageStream = imageFile.OpenReadStream(maxAllowedSize, cancellationToken);
 
-            #if NET5_0
-                var dotnetImageStream = new Cropper.Blazor.DotNet5.DotNetStreamReference(jsImageStream);
-            #elif NET6_0_OR_GREATER
-                var dotnetImageStream = new DotNetStreamReference(jsImageStream);
-            #endif
+#if NET5_0
+            var dotnetImageStream = new Cropper.Blazor.DotNet5.DotNetStreamReference(jsImageStream);
+#elif NET6_0_OR_GREATER
+            var dotnetImageStream = new DotNetStreamReference(jsImageStream);
+#endif
 
             return await jsRuntime.InvokeAsync<string>("cropper.getImageUsingStreaming", cancellationToken, dotnetImageStream);
         }
