@@ -10,6 +10,10 @@ namespace Cropper.Blazor.Extensions
     {
         public static IServiceCollection AddCropper(this IServiceCollection services)
         {
+            // We use the custom method "TryAddTransient<ICropperJsInterop, CropperJsInterop>"
+            // as same provided below for .NET 6 or greater because this method throws
+            // a NullReferenceException if no such dependency currently exists
+            // in the IServiceCollection for .NET 5
             #if NET5_0
                 TryAddTransient<ICropperJsInterop, CropperJsInterop>(services);
             #elif NET6_0_OR_GREATER
