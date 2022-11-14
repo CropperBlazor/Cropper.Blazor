@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Cropper.Blazor.Client.Models;
 
-namespace Cropper.Blazor.Client.Components;
+namespace Cropper.Blazor.Client.Components.Docs;
 
 public partial class SectionContent
 {

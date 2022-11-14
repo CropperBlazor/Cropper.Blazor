@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Cropper.Blazor.Client.Components
+@using Cropper.Blazor.Client.Components.Docs
 
 <MudContainer Class="mt-5 px-4">
     <MudGrid Class="mt-2" Justify="Justify.Center">
@@ -49,30 +50,33 @@
                 <b>Quick Installation Guide</b>
             </MudText>
 
-            <MudText Typo="Typo.h5">
-                <b>Install the package</b>
-            </MudText>
-            <MudText Class="mb-5">Find the package through NuGet Package Manager or install it with following command:</MudText>
-            <SectionContent Code="InstallationManualPackageExample" />
+            <DocsPageSection>
+                <SectionHeader Title="Install the package">
+                    <Description>Find the package through NuGet Package Manager or install it with following command:</Description>
+                </SectionHeader>
+                <SectionContent Code="InstallationManualPackageExample" />
+            </DocsPageSection>
 
-            <MudText Typo="Typo.h5">
-                <b>Add Imports</b>
-            </MudText>
-            <MudText Class="mb-5">After the package is added, you need to add the following in your <CodeInline>_Imports.razor</CodeInline></MudText>
-            <SectionContent Code="InstallationManualImportsExample" />
+            <DocsPageSection>
+                <SectionHeader Title="Add Imports">
+                    <Description>After the package is added, you need to add the following in your <CodeInline>_Imports.razor</CodeInline></Description>
+                </SectionHeader>
+                <SectionContent Code="InstallationManualImportsExample" />
+            </DocsPageSection>
 
-            <MudText Typo="Typo.h5">
-                <b>Add font and style references</b>
-            </MudText>
-            <MudText Class="mb-5">Add the following to your HTML head section, it's either <CodeInline>index.html</CodeInline> or <CodeInline>_Layout.cshtml</CodeInline>/<CodeInline>_Host.cshtml</CodeInline> depending on whether you're running WebAssembly or Server.</MudText>
-            <SectionContent Code="InstallationManualCssFontsExample"/>
+            <DocsPageSection>
+                <SectionHeader Title="Add font and style references">
+                    <Description>Add the following to your HTML head section, it's either <CodeInline>index.html</CodeInline> or <CodeInline>_Layout.cshtml</CodeInline>/<CodeInline>_Host.cshtml</CodeInline> depending on whether you're running WebAssembly or Server.</Description>
+                </SectionHeader>
+                <SectionContent Code="InstallationManualCssFontsExample" />
+            </DocsPageSection>
 
-            <MudText Typo="Typo.h5">
-                <b>Add script reference</b>
-            </MudText>
-            <MudText Class="mb-5">In the same file but located in the end of it add the MudBlazor js file, it should be in the same location as the default blazor script.</MudText>
-            <SectionContent Code="InstallScriptManual" />
-
+            <DocsPageSection>
+                <SectionHeader Title="Add script reference">
+                    <Description>In the same file but located in the end of it add the MudBlazor js file, it should be in the same location as the default blazor script.</Description>
+                </SectionHeader>
+                <SectionContent Code="InstallScriptManual" />
+            </DocsPageSection>
 
         </MudItem>
     </MudGrid>
