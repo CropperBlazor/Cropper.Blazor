@@ -1,9 +1,11 @@
 ﻿@page "/"
 @using Cropper.Blazor.Client.Components
 @using Cropper.Blazor.Client.Components.Docs
+@using Cropper.Blazor.Client.Models;
+@using Cropper.Blazor.Client.Pages.Examples
 
 <MudContainer Class="mt-5 px-4">
-    <MudGrid Class="mt-2" Justify="Justify.Center">
+    <MudGrid Class="mt-5" Justify="Justify.Center">
 
         <MudItem xl="12" lg="12" md="12" sm="12" xs="12" Class="d-flex justify-center">
             <MudImage Src="cropperblazor.png" Fluid="true" Width="256" Height="256" />
@@ -15,7 +17,7 @@
 
 
         <MudItem xl="12" lg="12" md="12" sm="12" xs="12">
-            <MudDivider DividerType="DividerType.FullWidth" Class="my-6" />
+            <MudDivider DividerType="DividerType.FullWidth" Class="my-1 mx-3 divider" />
         </MudItem>
 
         <MudItem xl="12" lg="12" md="12" sm="12" xs="12" Class="d-flex justify-center">
@@ -40,42 +42,64 @@
             <a style="text-decoration:none" href="https://github.com/CropperBlazor/Cropper.Blazor" target="_blank">
                 <img src="https://img.shields.io/github/last-commit/CropperBlazor/Cropper.Blazor?color=009DEA" alt="Last commit" />
             </a>
+            <a style="text-decoration:none" href="https://www.nuget.org/packages/Cropper.Blazor" target="_blank">
+                <img src="https://img.shields.io/nuget/v/Cropper.Blazor?color=ff5c9b&label=NuGet%20version" alt="Last commit" />
+            </a>
         </p>
 
     </MudGrid>
     <MudGrid Class="mt-2" Justify="Justify.Center">
 
         <MudItem xl="12" lg="12" md="12" sm="12" xs="12">
-            <MudText Typo="Typo.h3">
-                <b>Quick Installation Guide</b>
-            </MudText>
-
+           
             <DocsPageSection>
-                <SectionHeader Title="Install the package">
-                    <Description>Find the package through NuGet Package Manager or install it with following command:</Description>
+                <SectionHeader Title="Manual Install">
+                    <Description>If you already have a project and want to add Cropper.Blazor to it, either from a default template or a working application.</Description>
                 </SectionHeader>
-                <SectionContent Code="InstallationManualPackageExample" />
-            </DocsPageSection>
+                <DocsPageSection>
+                    <SectionHeader Title="Install the package">
+                        <Description>Find the package through NuGet Package Manager or install it with following command:</Description>
+                    </SectionHeader>
+                    <SectionContent Code="InstallationManualPackageExample" />
+                </DocsPageSection>
 
-            <DocsPageSection>
-                <SectionHeader Title="Add Imports">
-                    <Description>After the package is added, you need to add the following in your <CodeInline>_Imports.razor</CodeInline></Description>
-                </SectionHeader>
-                <SectionContent Code="InstallationManualImportsExample" />
-            </DocsPageSection>
+                <DocsPageSection>
+                    <SectionHeader Title="Add Imports">
+                        <Description>After the package is added, you need to add the following in your <CodeInline>_Imports.razor</CodeInline></Description>
+                    </SectionHeader>
+                    <SectionContent Code="InstallationManualImportsExample" />
+                </DocsPageSection>
 
-            <DocsPageSection>
-                <SectionHeader Title="Add font and style references">
-                    <Description>Add the following to your HTML head section, it's either <CodeInline>index.html</CodeInline> or <CodeInline>_Layout.cshtml</CodeInline>/<CodeInline>_Host.cshtml</CodeInline> depending on whether you're running WebAssembly or Server.</Description>
-                </SectionHeader>
-                <SectionContent Code="InstallationManualCssFontsExample" />
-            </DocsPageSection>
+                <DocsPageSection>
+                    <SectionHeader Title="Add font and style references">
+                        <Description>Add the following to your HTML head section, it's either <CodeInline>index.html</CodeInline> or <CodeInline>_Layout.cshtml</CodeInline>/<CodeInline>_Host.cshtml</CodeInline> depending on whether you're running WebAssembly or Server.</Description>
+                    </SectionHeader>
+                    <SectionContent Code="InstallationManualCssFontsExample" />
+                </DocsPageSection>
 
-            <DocsPageSection>
-                <SectionHeader Title="Add script reference">
-                    <Description>In the same file but located in the end of it add the MudBlazor js file, it should be in the same location as the default blazor script.</Description>
-                </SectionHeader>
-                <SectionContent Code="InstallScriptManual" />
+                <DocsPageSection>
+                    <SectionHeader Title="Add script reference">
+                        <Description>In the same file but located in the end of it add the Cropper.Blazor js file, it should be in the same location as the default blazor script.</Description>
+                    </SectionHeader>
+                    <SectionContent Code="InstallScriptManual" />
+                </DocsPageSection>
+
+                <DocsPageSection>
+                    <SectionHeader Title="Register Services">
+                        <Description>Add the following in <CodeInline>Program.cs</CodeInline></Description>
+                    </SectionHeader>
+                    <SectionContent Codes="@(new[] {new CodeFile(".NET 6 & .NET 7", "InstallServicesNET6Manual")})" />
+                </DocsPageSection>
+
+                <DocsPageSection>
+                    <SectionHeader Title="Add Components">
+                        <Description>Add the following components to your <CodeInline>MainLayout.razor</CodeInline></Description>
+                    </SectionHeader>
+                    <SectionContent Code="InstallationManualComponentsExample">
+                        <InstallationManualComponentsExample/>
+                    </SectionContent>
+                </DocsPageSection>
+
             </DocsPageSection>
 
         </MudItem>

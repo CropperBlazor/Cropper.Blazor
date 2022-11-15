@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
+using System.Reflection;
+using static MudBlazor.CategoryTypes;
+using static MudBlazor.Colors;
 using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Client.Pages
@@ -21,7 +24,7 @@ namespace Cropper.Blazor.Client.Pages
 
         private CropperComponent? cropperComponent = null!;
         private CropperDataPreview? cropperDataPreview = null!;
-        private Options options = new Options()
+        public Options Options = new Options()
         {
             Preview = ".img-preview",
             AspectRatio = (decimal)16 / 9,
@@ -46,12 +49,11 @@ namespace Cropper.Blazor.Client.Pages
 
         protected override void OnInitialized()
         {
-            options = new Options()
+            Options = new Options()
             {
                 Preview = ".img-preview",
                 AspectRatio = (decimal)16 / 9,
                 ViewMode = ViewMode.Vm0
-                //DragMode =  DragMode.Crop.ToString()
             };
         }
 
@@ -192,7 +194,7 @@ namespace Cropper.Blazor.Client.Pages
 
         public void SetViewMode(ViewMode viewMode)
         {
-            options.ViewMode = viewMode;
+            Options.ViewMode = viewMode;
             cropperComponent?.Destroy();
             cropperComponent?.InitCropper();
         }
@@ -269,6 +271,17 @@ namespace Cropper.Blazor.Client.Pages
         public async ValueTask<CanvasData> GetCanvasDataAsync()
         {
             return await cropperComponent!.GetCanvasDataAsync();
+        }
+
+        public void OptionsChecked(string property, bool newValue)
+        {
+            PropertyInfo? propertyInfo = Options.GetType()!.GetProperty(property);
+            if (propertyInfo != null)
+            {
+                propertyInfo.SetValue(Options, Convert.ChangeType(newValue, propertyInfo.PropertyType), null);
+                cropperComponent?.Destroy();
+                cropperComponent?.InitCropper();
+            }
         }
 
         public void Dispose()
