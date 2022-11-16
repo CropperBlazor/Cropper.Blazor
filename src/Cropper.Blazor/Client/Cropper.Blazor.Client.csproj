@@ -60,8 +60,6 @@
       <FilesToClean Include="./Styles/Cropper.Blazor.Client.min.css" />
       <FilesToClean Include="./wwwroot/Cropper.Blazor.Client.css" />
       <FilesToClean Include="./wwwroot/Cropper.Blazor.Client.min.css" />
-      <FilesToClean Include="./wwwroot/app.min.css" />
-      <FilesToClean Include="./Styles/app.min.css" />
       <FilesToClean Include="./wwwroot/service-worker.min.js" />
       <FilesToClean Include="./wwwroot/service-worker.published.min.js" />
     </ItemGroup>
@@ -76,8 +74,6 @@
     <Message Text="Running webcompiler" Importance="high" />
     <!--Compile and minify scss-->
     <Exec Command="dotnet webcompiler ./Styles/Cropper.Blazor.Client.scss -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-    <!--Compile and minify css-->
-    <Exec Command="dotnet webcompiler ./Styles/app.css -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
     <!--Compile and minify js-->
     <Exec Command="dotnet webcompiler ./wwwroot/service-worker.published.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
     <Exec Command="dotnet webcompiler ./wwwroot/service-worker.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
@@ -85,12 +81,10 @@
 
   <Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
     <Error Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" Text="Missing Cropper.Blazor.Client.min.css in wwwroot" />
-    <Error Condition="!Exists('wwwroot/app.min.css')" Text="Missing app.min.css in wwwroot" />
     <Error Condition="!Exists('wwwroot/service-worker.min.js')" Text="Missing service-worker.min.js in wwwroot" />
     <Error Condition="!Exists('wwwroot/service-worker.published.min.js')" Text="Missing service-worker.published.min.js in wwwroot" />
     <ItemGroup>
       <Content Include="wwwroot/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" />
-      <Content Include="wwwroot/app.min.css" Condition="!Exists('wwwroot/app.min.css')" />
       <Content Include="wwwroot/service-worker.min.js" Condition="!Exists('wwwroot/service-worker.min.js')" />
       <Content Include="wwwroot/service-worker.published.min.js" Condition="!Exists('wwwroot/service-worker.published.min.js')" />
     </ItemGroup>
@@ -112,16 +106,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Pages\Examples\InstallationManualImportsExample.razor" />
-    <None Include="Pages\Examples\InstallationManualPackageExample.razor" />
-    <None Include="Pages\ManualMarkdown\InstallScriptManual.razor" />
-    <None Include="Pages\ManualMarkdown\InstallServicesNET5ServerManual.razor" />
-    <None Include="Pages\ManualMarkdown\InstallServicesNET5WasmManual.razor" />
-    <None Include="Pages\ManualMarkdown\InstallServicesNET6Manual.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
   </ItemGroup>
-
 </Project>
