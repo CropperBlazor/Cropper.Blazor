@@ -12,9 +12,8 @@ public static partial class Snippets
         if (field == null)
             return $"Snippet for component '{component}' not found!";
         return (string)field.GetValue(null);
+
     }
 
-    public const string InstallationManualPackageExample = @"dotnet add package Cropper.Blazor";
-    public const string InstallationManualImportsExample = @"@using Cropper.Blazor.Components";
-    public const string InstallationManualCssFontsExample = @"<link href=""_content/Cropper.Blazor/cropper.min.css"" rel=""stylesheet"" />";
+    public const string InstallScriptManual = @"<script src=""_content/Cropper.Blazor/cropper.min.js""></script>";
 }

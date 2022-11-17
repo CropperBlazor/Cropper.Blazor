@@ -47,6 +47,45 @@
     <_ContentIncludedByDefault Remove="Pages\CroppedCanvasDialog.razor" />
   </ItemGroup>
 
+  <!--Outside Visual Studio SolutionDir is not available-->
+  <PropertyGroup>
+    <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(MSBuildThisFileDirectory)../</SolutionDir>
+  </PropertyGroup>
+
+  <!--Binary path for the code generator-->
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'netstandard2.1'">
+      <PropertyGroup>
+        <BinDocsCompiler>$(SolutionDir)Cropper.Blazor.Client.Compiler/bin/Debug/netcoreapp3.1/Cropper.Blazor.Client.Compiler.dll</BinDocsCompiler>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <BinDocsCompiler>$(SolutionDir)Cropper.Blazor.Client.Compiler/bin/Debug/net7.0/Cropper.Blazor.Client.Compiler.dll</BinDocsCompiler>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <!--Project path for code generator-->
+  <PropertyGroup>
+    <ProjectDocsCompiler>dotnet run --configuration release --project "$(SolutionDir)Cropper.Blazor.Client.Compiler/Cropper.Blazor.Client.Compiler.csproj"</ProjectDocsCompiler>
+  </PropertyGroup>
+
+  <!--Execute the code generator-->
+  <Target Name="CompileDocs" BeforeTargets="BeforeBuild">
+    <!--Command-line for the code generator-->
+    <Message Text="Generating Docs and Tests" Importance="high" />
+    <Exec Command="dotnet &quot;$(BinDocsCompiler)&quot;" Condition="Exists('$(BinDocsCompiler)')" />
+    <Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />
+  </Target>
+
+  <Target Name="IncludeGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="CompileDocs">
+    <ItemGroup>
+      <Compile Include="Models/Snippets.generated.cs" Condition="!Exists('Models/Snippets.generated.cs')" />
+      <EmbeddedResource Include="@(NewExampleCodeToBuild)" Condition="@(NewExampleCodeToBuild-&gt;Count()) != 0" />
+    </ItemGroup>
+  </Target>
+
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
   <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
     <PropertyGroup>
@@ -107,5 +146,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Compilers\" />
   </ItemGroup>
 </Project>
