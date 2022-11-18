@@ -74,7 +74,7 @@
   <!--Execute the code generator-->
   <Target Name="CompileDocs" BeforeTargets="BeforeBuild">
     <!--Command-line for the code generator-->
-    <Message Text="Generating Docs and Tests" Importance="high" />
+    <Message Text="Generating Docs" Importance="high" />
     <Exec Command="dotnet &quot;$(BinDocsCompiler)&quot;" Condition="Exists('$(BinDocsCompiler)')" />
     <Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />
   </Target>
@@ -101,6 +101,7 @@
       <FilesToClean Include="./wwwroot/Cropper.Blazor.Client.min.css" />
       <FilesToClean Include="./wwwroot/service-worker.min.js" />
       <FilesToClean Include="./wwwroot/service-worker.published.min.js" />
+      <FilesToClean Include="./Models/Snippets.generated.cs" />
     </ItemGroup>
     <Delete Files="@(FilesToClean)" />
   </Target>
