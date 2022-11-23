@@ -154,12 +154,13 @@
                         Scale (-2, -1)
                     </MudButton>
                 </MudTooltip>
+                <MudTooltip Text="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })">
+                    <MudButton Color="Color.Secondary" Variant="Variant.Filled"
+                               OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096}))">
+                        Get Cropped Canvas
+                    </MudButton>
+                </MudTooltip>
                 <MudButtonGroup Color="Color.Secondary" Variant="Variant.Filled">
-                    <MudTooltip Text="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })">
-                        <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096}))">
-                            Get Cropped Canvas
-                        </MudButton>
-                    </MudTooltip>
                     <MudTooltip Text="cropper.getCroppedCanvas({ width: 320, height: 180 })">
                         <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 180, MaxWidth = 320}))">
                             320&times;180
