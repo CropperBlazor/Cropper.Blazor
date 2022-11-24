@@ -24,7 +24,7 @@
                                       ErrorLoadImageSrc="@_errorLoadImageSrc"
                                       IsErrorLoadImage="@IsErrorLoadImage"
                                       OnErrorLoadImageEvent="OnErrorLoadImageEvent"
-                                      Options="Options" />
+                                      Options="options" />
                 </div>
             </MudPaper>
         </MudItem>
@@ -211,25 +211,25 @@
                 <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
                     <MudTooltip Text="View Mode 0" RootClass="mud-width-full">
                         <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm0))" Color="Color.Success" Variant="Variant.Filled"
-                                   Style="@(Options.ViewMode == ViewMode.Vm0 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                   Style="@(options.ViewMode == ViewMode.Vm0 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                             VM0
                         </MudButton>
                     </MudTooltip>
                     <MudTooltip Text="View Mode 1" RootClass="mud-width-full">
                         <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm1))" Color="Color.Success" Variant="Variant.Filled"
-                                   Style="@(Options.ViewMode == ViewMode.Vm1 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                   Style="@(options.ViewMode == ViewMode.Vm1 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                             VM1
                         </MudButton>
                     </MudTooltip>
                     <MudTooltip Text="View Mode 2" RootClass="mud-width-full">
                         <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm2))" Color="Color.Success" Variant="Variant.Filled"
-                                   Style="@(Options.ViewMode == ViewMode.Vm2 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                   Style="@(options.ViewMode == ViewMode.Vm2 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                             VM2
                         </MudButton>
                     </MudTooltip>
                     <MudTooltip Text="View Mode 3" RootClass="mud-width-full">
                         <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm3))" Color="Color.Success" Variant="Variant.Filled"
-                                   Style="@(Options.ViewMode == ViewMode.Vm3 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                   Style="@(options.ViewMode == ViewMode.Vm3 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                             VM3
                         </MudButton>
                     </MudTooltip>
@@ -240,11 +240,11 @@
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Filled.KeyboardArrowDown" FullWidth="true">Toggle Options</MudButton>
                     </ActivatorContent>
                     <ChildContent>
-                        @foreach (var item in Options.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool)))
+                        @foreach (var item in options.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool?)))
                         {
                             <MudMenuItem>
-                                <MudCheckBox Label="@item.Name" Size="Size.Small" Dense="true" Checked="(bool)item.GetValue(Options, null)" 
-                                    CheckedChanged="@((bool newValue) => OptionsChecked(item.Name, newValue))" />
+                                <MudCheckBox Label="@item.Name" Size="Size.Small" Dense="true" Checked="(bool)item.GetValue(options, null)"
+                                         CheckedChanged="@((bool newValue) => OptionsChecked(item.Name, newValue))" />
                             </MudMenuItem>
                         }
                     </ChildContent>

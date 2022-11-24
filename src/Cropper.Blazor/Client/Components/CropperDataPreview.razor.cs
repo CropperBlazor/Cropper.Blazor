@@ -21,7 +21,7 @@ namespace Cropper.Blazor.Client.Components
         private decimal? scaleX;
         private decimal? scaleY;
 
-        public async void OnCropEvent(CropEvent cropEvent)
+        public async Task OnCropEvent(CropEvent cropEvent)
         {
             x = cropEvent.X;
             y = cropEvent.Y;

@@ -24,13 +24,7 @@ namespace Cropper.Blazor.Client.Pages
 
         private CropperComponent? cropperComponent = null!;
         private CropperDataPreview? cropperDataPreview = null!;
-        public Options Options = new Options()
-        {
-            Preview = ".img-preview",
-            AspectRatio = (decimal)16 / 9,
-            ViewMode = ViewMode.Vm0,
-            CropBoxResizable = false
-        };
+        private Options options = null!;
         private decimal? scaleX;
         private decimal? scaleY;
         private decimal aspectRatio = 1.7777777777777777m;
@@ -43,13 +37,12 @@ namespace Cropper.Blazor.Client.Pages
             new Dictionary<string, object>()
             {
                 { "loading", "lazy" },
-                { "cropBoxResizable", false },
                 { "test-Attribute", "123-test" }
             };
 
         protected override void OnInitialized()
         {
-            Options = new Options()
+            options = new Options()
             {
                 Preview = ".img-preview",
                 AspectRatio = (decimal)16 / 9,
@@ -194,7 +187,7 @@ namespace Cropper.Blazor.Client.Pages
 
         public void SetViewMode(ViewMode viewMode)
         {
-            Options.ViewMode = viewMode;
+            options.ViewMode = viewMode;
             cropperComponent?.Destroy();
             cropperComponent?.InitCropper();
         }
@@ -275,10 +268,10 @@ namespace Cropper.Blazor.Client.Pages
 
         public void OptionsChecked(string property, bool newValue)
         {
-            PropertyInfo? propertyInfo = Options.GetType()!.GetProperty(property);
+            PropertyInfo? propertyInfo = options.GetType()!.GetProperty(property);
             if (propertyInfo != null)
             {
-                propertyInfo.SetValue(Options, Convert.ChangeType(newValue, propertyInfo.PropertyType), null);
+                propertyInfo.SetValue(options, Convert.ChangeType(newValue, propertyInfo.PropertyType), null);
                 cropperComponent?.Destroy();
                 cropperComponent?.InitCropper();
             }
