@@ -1,24 +1,12 @@
-codecov:
-  notify:
-    wait_for_ci: true               # Should Codecov wait for all CI statuses to complete before sending theirs
-    
-ignore:
-  - "**/*.yaml"       # ignore all yaml files (Kubernetes manifests, etc...)
-  - "**/*.yml"        # same as above
-  - "**/*.md"         # ignore all markdown files, those are not relevant for building/testing
-  - "**/Dockerfile"   # ignore Dockerfiles, those are build with GH Actions
-  - "**/*.sh"         # ignore shell scripts
-  
 comment:
   require_changes: yes
 coverage:
   status:
     project:
       default:
-        target: 100%    # the required coverage value
+        target: 90%    # the required coverage value
         threshold: 0.1%  # the leniency in hitting the target
     patch:
       default:
         target: 100%
         threshold: 10%
-

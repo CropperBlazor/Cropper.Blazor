@@ -2,12 +2,17 @@
 <MudHidden Breakpoint="Breakpoint.MdAndUp">
     <MudIconButton OnClick="DrawerToggleCallback" Icon="@Icons.Rounded.Notes" Color="Color.Inherit" Edge="Edge.Start" />
     <MudSpacer />
-    <NavLink ActiveClass="d-flex" href="">
+    <NavLink ActiveClass="d-flex" href="" style="margin: 0 -42px 0 0">
         <CropperBlazorLogo Class="cropperblazor-logo" />
         <MudText Typo="Typo.h4" Class="ml-3 brand-text text-gradient">CB</MudText>
     </NavLink>
     <MudSpacer />
-    <MudIconButton Href="https://github.com/CropperBlazor/Cropper.Blazor" Target="_blank" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" />
+    <MudTooltip Duration="500" Text="#supportukraine" Placement="Placement.Bottom" RootClass="mr-3 py-3">
+        <span class="support-ukraine" aria-label="Ukraine flag in support of Ukraine and its people, #supportukraine" />
+    </MudTooltip>
+    <MudTooltip Duration="1000" Text="GitHub Repository">
+        <MudIconButton Link="https://github.com/CropperBlazor/Cropper.Blazor" Target="_blank" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" />
+    </MudTooltip>
 </MudHidden>
 <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
     <NavLink ActiveClass="d-flex" href="">
@@ -18,6 +23,10 @@
     <MudButton Link="api" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Api" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Api)">Api</MudButton>
     <MudButton Link="about" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.ContactSupport" Color="Color.Inherit" Class="@GetActiveClass(BasePage.About)">About</MudButton>
     <MudSpacer />
+
+    <MudTooltip Duration="500" Text="#supportukraine" Placement="Placement.Bottom" RootClass="mr-3 py-3">
+        <span class="support-ukraine" aria-label="Ukraine flag in support of Ukraine and its people, #supportukraine" />
+    </MudTooltip>
     <AppbarButtons />
     <MudTooltip Duration="1000" Text="GitHub Repository">
         <MudIconButton Link="https://github.com/CropperBlazor/Cropper.Blazor" Target="_blank" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" />

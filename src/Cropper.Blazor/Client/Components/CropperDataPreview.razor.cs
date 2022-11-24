@@ -1,6 +1,8 @@
 using Cropper.Blazor.Components;
 using Cropper.Blazor.Events.CropEvent;
+using Cropper.Blazor.Events.CropStartEvent;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace Cropper.Blazor.Client.Components
 {
@@ -8,6 +10,8 @@ namespace Cropper.Blazor.Client.Components
     {
         [Parameter]
         public CropperComponent? cropperComponent { get; set; } = null!;
+
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
 
         private decimal? x;
         private decimal? y;
@@ -17,7 +21,7 @@ namespace Cropper.Blazor.Client.Components
         private decimal? scaleX;
         private decimal? scaleY;
 
-        public void OnCropEvent(CropEvent cropEvent)
+        public async Task OnCropEvent(CropEvent cropEvent)
         {
             x = cropEvent.X;
             y = cropEvent.Y;
@@ -26,9 +30,8 @@ namespace Cropper.Blazor.Client.Components
             rotate = cropEvent.Rotate;
             scaleX = cropEvent.ScaleX;
             scaleY = cropEvent.ScaleY;
-            //Console.WriteLine($"CropEvent, X: {cropEvent.X}, Y: {cropEvent.Y}, " +
-            //    $"Height: {cropEvent.Height}, Width: {cropEvent.Width}, " +
-            //    $"ScaleX: {cropEvent.ScaleX}, ScaleY: {cropEvent.ScaleY}, Rotate: {cropEvent.Rotate}");
+
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropEvent");
             StateHasChanged();
         }
     }
