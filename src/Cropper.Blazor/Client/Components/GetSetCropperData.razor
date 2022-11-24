@@ -32,8 +32,8 @@
     <MudCard Class="mb-6">
         <MudCardContent @key="containerData">
             <MudText>Container Data</MudText>
-            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="containerData.Height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
-            <MudNumericField HideSpinButtons="true" @bind-Value="containerData.Width" Label="Width, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="containerData.Height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="containerData.Width" Label="Width, px" Variant="Variant.Text" Step=".2M" />
         </MudCardContent>
         <MudCardActions>
             <MudTooltip Text="cropper.getContainerData()" RootClass="mud-width-full">
@@ -72,16 +72,16 @@
     <MudCard>
         <MudCardContent @key="imageData">
             <MudText>Image Data</MudText>
-            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
-            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Width" Label="Width, px" Variant="Variant.Text" Step=".2M" />
-            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Rotate" Label="Rotate, deg" Variant="Variant.Text" Step=".2M" />
-            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.ScaleX" Label="ScaleX" Variant="Variant.Text" Step=".2M" />
-            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.ScaleY" Label="ScaleY" Variant="Variant.Text" Step=".2M" />
-            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.NaturalHeight" Label="Natural Height, px" Variant="Variant.Text" Step=".2M" />
-            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.NaturalWidth" Label="Natural Width, px" Variant="Variant.Text" Step=".2M" />
-            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.AspectRatio" Label="Aspect Ratio" Variant="Variant.Text" Step=".2M" />
-            <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Left" Label="Left" Variant="Variant.Text" Step=".2M" />
-            <MudNumericField HideSpinButtons="true" @bind-Value="imageData.Top" Label="Top" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Width" Label="Width, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Rotate" Label="Rotate, deg" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.ScaleX" Label="ScaleX" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.ScaleY" Label="ScaleY" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.NaturalHeight" Label="Natural Height, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.NaturalWidth" Label="Natural Width, px" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.AspectRatio" Label="Aspect Ratio" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Left" Label="Left" Variant="Variant.Text" Step=".2M" />
+            <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="imageData.Top" Label="Top" Variant="Variant.Text" Step=".2M" />
         </MudCardContent>
         <MudCardActions>
             <MudTooltip Text="cropper.getImageData()" RootClass="mud-width-full">

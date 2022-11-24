@@ -238,7 +238,9 @@
 
                 <MudMenu Dense="true" Class="mud-width-full" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
                     <ActivatorContent>
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Filled.KeyboardArrowDown" FullWidth="true">Toggle Options</MudButton>
+                        <MudTooltip RootClass="mud-width-full" Text="Toggle options with three state options - default (null), true, false">
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Filled.KeyboardArrowDown" FullWidth="true">Toggle Options</MudButton>
+                        </MudTooltip>
                     </ActivatorContent>
                     <ChildContent>
                         @foreach (var item in options.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool?)))
