@@ -1,7 +1,3 @@
-codecov:
-  notify:
-    wait_for_ci: true               # Should Codecov wait for all CI statuses to complete before sending theirs
-    
 ignore:
   - "**/*.yaml"       # ignore all yaml files (Kubernetes manifests, etc...)
   - "**/*.yml"        # same as above
@@ -21,4 +17,3 @@ coverage:
       default:
         target: 100%
         threshold: 10%
-
