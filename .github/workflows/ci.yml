@@ -48,6 +48,7 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: coverage.net6.0.cobertura.xml
         fail_ci_if_error: true
+        verbose: true
       
     - name: Super-Linter
       uses: github/super-linter@v4.8.1
