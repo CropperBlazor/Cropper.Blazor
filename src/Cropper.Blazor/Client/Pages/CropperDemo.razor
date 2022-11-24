@@ -243,7 +243,7 @@
                         @foreach (var item in options.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool?)))
                         {
                             <MudMenuItem>
-                                <MudCheckBox Label="@item.Name" Size="Size.Small" Dense="true" Checked="(bool)item.GetValue(options, null)"
+                                <MudCheckBox Label="@item.Name" Size="Size.Small" Dense="true" Checked="(bool?)item.GetValue(options, null) ?? false"
                                          CheckedChanged="@((bool newValue) => OptionsChecked(item.Name, newValue))" />
                             </MudMenuItem>
                         }

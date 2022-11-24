@@ -268,10 +268,11 @@ namespace Cropper.Blazor.Client.Pages
 
         public void OptionsChecked(string property, bool newValue)
         {
-            PropertyInfo? propertyInfo = options.GetType()!.GetProperty(property);
+            Type type = options.GetType();
+            PropertyInfo? propertyInfo = type!.GetProperty(property);
             if (propertyInfo != null)
             {
-                propertyInfo.SetValue(options, Convert.ChangeType(newValue, propertyInfo.PropertyType), null);
+                propertyInfo.SetValue(options, newValue, null);
                 cropperComponent?.Destroy();
                 cropperComponent?.InitCropper();
             }
