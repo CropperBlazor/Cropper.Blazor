@@ -90,7 +90,7 @@ public partial class SectionContent
 
     private async Task CopyTextToClipboard()
     {
-        await JsApiService.CopyToClipboardAsync(Snippets.GetCode(Code));
+        await JsApiService.CopyToClipboardAsync(Snippets.GetCode(string.IsNullOrWhiteSpace(Code) ? _activeCode : Code));
     }
 
     RenderFragment CodeComponent(string code) => builder =>
