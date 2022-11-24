@@ -266,7 +266,7 @@ namespace Cropper.Blazor.Client.Pages
             return await cropperComponent!.GetCanvasDataAsync();
         }
 
-        public void OptionsChecked(string property, bool newValue)
+        public void OptionsChecked(string property, bool? newValue)
         {
             Type type = options.GetType();
             PropertyInfo? propertyInfo = type!.GetProperty(property);
