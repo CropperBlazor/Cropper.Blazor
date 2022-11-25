@@ -236,22 +236,29 @@
                     </MudTooltip>
                 </MudButtonGroup>
 
-                <MudMenu Dense="true" Class="mud-width-full" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
-                    <ActivatorContent>
-                        <MudTooltip RootClass="mud-width-full" Text="Toggle options with three state options - default (null), true, false">
-                            <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Filled.KeyboardArrowDown" FullWidth="true">Toggle Options</MudButton>
-                        </MudTooltip>
-                    </ActivatorContent>
-                    <ChildContent>
-                        @foreach (var item in options.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool?)))
-                        {
-                            <MudMenuItem>
-                                <MudCheckBox Label="@item.Name" Size="Size.Small" Dense="true" TriState="true" Checked="(bool?)item.GetValue(options, null)"
-                                         CheckedChanged="@((bool? newValue) => OptionsChecked(item.Name, newValue))" />
-                            </MudMenuItem>
-                        }
-                    </ChildContent>
-                </MudMenu>
+                <MudTooltip RootClass="mud-width-full" Text="Toggle options with three state options - default (null), true, false">
+                    @if (options is not null)
+                    {
+                        <MudSelect T="string"
+                               MultiSelection="true"
+                               SelectAll="true"
+                               SelectAllText="Select all options"
+                               HelperText="@value"
+                               @bind-Value="value"
+                               SelectedValues="GetSelectedOptionsMultiSelection"
+                               SelectedValuesChanged="OnSelectedValuesChanged"
+                               MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionOptionText))"
+                               Label="Options"
+                               AdornmentIcon="@Icons.Material.Filled.Search">
+                            @foreach (var option in options.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool?)))
+                            {
+                                <MudSelectItem Value="option.Name">
+                                    @option.Name
+                                </MudSelectItem>
+                            }
+                        </MudSelect>
+                    }
+                </MudTooltip>
 
             </MudPaper>
         </MudItem>

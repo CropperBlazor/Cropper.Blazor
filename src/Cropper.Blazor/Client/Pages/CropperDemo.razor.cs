@@ -24,13 +24,13 @@ namespace Cropper.Blazor.Client.Pages
 
         private CropperComponent? cropperComponent = null!;
         private CropperDataPreview? cropperDataPreview = null!;
-        private Options options = null!;
+        private static Options options = null!;
         private decimal? scaleX;
         private decimal? scaleY;
         private decimal aspectRatio = 1.7777777777777777m;
-
         private string Src = "https://fengyuanchen.github.io/cropperjs/images/picture.jpg";
         private bool IsErrorLoadImage { get; set; } = false;
+        private string value { get; set; } = "Nothing selected";
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
 
         public Dictionary<string, object> InputAttributes { get; set; } =
@@ -266,22 +266,48 @@ namespace Cropper.Blazor.Client.Pages
             return await cropperComponent!.GetCanvasDataAsync();
         }
 
-        public void OptionsChecked(string property, bool? newValue)
-        {
-            Type type = options.GetType();
-            PropertyInfo? propertyInfo = type!.GetProperty(property);
-            if (propertyInfo != null)
-            {
-                propertyInfo.SetValue(options, newValue, null);
-                cropperComponent?.Destroy();
-                cropperComponent?.InitCropper();
-            }
-        }
-
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        private string GetMultiSelectionOptionText(List<string> selectedValues)
+        {
+            return $"{selectedValues.Count} option{(selectedValues.Count > 1 ? "s have" : " has")} been selected";
+        }
+
+        private void OnSelectedValuesChanged(IEnumerable<string> properties)
+        {
+            Type type = options.GetType();
+            foreach (var property in properties)
+            {
+                PropertyInfo? propertyInfo = type!.GetProperty(property);
+                bool? optionValue = (bool?)propertyInfo!.GetValue(options, null);
+
+                if (optionValue == true)
+                {
+                    propertyInfo.SetValue(options, false, null);
+                }
+                else
+                {
+                    propertyInfo.SetValue(options, true, null);
+                }
+            }
+
+            cropperComponent?.Destroy();
+            cropperComponent?.InitCropper();
+        }
+
+        private IEnumerable<string> GetSelectedOptionsMultiSelection
+        {
+            get
+            {
+                return options!.GetType()
+                    .GetProperties()
+                    .Where(p => p.PropertyType == typeof(bool?) && (bool?)p.GetValue(options, null) == true)
+                    .Select(s => s.Name);
+            }
         }
 
         protected virtual void Dispose(bool disposing)
