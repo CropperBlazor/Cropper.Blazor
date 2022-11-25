@@ -1,0 +1,67 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Cropper.Blazor.Client.Compiler;
+
+public class CodeSnippetsCompiler
+{
+    public bool Execute()
+    {
+        var paths = new Paths();
+        var success = true;
+        try
+        {
+            var currentCode = string.Empty;
+            if (File.Exists(paths.SnippetsFilePath))
+            {
+                currentCode = File.ReadAllText(paths.SnippetsFilePath);
+            }
+
+            var cb = new CodeBuilder();
+            cb.AddHeader();
+            cb.AddLine("namespace Cropper.Blazor.Client.Models");
+            cb.AddLine("{");
+            cb.IndentLevel++;
+            cb.AddLine("public static partial class Snippets");
+            cb.AddLine("{");
+            cb.IndentLevel++;
+
+            foreach (var entry in Directory.EnumerateFiles(paths.DocsDirPath, "*.razor", SearchOption.AllDirectories)
+                .OrderBy(e => e.Replace("\\", "/"), StringComparer.Ordinal))
+            {
+                var filename = Path.GetFileName(entry);
+                var componentName = Path.GetFileNameWithoutExtension(filename);
+                if (!componentName.Contains(Paths.ExampleDiscriminator))
+                    continue;
+                cb.AddLine($"public const string {componentName} = @\"{EscapeComponentSource(entry)}\";\n");
+            }
+
+            cb.IndentLevel--;
+            cb.AddLine("}");
+            cb.IndentLevel--;
+            cb.AddLine("}");
+
+            if (currentCode != cb.ToString())
+            {
+                File.WriteAllText(paths.SnippetsFilePath, cb.ToString());
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error generating {paths.SnippetsFilePath} : {e.Message}");
+            success = false;
+        }
+
+        return success;
+    }
+
+    private static string EscapeComponentSource(string path)
+    {
+        var source = File.ReadAllText(path, Encoding.UTF8);
+        source = Regex.Replace(source, "@(namespace|layout|page) .+?\n", string.Empty);
+        return source.Replace("\"", "\"\"").Trim();
+    }
+}

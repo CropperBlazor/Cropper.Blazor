@@ -42,10 +42,11 @@ jobs:
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
       
     - name: Coverage
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v3.1.1
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}    
+        file: coverage.net6.0.cobertura.xml
         fail_ci_if_error: true
+        verbose: true
         
      # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project

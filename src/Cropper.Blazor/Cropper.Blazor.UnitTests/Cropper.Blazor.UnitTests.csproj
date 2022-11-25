@@ -26,7 +26,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-	</ItemGroup>
+  </ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
 		<PackageReference Include="Microsoft.JSInterop" Version="5.0.17" />
@@ -44,5 +44,17 @@
 		<ProjectReference Include="..\Cropper.Blazor.Testing\Cropper.Blazor.Testing.csproj" />
 		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
 	</ItemGroup>
+
+  <!--https://github.com/microsoft/vstest/issues/4014-->
+  <!--Remove section after dotnet SDK 7.0.101 released-->
+  <PropertyGroup>
+    <CollectCoverage>true</CollectCoverage>
+    <CoverletOutputFormat>cobertura</CoverletOutputFormat>
+    <ExcludeByAttribute>ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+    <Include>[Cropper.Blazor]*</Include>
+    <ExcludeByFile>**/*.g.cs</ExcludeByFile>
+    <SkipAutoProps>true</SkipAutoProps>
+    <CoverletOutput>./</CoverletOutput>
+  </PropertyGroup>
 
 </Project>
