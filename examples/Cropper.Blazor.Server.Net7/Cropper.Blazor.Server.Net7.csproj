@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
+    <ProjectReference Include="..\..\src\Cropper.Blazor\Cropper.Blazor\Cropper.Blazor.csproj" />
   </ItemGroup>
 
 </Project>
