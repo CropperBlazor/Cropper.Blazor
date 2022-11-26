@@ -72,7 +72,7 @@ And then use it in Razor file ([for example](https://github.com/CropperBlazor/Cr
   OnReadyEvent="OnCropReadyEvent"
   OnLoadImageEvent="OnLoadImageEvent"
   Src="@Src"
-  Loading="lazy"
+  InputAttributes="@InputAttributes"
   ErrorLoadImageSrc="@ErrorLoadImageSrc"
   IsErrorLoadImage="@IsErrorLoadImage"
   OnErrorLoadImageEvent="OnErrorLoadImageEvent"
