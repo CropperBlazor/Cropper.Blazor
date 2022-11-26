@@ -17,7 +17,7 @@ on:
 jobs:
   build:
     name: Build & Test
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -30,12 +30,6 @@ jobs:
             6.0.x
             7.0.x
 
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.1.3
-
-    - name: Install MAUI Workloads
-      run: |
-          dotnet workload install maui --ignore-failed-sources
           
     - name: Restore dependencies
       run: dotnet restore
@@ -87,3 +81,54 @@ jobs:
         JSCPD_CONFIG_FILE: '.jscpd.json'
         HTML_FILE_NAME: '.htmlhintrc'
         CSS_FILE_NAME: '.stylelintrc.json'
+
+  demo-projects-build:
+    name: Build Demo Projects
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+ 
+    # sets up .NET Core SDK 7, 6
+    - name: Setup .NET 7, 6
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: |
+            6.0.x
+            7.0.x
+
+    - name: Install MAUI Workloads
+      run: |
+          dotnet workload install maui --ignore-failed-sources
+          
+    - name: Restore dependencies for Cropper.Blazor.Server.Net7
+      run: dotnet restore
+      working-directory: examples/Cropper.Blazor.Server.Net7
+
+    - name: Restore dependencies for Cropper.Blazor.MAUI.Net7
+      run: dotnet restore
+      working-directory: examples/Cropper.Blazor.MAUI.Net7
+
+    - name: Restore dependencies for Cropper.Blazor.Server.Net6
+      run: dotnet restore
+      working-directory: examples/Cropper.Blazor.Server.Net6
+
+    - name: Restore dependencies for Cropper.Blazor.MAUI.Net6
+      run: dotnet restore
+      working-directory: examples/Cropper.Blazor.MAUI.Net6
+
+    - name: DotNet Build Blazor Server Demo Project for .net 7
+      run: dotnet build --no-restore
+      working-directory: examples/Cropper.Blazor.Server.Net7
+
+    - name: DotNet Build Blazor MAUI Demo Project for .net 7
+      run: dotnet build --no-restore
+      working-directory: examples/Cropper.Blazor.MAUI.Net7
+
+    - name: DotNet Build Blazor Server Demo Project for .net 6
+      run: dotnet build --no-restore
+      working-directory: examples/Cropper.Blazor.Server.Net6
+
+    - name: DotNet Build Blazor MAUI Demo Project for .net 6
+      run: dotnet build --no-restore
+      working-directory: examples/Cropper.Blazor.MAUI.Net6
