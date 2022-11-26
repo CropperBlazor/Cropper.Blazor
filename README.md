@@ -49,12 +49,30 @@ Add the following to `index.html` or `_Host.cshtml` in the `body`
 <script src="_content/Cropper.Blazor/cropper.js"></script>
 ```
 
-Add the following to the relevant sections of `Program.cs`
+Add the following to the relevant sections of `Program.cs` for client-side (Blazor Webassembly, Blazor MAUI)
 ```c#
 using Cropper.Blazor.Extensions;
 ```
 ```c#
 builder.Services.AddCropper();
+```
+
+Add the following to the relevant sections of `Program.cs` for server-side (Blazor Server)
+```c#
+using Cropper.Blazor.Extensions;
+```
+```c#
+builder.Services.AddCropper();
+```
+Also for server-side (Blazor Server) you need add configuration SignalR, increase MaximumReceiveMessageSize and map SignalR to your path. For example:
+```c#builder.Services.AddServerSideBlazor()
+    .AddHubOptions(options =>
+    {
+        options.MaximumReceiveMessageSize = 32 * 1024 * 100;
+    });
+```
+```c#
+app.MapBlazorHub();
 ```
 
 And then use it in Razor file ([for example](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor)):
