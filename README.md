@@ -51,7 +51,7 @@ Add the following to `index.html` or `_Host.cshtml` in the `body`
 ```
 
 
-Add the following to the relevant sections of `Program.cs` for client-side (Blazor Webassembly, Blazor MAUI)
+Add the following to the relevant sections of `Program.cs`
 ```c#
 using Cropper.Blazor.Extensions;
 ```
@@ -59,14 +59,7 @@ using Cropper.Blazor.Extensions;
 builder.Services.AddCropper();
 ```
 
-Add the following to the relevant sections of `Program.cs` for server-side (Blazor Server)
-```c#
-using Cropper.Blazor.Extensions;
-```
-```c#
-builder.Services.AddCropper();
-```
-Also for server-side (Blazor Server) you need add configuration SignalR, increase MaximumReceiveMessageSize and map SignalR to your path. For example:
+Also for server-side (Blazor Server) you need add configuration SignalR, increase MaximumReceiveMessageSize of a single incoming hub message (default is 32KB) and map SignalR to your path. For example:
 ```c#
 builder.Services.AddServerSideBlazor()
     .AddHubOptions(options =>
