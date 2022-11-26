@@ -33,22 +33,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
       working-directory: src/Cropper.Blazor
-
-    - name: DotNet Build Blazor Server Demo Project for .net 7
-      run: dotnet build --no-restore
-      working-directory: examples/Cropper.Blazor.Server.Net7
-
-    - name: DotNet Build Blazor MAUI Demo Project for .net 7
-      run: dotnet build --no-restore
-      working-directory: examples/Cropper.Blazor.MAUI.Net7
-
-    - name: DotNet Build Blazor Server Demo Project for .net 6
-      run: dotnet build --no-restore
-      working-directory: examples/Cropper.Blazor.Server.Net6
-
-    - name: DotNet Build Blazor MAUI Demo Project for .net 6
-      run: dotnet build --no-restore
-      working-directory: examples/Cropper.Blazor.MAUI.Net6
       
     - name: DotNet Build
       run: dotnet build --no-restore
@@ -84,6 +68,7 @@ jobs:
   demo-projects-build:
     name: Build Demo Projects
     runs-on: windows-latest
+    needs: build
 
     steps:
     - uses: actions/checkout@v3
