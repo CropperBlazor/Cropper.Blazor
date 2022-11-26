@@ -27,6 +27,10 @@ jobs:
         dotnet-version: |
             6.0.x
             7.0.x
+
+    - name: Install MAUI Workloads
+      run: |
+          dotnet workload install maui --ignore-failed-sources
         
     - name: Restore dependencies
       run: dotnet restore
@@ -36,9 +40,17 @@ jobs:
       run: dotnet build --no-restore
       working-directory: examples/Cropper.Blazor.Server.Net7
 
+    - name: DotNet Build Blazor MAUI Demo Project for .net 7
+      run: dotnet build --no-restore
+      working-directory: examples/Cropper.Blazor.MAUI.Net7
+
     - name: DotNet Build Blazor Server Demo Project for .net 6
       run: dotnet build --no-restore
       working-directory: examples/Cropper.Blazor.Server.Net6
+
+    - name: DotNet Build Blazor MAUI Demo Project for .net 6
+      run: dotnet build --no-restore
+      working-directory: examples/Cropper.Blazor.MAUI.Net6
       
     - name: Build
       run: dotnet build --no-restore
