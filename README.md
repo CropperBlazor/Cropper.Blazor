@@ -39,6 +39,7 @@ Import Custom Element:
 @using Cropper.Blazor.Components
 ```
 
+
 Add the following to `index.html` (client-side — Blazor Webassembly, Blazor MAUI) or `_Host.cshtml` (server-side — Blazor Server) in the `head`
 ```razor
 <link href="_content/Cropper.Blazor/cropper.css" rel="stylesheet" />
@@ -48,6 +49,7 @@ Add the following to `index.html` or `_Host.cshtml` in the `body`
 ```razor
 <script src="_content/Cropper.Blazor/cropper.js"></script>
 ```
+
 
 Add the following to the relevant sections of `Program.cs` for client-side (Blazor Webassembly, Blazor MAUI)
 ```c#
@@ -74,6 +76,7 @@ Also for server-side (Blazor Server) you need add configuration SignalR, increas
 ```c#
 app.MapBlazorHub();
 ```
+
 
 And then use it in Razor file ([for example](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor)):
 
