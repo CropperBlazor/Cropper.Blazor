@@ -60,7 +60,7 @@ a, .btn-link {
 }
 
 .blazor-error-boundary::after {
-    content: "An error has occurred."
+    content: "An error has occurred.";
 }
 
 .status-bar-safe-area {
