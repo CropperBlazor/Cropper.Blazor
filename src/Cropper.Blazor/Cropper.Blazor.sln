@@ -52,9 +52,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor Server", "Blazor Ser
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor Server", "Blazor Server", "{D7DC8624-D61D-43A1-AECB-423F89E2F3E2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Server.Net7", "Cropper.Blazor.Server.Net7\Cropper.Blazor.Server.Net7.csproj", "{79FCED74-C4CF-40D0-ABA8-B98E99A762B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Server.Net7", "..\..\examples\Cropper.Blazor.Server.Net7\Cropper.Blazor.Server.Net7.csproj", "{79FCED74-C4CF-40D0-ABA8-B98E99A762B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Server.Net6", "Cropper.Blazor.Server.Net6\Cropper.Blazor.Server.Net6.csproj", "{EB26F474-D899-4BEE-AA70-8B1A9B45C485}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Server.Net6", "..\..\examples\Cropper.Blazor.Server.Net6\Cropper.Blazor.Server.Net6.csproj", "{EB26F474-D899-4BEE-AA70-8B1A9B45C485}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MAUI Blazor", "MAUI Blazor", "{946A00A5-899E-4A2E-84CB-5A6738A3E8A6}"
 EndProject
