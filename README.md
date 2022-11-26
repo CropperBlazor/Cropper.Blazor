@@ -39,7 +39,7 @@ Import Custom Element:
 @using Cropper.Blazor.Components
 ```
 
-Add the following to `index.html` (client-side) or `_Host.cshtml` (server-side) in the `head`
+Add the following to `index.html` (client-side — Blazor Webassembly, Blazor MAUI) or `_Host.cshtml` (server-side — Blazor Server) in the `head`
 ```razor
 <link href="_content/Cropper.Blazor/cropper.css" rel="stylesheet" />
 ```
