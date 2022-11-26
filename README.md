@@ -67,7 +67,8 @@ using Cropper.Blazor.Extensions;
 builder.Services.AddCropper();
 ```
 Also for server-side (Blazor Server) you need add configuration SignalR, increase MaximumReceiveMessageSize and map SignalR to your path. For example:
-```c#builder.Services.AddServerSideBlazor()
+```c#
+builder.Services.AddServerSideBlazor()
     .AddHubOptions(options =>
     {
         options.MaximumReceiveMessageSize = 32 * 1024 * 100;
