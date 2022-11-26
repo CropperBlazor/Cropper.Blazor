@@ -59,7 +59,7 @@ using Cropper.Blazor.Extensions;
 builder.Services.AddCropper();
 ```
 
-Also for server-side (Blazor Server) you need add configuration SignalR, increase MaximumReceiveMessageSize of a single incoming hub message (default is 32KB) and map SignalR to your path. For example:
+Also for server-side (Blazor Server) you need add configuration SignalR, increase MaximumReceiveMessageSize of a single incoming hub message (default is 32KB) and map SignalR to your path. [For example](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/examples/Cropper.Blazor.Server.Net7/Program.cs):
 ```c#
 builder.Services.AddServerSideBlazor()
     .AddHubOptions(options =>
