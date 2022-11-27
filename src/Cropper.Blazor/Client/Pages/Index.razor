@@ -72,7 +72,7 @@
 
                 <DocsPageSection>
                     <SectionHeader Title="Add font and style references">
-                        <Description>Add the following to your HTML head section, it's either <CodeInline>index.html</CodeInline> or <CodeInline>_Layout.cshtml</CodeInline>/<CodeInline>_Host.cshtml</CodeInline> depending on whether you're running WebAssembly or Server.</Description>
+                        <Description>Add the following to your HTML head section, it's either <CodeInline>index.html</CodeInline> or <CodeInline>_Layout.cshtml</CodeInline>/<CodeInline>_Host.cshtml</CodeInline> depending on whether you're running WebAssembly/MAUI or Server.</Description>
                     </SectionHeader>
                     <SectionContent Code="InstallationManualCssFontsExample" />
                 </DocsPageSection>
@@ -89,6 +89,13 @@
                         <Description>Add the following in <CodeInline>Program.cs</CodeInline></Description>
                     </SectionHeader>
                     <SectionContent Codes="@(new[] {new CodeFile(".NET 6 & .NET 7", "InstallServicesNET6Example")})" />
+                </DocsPageSection>
+
+                <DocsPageSection>
+                    <SectionHeader>
+                        <Description>Also for server-side (Blazor Server) you need add configuration SignalR, increase MaximumReceiveMessageSize of a single incoming hub message (default is 32KB) and map SignalR to your path.</Description>
+                    </SectionHeader>
+                    <SectionContent Code="InstallServicesForBlazorServerExample" />
                 </DocsPageSection>
 
                 <DocsPageSection>
