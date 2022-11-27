@@ -51,7 +51,7 @@
     <MudGrid Class="mt-2" Justify="Justify.Center">
 
         <MudItem xl="12" lg="12" md="12" sm="12" xs="12">
-           
+
             <DocsPageSection>
                 <SectionHeader Title="Manual Install">
                     <Description>If you already have a project and want to add Cropper.Blazor to it, either from a default template or a working application.</Description>
@@ -92,7 +92,7 @@
                 </DocsPageSection>
 
                 <DocsPageSection>
-                    <SectionHeader>
+                    <SectionHeader Class="mt-3">
                         <Description>Also for server-side (Blazor Server) you need add configuration SignalR, increase MaximumReceiveMessageSize of a single incoming hub message (default is 32KB) and map SignalR to your path.</Description>
                     </SectionHeader>
                     <SectionContent Code="InstallServicesForBlazorServerExample" />
@@ -103,7 +103,9 @@
                         <Description>Add the following components to your <CodeInline>MainLayout.razor</CodeInline></Description>
                     </SectionHeader>
                     <SectionContent Code="InstallationManualComponentsExample">
-                        <InstallationManualComponentsExample/>
+                        <div class="img-container">
+                            <InstallationManualComponentsExample />
+                        </div>
                     </SectionContent>
                 </DocsPageSection>
 
