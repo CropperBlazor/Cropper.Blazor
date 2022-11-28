@@ -13,7 +13,7 @@ namespace Cropper.Blazor.UnitTests.Extensions
 
         public ServiceCollectionExtensions_Should()
         {
-            Mock<IServiceCollection> serviceCollection = new Mock<IServiceCollection>();
+            Mock<IServiceCollection> serviceCollection = new();
             serviceCollection.Object.AddCropper();
             _serviceCollectionMock = new ServiceCollectionMock(serviceCollection);
         }
