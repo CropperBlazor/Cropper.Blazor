@@ -8,7 +8,7 @@ using Cropper.Blazor.Events.ZoomEvent;
 namespace Cropper.Blazor.Base
 {
     /// <summary>
-    /// 
+    /// Provides the metadata of a ICropperComponentBase
     /// </summary>
     public interface ICropperComponentBase
     {
