@@ -1,0 +1,134 @@
+﻿using Cropper.Blazor.Components;
+using Cropper.Blazor.Events.CropEndEvent;
+using Cropper.Blazor.Events.CropEvent;
+using Cropper.Blazor.Events.CropMoveEvent;
+using Cropper.Blazor.Events.CropReadyEvent;
+using Cropper.Blazor.Events.CropStartEvent;
+using Cropper.Blazor.Events.ZoomEvent;
+using Cropper.Blazor.Models;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
+using MudBlazor;
+using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
+
+namespace Cropper.Blazor.Server.Net6.Pages
+{
+    public partial class Index : IDisposable
+    {
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
+
+        private CropperComponent? cropperComponent = null!;
+        private Options options = null!;
+        private decimal? scaleX;
+        private decimal? scaleY;
+        private decimal aspectRatio = 1.7777777777777777m;
+
+        private string Src = "https://fengyuanchen.github.io/cropperjs/images/picture.jpg";
+        private bool IsErrorLoadImage { get; set; } = false;
+        private readonly string _errorLoadImageSrc = "not-found-image.jpg";
+        public Dictionary<string, object> InputAttributes { get; set; } =
+            new Dictionary<string, object>()
+            {
+                        { "loading", "lazy" },
+                        { "test-Attribute", "123-test" }
+            };
+        protected override void OnInitialized()
+        {
+            options = new Options()
+            {
+                Preview = ".img-preview",
+                AspectRatio = (decimal)16 / 9,
+                ViewMode = ViewMode.Vm0
+            };
+        }
+
+        public void OnCropEvent(CropEvent cropEvent)
+        {
+            scaleX = cropEvent.ScaleX;
+            scaleY = cropEvent.ScaleY;
+        }
+
+        public async void OnCropEndEvent(CropEndEvent cropEndEvent)
+        {
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {cropEndEvent.ActionEvent}");
+        }
+
+        public async void OnCropStartEvent(CropStartEvent cropStartEvent)
+        {
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartEvent, {cropStartEvent.ActionEvent}");
+        }
+
+        public async void OnZoomEvent(ZoomEvent zoomEvent)
+        {
+            await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent, OldRatio: {zoomEvent.OldRatio}, Ratio: {zoomEvent.Ratio}");
+        }
+
+        public async void OnCropMoveEvent(CropMoveEvent cropMoveEvent)
+        {
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveEvent, {cropMoveEvent.ActionEvent}");
+        }
+
+        public async void OnCropReadyEvent(CropReadyEvent cropReadyEvent)
+        {
+            await JSRuntime!.InvokeVoidAsync("console.log", "Cropper Is Ready");
+        }
+
+        public async void OnLoadImageEvent()
+        {
+            await JSRuntime!.InvokeVoidAsync("console.log", "Image Is loaded");
+        }
+
+        public void OnErrorLoadImageEvent(ErrorEventArgs errorEventArgs)
+        {
+            IsErrorLoadImage = true;
+            Destroy();
+            StateHasChanged();
+        }
+
+        public async void GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        {
+            string croppedCanvasDataURL = await cropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+            DialogParameters parameters = new()
+            {
+                { "Src", croppedCanvasDataURL }
+            };
+            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
+            _dialogService!.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+        }
+
+        public async Task InputFileChange(InputFileChangeEventArgs inputFileChangeEventArgs)
+        {
+            var imageFile = inputFileChangeEventArgs.File;
+            if (imageFile != null)
+            {
+                var oldSrc = Src;
+                Src = await cropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
+                IsErrorLoadImage = false;
+                cropperComponent?.Destroy();
+                cropperComponent?.RevokeObjectUrlAsync(oldSrc).AsTask();
+            }
+        }
+
+        private void Destroy()
+        {
+            cropperComponent?.Destroy();
+            cropperComponent?.RevokeObjectUrlAsync(Src).AsTask();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Destroy();
+                JSRuntime!.InvokeVoidAsync("console.log", "Cropper Demo component is destroyed");
+            }
+        }
+    }
+}

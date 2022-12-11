@@ -36,7 +36,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{
 		..\..\.github\workflows\release.yml = ..\..\.github\workflows\release.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Blazor.Client.Compiler", "Cropper.Blazor.Client.Compiler\Cropper.Blazor.Client.Compiler.csproj", "{AA2CDA13-6D81-4A3B-871D-2C5B26926D9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Client.Compiler", "Cropper.Blazor.Client.Compiler\Cropper.Blazor.Client.Compiler.csproj", "{AA2CDA13-6D81-4A3B-871D-2C5B26926D9B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{1CC7BA40-8F2C-4BD6-B43E-93D43E1CD60F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{AA493A4F-99D7-4C5D-9355-28E5159F9DB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,10 +77,14 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{62A3968C-AB74-4CF5-8F5C-3AF53E3D3A85} = {AA493A4F-99D7-4C5D-9355-28E5159F9DB6}
+		{3CD2E5C9-8D12-4ABF-9F06-EFB70AA7366D} = {AA493A4F-99D7-4C5D-9355-28E5159F9DB6}
+		{FA58CDB6-2BC9-4F10-A3C4-465CDAC628E3} = {1CC7BA40-8F2C-4BD6-B43E-93D43E1CD60F}
 		{BE6E7931-6FBD-4F31-9A70-3B909DB36291} = {E3B241FF-8870-4531-BA32-271802B0ECCA}
 		{D146B02D-1545-48FB-A0D3-17AF0F97C6E6} = {E3B241FF-8870-4531-BA32-271802B0ECCA}
 		{42196427-7CE7-4B56-BAA3-717B1CB6C245} = {624968C7-925A-4896-8405-4174FD48B9BC}
 		{378A2956-8E21-434D-9480-9D4E0732098B} = {624968C7-925A-4896-8405-4174FD48B9BC}
+		{AA2CDA13-6D81-4A3B-871D-2C5B26926D9B} = {AA493A4F-99D7-4C5D-9355-28E5159F9DB6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C2EE0C77-7D1D-41D9-B923-314095849A25}

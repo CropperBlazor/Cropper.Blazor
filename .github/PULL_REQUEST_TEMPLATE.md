@@ -12,7 +12,6 @@
 <!--
   It serves as a gentle reminder for common tasks. Confirm it's done and check everything that applies.
 -->
-- [ ] Documentation updated
 - [ ] Tests cover new or modified code
 - [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
