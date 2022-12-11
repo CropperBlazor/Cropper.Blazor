@@ -12,8 +12,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
 using System.Reflection;
-using static MudBlazor.CategoryTypes;
-using static MudBlazor.Colors;
 using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Client.Pages
@@ -29,7 +27,7 @@ namespace Cropper.Blazor.Client.Pages
         private decimal? scaleY;
         private decimal aspectRatio = 1.7777777777777777m;
 
-        private string Src = "https://fengyuanchen.github.io/cropperjs/images/picture.jpg";
+        private string Src = "https://fengyuanchen.github.io/cropperjs/v2/picture.jpg";
         private bool IsErrorLoadImage { get; set; } = false;
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
 

@@ -1,6 +1,5 @@
 using Cropper.Blazor.Components;
 using Cropper.Blazor.Events.CropEvent;
-using Cropper.Blazor.Events.CropStartEvent;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 

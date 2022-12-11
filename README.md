@@ -39,7 +39,8 @@ Import Custom Element:
 @using Cropper.Blazor.Components
 ```
 
-Add the following to `index.html` (client-side) or `_Host.cshtml` (server-side) in the `head`
+
+Add the following to `index.html` (client-side — Blazor Webassembly, Blazor MAUI) or `_Host.cshtml` (server-side — Blazor Server) in the `head`
 ```razor
 <link href="_content/Cropper.Blazor/cropper.css" rel="stylesheet" />
 ```
@@ -49,6 +50,7 @@ Add the following to `index.html` or `_Host.cshtml` in the `body`
 <script src="_content/Cropper.Blazor/cropper.js"></script>
 ```
 
+
 Add the following to the relevant sections of `Program.cs`
 ```c#
 using Cropper.Blazor.Extensions;
@@ -56,6 +58,19 @@ using Cropper.Blazor.Extensions;
 ```c#
 builder.Services.AddCropper();
 ```
+
+Also for server-side (Blazor Server) you need add configuration SignalR, increase MaximumReceiveMessageSize of a single incoming hub message (default is 32KB) and map SignalR to your path. [For example](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/examples/Cropper.Blazor.Server.Net7/Program.cs):
+```c#
+builder.Services.AddServerSideBlazor()
+    .AddHubOptions(options =>
+    {
+        options.MaximumReceiveMessageSize = 32 * 1024 * 100;
+    });
+```
+```c#
+app.MapBlazorHub();
+```
+
 
 And then use it in Razor file ([for example](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor)):
 
