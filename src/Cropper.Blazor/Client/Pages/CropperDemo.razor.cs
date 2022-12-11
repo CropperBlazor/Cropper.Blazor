@@ -27,7 +27,7 @@ namespace Cropper.Blazor.Client.Pages
         private decimal? scaleY;
         private decimal aspectRatio = 1.7777777777777777m;
 
-        private string Src = "https://fengyuanchen.github.io/cropperjs/images/picture.jpg";
+        private string Src = "https://fengyuanchen.github.io/cropperjs/v2/picture.jpg";
         private bool IsErrorLoadImage { get; set; } = false;
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
 

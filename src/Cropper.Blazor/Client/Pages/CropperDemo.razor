@@ -243,13 +243,15 @@
                         </MudTooltip>
                     </ActivatorContent>
                     <ChildContent>
-                        @foreach (var item in options.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool?)))
-                        {
-                            <MudMenuItem>
-                                <MudCheckBox Label="@item.Name" Size="Size.Small" Dense="true" TriState="true" Checked="(bool?)item.GetValue(options, null)"
-                                         CheckedChanged="@((bool? newValue) => OptionsChecked(item.Name, newValue))" />
-                            </MudMenuItem>
-                        }
+                        <MudList Clickable="true" Dense="true">
+                            @foreach (var item in options.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool?)))
+                            {
+                                <MudListItem>
+                                    <MudCheckBox Label="@item.Name" Size="Size.Small" Dense="true" TriState="true" Checked="(bool?)item.GetValue(options, null)"
+                                             CheckedChanged="@((bool? newValue) => OptionsChecked(item.Name, newValue))" />
+                                </MudListItem>
+                            }
+                        </MudList>
                     </ChildContent>
                 </MudMenu>
 
