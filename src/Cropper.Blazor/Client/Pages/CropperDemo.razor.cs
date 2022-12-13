@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
+using MudBlazor.Services;
 using System.Reflection;
 using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
@@ -18,6 +19,8 @@ namespace Cropper.Blazor.Client.Pages
 {
     public partial class CropperDemo : IDisposable
     {
+        [Inject] IBreakpointService BreakpointListener { get; set; } = null!;
+
         [Inject] private IJSRuntime? JSRuntime { get; set; }
 
         private CropperComponent? cropperComponent = null!;
@@ -30,6 +33,8 @@ namespace Cropper.Blazor.Client.Pages
         private string Src = "https://fengyuanchen.github.io/cropperjs/v2/picture.jpg";
         private bool IsErrorLoadImage { get; set; } = false;
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
+        private Breakpoint _start;
+        private Guid _subscriptionId;
 
         public Dictionary<string, object> InputAttributes { get; set; } =
             new Dictionary<string, object>()
@@ -215,6 +220,18 @@ namespace Cropper.Blazor.Client.Pages
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            if (firstRender)
+            {
+                var subscriptionResult = await BreakpointListener.Subscribe((breakpoint) =>
+                {
+                    InvokeAsync(StateHasChanged);
+                });
+
+                _start = subscriptionResult.Breakpoint;
+                _subscriptionId = subscriptionResult.SubscriptionId;
+                StateHasChanged();
+            }
+
             await base.OnAfterRenderAsync(firstRender);
         }
 
