@@ -61,37 +61,31 @@ namespace Cropper.Blazor.Client.Pages
         public async void OnCropEndEvent(CropEndEvent cropEndEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {cropEndEvent.ActionEvent}");
-            //Console.WriteLine($"CropEndEvent, {cropEndEvent.ActionEvent}");
         }
 
         public async void OnCropStartEvent(CropStartEvent cropStartEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartEvent, {cropStartEvent.ActionEvent}");
-            //Console.WriteLine($"CropStartEvent, {cropStartEvent.ActionEvent}");
         }
 
         public async void OnZoomEvent(ZoomEvent zoomEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent, OldRatio: {zoomEvent.OldRatio}, Ratio: {zoomEvent.Ratio}");
-            //Console.WriteLine($"ZoomEvent, OldRatio: {zoomEvent.OldRatio}, Ratio: {zoomEvent.Ratio}");
         }
 
         public async void OnCropMoveEvent(CropMoveEvent cropMoveEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveEvent, {cropMoveEvent.ActionEvent}");
-            //Console.WriteLine($"CropMoveEvent, {cropMoveEvent.ActionEvent}");
         }
 
         public async void OnCropReadyEvent(CropReadyEvent cropReadyEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", "Cropper Is Ready");
-            //Console.WriteLine("Cropper Is Ready");
         }
 
         public async void OnLoadImageEvent()
         {
             await JSRuntime!.InvokeVoidAsync("console.log", "Image Is loaded");
-            //Console.WriteLine("Image Is loaded");
         }
 
         public void OnErrorLoadImageEvent(ErrorEventArgs errorEventArgs)

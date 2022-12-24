@@ -109,3 +109,7 @@ html, body {
     border-radius: 4px;
     box-sizing: border-box;
 }
+
+.cropper-container {
+    max-height: inherit;
+}
