@@ -1,7 +1,7 @@
 ﻿namespace Cropper.Blazor.Models
 {
     /// <summary>
-    /// Provides the metadata of a View Mode
+    /// Enumeration of view modes
     /// </summary>
     public enum ViewMode
     {

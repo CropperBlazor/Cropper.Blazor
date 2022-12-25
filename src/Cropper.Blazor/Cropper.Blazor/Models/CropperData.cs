@@ -3,7 +3,7 @@
 namespace Cropper.Blazor.Models
 {
     /// <summary>
-    /// Provides the metadata of a Cropper Data
+    /// Contains cropper options
     /// </summary>
     public class CropperData
     {

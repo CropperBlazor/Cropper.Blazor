@@ -3,7 +3,7 @@
 namespace Cropper.Blazor.Models
 {
     /// <summary>
-    /// Provides the metadata of a Drag Mode
+    /// Enumeration of drag modes
     /// </summary>
     public enum DragMode
     {

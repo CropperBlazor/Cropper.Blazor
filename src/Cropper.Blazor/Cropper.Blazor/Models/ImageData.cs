@@ -1,7 +1,7 @@
 ﻿namespace Cropper.Blazor.Models
 {
     /// <summary>
-    /// Provides the metadata of a Image Data
+    /// Contains image options
     /// </summary>
     public class ImageData
     {

@@ -3,7 +3,7 @@
 namespace Cropper.Blazor.Models
 {
     /// <summary>
-    /// Provides the metadata of a Image Smoothing Quality
+    /// Enumeration of image smoothing quality options
     /// </summary>
     public enum ImageSmoothingQuality
     {

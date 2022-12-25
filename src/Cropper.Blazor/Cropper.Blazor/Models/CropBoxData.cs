@@ -1,7 +1,7 @@
 ﻿namespace Cropper.Blazor.Models
 {
     /// <summary>
-    /// Provides the metadata of a Crop Box Data
+    /// Contains cropper box options
     /// </summary>
     public class CropBoxData
     {

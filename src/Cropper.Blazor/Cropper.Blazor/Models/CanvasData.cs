@@ -1,7 +1,7 @@
 ﻿namespace Cropper.Blazor.Models
 {
     /// <summary>
-    /// Provides the metadata of a Canvas Data
+    /// Contains cropper canvas options
     /// </summary>
     public class CanvasData
     {
