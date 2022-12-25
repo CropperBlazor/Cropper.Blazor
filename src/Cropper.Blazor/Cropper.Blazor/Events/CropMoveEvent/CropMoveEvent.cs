@@ -8,7 +8,7 @@ namespace Cropper.Blazor.Events.CropMoveEvent
     public class CropMoveEvent
     {
         /// <summary>
-        /// Action Event
+        /// Event actions
         /// </summary>
         [JsonConverter(typeof(JsonStringEnumConverter))]
         [JsonPropertyName("action")]
