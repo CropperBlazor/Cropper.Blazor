@@ -15,6 +15,10 @@ namespace Cropper.Blazor.Services
     {
         private readonly IJSRuntime jsRuntime;
         private IJSObjectReference? module = null;
+
+        /// <summary>
+        /// Path to cropper js interop module.
+        /// </summary>
         public const string PathToCropperModule = "./_content/Cropper.Blazor/cropperJsInterop.min.js";
 
         public CropperJsInterop(IJSRuntime jsRuntime)
@@ -416,12 +420,18 @@ namespace Cropper.Blazor.Services
             await jsRuntime.InvokeVoidAsync("cropper.revokeObjectUrl", cancellationToken, url);
         }
 
+        /// <summary>
+        /// Called to dispose this instance.
+        /// </summary>
         public async ValueTask DisposeAsync()
         {
             await DisposeAsyncCore();
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Called to dispose js module.
+        /// </summary>
         protected virtual async ValueTask DisposeAsyncCore()
         {
             if (module is not null)
