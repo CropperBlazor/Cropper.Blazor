@@ -31,7 +31,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-  </PropertyGroup>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+	</PropertyGroup>
 
   <ItemGroup>
     <None Include="..\..\..\LICENSE" Pack="true" Visible="false" PackagePath="" />

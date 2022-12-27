@@ -110,6 +110,9 @@ namespace Cropper.Blazor.Components
         [Parameter]
         public Action<ErrorEventArgs>? OnErrorLoadImageEvent { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> InputAttributes { get; set; }
 
@@ -424,6 +427,15 @@ namespace Cropper.Blazor.Components
             return await CropperJsIntertop!.GetCanvasDataAsync();
         }
 
+        /// <summary>
+        /// Used to get an image from a stream.
+        /// <br/>
+        /// Converts JavaScript stream to .NET stream uses <see cref="DotNetStreamReference"/>, and then creates a URL blob reference.
+        /// </summary>
+        /// <param name="imageFile"></param>
+        /// <param name="maxAllowedSize"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Blob URL.</returns>
         public async ValueTask<string> GetImageUsingStreamingAsync(
             IBrowserFile imageFile,
             long maxAllowedSize = 512000L,
@@ -432,6 +444,11 @@ namespace Cropper.Blazor.Components
             return await CropperJsIntertop!.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken);
         }
 
+        /// <summary>
+        /// Call this method when you've finished using an object URL to let the browser know not to keep the reference to the file any longer.
+        /// </summary>
+        /// <param name="url">A string representing an object URL.</param>
+        /// <returns></returns>
         public async ValueTask RevokeObjectUrlAsync(string url)
         {
             await CropperJsIntertop!.RevokeObjectUrlAsync(url);
