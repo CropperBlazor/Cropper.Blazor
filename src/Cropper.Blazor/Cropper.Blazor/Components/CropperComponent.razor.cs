@@ -19,7 +19,6 @@ using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Components
 {
-    
     public partial class CropperComponent : ICropperComponentBase
     {
         [Inject] ICropperJsInterop CropperJsIntertop { get; set; } = null!;
