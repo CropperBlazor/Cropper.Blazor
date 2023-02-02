@@ -19,6 +19,9 @@ using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Components
 {
+    /// <summary>
+    /// The cropper component
+    /// </summary>
     public partial class CropperComponent : ICropperComponentBase
     {
         [Inject] ICropperJsInterop CropperJsIntertop { get; set; } = null!;
@@ -110,11 +113,27 @@ namespace Cropper.Blazor.Components
         public Action<ErrorEventArgs>? OnErrorLoadImageEvent { get; set; }
 
         /// <summary>
-        /// 
+        /// Additional attributes can be captured in a dictionary and then splatted onto an element when the component is rendered using the @attributes Razor directive attribute.
         /// </summary>
         [Parameter(CaptureUnmatchedValues = true)]
-        public Dictionary<string, object> InputAttributes { get; set; }
+        public Dictionary<string, object> InputAttributes { get; set; } = null!;
 
+        /// <summary>
+        /// Method invoked after each time the component has been rendered. Note that the component does
+        /// not automatically re-render after the completion of any returned <see cref="Task"/>, because
+        /// that would cause an infinite render loop.
+        /// </summary>
+        /// <param name="firstRender">
+        /// Set to <c>true</c> if this is the first time <see cref="OnAfterRenderAsync(bool)"/> has been invoked
+        /// on this component instance; otherwise <c>false</c>.
+        /// </param>
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        /// <remarks>
+        /// The <see cref="OnAfterRenderAsync(bool)"/> lifecycle methods
+        /// are useful for performing interop, or interacting with values received from <c>@ref</c>.
+        /// Use the <paramref name="firstRender"/> parameter to ensure that initialization work is only performed
+        /// once.
+        /// </remarks>
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
@@ -151,36 +170,54 @@ namespace Cropper.Blazor.Components
             OnLoadImageEvent?.Invoke();
         }
 
+        /// <summary>
+        /// This event fires when the canvas (image wrapper) or the crop box changes.
+        /// </summary>
         [JSInvokable]
         public void CropperIsCroped(CropEvent cropEvent)
         {
             OnCropEvent?.Invoke(cropEvent);
         }
 
+        /// <summary>
+        /// This event fires when the canvas (image wrapper) or the crop box stops changing.
+        /// </summary>
         [JSInvokable]
         public void CropperIsEnded(CropEndEvent cropEndEvent)
         {
             OnCropEndEvent?.Invoke(cropEndEvent);
         }
 
+        /// <summary>
+        /// This event fires when the canvas (image wrapper) or the crop box is changing.
+        /// </summary>
         [JSInvokable]
         public void CropperIsMoved(CropMoveEvent cropMoveEvent)
         {
             OnCropMoveEvent?.Invoke(cropMoveEvent);
         }
 
+        /// <summary>
+        /// This event fires when the canvas (image wrapper) or the crop box starts to change.
+        /// </summary>
         [JSInvokable]
         public void CropperIsStarted(CropStartEvent cropStartEvent)
         {
             OnCropStartEvent?.Invoke(cropStartEvent);
         }
 
+        /// <summary>
+        /// This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
+        /// </summary>
         [JSInvokable]
         public void CropperIsZoomed(ZoomEvent zoomEvent)
         {
             OnZoomEvent?.Invoke(zoomEvent);
         }
 
+        /// <summary>
+        /// This event fires when the target image has been loaded and the cropper instance is ready for operating.
+        /// </summary>
         [JSInvokable]
         public void IsReady(CropReadyEvent cropReadyEvent)
         {
@@ -384,7 +421,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Output the crop box position and size data.
         /// </summary>
-        /// <returns>Cropper box options.</returns>
+        /// <returns>A <see cref="ValueTask{CropBoxData}"/> representing cropper box options asynchronous operation.</returns>
         public async ValueTask<CropBoxData> GetCropBoxDataAsync()
         {
             return await CropperJsIntertop!.GetCropBoxDataAsync().AsTask();
@@ -393,7 +430,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Output the final cropped area position and size data (based on the natural size of the original image).
         /// </summary>
-        /// <returns>Cropper options.</returns>
+        /// <returns>A <see cref="ValueTask{CropperData}"/> representing cropper options asynchronous operation.</returns>
         public async ValueTask<CropperData> GetDataAsync(bool isRounded)
         {
             return await CropperJsIntertop!.GetDataAsync(isRounded);
@@ -402,7 +439,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Output the final cropped area position and size data (based on the natural size of the original image).
         /// </summary>
-        /// <returns>Cropper options.</returns>
+        /// <returns>A <see cref="ValueTask{ContainerData}"/> representing container options asynchronous operation.</returns>
         public async ValueTask<ContainerData> GetContainerDataAsync()
         {
             return await CropperJsIntertop!.GetContainerDataAsync();
@@ -411,7 +448,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Output the image position, size, and other related data.
         /// </summary>
-        /// <returns>Image options.</returns>
+        /// <returns>A <see cref="ValueTask{ImageData}"/> representing image options asynchronous operation.</returns>
         public async ValueTask<ImageData> GetImageDataAsync()
         {
             return await CropperJsIntertop!.GetImageDataAsync();
@@ -420,7 +457,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Output the canvas (image wrapper) position and size data.
         /// </summary>
-        /// <returns>Canvas options.</returns>
+        /// <returns>A <see cref="ValueTask{CanvasData}"/> representing canvas options asynchronous operation.</returns>
         public async ValueTask<CanvasData> GetCanvasDataAsync()
         {
             return await CropperJsIntertop!.GetCanvasDataAsync();
@@ -434,7 +471,7 @@ namespace Cropper.Blazor.Components
         /// <param name="imageFile"></param>
         /// <param name="maxAllowedSize"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns>Blob URL.</returns>
+        /// <returns>A <see cref="ValueTask{String}"/> representing Blob URL asynchronous operation.</returns>
         public async ValueTask<string> GetImageUsingStreamingAsync(
             IBrowserFile imageFile,
             long maxAllowedSize = 512000L,
@@ -447,7 +484,7 @@ namespace Cropper.Blazor.Components
         /// Call this method when you've finished using an object URL to let the browser know not to keep the reference to the file any longer.
         /// </summary>
         /// <param name="url">A string representing an object URL.</param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask RevokeObjectUrlAsync(string url)
         {
             await CropperJsIntertop!.RevokeObjectUrlAsync(url);
@@ -457,7 +494,7 @@ namespace Cropper.Blazor.Components
         /// Get a canvas drawn from the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
         /// </summary>
         /// <param name="getCroppedCanvasOptions">Options for getting cropped canvas.</param>
-        /// <returns>A canvas drawn the cropped image.</returns>
+        /// <returns>A <see cref="ValueTask{Object}"/> representing canvas drawn the cropped image asynchronous operation.</returns>
         public async ValueTask<object> GetCroppedCanvasAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
             return await CropperJsIntertop!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
@@ -467,7 +504,7 @@ namespace Cropper.Blazor.Components
         /// Get a canvas drawn from the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
         /// </summary>
         /// <param name="getCroppedCanvasOptions">Options for getting cropped canvas.</param>
-        /// <returns>A canvas drawn the cropped image in URL format.</returns>
+        /// <returns>A <see cref="ValueTask{String}"/> representing canvas drawn the cropped image in URL format asynchronous operation.</returns>
         public async ValueTask<string> GetCroppedCanvasDataURLAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
             return await CropperJsIntertop!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);

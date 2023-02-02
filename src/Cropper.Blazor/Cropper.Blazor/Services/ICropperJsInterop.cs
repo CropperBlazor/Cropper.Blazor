@@ -9,13 +9,16 @@ using System.Threading.Tasks;
 
 namespace Cropper.Blazor.Services
 {
+    /// <summary>
+    /// Provides the metadata of a ICropperJsInterop
+    /// </summary>
     public interface ICropperJsInterop
     {
         /// <summary>
         /// Loads cropper JS module.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
         Task LoadModuleAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -23,9 +26,9 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="image">Reference to img html-DOM</param>
         /// <param name="options">Cropper options</param>
-        /// <param name="cropperComponentBase">Reference to base cropper component. Default equal to 'this' object  </param>
+        /// <param name="cropperComponentBase">Reference to base cropper component. Default equal to 'this' object </param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask InitCropperAsync(
             [NotNull] ElementReference image,
             [NotNull] Options options,
@@ -36,56 +39,56 @@ namespace Cropper.Blazor.Services
         /// Clear the crop box.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask ClearAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Show the crop box manually.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask CropAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Destroy the cropper and remove the instance from the image.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask DestroyAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Disable (freeze) the cropper.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask DisableAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Enable (unfreeze) the cropper.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask EnableAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get the canvas position and size data.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns>The result canvas data.</returns>
+        /// <returns>A <see cref="ValueTask{CanvasData}"/> representing result canvas data asynchronous operation.</returns>
         ValueTask<CanvasData> GetCanvasDataAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get the container size data.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns>The result container data.</returns>
+        /// <returns>A <see cref="ValueTask{ContainerData}"/> representing result container data asynchronous operation.</returns>
         ValueTask<ContainerData> GetContainerDataAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get the crop box position and size data.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns>The result crop box data.</returns>
+        /// <returns>A <see cref="ValueTask{CropBoxData}"/> representing result crop box data asynchronous operation.</returns>
         ValueTask<CropBoxData> GetCropBoxDataAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -93,7 +96,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="rounded">Indicate if round the data values or not.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns>The result cropped data.</returns>
+        /// <returns>A <see cref="ValueTask{CropperData}"/> representing result cropped data asynchronous operation.</returns>
         ValueTask<CropperData> GetDataAsync(
             bool rounded,
             CancellationToken cancellationToken = default);
@@ -102,7 +105,7 @@ namespace Cropper.Blazor.Services
         /// Get the image position and size data.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns>The result image data.</returns>
+        /// <returns>A <see cref="ValueTask{ImageData}"/> representing result image data asynchronous operation.</returns>
         ValueTask<ImageData> GetImageDataAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -111,7 +114,7 @@ namespace Cropper.Blazor.Services
         /// <param name="offsetX">The relative offset distance on the x-axis.</param>
         /// <param name="offsetY">The relative offset distance on the y-axis.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask MoveAsync(
             decimal offsetX,
             decimal? offsetY,
@@ -123,7 +126,7 @@ namespace Cropper.Blazor.Services
         /// <param name="x">The x-axis coordinate.</param>
         /// <param name="y">The y-axis coordinate.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask MoveToAsync(
             decimal x,
             decimal? y,
@@ -135,7 +138,7 @@ namespace Cropper.Blazor.Services
         /// <param name="url">The new URL.</param>
         /// <param name="onlyColorChanged">Indicate if the new image has the same size as the old one.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask ReplaceAsync(
             string url,
             bool onlyColorChanged,
@@ -145,7 +148,7 @@ namespace Cropper.Blazor.Services
         /// Reset the image and crop box to their initial states.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask ResetAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -153,7 +156,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="degree">The rotate degree.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask RotateAsync(
             decimal degree,
             CancellationToken cancellationToken = default);
@@ -163,7 +166,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="degree">The rotate degree.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask RotateToAsync(
             decimal degree,
             CancellationToken cancellationToken = default);
@@ -174,7 +177,7 @@ namespace Cropper.Blazor.Services
         /// <param name="scaleX">The scale ratio on the x-axis.</param>
         /// <param name="scaleY">The scale ratio on the y-axis.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask ScaleAsync(
             decimal scaleX,
             decimal scaleY,
@@ -185,7 +188,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="scaleX">The scale ratio on the x-axis.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask ScaleXAsync(
             decimal scaleX,
             CancellationToken cancellationToken = default);
@@ -195,7 +198,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="scaleY">The scale ratio on the y-axis.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask ScaleYAsync(
             decimal scaleY,
             CancellationToken cancellationToken = default);
@@ -205,7 +208,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="setCanvasDataOptions">The new canvas data.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask SetCanvasDataAsync(
             SetCanvasDataOptions setCanvasDataOptions,
             CancellationToken cancellationToken = default);
@@ -215,7 +218,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="cropBoxDataOptions">The new crop box data.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask SetCropBoxDataAsync(
             SetCropBoxDataOptions cropBoxDataOptions,
             CancellationToken cancellationToken = default);
@@ -225,7 +228,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="setDataOptions">The new data.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask SetDataAsync(
             SetDataOptions setDataOptions,
             CancellationToken cancellationToken = default);
@@ -235,7 +238,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="dragMode">The new drag mode.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask SetDragModeAsync(
             DragMode dragMode,
             CancellationToken cancellationToken = default);
@@ -245,7 +248,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="ratio">The target ratio.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask ZoomAsync(
             decimal ratio,
             CancellationToken cancellationToken = default);
@@ -257,7 +260,7 @@ namespace Cropper.Blazor.Services
         /// <param name="pivotX">The zoom pivot point X coordinate.</param>
         /// <param name="pivotY">The zoom pivot point Y coordinate.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask ZoomToAsync(
             decimal ratio,
             decimal pivotX,
@@ -268,7 +271,7 @@ namespace Cropper.Blazor.Services
         /// Get the no conflict cropper class.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask NoConflictAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -276,7 +279,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="options">The new default options.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask SetDefaultsAsync(
             [NotNull] Options options,
             CancellationToken cancellationToken = default);
@@ -286,7 +289,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="aspectRatio">The new aspect ratio.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask SetAspectRatioAsync(
             decimal aspectRatio,
             CancellationToken cancellationToken = default);
@@ -296,7 +299,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="getCroppedCanvasOptions">The config options.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns>The result canvas.</returns>
+        /// <returns>A <see cref="ValueTask"/> representing result canvas asynchronous operation.</returns>
         ValueTask<object> GetCroppedCanvasAsync(
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             CancellationToken cancellationToken = default);
@@ -306,7 +309,7 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="getCroppedCanvasOptions">The config options.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns>The result canvas.</returns>
+        /// <returns>A <see cref="ValueTask{String}"/> representing URL result canvas asynchronous operation.</returns>
         ValueTask<string> GetCroppedCanvasDataURLAsync(
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             CancellationToken cancellationToken = default);
@@ -319,7 +322,7 @@ namespace Cropper.Blazor.Services
         /// <param name="imageFile"></param>
         /// <param name="maxAllowedSize"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns>URL blob reference.</returns>
+        /// <returns>A <see cref="ValueTask{String}"/> representing URL blob reference asynchronous operation.</returns>
         ValueTask<string> GetImageUsingStreamingAsync(
             IBrowserFile imageFile,
             long maxAllowedSize = 512000L,
@@ -329,9 +332,8 @@ namespace Cropper.Blazor.Services
         /// Call this method when you've finished using an object URL to let the browser know not to keep the reference to the file any longer.
         /// </summary>
         /// <param name="url">A string representing an object URL.</param>
-        /// <returns></returns>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask RevokeObjectUrlAsync(
             string url,
             CancellationToken cancellationToken = default);
