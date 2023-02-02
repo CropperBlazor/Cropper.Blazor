@@ -8,7 +8,7 @@ using Cropper.Blazor.Events.ZoomEvent;
 namespace Cropper.Blazor.Base
 {
     /// <summary>
-    /// Provides the metadata of a ICropperComponentBase
+    /// Provides the metadata of a ICropperComponentBase.
     /// </summary>
     public interface ICropperComponentBase
     {
@@ -23,37 +23,37 @@ namespace Cropper.Blazor.Base
         ///   When the data option is set, another crop event will be triggered before the ready event
         ///  </para>
         /// </remarks>
-        /// <param name="cropEvent">CropEvent</param>
+        /// <param name="cropEvent">The <see cref="CropEvent"/>.</param>
         void CropperIsCroped(CropEvent cropEvent);
 
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box stops changing.
         /// </summary>
-        /// <param name="cropEndEvent">CropEndEvent</param>
+        /// <param name="cropEndEvent">The <see cref="CropEndEvent"/>.</param>
         void CropperIsEnded(CropEndEvent cropEndEvent);
 
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box is changing.
         /// </summary>
-        /// <param name="cropMoveEvent">CropMoveEvent</param>
+        /// <param name="cropMoveEvent">The <see cref="CropMoveEvent"/>.</param>
         void CropperIsMoved(CropMoveEvent cropMoveEvent);
 
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box starts to change.
         /// </summary>
-        /// <param name="cropStartEvent">CropStartEvent</param>
+        /// <param name="cropStartEvent">The <see cref="CropStartEvent"/>.</param>
         void CropperIsStarted(CropStartEvent cropStartEvent);
 
         /// <summary>
         /// This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
         /// </summary>
-        /// <param name="zoomEvent">ZoomEvent</param>
+        /// <param name="zoomEvent">The <see cref="ZoomEvent"/>.</param>
         void CropperIsZoomed(ZoomEvent zoomEvent);
 
         /// <summary>
         /// This event fires when the target image has been loaded and the cropper instance is ready for operating.
         /// </summary>
-        /// <param name="cropReadyEvent">CropReadyEvent</param>
+        /// <param name="cropReadyEvent">The <see cref="CropReadyEvent"/>.</param>
         void IsReady(CropReadyEvent cropReadyEvent);
     }
 }

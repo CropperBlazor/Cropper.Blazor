@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace Cropper.Blazor.Models
 {
     /// <summary>
-    ///  Contains cropper options
+    /// Contains cropper options.
     /// </summary>
     public class Options
     {

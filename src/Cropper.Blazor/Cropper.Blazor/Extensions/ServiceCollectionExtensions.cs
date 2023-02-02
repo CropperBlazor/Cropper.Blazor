@@ -12,7 +12,7 @@ namespace Cropper.Blazor.Extensions
         /// <summary>
         /// Adds a CropperJsInterop as a Transient instance.
         /// </summary>
-        /// <param name="services">IServiceCollection</param>
+        /// <param name="services">Continues the <see cref="IServiceCollection"/> chain.</param>
         /// <returns>Continues the <see cref="IServiceCollection"/> chain.</returns>
         public static IServiceCollection AddCropper(this IServiceCollection services)
         {

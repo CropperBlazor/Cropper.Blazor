@@ -3,30 +3,30 @@
 namespace Cropper.Blazor.Events.ZoomEvent
 {
     /// <summary>
-    /// Provides the metadata of a Original Event
+    /// Provides the metadata of a Original Event.
     /// </summary>
     public enum OriginalEvent
     {
         /// <summary>
-        /// Wheel Event
+        /// Wheel Event.
         /// </summary>
         [EnumMember(Value = nameof(WheelEvent))]
         WheelEvent,
 
         /// <summary>
-        /// Pointer Event
+        /// Pointer Event.
         /// </summary>
         [EnumMember(Value = nameof(PointerEvent))]
         PointerEvent,
 
         /// <summary>
-        /// Touch Event
+        /// Touch Event.
         /// </summary>
         [EnumMember(Value = nameof(TouchEvent))]
         TouchEvent,
 
         /// <summary>
-        /// Mouse Event
+        /// Mouse Event.
         /// </summary>
         [EnumMember(Value = nameof(MouseEvent))]
         MouseEvent

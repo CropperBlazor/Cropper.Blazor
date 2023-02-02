@@ -3,12 +3,12 @@
 namespace Cropper.Blazor.Events.CropEndEvent
 {
     /// <summary>
-    /// Provides the metadata of a Crop End Event
+    /// Provides the metadata of a Crop End Event.
     /// </summary>
     public class CropEndEvent
     {
         /// <summary>
-        /// Event actions
+        /// Event actions.
         /// </summary>
         [JsonConverter(typeof(JsonStringEnumConverter))]
         [JsonPropertyName("action")]

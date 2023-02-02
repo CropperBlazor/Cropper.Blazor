@@ -7,55 +7,55 @@
 		</ResolveStaticWebAssetsInputsDependsOn>
 	</PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net7.0;net6.0</TargetFrameworks>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <PropertyGroup>
+	<PropertyGroup>
 		<Version>1.1.1</Version>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageIcon>NuGet.png</PackageIcon>
-    <Company>Cropper.Blazor</Company>
-    <Authors>Max56132, ColdForeign</Authors>
+		<Company>Cropper.Blazor</Company>
+		<Authors>Max56132, ColdForeign</Authors>
 		<Copyright>Copyright 2022 Cropper.Blazor</Copyright>
 		<Description>Cropper.Blazor is a component element that wraps around Cropper.js</Description>
 		<PackageTags>Blazor, Cropper.Blazor, Cropper.js, Blazor Components, Blazor Library, Blazor Cropper, Cropper, Image, Crop, Resize, image-cropper, crop-image, csharp, blazor-cropper </PackageTags>
 		<PackageProjectUrl>https://CropperBlazor.github.io</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/CropperBlazor/Cropper.Blazor</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
-    <WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
-  </PropertyGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
-    <WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
+		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
-    <WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
+		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
-    <WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\..\LICENSE" Pack="true" Visible="false" PackagePath="" />
-    <None Include="..\..\..\content\NuGet.png" Pack="true" Visible="false" PackagePath="" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
+	</PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\..\LICENSE" Pack="true" Visible="false" PackagePath="" />
+		<None Include="..\..\..\content\NuGet.png" Pack="true" Visible="false" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
 

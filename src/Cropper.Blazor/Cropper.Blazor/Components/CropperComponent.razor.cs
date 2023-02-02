@@ -20,7 +20,7 @@ using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 namespace Cropper.Blazor.Components
 {
     /// <summary>
-    /// The cropper component
+    /// The cropper component.
     /// </summary>
     public partial class CropperComponent : ICropperComponentBase
     {
@@ -145,8 +145,12 @@ namespace Cropper.Blazor.Components
         }
 
         /// <summary>
-        ///  This event is fired when the image is loaded.
+        /// This event is fired when the image is loaded.
         /// </summary>
+        /// <param name="progressEventArgs">
+        ///     <para>If successful, outputs a <see cref="ProgressEventArgs"/> which is </para>
+        ///     <para>generated from the data.</para>
+        /// </param>
         private void OnLoadImage(ProgressEventArgs progressEventArgs)
         {
             InitCropper();
@@ -155,6 +159,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event occurs if an error occurred while loading the image.
         /// </summary>
+        /// <param name="errorEventArgs">The error event to send if it's not in a good state.</param>
         public void OnErrorLoadImage(ErrorEventArgs errorEventArgs)
         {
             OnErrorLoadImageEvent?.Invoke(errorEventArgs);
@@ -166,13 +171,14 @@ namespace Cropper.Blazor.Components
         public void InitCropper()
         {
             ICropperComponentBase cropperComponentBase = this;
-            CropperJsIntertop!.InitCropperAsync(imageReference, Options!, DotNetObjectReference.Create(cropperComponentBase)).AsTask();
+            CropperJsIntertop!.InitCropperAsync(imageReference, Options!, DotNetObjectReference.Create(cropperComponentBase));
             OnLoadImageEvent?.Invoke();
         }
 
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box changes.
         /// </summary>
+        /// <param name="cropEvent">The <see cref="CropEvent"/>.</param>
         [JSInvokable]
         public void CropperIsCroped(CropEvent cropEvent)
         {
@@ -182,6 +188,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box stops changing.
         /// </summary>
+        /// <param name="cropEndEvent">The <see cref="CropEndEvent"/>.</param>
         [JSInvokable]
         public void CropperIsEnded(CropEndEvent cropEndEvent)
         {
@@ -191,6 +198,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box is changing.
         /// </summary>
+        /// <param name="cropMoveEvent">The <see cref="CropMoveEvent"/>.</param>
         [JSInvokable]
         public void CropperIsMoved(CropMoveEvent cropMoveEvent)
         {
@@ -200,6 +208,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box starts to change.
         /// </summary>
+        /// <param name="cropStartEvent">The <see cref="CropStartEvent"/>.</param>
         [JSInvokable]
         public void CropperIsStarted(CropStartEvent cropStartEvent)
         {
@@ -209,6 +218,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
         /// </summary>
+        /// <param name="zoomEvent">The <see cref="ZoomEvent"/>.</param>
         [JSInvokable]
         public void CropperIsZoomed(ZoomEvent zoomEvent)
         {
@@ -218,6 +228,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the target image has been loaded and the cropper instance is ready for operating.
         /// </summary>
+        /// <param name="cropReadyEvent">The <see cref="CropReadyEvent"/>.</param>
         [JSInvokable]
         public void IsReady(CropReadyEvent cropReadyEvent)
         {
@@ -227,10 +238,10 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Change the drag mode.
         /// </summary>
-        /// <param name="dragMode"></param>
+        /// <param name="dragMode">The new drag mode.</param>
         public void SetDragMode(DragMode dragMode)
         {
-            CropperJsIntertop?.SetDragModeAsync(dragMode).AsTask();
+            CropperJsIntertop?.SetDragModeAsync(dragMode);
         }
 
         /// <summary>
@@ -243,7 +254,7 @@ namespace Cropper.Blazor.Components
         /// </param>
         public void Zoom(decimal ratio)
         {
-            CropperJsIntertop?.ZoomAsync(ratio).AsTask();
+            CropperJsIntertop?.ZoomAsync(ratio);
         }
 
         /// <summary>
@@ -254,7 +265,7 @@ namespace Cropper.Blazor.Components
         /// <param name="pivotY">The Y coordinate of the center point for zooming, base on the top left corner of the cropper container.</param>
         public void ZoomTo(decimal ratio, decimal pivotX, decimal pivotY)
         {
-            CropperJsIntertop?.ZoomToAsync(ratio, pivotX, pivotY).AsTask();
+            CropperJsIntertop?.ZoomToAsync(ratio, pivotX, pivotY);
         }
 
         /// <summary>
@@ -264,7 +275,7 @@ namespace Cropper.Blazor.Components
         /// <param name="offsetY">Moving size (px) in the vertical direction. If not present, its default value is offsetX.</param>
         public void Move(decimal offsetX, decimal? offsetY)
         {
-            CropperJsIntertop?.MoveAsync(offsetX, offsetY).AsTask();
+            CropperJsIntertop?.MoveAsync(offsetX, offsetY);
         }
 
         /// <summary>
@@ -274,7 +285,7 @@ namespace Cropper.Blazor.Components
         /// <param name="y">The top value of the canvas. If not present, its default value is x.</param>
         public void MoveTo(decimal x, decimal? y)
         {
-            CropperJsIntertop?.MoveToAsync(x, y).AsTask();
+            CropperJsIntertop?.MoveToAsync(x, y);
         }
 
         /// <summary>
@@ -287,7 +298,7 @@ namespace Cropper.Blazor.Components
         /// </param>
         public void Rotate(decimal degree)
         {
-            CropperJsIntertop?.RotateAsync(degree).AsTask();
+            CropperJsIntertop?.RotateAsync(degree);
         }
 
         /// <summary>
@@ -300,7 +311,7 @@ namespace Cropper.Blazor.Components
         /// </param>
         public void ScaleX(decimal scaleX)
         {
-            CropperJsIntertop?.ScaleXAsync(scaleX).AsTask();
+            CropperJsIntertop?.ScaleXAsync(scaleX);
         }
 
         /// <summary>
@@ -313,7 +324,7 @@ namespace Cropper.Blazor.Components
         /// </param>
         public void ScaleY(decimal scaleY)
         {
-            CropperJsIntertop?.ScaleYAsync(scaleY).AsTask();
+            CropperJsIntertop?.ScaleYAsync(scaleY);
         }
 
         /// <summary>
@@ -331,7 +342,7 @@ namespace Cropper.Blazor.Components
         /// </param>
         public void Scale(decimal scaleX, decimal scaleY)
         {
-            CropperJsIntertop?.ScaleAsync(scaleX, scaleY).AsTask();
+            CropperJsIntertop?.ScaleAsync(scaleX, scaleY);
         }
 
         /// <summary>
@@ -339,7 +350,7 @@ namespace Cropper.Blazor.Components
         /// </summary>
         public void Crop()
         {
-            CropperJsIntertop?.CropAsync().AsTask();
+            CropperJsIntertop?.CropAsync();
         }
 
         /// <summary>
@@ -347,7 +358,7 @@ namespace Cropper.Blazor.Components
         /// </summary>
         public void Clear()
         {
-            CropperJsIntertop?.ClearAsync().AsTask();
+            CropperJsIntertop?.ClearAsync();
         }
 
         /// <summary>
@@ -355,7 +366,7 @@ namespace Cropper.Blazor.Components
         /// </summary>
         public void Enable()
         {
-            CropperJsIntertop?.EnableAsync().AsTask();
+            CropperJsIntertop?.EnableAsync();
         }
 
         /// <summary>
@@ -363,7 +374,7 @@ namespace Cropper.Blazor.Components
         /// </summary>
         public void Disable()
         {
-            CropperJsIntertop?.DisableAsync().AsTask();
+            CropperJsIntertop?.DisableAsync();
         }
 
         /// <summary>
@@ -371,7 +382,7 @@ namespace Cropper.Blazor.Components
         /// </summary>
         public void Reset()
         {
-            CropperJsIntertop?.ResetAsync().AsTask();
+            CropperJsIntertop?.ResetAsync();
         }
 
         /// <summary>
@@ -379,7 +390,7 @@ namespace Cropper.Blazor.Components
         /// </summary>
         public void Destroy()
         {
-            CropperJsIntertop?.DestroyAsync().AsTask();
+            CropperJsIntertop?.DestroyAsync();
         }
 
         /// <summary>
@@ -388,34 +399,34 @@ namespace Cropper.Blazor.Components
         /// <param name="aspectRatio">Requires a positive number.</param>
         public void SetAspectRatio(decimal aspectRatio)
         {
-            CropperJsIntertop?.SetAspectRatioAsync(aspectRatio).AsTask();
+            CropperJsIntertop?.SetAspectRatioAsync(aspectRatio);
         }
 
         /// <summary>
         /// Change the crop box position and size with new data.
         /// </summary>
-        /// <param name="cropBoxDataOptions"></param>
+        /// <param name="cropBoxDataOptions">The new crop box data.</param>
         public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)
         {
-            CropperJsIntertop?.SetCropBoxDataAsync(cropBoxDataOptions).AsTask();
+            CropperJsIntertop?.SetCropBoxDataAsync(cropBoxDataOptions);
         }
 
         /// <summary>
         /// Change the cropped area position and size with new data (based on the original image).
         /// </summary>
-        /// <param name="setDataOptions"></param>
+        /// <param name="setDataOptions">The new data.</param>
         public void SetData(SetDataOptions setDataOptions)
         {
-            CropperJsIntertop?.SetDataAsync(setDataOptions).AsTask();
+            CropperJsIntertop?.SetDataAsync(setDataOptions);
         }
 
         /// <summary>
         /// Change the canvas (image wrapper) position and size with new data.
         /// </summary>
-        /// <param name="setCanvasDataOptions"></param>
+        /// <param name="setCanvasDataOptions">The new canvas data.</param>
         public void SetCanvasData(SetCanvasDataOptions setCanvasDataOptions)
         {
-            CropperJsIntertop?.SetCanvasDataAsync(setCanvasDataOptions).AsTask();
+            CropperJsIntertop?.SetCanvasDataAsync(setCanvasDataOptions);
         }
 
         /// <summary>
@@ -424,16 +435,17 @@ namespace Cropper.Blazor.Components
         /// <returns>A <see cref="ValueTask{CropBoxData}"/> representing cropper box options asynchronous operation.</returns>
         public async ValueTask<CropBoxData> GetCropBoxDataAsync()
         {
-            return await CropperJsIntertop!.GetCropBoxDataAsync().AsTask();
+            return await CropperJsIntertop!.GetCropBoxDataAsync();
         }
 
         /// <summary>
         /// Output the final cropped area position and size data (based on the natural size of the original image).
         /// </summary>
+        /// <param name="rounded">Indicate if round the data values or not.</param>
         /// <returns>A <see cref="ValueTask{CropperData}"/> representing cropper options asynchronous operation.</returns>
-        public async ValueTask<CropperData> GetDataAsync(bool isRounded)
+        public async ValueTask<CropperData> GetDataAsync(bool rounded)
         {
-            return await CropperJsIntertop!.GetDataAsync(isRounded);
+            return await CropperJsIntertop!.GetDataAsync(rounded);
         }
 
         /// <summary>
@@ -468,9 +480,9 @@ namespace Cropper.Blazor.Components
         /// <br/>
         /// Converts JavaScript stream to .NET stream uses <see cref="DotNetStreamReference"/>, and then creates a URL blob reference.
         /// </summary>
-        /// <param name="imageFile"></param>
-        /// <param name="maxAllowedSize"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="imageFile">The <see cref="IBrowserFile"/> to convert to a new image file.</param>
+        /// <param name="maxAllowedSize">The maximum number of bytes that can be supplied by the Stream. Defaults to 500 KB.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask{String}"/> representing Blob URL asynchronous operation.</returns>
         public async ValueTask<string> GetImageUsingStreamingAsync(
             IBrowserFile imageFile,
