@@ -42,7 +42,7 @@ namespace Cropper.Blazor.UnitTests.Extensions
             yield return WrapArgs(TestEnum.FirstValue, TestEnum_First_Name);
             yield return WrapArgs(TestEnum.SecondValue, TestEnum_Second_Name);
 
-            object[] WrapArgs(
+            static object[] WrapArgs(
                 TestEnum enumValue,
                 string? expectedString)
                 => new object[]

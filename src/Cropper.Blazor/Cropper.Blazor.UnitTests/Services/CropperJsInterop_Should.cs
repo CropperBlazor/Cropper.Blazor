@@ -11,7 +11,6 @@ using Microsoft.JSInterop;
 using Moq;
 using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,7 +50,7 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_InitCropperAsync()
         {
             // arrange
-            ElementReference elementReference = new ElementReference(Guid.NewGuid().ToString());
+            ElementReference elementReference = new(Guid.NewGuid().ToString());
             Options options = new Faker<Options>().Generate();
             ICropperComponentBase cropperComponentBase = new Mock<ICropperComponentBase>().Object;
             DotNetObjectReference<ICropperComponentBase> refToCropperComponentBase = new Faker<DotNetObjectReference<ICropperComponentBase>>()
@@ -299,11 +298,11 @@ namespace Cropper.Blazor.UnitTests.Services
             // arrange
             string expectedImageData = _faker.Random.Word();
             long maxAllowedSize = _faker.Random.Long();
-            CancellationToken cancellationToken = new CancellationToken();
-            Mock<IBrowserFile> mockImageFile = new Mock<IBrowserFile>();
+            CancellationToken cancellationToken = new();
+            Mock<IBrowserFile> mockImageFile = new();
             string expectedText = _faker.Random.Word();
 
-            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(expectedText)))
+            using (MemoryStream stream = new(Encoding.UTF8.GetBytes(expectedText)))
             {
 
                 mockImageFile
@@ -311,20 +310,18 @@ namespace Cropper.Blazor.UnitTests.Services
                     .Returns(stream);
 
                 Stream jsImageStream = mockImageFile.Object.OpenReadStream(maxAllowedSize, cancellationToken);
-                using (DotNetStreamReference dotnetImageStream = new DotNetStreamReference(jsImageStream))
+                using DotNetStreamReference dotnetImageStream = new(jsImageStream);
+                _testContext.JSInterop
+                    .Setup<string>("cropper.getImageUsingStreaming",
+                                   jSRuntimeInvocation => jSRuntimeInvocation.Arguments.Count == 1 && VerifyStreamArgument(jSRuntimeInvocation))
+                    .SetResult(expectedImageData);
+
+                bool VerifyStreamArgument(JSRuntimeInvocation jSRuntimeInvocation)
                 {
-                    _testContext.JSInterop
-                        .Setup<string>("cropper.getImageUsingStreaming",
-                                       jSRuntimeInvocation => jSRuntimeInvocation.Arguments.Count == 1 && VerifyStreamArgument(jSRuntimeInvocation))
-                        .SetResult(expectedImageData);
+                    DotNetStreamReference? streamReference = (DotNetStreamReference?)jSRuntimeInvocation.Arguments[0];
+                    string textStream = Encoding.UTF8.GetString(((MemoryStream)streamReference!.Stream).ToArray());
 
-                    bool VerifyStreamArgument(JSRuntimeInvocation jSRuntimeInvocation)
-                    {
-                        DotNetStreamReference? streamReference = (DotNetStreamReference?)jSRuntimeInvocation.Arguments.First();
-                        string textStream = Encoding.UTF8.GetString(((MemoryStream)streamReference!.Stream).ToArray());
-
-                        return expectedText == textStream;
-                    }
+                    return expectedText == textStream;
                 }
             }
 
@@ -667,7 +664,7 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_DisposeAsync()
         {
             // arrange
-            CropperJsInterop cropperJsInterop = new CropperJsInterop(_testContext.JSInterop.JSRuntime);
+            CropperJsInterop cropperJsInterop = new(_testContext.JSInterop.JSRuntime);
 
             // assert
             VerifyLoadCropperModule();
@@ -686,6 +683,7 @@ namespace Cropper.Blazor.UnitTests.Services
         public void Dispose()
         {
             _testContext.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

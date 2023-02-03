@@ -168,7 +168,7 @@ namespace Cropper.Blazor.Client.Pages
         private void Destroy()
         {
             cropperComponent?.Destroy();
-            cropperComponent?.RevokeObjectUrlAsync(Src).AsTask();
+            cropperComponent?.RevokeObjectUrlAsync(Src);
         }
 
         public void SetAspectRatio(decimal aspectRatio)
@@ -209,7 +209,7 @@ namespace Cropper.Blazor.Client.Pages
                 Src = await cropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
                 IsErrorLoadImage = false;
                 cropperComponent?.Destroy();
-                cropperComponent?.RevokeObjectUrlAsync(oldSrc).AsTask();
+                cropperComponent?.RevokeObjectUrlAsync(oldSrc);
             }
         }
 

@@ -51,7 +51,7 @@ namespace Cropper.Blazor.UnitTests.Components
             string errorLoadImageClass = "cropper-error-load";
             string imageClass = "cropper";
             string lazyAttributeValue = "lazy";
-            Dictionary<string, object> inputAttributes = new Dictionary<string, object>()
+            Dictionary<string, object> inputAttributes = new()
             {
                 { "loading", lazyAttributeValue }
             };
@@ -67,7 +67,7 @@ namespace Cropper.Blazor.UnitTests.Components
             int countCallsOnCropReadyEventHandler = 0;
 
             IBrowserFile imageFile = new Mock<IBrowserFile>().Object;
-            CancellationToken cancellationToken = new CancellationToken();
+            CancellationToken cancellationToken = new();
             ZoomEvent zoomEvent = new Faker<ZoomEvent>()
                 .Generate();
             CropStartEvent cropStartEvent = new Faker<CropStartEvent>()
@@ -107,7 +107,7 @@ namespace Cropper.Blazor.UnitTests.Components
             CropReadyEvent cropReadyEvent = new Faker<CropReadyEvent>()
                 .Generate();
 
-            Faker faker = new Faker();
+            Faker faker = new();
             string expectedCroppedCanvasDataURL = faker.Random.Word();
             bool isRounded = faker.Random.Bool();
             decimal degree = faker.Random.Decimal();
@@ -411,7 +411,7 @@ namespace Cropper.Blazor.UnitTests.Components
             // arrange
             string errorLoadImageClass = "cropper-error-load";
             string lazyAttributeValue = "lazy";
-            Dictionary<string, object> inputAttributes = new Dictionary<string, object>()
+            Dictionary<string, object> inputAttributes = new()
             {
                 { "loading", lazyAttributeValue },
                 { "Attribute_TEST", "TEST_VALUE" },
@@ -477,6 +477,7 @@ namespace Cropper.Blazor.UnitTests.Components
         {
             _testContext.Dispose();
             _testContext.DisposeComponents();
+            GC.SuppressFinalize(this);
         }
     }
 }

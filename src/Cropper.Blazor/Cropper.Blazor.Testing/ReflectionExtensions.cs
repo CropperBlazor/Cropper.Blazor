@@ -8,11 +8,9 @@ namespace Cropper.Blazor.Testing
         /// <summary>
         /// Uses reflection to get the field value from an object.
         /// </summary>
-        ///
         /// <param name="instance">The instance object.</param>
         /// <param name="fieldName">The field's name which is to be fetched.</param>
-        ///
-        /// <returns>The field value from the object.</returns>
+        /// <returns>The field value from the <see cref="object"/>.</returns>
         public static object GetInstanceField(this object instance, string fieldName)
         {
             BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
