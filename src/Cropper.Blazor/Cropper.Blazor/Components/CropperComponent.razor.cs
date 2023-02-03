@@ -458,7 +458,7 @@ namespace Cropper.Blazor.Components
         }
 
         /// <summary>
-        /// Output the image position, size, and other related data.
+        /// Output the image position, size and other related data.
         /// </summary>
         /// <returns>A <see cref="ValueTask{ImageData}"/> representing image options asynchronous operation.</returns>
         public async ValueTask<ImageData> GetImageDataAsync()
@@ -478,7 +478,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Used to get an image from a stream.
         /// <br/>
-        /// Converts JavaScript stream to .NET stream uses <see cref="DotNetStreamReference"/>, and then creates a URL blob reference.
+        /// Converts JavaScript stream to .NET stream uses <see cref="DotNetStreamReference"/> and then creates a URL blob reference.
         /// </summary>
         /// <param name="imageFile">The <see cref="IBrowserFile"/> to convert to a new image file.</param>
         /// <param name="maxAllowedSize">The maximum number of bytes that can be supplied by the Stream. Defaults to 500 KB.</param>

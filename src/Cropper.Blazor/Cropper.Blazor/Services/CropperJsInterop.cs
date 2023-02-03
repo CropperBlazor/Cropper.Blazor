@@ -593,7 +593,7 @@ namespace Cropper.Blazor.Services
         /// <summary>
         /// Used to get an image from a stream.
         /// <br/>
-        /// Converts JavaScript stream to .NET stream uses <see cref="DotNetStreamReference"/>, and then creates a URL blob reference.
+        /// Converts JavaScript stream to .NET stream uses <see cref="DotNetStreamReference"/> and then creates a URL blob reference.
         /// </summary>
         /// <param name="imageFile">The <see cref="IBrowserFile"/> to convert to a new image file.</param>
         /// <param name="maxAllowedSize">The maximum number of bytes that can be supplied by the Stream. Defaults to 500 KB.</param>
