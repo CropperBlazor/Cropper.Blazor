@@ -47,12 +47,12 @@ Import Custom Element:
 
 Add the following to `index.html` (client-side — Blazor Webassembly, Blazor MAUI) or `_Host.cshtml` (server-side — Blazor Server) in the `head`
 ```razor
-<link href="_content/Cropper.Blazor/cropper.css" rel="stylesheet" />
+<link href="_content/Cropper.Blazor/cropper.min.css" rel="stylesheet" />
 ```
 
 Add the following to `index.html` or `_Host.cshtml` in the `body`
 ```razor
-<script src="_content/Cropper.Blazor/cropper.js"></script>
+<script src="_content/Cropper.Blazor/cropper.min.js"></script>
 ```
 
 
