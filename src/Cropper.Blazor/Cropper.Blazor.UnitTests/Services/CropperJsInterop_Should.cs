@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Bunit;
+using Bunit.TestDoubles;
 using Cropper.Blazor.Base;
 using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
@@ -7,6 +8,7 @@ using Cropper.Blazor.Services;
 using FluentAssertions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using Moq;
 using System;
@@ -31,16 +33,35 @@ namespace Cropper.Blazor.UnitTests.Services
             _testContext = new Faker<TestContext>()
                 .Generate();
 
+            FakeNavigationManager fakeNavigationManager = _testContext.Services.GetRequiredService<FakeNavigationManager>();
             _cropperJsInterop = new Faker<ICropperJsInterop>()
-                .CustomInstantiator(f => new CropperJsInterop(_testContext.JSInterop.JSRuntime))
+                .CustomInstantiator(f => new CropperJsInterop(_testContext.JSInterop.JSRuntime, fakeNavigationManager))
                 .Generate();
         }
 
-        [Fact]
-        public async Task Verify_LoadCropperModuleAsync()
+        [Theory]
+        [InlineData("http://localhost", $"http:localhost\\{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("http://localhost/", $"http:localhost\\{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://localhost", $"https:localhost\\{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://localhost/", $"https:localhost\\{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://localhost:5001", $"https:localhost:5001\\{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://localhost:5001/", $"https:localhost:5001\\{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("http://cropperblazor.github.io", $"http:cropperblazor.github.io\\{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("http://cropperblazor.github.io/", $"http:cropperblazor.github.io\\{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://cropperblazor.github.io", $"https:cropperblazor.github.io\\{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://cropperblazor.github.io/", $"https:cropperblazor.github.io\\{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://cropperblazor.github.io:5001", $"https:cropperblazor.github.io:5001\\{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://cropperblazor.github.io:5001/", $"https:cropperblazor.github.io:5001\\{CropperJsInterop.PathToCropperModule}")]
+        public async Task Verify_LoadCropperModuleAsync(
+            string pathToCropperModule,
+            string expectedPathToCropperModule)
         {
+            // arrange
+            FakeNavigationManager fakeNavigationManager = _testContext.Services.GetRequiredService<FakeNavigationManager>();
+            fakeNavigationManager.NavigateTo(pathToCropperModule);
+
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(expectedPathToCropperModule);
 
             // act
             await _cropperJsInterop.LoadModuleAsync();
@@ -664,7 +685,8 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_DisposeAsync()
         {
             // arrange
-            CropperJsInterop cropperJsInterop = new(_testContext.JSInterop.JSRuntime);
+            FakeNavigationManager fakeNavigationManager = _testContext.Services.GetRequiredService<FakeNavigationManager>();
+            CropperJsInterop cropperJsInterop = new(_testContext.JSInterop.JSRuntime, fakeNavigationManager);
 
             // assert
             VerifyLoadCropperModule();
@@ -674,10 +696,11 @@ namespace Cropper.Blazor.UnitTests.Services
             await cropperJsInterop.DisposeAsync();
         }
 
-        private void VerifyLoadCropperModule()
+        private void VerifyLoadCropperModule(
+            string pathToCropperModule = $"http:localhost\\{CropperJsInterop.PathToCropperModule}")
         {
             _testContext.JSInterop
-                .SetupModule(CropperJsInterop.PathToCropperModule);
+                .SetupModule(pathToCropperModule);
         }
 
         public void Dispose()

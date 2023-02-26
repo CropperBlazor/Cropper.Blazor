@@ -266,7 +266,7 @@ namespace Cropper.Blazor.UnitTests.Components
             // assert
             IElement expectedElement = cropperComponent.Find($"img.{imageClass}");
             ElementReference elementReference = (ElementReference)cropperComponent.Instance
-                .GetInstanceField("imageReference");
+                .GetInstanceField("ImageReference");
 
             _mockCropperJsInterop.Verify(c => c.LoadModuleAsync(cancellationToken), Times.Once());
             elementReference.Id.Should().NotBeNullOrEmpty();
@@ -443,7 +443,7 @@ namespace Cropper.Blazor.UnitTests.Components
             // assert
             IElement expectedElement = cropperComponent.Find($"img.{errorLoadImageClass}");
             ElementReference elementReference = (ElementReference)cropperComponent.Instance
-                .GetInstanceField("imageReference");
+                .GetInstanceField("ImageReference");
 
             elementReference.Id.Should().BeNullOrEmpty();
             expectedElement.ClassName.Should().Be(errorLoadImageClass);
