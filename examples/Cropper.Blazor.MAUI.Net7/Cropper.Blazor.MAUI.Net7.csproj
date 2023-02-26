@@ -51,7 +51,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-        <PackageReference Include="MudBlazor" Version="6.1.2" />
+        <PackageReference Include="MudBlazor" Version="6.1.9" />
     </ItemGroup>
 
     <ItemGroup>
