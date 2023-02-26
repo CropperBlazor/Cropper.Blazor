@@ -15,7 +15,7 @@
 [![coverage](https://codecov.io/github/CropperBlazor/Cropper.Blazor/branch/dev/graph/badge.svg?token=39M66DO85T)](https://codecov.io/github/CropperBlazor/Cropper.Blazor)
 [![GitHub](https://img.shields.io/github/license/CropperBlazor/Cropper.Blazor?color=ff5c9b)](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/LICENSE)
 [![GitHub](https://img.shields.io/github/last-commit/CropperBlazor/Cropper.Blazor?color=009DEA)](https://github.com/CropperBlazor/Cropper.Blazor)
-[![NuGet version](https://img.shields.io/nuget/v/Cropper.Blazor?color=ff5c9b&label=NuGet%20version)](https://www.nuget.org/packages/Cropper.Blazor)
+[![NuGet Badge](https://buildstats.info/nuget/Cropper.Blazor)](https://www.nuget.org/packages/Cropper.Blazor/)
 
 ## Demo
 - [CropperBlazor.github.io/demo](https://CropperBlazor.github.io/demo)
@@ -24,6 +24,11 @@
 - Supported .NET versions
   - [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0) for versions greater than v1.1.0
   - [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0) for v1.0.x
+
+# What to Expect in Cropper.Blazor 1.2.0?
+
+- Full access to cropper JavaScript events in .NET method according to realization functions: "Prevent zoom in, minimum and maximum cropped dimensions, etc"
+- Full access to HTML element canvas when called GetCroppedCanvasAsync method in ICropperJsInterop, namely JavaScript functions and fields that can be called from C# code
 
 ## Installation
 
@@ -42,12 +47,12 @@ Import Custom Element:
 
 Add the following to `index.html` (client-side — Blazor Webassembly, Blazor MAUI) or `_Host.cshtml` (server-side — Blazor Server, MVC with Blazor Server) in the `head`
 ```razor
-<link href="_content/Cropper.Blazor/cropper.css" rel="stylesheet" />
+<link href="_content/Cropper.Blazor/cropper.min.css" rel="stylesheet" />
 ```
 
 Add the following to `index.html` or `_Host.cshtml` in the `body`
 ```razor
-<script src="_content/Cropper.Blazor/cropper.js"></script>
+<script src="_content/Cropper.Blazor/cropper.min.js"></script>
 ```
 
 
