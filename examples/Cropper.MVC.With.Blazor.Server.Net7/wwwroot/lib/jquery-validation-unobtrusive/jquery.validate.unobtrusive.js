@@ -18,9 +18,7 @@
         jQuery.validator.unobtrusive = factory(jQuery);
     }
 }(function ($) {
-    var $jQval = $.validator,
-        adapters,
-        data_validation = "unobtrusiveValidation";
+    var $jQval = $.validator, adapters, data_validation = "unobtrusiveValidation";
 
     function setValidationValues(options, ruleName, value) {
         options.rules[ruleName] = value;
@@ -60,15 +58,13 @@
         if (replace) {
             container.empty();
             error.removeClass("input-validation-error").appendTo(container);
-        }
-        else {
+        } else {
             error.hide();
         }
     }
 
     function onErrors(event, validator) {  // 'this' is the form element
-        var container = $(this).find("[data-valmsg-summary=true]"),
-            list = container.find("ul");
+        var container = $(this).find("[data-valmsg-summary=true]"), list = container.find("ul");
 
         if (list && list.length && validator.errorList.length) {
             list.empty();
@@ -97,8 +93,7 @@
     }
 
     function onReset(event) {  // 'this' is the form element
-        var $form = $(this),
-            key = '__jquery_unobtrusive_validation_form_reset';
+        var $form = $(this), key = '__jquery_unobtrusive_validation_form_reset';
         if ($form.data(key)) {
             return;
         }
@@ -122,11 +117,8 @@
     }
 
     function validationInfo(form) {
-        var $form = $(form),
-            result = $form.data(data_validation),
-            onResetProxy = $.proxy(onReset, form),
-            defaultOptions = $jQval.unobtrusive.options || {},
-            execInContext = function (name, args) {
+        var $form = $(form), result = $form.data(data_validation), onResetProxy = $.proxy(onReset, form),
+            defaultOptions = $jQval.unobtrusive.options || {}, execInContext = function (name, args) {
                 var func = defaultOptions[name];
                 func && $.isFunction(func) && func.apply(form, args);
             };
@@ -150,14 +142,12 @@
                         onSuccess.apply(form, arguments);
                         execInContext("success", arguments);
                     }
-                },
-                attachValidation: function () {
+                }, attachValidation: function () {
                     $form
                         .off("reset." + data_validation, onResetProxy)
                         .on("reset." + data_validation, onResetProxy)
                         .validate(this.options);
-                },
-                validate: function () {  // a validation function that is called by unobtrusive Ajax
+                }, validate: function () {  // a validation function that is called by unobtrusive Ajax
                     $form.validate();
                     return $form.valid();
                 }
@@ -180,9 +170,7 @@
             /// validation to the form. If parsing just this single element, you should specify true.
             /// If parsing several elements, you should specify false, and manually attach the validation
             /// to the form when you are finished. The default is false.</param>
-            var $element = $(element),
-                form = $element.parents("form")[0],
-                valInfo, rules, messages;
+            var $element = $(element), form = $element.parents("form")[0], valInfo, rules, messages;
 
             if (!form) {  // Cannot do client-side validation without a form
                 return;
@@ -193,9 +181,7 @@
             valInfo.options.messages[element.name] = messages = {};
 
             $.each(this.adapters, function () {
-                var prefix = "data-val-" + this.name,
-                    message = $element.attr(prefix),
-                    paramValues = {};
+                var prefix = "data-val-" + this.name, message = $element.attr(prefix), paramValues = {};
 
                 if (message !== undefined) {  // Compare against undefined, because an empty message is legal (and falsy)
                     prefix += "-";
@@ -215,7 +201,7 @@
                 }
             });
 
-            $.extend(rules, { "__dummy__": true });
+            $.extend(rules, {"__dummy__": true});
 
             if (!skipAttach) {
                 valInfo.attachValidation();
@@ -232,12 +218,11 @@
 
             // $forms includes all forms in selector's DOM hierarchy (parent, children and self) that have at least one
             // element with data-val=true
-            var $selector = $(selector),
-                $forms = $selector.parents()
-                    .addBack()
-                    .filter("form")
-                    .add($selector.find("form"))
-                    .has("[data-val=true]");
+            var $selector = $(selector), $forms = $selector.parents()
+                .addBack()
+                .filter("form")
+                .add($selector.find("form"))
+                .has("[data-val=true]");
 
             $selector.find("[data-val=true]").each(function () {
                 $jQval.unobtrusive.parseElement(this, true);
@@ -268,7 +253,7 @@
             fn = params;
             params = [];
         }
-        this.push({ name: adapterName, params: params, adapt: fn });
+        this.push({name: adapterName, params: params, adapt: fn});
         return this;
     };
 
@@ -303,16 +288,13 @@
         /// contains the maximum value. The default is "max".</param>
         /// <returns type="jQuery.validator.unobtrusive.adapters" />
         return this.add(adapterName, [minAttribute || "min", maxAttribute || "max"], function (options) {
-            var min = options.params.min,
-                max = options.params.max;
+            var min = options.params.min, max = options.params.max;
 
             if (min && max) {
                 setValidationValues(options, minMaxRuleName, [min, max]);
-            }
-            else if (min) {
+            } else if (min) {
                 setValidationValues(options, minRuleName, min);
-            }
-            else if (max) {
+            } else if (max) {
                 setValidationValues(options, maxRuleName, max);
             }
         });
@@ -371,8 +353,7 @@
     adapters.addMinMax("length", "minlength", "maxlength", "rangelength").addMinMax("range", "min", "max", "range");
     adapters.addMinMax("minlength", "minlength").addMinMax("maxlength", "minlength", "maxlength");
     adapters.add("equalto", ["other"], function (options) {
-        var prefix = getModelPrefix(options.element.name),
-            other = options.params.other,
+        var prefix = getModelPrefix(options.element.name), other = options.params.other,
             fullOtherName = appendModelPrefix(other, prefix),
             element = $(options.form).find(":input").filter("[name='" + escapeAttributeValue(fullOtherName) + "']")[0];
 
@@ -386,11 +367,8 @@
     });
     adapters.add("remote", ["url", "type", "additionalfields"], function (options) {
         var value = {
-            url: options.params.url,
-            type: options.params.type || "GET",
-            data: {}
-        },
-            prefix = getModelPrefix(options.element.name);
+            url: options.params.url, type: options.params.type || "GET", data: {}
+        }, prefix = getModelPrefix(options.element.name);
 
         $.each(splitAndTrim(options.params.additionalfields || options.element.name), function (i, fieldName) {
             var paramName = appendModelPrefix(fieldName, prefix);
@@ -399,8 +377,7 @@
                 // For checkboxes and radio buttons, only pick up values from checked fields.
                 if (field.is(":checkbox")) {
                     return field.filter(":checked").val() || field.filter(":hidden").val() || '';
-                }
-                else if (field.is(":radio")) {
+                } else if (field.is(":radio")) {
                     return field.filter(":checked").val() || '';
                 }
                 return field.val();
