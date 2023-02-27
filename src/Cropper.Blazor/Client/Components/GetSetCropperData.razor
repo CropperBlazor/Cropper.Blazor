@@ -1,7 +1,7 @@
 ﻿@using Cropper.Blazor.Models
 @*//---Cropper Data---//*@
 <MudItem xxl="3" xl="3" lg="3" md="3" sm="12" xs="12">
-    <MudCard Class="mud-height-full d-flex justify-space-between flex-column">
+    <MudCard>
         <MudCardContent @key="cropperData">
             <MudText>Cropper Data</MudText>
             <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="cropperData.X" Label="X, px" Variant="Variant.Text" Step=".2M" />
@@ -29,7 +29,7 @@
 </MudItem>
 @*//---Container and Crop Box Data---//*@
 <MudItem xxl="3" xl="3" lg="3" md="3" sm="12" xs="12">
-    <MudCard Class="d-flex justify-space-between flex-column mb-6" Style="height: 100%; max-height: 38%;">
+    <MudCard Class="d-flex justify-space-between flex-column mb-6" Style="height: 100%; max-height: 38%">
         <MudCardContent @key="containerData">
             <MudText>Container Data</MudText>
             <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="containerData.Height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
@@ -44,7 +44,7 @@
         </MudCardActions>
     </MudCard>
     @*//---Crop Box Data---//*@
-    <MudCard Class="d-flex justify-space-between flex-column" Style="height: 100%;max-height: calc(62% - 24px);">
+    <MudCard Class="d-flex justify-space-between flex-column" Style="height: 100%; max-height: calc(62% - 24px)">
         <MudCardContent @key="cropBoxData">
             <MudText>Crop Box Data</MudText>
             <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="cropBoxData.Left" Label="Left" Variant="Variant.Text" Step=".2M" />
@@ -69,7 +69,7 @@
 </MudItem>
 @*//---Image Data---//*@
 <MudItem xxl="3" xl="3" lg="3" md="3" sm="12" xs="12">
-    <MudCard Class="mud-height-full d-flex justify-space-between flex-column">
+    <MudCard>
         <MudCardContent @key="imageData">
             <MudText>Image Data</MudText>
             <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="imageData.Height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
@@ -94,7 +94,7 @@
 </MudItem>
 @*//---Canvas Data---//*@
 <MudItem xxl="3" xl="3" lg="3" md="3" sm="12" xs="12">
-    <MudCard Class="mud-height-full d-flex justify-space-between flex-column">
+    <MudCard>
         <MudCardContent @key="canvasData">
             <MudText>Canvas Data</MudText>
             <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="canvasData.Left" Label="Left" Variant="Variant.Text" Step=".2M" />

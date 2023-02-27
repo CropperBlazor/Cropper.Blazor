@@ -26,7 +26,7 @@ namespace Cropper.Blazor.Components
     {
         [Inject] ICropperJsInterop CropperJsIntertop { get; set; } = null!;
 
-        private ElementReference imageReference;
+        private ElementReference ImageReference;
 
         /// <summary>
         /// The options for cropping. Check out the available <see cref="Models.Options"/>.
@@ -171,7 +171,7 @@ namespace Cropper.Blazor.Components
         public void InitCropper()
         {
             ICropperComponentBase cropperComponentBase = this;
-            CropperJsIntertop!.InitCropperAsync(imageReference, Options!, DotNetObjectReference.Create(cropperComponentBase));
+            CropperJsIntertop!.InitCropperAsync(ImageReference, Options!, DotNetObjectReference.Create(cropperComponentBase));
             OnLoadImageEvent?.Invoke();
         }
 

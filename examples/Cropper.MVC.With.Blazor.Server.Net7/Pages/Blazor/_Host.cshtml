@@ -1,0 +1,48 @@
+﻿@page "/Blazor"
+@namespace Cropper.MVC.With.Blazor.Server.Net7.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MVC with Blazor Demo</title>
+
+    @* This tells Blazor that our app is running relative to /Blazor/ *@
+    <base href="~/Blazor/" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <link href="~/_content/Cropper.Blazor/cropper.min.css" rel="stylesheet" />
+
+    @* Added a / at the start here. The <base> tag above would otherwise cause us to look
+        under /Blazor/css/site.css, and that isn't where the file is. *@
+    <link href="/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <app>
+        <component type="typeof(App)" render-mode="ServerPrerendered" />
+    </app>
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="~/_content/MudBlazor/MudBlazor.min.js"></script>
+    <script src="~/_content/Cropper.Blazor/cropper.min.js"></script>
+    @* The ~/ (absolute path) is important. This script is still found at the root of our site,
+        but if you don't add ~/, the browser will look under /Blazor/ because of the change we made
+        to the <base> element above. *@
+    <script src="~/_framework/blazor.server.js"></script>
+</body>
+</html>
