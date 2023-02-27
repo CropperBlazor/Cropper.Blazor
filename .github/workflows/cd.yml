@@ -130,6 +130,10 @@ jobs:
       run: dotnet restore
       working-directory: examples
 
+    - name: DotNet Build MVC with Blazor Server Demo Project for .net 7
+      run: dotnet build --no-restore
+      working-directory: examples\Cropper.MVC.With.Blazor.Server.Net7
+
     - name: DotNet Build Blazor Server Demo Project for .net 7
       run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.Server.Net7
