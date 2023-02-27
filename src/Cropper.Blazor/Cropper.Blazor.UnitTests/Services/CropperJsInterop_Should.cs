@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -25,6 +26,7 @@ namespace Cropper.Blazor.UnitTests.Services
         private readonly Faker _faker;
         private readonly TestContext _testContext;
         private readonly ICropperJsInterop _cropperJsInterop;
+        private string DefaultPathToCropperModule => Path.Combine("http:localhost", CropperJsInterop.PathToCropperModule);
 
         public CropperJsInterop_Should()
         {
@@ -39,31 +41,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .Generate();
         }
 
-        [Theory]
-        [InlineData("http://localhost", $"http:localhost/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://localhost/", $"http:localhost/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://localhost/testPath", $"http:localhost/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://localhost/testPath/", $"http:localhost/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost", $"https:localhost/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost/", $"https:localhost/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost/testPath", $"https:localhost/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost/testPath/", $"https:localhost/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost:5001", $"https:localhost:5001/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost:5001/", $"https:localhost:5001/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost:5001/testPath", $"https:localhost:5001/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost:5001/testPath/", $"https:localhost:5001/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://cropperblazor.github.io", $"http:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://cropperblazor.github.io/", $"http:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://cropperblazor.github.io/testPath", $"http:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://cropperblazor.github.io/testPath/", $"http:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io", $"https:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io/", $"https:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io/testPath", $"https:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io/testPath/", $"https:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io:5001", $"https:cropperblazor.github.io:5001/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io:5001/", $"https:cropperblazor.github.io:5001/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io:5001/testPath", $"https:cropperblazor.github.io:5001/{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io:5001/testPath/", $"https:cropperblazor.github.io:5001/{CropperJsInterop.PathToCropperModule}")]
+        [Theory, MemberData(nameof(TestData_LoadCropperModule))]
         public async Task Verify_LoadCropperModuleAsync(
             string pathToCropperModule,
             string expectedPathToCropperModule)
@@ -97,7 +75,7 @@ namespace Cropper.Blazor.UnitTests.Services
             };
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             _testContext.JSInterop
                 .SetupVoid("cropper.initCropper", expectedInitCropperMethodArguments)
@@ -116,7 +94,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetResult(new());
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.ClearAsync();
@@ -131,7 +109,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.CropAsync();
@@ -146,7 +124,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.DestroyAsync();
@@ -161,7 +139,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.DisableAsync();
@@ -176,7 +154,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.EnableAsync();
@@ -193,7 +171,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetResult(expectedCanvasData);
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             CanvasData canvasData = await _cropperJsInterop.GetCanvasDataAsync();
@@ -213,7 +191,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetResult(expectedContainerData);
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             ContainerData containerData = await _cropperJsInterop.GetContainerDataAsync();
@@ -233,7 +211,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetResult(expectedCropBoxData);
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             CropBoxData cropBoxData = await _cropperJsInterop.GetCropBoxDataAsync();
@@ -254,7 +232,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetResult(expectedCroppedCanvas);
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             object croppedCanvas = await _cropperJsInterop.GetCroppedCanvasAsync(getCroppedCanvasOptions);
@@ -275,7 +253,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetResult(expectedCroppedCanvasURL);
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             string croppedCanvasURL = await _cropperJsInterop.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
@@ -296,7 +274,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetResult(expectedCropperData);
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             CropperData cropperData = await _cropperJsInterop.GetDataAsync(rounded);
@@ -316,7 +294,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetResult(expectedImageData);
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             ImageData imageData = await _cropperJsInterop.GetImageDataAsync();
@@ -359,7 +337,7 @@ namespace Cropper.Blazor.UnitTests.Services
             }
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             string imageData = await _cropperJsInterop.GetImageUsingStreamingAsync(mockImageFile.Object, maxAllowedSize);
@@ -380,7 +358,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.MoveAsync(offsetX, offsetY);
@@ -398,7 +376,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.MoveToAsync(x, y);
@@ -413,7 +391,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.NoConflictAsync();
@@ -431,7 +409,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.ReplaceAsync(url, onlyColorChanged);
@@ -446,7 +424,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.ResetAsync();
@@ -463,7 +441,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.RevokeObjectUrlAsync(url);
@@ -480,7 +458,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.RotateAsync(degree);
@@ -497,7 +475,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.RotateToAsync(degree);
@@ -515,7 +493,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.ScaleAsync(scaleX, scaleY);
@@ -532,7 +510,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.ScaleXAsync(scaleX);
@@ -549,7 +527,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.ScaleYAsync(scaleY);
@@ -566,7 +544,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.SetAspectRatioAsync(aspectRatio);
@@ -583,7 +561,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.SetCanvasDataAsync(setCanvasDataOptions);
@@ -600,7 +578,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.SetCropBoxDataAsync(setCropBoxDataOptions);
@@ -617,7 +595,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.SetDataAsync(setDataOptions);
@@ -634,7 +612,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.SetDefaultsAsync(options);
@@ -651,7 +629,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.SetDragModeAsync(dragMode);
@@ -668,7 +646,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.ZoomAsync(ratio);
@@ -687,7 +665,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await _cropperJsInterop.ZoomToAsync(ratio, pivotX, pivotY);
@@ -701,15 +679,52 @@ namespace Cropper.Blazor.UnitTests.Services
             CropperJsInterop cropperJsInterop = new(_testContext.JSInterop.JSRuntime, fakeNavigationManager);
 
             // assert
-            VerifyLoadCropperModule();
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
             await cropperJsInterop.LoadModuleAsync();
             await cropperJsInterop.DisposeAsync();
         }
 
+        public static IEnumerable<object[]> TestData_LoadCropperModule()
+        {
+            yield return WrapArgs("http://localhost", Path.Combine("http:localhost", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("http://localhost/", Path.Combine("http:localhost", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("http://localhost/testPath", Path.Combine("http:localhost", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("http://localhost/testPath/", Path.Combine("http:localhost", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://localhost", Path.Combine("https:localhost", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://localhost/", Path.Combine("https:localhost", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://localhost/testPath", Path.Combine("https:localhost", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://localhost/testPath/", Path.Combine("https:localhost", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://localhost:5001", Path.Combine("https:localhost:5001", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://localhost:5001/", Path.Combine("https:localhost:5001", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://localhost:5001/testPath", Path.Combine("https:localhost:5001", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://localhost:5001/testPath/", Path.Combine("https:localhost:5001", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("http://cropperblazor.github.io", Path.Combine("http:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("http://cropperblazor.github.io/", Path.Combine("http:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("http://cropperblazor.github.io/testPath", Path.Combine("http:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("http://cropperblazor.github.io/testPath/", Path.Combine("http:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://cropperblazor.github.io", Path.Combine("https:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://cropperblazor.github.io/", Path.Combine("https:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://cropperblazor.github.io/testPath", Path.Combine("https:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://cropperblazor.github.io/testPath/", Path.Combine("https:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://cropperblazor.github.io:5001", Path.Combine("https:cropperblazor.github.io:5001", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://cropperblazor.github.io:5001/", Path.Combine("https:cropperblazor.github.io:5001", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://cropperblazor.github.io:5001/testPath", Path.Combine("https:cropperblazor.github.io:5001", CropperJsInterop.PathToCropperModule));
+            yield return WrapArgs("https://cropperblazor.github.io:5001/testPath/", Path.Combine("https:cropperblazor.github.io:5001", CropperJsInterop.PathToCropperModule));
+
+            static object[] WrapArgs(
+                string pathToCropperModule,
+                string expectedPathToCropperModule)
+                => new object[]
+                {
+                    pathToCropperModule,
+                    expectedPathToCropperModule
+                };
+        }
+
         private void VerifyLoadCropperModule(
-            string pathToCropperModule = $"http:localhost/{CropperJsInterop.PathToCropperModule}")
+            string pathToCropperModule)
         {
             _testContext.JSInterop
                 .SetupModule(pathToCropperModule);
