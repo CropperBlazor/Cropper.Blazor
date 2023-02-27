@@ -21,23 +21,18 @@ namespace Cropper.MVC.With.Blazor.Server.Net7
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
-            // Add Razor Pages, which is the typical way to use Blazor.
             services.AddRazorPages();
-
-            // Add Blazor. Note that no extra packages are needed. This is available as part of Core as of 3.0
             services.AddServerSideBlazor()
                 .AddHubOptions(options =>
-            {
-                options.ClientTimeoutInterval = TimeSpan.FromSeconds(30);
-                options.EnableDetailedErrors = true;
-                options.HandshakeTimeout = TimeSpan.FromSeconds(15);
-                options.KeepAliveInterval = TimeSpan.FromSeconds(15);
-                options.MaximumParallelInvocationsPerClient = 1;
-                options.MaximumReceiveMessageSize = 32 * 1024 * 100;
-                options.StreamBufferCapacity = 10;
-            });
-            //CropperJsInterop.PathToCropperModule = "_content/Cropper.Blazor/cropperJsInterop.min.js";
+                {
+                    options.ClientTimeoutInterval = TimeSpan.FromSeconds(30);
+                    options.EnableDetailedErrors = true;
+                    options.HandshakeTimeout = TimeSpan.FromSeconds(15);
+                    options.KeepAliveInterval = TimeSpan.FromSeconds(15);
+                    options.MaximumParallelInvocationsPerClient = 1;
+                    options.MaximumReceiveMessageSize = 32 * 1024 * 100;
+                    options.StreamBufferCapacity = 10;
+                });
             services.AddCropper();
             services.AddMudServices();
         }
