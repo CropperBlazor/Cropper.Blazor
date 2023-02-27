@@ -40,30 +40,30 @@ namespace Cropper.Blazor.UnitTests.Services
         }
 
         [Theory]
-        [InlineData("http://localhost", $"http:localhost\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://localhost/", $"http:localhost\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://localhost/testPath", $"http:localhost\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://localhost/testPath/", $"http:localhost\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost", $"https:localhost\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost/", $"https:localhost\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost/testPath", $"https:localhost\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost/testPath/", $"https:localhost\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost:5001", $"https:localhost:5001\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost:5001/", $"https:localhost:5001\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost:5001/testPath", $"https:localhost:5001\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://localhost:5001/testPath/", $"https:localhost:5001\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://cropperblazor.github.io", $"http:cropperblazor.github.io\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://cropperblazor.github.io/", $"http:cropperblazor.github.io\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://cropperblazor.github.io/testPath", $"http:cropperblazor.github.io\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("http://cropperblazor.github.io/testPath/", $"http:cropperblazor.github.io\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io", $"https:cropperblazor.github.io\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io/", $"https:cropperblazor.github.io\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io/testPath", $"https:cropperblazor.github.io\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io/testPath/", $"https:cropperblazor.github.io\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io:5001", $"https:cropperblazor.github.io:5001\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io:5001/", $"https:cropperblazor.github.io:5001\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io:5001/testPath", $"https:cropperblazor.github.io:5001\\{CropperJsInterop.PathToCropperModule}")]
-        [InlineData("https://cropperblazor.github.io:5001/testPath/", $"https:cropperblazor.github.io:5001\\{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("http://localhost", $"http:localhost/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("http://localhost/", $"http:localhost/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("http://localhost/testPath", $"http:localhost/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("http://localhost/testPath/", $"http:localhost/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://localhost", $"https:localhost/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://localhost/", $"https:localhost/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://localhost/testPath", $"https:localhost/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://localhost/testPath/", $"https:localhost/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://localhost:5001", $"https:localhost:5001/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://localhost:5001/", $"https:localhost:5001/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://localhost:5001/testPath", $"https:localhost:5001/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://localhost:5001/testPath/", $"https:localhost:5001/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("http://cropperblazor.github.io", $"http:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("http://cropperblazor.github.io/", $"http:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("http://cropperblazor.github.io/testPath", $"http:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("http://cropperblazor.github.io/testPath/", $"http:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://cropperblazor.github.io", $"https:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://cropperblazor.github.io/", $"https:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://cropperblazor.github.io/testPath", $"https:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://cropperblazor.github.io/testPath/", $"https:cropperblazor.github.io/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://cropperblazor.github.io:5001", $"https:cropperblazor.github.io:5001/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://cropperblazor.github.io:5001/", $"https:cropperblazor.github.io:5001/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://cropperblazor.github.io:5001/testPath", $"https:cropperblazor.github.io:5001/{CropperJsInterop.PathToCropperModule}")]
+        [InlineData("https://cropperblazor.github.io:5001/testPath/", $"https:cropperblazor.github.io:5001/{CropperJsInterop.PathToCropperModule}")]
         public async Task Verify_LoadCropperModuleAsync(
             string pathToCropperModule,
             string expectedPathToCropperModule)
@@ -709,7 +709,7 @@ namespace Cropper.Blazor.UnitTests.Services
         }
 
         private void VerifyLoadCropperModule(
-            string pathToCropperModule = $"http:localhost\\{CropperJsInterop.PathToCropperModule}")
+            string pathToCropperModule = $"http:localhost/{CropperJsInterop.PathToCropperModule}")
         {
             _testContext.JSInterop
                 .SetupModule(pathToCropperModule);
