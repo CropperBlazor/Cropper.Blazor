@@ -298,6 +298,7 @@ namespace Cropper.Blazor.Client.Pages
             if (disposing)
             {
                 Destroy();
+                cropperComponent?.DisposeAsync();
                 JSRuntime!.InvokeVoidAsync("console.log", "Cropper Demo component is destroyed");
             }
         }
