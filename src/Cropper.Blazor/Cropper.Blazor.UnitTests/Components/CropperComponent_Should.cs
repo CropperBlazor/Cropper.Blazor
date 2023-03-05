@@ -457,7 +457,7 @@ namespace Cropper.Blazor.UnitTests.Components
         }
 
         [Theory]
-        [InlineData(nameof(CropperComponent.CropperIsCroped))]
+        [InlineData(nameof(CropperComponent.CropperIsCropedAsync))]
         [InlineData(nameof(CropperComponent.CropperIsEnded))]
         [InlineData(nameof(CropperComponent.CropperIsMoved))]
         [InlineData(nameof(CropperComponent.CropperIsStarted))]

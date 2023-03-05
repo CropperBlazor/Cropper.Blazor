@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
@@ -25,6 +26,7 @@ namespace Cropper.Blazor.Components
     public partial class CropperComponent : ICropperComponentBase, IAsyncDisposable
     {
         [Inject] ICropperJsInterop CropperJsIntertop { get; set; } = null!;
+        [Inject] IJSRuntime JSRuntime { get; set; } = null!;
 
         private ElementReference ImageReference;
 
@@ -179,9 +181,13 @@ namespace Cropper.Blazor.Components
         /// This event fires when the canvas (image wrapper) or the crop box changes.
         /// </summary>
         /// <param name="cropEvent">The <see cref="CropEvent"/>.</param>
-        [JSInvokable]
-        public void CropperIsCroped(CropEvent cropEvent)
+        [JSInvokable("CropperIsCroped")]
+        public async Task CropperIsCropedAsync(IJSObjectReference jSObjectReference)
         {
+            CropJSEvent cropJSEvent = new CropJSEvent(JSRuntime, jSObjectReference);
+            CropEvent cropEvent = await cropJSEvent.CropEvent;
+            Console.WriteLine("CropperIsCropedAsync: " + JsonSerializer.Serialize(cropEvent));
+
             OnCropEvent?.Invoke(cropEvent);
         }
 
@@ -190,9 +196,9 @@ namespace Cropper.Blazor.Components
         /// </summary>
         /// <param name="cropEndEvent">The <see cref="CropEndEvent"/>.</param>
         [JSInvokable]
-        public void CropperIsEnded(CropEndEvent cropEndEvent)
+        public void CropperIsEnded(IJSObjectReference cropEndEvent)
         {
-            OnCropEndEvent?.Invoke(cropEndEvent);
+            //OnCropEndEvent?.Invoke(null);
         }
 
         /// <summary>
@@ -200,9 +206,9 @@ namespace Cropper.Blazor.Components
         /// </summary>
         /// <param name="cropMoveEvent">The <see cref="CropMoveEvent"/>.</param>
         [JSInvokable]
-        public void CropperIsMoved(CropMoveEvent cropMoveEvent)
+        public void CropperIsMoved(IJSObjectReference cropMoveEvent)
         {
-            OnCropMoveEvent?.Invoke(cropMoveEvent);
+            //OnCropMoveEvent?.Invoke(null);
         }
 
         /// <summary>
@@ -210,9 +216,9 @@ namespace Cropper.Blazor.Components
         /// </summary>
         /// <param name="cropStartEvent">The <see cref="CropStartEvent"/>.</param>
         [JSInvokable]
-        public void CropperIsStarted(CropStartEvent cropStartEvent)
+        public void CropperIsStarted(IJSObjectReference cropStartEvent)
         {
-            OnCropStartEvent?.Invoke(cropStartEvent);
+            //OnCropStartEvent?.Invoke(null);
         }
 
         /// <summary>
@@ -220,9 +226,9 @@ namespace Cropper.Blazor.Components
         /// </summary>
         /// <param name="zoomEvent">The <see cref="ZoomEvent"/>.</param>
         [JSInvokable]
-        public void CropperIsZoomed(ZoomEvent zoomEvent)
+        public void CropperIsZoomed(IJSObjectReference zoomEvent)
         {
-            OnZoomEvent?.Invoke(zoomEvent);
+            //OnZoomEvent?.Invoke(null);
         }
 
         /// <summary>
@@ -230,9 +236,9 @@ namespace Cropper.Blazor.Components
         /// </summary>
         /// <param name="cropReadyEvent">The <see cref="CropReadyEvent"/>.</param>
         [JSInvokable]
-        public void IsReady(CropReadyEvent cropReadyEvent)
+        public void IsReady(IJSObjectReference cropReadyEvent)
         {
-            OnReadyEvent?.Invoke(cropReadyEvent);
+            //OnReadyEvent?.Invoke(null);
         }
 
         /// <summary>
@@ -519,6 +525,7 @@ namespace Cropper.Blazor.Components
         /// <returns>A <see cref="ValueTask{String}"/> representing canvas drawn the cropped image in URL format asynchronous operation.</returns>
         public async ValueTask<string> GetCroppedCanvasDataURLAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
+            var data = await CropperJsIntertop!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
             return await CropperJsIntertop!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
         }
 
