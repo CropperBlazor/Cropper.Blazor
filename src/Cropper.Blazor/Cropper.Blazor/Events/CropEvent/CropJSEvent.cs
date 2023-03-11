@@ -22,7 +22,7 @@ namespace Cropper.Blazor.Events.CropEvent
         /// <summary>
         /// Represents a a Crop JavaScript Event object.
         /// </summary>
-        public JSEventData<CropEvent> CropJSEventData { get; internal set; } = null!;
+        public JSEventData<CropEvent> EventData { get; internal set; } = null!;
 
         /// <summary>
         /// Get Crop JavaScript Event object.

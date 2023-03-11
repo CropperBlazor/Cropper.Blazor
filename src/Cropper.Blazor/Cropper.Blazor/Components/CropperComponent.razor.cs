@@ -76,7 +76,7 @@ namespace Cropper.Blazor.Components
         /// A shortcut to the ready event.
         /// </summary>
         [Parameter]
-        public Action<CropReadyEvent>? OnReadyEvent { get; set; }
+        public Action<CropReadyJSEvent>? OnReadyEvent { get; set; }
 
         /// <summary>
         /// A shortcut to the crop event.
@@ -185,11 +185,14 @@ namespace Cropper.Blazor.Components
         [JSInvokable("CropperIsCroped")]
         public async Task CropperIsCropedAsync(IJSObjectReference jSObjectReference)
         {
-            CropJSEvent cropJSEvent = new CropJSEvent(JSRuntime, jSObjectReference);
-            JSEventData<CropEvent> cropJSEventData = await cropJSEvent.GetCropJSEventDataAsync();
-            cropJSEvent.CropJSEventData = cropJSEventData;
+            if (OnCropEvent is not null)
+            {
+                CropJSEvent cropJSEvent = new CropJSEvent(JSRuntime, jSObjectReference);
+                JSEventData<CropEvent> cropJSEventData = await cropJSEvent.GetCropJSEventDataAsync();
+                cropJSEvent.EventData = cropJSEventData;
 
-            OnCropEvent?.Invoke(cropJSEvent);
+                OnCropEvent?.Invoke(cropJSEvent);
+            }
         }
 
         /// <summary>
@@ -235,11 +238,15 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the target image has been loaded and the cropper instance is ready for operating.
         /// </summary>
-        /// <param name="cropReadyEvent">The <see cref="CropReadyEvent"/>.</param>
+        /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
         [JSInvokable]
-        public void IsReady(IJSObjectReference cropReadyEvent)
+        public void IsReady(IJSObjectReference jSObjectReference)
         {
-            //OnReadyEvent?.Invoke(null);
+            if (OnReadyEvent is not null)
+            {
+                CropReadyJSEvent cropReadyJSEvent = new CropReadyJSEvent(JSRuntime, jSObjectReference);
+                OnReadyEvent?.Invoke(cropReadyJSEvent);
+            }
         }
 
         /// <summary>

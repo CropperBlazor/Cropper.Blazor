@@ -55,13 +55,13 @@ namespace Cropper.Blazor.Client.Pages
 
         public void OnCropEvent(CropJSEvent cropJSEvent)
         {
-            if (cropJSEvent.CropJSEventData.Detail is not null)
+            if (cropJSEvent.EventData.Detail is not null)
             {
-                scaleX = cropJSEvent.CropJSEventData.Detail.ScaleX;
-                scaleY = cropJSEvent.CropJSEventData.Detail.ScaleY;
+                scaleX = cropJSEvent.EventData.Detail.ScaleX;
+                scaleY = cropJSEvent.EventData.Detail.ScaleY;
                 InvokeAsync(() =>
                 {
-                    cropperDataPreview?.OnCropEvent(cropJSEvent.CropJSEventData.Detail);
+                    cropperDataPreview?.OnCropEvent(cropJSEvent.EventData.Detail);
                 });
             }
         }
@@ -86,7 +86,7 @@ namespace Cropper.Blazor.Client.Pages
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveEvent, {cropMoveEvent.ActionEvent}");
         }
 
-        public async void OnCropReadyEvent(CropReadyEvent cropReadyEvent)
+        public async void OnCropReadyEvent(CropReadyJSEvent cropReadyJSEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", "Cropper Is Ready");
         }
