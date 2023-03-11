@@ -1,4 +1,5 @@
-﻿using Cropper.Blazor.Client.Components;
+﻿using System.Reflection;
+using Cropper.Blazor.Client.Components;
 using Cropper.Blazor.Components;
 using Cropper.Blazor.Events.CropEndEvent;
 using Cropper.Blazor.Events.CropEvent;
@@ -12,7 +13,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazor.Services;
-using System.Reflection;
 using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Client.Pages
@@ -55,13 +55,15 @@ namespace Cropper.Blazor.Client.Pages
 
         public void OnCropEvent(CropJSEvent cropJSEvent)
         {
-            // TODO
-            //scaleX = cropEvent.ScaleX;
-            //scaleY = cropEvent.ScaleY;
-            //InvokeAsync(() =>
-            //{
-            //    cropperDataPreview?.OnCropEvent(cropEvent);
-            //});
+            if (cropJSEvent.CropJSEventData.Detail is not null)
+            {
+                scaleX = cropJSEvent.CropJSEventData.Detail.ScaleX;
+                scaleY = cropJSEvent.CropJSEventData.Detail.ScaleY;
+                InvokeAsync(() =>
+                {
+                    cropperDataPreview?.OnCropEvent(cropJSEvent.CropJSEventData.Detail);
+                });
+            }
         }
 
         public async void OnCropEndEvent(CropEndEvent cropEndEvent)
@@ -197,6 +199,9 @@ namespace Cropper.Blazor.Client.Pages
 
         public async void GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
+            //CroppedCanvas croppedCanvas = await cropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
+            //string croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL");
+
             string croppedCanvasDataURL = await cropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
             DialogParameters parameters = new()
             {

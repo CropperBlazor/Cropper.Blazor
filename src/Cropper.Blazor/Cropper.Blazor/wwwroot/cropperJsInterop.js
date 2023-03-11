@@ -37,12 +37,7 @@ class CropperDecorator {
     }
 
     getCroppedCanvas(options) {
-        var c = this.cropperInstance.getCroppedCanvas(options);
-
-        //console.log(c)
-        //var ref = DotNet.createJSObjectReference(c);
-
-        return c;
+        return this.cropperInstance.getCroppedCanvas(options);
     }
 
     getCroppedCanvasDataURL(options) {
@@ -139,6 +134,22 @@ class CropperDecorator {
         URL.revokeObjectURL(url);
     }
 
+    getCropJSEventData(instance) {
+        return {
+            isTrusted: instance.isTrusted,
+            detail: instance.detail,
+            type: instance.type,
+            eventPhase: instance.eventPhase,
+            bubbles: instance.bubbles,
+            cancelable: instance.cancelable,
+            defaultPrevented: instance.defaultPrevented,
+            composed: instance.composed,
+            timeStamp: instance.timeStamp,
+            returnValue: instance.returnValue,
+            cancelBubble: instance.cancelBubble
+        };
+    }
+
     initCropper(image, optionsImage, imageObject) {
         if (image == null) {
             throw "Parameter 'image' must be is not null!";
@@ -146,34 +157,52 @@ class CropperDecorator {
         const options = {};
         if (imageObject != null) {
             options['ready'] = function (event) {
+                console.log("Ready: ");
+                console.log(event);
                 let eref = DotNet.createJSObjectReference(event);
-                imageObject.invokeMethodAsync('IsReady', eref);
-                DotNet.disposeJSObjectReference(eref);
+                imageObject.invokeMethodAsync('IsReady', eref).then(() => {
+                    DotNet.disposeJSObjectReference(eref);
+                });
             };
             options['cropstart'] = function (event) {
+                console.log("cropstart: ");
+                console.log(event);
                 let eref = DotNet.createJSObjectReference(event);
-                imageObject.invokeMethodAsync('CropperIsStarted', eref);
-                DotNet.disposeJSObjectReference(eref);
+                imageObject.invokeMethodAsync('CropperIsStarted', eref).then(() => {
+                    DotNet.disposeJSObjectReference(eref);
+                });
             };
             options['cropmove'] = function (event) {
+                console.log("cropmove: ");
+                console.log(event);
                 let eref = DotNet.createJSObjectReference(event);
-                imageObject.invokeMethodAsync('CropperIsMoved', eref);
-                DotNet.disposeJSObjectReference(eref);
+                imageObject.invokeMethodAsync('CropperIsMoved', eref).then(() => {
+                    DotNet.disposeJSObjectReference(eref);
+                });
             };
             options['cropend'] = function (event) {
+                console.log("cropend: ");
+                console.log(event);
                 let eref = DotNet.createJSObjectReference(event);
-                imageObject.invokeMethodAsync('CropperIsEnded', eref);
-                DotNet.disposeJSObjectReference(eref);
+                imageObject.invokeMethodAsync('CropperIsEnded', eref).then(() => {
+                    DotNet.disposeJSObjectReference(eref);
+                });
             };
             options['crop'] = function (event) {
+                console.log("crop: ");
+                console.log(event);
                 let eref = DotNet.createJSObjectReference(event);
-                imageObject.invokeMethodAsync('CropperIsCroped', eref);
-                DotNet.disposeJSObjectReference(eref);
+                imageObject.invokeMethodAsync('CropperIsCroped', eref).then(() => {
+                    DotNet.disposeJSObjectReference(eref);
+                });
             };
             options['zoom'] = function (event) {
+                console.log("zoom: ");
+                console.log(event);
                 let eref = DotNet.createJSObjectReference(event);
-                imageObject.invokeMethodAsync('CropperIsZoomed', eref);
-                DotNet.disposeJSObjectReference(eref);
+                imageObject.invokeMethodAsync('CropperIsZoomed', eref).then(() => {
+                    DotNet.disposeJSObjectReference(eref);
+                });
             };
         }
         if (optionsImage != null) {
@@ -237,41 +266,6 @@ class JsObject {
 
         return method.apply(instance, args);
     }
-
-
-    // TODO: remove this method
-    getMethods(obj) {
-        let properties = new Set()
-        let currentObj = obj
-        do {
-            Object.getOwnPropertyNames(currentObj).map(item => properties.add(item))
-        } while ((currentObj = Object.getPrototypeOf(currentObj)))
-        return [...properties.keys()].filter(item => typeof obj[item] === 'function')
-    };
-
-    getPropertiesValue(obj) {
-        let properties = [];
-        let currentObj = obj;
-
-        do {
-            Object
-                .getOwnPropertyNames(currentObj)
-                .forEach(item => {
-                    let newObject = {};
-                    newObject[item] = obj[item]
-
-                    properties.push(newObject)
-                });
-        }
-        while ((currentObj = Object.getPrototypeOf(currentObj)))
-
-        const objProperties = [...properties]
-            .filter(item => typeof Object.values(item)[0] !== 'function');
-
-        console.log(objProperties);
-
-        return objProperties;
-    };
 }
 
 window.cropper = new CropperDecorator();

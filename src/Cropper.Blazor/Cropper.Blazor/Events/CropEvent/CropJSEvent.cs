@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
 namespace Cropper.Blazor.Events.CropEvent
@@ -6,50 +7,31 @@ namespace Cropper.Blazor.Events.CropEvent
     /// <summary>
     /// Provides the metadata of a Crop JS Event.
     /// </summary>
-    public class CropJSEvent
+    public class CropJSEvent : BaseJSEvent
     {
-        private readonly IJSRuntime _jsRuntime;
-
-        /// <summary>
-        /// Represents a reference to a Crop JavaScript Event object.
-        /// </summary>
-        public IJSObjectReference JSRuntimeObjectRef { get; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public CropJSEventData CropJSEventData { get; internal set; } = null!;
-
         /// <summary>
         /// Implementation of the constructor.
         /// </summary>
         /// <param name="jsRuntime">The <see cref="IJSRuntime"/>.</param>
         /// <param name="jsRuntimeObjectRef">The <see cref="IJSObjectReference"/>.</param>
         public CropJSEvent(IJSRuntime jsRuntime, IJSObjectReference jsRuntimeObjectRef)
+            : base(jsRuntime, jsRuntimeObjectRef)
         {
-            _jsRuntime = jsRuntime;
-            JSRuntimeObjectRef = jsRuntimeObjectRef;
         }
 
         /// <summary>
-        /// 
+        /// Represents a a Crop JavaScript Event object.
         /// </summary>
-        public ValueTask<object> getMethods =>
-            _jsRuntime!.InvokeAsync<object>("jsObject.getMethods", JSRuntimeObjectRef);
+        public JSEventData<CropEvent> CropJSEventData { get; internal set; } = null!;
 
         /// <summary>
-        /// 
+        /// Get Crop JavaScript Event object.
         /// </summary>
-        public ValueTask<CropJSEventData> GetPropertiesValueAsync() =>
-            _jsRuntime!.InvokeAsync<CropJSEventData>("jsObject.getPropertiesValue", JSRuntimeObjectRef);
-
-        /// <summary>
-        /// Prevent the event default behavior
-        /// </summary>
-        /// <returns></returns>
-        public async ValueTask PreventDefaultAsync()
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask{CropJSEventData}"/> representing cropper JavaScript event object asynchronous operation.</returns>
+        public async ValueTask<JSEventData<CropEvent>> GetCropJSEventDataAsync(CancellationToken cancellationToken = default)
         {
-            await _jsRuntime!.InvokeVoidAsync("jsObject.callInstanceMethod", JSRuntimeObjectRef, "preventDefault");
+            return await _jsRuntime!.InvokeAsync<JSEventData<CropEvent>>("cropper.getCropJSEventData", cancellationToken, JSRuntimeObjectRef);
         }
     }
 }

@@ -1,4 +1,9 @@
-﻿using Cropper.Blazor.Base;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Cropper.Blazor.Base;
+using Cropper.Blazor.Events;
 using Cropper.Blazor.Events.CropEndEvent;
 using Cropper.Blazor.Events.CropEvent;
 using Cropper.Blazor.Events.CropMoveEvent;
@@ -11,11 +16,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Components
@@ -181,14 +181,13 @@ namespace Cropper.Blazor.Components
         /// This event fires when the canvas (image wrapper) or the crop box changes.
         /// </summary>
         /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
         [JSInvokable("CropperIsCroped")]
         public async Task CropperIsCropedAsync(IJSObjectReference jSObjectReference)
         {
             CropJSEvent cropJSEvent = new CropJSEvent(JSRuntime, jSObjectReference);
-            CropJSEventData cropJSEventData = await cropJSEvent.GetPropertiesValueAsync();
+            JSEventData<CropEvent> cropJSEventData = await cropJSEvent.GetCropJSEventDataAsync();
             cropJSEvent.CropJSEventData = cropJSEventData;
-
-            Console.WriteLine("cropJSEvent.CropJSEventData: " + JsonSerializer.Serialize(cropJSEvent.CropJSEventData));
 
             OnCropEvent?.Invoke(cropJSEvent);
         }
