@@ -53,14 +53,15 @@ namespace Cropper.Blazor.Client.Pages
             };
         }
 
-        public void OnCropEvent(CropEvent cropEvent)
+        public void OnCropEvent(CropJSEvent cropJSEvent)
         {
-            scaleX = cropEvent.ScaleX;
-            scaleY = cropEvent.ScaleY;
-            InvokeAsync(() =>
-            {
-                cropperDataPreview?.OnCropEvent(cropEvent);
-            });
+            // TODO
+            //scaleX = cropEvent.ScaleX;
+            //scaleY = cropEvent.ScaleY;
+            //InvokeAsync(() =>
+            //{
+            //    cropperDataPreview?.OnCropEvent(cropEvent);
+            //});
         }
 
         public async void OnCropEndEvent(CropEndEvent cropEndEvent)

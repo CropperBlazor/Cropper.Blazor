@@ -299,8 +299,8 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="getCroppedCanvasOptions">The config options.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>A <see cref="ValueTask"/> representing result canvas asynchronous operation.</returns>
-        ValueTask<object> GetCroppedCanvasAsync(
+        /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing result canvas asynchronous operation.</returns>
+        ValueTask<CroppedCanvas> GetCroppedCanvasAsync(
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             CancellationToken cancellationToken = default);
 

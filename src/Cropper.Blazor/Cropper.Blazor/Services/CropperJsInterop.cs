@@ -208,8 +208,8 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="getCroppedCanvasOptions">The config options.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>A <see cref="ValueTask"/> representing result canvas asynchronous operation.</returns>
-        public async ValueTask<object> GetCroppedCanvasAsync(
+        /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing result canvas asynchronous operation.</returns>
+        public async ValueTask<CroppedCanvas> GetCroppedCanvasAsync(
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             CancellationToken cancellationToken = default)
         {
@@ -218,36 +218,9 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            var jSCanvas = await _jsRuntime!.InvokeAsync<IJSObjectReference>("cropper.getCroppedCanvas", cancellationToken, getCroppedCanvasOptions);
-            Console.WriteLine($"element: {jSCanvas}");
+            IJSObjectReference jSCanvas = await _jsRuntime!.InvokeAsync<IJSObjectReference>("cropper.getCroppedCanvas", cancellationToken, getCroppedCanvasOptions);
 
-            //var jSCanvas = await _jsRuntime.InvokeAsync<IJSObjectReference>("jsObject.jSReference", canvasReference);
-            //var isTrusted = await _jsRuntime.InvokeAsync<IJSObjectReference>("jsObject.getObjectProperty", element, "isTrusted");
-
-            Console.WriteLine($"jSCanvas: {jSCanvas}");
-
-            var jS2dContext = await jSCanvas.InvokeAsync<IJSObjectReference>("getContext", "2d");
-
-            Console.WriteLine($"jS2dContext: {jS2dContext}");
-
-            Console.WriteLine($"jS2dContext lineWidth getInstanceProperty: {await _jsRuntime.InvokeAsync<double>("jsObject.getInstanceProperty", jS2dContext, "lineWidth")}");
-
-            //await _jsRuntime.InvokeVoidAsync("jsObject.callInstanceMethod", jS2dContext, "beginPath");
-            //Console.WriteLine("w01");
-            //await _jsRuntime.InvokeVoidAsync("jsObject.setObjectProperty", jS2dContext, "strokeStyle", "blue");
-            //Console.WriteLine("w02");
-
-            var imgData = await _jsRuntime.InvokeAsync<object>("jsObject.callInstanceMethod", jS2dContext, "getImageData", 60, 60, 200, 100);
-            Console.WriteLine($"imgData: {imgData}");
-
-            //await _jsRuntime.InvokeVoidAsync("jsObject.callInstanceMethod", jS2dContext, "moveTo", 20, 20);
-            //Console.WriteLine("w03");
-            //await _jsRuntime.InvokeVoidAsync("jsObject.callInstanceMethod", jS2dContext, "lineTo", 200, 20);
-
-            //Console.WriteLine("w1");
-            //await _jsRuntime.InvokeVoidAsync("jsObject.callInstanceMethod", jS2dContext, "stroke");
-            //Console.WriteLine("w2");
-            return jSCanvas;
+            return new CroppedCanvas(jSCanvas);
         }
 
         /// <summary>

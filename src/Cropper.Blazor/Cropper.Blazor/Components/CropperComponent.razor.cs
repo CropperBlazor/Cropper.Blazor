@@ -82,7 +82,7 @@ namespace Cropper.Blazor.Components
         /// A shortcut to the crop event.
         /// </summary>
         [Parameter]
-        public Action<CropEvent>? OnCropEvent { get; set; }
+        public Action<CropJSEvent>? OnCropEvent { get; set; }
 
         /// <summary>
         /// A shortcut to the cropstart event.
@@ -180,15 +180,17 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box changes.
         /// </summary>
-        /// <param name="cropEvent">The <see cref="CropEvent"/>.</param>
+        /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
         [JSInvokable("CropperIsCroped")]
         public async Task CropperIsCropedAsync(IJSObjectReference jSObjectReference)
         {
             CropJSEvent cropJSEvent = new CropJSEvent(JSRuntime, jSObjectReference);
-            CropEvent cropEvent = await cropJSEvent.CropEvent;
-            Console.WriteLine("CropperIsCropedAsync: " + JsonSerializer.Serialize(cropEvent));
+            CropJSEventData cropJSEventData = await cropJSEvent.GetPropertiesValueAsync();
+            cropJSEvent.CropJSEventData = cropJSEventData;
 
-            OnCropEvent?.Invoke(cropEvent);
+            Console.WriteLine("cropJSEvent.CropJSEventData: " + JsonSerializer.Serialize(cropJSEvent.CropJSEventData));
+
+            OnCropEvent?.Invoke(cropJSEvent);
         }
 
         /// <summary>
@@ -512,8 +514,8 @@ namespace Cropper.Blazor.Components
         /// Get a canvas drawn from the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
         /// </summary>
         /// <param name="getCroppedCanvasOptions">Options for getting cropped canvas.</param>
-        /// <returns>A <see cref="ValueTask{Object}"/> representing canvas drawn the cropped image asynchronous operation.</returns>
-        public async ValueTask<object> GetCroppedCanvasAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing canvas drawn the cropped image asynchronous operation.</returns>
+        public async ValueTask<CroppedCanvas> GetCroppedCanvasAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
             return await CropperJsIntertop!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
         }
@@ -525,7 +527,6 @@ namespace Cropper.Blazor.Components
         /// <returns>A <see cref="ValueTask{String}"/> representing canvas drawn the cropped image in URL format asynchronous operation.</returns>
         public async ValueTask<string> GetCroppedCanvasDataURLAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            var data = await CropperJsIntertop!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
             return await CropperJsIntertop!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
         }
 

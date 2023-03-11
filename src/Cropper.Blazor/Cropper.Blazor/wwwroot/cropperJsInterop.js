@@ -166,9 +166,6 @@ class CropperDecorator {
                 DotNet.disposeJSObjectReference(eref);
             };
             options['crop'] = function (event) {
-                console.log('Event log: ');
-                console.log(event);
-                console.log(event.detail);
                 let eref = DotNet.createJSObjectReference(event);
                 imageObject.invokeMethodAsync('CropperIsCroped', eref);
                 DotNet.disposeJSObjectReference(eref);
@@ -189,20 +186,6 @@ class CropperDecorator {
 }
 
 class JsObject {
-
-    getObjectProperty(obj, property) {
-        console.log("Object: " + obj);
-        return obj[property];
-    }
-
-    jSReference(element) {
-        return element.valueOf();
-    }
-
-    setObjectProperty(obj, property, value) {
-        obj[property] = value;
-    }
-
     getPropertyList(path) {
         let res = path.replace('[', '.').replace(']', '').split('.');
 
@@ -255,82 +238,40 @@ class JsObject {
         return method.apply(instance, args);
     }
 
-    returnInstance (instance, serializationSpec) {
-        return this.getSerializableObject(instance, [], serializationSpec);
-    }
 
-    getSerializableObject (data, alreadySerialized, serializationSpec) {
-    if (serializationSpec === false) {
-        return undefined;
-    }
-    if (!alreadySerialized) {
-        alreadySerialized = [];
-    }
-    if (typeof data == "undefined" ||
-        data === null) {
-        return null;
-    }
-    if (typeof data === "number" ||
-        typeof data === "string" ||
-        typeof data == "boolean") {
-        return data;
-    }
-    let res = (Array.isArray(data)) ? [] : {};
-    if (!serializationSpec) {
-        serializationSpec = "*";
-    }
-    for (let i in data) {
-        let currentMember = data[i];
+    // TODO: remove this method
+    getMethods(obj) {
+        let properties = new Set()
+        let currentObj = obj
+        do {
+            Object.getOwnPropertyNames(currentObj).map(item => properties.add(item))
+        } while ((currentObj = Object.getPrototypeOf(currentObj)))
+        return [...properties.keys()].filter(item => typeof obj[item] === 'function')
+    };
 
-        if (typeof currentMember === 'function' || currentMember === null) {
-            continue;
+    getPropertiesValue(obj) {
+        let properties = [];
+        let currentObj = obj;
+
+        do {
+            Object
+                .getOwnPropertyNames(currentObj)
+                .forEach(item => {
+                    let newObject = {};
+                    newObject[item] = obj[item]
+
+                    properties.push(newObject)
+                });
         }
-        let currentMemberSpec;
-        if (serializationSpec != "*") {
-            currentMemberSpec = Array.isArray(data) ? serializationSpec : serializationSpec[i];
-            if (!currentMemberSpec) {
-                continue;
-            }
-        } else {
-            currentMemberSpec = "*"
-        }
-        if (typeof currentMember === 'object') {
-            if (alreadySerialized.indexOf(currentMember) >= 0) {
-                continue;
-            }
-            alreadySerialized.push(currentMember);
-            if (Array.isArray(currentMember) || currentMember.length) {
-                res[i] = [];
-                for (let j = 0; j < currentMember.length; j++) {
-                    const arrayItem = currentMember[j];
-                    if (typeof arrayItem === 'object') {
-                        res[i].push(this.getSerializableObject(arrayItem, alreadySerialized, currentMemberSpec));
-                    } else {
-                        res[i].push(arrayItem);
-                    }
-                }
-            } else {
-                //the browser provides some member (like plugins) as hash with index as key, if length == 0 we shall not convert it
-                if (currentMember.length === 0) {
-                    res[i] = [];
-                } else {
-                    res[i] = this.getSerializableObject(currentMember, alreadySerialized, currentMemberSpec);
-                }
-            }
+        while ((currentObj = Object.getPrototypeOf(currentObj)))
 
+        const objProperties = [...properties]
+            .filter(item => typeof Object.values(item)[0] !== 'function');
 
-        } else {
-            // string, number or boolean
-            if (currentMember === Infinity) { //inifity is not serialized by JSON.stringify
-                currentMember = "Infinity";
-            }
-            if (currentMember !== null) { //needed because the default json serializer in jsinterop serialize null values
-                res[i] = currentMember;
-            }
-        }
-    }
-    return res;
-};
+        console.log(objProperties);
+
+        return objProperties;
+    };
 }
 
 window.cropper = new CropperDecorator();

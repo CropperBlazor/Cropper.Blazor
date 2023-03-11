@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
 namespace Cropper.Blazor.Events.CropEvent
@@ -13,31 +9,47 @@ namespace Cropper.Blazor.Events.CropEvent
     public class CropJSEvent
     {
         private readonly IJSRuntime _jsRuntime;
-        private readonly IJSObjectReference _jsRuntimeObjectRef;
+
+        /// <summary>
+        /// Represents a reference to a Crop JavaScript Event object.
+        /// </summary>
+        public IJSObjectReference JSRuntimeObjectRef { get; }
 
         /// <summary>
         /// 
         /// </summary>
+        public CropJSEventData CropJSEventData { get; internal set; } = null!;
 
+        /// <summary>
+        /// Implementation of the constructor.
+        /// </summary>
+        /// <param name="jsRuntime">The <see cref="IJSRuntime"/>.</param>
+        /// <param name="jsRuntimeObjectRef">The <see cref="IJSObjectReference"/>.</param>
         public CropJSEvent(IJSRuntime jsRuntime, IJSObjectReference jsRuntimeObjectRef)
         {
             _jsRuntime = jsRuntime;
-            _jsRuntimeObjectRef = jsRuntimeObjectRef;
+            JSRuntimeObjectRef = jsRuntimeObjectRef;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public ValueTask<CropEvent> CropEvent =>
-            _jsRuntime!.InvokeAsync<CropEvent>("jsObject.getInstanceProperty", _jsRuntimeObjectRef, "detail");
+        public ValueTask<object> getMethods =>
+            _jsRuntime!.InvokeAsync<object>("jsObject.getMethods", JSRuntimeObjectRef);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ValueTask<CropJSEventData> GetPropertiesValueAsync() =>
+            _jsRuntime!.InvokeAsync<CropJSEventData>("jsObject.getPropertiesValue", JSRuntimeObjectRef);
 
         /// <summary>
         /// Prevent the event default behavior
         /// </summary>
         /// <returns></returns>
-        public async ValueTask PreventDefault()
+        public async ValueTask PreventDefaultAsync()
         {
-            await _jsRuntime!.InvokeVoidAsync("jsObject.callInstanceMethod", _jsRuntimeObjectRef, "preventDefault");
+            await _jsRuntime!.InvokeVoidAsync("jsObject.callInstanceMethod", JSRuntimeObjectRef, "preventDefault");
         }
     }
 }
