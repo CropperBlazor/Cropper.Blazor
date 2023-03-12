@@ -88,7 +88,7 @@ namespace Cropper.Blazor.Components
         /// A shortcut to the cropstart event.
         /// </summary>
         [Parameter]
-        public Action<CropStartEvent>? OnCropStartEvent { get; set; }
+        public Action<CropStartJSEvent>? OnCropStartEvent { get; set; }
 
         /// <summary>
         /// A shortcut to the cropend event.
@@ -218,11 +218,16 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box starts to change.
         /// </summary>
-        /// <param name="cropStartEvent">The <see cref="CropStartEvent"/>.</param>
-        [JSInvokable]
-        public void CropperIsStarted(IJSObjectReference cropStartEvent)
+        /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [JSInvokable("CropperIsStarted")]
+        public async Task CropperIsStartedAsync(IJSObjectReference jSObjectReference)
         {
-            //OnCropStartEvent?.Invoke(null);
+            CropStartJSEvent cropStartJSEvent = new CropStartJSEvent(JSRuntime, jSObjectReference);
+            JSEventData<CropStartEvent> cropStartJSEventData = await cropStartJSEvent.GetJSEventDataAsync<CropStartEvent>();
+            cropStartJSEvent.EventData = cropStartJSEventData;
+
+            OnCropStartEvent?.Invoke(cropStartJSEvent);
         }
 
         /// <summary>

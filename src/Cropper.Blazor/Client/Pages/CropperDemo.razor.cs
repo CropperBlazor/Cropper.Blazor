@@ -60,9 +60,10 @@ namespace Cropper.Blazor.Client.Pages
             {
                 scaleX = cropJSEvent.EventData.Detail.ScaleX;
                 scaleY = cropJSEvent.EventData.Detail.ScaleY;
-                await JSRuntime!.InvokeVoidAsync("console.log", $"CropJSEvent {JsonSerializer.Serialize(cropJSEvent)}");
-                InvokeAsync(() =>
+
+                await InvokeAsync(() =>
                 {
+                    JSRuntime!.InvokeVoidAsync("console.log", $"CropJSEvent {JsonSerializer.Serialize(cropJSEvent)}");
                     cropperDataPreview?.OnCropEvent(cropJSEvent.EventData.Detail);
                 });
             }
@@ -73,9 +74,9 @@ namespace Cropper.Blazor.Client.Pages
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {cropEndEvent.ActionEvent}");
         }
 
-        public async void OnCropStartEvent(CropStartEvent cropStartEvent)
+        public async void OnCropStartEvent(CropStartJSEvent cropStartJSEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartEvent, {cropStartEvent.ActionEvent}");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartEvent, {JsonSerializer.Serialize(cropStartJSEvent)}");
         }
 
         public async void OnZoomEvent(ZoomJSEvent zoomJSEvent)
@@ -84,14 +85,14 @@ namespace Cropper.Blazor.Client.Pages
             {
                 await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent {JsonSerializer.Serialize(zoomJSEvent)}");
 
-                if (zoomJSEvent.EventData.Detail.OriginalEvent is not null)
-                {
-                    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
-                        "jsObject.getInstanceProperty",
-                        zoomJSEvent.EventData.Detail.OriginalEvent, "clientX");
+                //if (zoomJSEvent.EventData.Detail.OriginalEvent is not null)
+                //{
+                //    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+                //        "jsObject.getInstanceProperty",
+                //        zoomJSEvent.EventData.Detail.OriginalEvent, "clientX");
 
-                    await JSRuntime!.InvokeVoidAsync("console.log", $"OriginalEvent clientX: {clientX}");
-                }
+                //    await JSRuntime!.InvokeVoidAsync("console.log", $"OriginalEvent clientX: {clientX}");
+                //}
 
                 //await zoomJSEvent.PreventDefaultAsync();
                 //Console.WriteLine($"PreventDefaultAsync");
@@ -105,7 +106,6 @@ namespace Cropper.Blazor.Client.Pages
 
         public async void OnCropReadyEvent(CropReadyJSEvent cropReadyJSEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", "Cropper Is Ready");
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropReadyJSEvent {JsonSerializer.Serialize(cropReadyJSEvent)}");
         }
 

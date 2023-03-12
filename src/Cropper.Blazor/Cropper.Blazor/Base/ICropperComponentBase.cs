@@ -39,7 +39,8 @@ namespace Cropper.Blazor.Base
         /// This event fires when the canvas (image wrapper) or the crop box starts to change.
         /// </summary>
         /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
-        void CropperIsStarted(IJSObjectReference jSObjectReference);
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        Task CropperIsStartedAsync(IJSObjectReference jSObjectReference);
 
         /// <summary>
         /// This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).

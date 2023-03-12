@@ -113,7 +113,7 @@ class CropperDecorator {
     }
 
     zoomTo(ratio, pivotX, pivotY) {
-        return this.cropperInstance.zoomTo(ratio, {pivotX, pivotY});
+        return this.cropperInstance.zoomTo(ratio, { pivotX, pivotY });
     }
 
     noConflict() {
@@ -159,6 +159,13 @@ class CropperDecorator {
                     DotNet.createJSObjectReference(instance.detail.originalEvent) : null
         };
     }
+        else if (instance.type === "cropstart") {
+            return {
+                action: instance.detail.action,
+                originalEvent: instance.detail.originalEvent ?
+                    DotNet.createJSObjectReference(instance.detail.originalEvent) : null
+            };
+        }
 
         return instance.detail;
     }
