@@ -37,7 +37,7 @@ namespace Cropper.Blazor.Events
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask PreventDefaultAsync(CancellationToken cancellationToken = default)
         {
-            await _jsRuntime!.InvokeVoidAsync("jsObject.callInstanceMethod", cancellationToken, JSRuntimeObjectRef, "preventDefault");
+            await JSRuntimeObjectRef.InvokeVoidAsync("preventDefault", cancellationToken);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Cropper.Blazor.Events
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask StopImmediatePropagationAsync(CancellationToken cancellationToken = default)
         {
-            await _jsRuntime!.InvokeVoidAsync("jsObject.callInstanceMethod", cancellationToken, JSRuntimeObjectRef, "stopImmediatePropagation");
+            await JSRuntimeObjectRef.InvokeVoidAsync("stopImmediatePropagation", cancellationToken);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Cropper.Blazor.Events
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask StopPropagationAsync(CancellationToken cancellationToken = default)
         {
-            await _jsRuntime!.InvokeVoidAsync("jsObject.callInstanceMethod", cancellationToken, JSRuntimeObjectRef, "stopPropagation");
+            await JSRuntimeObjectRef.InvokeVoidAsync("stopPropagation", cancellationToken);
         }
 
         /// <summary>
