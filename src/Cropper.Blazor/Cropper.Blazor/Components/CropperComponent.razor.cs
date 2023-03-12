@@ -94,7 +94,7 @@ namespace Cropper.Blazor.Components
         /// A shortcut to the cropend event.
         /// </summary>
         [Parameter]
-        public Action<CropEndEvent>? OnCropEndEvent { get; set; }
+        public Action<CropEndJSEvent>? OnCropEndEvent { get; set; }
 
         /// <summary>
         /// A shortcut to the cropmove event.
@@ -198,11 +198,16 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box stops changing.
         /// </summary>
-        /// <param name="cropEndEvent">The <see cref="CropEndEvent"/>.</param>
-        [JSInvokable]
-        public void CropperIsEnded(IJSObjectReference cropEndEvent)
+        /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [JSInvokable("CropperIsEnded")]
+        public async Task CropperIsEndedAsync(IJSObjectReference jSObjectReference)
         {
-            //OnCropEndEvent?.Invoke(null);
+            CropEndJSEvent cropEndJSEvent = new CropEndJSEvent(JSRuntime, jSObjectReference);
+            JSEventData<CropEndEvent> cropEndJSEventData = await cropEndJSEvent.GetJSEventDataAsync<CropEndEvent>();
+            cropEndJSEvent.EventData = cropEndJSEventData;
+
+            OnCropEndEvent?.Invoke(cropEndJSEvent);
         }
 
         /// <summary>

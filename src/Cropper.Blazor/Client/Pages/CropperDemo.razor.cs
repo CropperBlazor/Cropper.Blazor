@@ -69,14 +69,32 @@ namespace Cropper.Blazor.Client.Pages
             }
         }
 
-        public async void OnCropEndEvent(CropEndEvent cropEndEvent)
+        public async void OnCropEndEvent(CropEndJSEvent cropEndJSEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {cropEndEvent.ActionEvent}");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {JsonSerializer.Serialize(cropEndJSEvent)}");
+
+            if (cropEndJSEvent.EventData?.Detail?.OriginalEvent is not null)
+            {
+                decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+                    "jsObject.getInstanceProperty",
+                    cropEndJSEvent.EventData.Detail.OriginalEvent, "clientX");
+
+                await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndJSEvent OriginalEvent clientX: {clientX}");
+            }
         }
 
         public async void OnCropStartEvent(CropStartJSEvent cropStartJSEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartEvent, {JsonSerializer.Serialize(cropStartJSEvent)}");
+
+            if (cropStartJSEvent.EventData?.Detail?.OriginalEvent is not null)
+            {
+                decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+                    "jsObject.getInstanceProperty",
+                    cropStartJSEvent.EventData.Detail.OriginalEvent, "clientX");
+
+                await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartJSEvent OriginalEvent clientX: {clientX}");
+            }
         }
 
         public async void OnZoomEvent(ZoomJSEvent zoomJSEvent)
@@ -85,14 +103,14 @@ namespace Cropper.Blazor.Client.Pages
             {
                 await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent {JsonSerializer.Serialize(zoomJSEvent)}");
 
-                //if (zoomJSEvent.EventData.Detail.OriginalEvent is not null)
-                //{
-                //    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
-                //        "jsObject.getInstanceProperty",
-                //        zoomJSEvent.EventData.Detail.OriginalEvent, "clientX");
+                if (zoomJSEvent.EventData.Detail.OriginalEvent is not null)
+                {
+                    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+                        "jsObject.getInstanceProperty",
+                        zoomJSEvent.EventData.Detail.OriginalEvent, "clientX");
 
-                //    await JSRuntime!.InvokeVoidAsync("console.log", $"OriginalEvent clientX: {clientX}");
-                //}
+                    await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomJSEvent clientX: {clientX}");
+                }
 
                 //await zoomJSEvent.PreventDefaultAsync();
                 //Console.WriteLine($"PreventDefaultAsync");
