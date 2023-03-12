@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text.Json;
 using Cropper.Blazor.Client.Components;
 using Cropper.Blazor.Components;
 using Cropper.Blazor.Events.CropEndEvent;
@@ -53,12 +54,13 @@ namespace Cropper.Blazor.Client.Pages
             };
         }
 
-        public void OnCropEvent(CropJSEvent cropJSEvent)
+        public async void OnCropEvent(CropJSEvent cropJSEvent)
         {
             if (cropJSEvent.EventData.Detail is not null)
             {
                 scaleX = cropJSEvent.EventData.Detail.ScaleX;
                 scaleY = cropJSEvent.EventData.Detail.ScaleY;
+                await JSRuntime!.InvokeVoidAsync("console.log", $"CropJSEvent {JsonSerializer.Serialize(cropJSEvent)}");
                 InvokeAsync(() =>
                 {
                     cropperDataPreview?.OnCropEvent(cropJSEvent.EventData.Detail);
@@ -80,7 +82,19 @@ namespace Cropper.Blazor.Client.Pages
         {
             if (zoomJSEvent.EventData.Detail is not null)
             {
-                await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent, OldRatio: {zoomJSEvent.EventData.Detail.OldRatio}, Ratio: {zoomJSEvent.EventData.Detail.Ratio}");
+                await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent {JsonSerializer.Serialize(zoomJSEvent)}");
+
+                if (zoomJSEvent.EventData.Detail.OriginalEvent is not null)
+                {
+                    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+                        "jsObject.getInstanceProperty",
+                        zoomJSEvent.EventData.Detail.OriginalEvent, "clientX");
+
+                    await JSRuntime!.InvokeVoidAsync("console.log", $"OriginalEvent clientX: {clientX}");
+                }
+
+                //await zoomJSEvent.PreventDefaultAsync();
+                //Console.WriteLine($"PreventDefaultAsync");
             }
         }
 
@@ -92,6 +106,7 @@ namespace Cropper.Blazor.Client.Pages
         public async void OnCropReadyEvent(CropReadyJSEvent cropReadyJSEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", "Cropper Is Ready");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropReadyJSEvent {JsonSerializer.Serialize(cropReadyJSEvent)}");
         }
 
         public async void OnLoadImageEvent()
