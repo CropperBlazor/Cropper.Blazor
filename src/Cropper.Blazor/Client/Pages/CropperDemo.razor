@@ -1,6 +1,7 @@
 @page "/demo"
 @using Cropper.Blazor.Client.Components
 @using Cropper.Blazor.Components
+@using Cropper.Blazor.Extensions;
 @using Cropper.Blazor.Models
 
 <MudContainer Class="@((_start.Equals(Breakpoint.Xl) || _start.Equals(Breakpoint.Xxl) ? "mud-container-maxwidth-xl " : "") + "mt-5")">
@@ -156,18 +157,18 @@
                 </MudTooltip>
                 <MudTooltip Text="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })">
                     <MudButton Color="Color.Secondary" Variant="Variant.Filled"
-                               OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096}))">
+                               OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
                         Get Cropped Canvas
                     </MudButton>
                 </MudTooltip>
                 <MudButtonGroup Color="Color.Secondary" Variant="Variant.Filled">
                     <MudTooltip Text="cropper.getCroppedCanvas({ width: 320, height: 180 })">
-                        <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 180, MaxWidth = 320}))">
+                        <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 180, MaxWidth = 320, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
                             320&times;180
                         </MudButton>
                     </MudTooltip>
                     <MudTooltip Text="cropper.getCroppedCanvas({ width: 640, height: 360 })">
-                        <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 360, MaxWidth = 480}))">
+                        <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 360, MaxWidth = 480, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
                             640&times;360
                         </MudButton>
                     </MudTooltip>

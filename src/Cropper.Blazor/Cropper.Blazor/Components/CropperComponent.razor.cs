@@ -100,7 +100,7 @@ namespace Cropper.Blazor.Components
         /// A shortcut to the cropmove event.
         /// </summary>
         [Parameter]
-        public Action<CropMoveEvent>? OnCropMoveEvent { get; set; }
+        public Action<CropMoveJSEvent>? OnCropMoveEvent { get; set; }
 
         /// <summary>
         /// A shortcut to the zoom event.
@@ -213,11 +213,16 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box is changing.
         /// </summary>
-        /// <param name="cropMoveEvent">The <see cref="CropMoveEvent"/>.</param>
-        [JSInvokable]
-        public void CropperIsMoved(IJSObjectReference cropMoveEvent)
+        /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [JSInvokable("CropperIsMoved")]
+        public async Task CropperIsMovedAsync(IJSObjectReference jSObjectReference)
         {
-            //OnCropMoveEvent?.Invoke(null);
+            CropMoveJSEvent cropMoveJSEvent = new CropMoveJSEvent(JSRuntime, jSObjectReference);
+            JSEventData<CropMoveEvent> cropMoveEventJSEventData = await cropMoveJSEvent.GetJSEventDataAsync<CropMoveEvent>();
+            cropMoveJSEvent.EventData = cropMoveEventJSEventData;
+
+            OnCropMoveEvent?.Invoke(cropMoveJSEvent);
         }
 
         /// <summary>

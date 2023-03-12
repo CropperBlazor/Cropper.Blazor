@@ -117,9 +117,18 @@ namespace Cropper.Blazor.Client.Pages
             }
         }
 
-        public async void OnCropMoveEvent(CropMoveEvent cropMoveEvent)
+        public async void OnCropMoveEvent(CropMoveJSEvent cropMoveJSEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveEvent, {cropMoveEvent.ActionEvent}");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveEvent, {JsonSerializer.Serialize(cropMoveJSEvent)}");
+
+            if (cropMoveJSEvent.EventData?.Detail?.OriginalEvent is not null)
+            {
+                decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+                    "jsObject.getInstanceProperty",
+                    cropMoveJSEvent.EventData.Detail.OriginalEvent, "clientX");
+
+                await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveJSEvent OriginalEvent clientX: {clientX}");
+            }
         }
 
         public async void OnCropReadyEvent(CropReadyJSEvent cropReadyJSEvent)

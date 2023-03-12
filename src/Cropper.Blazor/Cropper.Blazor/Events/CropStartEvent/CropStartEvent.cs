@@ -17,7 +17,7 @@ namespace Cropper.Blazor.Events.CropStartEvent
         public ActionEvent ActionEvent { get; set; }
 
         /// <summary>
-        /// Represents a pointerdown, touchstart, and mousedown original event.
+        /// Represents a pointerdown, touchstart, mousedown original event.
         /// </summary>
         [JsonPropertyName("originalEvent")]
         public IJSObjectReference? OriginalEvent { get; set; }

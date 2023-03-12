@@ -159,7 +159,7 @@ class CropperDecorator {
                     DotNet.createJSObjectReference(instance.detail.originalEvent) : null
         };
     }
-        else if (instance.type === "cropstart" || instance.type === "cropend") {
+        else if (instance.type === "cropstart" || instance.type === "cropend" || instance.type === "cropmove") {
             return {
                 action: instance.detail.action,
                 originalEvent: instance.detail.originalEvent ?
