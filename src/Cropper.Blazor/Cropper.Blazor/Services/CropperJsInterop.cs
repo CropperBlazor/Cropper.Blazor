@@ -95,7 +95,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeAsync<object>("cropper.clear", cancellationToken);
+            await _jsRuntime!.InvokeVoidAsync("cropper.clear", cancellationToken);
         }
 
         /// <summary>
