@@ -76,9 +76,12 @@ namespace Cropper.Blazor.Client.Pages
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartEvent, {cropStartEvent.ActionEvent}");
         }
 
-        public async void OnZoomEvent(ZoomEvent zoomEvent)
+        public async void OnZoomEvent(ZoomJSEvent zoomJSEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent, OldRatio: {zoomEvent.OldRatio}, Ratio: {zoomEvent.Ratio}");
+            if (zoomJSEvent.EventData.Detail is not null)
+            {
+                await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent, OldRatio: {zoomJSEvent.EventData.Detail.OldRatio}, Ratio: {zoomJSEvent.EventData.Detail.Ratio}");
+            }
         }
 
         public async void OnCropMoveEvent(CropMoveEvent cropMoveEvent)

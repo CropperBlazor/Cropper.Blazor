@@ -60,5 +60,15 @@ namespace Cropper.Blazor.Events
         {
             await _jsRuntime!.InvokeVoidAsync("jsObject.callInstanceMethod", cancellationToken, JSRuntimeObjectRef, "stopPropagation");
         }
+
+        /// <summary>
+        /// Get JavaScript Event object.
+        /// </summary>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask{JSEventData}"/> representing JavaScript event object asynchronous operation.</returns>
+        public async ValueTask<JSEventData<Event>> GetJSEventDataAsync<Event>(CancellationToken cancellationToken = default)
+        {
+            return await _jsRuntime!.InvokeAsync<JSEventData<Event>>("cropper.getJSEventData", cancellationToken, JSRuntimeObjectRef);
+        }
     }
 }

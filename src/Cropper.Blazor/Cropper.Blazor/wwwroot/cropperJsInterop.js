@@ -134,10 +134,10 @@ class CropperDecorator {
         URL.revokeObjectURL(url);
     }
 
-    getCropJSEventData(instance) {
+    getJSEventData(instance) {
         return {
             isTrusted: instance.isTrusted,
-            detail: instance.detail,
+            detail: this.getJSEventDataDetail(instance),
             type: instance.type,
             eventPhase: instance.eventPhase,
             bubbles: instance.bubbles,
@@ -148,6 +148,19 @@ class CropperDecorator {
             returnValue: instance.returnValue,
             cancelBubble: instance.cancelBubble
         };
+    }
+
+    getJSEventDataDetail(instance) {
+        if (instance.type === "zoom") {
+        return {
+                oldRatio: instance.detail.oldRatio,
+                ratio: instance.detail.ratio,
+                originalEvent: instance.detail.originalEvent ?
+                    DotNet.createJSObjectReference(instance.detail.originalEvent) : null
+        };
+    }
+
+        return instance.detail;
     }
 
     initCropper(image, optionsImage, imageObject) {
