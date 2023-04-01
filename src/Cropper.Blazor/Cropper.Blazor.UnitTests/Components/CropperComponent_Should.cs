@@ -402,6 +402,9 @@ namespace Cropper.Blazor.UnitTests.Components
 
                 cropperComponent.Instance.ZoomTo(ratio, pivotX, pivotY);
                 _mockCropperJsInterop.Verify(c => c.ZoomToAsync(ratio, pivotX, pivotY, cancellationToken), Times.Once());
+
+                await cropperComponent.Instance.DisposeAsync();
+                _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Once());
             });
         }
 

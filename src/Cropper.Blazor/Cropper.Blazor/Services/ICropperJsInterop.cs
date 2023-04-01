@@ -337,5 +337,11 @@ namespace Cropper.Blazor.Services
         ValueTask RevokeObjectUrlAsync(
             string url,
             CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Called to dispose this instance.
+        /// </summary>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        ValueTask DisposeAsync();
     }
 }

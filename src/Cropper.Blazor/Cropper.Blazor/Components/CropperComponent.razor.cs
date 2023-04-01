@@ -22,7 +22,7 @@ namespace Cropper.Blazor.Components
     /// <summary>
     /// The cropper component.
     /// </summary>
-    public partial class CropperComponent : ICropperComponentBase
+    public partial class CropperComponent : ICropperComponentBase, IAsyncDisposable
     {
         [Inject] ICropperJsInterop CropperJsIntertop { get; set; } = null!;
 
@@ -520,6 +520,15 @@ namespace Cropper.Blazor.Components
         public async ValueTask<string> GetCroppedCanvasDataURLAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
             return await CropperJsIntertop!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+        }
+
+        /// <summary>
+        /// Called to dispose this instance and internal services.
+        /// </summary>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask DisposeAsync()
+        {
+            await CropperJsIntertop!.DisposeAsync();
         }
     }
 }
