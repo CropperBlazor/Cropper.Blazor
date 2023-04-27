@@ -6,6 +6,7 @@ using Cropper.Blazor.Events;
 using Cropper.Blazor.Events.CropEndEvent;
 using Cropper.Blazor.Events.CropEvent;
 using Cropper.Blazor.Events.CropMoveEvent;
+using Cropper.Blazor.Events.CropReadyEvent;
 using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
 using Cropper.Blazor.Models;
@@ -128,9 +129,9 @@ namespace Cropper.Blazor.Client.Pages
             //}
         }
 
-        public async void OnCropReadyEvent()
+        public async void OnCropReadyEvent(JSEventData<CropReadyEvent> jSEventData)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", "CropReadyJSEvent");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropReadyJSEvent, {JsonSerializer.Serialize(jSEventData)}");
 
             // TODO
             //await JSRuntime!.InvokeVoidAsync("window.overrideCropperJsInteropModule");

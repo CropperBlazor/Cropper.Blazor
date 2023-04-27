@@ -7,6 +7,7 @@ using Cropper.Blazor.Events;
 using Cropper.Blazor.Events.CropEndEvent;
 using Cropper.Blazor.Events.CropEvent;
 using Cropper.Blazor.Events.CropMoveEvent;
+using Cropper.Blazor.Events.CropReadyEvent;
 using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
 using Cropper.Blazor.Models;
@@ -74,7 +75,7 @@ namespace Cropper.Blazor.Components
         /// A shortcut to the ready event.
         /// </summary>
         [Parameter]
-        public Action? OnReadyEvent { get; set; }
+        public Action<JSEventData<CropReadyEvent>>? OnReadyEvent { get; set; }
 
         /// <summary>
         /// A shortcut to the crop event.
@@ -229,10 +230,11 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the target image has been loaded and the cropper instance is ready for operating.
         /// </summary>
+        /// <param name="jSEventData">The <see cref="JSEventData{CropReadyEvent}"/>.</param>
         [JSInvokable]
-        public void IsReady()
+        public void IsReady(JSEventData<CropReadyEvent> jSEventData)
         {
-            OnReadyEvent?.Invoke();
+            OnReadyEvent?.Invoke(jSEventData);
         }
 
         /// <summary>

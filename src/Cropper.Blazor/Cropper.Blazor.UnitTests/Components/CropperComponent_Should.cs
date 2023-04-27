@@ -12,6 +12,7 @@ using Cropper.Blazor.Events;
 using Cropper.Blazor.Events.CropEndEvent;
 using Cropper.Blazor.Events.CropEvent;
 using Cropper.Blazor.Events.CropMoveEvent;
+using Cropper.Blazor.Events.CropReadyEvent;
 using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
 using Cropper.Blazor.Models;
@@ -68,6 +69,8 @@ namespace Cropper.Blazor.UnitTests.Components
 
             IBrowserFile imageFile = new Mock<IBrowserFile>().Object;
             CancellationToken cancellationToken = new();
+            JSEventData<CropReadyEvent> cropReadyEvent = new Faker<JSEventData<CropReadyEvent>>()
+                .Generate();
             JSEventData<ZoomEvent> zoomEvent = new Faker<JSEventData<ZoomEvent>>()
                 .Generate();
             JSEventData<CropStartEvent> cropStartEvent = new Faker<JSEventData<CropStartEvent>>()
@@ -159,9 +162,10 @@ namespace Cropper.Blazor.UnitTests.Components
                 countCallsOnZoomEventHandler++;
                 zoomEvent.Should().BeEquivalentTo(z);
             };
-            Action? onCropReadyEventHandler = () =>
+            Action<JSEventData<CropReadyEvent>>? onCropReadyEventHandler = (JSEventData<CropReadyEvent> c) =>
             {
                 countCallsOnCropReadyEventHandler++;
+                cropReadyEvent.Should().BeEquivalentTo(c);
             };
 
             ComponentParameter imageClassParameter = ComponentParameter.CreateParameter(
@@ -350,7 +354,7 @@ namespace Cropper.Blazor.UnitTests.Components
                 expectedImage.Should().Be(image);
                 _mockCropperJsInterop.Verify(c => c.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken), Times.Once());
 
-                cropperComponent.Instance.IsReady();
+                cropperComponent.Instance.IsReady(cropReadyEvent);
                 countCallsOnCropReadyEventHandler.Should().Be(1);
 
                 cropperComponent.Instance.Move(offsetX, offsetY);
