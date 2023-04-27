@@ -95,7 +95,7 @@ namespace Cropper.Blazor.UnitTests.Components
                 .Generate();
             GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>()
                 .Generate();
-            Mock<IJSObjectReference> mockIJSObjectReference = new Mock<IJSObjectReference>();               
+            Mock<IJSObjectReference> mockIJSObjectReference = new Mock<IJSObjectReference>();
             CroppedCanvas expectedCroppedCanvas = new Faker<CroppedCanvas>()
                 .CustomInstantiator(c => new CroppedCanvas(mockIJSObjectReference.Object));
             CropperData expectedCropperData = new Faker<CropperData>()
