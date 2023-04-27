@@ -40,7 +40,7 @@ namespace Cropper.Blazor.Models
         /// <summary>
         /// A color to fill any alpha values in the output canvas, the default value is the transparent.
         /// </summary>
-        public string? FillColor { get; set; }
+        public string? FillColor { get; set; } = "transparent";
 
         /// <summary>
         /// Set to change if images are smoothed (true, default) or not (false).
