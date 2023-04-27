@@ -134,7 +134,7 @@ class CropperDecorator {
         URL.revokeObjectURL(url);
     }
 
-    getJSEventData(instance) {
+    getJSEventData(instance, correlationId) {
         return {
             isTrusted: instance.isTrusted,
             detail: this.getJSEventDataDetail(instance),
@@ -146,7 +146,8 @@ class CropperDecorator {
             composed: instance.composed,
             timeStamp: instance.timeStamp,
             returnValue: instance.returnValue,
-            cancelBubble: instance.cancelBubble
+            cancelBubble: instance.cancelBubble,
+            correlationId: correlationId
         };
     }
 
@@ -170,33 +171,33 @@ class CropperDecorator {
         return instance.detail;
     }
 
-    onReady (imageObject, event) {
-        const jSEventData = this.getJSEventData(event);
+    onReady(imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
         imageObject.invokeMethodAsync('IsReady', jSEventData);
     }
 
-    onCropStart(imageObject, event) {
-        const jSEventData = this.getJSEventData(event);
+    onCropStart(imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
         imageObject.invokeMethodAsync('CropperIsStarted', jSEventData);
     }
 
-    onCropMove(imageObject, event) {
-        const jSEventData = this.getJSEventData(event);
+    onCropMove(imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
         imageObject.invokeMethodAsync('CropperIsMoved', jSEventData);
     }
 
-    onCropEnd(imageObject, event) {
-        const jSEventData = this.getJSEventData(event);
+    onCropEnd(imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
         imageObject.invokeMethodAsync('CropperIsEnded', jSEventData);
     }
 
-    onCrop(imageObject, event) {
-        const jSEventData = this.getJSEventData(event);
+    onCrop(imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
         imageObject.invokeMethodAsync('CropperIsCroped', jSEventData);
     }
 
-    onZoom(imageObject, event) {
-        const jSEventData = this.getJSEventData(event);
+    onZoom(imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
         imageObject.invokeMethodAsync('CropperIsZoomed', jSEventData);
     }
 
@@ -206,27 +207,28 @@ class CropperDecorator {
         }
 
         const options = {};
+        const correlationId = optionsImage["correlationId"];
 
         if (imageObject != null) {
             const self = this;
 
             options['ready'] = function (event) {
-                self.onReady(imageObject, event);
+                self.onReady(imageObject, event, correlationId);
             };
             options['cropstart'] = function (event) {
-                self.onCropStart(imageObject, event);
+                self.onCropStart(imageObject, event, correlationId);
             };
             options['cropmove'] = function (event) {
-                self.onCropMove(imageObject, event);
+                self.onCropMove(imageObject, event, correlationId);
             };
             options['cropend'] = function (event) {
-                self.onCropEnd(imageObject, event);
+                self.onCropEnd(imageObject, event, correlationId);
             };
             options['crop'] = function (event) {
-                self.onCrop(imageObject, event);
+                self.onCrop(imageObject, event, correlationId);
             };
             options['zoom'] = function (event) {
-                self.onZoom(imageObject, event);
+                self.onZoom(imageObject, event, correlationId);
             };
         }
 

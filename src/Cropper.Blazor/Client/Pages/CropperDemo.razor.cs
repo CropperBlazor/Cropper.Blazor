@@ -73,28 +73,28 @@ namespace Cropper.Blazor.Client.Pages
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {JsonSerializer.Serialize(cropEndJSEvent)}");
 
-            if (cropEndJSEvent?.Detail?.OriginalEvent is not null)
-            {
-                decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
-                    "jsObject.getInstanceProperty",
-                    cropEndJSEvent.Detail.OriginalEvent, "clientX");
+            //if (cropEndJSEvent?.Detail?.OriginalEvent is not null)
+            //{
+            //    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+            //        "jsObject.getInstanceProperty",
+            //        cropEndJSEvent.Detail.OriginalEvent, "clientX");
 
-                await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndJSEvent OriginalEvent clientX: {clientX}");
-            }
+            //    await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndJSEvent OriginalEvent clientX: {clientX}");
+            //}
         }
 
         public async void OnCropStartEvent(JSEventData<CropStartEvent> cropStartJSEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartEvent, {JsonSerializer.Serialize(cropStartJSEvent)}");
 
-            if (cropStartJSEvent?.Detail?.OriginalEvent is not null)
-            {
-                decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
-                    "jsObject.getInstanceProperty",
-                    cropStartJSEvent.Detail.OriginalEvent, "clientX");
+            //if (cropStartJSEvent?.Detail?.OriginalEvent is not null)
+            //{
+            //    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+            //        "jsObject.getInstanceProperty",
+            //        cropStartJSEvent.Detail.OriginalEvent, "clientX");
 
-                await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartJSEvent OriginalEvent clientX: {clientX}");
-            }
+            //    await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartJSEvent OriginalEvent clientX: {clientX}");
+            //}
         }
 
         public async void OnZoomEvent(JSEventData<ZoomEvent> zoomJSEvent)
@@ -103,14 +103,14 @@ namespace Cropper.Blazor.Client.Pages
             {
                 await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent {JsonSerializer.Serialize(zoomJSEvent)}");
 
-                if (zoomJSEvent.Detail.OriginalEvent is not null)
-                {
-                    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
-                        "jsObject.getInstanceProperty",
-                        zoomJSEvent.Detail.OriginalEvent, "clientX");
+                //if (zoomJSEvent.Detail.OriginalEvent is not null)
+                //{
+                //    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+                //        "jsObject.getInstanceProperty",
+                //        zoomJSEvent.Detail.OriginalEvent, "clientX");
 
-                    await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomJSEvent clientX: {clientX}");
-                }
+                //    await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomJSEvent clientX: {clientX}");
+                //}
             }
         }
 
@@ -118,14 +118,14 @@ namespace Cropper.Blazor.Client.Pages
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveEvent, {JsonSerializer.Serialize(cropMoveJSEvent)}");
 
-            if (cropMoveJSEvent?.Detail?.OriginalEvent is not null)
-            {
-                decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
-                    "jsObject.getInstanceProperty",
-                    cropMoveJSEvent.Detail.OriginalEvent, "clientX");
+            //if (cropMoveJSEvent?.Detail?.OriginalEvent is not null)
+            //{
+            //    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+            //        "jsObject.getInstanceProperty",
+            //        cropMoveJSEvent.Detail.OriginalEvent, "clientX");
 
-                await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveJSEvent OriginalEvent clientX: {clientX}");
-            }
+            //    await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveJSEvent OriginalEvent clientX: {clientX}");
+            //}
         }
 
         public async void OnCropReadyEvent()

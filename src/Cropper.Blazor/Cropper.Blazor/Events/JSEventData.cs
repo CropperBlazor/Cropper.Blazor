@@ -72,5 +72,12 @@ namespace Cropper.Blazor.Events
         /// </summary>
         [JsonPropertyName("cancelBubble")]
         public bool? CancelBubble { get; set; }
+
+        /// <summary>
+        /// A Correlation ID is a unique identifier that is added to the very first interaction (incoming request)
+        /// to identify the context and is passed to all components that are involved in the transaction flow
+        /// </summary>
+        [JsonPropertyName("correlationId")]
+        public string? CorrelationId { get; set; }
     }
 }
