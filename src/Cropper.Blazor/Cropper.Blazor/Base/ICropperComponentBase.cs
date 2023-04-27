@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
-using Microsoft.JSInterop;
+﻿using Cropper.Blazor.Events;
+using Cropper.Blazor.Events.CropEndEvent;
+using Cropper.Blazor.Events.CropEvent;
+using Cropper.Blazor.Events.CropMoveEvent;
+using Cropper.Blazor.Events.CropStartEvent;
+using Cropper.Blazor.Events.ZoomEvent;
 
 namespace Cropper.Blazor.Base
 {
@@ -19,42 +23,36 @@ namespace Cropper.Blazor.Base
         ///   When the data option is set, another crop event will be triggered before the ready event
         ///  </para>
         /// </remarks>
-        /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
-        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
-        Task CropperIsCropedAsync(IJSObjectReference jSObjectReference);
+        /// <param name="jSEventData">The <see cref="JSEventData{CropEvent}"/>.</param>
+        void CropperIsCroped(JSEventData<CropEvent> jSEventData);
 
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box stops changing.
         /// </summary>
-        /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
-        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
-        Task CropperIsEndedAsync(IJSObjectReference jSObjectReference);
+        /// <param name="jSEventData">The <see cref="JSEventData{CropEndEvent}"/>.</param>
+        void CropperIsEnded(JSEventData<CropEndEvent> jSEventData);
 
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box is changing.
         /// </summary>
-        /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
-        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
-        Task CropperIsMovedAsync(IJSObjectReference jSObjectReference);
+        /// <param name="jSEventData">The <see cref="JSEventData{CropMoveEvent}"/>.</param>
+        void CropperIsMoved(JSEventData<CropMoveEvent> jSEventData);
 
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box starts to change.
         /// </summary>
-        /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
-        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
-        Task CropperIsStartedAsync(IJSObjectReference jSObjectReference);
+        /// <param name="jSEventData">The <see cref="JSEventData{CropStartEvent}"/>.</param>
+        void CropperIsStarted(JSEventData<CropStartEvent> jSEventData);
 
         /// <summary>
         /// This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
         /// </summary>
-        /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
-        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
-        Task CropperIsZoomedAsync(IJSObjectReference jSObjectReference);
+        /// <param name="jSEventData">The <see cref="JSEventData{ZoomEvent}"/>.</param>
+        void CropperIsZoomed(JSEventData<ZoomEvent> jSEventData);
 
         /// <summary>
         /// This event fires when the target image has been loaded and the cropper instance is ready for operating.
         /// </summary>
-        /// <param name="jSObjectReference">The <see cref="IJSObjectReference"/>.</param>
-        void IsReady(IJSObjectReference jSObjectReference);
+        void IsReady();
     }
 }

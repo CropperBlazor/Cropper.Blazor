@@ -2,10 +2,10 @@
 using System.Text.Json;
 using Cropper.Blazor.Client.Components;
 using Cropper.Blazor.Components;
+using Cropper.Blazor.Events;
 using Cropper.Blazor.Events.CropEndEvent;
 using Cropper.Blazor.Events.CropEvent;
 using Cropper.Blazor.Events.CropMoveEvent;
-using Cropper.Blazor.Events.CropReadyEvent;
 using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
 using Cropper.Blazor.Models;
@@ -54,86 +54,86 @@ namespace Cropper.Blazor.Client.Pages
             };
         }
 
-        public async void OnCropEvent(CropJSEvent cropJSEvent)
+        public async void OnCropEvent(JSEventData<CropEvent> cropJSEvent)
         {
-            if (cropJSEvent.EventData.Detail is not null)
+            if (cropJSEvent?.Detail is not null)
             {
-                scaleX = cropJSEvent.EventData.Detail.ScaleX;
-                scaleY = cropJSEvent.EventData.Detail.ScaleY;
+                scaleX = cropJSEvent.Detail.ScaleX;
+                scaleY = cropJSEvent.Detail.ScaleY;
 
                 await InvokeAsync(() =>
                 {
                     JSRuntime!.InvokeVoidAsync("console.log", $"CropJSEvent {JsonSerializer.Serialize(cropJSEvent)}");
-                    cropperDataPreview?.OnCropEvent(cropJSEvent.EventData.Detail);
+                    cropperDataPreview?.OnCropEvent(cropJSEvent.Detail);
                 });
             }
         }
 
-        public async void OnCropEndEvent(CropEndJSEvent cropEndJSEvent)
+        public async void OnCropEndEvent(JSEventData<CropEndEvent> cropEndJSEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {JsonSerializer.Serialize(cropEndJSEvent)}");
 
-            if (cropEndJSEvent.EventData?.Detail?.OriginalEvent is not null)
+            if (cropEndJSEvent?.Detail?.OriginalEvent is not null)
             {
                 decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
                     "jsObject.getInstanceProperty",
-                    cropEndJSEvent.EventData.Detail.OriginalEvent, "clientX");
+                    cropEndJSEvent.Detail.OriginalEvent, "clientX");
 
                 await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndJSEvent OriginalEvent clientX: {clientX}");
             }
         }
 
-        public async void OnCropStartEvent(CropStartJSEvent cropStartJSEvent)
+        public async void OnCropStartEvent(JSEventData<CropStartEvent> cropStartJSEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartEvent, {JsonSerializer.Serialize(cropStartJSEvent)}");
 
-            if (cropStartJSEvent.EventData?.Detail?.OriginalEvent is not null)
+            if (cropStartJSEvent?.Detail?.OriginalEvent is not null)
             {
                 decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
                     "jsObject.getInstanceProperty",
-                    cropStartJSEvent.EventData.Detail.OriginalEvent, "clientX");
+                    cropStartJSEvent.Detail.OriginalEvent, "clientX");
 
                 await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartJSEvent OriginalEvent clientX: {clientX}");
             }
         }
 
-        public async void OnZoomEvent(ZoomJSEvent zoomJSEvent)
+        public async void OnZoomEvent(JSEventData<ZoomEvent> zoomJSEvent)
         {
-            if (zoomJSEvent.EventData.Detail is not null)
+            if (zoomJSEvent.Detail is not null)
             {
                 await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent {JsonSerializer.Serialize(zoomJSEvent)}");
 
-                if (zoomJSEvent.EventData.Detail.OriginalEvent is not null)
+                if (zoomJSEvent.Detail.OriginalEvent is not null)
                 {
                     decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
                         "jsObject.getInstanceProperty",
-                        zoomJSEvent.EventData.Detail.OriginalEvent, "clientX");
+                        zoomJSEvent.Detail.OriginalEvent, "clientX");
 
                     await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomJSEvent clientX: {clientX}");
                 }
-
-                //await zoomJSEvent.PreventDefaultAsync();
-                //Console.WriteLine($"PreventDefaultAsync");
             }
         }
 
-        public async void OnCropMoveEvent(CropMoveJSEvent cropMoveJSEvent)
+        public async void OnCropMoveEvent(JSEventData<CropMoveEvent> cropMoveJSEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveEvent, {JsonSerializer.Serialize(cropMoveJSEvent)}");
 
-            if (cropMoveJSEvent.EventData?.Detail?.OriginalEvent is not null)
+            if (cropMoveJSEvent?.Detail?.OriginalEvent is not null)
             {
                 decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
                     "jsObject.getInstanceProperty",
-                    cropMoveJSEvent.EventData.Detail.OriginalEvent, "clientX");
+                    cropMoveJSEvent.Detail.OriginalEvent, "clientX");
 
                 await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveJSEvent OriginalEvent clientX: {clientX}");
             }
         }
 
-        public async void OnCropReadyEvent(CropReadyJSEvent cropReadyJSEvent)
+        public async void OnCropReadyEvent()
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"CropReadyJSEvent {JsonSerializer.Serialize(cropReadyJSEvent)}");
+            await JSRuntime!.InvokeVoidAsync("console.log", "CropReadyJSEvent");
+
+            // TODO
+            //await JSRuntime!.InvokeVoidAsync("window.overrideCropperJsInteropModule");
         }
 
         public async void OnLoadImageEvent()

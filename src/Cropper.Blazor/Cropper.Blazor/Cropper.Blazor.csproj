@@ -35,19 +35,19 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
-		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
+		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591;CS1572</WarningsAsErrors>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
-		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
+		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591;CS1572</WarningsAsErrors>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
-		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
+		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591;CS1572</WarningsAsErrors>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
-		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
+		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591;CS1572</WarningsAsErrors>
 	</PropertyGroup>
 
 	<ItemGroup>
