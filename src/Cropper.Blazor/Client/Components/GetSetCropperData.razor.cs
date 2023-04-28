@@ -1,6 +1,6 @@
-﻿using Cropper.Blazor.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
-using System.ComponentModel.DataAnnotations;
 
 namespace Cropper.Blazor.Client.Components
 {

@@ -1,8 +1,8 @@
-﻿using Cropper.Blazor.Client.Models;
+﻿using System.Text.RegularExpressions;
+using Cropper.Blazor.Client.Models;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MudBlazor.Utilities;
-using System.Text.RegularExpressions;
 
 namespace Cropper.Blazor.Client.Components.Docs;
 
