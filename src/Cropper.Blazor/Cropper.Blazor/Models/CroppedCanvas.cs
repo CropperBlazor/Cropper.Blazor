@@ -1,11 +1,12 @@
-﻿using Microsoft.JSInterop;
+﻿using System;
+using Microsoft.JSInterop;
 
 namespace Cropper.Blazor.Models
 {
     /// <summary>
     /// Provides the metadata of Cropped Canvas.
     /// </summary>
-    public class CroppedCanvas
+    public class CroppedCanvas : IDisposable
     {
         /// <summary>
         /// Represents a reference to a JavaScript Cropped Canvas object.
@@ -19,6 +20,14 @@ namespace Cropper.Blazor.Models
         public CroppedCanvas(IJSObjectReference jsRuntimeObjectRef)
         {
             JSRuntimeObjectRef = jsRuntimeObjectRef;
+        }
+
+        /// <summary>
+        /// Called to dispose this instance and internal services.
+        /// </summary>
+        public void Dispose()
+        {
+            JSRuntimeObjectRef?.DisposeAsync();
         }
     }
 }
