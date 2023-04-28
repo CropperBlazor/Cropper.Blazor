@@ -25,11 +25,6 @@
   - [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0) for versions greater than v1.1.0
   - [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0) for v1.0.x
 
-# What to Expect in Cropper.Blazor 1.2.0?
-
-- Full access to cropper JavaScript events in .NET method according to realization functions: "Prevent zoom in, minimum and maximum cropped dimensions, etc"
-- Full access to HTML element canvas when called GetCroppedCanvasAsync method in ICropperJsInterop, namely JavaScript functions and fields that can be called from C# code
-
 ## Installation
 
 ```
