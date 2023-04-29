@@ -15,7 +15,7 @@ public partial class MainLayout : LayoutComponentBase
     protected override void OnInitialized()
     {
         LayoutService.MajorUpdateOccured += LayoutServiceOnMajorUpdateOccured;
-        LayoutService.SetBaseTheme(Theme.CropperBlazorDocsTheme());
+        LayoutService.SetBaseTheme(Theme.Theme.CropperBlazorDocsTheme());
         base.OnInitialized();
     }
 

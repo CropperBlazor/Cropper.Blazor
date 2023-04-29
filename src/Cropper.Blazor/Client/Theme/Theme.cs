@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 
-namespace Cropper.Blazor.Client;
+namespace Cropper.Blazor.Client.Theme;
 
 public class Theme
 {
