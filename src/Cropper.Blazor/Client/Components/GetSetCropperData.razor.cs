@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Cropper.Blazor.Events.ZoomEvent;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 
@@ -28,6 +29,7 @@ namespace Cropper.Blazor.Client.Components
         private ContainerData containerData = null!;
         private ImageData imageData = null!;
         private CanvasData canvasData = null!;
+        private ZoomRationSettings zoomRationSettingszoomRationSettings = null!;
 
         protected override void OnInitialized()
         {
@@ -36,6 +38,11 @@ namespace Cropper.Blazor.Client.Components
             containerData = new ContainerData();
             imageData = new ImageData();
             canvasData = new CanvasData();
+        }
+
+        public void OnZoomEvent(ZoomEvent? zoomEvent)
+        {
+            zoomRationSettingszoomRationSettings!.OnZoomEventAsync(zoomEvent);
         }
 
         public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)

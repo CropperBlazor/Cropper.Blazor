@@ -1,0 +1,27 @@
+﻿<MudCard Class="d-flex justify-space-between flex-column mb-6">
+    <MudCardContent Class="pb-0">
+        <MudNumericField @bind-Value="minZoomRatio"
+                         Label="Min zoom ratio"
+                         Min="0"
+                         Max="maxZoomRatio">
+        </MudNumericField>
+        <MudNumericField @bind-Value="maxZoomRatio"
+                         Label="Max zoom ratio"
+                         Min="minZoomRatio ?? 0">
+        </MudNumericField>
+        <MudText Class="mt-4">
+            Zoom event old ratio: @oldRatio
+        </MudText>
+        <MudText Class="mt-1">
+            Zoom event ratio: @ratio
+        </MudText>
+    </MudCardContent>
+    <MudCardActions Class="d-flex justify-space-between flex-column mt-0">
+        <MudButton Variant="Variant.Outlined"
+                   Color="Color.Primary"
+                   FullWidth="true"
+                   OnClick="ApplyZoomRulesForCropperAsync">
+            Apply zoom rules for Cropper
+        </MudButton>
+    </MudCardActions>
+</MudCard>

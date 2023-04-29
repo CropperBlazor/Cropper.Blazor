@@ -4,7 +4,7 @@
 @using Cropper.Blazor.Extensions;
 @using Cropper.Blazor.Models
 
-<MudContainer Class="@((_start.Equals(Breakpoint.Xl) || _start.Equals(Breakpoint.Xxl) ? "mud-container-maxwidth-xl " : "") + "mt-5")">
+<MudContainer Class="@((start.Equals(Breakpoint.Xl) || start.Equals(Breakpoint.Xxl) ? "mud-container-maxwidth-xl " : "") + "mt-5")">
     <MudGrid Class="mt-2">
         @*//---Cropper Component---//*@
         <MudItem xxl="7" xl="9" lg="9" md="9" sm="12" xs="12">
@@ -328,6 +328,7 @@
                            GetContainerData="GetContainerDataAsync"
                            SetCanvasDataOptions="SetCanvasData"
                            SetDataOptions="SetData"
-                           SetCropBoxDataOptions="SetCropBoxData" />
+                           SetCropBoxDataOptions="SetCropBoxData"
+                           @ref="getSetCropperData" />
     </MudGrid>
 </MudContainer>

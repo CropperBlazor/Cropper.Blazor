@@ -27,6 +27,7 @@ namespace Cropper.Blazor.Client.Pages
 
         private CropperComponent? cropperComponent = null!;
         private CropperDataPreview? cropperDataPreview = null!;
+        private GetSetCropperData getSetCropperData = null!;
         private Options options = null!;
         private decimal? scaleX;
         private decimal? scaleY;
@@ -35,8 +36,8 @@ namespace Cropper.Blazor.Client.Pages
         private string Src = "https://fengyuanchen.github.io/cropperjs/v2/picture.jpg";
         private bool IsErrorLoadImage { get; set; } = false;
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
-        private Breakpoint _start;
-        private Guid _subscriptionId;
+        private Breakpoint start;
+        private Guid subscriptionId;
 
         public Dictionary<string, object> InputAttributes { get; set; } =
             new Dictionary<string, object>()
@@ -102,7 +103,11 @@ namespace Cropper.Blazor.Client.Pages
         {
             if (zoomJSEvent.Detail is not null)
             {
-                await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent {JsonSerializer.Serialize(zoomJSEvent)}");
+                await InvokeAsync(() =>
+                {
+                    JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent {JsonSerializer.Serialize(zoomJSEvent)}");
+                    getSetCropperData!.OnZoomEvent(zoomJSEvent.Detail);
+                });
 
                 //if (zoomJSEvent.Detail.OriginalEvent is not null)
                 //{
@@ -132,9 +137,6 @@ namespace Cropper.Blazor.Client.Pages
         public async void OnCropReadyEvent(JSEventData<CropReadyEvent> jSEventData)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropReadyJSEvent, {JsonSerializer.Serialize(jSEventData)}");
-
-            // TODO
-            //await JSRuntime!.InvokeVoidAsync("window.overrideCropperJsInteropModule");
         }
 
         public async void OnLoadImageEvent()
@@ -279,8 +281,9 @@ namespace Cropper.Blazor.Client.Pages
                     InvokeAsync(StateHasChanged);
                 });
 
-                _start = subscriptionResult.Breakpoint;
-                _subscriptionId = subscriptionResult.SubscriptionId;
+                start = subscriptionResult.Breakpoint;
+                subscriptionId = subscriptionResult.SubscriptionId;
+
                 StateHasChanged();
             }
 
