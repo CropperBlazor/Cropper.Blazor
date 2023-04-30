@@ -1,8 +1,8 @@
-﻿using Cropper.Blazor.Client.Models;
+﻿using System.Text.RegularExpressions;
+using Cropper.Blazor.Client.Models;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MudBlazor.Utilities;
-using System.Text.RegularExpressions;
 
 namespace Cropper.Blazor.Client.Components.Docs;
 
@@ -14,7 +14,7 @@ public partial class SectionContent
         new CssBuilder("docs-section-content")
             .AddClass($"outlined", Outlined && ChildContent != null)
             .AddClass($"darken", DarkenBackground)
-            .AddClass("show-code", _hasCode && ShowCode)
+            .AddClass("show-code", HasCode && ShowCode)
             .AddClass(Class)
             .Build();
     protected string ToolbarClassname =>
@@ -28,14 +28,14 @@ public partial class SectionContent
             .AddClass($"relative d-flex flex-grow-1 flex-wrap justify-center align-center", !Block)
             .AddClass($"d-block mx-auto", Block)
             .AddClass($"mud-width-full", Block && FullWidth)
-            .AddClass("pa-8", !_hasCode)
-            .AddClass("px-8 pb-8 pt-2", _hasCode)
+            .AddClass("pa-8", !HasCode)
+            .AddClass("px-8 pb-8 pt-2", HasCode)
             .Build();
 
     protected string SourceClassname =>
         new CssBuilder("docs-section-source")
             .AddClass($"outlined", Outlined && ChildContent != null)
-            .AddClass("show-code", _hasCode && ShowCode)
+            .AddClass("show-code", HasCode && ShowCode)
             .Build();
 
     [Parameter] public string Class { get; set; }
@@ -49,20 +49,20 @@ public partial class SectionContent
     [Parameter] public IEnumerable<CodeFile> Codes { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
 
-    private bool _hasCode;
-    private string _activeCode;
+    private bool HasCode;
+    private string ActiveCode;
 
     protected override void OnParametersSet()
     {
         if (Codes != null)
         {
-            _hasCode = true;
-            _activeCode = Codes.FirstOrDefault().code;
+            HasCode = true;
+            ActiveCode = Codes.FirstOrDefault().code;
         }
         else if (!String.IsNullOrWhiteSpace(Code))
         {
-            _hasCode = true;
-            _activeCode = Code;
+            HasCode = true;
+            ActiveCode = Code;
         }
     }
 
@@ -73,12 +73,12 @@ public partial class SectionContent
 
     public void SetActiveCode(string value)
     {
-        _activeCode = value;
+        ActiveCode = value;
     }
 
     private string GetActiveCode(string value)
     {
-        if (value == _activeCode)
+        if (value == ActiveCode)
         {
             return "file-button active";
         }
@@ -90,7 +90,7 @@ public partial class SectionContent
 
     private async Task CopyTextToClipboard()
     {
-        await JsApiService.CopyToClipboardAsync(Snippets.GetCode(string.IsNullOrWhiteSpace(Code) ? _activeCode : Code));
+        await JsApiService.CopyToClipboardAsync(Snippets.GetCode(string.IsNullOrWhiteSpace(Code) ? ActiveCode : Code));
     }
 
     RenderFragment CodeComponent(string code) => builder =>

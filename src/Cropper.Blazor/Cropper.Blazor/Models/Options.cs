@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Cropper.Blazor.Models
@@ -364,5 +363,13 @@ namespace Cropper.Blazor.Models
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [JsonPropertyName("zoomable")]
         public bool? Zoomable { get; set; }
+
+        /// <summary>
+        /// A Correlation ID is a unique identifier that is added to the very first interaction (incoming request)
+        /// to identify the context and is passed to all components that are involved in the transaction flow
+        /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonPropertyName("correlationId")]
+        public string? CorrelationId { get; set; } = "Cropper.Blazor";
     }
 }

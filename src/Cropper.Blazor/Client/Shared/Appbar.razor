@@ -1,6 +1,6 @@
 ﻿@using Cropper.Blazor.Client.Enums
 <MudHidden Breakpoint="Breakpoint.MdAndUp">
-    <MudIconButton OnClick="DrawerToggleCallback" Icon="@Icons.Rounded.Notes" Color="Color.Inherit" Edge="Edge.Start" />
+    <MudIconButton OnClick="DrawerToggleCallback" Icon="@Icons.Material.Rounded.Notes" Color="Color.Inherit" Edge="Edge.Start" />
     <MudSpacer />
     <NavLink ActiveClass="d-flex" href="" style="margin: 0 -42px 0 0">
         <CropperBlazorLogo Class="cropperblazor-logo" />
@@ -11,7 +11,7 @@
         <span class="support-ukraine" aria-label="Ukraine flag in support of Ukraine and its people, #supportukraine" />
     </MudTooltip>
     <MudTooltip Duration="1000" Text="GitHub Repository">
-        <MudIconButton Link="https://github.com/CropperBlazor/Cropper.Blazor" Target="_blank" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" />
+        <MudIconButton Href="https://github.com/CropperBlazor/Cropper.Blazor" Target="_blank" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" />
     </MudTooltip>
 </MudHidden>
 <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
@@ -19,16 +19,16 @@
         <CropperBlazorLogo Class="cropperblazor-logo" />
         <MudText Typo="Typo.h4" Class="ml-3 mr-2 brand-text text-gradient">Cropper.Blazor</MudText>
     </NavLink>
-    <MudButton Link="demo" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Crop" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Demo)">Demo</MudButton>
-    <MudButton Link="api" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Api" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Api)">Api</MudButton>
-    <MudButton Link="about" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.ContactSupport" Color="Color.Inherit" Class="@GetActiveClass(BasePage.About)">About</MudButton>
+    <MudButton Href="demo" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Crop" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Demo)">Demo</MudButton>
+    <MudButton Href="api" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Api" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Api)">Api</MudButton>
+    <MudButton Href="about" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.ContactSupport" Color="Color.Inherit" Class="@GetActiveClass(BasePage.About)">About</MudButton>
     <MudSpacer />
 
-    <MudTooltip Duration="500" Text="#supportukraine" Placement="Placement.Bottom" RootClass="mr-3 py-3">
+    <MudTooltip Duration="500" Text="#SupportUkraine" Placement="Placement.Bottom" RootClass="mr-3 py-3">
         <span class="support-ukraine" aria-label="Ukraine flag in support of Ukraine and its people, #supportukraine" />
     </MudTooltip>
     <AppbarButtons />
     <MudTooltip Duration="1000" Text="GitHub Repository">
-        <MudIconButton Link="https://github.com/CropperBlazor/Cropper.Blazor" Target="_blank" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" />
+        <MudIconButton Href="https://github.com/CropperBlazor/Cropper.Blazor" Target="_blank" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" />
     </MudTooltip>
 </MudHidden>

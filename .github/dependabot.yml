@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "nuget"
-    directory: "/src/"
+    directory: "/src/Cropper.Blazor"
     target-branch: "dev" # Location of package manifests
     schedule:
       interval: "weekly"

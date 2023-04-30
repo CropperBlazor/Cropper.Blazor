@@ -35,19 +35,19 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
-		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
+		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591;CS1572;CS1573</WarningsAsErrors>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
-		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
+		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591;CS1572;CS1573</WarningsAsErrors>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
-		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
+		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591;CS1572;CS1573</WarningsAsErrors>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
-		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591</WarningsAsErrors>
+		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591;CS1572;CS1573</WarningsAsErrors>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -101,11 +101,11 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.16" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
 	</ItemGroup>
 
 </Project>

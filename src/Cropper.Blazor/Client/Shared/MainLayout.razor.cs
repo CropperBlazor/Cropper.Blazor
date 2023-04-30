@@ -15,17 +15,17 @@ public partial class MainLayout : LayoutComponentBase
     protected override void OnInitialized()
     {
         LayoutService.MajorUpdateOccured += LayoutServiceOnMajorUpdateOccured;
-        LayoutService.SetBaseTheme(Theme.CropperBlazorDocsTheme());
+        LayoutService.SetBaseTheme(Theme.Theme.CropperBlazorDocsTheme());
         base.OnInitialized();
     }
 
-    private Guid _subscriptionId;
+    private Guid SubscriptionId;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            _subscriptionId = await ResizeService.Subscribe((size) =>
+            SubscriptionId = await ResizeService.Subscribe((size) =>
             {
                 if (size.Width > 960)
                 {
@@ -48,7 +48,7 @@ public partial class MainLayout : LayoutComponentBase
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    public async ValueTask DisposeAsync() => await ResizeService.Unsubscribe(_subscriptionId);
+    public async ValueTask DisposeAsync() => await ResizeService.Unsubscribe(SubscriptionId);
 
     private async Task ApplyUserPreferences()
     {
@@ -63,17 +63,16 @@ public partial class MainLayout : LayoutComponentBase
 
     private void LayoutServiceOnMajorUpdateOccured(object? sender, EventArgs e) => StateHasChanged();
 
-    //private NavMenu _navMenuRef;
-    private bool _drawerOpen = false;
+    private bool DrawerOpen = false;
 
     private void ToggleDrawer()
     {
-        _drawerOpen = !_drawerOpen;
+        DrawerOpen = !DrawerOpen;
     }
 
     private void OnDrawerOpenChanged(bool value)
     {
-        _drawerOpen = value;
+        DrawerOpen = value;
         StateHasChanged();
     }
 

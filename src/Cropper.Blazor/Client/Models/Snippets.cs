@@ -7,12 +7,15 @@ namespace Cropper.Blazor.Client.Models
     {
         public static string GetCode(string component)
         {
-            var field = typeof(Snippets).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.GetField)
+            FieldInfo? field = typeof(Snippets).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.GetField)
                 .FirstOrDefault(f => f.Name == component);
-            if (field == null)
-                return $"Snippet for component '{component}' not found!";
-            return (string)field.GetValue(null);
 
+            if (field == null)
+            {
+                return $"Snippet for component '{component}' not found!";
+            }
+
+            return (string?)field.GetValue(null) ?? string.Empty;
         }
 
         public const string InstallScriptManual = @"<script src=""_content/Cropper.Blazor/cropper.min.js""></script>";

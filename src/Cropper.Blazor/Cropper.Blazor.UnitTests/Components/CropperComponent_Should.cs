@@ -1,8 +1,14 @@
-﻿using AngleSharp.Dom;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using AngleSharp.Dom;
 using Bogus;
 using Bunit;
 using Cropper.Blazor.Base;
 using Cropper.Blazor.Components;
+using Cropper.Blazor.Events;
 using Cropper.Blazor.Events.CropEndEvent;
 using Cropper.Blazor.Events.CropEvent;
 using Cropper.Blazor.Events.CropMoveEvent;
@@ -19,11 +25,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
@@ -68,15 +69,17 @@ namespace Cropper.Blazor.UnitTests.Components
 
             IBrowserFile imageFile = new Mock<IBrowserFile>().Object;
             CancellationToken cancellationToken = new();
-            ZoomEvent zoomEvent = new Faker<ZoomEvent>()
+            JSEventData<CropReadyEvent> cropReadyEvent = new Faker<JSEventData<CropReadyEvent>>()
                 .Generate();
-            CropStartEvent cropStartEvent = new Faker<CropStartEvent>()
+            JSEventData<ZoomEvent> zoomEvent = new Faker<JSEventData<ZoomEvent>>()
                 .Generate();
-            CropMoveEvent cropMoveEvent = new Faker<CropMoveEvent>()
+            JSEventData<CropStartEvent> cropStartEvent = new Faker<JSEventData<CropStartEvent>>()
                 .Generate();
-            CropEndEvent cropEndEvent = new Faker<CropEndEvent>()
+            JSEventData<CropMoveEvent> cropMoveEvent = new Faker<JSEventData<CropMoveEvent>>()
                 .Generate();
-            CropEvent cropEvent = new Faker<CropEvent>()
+            JSEventData<CropEndEvent> cropEndEvent = new Faker<JSEventData<CropEndEvent>>()
+                .Generate();
+            JSEventData<CropEvent> cropEvent = new Faker<JSEventData<CropEvent>>()
                 .Generate();
             ProgressEventArgs progressEventArgs = new Faker<ProgressEventArgs>()
                 .Generate();
@@ -92,8 +95,9 @@ namespace Cropper.Blazor.UnitTests.Components
                 .Generate();
             GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>()
                 .Generate();
-            object expectedCroppedCanvas = new Faker<object>()
-                .Generate();
+            Mock<IJSObjectReference> mockIJSObjectReference = new Mock<IJSObjectReference>();
+            CroppedCanvas expectedCroppedCanvas = new Faker<CroppedCanvas>()
+                .CustomInstantiator(c => new CroppedCanvas(mockIJSObjectReference.Object));
             CropperData expectedCropperData = new Faker<CropperData>()
                 .Generate();
             ImageData expectedImageData = new Faker<ImageData>()
@@ -103,8 +107,6 @@ namespace Cropper.Blazor.UnitTests.Components
             SetCropBoxDataOptions setCropBoxDataOptions = new Faker<SetCropBoxDataOptions>()
                 .Generate();
             SetDataOptions setDataOptions = new Faker<SetDataOptions>()
-                .Generate();
-            CropReadyEvent cropReadyEvent = new Faker<CropReadyEvent>()
                 .Generate();
 
             Faker faker = new();
@@ -135,35 +137,35 @@ namespace Cropper.Blazor.UnitTests.Components
                 countCallsOnErrorLoadImageHandler++;
                 errorEventArgs.Should().BeEquivalentTo(e);
             };
-            Action<CropEvent>? onCropEventHandler = (CropEvent c) =>
+            Action<JSEventData<CropEvent>>? onCropEventHandler = (JSEventData<CropEvent> c) =>
             {
                 countCallsOnCropEventHandler++;
                 cropEvent.Should().BeEquivalentTo(c);
             };
-            Action<CropEndEvent>? onCropEndEventHandler = (CropEndEvent c) =>
+            Action<JSEventData<CropEndEvent>>? onCropEndEventHandler = (JSEventData<CropEndEvent> c) =>
             {
                 countCallsOnCropEndEventHandler++;
                 cropEndEvent.Should().BeEquivalentTo(c);
             };
-            Action<CropMoveEvent>? onCropMoveEventHandler = (CropMoveEvent c) =>
+            Action<JSEventData<CropMoveEvent>>? onCropMoveEventHandler = (JSEventData<CropMoveEvent> c) =>
             {
                 countCallsOnCropMoveEventHandler++;
                 cropMoveEvent.Should().BeEquivalentTo(c);
             };
-            Action<CropStartEvent>? onCropStartEventHandler = (CropStartEvent c) =>
+            Action<JSEventData<CropStartEvent>>? onCropStartEventHandler = (JSEventData<CropStartEvent> c) =>
             {
                 countCallsOnCropStartEventHandler++;
                 cropStartEvent.Should().BeEquivalentTo(c);
             };
-            Action<ZoomEvent>? onZoomEventHandler = (ZoomEvent z) =>
+            Action<JSEventData<ZoomEvent>>? onZoomEventHandler = (JSEventData<ZoomEvent> z) =>
             {
                 countCallsOnZoomEventHandler++;
                 zoomEvent.Should().BeEquivalentTo(z);
             };
-            Action<CropReadyEvent>? onCropReadyEventHandler = (CropReadyEvent C) =>
+            Action<JSEventData<CropReadyEvent>>? onCropReadyEventHandler = (JSEventData<CropReadyEvent> c) =>
             {
                 countCallsOnCropReadyEventHandler++;
-                cropReadyEvent.Should().BeEquivalentTo(C);
+                cropReadyEvent.Should().BeEquivalentTo(c);
             };
 
             ComponentParameter imageClassParameter = ComponentParameter.CreateParameter(

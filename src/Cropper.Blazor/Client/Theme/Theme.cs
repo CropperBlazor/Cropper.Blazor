@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 
-namespace Cropper.Blazor.Client;
+namespace Cropper.Blazor.Client.Theme;
 
 public class Theme
 {
@@ -31,7 +31,7 @@ public class Theme
 
     #region CropperBlazor
 
-    private static readonly Palette CropperBlazorLightPalette = new()
+    private static readonly PaletteLight CropperBlazorLightPalette = new()
     {
         Primary = "#009DEA",
         Secondary = "#E73C7E",
@@ -43,7 +43,7 @@ public class Theme
         GrayLighter = "#f9f9f9"
     };
 
-    private static readonly Palette CropperBlazorDarkPalette = new()
+    private static readonly PaletteDark CropperBlazorDarkPalette = new()
     {
         Primary = "#ff5c9b",
         Secondary = "#38beff",
@@ -137,7 +137,7 @@ public class Theme
             TextTransform = "none"
         }
     };
-    private static readonly Palette LandingPageLightPalette = new()
+    private static readonly PaletteLight LandingPageLightPalette = new()
     {
         Primary = "#009DEA",
         Secondary = "#E73C7E",
@@ -151,7 +151,7 @@ public class Theme
         GrayLight = "#9CA3AF",
         GrayLighter = "#adbdccff"
     };
-    private static readonly Palette LandingPageDarkPalette = new()
+    private static readonly PaletteDark LandingPageDarkPalette = new()
     {
         Primary = "#ff5c9b",
         Secondary = "#38beff",
