@@ -24,25 +24,25 @@ namespace Cropper.Blazor.Client.Components
         [Parameter, Required]
         public Func<ValueTask<CanvasData>> GetCanvasData { get; set; } = null!;
 
-        private CropBoxData cropBoxData = null!;
-        private CropperData cropperData = null!;
-        private ContainerData containerData = null!;
-        private ImageData imageData = null!;
-        private CanvasData canvasData = null!;
-        private ZoomRationSettings zoomRationSettingszoomRationSettings = null!;
+        private CropBoxData CropBoxData = null!;
+        private CropperData CropperData = null!;
+        private ContainerData ContainerData = null!;
+        private ImageData ImageData = null!;
+        private CanvasData CanvasData = null!;
+        private ZoomRationSettings ZoomRationSettingszoomRationSettings = null!;
 
         protected override void OnInitialized()
         {
-            cropBoxData = new CropBoxData();
-            cropperData = new CropperData();
-            containerData = new ContainerData();
-            imageData = new ImageData();
-            canvasData = new CanvasData();
+            CropBoxData = new CropBoxData();
+            CropperData = new CropperData();
+            ContainerData = new ContainerData();
+            ImageData = new ImageData();
+            CanvasData = new CanvasData();
         }
 
         public void OnZoomEvent(ZoomEvent? zoomEvent)
         {
-            zoomRationSettingszoomRationSettings!.OnZoomEventAsync(zoomEvent);
+            ZoomRationSettingszoomRationSettings!.OnZoomEventAsync(zoomEvent);
         }
 
         public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)
@@ -62,31 +62,31 @@ namespace Cropper.Blazor.Client.Components
 
         public async void GetCropBoxDataAsync()
         {
-            cropBoxData = await GetCropBoxData.Invoke();
+            CropBoxData = await GetCropBoxData.Invoke();
             StateHasChanged();
         }
 
         public async void GetDataAsync(bool rounded)
         {
-            cropperData = await GetData.Invoke(rounded);
+            CropperData = await GetData.Invoke(rounded);
             StateHasChanged();
         }
 
         public async void GetContainerDataAsync()
         {
-            containerData = await GetContainerData.Invoke();
+            ContainerData = await GetContainerData.Invoke();
             StateHasChanged();
         }
 
         public async void GetImageDataAsync()
         {
-            imageData = await GetImageData.Invoke();
+            ImageData = await GetImageData.Invoke();
             StateHasChanged();
         }
 
         public async void GetCanvasDataAsync()
         {
-            canvasData = await GetCanvasData.Invoke();
+            CanvasData = await GetCanvasData.Invoke();
             StateHasChanged();
         }
     }

@@ -9,7 +9,7 @@
     <MudAppBar Class="appbar" Elevation="25">
         <Appbar DrawerToggleCallback="ToggleDrawer" />
     </MudAppBar>
-    <MudDrawer Open="@_drawerOpen" OpenChanged="OnDrawerOpenChanged" ClipMode="DrawerClipMode.Docked" Elevation="0" Breakpoint="Breakpoint.Lg">
+    <MudDrawer Open="@DrawerOpen" OpenChanged="OnDrawerOpenChanged" ClipMode="DrawerClipMode.Docked" Elevation="0" Breakpoint="Breakpoint.Lg">
         <MudHidden Breakpoint="Breakpoint.MdAndUp">
             <MudToolBar Dense="true" DisableGutters="true" Class="gray-bg pa-2">
                 <MudIconButton Icon="@Icons.Rounded.Close" Color="Color.Inherit" OnClick="ToggleDrawer" />

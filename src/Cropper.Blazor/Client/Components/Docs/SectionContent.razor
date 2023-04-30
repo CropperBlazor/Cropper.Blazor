@@ -22,7 +22,7 @@
                     }
                 }
                 <MudSpacer/>
-                @if (_hasCode && ChildContent != null)
+                @if (HasCode && ChildContent != null)
                 {
                     <MudButton OnClick="OnShowCode" StartIcon="@(ShowCode ? @Icons.Rounded.CodeOff : Icons.Rounded.Code)" Color="Color.Default" Size="Size.Small">
                         @(ShowCode ? "Hide code" : "Show code")
@@ -38,11 +38,11 @@
         }
     </div>
 }
-@if (_hasCode)
+@if (HasCode)
 {
     <div class="@SourceClassname">
         <div class="docs-section-source-container">
-            @CodeComponent(_activeCode)
+            @CodeComponent(ActiveCode)
         </div>
         <MudIconButton Icon="@Icons.Material.Outlined.FileCopy" Size="Size.Small" Class="copy-code-button" @onclick="CopyTextToClipboard" />
     </div>

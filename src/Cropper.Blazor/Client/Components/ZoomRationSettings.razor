@@ -1,19 +1,19 @@
 ﻿<MudCard Class="d-flex justify-space-between flex-column mb-6">
     <MudCardContent Class="pb-0">
-        <MudNumericField @bind-Value="minZoomRatio"
+        <MudNumericField @bind-Value="MinZoomRatio"
                          Label="Min zoom ratio"
                          Min="0"
-                         Max="maxZoomRatio">
+                         Max="MaxZoomRatio">
         </MudNumericField>
-        <MudNumericField @bind-Value="maxZoomRatio"
+        <MudNumericField @bind-Value="MaxZoomRatio"
                          Label="Max zoom ratio"
-                         Min="minZoomRatio ?? 0">
+                         Min="MinZoomRatio ?? 0">
         </MudNumericField>
         <MudText Class="mt-4">
-            Zoom event old ratio: @oldRatio
+            Zoom event old ratio: @OldRatio
         </MudText>
         <MudText Class="mt-1">
-            Zoom event ratio: @ratio
+            Zoom event ratio: @Ratio
         </MudText>
     </MudCardContent>
     <MudCardActions Class="d-flex justify-space-between flex-column mt-0">

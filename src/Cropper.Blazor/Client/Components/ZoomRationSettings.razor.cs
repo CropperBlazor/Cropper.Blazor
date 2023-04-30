@@ -8,22 +8,22 @@ namespace Cropper.Blazor.Client.Components
     {
         [Inject] private IJSRuntime? JSRuntime { get; set; }
 
-        private decimal? oldRatio { get; set; } = null;
-        private decimal? ratio { get; set; } = null;
-        private decimal? minZoomRatio = null;
-        private decimal? maxZoomRatio = null;
+        private decimal? OldRatio { get; set; } = null;
+        private decimal? Ratio { get; set; } = null;
+        private decimal? MinZoomRatio = null;
+        private decimal? MaxZoomRatio = null;
 
         public async Task OnZoomEventAsync(ZoomEvent? zoomEvent)
         {
-            oldRatio = zoomEvent?.OldRatio;
-            ratio = zoomEvent?.Ratio;
+            OldRatio = zoomEvent?.OldRatio;
+            Ratio = zoomEvent?.Ratio;
 
             await InvokeAsync(StateHasChanged);
         }
 
         public async Task ApplyZoomRulesForCropperAsync()
         {
-            await JSRuntime!.InvokeVoidAsync("window.overrideCropperJsInteropModule", minZoomRatio, maxZoomRatio);
+            await JSRuntime!.InvokeVoidAsync("window.overrideCropperJsInteropModule", MinZoomRatio, MaxZoomRatio);
         }
     }
 }
