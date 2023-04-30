@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace Cropper.Blazor.MAUI.Net6
+namespace Cropper.Blazor.MAUI.Net6.Platforms.MacCatalyst
 {
     public class Program
     {

@@ -1,4 +1,5 @@
 ﻿using Cropper.Blazor.Components;
+using Cropper.Blazor.Events;
 using Cropper.Blazor.Events.CropEndEvent;
 using Cropper.Blazor.Events.CropEvent;
 using Cropper.Blazor.Events.CropMoveEvent;
@@ -43,33 +44,33 @@ namespace Cropper.Blazor.MAUI.Net7.Pages
             };
         }
 
-        public void OnCropEvent(CropEvent cropEvent)
+        public void OnCropEvent(JSEventData<CropEvent> cropEvent)
         {
-            scaleX = cropEvent.ScaleX;
-            scaleY = cropEvent.ScaleY;
+            scaleX = cropEvent.Detail?.ScaleX;
+            scaleY = cropEvent.Detail?.ScaleY;
         }
 
-        public async void OnCropEndEvent(CropEndEvent cropEndEvent)
+        public async void OnCropEndEvent(JSEventData<CropEndEvent> cropEndEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {cropEndEvent.ActionEvent}");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {cropEndEvent.Detail?.ActionEvent}");
         }
 
-        public async void OnCropStartEvent(CropStartEvent cropStartEvent)
+        public async void OnCropStartEvent(JSEventData<CropStartEvent> cropStartEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartEvent, {cropStartEvent.ActionEvent}");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartEvent, {cropStartEvent.Detail?.ActionEvent}");
         }
 
-        public async void OnZoomEvent(ZoomEvent zoomEvent)
+        public async void OnZoomEvent(JSEventData<ZoomEvent> zoomEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent, OldRatio: {zoomEvent.OldRatio}, Ratio: {zoomEvent.Ratio}");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent, OldRatio: {zoomEvent.Detail?.OldRatio}, Ratio: {zoomEvent.Detail?.Ratio}");
         }
 
-        public async void OnCropMoveEvent(CropMoveEvent cropMoveEvent)
+        public async void OnCropMoveEvent(JSEventData<CropMoveEvent> cropMoveEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveEvent, {cropMoveEvent.ActionEvent}");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveEvent, {cropMoveEvent.Detail?.ActionEvent}");
         }
 
-        public async void OnCropReadyEvent(CropReadyEvent cropReadyEvent)
+        public async void OnCropReadyEvent(JSEventData<CropReadyEvent> cropReadyEvent)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", "Cropper Is Ready");
         }
@@ -127,6 +128,7 @@ namespace Cropper.Blazor.MAUI.Net7.Pages
             if (disposing)
             {
                 Destroy();
+                cropperComponent?.DisposeAsync();
                 JSRuntime!.InvokeVoidAsync("console.log", "Cropper Demo component is destroyed");
             }
         }
