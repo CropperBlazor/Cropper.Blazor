@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace Cropper.Blazor.MAUI.Net7
+namespace Cropper.Blazor.MAUI.Net7.Platforms.Android
 {
     [Application]
     public class MainApplication : MauiApplication

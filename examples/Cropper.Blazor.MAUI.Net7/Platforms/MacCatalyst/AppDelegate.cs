@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace Cropper.Blazor.MAUI.Net7
+namespace Cropper.Blazor.MAUI.Net7.Platforms.MacCatalyst
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate
