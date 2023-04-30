@@ -1,14 +1,14 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Cropper.Blazor.Base;
 using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Cropper.Blazor.Services
 {
@@ -94,7 +94,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeAsync<object>("cropper.clear", cancellationToken);
+            await _jsRuntime!.InvokeVoidAsync("cropper.clear", cancellationToken);
         }
 
         /// <summary>
@@ -207,8 +207,8 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <param name="getCroppedCanvasOptions">The config options.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>A <see cref="ValueTask"/> representing result canvas asynchronous operation.</returns>
-        public async ValueTask<object> GetCroppedCanvasAsync(
+        /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing result canvas asynchronous operation.</returns>
+        public async ValueTask<CroppedCanvas> GetCroppedCanvasAsync(
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             CancellationToken cancellationToken = default)
         {
@@ -217,7 +217,9 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await _jsRuntime!.InvokeAsync<object>("cropper.getCroppedCanvas", cancellationToken, getCroppedCanvasOptions);
+            IJSObjectReference jSCanvas = await _jsRuntime!.InvokeAsync<IJSObjectReference>("cropper.getCroppedCanvas", cancellationToken, getCroppedCanvasOptions);
+
+            return new CroppedCanvas(jSCanvas);
         }
 
         /// <summary>

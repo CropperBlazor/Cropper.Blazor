@@ -113,7 +113,7 @@ class CropperDecorator {
     }
 
     zoomTo(ratio, pivotX, pivotY) {
-        return this.cropperInstance.zoomTo(ratio, {pivotX, pivotY});
+        return this.cropperInstance.zoomTo(ratio, { pivotX, pivotY });
     }
 
     noConflict() {
@@ -134,36 +134,114 @@ class CropperDecorator {
         URL.revokeObjectURL(url);
     }
 
+    getJSEventData(instance, correlationId) {
+        return {
+            isTrusted: instance.isTrusted,
+            detail: this.getJSEventDataDetail(instance),
+            type: instance.type,
+            eventPhase: instance.eventPhase,
+            bubbles: instance.bubbles,
+            cancelable: instance.cancelable,
+            defaultPrevented: instance.defaultPrevented,
+            composed: instance.composed,
+            timeStamp: instance.timeStamp,
+            returnValue: instance.returnValue,
+            cancelBubble: instance.cancelBubble,
+            correlationId: correlationId
+        };
+    }
+
+    getJSEventDataDetail(instance) {
+        if (instance.type === "zoom") {
+            return {
+                    oldRatio: instance.detail.oldRatio,
+                    ratio: instance.detail.ratio,
+                    originalEvent: instance.detail.originalEvent ?
+                        DotNet.createJSObjectReference(instance.detail.originalEvent) : null
+            };
+        }
+        else if (instance.type === "cropstart" || instance.type === "cropend" || instance.type === "cropmove") {
+            return {
+                action: instance.detail.action,
+                originalEvent: instance.detail.originalEvent ?
+                    DotNet.createJSObjectReference(instance.detail.originalEvent) : null
+            };
+        }
+
+        return instance.detail;
+    }
+
+    onReady(imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
+        imageObject.invokeMethodAsync('IsReady', jSEventData);
+    }
+
+    onCropStart(imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
+        imageObject.invokeMethodAsync('CropperIsStarted', jSEventData);
+    }
+
+    onCropMove(imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
+        imageObject.invokeMethodAsync('CropperIsMoved', jSEventData);
+    }
+
+    onCropEnd(imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
+        imageObject.invokeMethodAsync('CropperIsEnded', jSEventData);
+    }
+
+    onCrop(imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
+        imageObject.invokeMethodAsync('CropperIsCroped', jSEventData);
+    }
+
+    onZoom(imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
+        imageObject.invokeMethodAsync('CropperIsZoomed', jSEventData);
+    }
+
     initCropper(image, optionsImage, imageObject) {
         if (image == null) {
             throw "Parameter 'image' must be is not null!";
         }
+
+        if (optionsImage == null) {
+            throw "Parameter 'optionsImage' must be is not null!";
+        }
+
         const options = {};
+        const correlationId = optionsImage["correlationId"];
+
         if (imageObject != null) {
+            const self = this;
+
             options['ready'] = function (event) {
-                imageObject.invokeMethodAsync('IsReady', event);
+                self.onReady(imageObject, event, correlationId);
             };
             options['cropstart'] = function (event) {
-                imageObject.invokeMethodAsync('CropperIsStarted', event.detail);
+                self.onCropStart(imageObject, event, correlationId);
             };
             options['cropmove'] = function (event) {
-                imageObject.invokeMethodAsync('CropperIsMoved', event.detail);
+                self.onCropMove(imageObject, event, correlationId);
             };
             options['cropend'] = function (event) {
-                imageObject.invokeMethodAsync('CropperIsEnded', event.detail);
+                self.onCropEnd(imageObject, event, correlationId);
             };
             options['crop'] = function (event) {
-                imageObject.invokeMethodAsync('CropperIsCroped', event.detail);
+                self.onCrop(imageObject, event, correlationId);
             };
             options['zoom'] = function (event) {
-                imageObject.invokeMethodAsync('CropperIsZoomed', event.detail);
+                self.onZoom(imageObject, event, correlationId);
             };
         }
+
         if (optionsImage != null) {
             Object.entries(optionsImage)?.forEach(([key, value]) => {
                 options[key] = value;
             });
         }
+
         this.cropperInstance = new Cropper(image, options);
     }
 }

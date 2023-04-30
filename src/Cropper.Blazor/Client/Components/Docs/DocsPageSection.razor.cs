@@ -4,9 +4,9 @@ namespace Cropper.Blazor.Client.Components.Docs;
 
 public partial class DocsPageSection
 {
-    [CascadingParameter] public DocsPageSection ParentSection { get; protected set; }
+    [CascadingParameter] public DocsPageSection? ParentSection { get; protected set; }
 
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> UserAttributes { get; set; } = new Dictionary<string, object>();

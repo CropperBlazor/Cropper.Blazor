@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace Cropper.Blazor.MAUI.Net6
+namespace Cropper.Blazor.MAUI.Net6.Platforms.iOS
 {
     public class Program
     {

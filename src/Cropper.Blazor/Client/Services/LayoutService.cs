@@ -6,7 +6,7 @@ namespace Cropper.Blazor.Client.Services;
 public class LayoutService
 {
     private readonly IUserPreferencesService _userPreferencesService = null!;
-    private UserPreferences.UserPreferences _userPreferences = null!;
+    private UserPreferences.UserPreferences UserPreferences = null!;
 
     public bool IsDarkMode { get; private set; } = false;
 
@@ -22,16 +22,16 @@ public class LayoutService
 
     public async Task ApplyUserPreferences(bool isDarkModeDefaultTheme)
     {
-        _userPreferences = await _userPreferencesService.LoadUserPreferences();
-        if (_userPreferences != null)
+        UserPreferences = await _userPreferencesService.LoadUserPreferences();
+        if (UserPreferences != null)
         {
-            IsDarkMode = _userPreferences.IsDarkMode;
+            IsDarkMode = UserPreferences.IsDarkMode;
         }
         else
         {
             IsDarkMode = isDarkModeDefaultTheme;
-            _userPreferences = new UserPreferences.UserPreferences { IsDarkMode = IsDarkMode };
-            await _userPreferencesService.SaveUserPreferences(_userPreferences);
+            UserPreferences = new UserPreferences.UserPreferences { IsDarkMode = IsDarkMode };
+            await _userPreferencesService.SaveUserPreferences(UserPreferences);
         }
     }
 
@@ -40,8 +40,8 @@ public class LayoutService
     public async Task ToggleDarkMode()
     {
         IsDarkMode = !IsDarkMode;
-        _userPreferences.IsDarkMode = IsDarkMode;
-        await _userPreferencesService.SaveUserPreferences(_userPreferences);
+        UserPreferences.IsDarkMode = IsDarkMode;
+        await _userPreferencesService.SaveUserPreferences(UserPreferences);
         OnMajorUpdateOccured();
     }
 

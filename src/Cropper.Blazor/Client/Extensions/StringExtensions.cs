@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.WebUtilities;
-using System.IO.Compression;
+﻿using System.IO.Compression;
 using System.Text;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace Cropper.Blazor.Client.Extensions
 {

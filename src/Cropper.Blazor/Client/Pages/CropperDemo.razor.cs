@@ -1,5 +1,8 @@
-﻿using Cropper.Blazor.Client.Components;
+﻿using System.Reflection;
+using System.Text.Json;
+using Cropper.Blazor.Client.Components;
 using Cropper.Blazor.Components;
+using Cropper.Blazor.Events;
 using Cropper.Blazor.Events.CropEndEvent;
 using Cropper.Blazor.Events.CropEvent;
 using Cropper.Blazor.Events.CropMoveEvent;
@@ -12,7 +15,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazor.Services;
-using System.Reflection;
 using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Client.Pages
@@ -23,18 +25,19 @@ namespace Cropper.Blazor.Client.Pages
 
         [Inject] private IJSRuntime? JSRuntime { get; set; }
 
-        private CropperComponent? cropperComponent = null!;
-        private CropperDataPreview? cropperDataPreview = null!;
-        private Options options = null!;
-        private decimal? scaleX;
-        private decimal? scaleY;
-        private decimal aspectRatio = 1.7777777777777777m;
+        private CropperComponent? CropperComponent = null!;
+        private CropperDataPreview? CropperDataPreview = null!;
+        private GetSetCropperData? GetSetCropperData = null!;
+        private Options Options = null!;
+        private decimal? ScaleXValue;
+        private decimal? ScaleYValue;
+        private decimal AspectRatio = 1.7777777777777777m;
 
         private string Src = "https://fengyuanchen.github.io/cropperjs/v2/picture.jpg";
         private bool IsErrorLoadImage { get; set; } = false;
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
-        private Breakpoint _start;
-        private Guid _subscriptionId;
+        private Breakpoint Start;
+        private Guid SubscriptionId;
 
         public Dictionary<string, object> InputAttributes { get; set; } =
             new Dictionary<string, object>()
@@ -45,7 +48,7 @@ namespace Cropper.Blazor.Client.Pages
 
         protected override void OnInitialized()
         {
-            options = new Options()
+            Options = new Options()
             {
                 Preview = ".img-preview",
                 AspectRatio = (decimal)16 / 9,
@@ -53,39 +56,87 @@ namespace Cropper.Blazor.Client.Pages
             };
         }
 
-        public void OnCropEvent(CropEvent cropEvent)
+        public async void OnCropEvent(JSEventData<CropEvent> cropJSEvent)
         {
-            scaleX = cropEvent.ScaleX;
-            scaleY = cropEvent.ScaleY;
-            InvokeAsync(() =>
+            if (cropJSEvent?.Detail is not null)
             {
-                cropperDataPreview?.OnCropEvent(cropEvent);
-            });
+                ScaleXValue = cropJSEvent.Detail.ScaleX;
+                ScaleYValue = cropJSEvent.Detail.ScaleY;
+
+                await InvokeAsync(() =>
+                {
+                    //JSRuntime!.InvokeVoidAsync("console.log", $"CropJSEvent {JsonSerializer.Serialize(cropJSEvent)}");
+                    CropperDataPreview?.OnCropEvent(cropJSEvent.Detail);
+                });
+            }
         }
 
-        public async void OnCropEndEvent(CropEndEvent cropEndEvent)
+        public async void OnCropEndEvent(JSEventData<CropEndEvent> cropEndJSEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {cropEndEvent.ActionEvent}");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndEvent, {JsonSerializer.Serialize(cropEndJSEvent)}");
+
+            //if (cropEndJSEvent?.Detail?.OriginalEvent is not null)
+            //{
+            //    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+            //        "jsObject.getInstanceProperty",
+            //        cropEndJSEvent.Detail.OriginalEvent, "clientX");
+
+            //    await JSRuntime!.InvokeVoidAsync("console.log", $"CropEndJSEvent OriginalEvent clientX: {clientX}");
+            //}
         }
 
-        public async void OnCropStartEvent(CropStartEvent cropStartEvent)
+        public async void OnCropStartEvent(JSEventData<CropStartEvent> cropStartJSEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartEvent, {cropStartEvent.ActionEvent}");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartEvent, {JsonSerializer.Serialize(cropStartJSEvent)}");
+
+            //if (cropStartJSEvent?.Detail?.OriginalEvent is not null)
+            //{
+            //    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+            //        "jsObject.getInstanceProperty",
+            //        cropStartJSEvent.Detail.OriginalEvent, "clientX");
+
+            //    await JSRuntime!.InvokeVoidAsync("console.log", $"CropStartJSEvent OriginalEvent clientX: {clientX}");
+            //}
         }
 
-        public async void OnZoomEvent(ZoomEvent zoomEvent)
+        public async void OnZoomEvent(JSEventData<ZoomEvent> zoomJSEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent, OldRatio: {zoomEvent.OldRatio}, Ratio: {zoomEvent.Ratio}");
+            if (zoomJSEvent.Detail is not null)
+            {
+                await InvokeAsync(() =>
+                {
+                    //JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent {JsonSerializer.Serialize(zoomJSEvent)}");
+                    GetSetCropperData!.OnZoomEvent(zoomJSEvent.Detail);
+                });
+
+                //if (zoomJSEvent.Detail.OriginalEvent is not null)
+                //{
+                //    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+                //        "jsObject.getInstanceProperty",
+                //        zoomJSEvent.Detail.OriginalEvent, "clientX");
+
+                //    await JSRuntime!.InvokeVoidAsync("console.log", $"ZoomJSEvent clientX: {clientX}");
+                //}
+            }
         }
 
-        public async void OnCropMoveEvent(CropMoveEvent cropMoveEvent)
+        public async void OnCropMoveEvent(JSEventData<CropMoveEvent> cropMoveJSEvent)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveEvent, {cropMoveEvent.ActionEvent}");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveEvent, {JsonSerializer.Serialize(cropMoveJSEvent)}");
+
+            //if (cropMoveJSEvent?.Detail?.OriginalEvent is not null)
+            //{
+            //    decimal clientX = await JSRuntime!.InvokeAsync<decimal>(
+            //        "jsObject.getInstanceProperty",
+            //        cropMoveJSEvent.Detail.OriginalEvent, "clientX");
+
+            //    await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveJSEvent OriginalEvent clientX: {clientX}");
+            //}
         }
 
-        public async void OnCropReadyEvent(CropReadyEvent cropReadyEvent)
+        public async void OnCropReadyEvent(JSEventData<CropReadyEvent> jSEventData)
         {
-            await JSRuntime!.InvokeVoidAsync("console.log", "Cropper Is Ready");
+            await JSRuntime!.InvokeVoidAsync("console.log", $"CropReadyJSEvent, {JsonSerializer.Serialize(jSEventData)}");
         }
 
         public async void OnLoadImageEvent()
@@ -102,101 +153,104 @@ namespace Cropper.Blazor.Client.Pages
 
         private void SetMoveDragMode()
         {
-            cropperComponent?.SetDragMode(DragMode.Move);
+            CropperComponent?.SetDragMode(DragMode.Move);
         }
 
         private void SetCropDragMode()
         {
-            cropperComponent?.SetDragMode(DragMode.Crop);
+            CropperComponent?.SetDragMode(DragMode.Crop);
         }
 
         private void Zoom(decimal ratio)
         {
-            cropperComponent?.Zoom(ratio);
+            CropperComponent?.Zoom(ratio);
         }
 
         public void ZoomTo(decimal ratio, decimal pivotX, decimal pivotY)
         {
-            cropperComponent?.ZoomTo(ratio, pivotX, pivotY);
+            CropperComponent?.ZoomTo(ratio, pivotX, pivotY);
         }
 
         private void Move(decimal offsetX, decimal? offsetY)
         {
-            cropperComponent?.Move(offsetX, offsetY);
+            CropperComponent?.Move(offsetX, offsetY);
         }
 
         public void MoveTo(decimal x, decimal? y)
         {
-            cropperComponent?.MoveTo(x, y);
+            CropperComponent?.MoveTo(x, y);
         }
 
         private void Rotate(decimal degree)
         {
-            cropperComponent?.Rotate(degree);
+            CropperComponent?.Rotate(degree);
         }
 
         private void ScaleX(decimal? scaleX)
         {
-            cropperComponent?.ScaleX(scaleX ?? 0);
+            CropperComponent?.ScaleX(scaleX ?? 0);
         }
 
         private void ScaleY(decimal? scaleY)
         {
-            cropperComponent?.ScaleY(scaleY ?? 0);
+            CropperComponent?.ScaleY(scaleY ?? 0);
         }
 
         public void Scale(decimal? scaleX, decimal? scaleY)
         {
-            cropperComponent?.Scale(scaleX ?? 0, scaleY ?? 0);
+            CropperComponent?.Scale(scaleX ?? 0, scaleY ?? 0);
         }
 
         private void Crop()
         {
-            cropperComponent?.Crop();
+            CropperComponent?.Crop();
         }
 
         private void Clear()
         {
-            cropperComponent?.Clear();
+            CropperComponent?.Clear();
         }
 
         private void Enable()
         {
-            cropperComponent?.Enable();
+            CropperComponent?.Enable();
         }
 
         private void Disable()
         {
-            cropperComponent?.Disable();
+            CropperComponent?.Disable();
         }
 
         private void Destroy()
         {
-            cropperComponent?.Destroy();
-            cropperComponent?.RevokeObjectUrlAsync(Src);
+            CropperComponent?.Destroy();
+            CropperComponent?.RevokeObjectUrlAsync(Src);
         }
 
         public void SetAspectRatio(decimal aspectRatio)
         {
-            this.aspectRatio = aspectRatio;
-            cropperComponent?.SetAspectRatio(aspectRatio);
+            this.AspectRatio = aspectRatio;
+            CropperComponent?.SetAspectRatio(aspectRatio);
         }
 
         public void SetViewMode(ViewMode viewMode)
         {
-            options.ViewMode = viewMode;
-            cropperComponent?.Destroy();
-            cropperComponent?.InitCropper();
+            Options.ViewMode = viewMode;
+            CropperComponent?.Destroy();
+            CropperComponent?.InitCropper();
         }
 
         private void Reset()
         {
-            cropperComponent?.Reset();
+            CropperComponent?.Reset();
         }
 
         public async void GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            string croppedCanvasDataURL = await cropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+            //CroppedCanvas croppedCanvas = await cropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
+            //string croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL");
+
+            string croppedCanvasDataURL = await CropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
             DialogParameters parameters = new()
             {
                 { "Src", croppedCanvasDataURL }
@@ -211,10 +265,10 @@ namespace Cropper.Blazor.Client.Pages
             if (imageFile != null)
             {
                 var oldSrc = Src;
-                Src = await cropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
+                Src = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
                 IsErrorLoadImage = false;
-                cropperComponent?.Destroy();
-                cropperComponent?.RevokeObjectUrlAsync(oldSrc);
+                CropperComponent?.Destroy();
+                CropperComponent?.RevokeObjectUrlAsync(oldSrc);
             }
         }
 
@@ -227,8 +281,9 @@ namespace Cropper.Blazor.Client.Pages
                     InvokeAsync(StateHasChanged);
                 });
 
-                _start = subscriptionResult.Breakpoint;
-                _subscriptionId = subscriptionResult.SubscriptionId;
+                Start = subscriptionResult.Breakpoint;
+                SubscriptionId = subscriptionResult.SubscriptionId;
+
                 StateHasChanged();
             }
 
@@ -237,53 +292,53 @@ namespace Cropper.Blazor.Client.Pages
 
         public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)
         {
-            cropperComponent?.SetCropBoxData(cropBoxDataOptions);
+            CropperComponent?.SetCropBoxData(cropBoxDataOptions);
         }
 
         public void SetData(SetDataOptions setDataOptions)
         {
-            cropperComponent?.SetData(setDataOptions);
+            CropperComponent?.SetData(setDataOptions);
         }
 
         public void SetCanvasData(SetCanvasDataOptions setCanvasDataOptions)
         {
-            cropperComponent?.SetCanvasData(setCanvasDataOptions);
+            CropperComponent?.SetCanvasData(setCanvasDataOptions);
         }
 
         public async ValueTask<CropBoxData> GetCropBoxDataAsync()
         {
-            return await cropperComponent!.GetCropBoxDataAsync();
+            return await CropperComponent!.GetCropBoxDataAsync();
         }
 
         public async ValueTask<CropperData> GetDataAsync(bool rounded)
         {
-            return await cropperComponent!.GetDataAsync(rounded);
+            return await CropperComponent!.GetDataAsync(rounded);
         }
 
         public async ValueTask<ContainerData> GetContainerDataAsync()
         {
-            return await cropperComponent!.GetContainerDataAsync();
+            return await CropperComponent!.GetContainerDataAsync();
         }
 
         public async ValueTask<ImageData> GetImageDataAsync()
         {
-            return await cropperComponent!.GetImageDataAsync();
+            return await CropperComponent!.GetImageDataAsync();
         }
 
         public async ValueTask<CanvasData> GetCanvasDataAsync()
         {
-            return await cropperComponent!.GetCanvasDataAsync();
+            return await CropperComponent!.GetCanvasDataAsync();
         }
 
         public void OptionsChecked(string property, bool? newValue)
         {
-            Type type = options.GetType();
+            Type type = Options.GetType();
             PropertyInfo? propertyInfo = type!.GetProperty(property);
             if (propertyInfo != null)
             {
-                propertyInfo.SetValue(options, newValue, null);
-                cropperComponent?.Destroy();
-                cropperComponent?.InitCropper();
+                propertyInfo.SetValue(Options, newValue, null);
+                CropperComponent?.Destroy();
+                CropperComponent?.InitCropper();
             }
         }
 
@@ -298,7 +353,7 @@ namespace Cropper.Blazor.Client.Pages
             if (disposing)
             {
                 Destroy();
-                cropperComponent?.DisposeAsync();
+                CropperComponent?.DisposeAsync();
                 JSRuntime!.InvokeVoidAsync("console.log", "Cropper Demo component is destroyed");
             }
         }

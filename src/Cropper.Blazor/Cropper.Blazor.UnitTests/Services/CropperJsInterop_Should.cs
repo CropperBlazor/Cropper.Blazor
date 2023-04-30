@@ -1,4 +1,10 @@
-﻿using Bogus;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Bogus;
 using Bunit;
 using Bunit.TestDoubles;
 using Cropper.Blazor.Base;
@@ -11,12 +17,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Cropper.Blazor.UnitTests.Services
@@ -90,8 +90,8 @@ namespace Cropper.Blazor.UnitTests.Services
         {
             // arrange
             _testContext.JSInterop
-                .Setup<object>("cropper.clear")
-                .SetResult(new());
+                .SetupVoid("cropper.clear")
+                .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
@@ -224,18 +224,21 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_GetCroppedCanvasAsync()
         {
             // arrange
-            object expectedCroppedCanvas = new Faker<object>();
+            Mock<IJSObjectReference> mockIJSObjectReference = new();
+
+            CroppedCanvas expectedCroppedCanvas = new Faker<CroppedCanvas>()
+                .CustomInstantiator(c => new CroppedCanvas(mockIJSObjectReference.Object));
             GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>();
 
             _testContext.JSInterop
-                .Setup<object>("cropper.getCroppedCanvas", getCroppedCanvasOptions)
-                .SetResult(expectedCroppedCanvas);
+                .SetupModule("cropper.getCroppedCanvas", invocation => invocation.Arguments?[0] is GetCroppedCanvasOptions argumentGetCroppedCanvasOptions
+                       && argumentGetCroppedCanvasOptions.Equals(getCroppedCanvasOptions));
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            object croppedCanvas = await _cropperJsInterop.GetCroppedCanvasAsync(getCroppedCanvasOptions);
+            CroppedCanvas croppedCanvas = await _cropperJsInterop.GetCroppedCanvasAsync(getCroppedCanvasOptions);
 
             // assert
             expectedCroppedCanvas.Should().BeEquivalentTo(croppedCanvas);
