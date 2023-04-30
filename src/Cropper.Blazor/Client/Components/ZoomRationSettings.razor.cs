@@ -6,12 +6,14 @@ namespace Cropper.Blazor.Client.Components
 {
     public partial class ZoomRationSettings
     {
+        private decimal? MinZoomRatio = null;
+        private decimal? MaxZoomRatio = null;
+
         [Inject] private IJSRuntime? JSRuntime { get; set; }
 
         private decimal? OldRatio { get; set; } = null;
+
         private decimal? Ratio { get; set; } = null;
-        private decimal? MinZoomRatio = null;
-        private decimal? MaxZoomRatio = null;
 
         public void OnZoomEvent(ZoomEvent? zoomEvent)
         {

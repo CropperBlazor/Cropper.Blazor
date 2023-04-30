@@ -101,11 +101,11 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.16" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
 	</ItemGroup>
 
 </Project>

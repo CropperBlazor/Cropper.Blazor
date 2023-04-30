@@ -27,7 +27,7 @@ namespace Cropper.Blazor.Client.Pages
 
         private CropperComponent? CropperComponent = null!;
         private CropperDataPreview? CropperDataPreview = null!;
-        private GetSetCropperData GetSetCropperData = null!;
+        private GetSetCropperData? GetSetCropperData = null!;
         private Options Options = null!;
         private decimal? ScaleXValue;
         private decimal? ScaleYValue;
