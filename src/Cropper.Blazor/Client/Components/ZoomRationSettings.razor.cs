@@ -13,12 +13,12 @@ namespace Cropper.Blazor.Client.Components
         private decimal? MinZoomRatio = null;
         private decimal? MaxZoomRatio = null;
 
-        public async Task OnZoomEventAsync(ZoomEvent? zoomEvent)
+        public void OnZoomEvent(ZoomEvent? zoomEvent)
         {
             OldRatio = zoomEvent?.OldRatio;
             Ratio = zoomEvent?.Ratio;
 
-            await InvokeAsync(StateHasChanged);
+            StateHasChanged();
         }
 
         public async Task ApplyZoomRulesForCropperAsync()

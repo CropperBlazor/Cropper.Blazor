@@ -24,7 +24,7 @@
                 <MudSpacer/>
                 @if (HasCode && ChildContent != null)
                 {
-                    <MudButton OnClick="OnShowCode" StartIcon="@(ShowCode ? @Icons.Rounded.CodeOff : Icons.Rounded.Code)" Color="Color.Default" Size="Size.Small">
+                    <MudButton OnClick="OnShowCode" StartIcon="@(ShowCode ? @Icons.Material.Rounded.CodeOff : Icons.Material.Rounded.Code)" Color="Color.Default" Size="Size.Small">
                         @(ShowCode ? "Hide code" : "Show code")
                     </MudButton>
                 }

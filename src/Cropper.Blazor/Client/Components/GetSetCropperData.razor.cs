@@ -42,7 +42,7 @@ namespace Cropper.Blazor.Client.Components
 
         public void OnZoomEvent(ZoomEvent? zoomEvent)
         {
-            ZoomRationSettingszoomRationSettings!.OnZoomEventAsync(zoomEvent);
+            ZoomRationSettingszoomRationSettings!.OnZoomEvent(zoomEvent);
         }
 
         public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)

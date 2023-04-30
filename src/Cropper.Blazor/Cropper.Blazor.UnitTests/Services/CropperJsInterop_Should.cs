@@ -224,7 +224,7 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_GetCroppedCanvasAsync()
         {
             // arrange
-            Mock<IJSObjectReference> mockIJSObjectReference = new Mock<IJSObjectReference>();
+            Mock<IJSObjectReference> mockIJSObjectReference = new();
 
             CroppedCanvas expectedCroppedCanvas = new Faker<CroppedCanvas>()
                 .CustomInstantiator(c => new CroppedCanvas(mockIJSObjectReference.Object));

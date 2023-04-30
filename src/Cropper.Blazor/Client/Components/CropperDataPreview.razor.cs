@@ -1,17 +1,9 @@
-using Cropper.Blazor.Components;
 using Cropper.Blazor.Events.CropEvent;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace Cropper.Blazor.Client.Components
 {
     public partial class CropperDataPreview
     {
-        [Parameter]
-        public CropperComponent? cropperComponent { get; set; } = null!;
-
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
-
         private decimal? X;
         private decimal? Y;
         private decimal? Height;
@@ -20,7 +12,7 @@ namespace Cropper.Blazor.Client.Components
         private decimal? ScaleX;
         private decimal? ScaleY;
 
-        public async Task OnCropEvent(CropEvent cropEvent)
+        public void OnCropEvent(CropEvent cropEvent)
         {
             X = cropEvent.X;
             Y = cropEvent.Y;
