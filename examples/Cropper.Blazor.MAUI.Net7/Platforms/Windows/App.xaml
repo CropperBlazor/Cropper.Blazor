@@ -1,8 +1,8 @@
 ﻿<maui:MauiWinUIApplication
-    x:Class="Cropper.Blazor.MAUI.Net7.WinUI.App"
+    x:Class="Cropper.Blazor.MAUI.Net7.Platforms.Windows.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:Cropper.Blazor.MAUI.Net7.WinUI">
+    xmlns:local="using:Cropper.Blazor.MAUI.Net7.Platforms.Windows">
 
 </maui:MauiWinUIApplication>
