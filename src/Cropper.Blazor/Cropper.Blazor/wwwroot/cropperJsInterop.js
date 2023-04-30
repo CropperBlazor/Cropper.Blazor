@@ -206,6 +206,10 @@ class CropperDecorator {
             throw "Parameter 'image' must be is not null!";
         }
 
+        if (optionsImage == null) {
+            throw "Parameter 'optionsImage' must be is not null!";
+        }
+
         const options = {};
         const correlationId = optionsImage["correlationId"];
 
