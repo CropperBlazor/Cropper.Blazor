@@ -97,6 +97,49 @@ And then use it in Razor file ([for example](https://github.com/CropperBlazor/Cr
 
 And then use it in [*.razor.cs file](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/src/Cropper.Blazor/Client/Pages/CropperDemo.razor.cs)
 
+You may override Cropper JavaScript module with execution script which can replace 6 event handlers (onReady, onCropStart, onCropMove, onCropEnd, onCrop, onZoom), such as overriding the onZoom callback in JavaScript:
+```js
+window.overrideCropperJsInteropModule = (minZoomRatio, maxZoomRatio) => {
+    window.cropper.onZoom = function (imageObject, event, correlationId) {
+        const jSEventData = this.getJSEventData(event, correlationId);
+        const isApplyPreventZoomRatio = minZoomRatio != null || maxZoomRatio != null;
+
+        if (isApplyPreventZoomRatio && (event.detail.ratio < minZoomRatio || event.detail.ratio > maxZoomRatio)) {
+            event.preventDefault();
+        }
+        else {
+            imageObject.invokeMethodAsync('CropperIsZoomed', jSEventData);
+        }
+    };
+};
+```
+
+Analysis of the signature onReady, onCropStart, onCropMove, onCropEnd, onCrop, onZoom event handlers:
+### imageObject
+
+- Type: `Object`
+
+Reference to base cropper component.
+
+### event
+
+- Type: `CustomEvent`
+
+Represent Cropper Event.
+
+### correlationId
+
+- Type: `String`
+- Default: `Cropper.Blazor`
+
+A Correlation ID is a unique identifier that is added to the very first interaction(incoming request)
+to identify the context and is passed to all components that are involved in the transaction flow.
+
+Definitely need to tell these rules in Blazor:
+```c#
+await JSRuntime!.InvokeVoidAsync("window.overrideCropperJsInteropModule", MinZoomRatio, MaxZoomRatio);
+```
+
 ## Contributing
 
 1. Fork it!
