@@ -9,8 +9,24 @@ namespace Cropper.Blazor.Client.Components
         private decimal? minZoomRatio = null;
         private decimal? maxZoomRatio = null;
 
-        private decimal? MinZoomRatio { get => minZoomRatio; set { minZoomRatio=value; ApplyZoomRulesForCropperAsync(); } }
-        private decimal? MaxZoomRatio { get => maxZoomRatio; set { maxZoomRatio=value; ApplyZoomRulesForCropperAsync(); } }
+        private decimal? MinZoomRatio
+        {
+            get => minZoomRatio;
+            set
+            {
+                minZoomRatio = value;
+                ApplyZoomRulesForCropperAsync();
+            }
+        }
+        private decimal? MaxZoomRatio
+        {
+            get => maxZoomRatio;
+            set
+            {
+                maxZoomRatio = value;
+                ApplyZoomRulesForCropperAsync();
+            }
+        }
         [Inject] private IJSRuntime? JSRuntime { get; set; }
 
         private decimal? OldRatio { get; set; } = null;
