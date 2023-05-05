@@ -1,4 +1,4 @@
-﻿window.overrideCropperJsInteropModule = (minZoomRatio, maxZoomRatio) => {
+﻿window.overrideOnZoomCropperEvent = (minZoomRatio, maxZoomRatio) => {
     window.cropper.onZoom = function (imageObject, event, correlationId) {
         const jSEventData = this.getJSEventData(event, correlationId);
         const isApplyPreventZoomRatio = minZoomRatio != null || maxZoomRatio != null;

@@ -321,14 +321,16 @@
             </MudPaper>
         </MudItem>
         @*//+---// Get/Set all cropper data //---+//*@
-        <GetSetCropperData GetCanvasData="GetCanvasDataAsync"
-                           GetCropBoxData="GetCropBoxDataAsync"
-                           GetData="GetDataAsync"
-                           GetImageData="GetImageDataAsync"
-                           GetContainerData="GetContainerDataAsync"
-                           SetCanvasDataOptions="SetCanvasData"
-                           SetDataOptions="SetData"
-                           SetCropBoxDataOptions="SetCropBoxData"
-                           @ref="GetSetCropperData" />
+        <CascadingValue Value="@Reset" Name="ResetCropperAction">
+            <GetSetCropperData GetCanvasData="GetCanvasDataAsync"
+                               GetCropBoxData="GetCropBoxDataAsync"
+                               GetData="GetDataAsync"
+                               GetImageData="GetImageDataAsync"
+                               GetContainerData="GetContainerDataAsync"
+                               SetCanvasDataOptions="SetCanvasData"
+                               SetDataOptions="SetData"
+                               SetCropBoxDataOptions="SetCropBoxData"
+                               @ref="GetSetCropperData" />
+        </CascadingValue>
     </MudGrid>
 </MudContainer>

@@ -4,11 +4,13 @@ using Microsoft.JSInterop;
 
 namespace Cropper.Blazor.Client.Components
 {
-    public partial class ZoomRationSettings
+    public partial class ZoomRatioSettings
     {
-        private decimal? MinZoomRatio = null;
-        private decimal? MaxZoomRatio = null;
+        private decimal? minZoomRatio = null;
+        private decimal? maxZoomRatio = null;
 
+        private decimal? MinZoomRatio { get => minZoomRatio; set { minZoomRatio=value; ApplyZoomRulesForCropperAsync(); } }
+        private decimal? MaxZoomRatio { get => maxZoomRatio; set { maxZoomRatio=value; ApplyZoomRulesForCropperAsync(); } }
         [Inject] private IJSRuntime? JSRuntime { get; set; }
 
         private decimal? OldRatio { get; set; } = null;
@@ -25,7 +27,7 @@ namespace Cropper.Blazor.Client.Components
 
         public async Task ApplyZoomRulesForCropperAsync()
         {
-            await JSRuntime!.InvokeVoidAsync("window.overrideCropperJsInteropModule", MinZoomRatio, MaxZoomRatio);
+            await JSRuntime!.InvokeVoidAsync("window.overrideOnZoomCropperEvent", MinZoomRatio, MaxZoomRatio);
         }
     }
 }

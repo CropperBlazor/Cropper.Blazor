@@ -63,11 +63,34 @@ namespace Cropper.Blazor.Client.Pages
                 ScaleXValue = cropJSEvent.Detail.ScaleX;
                 ScaleYValue = cropJSEvent.Detail.ScaleY;
 
-                await InvokeAsync(() =>
+                decimal width = Math.Round(cropJSEvent.Detail.Width ?? 0);
+                decimal height = Math.Round(cropJSEvent.Detail.Height ?? 0);
+
+                if (width < GetSetCropperData!.CroppedDimensionsSettings.MinimumWidth
+                    || height < GetSetCropperData!.CroppedDimensionsSettings.MinimumHeight
+                    || width > GetSetCropperData!.CroppedDimensionsSettings.MaximumWidth
+                    || height > GetSetCropperData!.CroppedDimensionsSettings.MaximumHeight
+                  )
                 {
-                    //JSRuntime!.InvokeVoidAsync("console.log", $"CropJSEvent {JsonSerializer.Serialize(cropJSEvent)}");
-                    CropperDataPreview?.OnCropEvent(cropJSEvent.Detail);
-                });
+                    CropperComponent!.SetData(new SetDataOptions
+                    {
+                        Width = Math.Max(
+                            GetSetCropperData!.CroppedDimensionsSettings.MinimumWidth ?? 0M,
+                            Math.Min(GetSetCropperData!.CroppedDimensionsSettings.MaximumWidth ?? 0M, width)),
+                        Height = Math.Max(
+                            GetSetCropperData!.CroppedDimensionsSettings.MinimumHeight ?? 0M,
+                            Math.Min(GetSetCropperData!.CroppedDimensionsSettings.MaximumHeight ?? 0M, height)),
+
+                    });
+                }
+                else
+                {
+                    await InvokeAsync(() =>
+                    {
+                        //JSRuntime!.InvokeVoidAsync("console.log", $"CropJSEvent {JsonSerializer.Serialize(cropJSEvent)}");
+                        CropperDataPreview?.OnCropEvent(cropJSEvent.Detail);
+                    });
+                }
             }
         }
 
