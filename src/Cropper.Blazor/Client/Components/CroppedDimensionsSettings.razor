@@ -1,0 +1,26 @@
+﻿<MudCard Class="d-flex justify-space-between flex-column mb-6">
+    <MudCardContent>
+        <MudText>
+            Dimensions Settings
+            <h6>This option may not work with arbitrary 'Aspect Ratios' images, it is recommended to use a free Aspect Ratio for this option or calculate the allowed values yourself</h6>
+        </MudText>
+        <MudNumericField @bind-Value="MinimumWidth"
+                         Label="Minimum Width"
+                         Min="0"
+                         Max="MaximumWidth">
+        </MudNumericField>
+        <MudNumericField @bind-Value="MaximumWidth"
+                         Label="Maximum Width"
+                         Min="MinimumWidth ?? 0">
+        </MudNumericField>
+        <MudNumericField @bind-Value="MinimumHeight"
+                         Label="Minimum Height"
+                         Min="0"
+                         Max="MaximumHeight">
+        </MudNumericField>
+        <MudNumericField @bind-Value="MaximumHeight"
+                         Label="Maximum Height"
+                         Min="MinimumHeight ?? 0">
+        </MudNumericField>
+    </MudCardContent>
+</MudCard>
