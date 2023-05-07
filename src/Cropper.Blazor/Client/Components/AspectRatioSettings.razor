@@ -1,24 +1,28 @@
 ﻿<MudCard Class="d-flex justify-space-between flex-column mb-6">
-    <MudCardHeader>
+    <MudCardHeader Class="pb-0">
         <CardHeaderContent>
-            <MudText Typo="Typo.h5">Aspect Ratio Settings</MudText>
-            <MudAlert Severity="Severity.Warning">This option work's only for <b>FREE</b> aspect ratio mode!</MudAlert>
+            <div class="d-flex flex-column gap-2">
+                <MudText Typo="Typo.h5">Aspect Ratio Settings</MudText>
+                <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Dense="true">
+                    This option work's only for <b>FREE</b> aspect ratio mode!
+                </MudAlert>
+            </div>
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardContent>
-        <MudNumericField @bind-Value="MinAspectRatio"
-                         Label="Min aspect ratio"
+        <MudDivider></MudDivider>
+        <MudNumericField @bind-Value="MinAspectRatio" Label="Min aspect ratio"
                          Disabled="!IsEnableAspectRatioSettings"
-                         Min="0"
-                         Max="MaxAspectRatio">
+                         Min="0" Max="MaxAspectRatio">
         </MudNumericField>
-        <MudNumericField @bind-Value="MaxAspectRatio"
-                         Label="Max aspect ratio"
+        <MudNumericField @bind-Value="MaxAspectRatio" Label="Max aspect ratio"
                          Disabled="!IsEnableAspectRatioSettings"
                          Min="MinAspectRatio ?? 0">
         </MudNumericField>
-        <MudText Class="mt-4">
-            Current aspect ratio: @AspectRatio
-        </MudText>
+        <div class="d-flex align-end flex-xs-wrap gap-x-6">
+            <MudChip Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">Current aspect ratio:</MudChip>
+            <MudNumericField @bind-Value="AspectRatio" Format="N2" Variant="Variant.Text"
+                             HideSpinButtons="true" ReadOnly="true" Class="flex-1" />
+        </div>
     </MudCardContent>
 </MudCard>

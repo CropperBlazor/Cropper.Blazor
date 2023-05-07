@@ -1,24 +1,34 @@
 ﻿<MudCard Class="d-flex justify-space-between flex-column mb-6">
-    <MudCardHeader>
+    <MudCardHeader Class="pb-0">
         <CardHeaderContent>
-            <MudText Typo="Typo.h5">Zoom Ratio Settings</MudText>
+            <div class="d-flex flex-column gap-2">
+                <MudText Typo="Typo.h5">Zoom Ratio Settings</MudText>
+                <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Dense="true">
+                    Make sure that the <b>current Zoom Ratio</b> value is less than the minimum value,
+                    otherwise this setting may not work correctly.
+                </MudAlert>
+            </div>
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardContent>
-        <MudNumericField @bind-Value="MinZoomRatio"
-                         Label="Min zoom ratio"
-                         Min="0"
-                         Max="MaxZoomRatio">
-        </MudNumericField>
-        <MudNumericField @bind-Value="MaxZoomRatio"
-                         Label="Max zoom ratio"
-                         Min="MinZoomRatio ?? 0">
-        </MudNumericField>
-        <MudText Class="mt-4">
-            Zoom event old ratio: @OldRatio
-        </MudText>
-        <MudText Class="mt-1">
-            Zoom event ratio: @Ratio
-        </MudText>
+        <MudDivider></MudDivider>
+        <div class="d-flex flex-xs-wrap gap-x-6">
+            <MudNumericField @bind-Value="MinZoomRatio" Label="Min zoom ratio"
+                             Min="0" Max="MaxZoomRatio">
+            </MudNumericField>
+            <MudNumericField @bind-Value="MaxZoomRatio" Label="Max zoom ratio"
+                             Min="MinZoomRatio ?? 0">
+            </MudNumericField>
+        </div>
+        <div class="d-flex align-end flex-xs-wrap gap-x-6">
+            <MudChip Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">Zoom event old ratio:</MudChip>
+            <MudNumericField @bind-Value="OldRatio" Format="N2" Variant="Variant.Text"
+                             HideSpinButtons="true" ReadOnly="true" Class="flex-1" />
+        </div>
+        <div class="d-flex align-end flex-xs-wrap gap-x-6">
+            <MudChip Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">Zoom event ratio:</MudChip>
+            <MudNumericField @bind-Value="Ratio" Format="N2" Variant="Variant.Text"
+                             HideSpinButtons="true" ReadOnly="true" Class="flex-1" />
+        </div>
     </MudCardContent>
 </MudCard>

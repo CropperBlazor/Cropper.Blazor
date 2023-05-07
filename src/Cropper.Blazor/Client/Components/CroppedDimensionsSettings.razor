@@ -1,28 +1,33 @@
 ﻿<MudCard Class="d-flex justify-space-between flex-column mb-6">
-    <MudCardHeader>
+    <MudCardHeader Class="pb-0">
         <CardHeaderContent>
-            <MudText Typo="Typo.h5">Dimensions Settings</MudText>
-            <MudAlert Severity="Severity.Warning">This option may not work with arbitrary 'Aspect Ratios' images, it is recommended to use a free Aspect Ratio for this option or calculate the allowed values yourself</MudAlert>
+            <div class="d-flex flex-column gap-2">
+                <MudText Typo="Typo.h5">Dimensions Settings</MudText>
+                <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Dense="true">
+                    <b>This setting may not work with a specific aspect ratio.</b>
+                    It is recommended to use a <b>FREE</b> aspect ratio for this
+                    option or calculate the valid values yourself.
+                </MudAlert>
+            </div>
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardContent>
-        <MudNumericField @bind-Value="MinimumWidth"
-                         Label="Minimum Width"
-                         Min="0"
-                         Max="MaximumWidth">
-        </MudNumericField>
-        <MudNumericField @bind-Value="MaximumWidth"
-                         Label="Maximum Width"
-                         Min="MinimumWidth ?? 0">
-        </MudNumericField>
-        <MudNumericField @bind-Value="MinimumHeight"
-                         Label="Minimum Height"
-                         Min="0"
-                         Max="MaximumHeight">
-        </MudNumericField>
-        <MudNumericField @bind-Value="MaximumHeight"
-                         Label="Maximum Height"
-                         Min="MinimumHeight ?? 0">
-        </MudNumericField>
+        <MudDivider></MudDivider>
+        <div class="d-flex flex-xs-wrap gap-x-6">
+            <MudNumericField @bind-Value="MinimumHeight" Label="Minimum Height"
+                             Min="0" Max="MaximumHeight">
+            </MudNumericField>
+            <MudNumericField @bind-Value="MinimumWidth" Label="Minimum Width"
+                             Min="0" Max="MaximumWidth">
+            </MudNumericField>
+        </div>
+        <div class="d-flex flex-xs-wrap gap-x-6">
+            <MudNumericField @bind-Value="MaximumHeight" Label="Maximum Height"
+                             Min="MinimumHeight ?? 0">
+            </MudNumericField>
+            <MudNumericField @bind-Value="MaximumWidth" Label="Maximum Width"
+                             Min="MinimumWidth ?? 0">
+            </MudNumericField>
+        </div>
     </MudCardContent>
 </MudCard>
