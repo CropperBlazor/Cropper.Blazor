@@ -1,6 +1,11 @@
 ﻿<MudCard Class="d-flex justify-space-between flex-column mb-6">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h5">Aspect Ratio Settings</MudText>
+            <MudAlert Severity="Severity.Warning">This option work's only for <b>FREE</b> aspect ratio mode!</MudAlert>
+        </CardHeaderContent>
+    </MudCardHeader>
     <MudCardContent>
-        <MudText>Aspect Ratio Settings (only for FREE aspect ratio)</MudText>
         <MudNumericField @bind-Value="MinAspectRatio"
                          Label="Min aspect ratio"
                          Disabled="!IsEnableAspectRatioSettings"

@@ -7,7 +7,7 @@
 <MudContainer Class="@((Start.Equals(Breakpoint.Xl) || Start.Equals(Breakpoint.Xxl) ? "mud-container-maxwidth-xl " : "") + "mt-5")">
     <MudGrid Class="mt-2">
         @*//---Cropper Component---//*@
-        <MudItem xxl="7" xl="8" lg="8" md="8" sm="12" xs="12">
+        <MudItem xxl="7" xl="8" lg="8" md="9" sm="12" xs="12">
             <MudPaper Class="pa-4" Elevation="2">
                 <div class="@GetClassNameCropper()">
                     <CropperComponent Class="cropper-container"
@@ -31,7 +31,7 @@
             </MudPaper>
         </MudItem>
         @*//---Img preview and data---//*@
-        <MudItem xxl="5" xl="4" lg="4" md="4" sm="12" xs="12">
+        <MudItem xxl="5" xl="4" lg="4" md="3" sm="12" xs="12">
             <MudPaper Class="pa-4 d-flex flex-column justify-center mud-height-full" Elevation="2">
                 <div class="d-flex flex-row flex-wrap justify-center gap-1 mb-2 mh-100">
                     <div class="img-preview preview-lg"></div>

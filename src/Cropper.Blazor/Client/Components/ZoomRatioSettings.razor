@@ -1,6 +1,10 @@
 ﻿<MudCard Class="d-flex justify-space-between flex-column mb-6">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h5">Zoom Ratio Settings</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
     <MudCardContent>
-        <MudText>Zoom Ratio Settings</MudText>
         <MudNumericField @bind-Value="MinZoomRatio"
                          Label="Min zoom ratio"
                          Min="0"
