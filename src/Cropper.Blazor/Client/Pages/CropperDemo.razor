@@ -62,8 +62,7 @@
                         <MudGrid>
                             @*//---Buttons for test cropper functional---//*@
                             <MudItem xxl="8" xl="7" lg="7" md="7" sm="12" xs="12">
-                                <MudPaper Class="pa-4 d-flex flex-row flex-wrap gap-x-2 gap-y-4  justify-center" Elevation="2">
-
+                                <MudPaper Class="pa-4 d-flex flex-row flex-wrap gap-x-4 gap-y-4 justify-center" Elevation="2">
                                     <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
                                         <MudTooltip Text="@("cropper.setDragMode(\"move\")")">
                                             <MudToggleIconButton Icon="@Icons.Material.Filled.OpenWith" ToggledIcon="@Icons.Material.Filled.OpenWith"
@@ -126,7 +125,7 @@
                                         </MudTooltip>
                                     </MudButtonGroup>
 
-                                    <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                                    <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled" Class="d-inline-flex">
                                         <MudTooltip Text="cropper.disable()">
                                             <MudIconButton Icon="@Icons.Material.Filled.Lock" OnClick="Disable" Title="Disable" />
                                         </MudTooltip>

@@ -1,4 +1,4 @@
-﻿<MudCard Class="d-flex justify-space-between flex-column mb-6">
+﻿<MudCard Class="d-flex justify-space-between flex-column mb-6 mud-height-full">
     <MudCardHeader Class="pb-0">
         <CardHeaderContent>
             <div class="d-flex flex-column gap-2">
@@ -11,22 +11,22 @@
             </div>
         </CardHeaderContent>
     </MudCardHeader>
-    <MudCardContent>
+    <MudCardContent Class="mud-height-full">
         <MudDivider></MudDivider>
         <div class="d-flex flex-xs-wrap gap-x-6">
-            <MudNumericField @bind-Value="MinimumHeight" Label="Minimum Height"
-                             Min="0" Max="MaximumHeight">
+            <MudNumericField @bind-Value="MinimumHeight" Label="Minimum Height" Min="0" Max="MaximumHeight"
+                             Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary">
             </MudNumericField>
-            <MudNumericField @bind-Value="MinimumWidth" Label="Minimum Width"
-                             Min="0" Max="MaximumWidth">
+            <MudNumericField @bind-Value="MinimumWidth" Label="Minimum Width" Min="0" Max="MaximumWidth"
+                             Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary">
             </MudNumericField>
         </div>
         <div class="d-flex flex-xs-wrap gap-x-6">
-            <MudNumericField @bind-Value="MaximumHeight" Label="Maximum Height"
-                             Min="MinimumHeight ?? 0">
+            <MudNumericField @bind-Value="MaximumHeight" Label="Maximum Height" Min="MinimumHeight ?? 0"
+                             Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary">
             </MudNumericField>
-            <MudNumericField @bind-Value="MaximumWidth" Label="Maximum Width"
-                             Min="MinimumWidth ?? 0">
+            <MudNumericField @bind-Value="MaximumWidth" Label="Maximum Width" Min="MinimumWidth ?? 0"
+                             Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary">
             </MudNumericField>
         </div>
     </MudCardContent>
