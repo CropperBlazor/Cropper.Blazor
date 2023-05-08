@@ -12,7 +12,7 @@
     </MudCardHeader>
     <MudCardContent Class="mud-height-full">
         <MudDivider></MudDivider>
-        <div class="d-flex flex-xs-wrap gap-x-6">
+        <div class="d-flex gap-x-6 flex-wrap flex-sm-nowrap">
             <MudNumericField @bind-Value="MinZoomRatio" Label="Min zoom ratio"
                              Min="0" Max="MaxZoomRatio">
             </MudNumericField>
@@ -20,14 +20,14 @@
                              Min="MinZoomRatio ?? 0">
             </MudNumericField>
         </div>
-        <div class="d-flex align-end flex-xs-wrap gap-x-6">
+        <div class="d-flex align-end gap-x-6">
             <MudChip Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">
                 Zoom event old ratio:
             </MudChip>
             <MudNumericField @bind-Value="OldRatio" Format="N2" Variant="Variant.Text"
                              HideSpinButtons="true" ReadOnly="true" Class="flex-1" />
         </div>
-        <div class="d-flex align-end flex-xs-wrap gap-x-6">
+        <div class="d-flex align-end gap-x-6">
             <MudChip Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">
                 Zoom event ratio:
             </MudChip>

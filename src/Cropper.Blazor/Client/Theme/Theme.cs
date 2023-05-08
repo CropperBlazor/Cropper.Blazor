@@ -71,7 +71,6 @@ public class Theme
         TableLines = "#33323e",
         Divider = "#292838",
         OverlayLight = "#1e1e2d80"
-
     };
     #endregion
 
