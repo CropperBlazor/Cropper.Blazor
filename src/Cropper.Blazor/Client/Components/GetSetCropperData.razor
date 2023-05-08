@@ -46,13 +46,12 @@
                     <MudItem xxl="3" xl="3" lg="3" md="3" sm="12" xs="12">
                         @*//---Cropper Data---//*@
                         <MudCard Class="d-flex justify-space-between flex-column">
-                            <MudCardHeader Class="pb-0">
+                            <MudCardHeader Class="border-solid border-b mud-border-lines-default">
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.h5">Cropper Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent @key="CropperData">
-                                <MudDivider></MudDivider>
                                 <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropperData.X"
                                     Label="X, px" Variant="Variant.Text" Step=".2M" />
                                 <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropperData.Y"
@@ -68,7 +67,7 @@
                                 <MudNumericField HideSpinButtons="true" @bind-Value="CropperData.ScaleY" Label="ScaleY"
                                     Variant="Variant.Text" Step=".2M" />
                             </MudCardContent>
-                            <MudCardActions Class="d-flex justify-space-between">
+                            <MudCardActions Class="d-flex justify-space-between border-solid border-t mud-border-lines-default pa-4">
                                 <MudTooltip Text="cropper.getData()">
                                     <MudButton Variant="Variant.Outlined" Color="Color.Primary"
                                         OnClick="@(()=>GetDataAsync(false))">
@@ -88,13 +87,12 @@
                     <MudItem xxl="3" xl="3" lg="3" md="3" sm="12" xs="12">
                         @*//---Crop Box Data---//*@
                         <MudCard Class="d-flex justify-space-between flex-column">
-                            <MudCardHeader Class="pb-0">
+                            <MudCardHeader Class="border-solid border-b mud-border-lines-default">
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.h5">Crop Box Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent @key="CropBoxData">
-                                <MudDivider></MudDivider>
                                 <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropBoxData.Left" Label="Left"
                                     Variant="Variant.Text" Step=".2M" />
                                 <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropBoxData.Top" Label="Top"
@@ -104,7 +102,7 @@
                                 <MudNumericField HideSpinButtons="true" @bind-Value="CropBoxData.Width" Label="Width, px"
                                     Variant="Variant.Text" Step=".2M" />
                             </MudCardContent>
-                            <MudCardActions Class="d-flex justify-space-between">
+                            <MudCardActions Class="d-flex justify-space-between border-solid border-t mud-border-lines-default pa-4">
                                 <MudTooltip Text="cropper.getCropBoxData()">
                                     <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="GetCropBoxDataAsync">
                                         Get Data
@@ -120,17 +118,20 @@
                         </MudCard>
 
                         <MudCard Class="d-flex justify-space-between flex-column mt-6">
-                            <MudCardHeader Class="pb-0">
+                            <MudCardHeader Class="border-solid border-b mud-border-lines-default">
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.h5">Container Dataa</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent @key="ContainerData">
-                                <MudDivider></MudDivider>
-                                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ContainerData.Height" Label="Height, px" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ContainerData.Width" Label="Width, px" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ContainerData.Height"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                Label="Height" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ContainerData.Width"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                Label="Width" Variant="Variant.Text" Step=".2M" />
                             </MudCardContent>
-                            <MudCardActions>
+                            <MudCardActions Class="border-solid border-t mud-border-lines-default pa-4">
                                 <MudTooltip Text="cropper.getContainerData()" RootClass="mud-width-full">
                                     <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true" OnClick="GetContainerDataAsync">
                                         Get Container Data
@@ -143,13 +144,12 @@
                     <MudItem xxl="3" xl="3" lg="3" md="3" sm="12" xs="12">
                         @*//---Image Data---//*@
                         <MudCard>
-                            <MudCardHeader Class="pb-0">
+                            <MudCardHeader Class="border-solid border-b mud-border-lines-default">
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.h5">Image Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent @key="ImageData" Class="d-flex justify-space-between flex-column">
-                                <MudDivider></MudDivider>
                                 <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ImageData.Height"
                                     Label="Height, px" Variant="Variant.Text" Step=".2M" />
                                 <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ImageData.Width"
@@ -171,7 +171,7 @@
                                 <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.Top" Label="Top"
                                     Variant="Variant.Text" Step=".2M" />
                             </MudCardContent>
-                            <MudCardActions>
+                            <MudCardActions Class="border-solid border-t mud-border-lines-default pa-4">
                                 <MudTooltip Text="cropper.getImageData()" RootClass="mud-width-full">
                                     <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true"
                                         OnClick="GetImageDataAsync">
@@ -185,13 +185,12 @@
                     <MudItem xxl="3" xl="3" lg="3" md="3" sm="12" xs="12">
                         @*//---Canvas Data---//*@
                         <MudCard Class="d-flex justify-space-between flex-column">
-                            <MudCardHeader Class="pb-0">
+                            <MudCardHeader Class="border-solid border-b mud-border-lines-default">
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.h5">Canvas Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent @key="CanvasData">
-                                <MudDivider></MudDivider>
                                 <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CanvasData.Left" Label="Left"
                                     Variant="Variant.Text" Step=".2M" />
                                 <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CanvasData.Top" Label="Top"
@@ -205,7 +204,7 @@
                                 <MudNumericField HideSpinButtons="true" @bind-Value="CanvasData.Width" Label="Width, px"
                                     Variant="Variant.Text" Step=".2M" />
                             </MudCardContent>
-                            <MudCardActions Class="d-flex justify-space-between">
+                            <MudCardActions Class="d-flex justify-space-between border-solid border-t mud-border-lines-default pa-4">
                                 <MudTooltip Text="cropper.getCanvasData()">
                                     <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="GetCanvasDataAsync">
                                         Get Data

@@ -1,5 +1,5 @@
 ﻿<MudCard Class="d-flex justify-space-between flex-column mb-6 mud-height-full">
-    <MudCardHeader Class="pb-0">
+    <MudCardHeader Class="border-solid border-b mud-border-lines-default">
         <CardHeaderContent>
             <div class="d-flex flex-column gap-2">
                 <MudText Typo="Typo.h5">Zoom Ratio Settings</MudText>
@@ -10,8 +10,7 @@
             </div>
         </CardHeaderContent>
     </MudCardHeader>
-    <MudCardContent Class="mud-height-full">
-        <MudDivider></MudDivider>
+    <MudCardContent Class="mud-height-full pt-0">
         <div class="d-flex gap-x-6 flex-wrap flex-sm-nowrap">
             <MudNumericField @bind-Value="MinZoomRatio" Label="Min zoom ratio"
                              Min="0" Max="MaxZoomRatio">
