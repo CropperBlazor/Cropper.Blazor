@@ -45,38 +45,43 @@
                 <MudGrid>
                     <MudItem xxl="3" xl="3" lg="3" md="3" sm="12" xs="12">
                         @*//---Cropper Data---//*@
-                        <MudCard Class="d-flex justify-space-between flex-column">
+                        <MudCard>
                             <MudCardHeader Class="border-solid border-b mud-border-lines-default">
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.h5">Cropper Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
-                            <MudCardContent @key="CropperData">
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropperData.X"
-                                    Label="X, px" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropperData.Y"
-                                    Label="Y, px" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropperData.Width"
-                                    Label="Width, px" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropperData.Height"
-                                    Label="Height, px" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropperData.Rotate"
-                                    Label="Rotate, deg" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropperData.ScaleX"
-                                    Label="ScaleX" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField HideSpinButtons="true" @bind-Value="CropperData.ScaleY" Label="ScaleY"
-                                    Variant="Variant.Text" Step=".2M" />
+                            <MudCardContent Class="d-flex flex-column gap-y-2" @key="CropperData">
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CropperData.X"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="X" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CropperData.Y"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Y" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CropperData.Width"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Width" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CropperData.Height"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Height" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CropperData.Rotate"
+                                                 Adornment="Adornment.End" AdornmentText="deg" AdornmentColor="Color.Primary"
+                                                 Label="Rotate" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CropperData.ScaleX"
+                                                 Label="ScaleX" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CropperData.ScaleY"
+                                                 Label="ScaleY" Variant="Variant.Text" Step=".2M" />
                             </MudCardContent>
                             <MudCardActions Class="d-flex justify-space-between border-solid border-t mud-border-lines-default pa-4">
                                 <MudTooltip Text="cropper.getData()">
                                     <MudButton Variant="Variant.Outlined" Color="Color.Primary"
-                                        OnClick="@(()=>GetDataAsync(false))">
+                                               OnClick="@(()=>GetDataAsync(false))">
                                         Get Data
                                     </MudButton>
                                 </MudTooltip>
                                 <MudTooltip Text="cropper.setData(data)">
                                     <MudButton Variant="Variant.Outlined" Color="Color.Primary"
-                                        OnClick="@(()=>SetData(new SetDataOptions(){ X = CropperData.X, Y = CropperData.Y, Height = CropperData.Height, Width = CropperData.Width, Rotate = CropperData.Rotate, ScaleX = CropperData.ScaleX, ScaleY = CropperData.ScaleY}))">
+                                               OnClick="@(()=>SetData(new SetDataOptions(){ X = CropperData.X, Y = CropperData.Y, Height = CropperData.Height, Width = CropperData.Width, Rotate = CropperData.Rotate, ScaleX = CropperData.ScaleX, ScaleY = CropperData.ScaleY}))">
                                         Set Data
                                     </MudButton>
                                 </MudTooltip>
@@ -86,21 +91,23 @@
 
                     <MudItem xxl="3" xl="3" lg="3" md="3" sm="12" xs="12">
                         @*//---Crop Box Data---//*@
-                        <MudCard Class="d-flex justify-space-between flex-column">
+                        <MudCard>
                             <MudCardHeader Class="border-solid border-b mud-border-lines-default">
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.h5">Crop Box Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
-                            <MudCardContent @key="CropBoxData">
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropBoxData.Left" Label="Left"
-                                    Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropBoxData.Top" Label="Top"
-                                    Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CropBoxData.Height" Label="Height, px"
-                                    Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField HideSpinButtons="true" @bind-Value="CropBoxData.Width" Label="Width, px"
-                                    Variant="Variant.Text" Step=".2M" />
+                            <MudCardContent Class="d-flex flex-column gap-y-2" @key="CropBoxData">
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CropBoxData.Left"
+                                                 Label="Left" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CropBoxData.Top"
+                                                 Label="Top" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CropBoxData.Height"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Height" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CropBoxData.Width"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Width" Variant="Variant.Text" Step=".2M" />
                             </MudCardContent>
                             <MudCardActions Class="d-flex justify-space-between border-solid border-t mud-border-lines-default pa-4">
                                 <MudTooltip Text="cropper.getCropBoxData()">
@@ -110,26 +117,26 @@
                                 </MudTooltip>
                                 <MudTooltip Text="cropper.setCropBoxData(data)">
                                     <MudButton Variant="Variant.Outlined" Color="Color.Primary"
-                                        OnClick="@(()=>SetCropBoxData(new SetCropBoxDataOptions(){ Height = CropBoxData.Height, Left = CropBoxData.Left, Top = CropBoxData.Top, Width = CropBoxData.Width}))">
+                                               OnClick="@(()=>SetCropBoxData(new SetCropBoxDataOptions(){ Height = CropBoxData.Height, Left = CropBoxData.Left, Top = CropBoxData.Top, Width = CropBoxData.Width}))">
                                         Set Data
                                     </MudButton>
                                 </MudTooltip>
                             </MudCardActions>
                         </MudCard>
 
-                        <MudCard Class="d-flex justify-space-between flex-column mt-6">
+                        <MudCard Class="mt-6">
                             <MudCardHeader Class="border-solid border-b mud-border-lines-default">
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.h5">Container Dataa</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
-                            <MudCardContent @key="ContainerData">
-                                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ContainerData.Height"
+                            <MudCardContent Class="d-flex flex-column gap-y-2" @key="ContainerData">
+                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ContainerData.Height"
                                                  Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
-                                Label="Height" Variant="Variant.Text" Step=".2M" />
+                                                 Label="Height" Variant="Variant.Text" Step=".2M" />
                                 <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ContainerData.Width"
                                                  Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
-                                Label="Width" Variant="Variant.Text" Step=".2M" />
+                                                 Label="Width" Variant="Variant.Text" Step=".2M" />
                             </MudCardContent>
                             <MudCardActions Class="border-solid border-t mud-border-lines-default pa-4">
                                 <MudTooltip Text="cropper.getContainerData()" RootClass="mud-width-full">
@@ -149,32 +156,37 @@
                                     <MudText Typo="Typo.h5">Image Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
-                            <MudCardContent @key="ImageData" Class="d-flex justify-space-between flex-column">
-                                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ImageData.Height"
-                                    Label="Height, px" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ImageData.Width"
-                                    Label="Width, px" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ImageData.Rotate"
-                                    Label="Rotate, deg" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ImageData.ScaleX"
-                                    Label="ScaleX" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ImageData.ScaleY"
-                                    Label="ScaleY" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ImageData.NaturalHeight"
-                                    Label="Natural Height, px" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ImageData.NaturalWidth"
-                                    Label="Natural Width, px" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ImageData.AspectRatio"
-                                    Label="Aspect Ratio" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="ImageData.Left"
-                                    Label="Left" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.Top" Label="Top"
-                                    Variant="Variant.Text" Step=".2M" />
+                            <MudCardContent Class="d-flex justify-space-between flex-column gap-y-2" @key="ImageData">
+                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.Height"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Height" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.Width"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Width" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.Rotate"
+                                                 Adornment="Adornment.End" AdornmentText="deg" AdornmentColor="Color.Primary"
+                                                 Label="Rotate" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.ScaleX"
+                                                 Label="ScaleX" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.ScaleY"
+                                                 Label="ScaleY" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.NaturalHeight"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Natural Height" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.NaturalWidth"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Natural Width" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.AspectRatio"
+                                                 Label="Aspect Ratio" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.Left"
+                                                 Label="Left" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.Top"
+                                                 Label="Top" Variant="Variant.Text" Step=".2M" />
                             </MudCardContent>
                             <MudCardActions Class="border-solid border-t mud-border-lines-default pa-4">
                                 <MudTooltip Text="cropper.getImageData()" RootClass="mud-width-full">
                                     <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true"
-                                        OnClick="GetImageDataAsync">
+                                               OnClick="GetImageDataAsync">
                                         Get Image Data
                                     </MudButton>
                                 </MudTooltip>
@@ -184,25 +196,29 @@
 
                     <MudItem xxl="3" xl="3" lg="3" md="3" sm="12" xs="12">
                         @*//---Canvas Data---//*@
-                        <MudCard Class="d-flex justify-space-between flex-column">
+                        <MudCard>
                             <MudCardHeader Class="border-solid border-b mud-border-lines-default">
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.h5">Canvas Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
-                            <MudCardContent @key="CanvasData">
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CanvasData.Left" Label="Left"
-                                    Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CanvasData.Top" Label="Top"
-                                    Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CanvasData.NaturalHeight"
-                                    Label="Natural Height, px" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CanvasData.NaturalWidth"
-                                    Label="Natural Width, px" Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField Class="mb-2" HideSpinButtons="true" @bind-Value="CanvasData.Height" Label="Height, px"
-                                    Variant="Variant.Text" Step=".2M" />
-                                <MudNumericField HideSpinButtons="true" @bind-Value="CanvasData.Width" Label="Width, px"
-                                    Variant="Variant.Text" Step=".2M" />
+                            <MudCardContent Class="d-flex flex-column gap-y-2" @key="CanvasData">
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CanvasData.Left"
+                                                 Label="Left" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CanvasData.Top"
+                                                 Label="Top" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CanvasData.NaturalHeight"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Natural Height" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CanvasData.NaturalWidth"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Natural Width" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CanvasData.Height"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Height" Variant="Variant.Text" Step=".2M" />
+                                <MudNumericField HideSpinButtons="true" @bind-Value="CanvasData.Width"
+                                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
+                                                 Label="Width" Variant="Variant.Text" Step=".2M" />
                             </MudCardContent>
                             <MudCardActions Class="d-flex justify-space-between border-solid border-t mud-border-lines-default pa-4">
                                 <MudTooltip Text="cropper.getCanvasData()">
@@ -212,7 +228,7 @@
                                 </MudTooltip>
                                 <MudTooltip Text="cropper.setCanvasData(data)">
                                     <MudButton Variant="Variant.Outlined" Color="Color.Primary"
-                                        OnClick="@(()=>SetCanvasData(new SetCanvasDataOptions(){ Height = CanvasData.Height, Left = CanvasData.Left, Top = CanvasData.Top, Width = CanvasData.Width}))">
+                                               OnClick="@(()=>SetCanvasData(new SetCanvasDataOptions(){ Height = CanvasData.Height, Left = CanvasData.Left, Top = CanvasData.Top, Width = CanvasData.Width}))">
                                         Set Data
                                     </MudButton>
                                 </MudTooltip>
