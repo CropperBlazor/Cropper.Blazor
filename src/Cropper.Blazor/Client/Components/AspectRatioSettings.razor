@@ -1,4 +1,4 @@
-﻿<MudCard Class="d-flex justify-space-between flex-column mb-6 mud-height-full">
+﻿<MudCard Class="mud-height-full">
     <MudCardHeader Class="border-solid border-b mud-border-lines-default">
         <CardHeaderContent>
             <div class="d-flex flex-column gap-2">
@@ -22,7 +22,7 @@
             <MudChip Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">
                 Current aspect ratio:
             </MudChip>
-            <MudNumericField @bind-Value="AspectRatio" Format="N2" Variant="Variant.Text"
+            <MudNumericField @bind-Value="AspectRatio" Format="N4" Variant="Variant.Text"
                              HideSpinButtons="true" ReadOnly="true" Class="flex-1" />
         </div>
     </MudCardContent>
