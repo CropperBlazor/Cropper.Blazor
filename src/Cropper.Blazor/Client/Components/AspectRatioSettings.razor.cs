@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Cropper.Blazor.Client.Pages;
+using Cropper.Blazor.Components;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 
@@ -34,8 +35,8 @@ namespace Cropper.Blazor.Client.Components
         [CascadingParameter(Name = "AspectRatio"), Required]
         private decimal? AspectRatio { get; set; }
 
-        [CascadingParameter(Name = "CropperDemo"), Required]
-        private CropperDemo CropperDemo { get; set; } = null!;
+        [CascadingParameter(Name = "CropperComponent"), Required]
+        private CropperComponent CropperComponent { get; set; } = null!;
 
         [CascadingParameter(Name = "IsEnableAspectRatioSettings"), Required]
         private bool IsEnableAspectRatioSettings
@@ -57,8 +58,8 @@ namespace Cropper.Blazor.Client.Components
         {
             if (minAspectRatio is not null || maxAspectRatio is not null)
             {
-                ContainerData containerData = await CropperDemo.CropperComponent!.GetContainerDataAsync();
-                CropBoxData cropBoxData = await CropperDemo.CropperComponent!.GetCropBoxDataAsync();
+                ContainerData containerData = await CropperComponent!.GetContainerDataAsync();
+                CropBoxData cropBoxData = await CropperComponent!.GetCropBoxDataAsync();
 
                 if (cropBoxData.Height != 0)
                 {
@@ -68,7 +69,7 @@ namespace Cropper.Blazor.Client.Components
                     {
                         decimal? newCropBoxWidth = cropBoxData.Height * ((minAspectRatio + maxAspectRatio) / 2);
 
-                        CropperDemo.CropperComponent!.SetCropBoxData(new SetCropBoxDataOptions
+                        CropperComponent!.SetCropBoxData(new SetCropBoxDataOptions
                         {
                             Left = (containerData.Width - newCropBoxWidth) / 2,
                             Width = newCropBoxWidth,
