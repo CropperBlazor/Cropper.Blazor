@@ -82,9 +82,6 @@ namespace Cropper.Blazor.Client.Pages
         {
             if (cropJSEvent?.Detail is not null)
             {
-                ScaleXValue = cropJSEvent.Detail.ScaleX;
-                ScaleYValue = cropJSEvent.Detail.ScaleY;
-
                 decimal width = Math.Round(cropJSEvent.Detail.Width ?? 0);
                 decimal height = Math.Round(cropJSEvent.Detail.Height ?? 0);
 
@@ -94,15 +91,27 @@ namespace Cropper.Blazor.Client.Pages
                     || height > GetSetCropperData!.CroppedDimensionsSettings.MaximumHeight
                   )
                 {
+                    decimal nWidth = Math.Max(GetSetCropperData!.CroppedDimensionsSettings.MinimumWidth ?? 0M,
+                            Math.Min(GetSetCropperData!.CroppedDimensionsSettings.MaximumWidth ?? 0M, width));
+                    decimal nHeight = Math.Max(GetSetCropperData!.CroppedDimensionsSettings.MinimumHeight ?? 0M,
+                        Math.Min(GetSetCropperData!.CroppedDimensionsSettings.MaximumHeight ?? 0M, height));
+
+                    if (!IsEnableAspectRatioSettings)
+                    {
+                        if (nWidth == 0)
+                        {
+                            nWidth = nHeight * AspectRatio;
+                        }
+                        else if (nHeight == 0)
+                        {
+                            nHeight = nWidth * AspectRatio;
+                        }
+                    }
+
                     CropperComponent!.SetData(new SetDataOptions
                     {
-                        Width = Math.Max(
-                            GetSetCropperData!.CroppedDimensionsSettings.MinimumWidth ?? 0M,
-                            Math.Min(GetSetCropperData!.CroppedDimensionsSettings.MaximumWidth ?? 0M, width)),
-                        Height = Math.Max(
-                            GetSetCropperData!.CroppedDimensionsSettings.MinimumHeight ?? 0M,
-                            Math.Min(GetSetCropperData!.CroppedDimensionsSettings.MaximumHeight ?? 0M, height)),
-
+                        Width = nWidth,
+                        Height = nHeight
                     });
                 }
                 else
