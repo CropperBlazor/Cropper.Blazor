@@ -38,8 +38,8 @@ namespace Cropper.Blazor.Client.Components
         [CascadingParameter(Name = "CropperComponent"), Required]
         private CropperComponent CropperComponent { get; set; } = null!;
 
-        [CascadingParameter(Name = "IsEnableAspectRatioSettings"), Required]
-        private bool IsEnableAspectRatioSettings
+        [CascadingParameter(Name = "IsFreeAspectRatioEnabled"), Required]
+        private bool IsFreeAspectRatioEnabled
         {
             get => isEnableAspectRatioSettings;
             set

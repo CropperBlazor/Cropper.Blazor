@@ -234,31 +234,31 @@
                                             <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
                                                 <MudTooltip Text="aspectRatio: 16 / 9" RootClass="mud-width-full">
                                                     <MudButton OnClick="@(()=>SetAspectRatio(1.7777777777777777m))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(AspectRatio == 1.7777777777777777m  && !IsEnableAspectRatioSettings ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                                               Style="@(AspectRatio == 1.7777777777777777m  && !IsFreeAspectRatioEnabled ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                                                         16:9
                                                     </MudButton>
                                                 </MudTooltip>
                                                 <MudTooltip Text="aspectRatio: 4 / 3" RootClass="mud-width-full">
                                                     <MudButton OnClick="@(()=>SetAspectRatio(1.3333333333333333m))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
-                                                               Style="@(AspectRatio == 1.3333333333333333m  && !IsEnableAspectRatioSettings ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                                               Style="@(AspectRatio == 1.3333333333333333m  && !IsFreeAspectRatioEnabled ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                                                         4:3
                                                     </MudButton>
                                                 </MudTooltip>
                                                 <MudTooltip Text="aspectRatio: 1 / 1" RootClass="mud-width-full">
                                                     <MudButton OnClick="@(()=>SetAspectRatio(1m))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
-                                                               Style="@(AspectRatio == 1m  && !IsEnableAspectRatioSettings ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                                               Style="@(AspectRatio == 1m  && !IsFreeAspectRatioEnabled ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                                                         1:1
                                                     </MudButton>
                                                 </MudTooltip>
                                                 <MudTooltip Text="aspectRatio: 2 / 3" RootClass="mud-width-full">
                                                     <MudButton OnClick="@(()=>SetAspectRatio(0.6666666666666666m))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
-                                                               Style="@(AspectRatio == 0.6666666666666666m && !IsEnableAspectRatioSettings ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                                               Style="@(AspectRatio == 0.6666666666666666m && !IsFreeAspectRatioEnabled ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                                                         2:3
                                                     </MudButton>
                                                 </MudTooltip>
                                                 <MudTooltip Text="aspectRatio: NaN" RootClass="mud-width-full">
                                                     <MudButton OnClick="@(()=>SetFreeAspectRatio())" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
-                                                               Style="@(IsEnableAspectRatioSettings ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                                               Style="@(IsFreeAspectRatioEnabled ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                                                         Free
                                                     </MudButton>
                                                 </MudTooltip>
@@ -350,31 +350,31 @@
                                             <MudButtonGroup Color="Color.Success" VerticalAlign="true" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
                                                 <MudTooltip Text="aspectRatio: 16 / 9" RootClass="mud-width-full">
                                                     <MudButton OnClick="@(()=>SetAspectRatio(1.7777777777777777m))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(AspectRatio == 1.7777777777777777m && !IsEnableAspectRatioSettings ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                                               Style="@(AspectRatio == 1.7777777777777777m && !IsFreeAspectRatioEnabled ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                                                         16:9
                                                     </MudButton>
                                                 </MudTooltip>
                                                 <MudTooltip Text="aspectRatio: 4 / 3" RootClass="mud-width-full">
                                                     <MudButton OnClick="@(()=>SetAspectRatio(1.3333333333333333m))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(AspectRatio == 1.3333333333333333m && !IsEnableAspectRatioSettings ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                                               Style="@(AspectRatio == 1.3333333333333333m && !IsFreeAspectRatioEnabled ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                                                         4:3
                                                     </MudButton>
                                                 </MudTooltip>
                                                 <MudTooltip Text="aspectRatio: 1 / 1" RootClass="mud-width-full">
                                                     <MudButton OnClick="@(()=>SetAspectRatio(1m))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(AspectRatio == 1m && !IsEnableAspectRatioSettings ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                                               Style="@(AspectRatio == 1m && !IsFreeAspectRatioEnabled ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                                                         1:1
                                                     </MudButton>
                                                 </MudTooltip>
                                                 <MudTooltip Text="aspectRatio: 2 / 3" RootClass="mud-width-full">
                                                     <MudButton OnClick="@(()=>SetAspectRatio(0.6666666666666666m))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(AspectRatio == 0.6666666666666666m && !IsEnableAspectRatioSettings ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                                               Style="@(AspectRatio == 0.6666666666666666m && !IsFreeAspectRatioEnabled ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                                                         2:3
                                                     </MudButton>
                                                 </MudTooltip>
                                                 <MudTooltip Text="aspectRatio: NaN" RootClass="mud-width-full">
                                                     <MudButton OnClick="@(()=>SetFreeAspectRatio())" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(IsEnableAspectRatioSettings ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                                                               Style="@(IsFreeAspectRatioEnabled ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                                                         Free
                                                     </MudButton>
                                                 </MudTooltip>
@@ -444,7 +444,7 @@
         @*//+---// Get/Set all cropper data //---+//*@
         <CascadingValue Value="@Reset" IsFixed="true" Name="ResetCropperAction">
             <CascadingValue Value="@AspectRatio" Name="AspectRatio">
-                <CascadingValue Value="@IsEnableAspectRatioSettings" Name="IsEnableAspectRatioSettings">
+                <CascadingValue Value="@IsFreeAspectRatioEnabled" Name="IsFreeAspectRatioEnabled">
                     <CascadingValue Value="@CropperComponent" Name="CropperComponent">
                         <GetSetCropperData GetCanvasData="GetCanvasDataAsync"
                                            GetCropBoxData="GetCropBoxDataAsync"
