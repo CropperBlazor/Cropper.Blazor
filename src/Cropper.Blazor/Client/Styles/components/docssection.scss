@@ -119,7 +119,7 @@
 		}
 
 		.docs-section-content-inner {
-			& > *:not(.mud-grid) {
+			&>*:not(.mud-grid) {
 				margin: 8px;
 			}
 		}
@@ -140,7 +140,7 @@
 				border-bottom: none;
 			}
 
-			+ .docs-section-source {
+			+.docs-section-source {
 				border-top-left-radius: 0;
 				border-top-right-radius: 0;
 
