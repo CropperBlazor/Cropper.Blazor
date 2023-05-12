@@ -1,102 +1,52 @@
-﻿using Cropper.Blazor.Client.Enums;
-using Cropper.Blazor.Client.Services;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using MudBlazor.Services;
+using Cropper.Blazor.Client.Services.UserPreferences;
+using Cropper.Blazor.Client.Models;
+using Cropper.Blazor.Client.Services;
 
-namespace Cropper.Blazor.Client.Shared;
-public partial class MainLayout : LayoutComponentBase
+namespace Cropper.Blazor.Client.Shared
 {
-    [Inject] private LayoutService LayoutService { get; set; } = null!;
+    public partial class MainLayout : LayoutComponentBase, IDisposable
+    { 
+        [Inject] private  LayoutService LayoutService { get; set; }
+        
+        private MudThemeProvider _mudThemeProvider;
 
-    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-
-    [Inject] IResizeService ResizeService { get; set; } = null!;
-
-    protected override void OnInitialized()
-    {
-        LayoutService.MajorUpdateOccured += LayoutServiceOnMajorUpdateOccured;
-        LayoutService.SetBaseTheme(Theme.Theme.CropperBlazorDocsTheme());
-        base.OnInitialized();
-    }
-
-    private Guid SubscriptionId;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
+        protected override void OnInitialized()
         {
-            SubscriptionId = await ResizeService.SubscribeAsync((size) =>
+            LayoutService.MajorUpdateOccured += LayoutServiceOnMajorUpdateOccured;
+            base.OnInitialized();
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+            
+            if (firstRender)
             {
-                if (size.Width > 960)
-                {
-                    OnDrawerOpenChanged(false);
-                }
-
-                InvokeAsync(StateHasChanged);
-            }, new ResizeOptions
-            {
-                ReportRate = 50,
-                NotifyOnBreakpointOnly = false,
-            });
-
-            var size = await ResizeService.GetBrowserWindowSize();
-
-            await ApplyUserPreferences();
-            StateHasChanged();
+                await ApplyUserPreferences();
+                await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+                StateHasChanged();
+            }
         }
 
-        await base.OnAfterRenderAsync(firstRender);
-    }
-
-    public async ValueTask DisposeAsync() => await ResizeService.UnsubscribeAsync(SubscriptionId);
-
-    private async Task ApplyUserPreferences()
-    {
-        //var defaultDarkMode = await _mudThemeProvider.GetSystemPreference();
-        await LayoutService.ApplyUserPreferences(true);
-    }
-
-    public void Dispose()
-    {
-        LayoutService.MajorUpdateOccured -= LayoutServiceOnMajorUpdateOccured;
-    }
-
-    private void LayoutServiceOnMajorUpdateOccured(object? sender, EventArgs e) => StateHasChanged();
-
-    private bool DrawerOpen = false;
-
-    private void ToggleDrawer()
-    {
-        DrawerOpen = !DrawerOpen;
-    }
-
-    private void OnDrawerOpenChanged(bool value)
-    {
-        DrawerOpen = value;
-        StateHasChanged();
-    }
-
-    private string GetActiveClass(BasePage page)
-    {
-        return page == GetDocsBasePage(NavigationManager.Uri) ? "mud-chip-text mud-chip-color-primary ml-3" : "ml-3";
-    }
-    public BasePage GetDocsBasePage(string uri)
-    {
-        if (uri.Contains("/demo"))
+        private async Task ApplyUserPreferences()
         {
-            return BasePage.Demo;
+            var defaultDarkMode = await _mudThemeProvider.GetSystemPreference();
+            await LayoutService.ApplyUserPreferences(defaultDarkMode);
         }
-        else if (uri.Contains("/api"))
+
+        private async Task OnSystemPreferenceChanged(bool newValue)
         {
-            return BasePage.Api;
+            await LayoutService.OnSystemPreferenceChanged(newValue);
         }
-        else if (uri.Contains("/about"))
+
+        public void Dispose()
         {
-            return BasePage.About;
+            LayoutService.MajorUpdateOccured -= LayoutServiceOnMajorUpdateOccured;
         }
-        else
-        {
-            return BasePage.None;
-        }
+
+        private void LayoutServiceOnMajorUpdateOccured(object sender, EventArgs e) => StateHasChanged();
     }
 }
