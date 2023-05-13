@@ -21,24 +21,4 @@ public partial class LandingLayout : LayoutComponentBase
     {
         _drawerOpen = !_drawerOpen;
     }
-
-    public BasePage GetDocsBasePage(string uri)
-    {
-        if (uri.Contains("/demo"))
-        {
-            return BasePage.Demo;
-        }
-        else if (uri.Contains("/api"))
-        {
-            return BasePage.Api;
-        }
-        else if (uri.Contains("/about"))
-        {
-            return BasePage.About;
-        }
-        else
-        {
-            return BasePage.None;
-        }
-    }
 }
