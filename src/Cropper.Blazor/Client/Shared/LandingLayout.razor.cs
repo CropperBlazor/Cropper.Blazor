@@ -8,13 +8,8 @@ public partial class LandingLayout : LayoutComponentBase
 {
     [Inject] private LayoutService LayoutService { get; set; } = null!;
 
-    [Inject] IResizeService ResizeService { get; set; } = null!;
-
-    public async ValueTask DisposeAsync() => await ResizeService.UnsubscribeAsync(SubscriptionId);
 
     private bool _drawerOpen = false;
-
-    private Guid SubscriptionId;
 
     protected override void OnInitialized()
     {
@@ -22,41 +17,9 @@ public partial class LandingLayout : LayoutComponentBase
         base.OnInitialized();
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            SubscriptionId = await ResizeService.SubscribeAsync((size) =>
-            {
-                if (size.Width > 960)
-                {
-                    OnDrawerOpenChanged(false);
-                }
-
-                InvokeAsync(StateHasChanged);
-            }, new ResizeOptions
-            {
-                ReportRate = 50,
-                NotifyOnBreakpointOnly = false,
-            });
-
-            var size = await ResizeService.GetBrowserWindowSize();
-
-            StateHasChanged();
-        }
-
-        await base.OnAfterRenderAsync(firstRender);
-    }
-
     private void ToggleDrawer()
     {
         _drawerOpen = !_drawerOpen;
-    }
-
-    private void OnDrawerOpenChanged(bool value)
-    {
-        _drawerOpen = value;
-        StateHasChanged();
     }
 
     public BasePage GetDocsBasePage(string uri)
