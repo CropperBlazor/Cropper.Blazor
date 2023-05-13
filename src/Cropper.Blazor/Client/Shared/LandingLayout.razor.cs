@@ -8,18 +8,19 @@ public partial class LandingLayout : LayoutComponentBase
 {
     [Inject] private LayoutService LayoutService { get; set; } = null!;
 
-    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-
     [Inject] IResizeService ResizeService { get; set; } = null!;
+
+    public async ValueTask DisposeAsync() => await ResizeService.UnsubscribeAsync(SubscriptionId);
+
+    private bool _drawerOpen = false;
+
+    private Guid SubscriptionId;
 
     protected override void OnInitialized()
     {
-        LayoutService.MajorUpdateOccured += LayoutServiceOnMajorUpdateOccured;
-        LayoutService.SetBaseTheme(Theme.Theme.CropperBlazorDocsTheme());
+        LayoutService.SetBaseTheme(Theme.Theme.LandingPageTheme());
         base.OnInitialized();
     }
-
-    private Guid SubscriptionId;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -41,45 +42,23 @@ public partial class LandingLayout : LayoutComponentBase
 
             var size = await ResizeService.GetBrowserWindowSize();
 
-            await ApplyUserPreferences();
             StateHasChanged();
         }
 
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    public async ValueTask DisposeAsync() => await ResizeService.UnsubscribeAsync(SubscriptionId);
-
-    private async Task ApplyUserPreferences()
-    {
-        //var defaultDarkMode = await _mudThemeProvider.GetSystemPreference();
-        await LayoutService.ApplyUserPreferences(true);
-    }
-
-    public void Dispose()
-    {
-        LayoutService.MajorUpdateOccured -= LayoutServiceOnMajorUpdateOccured;
-    }
-
-    private void LayoutServiceOnMajorUpdateOccured(object? sender, EventArgs e) => StateHasChanged();
-
-    private bool DrawerOpen = false;
-
     private void ToggleDrawer()
     {
-        DrawerOpen = !DrawerOpen;
+        _drawerOpen = !_drawerOpen;
     }
 
     private void OnDrawerOpenChanged(bool value)
     {
-        DrawerOpen = value;
+        _drawerOpen = value;
         StateHasChanged();
     }
 
-    private string GetActiveClass(BasePage page)
-    {
-        return page == GetDocsBasePage(NavigationManager.Uri) ? "mud-chip-text mud-chip-color-primary ml-3" : "ml-3";
-    }
     public BasePage GetDocsBasePage(string uri)
     {
         if (uri.Contains("/demo"))

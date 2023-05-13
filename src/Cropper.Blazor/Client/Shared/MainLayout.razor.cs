@@ -1,17 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using Cropper.Blazor.Client.Services.UserPreferences;
-using Cropper.Blazor.Client.Models;
+﻿using Microsoft.AspNetCore.Components;
 using Cropper.Blazor.Client.Services;
+using MudBlazor;
 
 namespace Cropper.Blazor.Client.Shared
 {
     public partial class MainLayout : LayoutComponentBase, IDisposable
     { 
-        [Inject] private  LayoutService LayoutService { get; set; }
-        
-        private MudThemeProvider _mudThemeProvider;
+        [Inject] private  LayoutService LayoutService { get; set; } = null!;
+
+        private MudThemeProvider _mudThemeProvider = null!;
 
         protected override void OnInitialized()
         {
