@@ -27,5 +27,8 @@ public static class DocsViewExtension
         services.AddBlazoredLocalStorage();
         services.AddScoped<IUserPreferencesService, UserPreferencesService>();
         services.AddScoped<LayoutService>();
+
+        services.AddSingleton<IMenuService, MenuService>();
+
     }
 }
