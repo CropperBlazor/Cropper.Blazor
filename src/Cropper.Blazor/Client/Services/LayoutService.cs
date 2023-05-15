@@ -88,6 +88,8 @@ public class LayoutService
     {
         if (uri.Contains("/demo"))
             return BasePage.Demo;
+        else if (uri.Contains("/examples"))
+            return BasePage.Examples;
         else if (uri.Contains("/api"))
             return BasePage.Api;
         else if (uri.Contains("/about"))
