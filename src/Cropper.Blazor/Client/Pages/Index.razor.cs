@@ -1,5 +1,5 @@
 ﻿using Cropper.Blazor.Client.Components.Docs;
-using Cropper.Blazor.Client.Pages.Examples.Uses.Preview;
+using Cropper.Blazor.Client.Pages.Home.Uses.Examples;
 using Microsoft.AspNetCore.Components;
 
 namespace Cropper.Blazor.Client.Pages
