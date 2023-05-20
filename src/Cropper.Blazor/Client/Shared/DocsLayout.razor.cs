@@ -6,6 +6,8 @@ namespace Cropper.Blazor.Client.Shared;
 
 public partial class DocsLayout : LayoutComponentBase
 {
+    [Inject] IMenuService MenuService { get; set; }
+
     [Inject] private LayoutService LayoutService { get; set; } = null!;
 
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
