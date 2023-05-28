@@ -29,7 +29,8 @@ namespace Cropper.Blazor.Client.Components
         private ContainerData ContainerData = null!;
         private ImageData ImageData = null!;
         private CanvasData CanvasData = null!;
-        private ZoomRationSettings ZoomRationSettingszoomRationSettings = null!;
+        private ZoomRatioSettings ZoomRatioSettings = null!;
+        public CroppedDimensionsSettings CroppedDimensionsSettings = null!;
 
         protected override void OnInitialized()
         {
@@ -42,7 +43,7 @@ namespace Cropper.Blazor.Client.Components
 
         public void OnZoomEvent(ZoomEvent? zoomEvent)
         {
-            ZoomRationSettingszoomRationSettings!.OnZoomEvent(zoomEvent);
+            ZoomRatioSettings!.OnZoomEvent(zoomEvent);
         }
 
         public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)
