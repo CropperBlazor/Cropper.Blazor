@@ -24,6 +24,8 @@ namespace Cropper.Blazor.Client.Components
         [Parameter, Required]
         public Func<ValueTask<CanvasData>> GetCanvasData { get; set; } = null!;
 
+        public AspectRatioSettings AspectRatioSettings = null!;
+
         private CropBoxData CropBoxData = null!;
         private CropperData CropperData = null!;
         private ContainerData ContainerData = null!;

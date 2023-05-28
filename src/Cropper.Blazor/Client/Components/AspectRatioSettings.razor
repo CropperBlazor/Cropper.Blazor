@@ -1,0 +1,19 @@
+﻿<MudCard Class="d-flex justify-space-between flex-column mb-6">
+    <MudCardContent>
+        <MudText>Aspect Ratio Settings (only for FREE aspect ratio)</MudText>
+        <MudNumericField @bind-Value="MinAspectRatio"
+                         Label="Min aspect ratio"
+                         Disabled="!IsEnableAspectRatioSettings"
+                         Min="0"
+                         Max="MaxAspectRatio">
+        </MudNumericField>
+        <MudNumericField @bind-Value="MaxAspectRatio"
+                         Label="Max aspect ratio"
+                         Disabled="!IsEnableAspectRatioSettings"
+                         Min="MinAspectRatio ?? 0">
+        </MudNumericField>
+        <MudText Class="mt-4">
+            Current aspect ratio: @AspectRatio
+        </MudText>
+    </MudCardContent>
+</MudCard>
