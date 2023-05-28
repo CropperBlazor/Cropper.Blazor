@@ -19,8 +19,7 @@ namespace Cropper.Blazor.Client.Services
         /// </summary>
         public IEnumerable<DocsLink> Examples => _examples ??= new List<DocsLink>
             {
-                new DocsLink {Title = "Breakpoints", Href = "examples/breakpoints"},
-                new DocsLink {Title = "Localization", Href = "examples/localization"}
+                new DocsLink {Title = "One Cropper", Href = "examples/onecropper"}
             }.OrderBy(x => x.Title);
     }
 }
