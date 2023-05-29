@@ -480,8 +480,8 @@ namespace Cropper.Blazor.UnitTests.Components
 
         public void Dispose()
         {
-            _testContext.Dispose();
             _testContext.DisposeComponents();
+            _testContext.Dispose();
             GC.SuppressFinalize(this);
         }
     }
