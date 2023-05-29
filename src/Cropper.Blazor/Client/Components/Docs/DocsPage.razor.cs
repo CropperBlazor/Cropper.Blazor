@@ -1,12 +1,15 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Components;
 using Cropper.Blazor.Client.Models;
+using MudBlazor;
+using MudBlazor.Interfaces;
 
 namespace Cropper.Blazor.Client.Components.Docs
 {
     public partial class DocsPage : ComponentBase
     {
         private Queue<DocsSectionLink> _bufferedSections = new();
+        private MudPageContentNavigation _contentNavigation;
         private Stopwatch _stopwatch = Stopwatch.StartNew();
         private string _anchor = null;
         [Inject] NavigationManager NavigationManager { get; set; }
@@ -15,6 +18,7 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         private bool _contentDrawerOpen = true;
         public event Action<Stopwatch> Rendered;
+        private Dictionary<DocsPageSection, MudPageContentSection> _sectionMapper = new();
 
         int _sectionCount;
 
@@ -59,6 +63,57 @@ namespace Cropper.Blazor.Client.Components.Docs
             if (firstRender)
             {
                 StateHasChanged();
+            }
+        }
+
+        public string GetParentTitle(DocsPageSection section)
+        {
+            if (section == null) { return string.Empty; }
+
+            if (section == null || section.ParentSection == null ||
+                _sectionMapper.ContainsKey(section.ParentSection) == false) { return string.Empty; }
+
+            var item = _sectionMapper[section.ParentSection];
+
+            return item.Title;
+        }
+
+        internal async void AddSection(DocsSectionLink sectionLinkInfo, DocsPageSection section)
+        {
+            _bufferedSections.Enqueue(sectionLinkInfo);
+
+            if (_contentNavigation != null)
+            {
+                while (_bufferedSections.Count > 0)
+                {
+                    var item = _bufferedSections.Dequeue();
+
+                    if (_contentNavigation.Sections.FirstOrDefault(x => x.Id == sectionLinkInfo.Id) == default)
+                    {
+                        MudPageContentSection parentInfo = null;
+                        if (section.ParentSection != null && _sectionMapper.ContainsKey(section.ParentSection) == true)
+                        {
+                            parentInfo = _sectionMapper[section.ParentSection];
+                        }
+
+                        var info =
+                            new MudPageContentSection(sectionLinkInfo.Title, sectionLinkInfo.Id, section.Level,
+                                parentInfo);
+                        _sectionMapper.Add(section, info);
+                        _contentNavigation.AddSection(info, false);
+                    }
+                }
+
+                ((IMudStateHasChanged)_contentNavigation).StateHasChanged();
+
+                if (_anchor != null)
+                {
+                    if (sectionLinkInfo.Id == _anchor)
+                    {
+                        await _contentNavigation.ScrollToSection(new Uri(NavigationManager.Uri));
+                        _anchor = null;
+                    }
+                }
             }
         }
     }

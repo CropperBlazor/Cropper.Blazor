@@ -6,4 +6,10 @@
             </CascadingValue>
         </div>
     </MudContainer>
+
+    <MudDrawer Class="docs-page-content-navigation-drawer" @bind-Open="_contentDrawerOpen"
+               Breakpoint="Breakpoint.Lg" Anchor="Anchor.End" ClipMode="DrawerClipMode.Always"
+               Elevation="0" Color="Color.Transparent">
+        <MudPageContentNavigation SectionClassSelector="docs-section-header" @ref="_contentNavigation" ActivateFirstSectionAsDefault="true" />
+    </MudDrawer>
 </MudMainContent>
