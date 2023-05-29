@@ -287,7 +287,12 @@ namespace Cropper.Blazor.Client.Pages
         public void SetAspectRatio(decimal aspectRatio, bool isEnableAspectRatioSettings = false)
         {
             IsEnableAspectRatioSettings = isEnableAspectRatioSettings;
-            AspectRatio = aspectRatio;
+
+            if (aspectRatio != 0)
+            {
+                AspectRatio = aspectRatio;
+            }
+
             CropperComponent?.SetAspectRatio(aspectRatio);
         }
 
