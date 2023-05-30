@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Cropper.Blazor.Client.Models;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MudBlazor.Utilities;
 
@@ -10,6 +11,8 @@ public partial class SectionHeader
         new CssBuilder("docs-section-header")
             .AddClass(Class)
             .Build();
+
+    [CascadingParameter] private DocsPage DocsPage { get; set; }
 
     [CascadingParameter] private DocsPageSection Section { get; set; }
 
@@ -24,6 +27,39 @@ public partial class SectionHeader
     [Parameter] public RenderFragment Description { get; set; }
 
     public ElementReference SectionReference;
+
+    public DocsSectionLink SectionInfo { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if (DocsPage == null || string.IsNullOrWhiteSpace(Title))
+        {
+            return;
+        }
+
+        var parentTitle = DocsPage.GetParentTitle(Section) ?? string.Empty;
+        if (string.IsNullOrEmpty(parentTitle) == false)
+        {
+            parentTitle += '-';
+        }
+
+        var id = (parentTitle + Title).Replace(" ", "-").ToLowerInvariant();
+
+        SectionInfo = new DocsSectionLink { Id = id, Title = Title, };
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender == true && DocsPage != null && !String.IsNullOrWhiteSpace(Title))
+        {
+            DocsPage.AddSection(SectionInfo, Section);
+        }
+    }
+
+    private string GetSectionId() => SectionInfo?.Id ?? Guid.NewGuid().ToString();
 
     private Typo GetTitleTypo()
     {
