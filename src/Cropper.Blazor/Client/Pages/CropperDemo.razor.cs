@@ -156,19 +156,18 @@ namespace Cropper.Blazor.Client.Pages
 
             //    await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveJSEvent OriginalEvent clientX: {clientX}");
             //}
+            CropBoxData cropBoxData = await CropperComponent!.GetCropBoxDataAsync();
 
-            if (GetSetCropperData?.AspectRatioSettings?.MinAspectRatio is not null
-                || GetSetCropperData?.AspectRatioSettings?.MaxAspectRatio is not null)
+            if (cropBoxData.Height != 0)
             {
-                CropBoxData cropBoxData = await CropperComponent!.GetCropBoxDataAsync();
+                decimal aspectRatio = cropBoxData.Width / cropBoxData.Height;
 
-                if (cropBoxData.Height != 0)
+                AspectRatio = aspectRatio;
+                GetSetCropperData!.AspectRatioSettings.SetUpAspectRatio(aspectRatio);
+
+                if (GetSetCropperData?.AspectRatioSettings?.MinAspectRatio is not null
+                    || GetSetCropperData?.AspectRatioSettings?.MaxAspectRatio is not null)
                 {
-                    decimal aspectRatio = cropBoxData.Width / cropBoxData.Height;
-
-                    AspectRatio = aspectRatio;
-                    GetSetCropperData!.AspectRatioSettings.SetUpAspectRatio(aspectRatio);
-
                     if (aspectRatio < GetSetCropperData!.AspectRatioSettings!.MinAspectRatio)
                     {
                         CropperComponent!.SetCropBoxData(new SetCropBoxDataOptions
@@ -184,6 +183,11 @@ namespace Cropper.Blazor.Client.Pages
                         });
                     }
                 }
+            }
+            else
+            {
+                AspectRatio = 0;
+                GetSetCropperData!.AspectRatioSettings.SetUpAspectRatio(0);
             }
         }
 
@@ -283,7 +287,12 @@ namespace Cropper.Blazor.Client.Pages
         public void SetAspectRatio(decimal aspectRatio, bool isEnableAspectRatioSettings = false)
         {
             IsEnableAspectRatioSettings = isEnableAspectRatioSettings;
-            AspectRatio = aspectRatio;
+
+            if (aspectRatio != 0)
+            {
+                AspectRatio = aspectRatio;
+            }
+
             CropperComponent?.SetAspectRatio(aspectRatio);
         }
 

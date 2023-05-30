@@ -80,7 +80,7 @@ namespace Cropper.Blazor.Client.Components
             }
         }
 
-        public void SetUpAspectRatio(decimal aspectRatio)
+        public void SetUpAspectRatio(decimal? aspectRatio)
         {
             AspectRatio = aspectRatio;
             StateHasChanged();
