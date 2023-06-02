@@ -106,6 +106,8 @@
 			<FilesToClean Include="./Models/Snippets.generated.cs" />
 			<FilesToClean Include="./wwwroot/helper.min.js" />
 			<FilesToClean Include="./wwwroot/sw-registrator.min.js" />
+			<FilesToClean Include="./wwwroot/sw-registrator.min.js" />
+			<FilesToClean Include="**/Code/*.html" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
 	</Target>
