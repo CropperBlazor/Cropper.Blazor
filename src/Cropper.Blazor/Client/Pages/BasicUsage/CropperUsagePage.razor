@@ -1,0 +1,70 @@
+﻿@page "/examples/cropperusage"
+@using Cropper.Blazor.Client.Pages.BasicUsage.Examples
+
+<DocsPage>
+    <DocsPageHeader Title="Basic usage" SubTitle="Here are examples of basic usage of the cropper component." />
+    <DocsPageContent>
+
+        <DocsPageSection>
+            <MudText Typo="Typo.h6" GutterBottom="true">Note</MudText>
+            <MudText>The CropperComponent is dependant on <CodeInline Class="docs-code-tertiary">ICropperComponentBase</CodeInline></MudText>
+            <MudText>Check the <MudLink Href="/">Installation</MudLink> page for instructions regarding default setup.</MudText>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Simple Usage">
+                <Description>
+                    To start using the cropper component, <b>you must specify the path to the image</b> 
+                    with which you will work in the <CodeInline>Src</CodeInline> property.
+                    You also need to specify the cropper settings using the <CodeInline>Options</CodeInline> property,
+                    which can be left as <MudLink Target="_blank" Href="https://github.com/fengyuanchen/cropperjs/blob/main/src/js/defaults.js">default</MudLink>, as in the example below.
+                    <br>
+                    <MudAlert Class="my-3" Severity="Severity.Info">
+                        Note: With the release of .NET 8, сropper's default settings will be set automatically, 
+                        so you do not need to define them when declaring a component.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="BasicCropperUsageExample">
+                <BasicCropperUsageExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Cropper sizing">
+                <Description>
+                    The size of the cropper inherits from the size of the image's  <b>parent element</b>  (wrapper),
+                    so be sure to wrap the image with a visible block element.
+                    <br>
+                    <MudAlert Class="my-3" Severity="Severity.Info">
+                        Note: If you are using cropper in a modal, you should initialize the cropper after the 
+                        modal is shown completely. Otherwise, you will not get the correct cropper.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="CropperContainerExample">
+                <CropperContainerExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Image loading error">
+                <Description>
+                    You can use the <CodeInline>&lt;OnErrorLoadImageEvent/&gt;</CodeInline> event and the 
+                    <CodeInline>ErrorLoadImageSrc</CodeInline> to notify the user of an error loading a photo in Cropper.
+                    <br><br>
+                    For example, the <CodeInline>Src</CodeInline> property contains an incorrect path to the photo, 
+                    so the cropper will  not be created during initialization, and the image will be replaced with 
+                    what was specified in the <CodeInline>ErrorLoadImageSrc</CodeInline> property.
+                    <br><br>
+                    You can add css styles to the image using the <CodeInline>ErrorLoadImageClass</CodeInline> property,
+                    as is done with the second cropper in the example:
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="ImageLoadingErrorExample">
+                <ImageLoadingErrorExample />
+            </SectionContent>
+        </DocsPageSection>
+
+    </DocsPageContent>
+</DocsPage>
