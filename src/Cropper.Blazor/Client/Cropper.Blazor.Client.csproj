@@ -108,6 +108,7 @@
 			<FilesToClean Include="./wwwroot/sw-registrator.min.js" />
 			<FilesToClean Include="./wwwroot/sw-registrator.min.js" />
 			<FilesToClean Include="**/Code/*.html" />
+			<FilesToClean Include="./NewFilesToBuild.txt" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
 	</Target>
