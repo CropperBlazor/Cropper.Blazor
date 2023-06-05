@@ -3,7 +3,7 @@
 
 <MudText Typo="Typo.subtitle1" Class="mt-1 mb-2 ml-2 d-flex d-md-none"><b>Docs</b></MudText>
 <MudNavLink Href="demo" Class="docs-single-link">Demo</MudNavLink>
-<MudNavGroup Title="API" Expanded="@(_section == "examples")" ExpandIcon="@Icons.Material.Filled.ExpandMore">
+<MudNavGroup Title="Examples" Expanded="@(_section == "examples")" ExpandIcon="@Icons.Material.Filled.ExpandMore">
     @foreach (var link in MenuService.Examples)
     {
         <MudNavLink Href="@link.Href">@link.Title</MudNavLink>
