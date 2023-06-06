@@ -2,11 +2,12 @@
 @layout MainLayout
 
 <MudLayout Class="cropperblazor-landingpage">
-    <MudAppBar Class="appbar" Elevation="0">
+    <MudAppBar Class="docs-appbar-filter" Color="Color.Transparent" Elevation="0"></MudAppBar>
+    <MudAppBar Class="landing-appbar" Elevation="25">
         <Appbar DrawerToggleCallback="ToggleDrawer" />
     </MudAppBar>
     <MudDrawer @bind-Open="@_drawerOpen" Variant="@DrawerVariant.Temporary" Elevation="25">
-        <MudToolBar Dense="true" DisableGutters="true" Class="gray-bg pa-2">
+        <MudToolBar Dense="true" DisableGutters="true" Class="docs-gray-bg pa-2">
             <MudIconButton Icon="@Icons.Material.Rounded.Close" Color="Color.Inherit" OnClick="ToggleDrawer" />
             <MudSpacer />
             <AppbarButtons />
