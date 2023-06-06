@@ -3,13 +3,13 @@
 @layout MainLayout
 
 <MudLayout Class="cropperblazor-docs">
-    <MudAppBar Class="appbar-filter" Color="Color.Transparent" Elevation="0"></MudAppBar>
-    <MudAppBar Class="appbar" Elevation="0">
+    <MudAppBar Class="docs-appbar-filter" Color="Color.Transparent" Elevation="0"></MudAppBar>
+    <MudAppBar Class="docs-appbar" Elevation="0">
         <Appbar DrawerToggleCallback="ToggleDrawer" />
     </MudAppBar>
     <MudDrawer Open="@_drawerOpen" OpenChanged="OnDrawerOpenChanged" ClipMode="DrawerClipMode.Docked" Elevation="0" Breakpoint="Breakpoint.Lg">
         <MudHidden Breakpoint="Breakpoint.MdAndUp">
-            <MudToolBar Dense="true" DisableGutters="true" Class="gray-bg">
+            <MudToolBar Dense="true" DisableGutters="true" Class="docs-gray-bg">
                 @if (_topMenuOpen == false)
                 {
                     <MudIconButton Icon="@Icons.Material.Rounded.ArrowBack" Color="Color.Inherit" OnClick="@((e) => OpenTopMenu())" />
@@ -28,7 +28,7 @@
                     <MudNavLink Href="demo" Icon="@Icons.Material.Filled.Crop">Demo</MudNavLink>
                     <MudNavLink Href="@MenuService.Examples.FirstOrDefault().Href" Icon="@Icons.Material.Filled.AutoStories">Examples</MudNavLink>
                     <MudNavLink Href="api" Icon="@Icons.Material.Filled.Api">Api</MudNavLink>
-                    <MudNavLink Href="about" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ContactSupport">About sasa</MudNavLink>
+                    <MudNavLink Href="about" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ContactSupport">About</MudNavLink>
                 </MudNavMenu>
             }   
         </MudHidden>
