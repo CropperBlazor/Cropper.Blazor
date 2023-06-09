@@ -4,6 +4,85 @@
 @import 'components/docssection.scss';
 @import 'components/docspage.scss';
 
+.master-loader {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    position: fixed;
+}
+
+.logo-loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+@mixin responsive-box($height) {
+    position: relative;
+
+    &:before {
+        content: '';
+        display: block;
+        padding-top: $height;
+    }
+}
+
+.loader-box {
+    position: relative;
+    @include responsive-box(100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+
+    .loader-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        &:nth-child(1) {
+            -moz-filter: grayscale(1);
+            -webkit-filter: grayscale(1);
+            filter: grayscale(1);
+            z-index: 1;
+        }
+
+        &:nth-child(2) {
+            z-index: 2;
+            width: var(--blazor-load-percentage, 0%);
+            height: 400px;
+            object-fit: cover;
+            object-position: 0% 0%;
+            transition: width 0.1s ease-in-out;
+        }
+    }
+
+    .loader-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 3;
+        text-align: center;
+        font-weight: bold;
+        inset: calc(200px - 1.25rem) 0 auto 0;
+        font-size: 2.5rem;
+        font-family: 'Roboto','Helvetica','Arial','sans-serif';
+
+        &:after {
+            content: var(--blazor-load-percentage-text, "Loading");
+        }
+    }
+}
+
 .no-select {
     user-select: none;
 }
