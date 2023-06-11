@@ -189,5 +189,10 @@
             color: var(--mud-palette-tertiary);
             background-color: var(--mud-palette-tertiary-hover);
         }
+
+        &.docs-code-warning {
+            color: var(--mud-palette-warning);
+            background-color: var(--mud-palette-warning-hover);
+        }
     }
 }
