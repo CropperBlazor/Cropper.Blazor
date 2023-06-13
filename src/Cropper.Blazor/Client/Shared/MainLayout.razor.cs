@@ -5,8 +5,8 @@ using MudBlazor;
 namespace Cropper.Blazor.Client.Shared
 {
     public partial class MainLayout : LayoutComponentBase, IDisposable
-    { 
-        [Inject] private  LayoutService LayoutService { get; set; } = null!;
+    {
+        [Inject] private LayoutService LayoutService { get; set; } = null!;
 
         private MudThemeProvider _mudThemeProvider = null!;
 
@@ -19,7 +19,7 @@ namespace Cropper.Blazor.Client.Shared
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender);
-            
+
             if (firstRender)
             {
                 await ApplyUserPreferences();

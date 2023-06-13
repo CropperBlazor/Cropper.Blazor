@@ -75,7 +75,7 @@
         font-weight: bold;
         inset: calc(200px - 1.25rem) 0 auto 0;
         font-size: 2.5rem;
-        font-family: 'Roboto','Helvetica','Arial','sans-serif';
+        font-family: Roboto, Helvetica, Arial, sans-serif;
 
         &:after {
             content: var(--blazor-load-percentage-text, "Loading");
