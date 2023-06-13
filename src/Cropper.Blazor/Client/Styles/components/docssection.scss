@@ -22,7 +22,7 @@
             position: absolute;
             bottom: 8px;
             right: 8px;
-            color: rgba(5, 0, 51, 0);
+            color: rgb(5 0 51 / 0%);
             transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
         }
 
@@ -123,7 +123,7 @@
                     border-radius: 0;
                 }
 
-                .file-button {
+                &.file-button {
                     &:first-child {
                         border-radius: 8px 8px 0 0;
                     }
