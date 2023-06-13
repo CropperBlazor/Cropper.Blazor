@@ -1,8 +1,9 @@
 {
   "extends": "stylelint-config-standard",
   "rules": {
-    "at-rule-no-unknown": null,
-    "scss/at-rule-no-unknown": true,
+    "at-rule-no-unknown": [true, {
+      "ignoreAtRules": ["function", "if", "each", "include", "mixin"]
+    }],
     "selector-list-comma-newline-after": "always-multi-line",
     "selector-list-comma-newline-before": "never-multi-line",
     "block-closing-brace-newline-before": "always",
