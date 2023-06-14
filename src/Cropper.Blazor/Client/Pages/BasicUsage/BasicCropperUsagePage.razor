@@ -33,7 +33,7 @@
         <DocsPageSection>
             <SectionHeader Title="Cropper sizing">
                 <Description>
-                    The size of the cropper inherits from the size of the image's  <b>parent element</b>  (wrapper),
+                    The size of the cropper inherits from the size of the image's <b>parent element</b> (wrapper),
                     so be sure to wrap the image with a visible block element.
                     <br>
                     <MudAlert Class="my-3" Severity="Severity.Info">
@@ -50,8 +50,8 @@
         <DocsPageSection>
             <SectionHeader Title="Image loading error">
                 <Description>
-                    You can use the <CodeInline>&lt;OnErrorLoadImageEvent/&gt;</CodeInline> event and the 
-                    <CodeInline>ErrorLoadImageSrc</CodeInline> to notify the user of an error loading a photo in Cropper.
+                    You can use the <CodeInline>OnErrorLoadImageEvent</CodeInline> event and the 
+                    <CodeInline>ErrorLoadImageSrc</CodeInline> prop to notify the user of an error loading a photo in Cropper.
                     <br><br>
                     For example, the <CodeInline>Src</CodeInline> property contains an incorrect path to the photo, 
                     so the cropper will  not be created during initialization, and the image will be replaced with 
