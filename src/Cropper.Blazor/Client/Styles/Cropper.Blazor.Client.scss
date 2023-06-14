@@ -65,7 +65,6 @@
 
     .loader-text {
         position: absolute;
-        inset: 0;
         z-index: 3;
         text-align: center;
         font-weight: bold;
@@ -207,7 +206,7 @@
 }
 
 .cropper-face {
-    opacity: 25%;
+    opacity: 10%;
 }
 
 .img-container.cropper-face-close .cropper-container .cropper-crop-box .cropper-face {
