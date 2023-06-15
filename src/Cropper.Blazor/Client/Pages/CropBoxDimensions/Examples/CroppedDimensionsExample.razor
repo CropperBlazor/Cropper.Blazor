@@ -4,9 +4,8 @@
     <MudItem xs="12" sm="8" md="9" lg="9">
         <MudPaper Class="pa-2">
             <div class="img-container">
-
-            <CropperComponent Class="big-img" @ref="CropperComponent"
-                              Src="images/Rivne2.jpg" Options="CropperOptions" />
+                <CropperComponent Class="big-img" @ref="CropperComponent"
+                                  Src="images/Rivne2.jpg" Options="CropperOptions" />
             </div>
         </MudPaper>
     </MudItem>
@@ -37,9 +36,9 @@
     decimal _cropBoxWidth = 400;
     decimal _cropBoxHeight = 400;
 
-    private decimal CropBoxWidth 
-    { 
-        get => _cropBoxWidth; 
+    private decimal CropBoxWidth
+    {
+        get => _cropBoxWidth;
         set
         {
             _cropBoxWidth = value;
@@ -49,7 +48,7 @@
                     Height = _cropBoxHeight
                 });
             StateHasChanged();
-        } 
+        }
     }
 
     private decimal CropBoxHeight
@@ -57,7 +56,7 @@
         get => _cropBoxHeight;
         set
         {
-            _cropBoxWidth = value;
+            _cropBoxHeight = value;
             CropperComponent!.SetData(new SetDataOptions
                 {
                     Width = _cropBoxWidth,
