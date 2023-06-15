@@ -3,36 +3,23 @@
 @using Cropper.Blazor.Events.CropEvent;
 
 <MudPaper Class="img-container">
-    <CropperComponent Class="big-img" @ref="CropperComponent" Src="images/Odesa.jpg" 
-                      Options="CropperOptions" OnCropEvent="OnCropEvent" />
+    <CropperComponent Class="big-img" @ref="cropperComponent" Src="images/Odesa.jpg"
+                      Options="cropperOptions" />
 </MudPaper>
-<p>
-    @text
-</p>
 
 @code {
-    private CropperComponent? CropperComponent = null!;
-    private string text;
+    private CropperComponent? cropperComponent = null!;
 
     // Minimum relative sizes
     private static decimal minCropBoxWidth = 300;
     private static decimal minCropBoxHeight = 150;
 
-    private Options CropperOptions = new Options
+    private Options cropperOptions = new Options
         {
             MinCropBoxWidth = minCropBoxWidth,
             MinCropBoxHeight = minCropBoxHeight,
             ViewMode = ViewMode.Vm3
         };
-
-    public async void OnCropEvent(JSEventData<CropEvent> cropJSEvent)
-    {
-        if (cropJSEvent?.Detail is not null)
-        {
-            text = (await CropperComponent!.GetDataAsync(false)).ToString();
-            StateHasChanged();
-        }
-    }
 }
 
 <style>
