@@ -1,0 +1,97 @@
+﻿@using Cropper.Blazor.Models;
+@using Cropper.Blazor.Events;
+@using Cropper.Blazor.Events.CropMoveEvent;
+<MudGrid>
+    <MudItem xs="12" sm="8" md="8" lg="8">
+        <MudPaper Class="pa-2">
+            <div class="img-container">
+                <CropperComponent Class="big-img" @ref="cropperComponent" Src="images/Odesa.jpg"
+                                  Options="cropperOptions" OnCropMoveEvent="OnCropMoveEvent" />
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="4" md="4" lg="4">
+        <MudPaper Class="pa-2">
+            <MudNumericField @bind-Value="minAspectRatio" Label="Min aspect ratio"
+                             ReadOnly="true" HideSpinButtons="true">
+            </MudNumericField>
+            <MudNumericField @bind-Value="maxAspectRatio" Label="Max aspect ratio"
+                             ReadOnly="true" HideSpinButtons="true">
+            </MudNumericField>
+            <div class="d-flex gap-x-6 align-end">
+                <MudChip Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">
+                    Current aspect ratio:
+                </MudChip>
+                <MudNumericField @bind-Value="CurrentAspectRatio" Format="N4" Variant="Variant.Text"
+                                 HideSpinButtons="true" ReadOnly="true" Class="flex-1" />
+            </div>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private CropperComponent? cropperComponent = null!;
+    private CropperData currentCropperData = null!;
+
+    // Minimum and maximum aspect ratio settings
+    private static decimal? minAspectRatio = 1;
+    private static decimal? maxAspectRatio = 2;
+
+    public decimal CurrentAspectRatio { get; set; } = 1;
+
+    private Options cropperOptions = new Options
+        {
+            InitialAspectRatio = (decimal)1,
+            AspectRatio = 0,
+            ViewMode = ViewMode.Vm3
+        };
+
+    public async void OnCropMoveEvent(JSEventData<CropMoveEvent> cropMoveJSEvent)
+    {
+        CropBoxData cropBoxData = await cropperComponent!.GetCropBoxDataAsync();
+
+        if (cropBoxData.Height != 0)
+        {
+            decimal aspectRatio = cropBoxData.Width / cropBoxData.Height;
+
+            CurrentAspectRatio = aspectRatio;
+
+            if (minAspectRatio is not null
+                || maxAspectRatio is not null)
+            {
+                if (aspectRatio < minAspectRatio)
+                {
+                    cropperComponent!.SetCropBoxData(new SetCropBoxDataOptions
+                        {
+                            Width = cropBoxData.Height * minAspectRatio
+                        });
+                }
+                else if (aspectRatio > maxAspectRatio)
+                {
+                    cropperComponent!.SetCropBoxData(new SetCropBoxDataOptions
+                        {
+                            Width = cropBoxData.Height * maxAspectRatio
+                        });
+                }
+            }
+        }
+        else
+        {
+            CurrentAspectRatio = 0;
+        }
+        StateHasChanged();
+    }
+}
+
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        max-width: 100%;
+    }
+</style>
