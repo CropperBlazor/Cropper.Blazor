@@ -1,0 +1,77 @@
+﻿@using Cropper.Blazor.Models;
+@using Cropper.Blazor.Events;
+@using Cropper.Blazor.Events.ZoomEvent;
+
+<MudGrid>
+    <MudItem xs="12" sm="8" md="8" lg="8">
+        <MudPaper Class="pa-2">
+            <div class="img-container">
+                <CropperComponent Class="big-img" @ref="cropperComponent" Src="images/Rivne2.jpg"
+                                  Options="cropperOptions" OnZoomEvent="OnZoomEvent" />
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="4" md="4" lg="4">
+        <MudPaper Class="pa-2">
+            <MudNumericField Class="mb-2" @bind-Value="WheelZoomRatio" Label="Wheel Zoom Ratio"
+                             Format="N4" Variant="Variant.Text" Step=".05M" Min="0" />
+            <MudNumericField Class="mb-2" @bind-Value="OldRatio" Label="Old Ratio" Format="N4"
+                             Variant="Variant.Text" HideSpinButtons="true" ReadOnly="true" />
+            <MudNumericField Class="mb-2" @bind-Value="CurrentRatio" Label="Current Ratio" Format="N4"
+                             Variant="Variant.Text" HideSpinButtons="true" ReadOnly="true" />
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private CropperComponent? cropperComponent = null!;
+
+    // Setting up initial dimensions of crop area
+    private Options cropperOptions = new Options
+        {
+            AspectRatio = 1m,
+            WheelZoomRatio = 0.1m,
+            ViewMode = ViewMode.Vm3
+        };
+
+    private decimal? OldRatio { get; set; }
+
+    private decimal? CurrentRatio { get; set; }
+
+    private decimal? WheelZoomRatio
+    {
+        get => cropperOptions.WheelZoomRatio;
+        set
+        {
+            cropperOptions.WheelZoomRatio = value;
+            cropperComponent?.Destroy();
+            cropperComponent?.InitCropper();
+        }
+    }
+
+    public async void OnZoomEvent(JSEventData<ZoomEvent> zoomJSEvent)
+    {
+        await InvokeAsync(() =>
+        {
+            if (zoomJSEvent.Detail is not null)
+            {
+                OldRatio = zoomJSEvent.Detail.OldRatio;
+                CurrentRatio = zoomJSEvent.Detail.Ratio;
+                StateHasChanged();
+            }
+        });
+    }
+}
+
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        max-width: 100%;
+    }
+</style>
