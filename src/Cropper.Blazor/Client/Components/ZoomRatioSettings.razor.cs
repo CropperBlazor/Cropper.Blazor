@@ -34,7 +34,7 @@ namespace Cropper.Blazor.Client.Components
 
         private decimal? OldRatio { get; set; } = null;
 
-        private decimal? Ratio { get; set; } = null;
+        private decimal? CurrentRatio { get; set; } = null;
 
         [CascadingParameter(Name = "CropperComponent"), Required]
         private CropperComponent CropperComponent { get; set; } = null!;
@@ -42,14 +42,14 @@ namespace Cropper.Blazor.Client.Components
         public void OnZoomEvent(ZoomEvent? zoomEvent)
         {
             OldRatio = zoomEvent?.OldRatio;
-            Ratio = zoomEvent?.Ratio;
+            CurrentRatio = zoomEvent?.Ratio;
 
             StateHasChanged();
         }
 
         public void SetRatio(decimal? ratio)
         {
-            Ratio = ratio;
+            CurrentRatio = ratio;
 
             StateHasChanged();
         }
