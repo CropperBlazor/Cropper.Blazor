@@ -1,6 +1,7 @@
 ﻿@using Cropper.Blazor.Models;
 @using Cropper.Blazor.Events;
 @using Cropper.Blazor.Events.CropMoveEvent;
+
 <MudGrid>
     <MudItem xs="12" sm="8" md="8" lg="8">
         <MudPaper Class="pa-2">
@@ -12,13 +13,13 @@
     </MudItem>
     <MudItem xs="12" sm="4" md="4" lg="4">
         <MudPaper Class="pa-2">
-            <MudNumericField @bind-Value="minAspectRatio" Label="Min aspect ratio"
+            <MudNumericField Class="mb-2" @bind-Value="minAspectRatio" Label="Min aspect ratio"
                              ReadOnly="true" HideSpinButtons="true">
             </MudNumericField>
-            <MudNumericField @bind-Value="maxAspectRatio" Label="Max aspect ratio"
+            <MudNumericField Class="mb-2" @bind-Value="maxAspectRatio" Label="Max aspect ratio"
                              ReadOnly="true" HideSpinButtons="true">
             </MudNumericField>
-            <div class="d-flex gap-x-6 align-end">
+            <div class="d-flex gap-x-6 align-end mb-2">
                 <MudChip Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">
                     Current aspect ratio:
                 </MudChip>
@@ -52,21 +53,18 @@
 
         if (cropBoxData.Height != 0)
         {
-            decimal aspectRatio = cropBoxData.Width / cropBoxData.Height;
+            CurrentAspectRatio = cropBoxData.Width / cropBoxData.Height;
 
-            CurrentAspectRatio = aspectRatio;
-
-            if (minAspectRatio is not null
-                || maxAspectRatio is not null)
+            if (minAspectRatio is not null || maxAspectRatio is not null)
             {
-                if (aspectRatio < minAspectRatio)
+                if (CurrentAspectRatio < minAspectRatio)
                 {
                     cropperComponent!.SetCropBoxData(new SetCropBoxDataOptions
                         {
                             Width = cropBoxData.Height * minAspectRatio
                         });
                 }
-                else if (aspectRatio > maxAspectRatio)
+                else if (CurrentAspectRatio > maxAspectRatio)
                 {
                     cropperComponent!.SetCropBoxData(new SetCropBoxDataOptions
                         {
