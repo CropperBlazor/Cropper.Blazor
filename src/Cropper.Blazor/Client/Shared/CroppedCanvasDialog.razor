@@ -2,7 +2,9 @@
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6">
-            <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+            <MudTooltip Text="Download image by click button">
+                <MudIconButton OnClick="DownloadImageSrcAsync" Icon="@Icons.Material.Rounded.Download" />
+            </MudTooltip>
             Cropped canvas data
         </MudText>
     </TitleContent>
@@ -12,13 +14,8 @@
         </MudImage>
     </DialogContent>
     <DialogActions>
-
+        <a href="@Src" download="@($"{Guid.NewGuid()}.png")" target="_top">
+            Download image by link
+        </a>
     </DialogActions>
 </MudDialog>
-@code {
-    [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
-
-    [Parameter]
-    [System.ComponentModel.DataAnnotations.Required]
-    public string Src { get; set; } = null!;
-}
