@@ -104,6 +104,7 @@
       <FilesToClean Include="./wwwroot/overrideCropperJsInteropModule.min.js" />
       <FilesToClean Include="./wwwroot/jsObjectModule.min.js" />
       <FilesToClean Include="./Models/Snippets.generated.cs" />
+	  <FilesToClean Include="./wwwroot/helper.min.js" />
     </ItemGroup>
     <Delete Files="@(FilesToClean)" />
   </Target>
@@ -121,6 +122,7 @@
     <Exec Command="dotnet webcompiler ./wwwroot/service-worker.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
     <Exec Command="dotnet webcompiler ./wwwroot/overrideCropperJsInteropModule.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
     <Exec Command="dotnet webcompiler ./wwwroot/jsObjectModule.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+	<Exec Command="dotnet webcompiler ./wwwroot/helper.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
   </Target>
 
   <Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
@@ -129,12 +131,14 @@
     <Error Condition="!Exists('wwwroot/service-worker.published.min.js')" Text="Missing service-worker.published.min.js in wwwroot" />
     <Error Condition="!Exists('wwwroot/overrideCropperJsInteropModule.min.js')" Text="Missing overrideCropperJsInteropModule.min.js in wwwroot" />
     <Error Condition="!Exists('wwwroot/jsObjectModule.min.js')" Text="Missing jsObjectModule.min.js in wwwroot" />
+	<Error Condition="!Exists('wwwroot/helper.min.js')" Text="Missing helper.min.js in wwwroot" />
     <ItemGroup>
       <Content Include="wwwroot/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" />
       <Content Include="wwwroot/service-worker.min.js" Condition="!Exists('wwwroot/service-worker.min.js')" />
       <Content Include="wwwroot/service-worker.published.min.js" Condition="!Exists('wwwroot/service-worker.published.min.js')" />
       <Content Include="wwwroot/overrideCropperJsInteropModule.min.js" Condition="!Exists('wwwroot/overrideCropperJsInteropModule.min.js')" />
       <Content Include="wwwroot/jsObjectModule.min.js" Condition="!Exists('wwwroot/jsObjectModule.min.js')" />
+	  <Content Include="wwwroot/helper.min.js" Condition="!Exists('wwwroot/helper.min.js')" />
     </ItemGroup>
   </Target>
 
