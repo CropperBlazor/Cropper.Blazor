@@ -136,7 +136,7 @@ namespace Cropper.Blazor.Services
         /// Replace the image's src and rebuild the cropper.
         /// </summary>
         /// <param name="url">The new URL.</param>
-        /// <param name="hasSameSize">Indicate if the new image has the same size as the old one.</param>
+        /// <param name="hasSameSize">If the new image has the same size as the old one, then it will not rebuild the cropper and only update the URLs of all related images. This can be used for applying filters.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask ReplaceAsync(
