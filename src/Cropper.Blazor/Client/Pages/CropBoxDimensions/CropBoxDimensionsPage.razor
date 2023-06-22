@@ -32,8 +32,9 @@
         <DocsPageSection>
             <SectionHeader Title="Min and Max dimensions">
                 <Description>
-                    You can use the <b>Crop event</b> to create a minimum and maximum limit for the size of the crop box.
-                    <CodeInline Tag="true">CropperComponent</CodeInline> has a corresponding 
+                    You can use the <CodeInline Class="docs-code-tertiary">OnCropEvent</CodeInline> to create
+                    a minimum and/or maximum limit for the size of the crop box.
+                    <CodeInline Tag="true">CropperComponent</CodeInline> has a corresponding
                     <CodeInline>OnCropEvent</CodeInline> shortcut.
                     <br>
                     <MudAlert Class="my-3" Severity="Severity.Info">
@@ -51,12 +52,12 @@
         <DocsPageSection>
             <SectionHeader Title="Minimum relative dimensions">
                 <Description>
-                    Use the <CodeInline>MinCropBoxHeight</CodeInline> and <CodeInline>MinCropBoxWidth</CodeInline> 
-                    fields in the <CodeInline>Option</CodeInline> cropper component property to 
+                    Use the <CodeInline>MinCropBoxHeight</CodeInline> and <CodeInline>MinCropBoxWidth</CodeInline>
+                    fields in the <CodeInline>Option</CodeInline> cropper component property to
                     enable minimum limit for the relative size of crop area
                     <br>
                     <MudAlert Class="my-3" Severity="Severity.Info">
-                        The <CodeInline>MinCropBoxHeight</CodeInline> and <CodeInline>MinCropBoxWidth</CodeInline> 
+                        The <CodeInline>MinCropBoxHeight</CodeInline> and <CodeInline>MinCropBoxWidth</CodeInline>
                         sizes is <b>relative to the page, not the image</b>.
                         <br>
                         Use the examples above to set up natural dimensions.
