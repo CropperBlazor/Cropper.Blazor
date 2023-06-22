@@ -1,4 +1,6 @@
-﻿using Cropper.Blazor.Extensions;
+﻿using System.Collections.Generic;
+using Cropper.Blazor.Extensions;
+using Cropper.Blazor.ModuleOptions;
 using Cropper.Blazor.Services;
 using Cropper.Blazor.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,20 +11,33 @@ namespace Cropper.Blazor.UnitTests.Extensions
 {
     public class ServiceCollectionExtensions_Should
     {
-        private readonly ServiceCollectionMock _serviceCollectionMock;
+        private ServiceCollectionMock ServiceCollectionMock = null!;
+        private readonly Mock<IServiceCollection> ServiceCollection = new();
 
-        public ServiceCollectionExtensions_Should()
+        [Theory, MemberData(nameof(TestData_AddCropper_Service))]
+        public void Verify_Cropper_Service_Is_Registered(CropperJsInteropOptions? cropperJsInteropOptions)
         {
-            Mock<IServiceCollection> serviceCollection = new();
-            serviceCollection.Object.AddCropper();
-            _serviceCollectionMock = new ServiceCollectionMock(serviceCollection);
+            // act
+            ServiceCollection.Object.AddCropper(cropperJsInteropOptions);
+
+            // assert
+            ServiceCollectionMock = new(ServiceCollection);
+            ServiceCollectionMock.ContainsSingletonService<ICropperJsInteropOptions, CropperJsInteropOptions>();
+            ServiceCollectionMock.TryContainsTransientService<ICropperJsInterop, CropperJsInterop>();
         }
 
-        [Fact]
-        public void Verify_Cropper_Service_Is_Registered()
+        public static IEnumerable<object[]> TestData_AddCropper_Service()
         {
-            // assert
-            _serviceCollectionMock.ContainsTransientService<ICropperJsInterop, CropperJsInterop>();
+            yield return WrapArgs(null);
+
+            yield return WrapArgs(new CropperJsInteropOptions());
+
+            static object[] WrapArgs(
+                CropperJsInteropOptions? cropperJsInteropOptions)
+                => new object[]
+                {
+                    cropperJsInteropOptions
+                };
         }
     }
 }

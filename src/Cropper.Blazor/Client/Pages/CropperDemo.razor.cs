@@ -341,7 +341,7 @@ namespace Cropper.Blazor.Client.Pages
         {
             if (firstRender)
             {
-                var subscriptionResult = await BreakpointListener.Subscribe((breakpoint) =>
+                var subscriptionResult = await BreakpointListener.SubscribeAsync((breakpoint) =>
                 {
                     InvokeAsync(StateHasChanged);
                 });
