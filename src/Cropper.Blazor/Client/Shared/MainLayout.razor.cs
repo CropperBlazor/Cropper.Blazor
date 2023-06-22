@@ -25,7 +25,7 @@ public partial class MainLayout : LayoutComponentBase
     {
         if (firstRender)
         {
-            SubscriptionId = await ResizeService.Subscribe((size) =>
+            SubscriptionId = await ResizeService.SubscribeAsync((size) =>
             {
                 if (size.Width > 960)
                 {
@@ -48,7 +48,7 @@ public partial class MainLayout : LayoutComponentBase
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    public async ValueTask DisposeAsync() => await ResizeService.Unsubscribe(SubscriptionId);
+    public async ValueTask DisposeAsync() => await ResizeService.UnsubscribeAsync(SubscriptionId);
 
     private async Task ApplyUserPreferences()
     {

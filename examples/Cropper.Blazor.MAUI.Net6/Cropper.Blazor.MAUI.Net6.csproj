@@ -50,7 +50,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="MudBlazor" Version="6.2.2" />
+      <PackageReference Include="MudBlazor" Version="6.4.1" />
     </ItemGroup>
 
     <ItemGroup>

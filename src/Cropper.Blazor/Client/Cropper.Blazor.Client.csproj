@@ -1,159 +1,163 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-  <PropertyGroup>
-    <ResolveStaticWebAssetsInputsDependsOn>
-      IncludeGeneratedStaticFiles;
-      $(ResolveStaticWebAssetsInputsDependsOn)
-    </ResolveStaticWebAssetsInputsDependsOn>
-  </PropertyGroup>
+	<PropertyGroup>
+		<ResolveStaticWebAssetsInputsDependsOn>
+			IncludeGeneratedStaticFiles;
+			$(ResolveStaticWebAssetsInputsDependsOn)
+		</ResolveStaticWebAssetsInputsDependsOn>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
-  </PropertyGroup>
+	<PropertyGroup>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
-    <BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
-  </PropertyGroup>
+	<PropertyGroup>
+		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
+		<BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="Pages\CroppedCanvasDialog.razor" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="Pages\CroppedCanvasDialog.razor" />
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.5" PrivateAssets="all" />
-    <PackageReference Include="MudBlazor" Version="6.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.8" PrivateAssets="all" />
+    <PackageReference Include="MudBlazor" Version="6.4.1" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ServiceWorker Include="wwwroot\service-worker.min.js" PublishedContent="wwwroot\service-worker.published.min.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<ServiceWorker Include="wwwroot\service-worker.min.js" PublishedContent="wwwroot\service-worker.published.min.js" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\CroppedCanvasDialog.razor" />
-  </ItemGroup>
+	<ItemGroup>
+		<UpToDateCheckInput Remove="Pages\CroppedCanvasDialog.razor" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\CroppedCanvasDialog.razor" />
-  </ItemGroup>
+	<ItemGroup>
+		<_ContentIncludedByDefault Remove="Pages\CroppedCanvasDialog.razor" />
+	</ItemGroup>
 
-  <!--Outside Visual Studio SolutionDir is not available-->
-  <PropertyGroup>
-    <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(MSBuildThisFileDirectory)../</SolutionDir>
-  </PropertyGroup>
+	<!--Outside Visual Studio SolutionDir is not available-->
+	<PropertyGroup>
+		<SolutionDir Condition=" '$(SolutionDir)' == '' ">$(MSBuildThisFileDirectory)../</SolutionDir>
+	</PropertyGroup>
 
-  <!--Binary path for the code generator-->
-  <Choose>
-    <When Condition="'$(TargetFramework)' == 'netstandard2.1'">
-      <PropertyGroup>
-        <BinDocsCompiler>$(SolutionDir)Cropper.Blazor.Client.Compiler/bin/Debug/netcoreapp3.1/Cropper.Blazor.Client.Compiler.dll</BinDocsCompiler>
-      </PropertyGroup>
-    </When>
-    <Otherwise>
-      <PropertyGroup>
-        <BinDocsCompiler>$(SolutionDir)Cropper.Blazor.Client.Compiler/bin/Debug/net7.0/Cropper.Blazor.Client.Compiler.dll</BinDocsCompiler>
-      </PropertyGroup>
-    </Otherwise>
-  </Choose>
+	<!--Binary path for the code generator-->
+	<Choose>
+		<When Condition="'$(TargetFramework)' == 'netstandard2.1'">
+			<PropertyGroup>
+				<BinDocsCompiler>$(SolutionDir)Cropper.Blazor.Client.Compiler/bin/Debug/netcoreapp3.1/Cropper.Blazor.Client.Compiler.dll</BinDocsCompiler>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<BinDocsCompiler>$(SolutionDir)Cropper.Blazor.Client.Compiler/bin/Debug/net7.0/Cropper.Blazor.Client.Compiler.dll</BinDocsCompiler>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
 
-  <!--Project path for code generator-->
-  <PropertyGroup>
-    <ProjectDocsCompiler>dotnet run --configuration release --project "$(SolutionDir)Cropper.Blazor.Client.Compiler/Cropper.Blazor.Client.Compiler.csproj"</ProjectDocsCompiler>
-  </PropertyGroup>
+	<!--Project path for code generator-->
+	<PropertyGroup>
+		<ProjectDocsCompiler>dotnet run --configuration release --project "$(SolutionDir)Cropper.Blazor.Client.Compiler/Cropper.Blazor.Client.Compiler.csproj"</ProjectDocsCompiler>
+	</PropertyGroup>
 
-  <!--Execute the code generator-->
-  <Target Name="CompileDocs" BeforeTargets="BeforeBuild">
-    <!--Command-line for the code generator-->
-    <Message Text="Generating Docs" Importance="high" />
-    <Exec Command="dotnet &quot;$(BinDocsCompiler)&quot;" Condition="Exists('$(BinDocsCompiler)')" />
-    <Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />
-  </Target>
+	<!--Execute the code generator-->
+	<Target Name="CompileDocs" BeforeTargets="BeforeBuild">
+		<!--Command-line for the code generator-->
+		<Message Text="Generating Docs" Importance="high" />
+		<Exec Command="dotnet &quot;$(BinDocsCompiler)&quot;" Condition="Exists('$(BinDocsCompiler)')" />
+		<Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />
+	</Target>
 
-  <Target Name="IncludeGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="CompileDocs">
-    <ItemGroup>
-      <Compile Include="Models/Snippets.generated.cs" Condition="!Exists('Models/Snippets.generated.cs')" />
-      <EmbeddedResource Include="@(NewExampleCodeToBuild)" Condition="@(NewExampleCodeToBuild-&gt;Count()) != 0" />
-    </ItemGroup>
-  </Target>
+	<Target Name="IncludeGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="CompileDocs">
+		<ItemGroup>
+			<Compile Include="Models/Snippets.generated.cs" Condition="!Exists('Models/Snippets.generated.cs')" />
+			<EmbeddedResource Include="@(NewExampleCodeToBuild)" Condition="@(NewExampleCodeToBuild-&gt;Count()) != 0" />
+		</ItemGroup>
+	</Target>
 
-  <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
-  <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
-    <PropertyGroup>
-      <CleanGeneratedFiles>false</CleanGeneratedFiles>
-    </PropertyGroup>
-  </Target>
+	<!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
+	<Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
+		<PropertyGroup>
+			<CleanGeneratedFiles>false</CleanGeneratedFiles>
+		</PropertyGroup>
+	</Target>
 
-  <Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
-    <ItemGroup>
-      <FilesToClean Include="./Styles/Cropper.Blazor.Client.css" />
-      <FilesToClean Include="./Styles/Cropper.Blazor.Client.min.css" />
-      <FilesToClean Include="./wwwroot/Cropper.Blazor.Client.css" />
-      <FilesToClean Include="./wwwroot/Cropper.Blazor.Client.min.css" />
-      <FilesToClean Include="./wwwroot/service-worker.min.js" />
-      <FilesToClean Include="./wwwroot/service-worker.published.min.js" />
-      <FilesToClean Include="./wwwroot/overrideCropperJsInteropModule.min.js" />
-      <FilesToClean Include="./wwwroot/jsObjectModule.min.js" />
-      <FilesToClean Include="./Models/Snippets.generated.cs" />
-    </ItemGroup>
-    <Delete Files="@(FilesToClean)" />
-  </Target>
+	<Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
+		<ItemGroup>
+			<FilesToClean Include="./Styles/Cropper.Blazor.Client.css" />
+			<FilesToClean Include="./Styles/Cropper.Blazor.Client.min.css" />
+			<FilesToClean Include="./wwwroot/Cropper.Blazor.Client.css" />
+			<FilesToClean Include="./wwwroot/Cropper.Blazor.Client.min.css" />
+			<FilesToClean Include="./wwwroot/service-worker.min.js" />
+			<FilesToClean Include="./wwwroot/service-worker.published.min.js" />
+			<FilesToClean Include="./wwwroot/overrideCropperJsInteropModule.min.js" />
+			<FilesToClean Include="./wwwroot/jsObjectModule.min.js" />
+			<FilesToClean Include="./Models/Snippets.generated.cs" />
+			<FilesToClean Include="./wwwroot/helper.min.js" />
+		</ItemGroup>
+		<Delete Files="@(FilesToClean)" />
+	</Target>
 
-  <Target Name="ToolRestore">
-    <Exec Command="dotnet tool restore" StandardOutputImportance="high" />
-  </Target>
+	<Target Name="ToolRestore">
+		<Exec Command="dotnet tool restore" StandardOutputImportance="high" />
+	</Target>
 
-  <Target Name="WebCompiler" DependsOnTargets="ToolRestore">
-    <Message Text="Running webcompiler" Importance="high" />
-    <!--Compile and minify scss-->
-    <Exec Command="dotnet webcompiler ./Styles/Cropper.Blazor.Client.scss -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-    <!--Compile and minify js-->
-    <Exec Command="dotnet webcompiler ./wwwroot/service-worker.published.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-    <Exec Command="dotnet webcompiler ./wwwroot/service-worker.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-    <Exec Command="dotnet webcompiler ./wwwroot/overrideCropperJsInteropModule.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-    <Exec Command="dotnet webcompiler ./wwwroot/jsObjectModule.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-  </Target>
+	<Target Name="WebCompiler" DependsOnTargets="ToolRestore">
+		<Message Text="Running webcompiler" Importance="high" />
+		<!--Compile and minify scss-->
+		<Exec Command="dotnet webcompiler ./Styles/Cropper.Blazor.Client.scss -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+		<!--Compile and minify js-->
+		<Exec Command="dotnet webcompiler ./wwwroot/service-worker.published.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+		<Exec Command="dotnet webcompiler ./wwwroot/service-worker.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+		<Exec Command="dotnet webcompiler ./wwwroot/overrideCropperJsInteropModule.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+		<Exec Command="dotnet webcompiler ./wwwroot/jsObjectModule.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+		<Exec Command="dotnet webcompiler ./wwwroot/helper.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+	</Target>
 
-  <Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
-    <Error Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" Text="Missing Cropper.Blazor.Client.min.css in wwwroot" />
-    <Error Condition="!Exists('wwwroot/service-worker.min.js')" Text="Missing service-worker.min.js in wwwroot" />
-    <Error Condition="!Exists('wwwroot/service-worker.published.min.js')" Text="Missing service-worker.published.min.js in wwwroot" />
-    <Error Condition="!Exists('wwwroot/overrideCropperJsInteropModule.min.js')" Text="Missing overrideCropperJsInteropModule.min.js in wwwroot" />
-    <Error Condition="!Exists('wwwroot/jsObjectModule.min.js')" Text="Missing jsObjectModule.min.js in wwwroot" />
-    <ItemGroup>
-      <Content Include="wwwroot/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" />
-      <Content Include="wwwroot/service-worker.min.js" Condition="!Exists('wwwroot/service-worker.min.js')" />
-      <Content Include="wwwroot/service-worker.published.min.js" Condition="!Exists('wwwroot/service-worker.published.min.js')" />
-      <Content Include="wwwroot/overrideCropperJsInteropModule.min.js" Condition="!Exists('wwwroot/overrideCropperJsInteropModule.min.js')" />
-      <Content Include="wwwroot/jsObjectModule.min.js" Condition="!Exists('wwwroot/jsObjectModule.min.js')" />
-    </ItemGroup>
-  </Target>
+	<Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
+		<Error Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" Text="Missing Cropper.Blazor.Client.min.css in wwwroot" />
+		<Error Condition="!Exists('wwwroot/service-worker.min.js')" Text="Missing service-worker.min.js in wwwroot" />
+		<Error Condition="!Exists('wwwroot/service-worker.published.min.js')" Text="Missing service-worker.published.min.js in wwwroot" />
+		<Error Condition="!Exists('wwwroot/overrideCropperJsInteropModule.min.js')" Text="Missing overrideCropperJsInteropModule.min.js in wwwroot" />
+		<Error Condition="!Exists('wwwroot/jsObjectModule.min.js')" Text="Missing jsObjectModule.min.js in wwwroot" />
+		<Error Condition="!Exists('wwwroot/helper.min.js')" Text="Missing helper.min.js in wwwroot" />
+		<ItemGroup>
+			<Content Include="wwwroot/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" />
+			<Content Include="wwwroot/service-worker.min.js" Condition="!Exists('wwwroot/service-worker.min.js')" />
+			<Content Include="wwwroot/service-worker.published.min.js" Condition="!Exists('wwwroot/service-worker.published.min.js')" />
+			<Content Include="wwwroot/overrideCropperJsInteropModule.min.js" Condition="!Exists('wwwroot/overrideCropperJsInteropModule.min.js')" />
+			<Content Include="wwwroot/jsObjectModule.min.js" Condition="!Exists('wwwroot/jsObjectModule.min.js')" />
+			<Content Include="wwwroot/helper.min.js" Condition="!Exists('wwwroot/helper.min.js')" />
+		</ItemGroup>
+	</Target>
 
-  <!--Dont Include in build output-->
-  <ItemGroup>
-    <Content Remove="compilerconfig.json" />
-    <Content Remove="excubowebcompiler.json" />
-  </ItemGroup>
+	<!--Dont Include in build output-->
+	<ItemGroup>
+		<Content Remove="compilerconfig.json" />
+		<Content Remove="excubowebcompiler.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Watch Include="**/*.scss" />
-  </ItemGroup>
+	<ItemGroup>
+		<Watch Include="**/*.scss" />
+	</ItemGroup>
 
-  <!--Update ExampleCode-->
-  <ItemGroup>
-    <EmbeddedResource Include="Pages\**\*.html" />
-  </ItemGroup>
+	<!--Update ExampleCode-->
+	<ItemGroup>
+		<EmbeddedResource Include="Pages\**\*.html" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
+	</ItemGroup>
 </Project>

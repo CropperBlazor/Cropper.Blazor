@@ -1,5 +1,6 @@
 ﻿<MudCard Class="d-flex justify-space-between flex-column mb-6">
-    <MudCardContent Class="pb-0">
+    <MudCardContent>
+        <MudText>Zoom Ratio Settings</MudText>
         <MudNumericField @bind-Value="MinZoomRatio"
                          Label="Min zoom ratio"
                          Min="0"
@@ -16,12 +17,4 @@
             Zoom event ratio: @Ratio
         </MudText>
     </MudCardContent>
-    <MudCardActions Class="d-flex justify-space-between flex-column mt-0">
-        <MudButton Variant="Variant.Outlined"
-                   Color="Color.Primary"
-                   FullWidth="true"
-                   OnClick="ApplyZoomRulesForCropperAsync">
-            Apply zoom rules for Cropper
-        </MudButton>
-    </MudCardActions>
 </MudCard>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -10,6 +9,7 @@ using Bunit.TestDoubles;
 using Cropper.Blazor.Base;
 using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
+using Cropper.Blazor.ModuleOptions;
 using Cropper.Blazor.Services;
 using FluentAssertions;
 using Microsoft.AspNetCore.Components;
@@ -26,7 +26,8 @@ namespace Cropper.Blazor.UnitTests.Services
         private readonly Faker _faker;
         private readonly TestContext _testContext;
         private readonly ICropperJsInterop _cropperJsInterop;
-        private string DefaultPathToCropperModule => Path.Combine("http:localhost", CropperJsInterop.PathToCropperModule);
+        private const string PathToCropperModule = "_content/Cropper.Blazor/cropperJsInterop.min.js";
+        private static string DefaultPathToCropperModule => Path.Combine("http:localhost", PathToCropperModule);
 
         public CropperJsInterop_Should()
         {
@@ -37,24 +38,8 @@ namespace Cropper.Blazor.UnitTests.Services
 
             FakeNavigationManager fakeNavigationManager = _testContext.Services.GetRequiredService<FakeNavigationManager>();
             _cropperJsInterop = new Faker<ICropperJsInterop>()
-                .CustomInstantiator(f => new CropperJsInterop(_testContext.JSInterop.JSRuntime, fakeNavigationManager))
+                .CustomInstantiator(f => new CropperJsInterop(_testContext.JSInterop.JSRuntime, fakeNavigationManager, new CropperJsInteropOptions()))
                 .Generate();
-        }
-
-        [Theory, MemberData(nameof(TestData_LoadCropperModule))]
-        public async Task Verify_LoadCropperModuleAsync(
-            string pathToCropperModule,
-            string expectedPathToCropperModule)
-        {
-            // arrange
-            FakeNavigationManager fakeNavigationManager = _testContext.Services.GetRequiredService<FakeNavigationManager>();
-            fakeNavigationManager.NavigateTo(pathToCropperModule);
-
-            // assert
-            VerifyLoadCropperModule(expectedPathToCropperModule);
-
-            // act
-            await _cropperJsInterop.LoadModuleAsync();
         }
 
         [Fact]
@@ -679,7 +664,7 @@ namespace Cropper.Blazor.UnitTests.Services
         {
             // arrange
             FakeNavigationManager fakeNavigationManager = _testContext.Services.GetRequiredService<FakeNavigationManager>();
-            CropperJsInterop cropperJsInterop = new(_testContext.JSInterop.JSRuntime, fakeNavigationManager);
+            CropperJsInterop cropperJsInterop = new(_testContext.JSInterop.JSRuntime, fakeNavigationManager, new CropperJsInteropOptions());
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
@@ -687,43 +672,6 @@ namespace Cropper.Blazor.UnitTests.Services
             // act
             await cropperJsInterop.LoadModuleAsync();
             await cropperJsInterop.DisposeAsync();
-        }
-
-        public static IEnumerable<object[]> TestData_LoadCropperModule()
-        {
-            yield return WrapArgs("http://localhost", Path.Combine("http:localhost", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("http://localhost/", Path.Combine("http:localhost", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("http://localhost/testPath", Path.Combine("http:localhost", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("http://localhost/testPath/", Path.Combine("http:localhost", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://localhost", Path.Combine("https:localhost", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://localhost/", Path.Combine("https:localhost", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://localhost/testPath", Path.Combine("https:localhost", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://localhost/testPath/", Path.Combine("https:localhost", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://localhost:5001", Path.Combine("https:localhost:5001", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://localhost:5001/", Path.Combine("https:localhost:5001", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://localhost:5001/testPath", Path.Combine("https:localhost:5001", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://localhost:5001/testPath/", Path.Combine("https:localhost:5001", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("http://cropperblazor.github.io", Path.Combine("http:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("http://cropperblazor.github.io/", Path.Combine("http:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("http://cropperblazor.github.io/testPath", Path.Combine("http:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("http://cropperblazor.github.io/testPath/", Path.Combine("http:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://cropperblazor.github.io", Path.Combine("https:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://cropperblazor.github.io/", Path.Combine("https:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://cropperblazor.github.io/testPath", Path.Combine("https:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://cropperblazor.github.io/testPath/", Path.Combine("https:cropperblazor.github.io", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://cropperblazor.github.io:5001", Path.Combine("https:cropperblazor.github.io:5001", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://cropperblazor.github.io:5001/", Path.Combine("https:cropperblazor.github.io:5001", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://cropperblazor.github.io:5001/testPath", Path.Combine("https:cropperblazor.github.io:5001", CropperJsInterop.PathToCropperModule));
-            yield return WrapArgs("https://cropperblazor.github.io:5001/testPath/", Path.Combine("https:cropperblazor.github.io:5001", CropperJsInterop.PathToCropperModule));
-
-            static object[] WrapArgs(
-                string pathToCropperModule,
-                string expectedPathToCropperModule)
-                => new object[]
-                {
-                    pathToCropperModule,
-                    expectedPathToCropperModule
-                };
         }
 
         private void VerifyLoadCropperModule(

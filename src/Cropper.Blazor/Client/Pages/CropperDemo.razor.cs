@@ -25,13 +25,14 @@ namespace Cropper.Blazor.Client.Pages
 
         [Inject] private IJSRuntime? JSRuntime { get; set; }
 
-        private CropperComponent? CropperComponent = null!;
+        public CropperComponent? CropperComponent = null!;
         private CropperDataPreview? CropperDataPreview = null!;
         private GetSetCropperData? GetSetCropperData = null!;
         private Options Options = null!;
         private decimal? ScaleXValue;
         private decimal? ScaleYValue;
         private decimal AspectRatio = 1.7777777777777777m;
+        private bool IsEnableAspectRatioSettings;
 
         private string Src = "https://fengyuanchen.github.io/cropperjs/v2/picture.jpg";
         private bool IsErrorLoadImage { get; set; } = false;
@@ -63,11 +64,34 @@ namespace Cropper.Blazor.Client.Pages
                 ScaleXValue = cropJSEvent.Detail.ScaleX;
                 ScaleYValue = cropJSEvent.Detail.ScaleY;
 
-                await InvokeAsync(() =>
+                decimal width = Math.Round(cropJSEvent.Detail.Width ?? 0);
+                decimal height = Math.Round(cropJSEvent.Detail.Height ?? 0);
+
+                if (width < GetSetCropperData!.CroppedDimensionsSettings.MinimumWidth
+                    || height < GetSetCropperData!.CroppedDimensionsSettings.MinimumHeight
+                    || width > GetSetCropperData!.CroppedDimensionsSettings.MaximumWidth
+                    || height > GetSetCropperData!.CroppedDimensionsSettings.MaximumHeight
+                  )
                 {
-                    //JSRuntime!.InvokeVoidAsync("console.log", $"CropJSEvent {JsonSerializer.Serialize(cropJSEvent)}");
-                    CropperDataPreview?.OnCropEvent(cropJSEvent.Detail);
-                });
+                    CropperComponent!.SetData(new SetDataOptions
+                    {
+                        Width = Math.Max(
+                            GetSetCropperData!.CroppedDimensionsSettings.MinimumWidth ?? 0M,
+                            Math.Min(GetSetCropperData!.CroppedDimensionsSettings.MaximumWidth ?? 0M, width)),
+                        Height = Math.Max(
+                            GetSetCropperData!.CroppedDimensionsSettings.MinimumHeight ?? 0M,
+                            Math.Min(GetSetCropperData!.CroppedDimensionsSettings.MaximumHeight ?? 0M, height)),
+
+                    });
+                }
+                else
+                {
+                    await InvokeAsync(() =>
+                    {
+                        //JSRuntime!.InvokeVoidAsync("console.log", $"CropJSEvent {JsonSerializer.Serialize(cropJSEvent)}");
+                        CropperDataPreview?.OnCropEvent(cropJSEvent.Detail);
+                    });
+                }
             }
         }
 
@@ -132,6 +156,39 @@ namespace Cropper.Blazor.Client.Pages
 
             //    await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveJSEvent OriginalEvent clientX: {clientX}");
             //}
+            CropBoxData cropBoxData = await CropperComponent!.GetCropBoxDataAsync();
+
+            if (cropBoxData.Height != 0)
+            {
+                decimal aspectRatio = cropBoxData.Width / cropBoxData.Height;
+
+                AspectRatio = aspectRatio;
+                GetSetCropperData!.AspectRatioSettings.SetUpAspectRatio(aspectRatio);
+
+                if (GetSetCropperData?.AspectRatioSettings?.MinAspectRatio is not null
+                    || GetSetCropperData?.AspectRatioSettings?.MaxAspectRatio is not null)
+                {
+                    if (aspectRatio < GetSetCropperData!.AspectRatioSettings!.MinAspectRatio)
+                    {
+                        CropperComponent!.SetCropBoxData(new SetCropBoxDataOptions
+                        {
+                            Width = cropBoxData.Height * GetSetCropperData!.AspectRatioSettings.MinAspectRatio
+                        });
+                    }
+                    else if (aspectRatio > GetSetCropperData!.AspectRatioSettings!.MaxAspectRatio)
+                    {
+                        CropperComponent!.SetCropBoxData(new SetCropBoxDataOptions
+                        {
+                            Width = cropBoxData.Height * GetSetCropperData!.AspectRatioSettings.MaxAspectRatio
+                        });
+                    }
+                }
+            }
+            else
+            {
+                AspectRatio = 0;
+                GetSetCropperData!.AspectRatioSettings.SetUpAspectRatio(0);
+            }
         }
 
         public async void OnCropReadyEvent(JSEventData<CropReadyEvent> jSEventData)
@@ -227,11 +284,19 @@ namespace Cropper.Blazor.Client.Pages
             CropperComponent?.RevokeObjectUrlAsync(Src);
         }
 
-        public void SetAspectRatio(decimal aspectRatio)
+        public void SetAspectRatio(decimal aspectRatio, bool isEnableAspectRatioSettings = false)
         {
-            this.AspectRatio = aspectRatio;
+            IsEnableAspectRatioSettings = isEnableAspectRatioSettings;
+
+            if (aspectRatio != 0)
+            {
+                AspectRatio = aspectRatio;
+            }
+
             CropperComponent?.SetAspectRatio(aspectRatio);
         }
+
+        public void SetFreeAspectRatio() => SetAspectRatio(0, true);
 
         public void SetViewMode(ViewMode viewMode)
         {
@@ -276,7 +341,7 @@ namespace Cropper.Blazor.Client.Pages
         {
             if (firstRender)
             {
-                var subscriptionResult = await BreakpointListener.Subscribe((breakpoint) =>
+                var subscriptionResult = await BreakpointListener.SubscribeAsync((breakpoint) =>
                 {
                     InvokeAsync(StateHasChanged);
                 });

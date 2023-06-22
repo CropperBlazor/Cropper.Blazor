@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cropper.Blazor.Base;
 using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
+using Cropper.Blazor.ModuleOptions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -18,23 +19,24 @@ namespace Cropper.Blazor.Services
     public class CropperJsInterop : ICropperJsInterop, IAsyncDisposable
     {
         private readonly NavigationManager _navigationManager;
+        private readonly ICropperJsInteropOptions _cropperJsInteropOptions;
         private readonly IJSRuntime _jsRuntime;
         private IJSObjectReference? Module = null;
-
-        /// <summary>
-        /// Path to cropper js interop module.
-        /// </summary>
-        public const string PathToCropperModule = "_content/Cropper.Blazor/cropperJsInterop.min.js";
 
         /// <summary>
         /// Implementation of the constructor.
         /// </summary>
         /// <param name="jsRuntime">The <see cref="IJSRuntime"/>.</param>
         /// <param name="navigationManager">The <see cref="NavigationManager"/>.</param>
-        public CropperJsInterop(IJSRuntime jsRuntime, NavigationManager navigationManager)
+        /// <param name="cropperJsInteropOptions">The <see cref="ICropperJsInteropOptions"/>.</param>
+        public CropperJsInterop(
+            IJSRuntime jsRuntime,
+            NavigationManager navigationManager,
+            ICropperJsInteropOptions cropperJsInteropOptions)
         {
             _jsRuntime = jsRuntime;
             _navigationManager = navigationManager;
+            _cropperJsInteropOptions = cropperJsInteropOptions;
         }
 
         /// <summary>
@@ -46,13 +48,25 @@ namespace Cropper.Blazor.Services
         /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
         public async Task LoadModuleAsync(CancellationToken cancellationToken = default)
         {
-            Uri baseUri = new Uri(_navigationManager.BaseUri);
-            string pathAndQuery = baseUri.PathAndQuery;
-            string hostName = baseUri.ToString().Replace(pathAndQuery, string.Empty);
-            string globalPathToCropperModule = Path.Combine(hostName, PathToCropperModule);
+            string globalPathToCropperModule = GetGlobalPathToCropperModule();
 
             Module = await _jsRuntime.InvokeAsync<IJSObjectReference>(
                 "import", cancellationToken, globalPathToCropperModule);
+        }
+
+        private string GetGlobalPathToCropperModule()
+        {
+            if (_cropperJsInteropOptions.IsActiveGlobalPath)
+            {
+                return _cropperJsInteropOptions.GlobalPathToCropperModule;
+            }
+            else
+            {
+                Uri baseUri = new(_navigationManager.BaseUri);
+                string hostName = baseUri.GetHostName();
+
+                return Path.Combine(hostName, _cropperJsInteropOptions.DefaultInternalPathToCropperModule);
+            }
         }
 
         /// <summary>
@@ -315,12 +329,12 @@ namespace Cropper.Blazor.Services
         /// Replace the image's src and rebuild the cropper.
         /// </summary>
         /// <param name="url">The new URL.</param>
-        /// <param name="onlyColorChanged">Indicate if the new image has the same size as the old one.</param>
+        /// <param name="hasSameSize">If the new image has the same size as the old one, then it will not rebuild the cropper and only update the URLs of all related images. This can be used for applying filters.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask ReplaceAsync(
             string url,
-            bool onlyColorChanged,
+            bool hasSameSize,
             CancellationToken cancellationToken = default)
         {
             if (Module is null)
@@ -328,7 +342,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.replace", cancellationToken, url, onlyColorChanged);
+            await _jsRuntime!.InvokeVoidAsync("cropper.replace", cancellationToken, url, hasSameSize);
         }
 
         /// <summary>

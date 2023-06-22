@@ -12,19 +12,24 @@ namespace Cropper.Blazor.Testing
             _serviceCollectionVerifier = new ServiceCollectionVerifier(serviceCollectionMock);
         }
 
+        public void TryContainsSingletonService<TService, TInstance>()
+        {
+            _serviceCollectionVerifier.TryContainsSingletonService<TService, TInstance>();
+        }
+
         public void ContainsSingletonService<TService, TInstance>()
         {
             _serviceCollectionVerifier.ContainsSingletonService<TService, TInstance>();
         }
 
-        public void ContainsTransientService<TService, TInstance>()
+        public void TryContainsTransientService<TService, TInstance>()
         {
-            _serviceCollectionVerifier.ContainsTransientService<TService, TInstance>();
+            _serviceCollectionVerifier.TryContainsTransientService<TService, TInstance>();
         }
 
-        public void ContainsScopedService<TService, TInstance>()
+        public void TryContainsScopedService<TService, TInstance>()
         {
-            _serviceCollectionVerifier.ContainsTransientService<TService, TInstance>();
+            _serviceCollectionVerifier.TryContainsScopedService<TService, TInstance>();
         }
     }
 }
