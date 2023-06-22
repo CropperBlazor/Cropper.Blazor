@@ -127,6 +127,8 @@ namespace Cropper.Blazor.UnitTests.Components
             decimal ratio = faker.Random.Decimal();
             decimal pivotX = faker.Random.Decimal();
             decimal pivotY = faker.Random.Decimal();
+            string newUrlImage = faker.Random.Word();
+            bool hasSameSize = faker.Random.Bool();
 
             Action? onLoadImageHandler = () =>
             {
@@ -349,6 +351,9 @@ namespace Cropper.Blazor.UnitTests.Components
                 ImageData imageData = await cropperComponent.Instance.GetImageDataAsync();
                 expectedImageData.Should().Be(imageData);
                 _mockCropperJsInterop.Verify(c => c.GetImageDataAsync(cancellationToken), Times.Once());
+
+                await cropperComponent.Instance.ReplaceAsync(newUrlImage, hasSameSize);
+                _mockCropperJsInterop.Verify(c => c.ReplaceAsync(newUrlImage, hasSameSize, cancellationToken), Times.Once());
 
                 string image = await cropperComponent.Instance.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken);
                 expectedImage.Should().Be(image);
