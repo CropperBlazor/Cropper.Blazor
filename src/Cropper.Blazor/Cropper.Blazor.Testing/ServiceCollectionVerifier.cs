@@ -12,19 +12,31 @@ namespace Cropper.Blazor.Testing
             _serviceCollectionMock = serviceCollectionMock;
         }
 
+        public void TryContainsSingletonService<TService, TInstance>()
+        {
+            TryIsRegistered<TService, TInstance>(ServiceLifetime.Singleton);
+        }
+
         public void ContainsSingletonService<TService, TInstance>()
         {
             IsRegistered<TService, TInstance>(ServiceLifetime.Singleton);
         }
 
-        public void ContainsTransientService<TService, TInstance>()
+        public void TryContainsTransientService<TService, TInstance>()
         {
-            IsRegistered<TService, TInstance>(ServiceLifetime.Transient);
+            TryIsRegistered<TService, TInstance>(ServiceLifetime.Transient);
         }
 
-        public void ContainsScopedService<TService, TInstance>()
+        public void TryContainsScopedService<TService, TInstance>()
         {
-            IsRegistered<TService, TInstance>(ServiceLifetime.Scoped);
+            TryIsRegistered<TService, TInstance>(ServiceLifetime.Scoped);
+        }
+
+        private void TryIsRegistered<TService, TInstance>(ServiceLifetime lifetime)
+        {
+            _serviceCollectionMock
+                .Verify(serviceCollection => serviceCollection.Add(
+                    It.Is<ServiceDescriptor>(serviceDescriptor => serviceDescriptor.TryIs<TService, TInstance>(lifetime))));
         }
 
         private void IsRegistered<TService, TInstance>(ServiceLifetime lifetime)
@@ -32,7 +44,6 @@ namespace Cropper.Blazor.Testing
             _serviceCollectionMock
                 .Verify(serviceCollection => serviceCollection.Add(
                     It.Is<ServiceDescriptor>(serviceDescriptor => serviceDescriptor.Is<TService, TInstance>(lifetime))));
-
         }
     }
 }
