@@ -59,6 +59,23 @@ using Cropper.Blazor.Extensions;
 builder.Services.AddCropper();
 ```
 
+Moreover, you can change the path to the CropperJSInterop.min.js module if for some reason it is outside the server root folder, you can now additionally override the module path as follows:
+- Override internal path to CropperJSInterop.min.js module:
+```c#
+builder.Services.AddCropper(new CropperJsInteropOptions()
+{
+    DefaultInternalPathToCropperModule = "<YourPath>/_content/Cropper.Blazor/cropperJsInterop.min.js"
+})
+```
+- Override full global path to CropperJSInterop.min.js module:
+```c#
+builder.Services.AddCropper(new CropperJsInteropOptions()
+{
+    IsActiveGlobalPath = true,
+    GlobalPathToCropperModule = "<StartUrlWithPath>/_content/Cropper.Blazor/cropperJsInterop.min.js"
+})
+```
+
 Also for server-side (Blazor Server or MVC with Blazor Server) you need add configuration SignalR, increase MaximumReceiveMessageSize of a single incoming hub message (default is 32KB) and map SignalR to your path. [For example](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/examples/Cropper.Blazor.Server.Net7/Program.cs):
 ```c#
 builder.Services.AddServerSideBlazor()
