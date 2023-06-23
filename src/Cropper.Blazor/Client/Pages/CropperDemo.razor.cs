@@ -331,12 +331,13 @@ namespace Cropper.Blazor.Client.Pages
 
             if (imageFile != null)
             {
-                IsAvaibleInitCropper = true;
-
                 string oldSrc = Src;
 
                 Src = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
+
+                IsAvaibleInitCropper = true;
                 IsErrorLoadImage = false;
+
                 CropperComponent?.Destroy();
                 CropperComponent?.RevokeObjectUrlAsync(oldSrc);
             }
@@ -348,11 +349,21 @@ namespace Cropper.Blazor.Client.Pages
 
             if (imageFile != null)
             {
-                IsAvaibleInitCropper = false;
-
+                string oldSrc = Src;
                 string src = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
 
+                if (IsErrorLoadImage)
+                {
+                    IsAvaibleInitCropper = true;
+                    IsErrorLoadImage = false;
+                }
+                else
+                {
+                    IsAvaibleInitCropper = false;
+                }
+
                 CropperComponent?.ReplaceAsync(src);
+                CropperComponent?.RevokeObjectUrlAsync(oldSrc);
             }
         }
 
