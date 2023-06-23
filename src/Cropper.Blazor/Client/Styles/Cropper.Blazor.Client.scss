@@ -113,3 +113,7 @@ html, body {
 .cropper-container {
     max-height: inherit;
 }
+
+.cropped-canvas-dialog .mud-dialog-title {
+    padding-bottom: 0;
+}
