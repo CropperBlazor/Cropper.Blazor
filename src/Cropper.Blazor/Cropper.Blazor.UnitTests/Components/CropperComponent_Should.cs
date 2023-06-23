@@ -188,6 +188,9 @@ namespace Cropper.Blazor.UnitTests.Components
             ComponentParameter isErrorLoadImageParameter = ComponentParameter.CreateParameter(
                 nameof(CropperComponent.IsErrorLoadImage),
                 false);
+            ComponentParameter isAvaibleInitCropperParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.IsAvaibleInitCropper),
+                true);
             ComponentParameter onLoadImageParameter = ComponentParameter.CreateParameter(
                 nameof(CropperComponent.OnLoadImageEvent),
                 onLoadImageHandler);
@@ -255,6 +258,7 @@ namespace Cropper.Blazor.UnitTests.Components
                     loadingParameter,
                     errorLoadImageSrcParameter,
                     isErrorLoadImageParameter,
+                    isAvaibleInitCropperParameter,
                     srcParameter,
                     imageClassParameter,
                     onLoadImageParameter,
@@ -461,6 +465,70 @@ namespace Cropper.Blazor.UnitTests.Components
             expectedElement.GetAttribute("src").Should().Be(errorLoadImageSrcAttributeValue);
             expectedElement.GetAttribute("Attribute_TEST").Should().Be("TEST_VALUE");
             expectedElement.GetAttribute("blazor:elementreference").Should().BeNullOrEmpty();
+
+            _mockCropperJsInterop.Verify(c => c.InitCropperAsync(
+                It.IsAny<ElementReference>(),
+                It.IsAny<Options>(),
+                It.IsAny<DotNetObjectReference<ICropperComponentBase>>(),
+                It.IsAny<CancellationToken>()), Times.Never());
+        }
+
+        [Fact]
+        public void Should_Not_Render_CropperComponent_With_IsNotAvaibleInitCropper_Parameter()
+        {
+            // arrange
+            string errorLoadImageClass = "cropper-error-load";
+            string lazyAttributeValue = "lazy";
+            Dictionary<string, object> inputAttributes = new()
+            {
+                { "loading", lazyAttributeValue },
+                { "Attribute_TEST", "TEST_VALUE" },
+                { "src", "new_src" }
+            };
+            string errorLoadImageSrcAttributeValue = "https://cropper/not-found-image.jpg";
+
+            ComponentParameter errorLoadImageClassParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.ErrorLoadImageClass),
+                errorLoadImageClass);
+            ComponentParameter loadingParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.InputAttributes),
+                inputAttributes);
+            ComponentParameter errorLoadImageSrcParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.ErrorLoadImageSrc),
+                errorLoadImageSrcAttributeValue);
+            ComponentParameter isErrorLoadImage = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.IsErrorLoadImage),
+                true);
+            ComponentParameter isAvaibleInitCropperParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.IsAvaibleInitCropper),
+                false);
+
+            // act
+            IRenderedComponent<CropperComponent> cropperComponent = _testContext
+                .RenderComponent<CropperComponent>(
+                    errorLoadImageClassParameter,
+                    loadingParameter,
+                    errorLoadImageSrcParameter,
+                    isErrorLoadImage,
+                    isAvaibleInitCropperParameter);
+
+            // assert
+            IElement expectedElement = cropperComponent.Find($"img.{errorLoadImageClass}");
+            ElementReference elementReference = (ElementReference)cropperComponent.Instance
+                .GetInstanceField("ImageReference");
+
+            elementReference.Id.Should().BeNullOrEmpty();
+            expectedElement.ClassName.Should().Be(errorLoadImageClass);
+            expectedElement.GetAttribute("loading").Should().Be(lazyAttributeValue);
+            expectedElement.GetAttribute("src").Should().Be(errorLoadImageSrcAttributeValue);
+            expectedElement.GetAttribute("Attribute_TEST").Should().Be("TEST_VALUE");
+            expectedElement.GetAttribute("blazor:elementreference").Should().BeNullOrEmpty();
+
+            _mockCropperJsInterop.Verify(c => c.InitCropperAsync(
+                It.IsAny<ElementReference>(),
+                It.IsAny<Options>(),
+                It.IsAny<DotNetObjectReference<ICropperComponentBase>>(),
+                It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Theory]

@@ -25,7 +25,8 @@
                                       ErrorLoadImageSrc="@_errorLoadImageSrc"
                                       IsErrorLoadImage="@IsErrorLoadImage"
                                       OnErrorLoadImageEvent="OnErrorLoadImageEvent"
-                                      Options="Options" />
+                                      Options="Options"
+                                      IsAvaibleInitCropper="IsAvaibleInitCropper" />
                 </div>
             </MudPaper>
         </MudItem>
@@ -127,8 +128,12 @@
                         <MudIconButton Icon="@Icons.Material.Filled.Sync" OnClick="Reset" Title="Reset" />
                     </MudTooltip>
                     <MudTooltip Text="Import image with Blob URLs">
-                        <InputFile id="imageInput" OnChange="InputFileChange" accept="image/*" hidden multiple />
+                        <InputFile id="imageInput" OnChange="InputFileChangeAsync" accept="image/*" hidden multiple />
                         <MudIconButton HtmlTag="label" Icon="@Icons.Material.Filled.PhotoCamera" for="imageInput" Title="Upload image file" />
+                    </MudTooltip>
+                    <MudTooltip Text="Replace image with Blob URLs">
+                        <InputFile id="imageReplaceInput" OnChange="ReplaceImageAsync" accept="image/*" hidden multiple />
+                        <MudIconButton HtmlTag="label" Icon="@Icons.Material.Filled.FindReplace" for="imageReplaceInput" Title="Replace image file" />
                     </MudTooltip>
                     <MudTooltip Text="cropper.destroy()">
                         <MudIconButton Icon="@Icons.Material.Filled.PowerOff" OnClick="Destroy" Title="Destroy" />
@@ -177,7 +182,7 @@
         </MudItem>
         @*//---Aspect Ratio | View Mode | Get Cropped Canvas---//*@
         <MudItem xxl="4" xl="5" lg="5" md="5" sm="12" xs="12">
-            <MudPaper Class="pa-4 d-flex flex-column justify-center gap-4" Elevation="2">
+            <MudPaper Class="pa-4 d-flex flex-column justify-center gap-4 mud-height-full" Elevation="2">
                 <MudBreakpointProvider>
                     <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
                         <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
