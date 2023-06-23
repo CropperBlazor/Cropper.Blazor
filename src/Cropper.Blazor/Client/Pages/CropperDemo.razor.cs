@@ -36,6 +36,7 @@ namespace Cropper.Blazor.Client.Pages
 
         private string Src = "https://fengyuanchen.github.io/cropperjs/v2/picture.jpg";
         private bool IsErrorLoadImage { get; set; } = false;
+        private bool IsAvaibleInitCropper { get; set; } = true;
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
         private Breakpoint Start;
         private Guid SubscriptionId;
@@ -324,16 +325,34 @@ namespace Cropper.Blazor.Client.Pages
             _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
         }
 
-        public async Task InputFileChange(InputFileChangeEventArgs inputFileChangeEventArgs)
+        public async Task InputFileChangeAsync(InputFileChangeEventArgs inputFileChangeEventArgs)
         {
             var imageFile = inputFileChangeEventArgs.File;
+
             if (imageFile != null)
             {
-                var oldSrc = Src;
+                IsAvaibleInitCropper = true;
+
+                string oldSrc = Src;
+
                 Src = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
                 IsErrorLoadImage = false;
                 CropperComponent?.Destroy();
                 CropperComponent?.RevokeObjectUrlAsync(oldSrc);
+            }
+        }
+
+        public async Task ReplaceImageAsync(InputFileChangeEventArgs inputFileChangeEventArgs)
+        {
+            var imageFile = inputFileChangeEventArgs.File;
+
+            if (imageFile != null)
+            {
+                IsAvaibleInitCropper = false;
+
+                string src = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
+
+                CropperComponent?.ReplaceAsync(src);
             }
         }
 

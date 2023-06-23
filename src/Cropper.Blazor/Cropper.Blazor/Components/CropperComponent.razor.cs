@@ -60,6 +60,13 @@ namespace Cropper.Blazor.Components
         public bool IsErrorLoadImage { get; set; }
 
         /// <summary>
+        /// Responsible for allowing the initialization of the cropper after a successful image download, the default is always allowed (true).
+        /// In addition, it should be used to disable re-initialization (replace image) of cropper after successful image load when set to false.
+        /// </summary>
+        [Parameter]
+        public bool IsAvaibleInitCropper { get; set; } = true;
+
+        /// <summary>
         /// User class names, separated by space.
         /// </summary>
         [Parameter]
@@ -154,7 +161,10 @@ namespace Cropper.Blazor.Components
         /// </param>
         private void OnLoadImage(ProgressEventArgs progressEventArgs)
         {
-            InitCropper();
+            if (IsAvaibleInitCropper)
+            {
+                InitCropper();
+            }
         }
 
         /// <summary>
@@ -490,7 +500,7 @@ namespace Cropper.Blazor.Components
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask ReplaceAsync(
             string url,
-            bool hasSameSize,
+            bool hasSameSize = true,
             CancellationToken cancellationToken = default)
         {
             await CropperJsIntertop!.ReplaceAsync(url, hasSameSize, cancellationToken);
