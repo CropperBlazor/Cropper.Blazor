@@ -79,7 +79,17 @@
 		<Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />
 	</Target>
 
-	<Target Name="IncludeGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="CompileDocs">
+	<!--This file contains any ExampleCode that is new and needs including in the build -->
+	<Target Name="ReadFromFile" DependsOnTargets="CompileDocs">
+		<ItemGroup>
+			<NewFiles Include="NewFilesToBuild.txt" />
+		</ItemGroup>
+		<ReadLinesFromFile File="@(NewFiles)">
+			<Output TaskParameter="Lines" ItemName="NewExampleCodeToBuild" />
+		</ReadLinesFromFile>
+	</Target>
+	
+	<Target Name="IncludeGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="CompileDocs;ReadFromFile">
 		<ItemGroup>
 			<Compile Include="Models/Snippets.generated.cs" Condition="!Exists('Models/Snippets.generated.cs')" />
 			<EmbeddedResource Include="@(NewExampleCodeToBuild)" Condition="@(NewExampleCodeToBuild-&gt;Count()) != 0" />
@@ -162,6 +172,9 @@
 	<!--Update ExampleCode-->
 	<ItemGroup>
 		<EmbeddedResource Include="Pages\**\*.html" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Pages\CropZoom\Examples\MinMaxZoomRatio_ScriptCode.html" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
