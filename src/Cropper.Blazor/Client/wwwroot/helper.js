@@ -33,7 +33,7 @@ window.addClipPathPolygon = (sourceCanvas, path) => {
     return canvas.toDataURL();
 }
 
-window.addClipPathCircle = (sourceCanvas) => {
+window.addClipPathEllipse = (sourceCanvas) => {
     const createdCanvas = document.createElement('canvas');
     const contextCanvas = createdCanvas.getContext('2d');
     const widthCanvas = sourceCanvas.width,

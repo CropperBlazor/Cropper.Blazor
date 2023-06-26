@@ -339,7 +339,7 @@ namespace Cropper.Blazor.Client.Pages
             }
             else if (CropperFace == CropperFace.Circle)
             {
-                croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.addClipPathCircle", croppedCanvas!.JSRuntimeObjectRef);
+                croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.addClipPathEllipse", croppedCanvas!.JSRuntimeObjectRef);
             }
             else
             {
