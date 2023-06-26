@@ -9,7 +9,7 @@
         @*//---Cropper Component---//*@
         <MudItem xxl="7" xl="9" lg="9" md="9" sm="12" xs="12">
             <MudPaper Class="pa-4" Elevation="2">
-                <div class="img-container">
+                <div class="@GetClassNameCropper()">
                     <CropperComponent Class="cropper-container"
                                       ErrorLoadImageClass="cropper-error-load"
                                       @ref="CropperComponent"
@@ -160,20 +160,26 @@
                         Scale (-2, -1)
                     </MudButton>
                 </MudTooltip>
-                <MudTooltip Text="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })">
+                <MudTooltip Text="cropper.getCroppedCanvasDataURL({ maxWidth: 4096, maxHeight: 4096 })">
                     <MudButton Color="Color.Secondary" Variant="Variant.Filled"
                                OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
-                        Get Cropped Canvas
+                        Get Cropped Canvas by URL
+                    </MudButton>
+                </MudTooltip>
+                <MudTooltip Text="cropper.getCroppedCanvasData({ maxWidth: 4096, maxHeight: 4096 })">
+                    <MudButton Color="Color.Secondary" Variant="Variant.Filled"
+                               OnClick="@(()=>GetCroppedCanvasData(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                        Get Cropped Canvas by element
                     </MudButton>
                 </MudTooltip>
                 <MudButtonGroup Color="Color.Secondary" Variant="Variant.Filled">
-                    <MudTooltip Text="cropper.getCroppedCanvas({ width: 320, height: 180 })">
+                    <MudTooltip Text="cropper.getCroppedCanvasDataURL({ width: 320, height: 180 })">
                         <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 180, MaxWidth = 320, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
                             320&times;180
                         </MudButton>
                     </MudTooltip>
-                    <MudTooltip Text="cropper.getCroppedCanvas({ width: 640, height: 360 })">
-                        <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 360, MaxWidth = 480, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                    <MudTooltip Text="cropper.getCroppedCanvasData({ width: 640, height: 360 })">
+                        <MudButton OnClick="@(()=>GetCroppedCanvasData(new GetCroppedCanvasOptions(){ MaxHeight = 360, MaxWidth = 480, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
                             640&times;360
                         </MudButton>
                     </MudTooltip>
@@ -243,6 +249,56 @@
                                 </MudButton>
                             </MudTooltip>
                         </MudButtonGroup>
+                        <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
+                            <MudTooltip Text="Default (Rectangle)" RootClass="mud-width-full">
+                                <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Default))"
+                                               Color="Color.Success"
+                                               Variant="Variant.Filled"
+                                               Class="ml-0 mud-width-full"
+                                               Icon="@Icons.Material.Filled.CropFree"
+                                               Style="@(CropperFace == Enums.CropperFace.Default ? "background-color: var(--mud-palette-success-darken)" : "")" />
+                            </MudTooltip>
+                            <MudTooltip Text="Close" RootClass="mud-width-full">
+                                <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Close))"
+                                               Color="Color.Success"
+                                               Variant="Variant.Filled"
+                                               Class="ml-0 mud-width-full"
+                                               Icon="@Icons.Material.Filled.Close"
+                                               Style="@(CropperFace == Enums.CropperFace.Close ? "background-color: var(--mud-palette-success-darken)" : "")" />
+                            </MudTooltip>
+                            <MudTooltip Text="Pentagon" RootClass="mud-width-full">
+                                <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Pentagon))"
+                                               Color="Color.Success"
+                                               Variant="Variant.Filled"
+                                               Class="ml-0 mud-width-full"
+                                               Icon="@Icons.Material.Filled.Pentagon"
+                                               Style="@(CropperFace == Enums.CropperFace.Pentagon ? "background-color: var(--mud-palette-success-darken)" : "")" />
+                            </MudTooltip>
+                            <MudTooltip Text="Circle" RootClass="mud-width-full">
+                                <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Circle))"
+                                               Color="Color.Success"
+                                               Variant="Variant.Filled"
+                                               Class="ml-0 mud-width-full"
+                                               Icon="@Icons.Material.Filled.Circle"
+                                               Style="@(CropperFace == Enums.CropperFace.Circle ? "background-color: var(--mud-palette-success-darken)" : "")" />
+                            </MudTooltip>
+                            <MudTooltip Text="Arrow" RootClass="mud-width-full">
+                                <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Arrow))"
+                                               Color="Color.Success"
+                                               Variant="Variant.Filled"
+                                               Class="ml-0 mud-width-full"
+                                               Icon="@Icons.Material.Filled.ArrowBack"
+                                               Style="@(CropperFace == Enums.CropperFace.Arrow ? "background-color: var(--mud-palette-success-darken)" : "")" />
+                            </MudTooltip>
+                            <MudTooltip Text="Get cropped image with polygon filter" RootClass="mud-width-full">
+                                <MudButton OnClick="@(()=>GetCroppedCanvasDataByPolygonFilter(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))"
+                                           Color="Color.Error"
+                                           Variant="Variant.Filled"
+                                           Class="ml-0 mud-width-full">
+                                           GET
+                                </MudButton>
+                            </MudTooltip>
+                        </MudButtonGroup>
                     </MudHidden>
                     <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
                         <MudButtonGroup Color="Color.Success" VerticalAlign="true" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
@@ -300,6 +356,56 @@
                                 <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm3))" Color="Color.Success" Variant="Variant.Filled"
                                            Style="@(Options.ViewMode == ViewMode.Vm3 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                                     VM3
+                                </MudButton>
+                            </MudTooltip>
+                        </MudButtonGroup>
+                        <MudButtonGroup VerticalAlign="true" Color="Color.Success" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
+                            <MudTooltip Text="Default (Rectangle)" RootClass="mud-width-full">
+                                <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Default))"
+                                               Color="Color.Success"
+                                               Variant="Variant.Filled"
+                                               Class="ml-0 mud-width-full"
+                                               Icon="@Icons.Material.Filled.CropFree"
+                                               Style="@(CropperFace == Enums.CropperFace.Default ? "background-color: var(--mud-palette-success-darken)" : "")" />
+                            </MudTooltip>
+                            <MudTooltip Text="Close" RootClass="mud-width-full">
+                                <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Close))"
+                                               Color="Color.Success"
+                                               Variant="Variant.Filled"
+                                               Class="ml-0 mud-width-full"
+                                               Icon="@Icons.Material.Filled.Close"
+                                               Style="@(CropperFace == Enums.CropperFace.Close ? "background-color: var(--mud-palette-success-darken)" : "")" />
+                            </MudTooltip>
+                            <MudTooltip Text="Pentagon" RootClass="mud-width-full">
+                                <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Pentagon))"
+                                               Color="Color.Success"
+                                               Variant="Variant.Filled"
+                                               Class="ml-0 mud-width-full"
+                                               Icon="@Icons.Material.Filled.Pentagon"
+                                               Style="@(CropperFace == Enums.CropperFace.Pentagon ? "background-color: var(--mud-palette-success-darken)" : "")" />
+                            </MudTooltip>
+                            <MudTooltip Text="Circle" RootClass="mud-width-full">
+                                <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Circle))"
+                                               Color="Color.Success"
+                                               Variant="Variant.Filled"
+                                               Class="ml-0 mud-width-full"
+                                               Icon="@Icons.Material.Filled.Circle"
+                                               Style="@(CropperFace == Enums.CropperFace.Circle ? "background-color: var(--mud-palette-success-darken)" : "")" />
+                            </MudTooltip>
+                            <MudTooltip Text="Arrow" RootClass="mud-width-full">
+                                <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Arrow))"
+                                               Color="Color.Success"
+                                               Variant="Variant.Filled"
+                                               Class="ml-0 mud-width-full"
+                                               Icon="@Icons.Material.Filled.ArrowBack"
+                                               Style="@(CropperFace == Enums.CropperFace.Arrow ? "background-color: var(--mud-palette-success-darken)" : "")" />
+                            </MudTooltip>
+                            <MudTooltip Text="Get cropped image with polygon filter" RootClass="mud-width-full">
+                                <MudButton OnClick="@(()=>GetCroppedCanvasDataByPolygonFilter(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))"
+                                           Color="Color.Error"
+                                           Variant="Variant.Filled"
+                                           Class="ml-0 mud-width-full">
+                                    GET
                                 </MudButton>
                             </MudTooltip>
                         </MudButtonGroup>
