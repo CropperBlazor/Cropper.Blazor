@@ -34,19 +34,20 @@ window.addClipPathPolygon = (sourceCanvas, path) => {
 }
 
 window.addClipPathCircle = (sourceCanvas) => {
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    const width = sourceCanvas.width,
-        height = sourceCanvas.height;
+    const createdCanvas = document.createElement('canvas');
+    const contextCanvas = createdCanvas.getContext('2d');
+    const widthCanvas = sourceCanvas.width,
+        heightCanvas = sourceCanvas.height;
 
-    canvas.width = width;
-    canvas.height = height;
-    context.imageSmoothingEnabled = true;
-    context.drawImage(sourceCanvas, 0, 0, width, height);
-    context.globalCompositeOperation = 'destination-in';
-    context.beginPath();
-    context.ellipse(width / 2, height / 2, width / 2, height / 2, 0 * Math.PI, 0, 180 * Math.PI, true);
-    context.fill();
+    createdCanvas.width = widthCanvas;
+    createdCanvas.height = heightCanvas;
+    contextCanvas.imageSmoothingEnabled = true;
 
-    return canvas.toDataURL();
+    contextCanvas.drawImage(sourceCanvas, 0, 0, widthCanvas, heightCanvas);
+    contextCanvas.globalCompositeOperation = 'destination-in';
+    contextCanvas.beginPath();
+    contextCanvas.ellipse(widthCanvas / 2, heightCanvas / 2, widthCanvas / 2, heightCanvas / 2, 0 * Math.PI, 0, 180 * Math.PI, true);
+    contextCanvas.fill();
+
+    return createdCanvas.toDataURL();
 }

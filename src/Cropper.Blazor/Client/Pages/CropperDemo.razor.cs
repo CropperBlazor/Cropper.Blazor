@@ -316,12 +316,8 @@ namespace Cropper.Blazor.Client.Pages
         public async void GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
             string croppedCanvasDataURL = await CropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
-            DialogParameters parameters = new()
-            {
-                { "Src", croppedCanvasDataURL }
-            };
-            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
-            _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+
+            OpenCroppedCanvasDialog(croppedCanvasDataURL);
         }
 
         public async void GetCroppedCanvasData(GetCroppedCanvasOptions getCroppedCanvasOptions)
@@ -329,12 +325,7 @@ namespace Cropper.Blazor.Client.Pages
             CroppedCanvas croppedCanvas = await CropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
             string croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL");
 
-            DialogParameters parameters = new()
-            {
-                { "Src", croppedCanvasDataURL }
-            };
-            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
-            _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+            OpenCroppedCanvasDialog(croppedCanvasDataURL);
         }
 
         public async void GetCroppedCanvasDataByPolygonFilter(GetCroppedCanvasOptions getCroppedCanvasOptions)
@@ -357,12 +348,7 @@ namespace Cropper.Blazor.Client.Pages
                 croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.addClipPathPolygon", croppedCanvas!.JSRuntimeObjectRef, croppedPathToCanvasCropper);
             }
 
-            DialogParameters parameters = new()
-            {
-                { "Src", croppedCanvasDataURL }
-            };
-            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
-            _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+            OpenCroppedCanvasDialog(croppedCanvasDataURL);
         }
 
         public async Task InputFileChangeAsync(InputFileChangeEventArgs inputFileChangeEventArgs)
@@ -508,6 +494,24 @@ namespace Cropper.Blazor.Client.Pages
                 CropperFace.Arrow => new List<int> { 40, 0, 40, 40, 100, 40, 100, 60, 40, 60, 40, 100, 0, 50 },
                 _ => throw new InvalidOperationException()
             };
+
+        private void OpenCroppedCanvasDialog(string croppedCanvasDataURL)
+        {
+            DialogParameters parameters = new()
+            {
+                { "Src", croppedCanvasDataURL }
+            };
+
+            DialogOptions options = new DialogOptions
+            {
+                CloseButton = true,
+                MaxWidth = MaxWidth.Medium,
+                FullWidth = true,
+                DisableBackdropClick = true
+            };
+
+            _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+        }
 
         protected virtual void Dispose(bool disposing)
         {
