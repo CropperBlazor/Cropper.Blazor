@@ -4,4 +4,4 @@ updates:
     directory: "/src/Cropper.Blazor"
     target-branch: "dev" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "monthly"

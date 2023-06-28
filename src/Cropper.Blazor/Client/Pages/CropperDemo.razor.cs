@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Text.Json;
 using Cropper.Blazor.Client.Components;
+using Cropper.Blazor.Client.Enums;
 using Cropper.Blazor.Components;
 using Cropper.Blazor.Events;
 using Cropper.Blazor.Events.CropEndEvent;
@@ -29,6 +30,7 @@ namespace Cropper.Blazor.Client.Pages
         private CropperDataPreview? CropperDataPreview = null!;
         private GetSetCropperData? GetSetCropperData = null!;
         private Options Options = null!;
+        private CropperFace CropperFace = CropperFace.Default;
         private decimal? ScaleXValue;
         private decimal? ScaleYValue;
         private decimal AspectRatio = 1.7777777777777777m;
@@ -313,16 +315,40 @@ namespace Cropper.Blazor.Client.Pages
 
         public async void GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            //CroppedCanvas croppedCanvas = await cropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
-            //string croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL");
-
             string croppedCanvasDataURL = await CropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
-            DialogParameters parameters = new()
+
+            OpenCroppedCanvasDialog(croppedCanvasDataURL);
+        }
+
+        public async void GetCroppedCanvasData(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        {
+            CroppedCanvas croppedCanvas = await CropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
+            string croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL");
+
+            OpenCroppedCanvasDialog(croppedCanvasDataURL);
+        }
+
+        public async void GetCroppedCanvasDataByPolygonFilter(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        {
+            CroppedCanvas croppedCanvas = await CropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
+            string croppedCanvasDataURL;
+
+            if (CropperFace == CropperFace.Default)
             {
-                { "Src", croppedCanvasDataURL }
-            };
-            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
-            _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+                croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL");
+            }
+            else if (CropperFace == CropperFace.Circle)
+            {
+                croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.addClipPathEllipse", croppedCanvas!.JSRuntimeObjectRef);
+            }
+            else
+            {
+                IEnumerable<int> croppedPathToCanvasCropper = GetCroppedPathToCanvasCropper();
+
+                croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.addClipPathPolygon", croppedCanvas!.JSRuntimeObjectRef, croppedPathToCanvasCropper);
+            }
+
+            OpenCroppedCanvasDialog(croppedCanvasDataURL);
         }
 
         public async Task InputFileChangeAsync(InputFileChangeEventArgs inputFileChangeEventArgs)
@@ -441,6 +467,50 @@ namespace Cropper.Blazor.Client.Pages
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public void SetCropperFace(CropperFace cropperFace)
+        {
+            CropperFace = cropperFace;
+        }
+
+        public string GetClassNameCropper() =>
+            "img-container" + CropperFace switch
+            {
+                CropperFace.Default => string.Empty,
+                CropperFace.Close => " cropper-face-close",
+                CropperFace.Pentagon => " cropper-face-pentagon",
+                CropperFace.Circle => " cropper-face-circle",
+                CropperFace.Arrow => " cropper-face-arrow",
+                _ => string.Empty,
+            };
+
+        public IEnumerable<int> GetCroppedPathToCanvasCropper() =>
+            CropperFace switch
+            {
+                // That enumerable is equivalent css like that (the same for another paths) - clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+                CropperFace.Close => new List<int> { 20, 0, 0, 20, 30, 50, 0, 80, 20, 100, 50, 70, 80, 100, 100, 80, 70, 50, 100, 20, 80, 0, 50, 30 },
+                CropperFace.Pentagon => new List<int> { 50, 0, 100, 38, 82, 100, 18, 100, 0, 38 },
+                CropperFace.Arrow => new List<int> { 40, 0, 40, 40, 100, 40, 100, 60, 40, 60, 40, 100, 0, 50 },
+                _ => throw new InvalidOperationException()
+            };
+
+        private void OpenCroppedCanvasDialog(string croppedCanvasDataURL)
+        {
+            DialogParameters parameters = new()
+            {
+                { "Src", croppedCanvasDataURL }
+            };
+
+            DialogOptions options = new DialogOptions
+            {
+                CloseButton = true,
+                MaxWidth = MaxWidth.Medium,
+                FullWidth = true,
+                DisableBackdropClick = true
+            };
+
+            _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
         }
 
         protected virtual void Dispose(bool disposing)
