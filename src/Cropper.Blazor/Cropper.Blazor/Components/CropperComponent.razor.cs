@@ -10,6 +10,7 @@ using Cropper.Blazor.Events.CropMoveEvent;
 using Cropper.Blazor.Events.CropReadyEvent;
 using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
+using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.Services;
 using Microsoft.AspNetCore.Components;
@@ -541,6 +542,22 @@ namespace Cropper.Blazor.Components
             CancellationToken cancellationToken = default)
         {
             return await CropperJsIntertop!.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets the image from a stream and decodes the resulting data url into to a <see cref="DecodedDataUrl"/>.
+        /// </summary>
+        /// <param name="imageFile">The <see cref="IBrowserFile"/> to convert to a new image file.</param>
+        /// <param name="maxAllowedSize">The maximum number of bytes that can be supplied by the Stream. Defaults to 500 KB.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="DecodedDataUrl"/> holding the ImageData and MediaType.</returns>
+        public async ValueTask<DecodedDataUrl> GetDecodedImageUsingStreamingAsync(
+            IBrowserFile imageFile,
+            long maxAllowedSize = 512000L,
+            CancellationToken cancellationToken = default)
+        {
+            var dataUrl = await CropperJsIntertop!.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken);
+            return new DecodedDataUrl(dataUrl);
         }
 
         /// <summary>
