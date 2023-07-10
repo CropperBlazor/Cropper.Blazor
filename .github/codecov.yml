@@ -10,7 +10,7 @@ ignore:
   - "**/*.sh"         # ignore shell scripts
   
 comment:
-  require_changes: yes
+  require_changes: true
 coverage:
   status:
     project:

@@ -569,11 +569,28 @@ namespace Cropper.Blazor.Components
         /// Get a canvas drawn from the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
         /// </summary>
         /// <param name="getCroppedCanvasOptions">Options for getting cropped canvas.</param>
+        /// <param name="type">A string indicating the image format. The default type is image/png; this image format will be also used if the specified type is not supported.</param>
+        /// <param name="number">A number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp).
+        /// Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality.
+        /// </param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask{String}"/> representing canvas drawn the cropped image in URL format asynchronous operation.</returns>
-        public async ValueTask<string> GetCroppedCanvasDataURLAsync(GetCroppedCanvasOptions getCroppedCanvasOptions, CancellationToken cancellationToken = default)
+        public async ValueTask<string> GetCroppedCanvasDataURLAsync(
+            GetCroppedCanvasOptions getCroppedCanvasOptions,
+            string type = "image/png",
+            float number = 1,
+            CancellationToken cancellationToken = default)
         {
-            return await CropperJsIntertop!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions, cancellationToken);
+
+            return number switch
+            {
+                <0 or >1 => throw new ArgumentException($"A number between 0 and 1 indicating the image quality.", nameof(number)),
+                _ => await CropperJsIntertop!.GetCroppedCanvasDataURLAsync(
+                getCroppedCanvasOptions,
+                type,
+                number,
+                cancellationToken)
+            };
         }
 
         /// <summary>
