@@ -341,7 +341,7 @@ namespace Cropper.Blazor.Client.Pages
         public async void GetCroppedCanvasData(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
             CroppedCanvas croppedCanvas = await CropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
-            string croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL");
+            string croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL", "image/png", 1);
 
             OpenCroppedCanvasDialog(croppedCanvasDataURL);
         }
@@ -353,7 +353,7 @@ namespace Cropper.Blazor.Client.Pages
 
             if (CropperFace == CropperFace.Default)
             {
-                croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL");
+                croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL", "image/png", 1);
             }
             else if (CropperFace == CropperFace.Circle)
             {

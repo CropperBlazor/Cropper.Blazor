@@ -230,21 +230,23 @@ namespace Cropper.Blazor.UnitTests.Services
         }
 
         [Fact]
-        public async Task Verify_GetCroppedCanvasDataURLAsync()
+        public async Task Verify_GetCroppedCanvasDataURL_By_TypeAndNumber_Async()
         {
             // arrange
             string expectedCroppedCanvasURL = _faker.Random.Word();
+            string type = _faker.Random.Word();
+            float number = _faker.Random.Float();
             GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>();
 
             _testContext.JSInterop
-                .Setup<string>("cropper.getCroppedCanvasDataURL", getCroppedCanvasOptions)
+                .Setup<string>("cropper.getCroppedCanvasDataURL", getCroppedCanvasOptions, type, number)
                 .SetResult(expectedCroppedCanvasURL);
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            string croppedCanvasURL = await _cropperJsInterop.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+            string croppedCanvasURL = await _cropperJsInterop.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions, type, number);
 
             // assert
             expectedCroppedCanvasURL.Should().BeEquivalentTo(croppedCanvasURL);
