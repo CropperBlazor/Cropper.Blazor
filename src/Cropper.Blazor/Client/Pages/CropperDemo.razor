@@ -34,12 +34,12 @@
         <MudItem xxl="5" xl="3" lg="3" md="3" sm="12" xs="12">
             <MudPaper Class="pa-4 d-flex flex-column justify-center mud-height-full" Elevation="2">
                 <div class="d-flex flex-row flex-wrap justify-center gap-1 mb-2 mh-100">
-                    <div class="img-preview preview-lg"></div>
+                    <div @ref="ElementReferencePreviewLg" class="img-preview preview-lg"></div>
                     <div class="d-flex flex-row flex-wrap gap-1">
-                        <div class="img-preview preview-md"></div>
+                        <div @ref="ElementReferencePreviewMd" class="img-preview preview-md"></div>
                         <div class="d-flex flex-column flex-wrap align-center gap-1">
-                            <div class="img-preview preview-sm"></div>
-                            <div class="img-preview preview-xs"></div>
+                            <div @ref="ElementReferencePreviewSm" class="img-preview preview-sm"></div>
+                            <div @ref="ElementReferencePreviewXs" class="img-preview preview-xs"></div>
                         </div>
                     </div>
                 </div>
