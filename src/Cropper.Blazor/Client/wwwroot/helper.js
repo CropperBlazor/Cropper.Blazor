@@ -30,7 +30,7 @@ window.addClipPathPolygon = (sourceCanvas, path) => {
     context.globalCompositeOperation = 'lighter';
     context.drawImage(sourceCanvas, 0, 0, width, height);
 
-    return canvas.toDataURL();
+    return canvas.toDataURL("image/png", 1);
 }
 
 window.addClipPathEllipse = (sourceCanvas) => {
@@ -49,5 +49,5 @@ window.addClipPathEllipse = (sourceCanvas) => {
     contextCanvas.ellipse(widthCanvas / 2, heightCanvas / 2, widthCanvas / 2, heightCanvas / 2, 0 * Math.PI, 0, 180 * Math.PI, true);
     contextCanvas.fill();
 
-    return createdCanvas.toDataURL();
+    return createdCanvas.toDataURL("image/png", 1);
 }

@@ -40,8 +40,8 @@ class CropperDecorator {
         return this.cropperInstance.getCroppedCanvas(options);
     }
 
-    getCroppedCanvasDataURL(options) {
-        return this.cropperInstance.getCroppedCanvas(options).toDataURL();
+    getCroppedCanvasDataURL(options, type, encoderOptions) {
+        return this.cropperInstance.getCroppedCanvas(options).toDataURL(type, encoderOptions);
     }
 
     getData(rounded) {

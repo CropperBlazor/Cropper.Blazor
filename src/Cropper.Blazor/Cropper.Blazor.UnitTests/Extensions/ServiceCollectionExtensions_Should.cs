@@ -36,7 +36,7 @@ namespace Cropper.Blazor.UnitTests.Extensions
                 CropperJsInteropOptions? cropperJsInteropOptions)
                 => new object[]
                 {
-                    cropperJsInteropOptions
+                    cropperJsInteropOptions!
                 };
         }
     }
