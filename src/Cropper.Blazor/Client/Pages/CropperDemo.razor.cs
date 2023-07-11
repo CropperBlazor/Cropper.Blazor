@@ -54,7 +54,10 @@ namespace Cropper.Blazor.Client.Pages
         {
             Options = new Options()
             {
-                Preview = ".img-preview",
+                Preview = new List<ElementReference>
+                {
+
+                },
                 AspectRatio = (decimal)16 / 9,
                 ViewMode = ViewMode.Vm0
             };

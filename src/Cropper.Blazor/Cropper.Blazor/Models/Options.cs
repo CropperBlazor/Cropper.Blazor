@@ -1,5 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Components;
 
 namespace Cropper.Blazor.Models
 {
@@ -8,6 +13,8 @@ namespace Cropper.Blazor.Models
     /// </summary>
     public class Options
     {
+        private object preview = string.Empty;
+
         /// <summary>
         /// Define the fixed aspect ratio of the crop box.
         /// </summary>
@@ -18,6 +25,7 @@ namespace Cropper.Blazor.Models
         [JsonPropertyName("aspectRatio")]
         public decimal? AspectRatio { get; set; }
 
+        // TODO:
         /// <summary>
         /// Add extra elements (containers) for preview. 
         /// An element or an array of elements or a node list object or a valid selector for <seealso href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll">Document.querySelectorAll</seealso>.
@@ -25,9 +33,34 @@ namespace Cropper.Blazor.Models
         /// <remarks>
         /// Default: ''
         /// </remarks>
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("preview")]
-        public string Preview { get; set; } = string.Empty;
+        public object Preview
+        {
+            get => preview;
+            set
+            {
+                if (value is string || value is ElementReference elementReference)
+                {
+                    preview = value;
+                }
+                else if (value is IEnumerable<ElementReference> listElementReferences) // add IEnumerable<ElementReference/string>?
+                {
+                    if (listElementReferences.Any())
+                    {
+                        preview = value;
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"'Preview' should be not an empty collection of ElementReference.");
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException($"'Preview' is only available for string, ElementReference, IEnumerable<ElementReference> types, but found '{value.GetType()}' type.");
+                }
+            }
+        }
 
         /// <summary>
         /// Enable to crop the image automatically when initialized.
