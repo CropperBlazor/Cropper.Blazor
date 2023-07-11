@@ -40,7 +40,7 @@ namespace Cropper.Blazor.Models
             {
                 if (value is ElementReference elementReference)
                 {
-                    if(elementReference.Equals(default(ElementReference)))
+                    if (elementReference.Equals(default(ElementReference)))
                     {
                         throw new ArgumentException("'Preview' must not contain an empty Reference element.");
                     }

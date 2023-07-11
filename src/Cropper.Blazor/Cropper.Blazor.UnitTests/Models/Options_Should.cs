@@ -78,6 +78,10 @@ namespace Cropper.Blazor.UnitTests.Models
                 "{\"correlationId\":\"Cropper.Blazor\"}");
 
             yield return WrapArgs(
+                ".testClass",
+                "{\"preview\":\".testClass\",\"correlationId\":\"Cropper.Blazor\"}");
+
+            yield return WrapArgs(
                 new ElementReference("ElementReferenceId"),
                 "{\"preview\":{\"id\":\"ElementReferenceId\",\"context\":null},\"correlationId\":\"Cropper.Blazor\"}");
 
