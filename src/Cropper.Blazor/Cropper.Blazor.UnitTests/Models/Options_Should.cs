@@ -137,6 +137,10 @@ namespace Cropper.Blazor.UnitTests.Models
                 new object(),
                 "'Preview' is only available for string, ElementReference, IEnumerable<ElementReference> types, but found 'System.Object' type.");
 
+            yield return WrapArgs(
+                new CustomElementReferenceContext(),
+                "'Preview' is only available for string, ElementReference, IEnumerable<ElementReference> types, but found 'Cropper.Blazor.UnitTests.Models.Options_Should+CustomElementReferenceContext' type.");
+
             static object[] WrapArgs(
                 object? preview,
                 string expectedMessage)
