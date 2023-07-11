@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Cropper.Blazor.Base;
@@ -584,7 +585,7 @@ namespace Cropper.Blazor.Components
 
             return number switch
             {
-                < 0 or > 1 => throw new ArgumentException($"A number between 0 and 1 indicating the image quality.", nameof(number)),
+                < 0 or > 1 => throw new ArgumentException($"The given number should be between 0 and 1 for indication the image quality, but found {number}.", nameof(number)),
                 _ => await CropperJsIntertop!.GetCroppedCanvasDataURLAsync(
                 getCroppedCanvasOptions,
                 type,

@@ -77,7 +77,7 @@ namespace Cropper.Blazor.UnitTests.Components
                 await func
                     .Should()
                     .ThrowAsync<ArgumentException>()
-                    .WithMessage("A number between 0 and 1 indicating the image quality. (Parameter 'number')");
+                    .WithMessage($"The given number should be between 0 and 1 for indication the image quality, but found {numberImageQuality}. (Parameter 'number')");
 
                 _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataURLAsync(
                     It.IsAny<GetCroppedCanvasOptions>(),
