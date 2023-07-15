@@ -29,7 +29,17 @@ namespace Cropper.Blazor.Models
         /// An element or an array of elements or a list <see cref="ElementReference"/> or a valid string selector for <seealso href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll">Document.querySelectorAll</seealso>.
         /// </summary>
         /// <remarks>
-        /// Default: null
+        /// Default: null.
+        /// <br/>
+        /// Notes:
+        /// <br/>
+        /// The maximum width is the initial width of the preview container.
+        /// <br/>
+        /// The maximum height is the initial height of the preview container.
+        /// <br/>
+        /// If you set an aspectRatio option, be sure to set the same aspect ratio to the preview container.
+        /// <br/>
+        /// If the preview does not display correctly, set the overflow: hidden style to the preview container.
         /// </remarks>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("preview")]
