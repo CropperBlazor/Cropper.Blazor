@@ -109,6 +109,16 @@
         direction: ltr;
     }
 
+    & .css {
+        & .property {
+            color: hsl(76, 21%, 52%);
+        }
+
+        & .comment {
+            color: #57a64a;
+        }
+    }
+
     & .csharp {
         & .atSign {
             color: var(--mud-palette-text-primary);

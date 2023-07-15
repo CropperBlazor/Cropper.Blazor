@@ -21,9 +21,11 @@
 - [CropperBlazor.github.io/demo](https://CropperBlazor.github.io/demo)
 
 ## Prerequisites
-- Supported .NET versions
-  - [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0) for versions greater than v1.1.0
-  - [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0) for v1.0.x
+- Supported .NET 7.0, .NET 6.0 versions for these web platforms:
+  - Blazor WebAssembly
+  - Blazor Server
+  - Blazor Server Hybrid with MVC
+  - MAUI Blazor Hybrid
 
 ## Installation
 
