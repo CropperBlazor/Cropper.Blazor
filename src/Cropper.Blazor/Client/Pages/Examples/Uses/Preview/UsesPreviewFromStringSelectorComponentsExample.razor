@@ -1,0 +1,16 @@
+﻿@using Cropper.Blazor.Components
+
+<div class="img-container">
+    <CropperComponent
+        Class="cropper-example"
+        Src="cropperblazor.png"
+        Options="Options" />
+</div>
+<div class="img-example-preview" />
+
+@code {
+    private Blazor.Models.Options Options = new Blazor.Models.Options
+    {
+        Preview = ".img-example-preview"
+    };
+}

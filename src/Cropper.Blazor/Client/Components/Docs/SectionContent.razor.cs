@@ -2,6 +2,7 @@
 using Cropper.Blazor.Client.Models;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using MudBlazor.Services;
 using MudBlazor.Utilities;
 
 namespace Cropper.Blazor.Client.Components.Docs;
@@ -9,6 +10,7 @@ namespace Cropper.Blazor.Client.Components.Docs;
 public partial class SectionContent
 {
     [Inject] protected IJsApiService? JsApiService { get; set; }
+    [Inject] IBreakpointService BreakpointService { get; set; } = null!;
 
     protected string Classname =>
         new CssBuilder("docs-section-content")
@@ -17,6 +19,7 @@ public partial class SectionContent
             .AddClass("show-code", HasCode && ShowCode)
             .AddClass(Class)
             .Build();
+
     protected string ToolbarClassname =>
         new CssBuilder("docs-section-content-toolbar")
             .AddClass($"outlined", Outlined && ChildContent != null)
@@ -50,7 +53,9 @@ public partial class SectionContent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     private bool HasCode;
-    private string ActiveCode;
+    public string ActiveCode;
+
+    private bool IsVerticalAlign = false;
 
     protected override void OnParametersSet()
     {
@@ -59,11 +64,25 @@ public partial class SectionContent
             HasCode = true;
             ActiveCode = Codes.FirstOrDefault().code;
         }
-        else if (!String.IsNullOrWhiteSpace(Code))
+        else if (!string.IsNullOrWhiteSpace(Code))
         {
             HasCode = true;
             ActiveCode = Code;
         }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await BreakpointService!.SubscribeAsync((br) =>
+            {
+                IsVerticalAlign = BreakpointService!.IsMediaSize(br, Breakpoint.Xs);
+                InvokeAsync(StateHasChanged);
+            });
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     public void OnShowCode()
@@ -88,9 +107,9 @@ public partial class SectionContent
         }
     }
 
-    private async Task CopyTextToClipboard()
+    private async Task CopyTextToClipboardAsync()
     {
-        await JsApiService.CopyToClipboardAsync(Snippets.GetCode(string.IsNullOrWhiteSpace(Code) ? ActiveCode : Code));
+        await JsApiService!.CopyToClipboardAsync(Snippets.GetCode(string.IsNullOrWhiteSpace(Code) ? ActiveCode : Code));
     }
 
     RenderFragment CodeComponent(string code) => builder =>
