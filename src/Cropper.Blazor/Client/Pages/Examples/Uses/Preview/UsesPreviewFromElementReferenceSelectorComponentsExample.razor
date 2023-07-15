@@ -1,0 +1,25 @@
+﻿@using Cropper.Blazor.Components
+
+<div class="img-container">
+    <CropperComponent
+        Class="cropper-example"
+        Src="cropperblazor.png"
+        Options="Options" />
+</div>
+<div @ref="ElementReference" class="img-example-preview" />
+
+@code {
+    private Blazor.Models.Options Options = new();
+    private ElementReference ElementReference;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Options.Preview = new ElementReference[]
+            {
+                ElementReference
+            };
+        }
+    }
+}

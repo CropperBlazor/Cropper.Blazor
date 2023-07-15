@@ -520,7 +520,7 @@ namespace Cropper.Blazor.Client.Pages
                 { "Src", croppedCanvasDataURL }
             };
 
-            DialogOptions options = new DialogOptions
+            DialogOptions options = new()
             {
                 CloseButton = true,
                 MaxWidth = MaxWidth.Medium,

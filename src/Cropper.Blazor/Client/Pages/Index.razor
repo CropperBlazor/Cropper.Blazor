@@ -2,7 +2,8 @@
 @using Cropper.Blazor.Client.Components
 @using Cropper.Blazor.Client.Components.Docs
 @using Cropper.Blazor.Client.Models;
-@using Cropper.Blazor.Client.Pages.Examples
+@using Cropper.Blazor.Client.Pages.Examples.Installation
+@using Cropper.Blazor.Client.Pages.Examples.Uses.Preview
 
 <MudContainer Class="mt-5 px-4">
     <MudGrid Class="mt-5" Justify="Justify.Center">
@@ -22,8 +23,8 @@
 
         <MudItem xl="12" lg="12" md="12" sm="12" xs="12" Class="d-flex justify-center">
             <MudText Align="Align.Center" Class="pa-0 ma-0">
-                <span style="color: var(--mud-palette-primary)"><b>Cropper.Blazor</b></span> 
-                is a component element that wraps around 
+                <span style="color: var(--mud-palette-primary)"><b>Cropper.Blazor</b></span>
+                is a component element that wraps around
                 <a href="https://github.com/fengyuanchen/cropperjs">
                     <span style="color: var(--mud-palette-secondary)"><b>Cropper.js</b></span>
                 </a>
@@ -111,6 +112,19 @@
                             <InstallationManualComponentsExample />
                         </div>
                     </SectionContent>
+                </DocsPageSection>
+
+                <DocsPageSection>
+                    <SectionHeader Title="Add Preview Option">
+                        <Description>Add the following components to your <CodeInline>MainLayout.razor</CodeInline></Description>
+                    </SectionHeader>
+                    <SectionContent @ref="ActivePreviewActive" ChildContent="PreviewActiveRenderFragment" Codes="@(
+                        new CodeFile[]
+                        {
+                            new CodeFile("Preview from String selector", "UsesPreviewFromStringSelectorComponentsExample"),
+                            new CodeFile("Preview from ElementReference selector", "UsesPreviewFromElementReferenceSelectorComponentsExample"),
+                            new CodeFile("Preview from multiple ElementReference selector", "UsesPreviewFromMultipleElementReferenceSelectorComponentsExample")
+                        })" />
                 </DocsPageSection>
 
             </DocsPageSection>

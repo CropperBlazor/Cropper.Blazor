@@ -110,10 +110,7 @@ namespace Cropper.Blazor.UnitTests.Models
         public static IEnumerable<object[]> TestData_Throw_ArgumentException_When_Setup_Options_Preview()
         {
             yield return WrapArgs(
-                new ElementReference[]
-                {
-
-                },
+                Array.Empty<ElementReference>(),
                 "'Preview' should be not an empty collection of ElementReference.");
 
             yield return WrapArgs(
