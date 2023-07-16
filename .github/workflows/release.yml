@@ -54,7 +54,7 @@ jobs:
 
     - name: Versionize Release
       id: versionize
-      run: versionize --changelog-all --skip-dirty
+      run: versionize --changelog-all --exit-insignificant-commits
       continue-on-error: true
 
     - name: No release required
