@@ -2,8 +2,30 @@
 // offline support. See https://aka.ms/blazor-offline-considerations
 
 self.importScripts('./service-worker-assets.js');
-self.addEventListener('install', event => event.waitUntil(onInstall(event)));
-self.addEventListener('activate', event => event.waitUntil(onActivate(event)));
+self.addEventListener('install', event => {
+    event.waitUntil(
+        Promise.all([
+            onInstall(),
+            self.skipWaiting(),
+        ])
+    );
+});
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        Promise.all(
+            [
+                onActivate(),
+                self.clients.claim(),
+                self.skipWaiting(),
+            ]
+        )
+            .catch(
+                (err) => {
+                    event.skipWaiting();
+                }
+            )
+    );
+});
 self.addEventListener('fetch', event => event.respondWith(onFetch(event)));
 
 const cacheNamePrefix = 'offline-cache-';
@@ -18,8 +40,13 @@ async function onInstall(event) {
     const assetsRequests = self.assetsManifest.assets
         .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
         .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)))
-        .map(asset => new Request(asset.url, {integrity: asset.hash, cache: 'no-cache'}));
-    await caches.open(cacheName).then(cache => cache.addAll(assetsRequests));
+        .map(asset => new Request(asset.url, { integrity: asset.hash, cache: 'no-cache' }));
+
+    await caches.open(cacheName)
+        .then(cache => cache.addAll(assetsRequests))
+        .then(() => {
+            return self.skipWaiting();
+        });
 }
 
 async function onActivate(event) {

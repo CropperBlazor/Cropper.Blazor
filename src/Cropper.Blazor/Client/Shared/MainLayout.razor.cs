@@ -33,7 +33,7 @@ public partial class MainLayout : LayoutComponentBase
                 }
 
                 InvokeAsync(StateHasChanged);
-            }, new MudBlazor.Services.ResizeOptions
+            }, new ResizeOptions
             {
                 ReportRate = 50,
                 NotifyOnBreakpointOnly = false,
