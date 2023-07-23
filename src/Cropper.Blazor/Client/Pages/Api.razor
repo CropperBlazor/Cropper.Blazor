@@ -1,5 +1,147 @@
 ﻿@page "/api"
+@using Cropper.Blazor.Components;
+@using Cropper.Blazor.Events;
+@using Cropper.Blazor.Events.ZoomEvent;
+@using Cropper.Blazor.Extensions;
+@using Cropper.Blazor.Models;
+@using System.Text.Json;
+
 <MudContainer Class="mt-5 px-4">
     <MudText Typo="Typo.h3" Class="text-gradient">Sorry</MudText>
     <MudText Typo="Typo.h4"><b>Not available now</b></MudText>
+    <div class="img-container">
+        <CropperComponent Class="small-cropper"
+                          Options="OptionsSmallCropper"
+        @ref="SmallCropper"
+                          Src="@SrcSmallCropper"
+                          OnZoomEvent="OnZoomEventForSmallCropper" />
+    </div>
+    <div @ref="SmallPreviewElementReference" class="img-example-preview" />
+    <MudText>SmallCropper Zoom event: @JsonSerializer.Serialize(SmallZoomJSEvent)</MudText>
+    <MudButton Color="Color.Secondary" Variant="Variant.Filled"
+               OnClick="@(()=>GetSmallCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+        Get Small Cropped Canvas by URL
+    </MudButton>
+    <div class="img-container">
+        <CropperComponent Class="big-cropper"
+                          Options="OptionsBigCropper"
+        @ref="BigCropper"
+                          Src="@SrcBigCropper"
+                          OnZoomEvent="OnZoomEventForBigCropper" />
+    </div>
+    <div @ref="BigPreviewElementReference" class="img-example-preview" />
+    <MudText>BigCropper Zoom event: @JsonSerializer.Serialize(BigZoomJSEvent)</MudText>
+    <MudButton Color="Color.Secondary" Variant="Variant.Filled"
+               OnClick="@(()=>GetBigCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+        Get Big Cropped Canvas by URL
+    </MudButton>
 </MudContainer>
+
+<style>
+    .small-cropper {
+        max-height: 200px;
+        width:40%;
+    }
+
+    .big-cropper {
+        max-height: 300px;
+        width: 60%;
+    }
+
+    .img-example-preview {
+        width: 100%;
+        height: 300px;
+        overflow: hidden;
+    }
+
+        .img-example-preview > ::deep img {
+            max-width: 100%;
+        }
+</style>
+
+
+@code {
+    public CropperComponent? BigCropper = null!;
+    public CropperComponent? SmallCropper = null!;
+    string SrcSmallCropper = "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D&w=1000&q=80";
+    string SrcBigCropper = "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80";
+    private Options OptionsSmallCropper = null!;
+    private Options OptionsBigCropper = null!;
+    JSEventData<ZoomEvent> SmallZoomJSEvent = null!;
+    JSEventData<ZoomEvent> BigZoomJSEvent = null!;
+    private ElementReference SmallPreviewElementReference;
+    private ElementReference BigPreviewElementReference;
+
+    protected override void OnInitialized()
+    {
+        OptionsSmallCropper = new Options
+        {
+            AspectRatio = (decimal)16 / 9,
+            ViewMode = ViewMode.Vm0
+        };
+        OptionsBigCropper = new Options
+        {
+            AspectRatio = 1,
+            ViewMode = ViewMode.Vm0
+        };
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            OptionsSmallCropper.Preview = new ElementReference[]
+            {
+                SmallPreviewElementReference
+            };
+            OptionsBigCropper.Preview = new ElementReference[]
+            {
+                BigPreviewElementReference
+            };
+        }
+    }
+
+    public async void OnZoomEventForSmallCropper(JSEventData<ZoomEvent> zoomJSEvent)
+    {
+        SmallZoomJSEvent = zoomJSEvent;
+        InvokeAsync(StateHasChanged);
+    }
+
+    public async void OnZoomEventForBigCropper(JSEventData<ZoomEvent> zoomJSEvent)
+    {
+        BigZoomJSEvent = zoomJSEvent;
+        InvokeAsync(StateHasChanged);
+    }
+
+    public async void GetSmallCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
+    {
+        string croppedCanvasDataURL = await SmallCropper!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+
+        OpenCroppedCanvasDialog(croppedCanvasDataURL);
+    }
+
+    public async void GetBigCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
+    {
+        string croppedCanvasDataURL = await BigCropper!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+
+        OpenCroppedCanvasDialog(croppedCanvasDataURL);
+    }
+
+    private void OpenCroppedCanvasDialog(string croppedCanvasDataURL)
+    {
+        DialogParameters parameters = new()
+            {
+                { "Src", croppedCanvasDataURL }
+            };
+
+        DialogOptions options = new()
+            {
+                CloseButton = true,
+                MaxWidth = MaxWidth.Medium,
+                FullWidth = true,
+                DisableBackdropClick = true
+            };
+
+        _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+    }
+}
