@@ -10,7 +10,7 @@
     min-height: 200px;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
     .img-container {
         min-height: 573px;
     }
