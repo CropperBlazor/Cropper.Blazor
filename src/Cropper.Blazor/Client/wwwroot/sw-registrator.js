@@ -28,11 +28,3 @@ window.updateAvailable = new Promise((resolve, reject) => {
             reject(error);
         });
 });
-
-window.registerForUpdateAvailableNotification = (caller, methodName) => {
-    window.updateAvailable.then(isUpdateAvailable => {
-        if (isUpdateAvailable) {
-            caller.invokeMethodAsync(methodName).then();
-        }
-    });
-};

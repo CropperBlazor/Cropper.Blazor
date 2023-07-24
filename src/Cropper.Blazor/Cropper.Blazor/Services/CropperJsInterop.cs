@@ -54,6 +54,10 @@ namespace Cropper.Blazor.Services
                 "import", cancellationToken, globalPathToCropperModule);
         }
 
+        /// <summary>
+        /// Finds path to the cropper module.
+        /// </summary>
+        /// <returns>The path to the cropper module.</returns>
         private string GetGlobalPathToCropperModule()
         {
             if (_cropperJsInteropOptions.IsActiveGlobalPath)
@@ -72,12 +76,14 @@ namespace Cropper.Blazor.Services
         /// <summary>
         /// Initializes cropper. 
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="image">Reference to img html-DOM</param>
         /// <param name="options">Cropper options</param>
         /// <param name="cropperComponentBase">Reference to base cropper component. Default equal to 'this' object.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask InitCropperAsync(
+            [NotNull] Guid cropperComponentId,
             [NotNull] ElementReference image,
             [NotNull] Options options,
             [NotNull] DotNetObjectReference<ICropperComponentBase> cropperComponentBase,
@@ -91,6 +97,7 @@ namespace Cropper.Blazor.Services
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.initCropper",
                 cancellationToken,
+                cropperComponentId,
                 image,
                 options,
                 cropperComponentBase);
@@ -99,130 +106,180 @@ namespace Cropper.Blazor.Services
         /// <summary>
         /// Clear the crop box.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        public async ValueTask ClearAsync(CancellationToken cancellationToken = default)
+        public async ValueTask ClearAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
         {
             if (Module is null)
             {
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.clear", cancellationToken);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.clear",
+                cancellationToken,
+                cropperComponentId);
         }
 
         /// <summary>
         /// Show the crop box manually.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        public async ValueTask CropAsync(CancellationToken cancellationToken = default)
+        public async ValueTask CropAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
         {
             if (Module is null)
             {
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.crop", cancellationToken);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.crop",
+                cancellationToken,
+                cropperComponentId);
         }
 
         /// <summary>
         /// Destroy the cropper and remove the instance from the image.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        public async ValueTask DestroyAsync(CancellationToken cancellationToken = default)
+        public async ValueTask DestroyAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
         {
             if (Module is null)
             {
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.destroy", cancellationToken);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.destroy",
+                cancellationToken,
+                cropperComponentId);
         }
 
         /// <summary>
         /// Disable (freeze) the cropper.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        public async ValueTask DisableAsync(CancellationToken cancellationToken = default)
+        public async ValueTask DisableAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
         {
             if (Module is null)
             {
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.disable", cancellationToken);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.disable",
+                cancellationToken,
+                cropperComponentId);
         }
 
         /// <summary>
         /// Enable (unfreeze) the cropper.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        public async ValueTask EnableAsync(CancellationToken cancellationToken = default)
+        public async ValueTask EnableAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
         {
             if (Module is null)
             {
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.enable", cancellationToken);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.enable",
+                cancellationToken,
+                cropperComponentId);
         }
 
         /// <summary>
         /// Get the canvas position and size data.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask{CanvasData}"/> representing result canvas data asynchronous operation.</returns>
-        public async ValueTask<CanvasData> GetCanvasDataAsync(CancellationToken cancellationToken = default)
+        public async ValueTask<CanvasData> GetCanvasDataAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
         {
             if (Module is null)
             {
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await _jsRuntime!.InvokeAsync<CanvasData>("cropper.getCanvasData", cancellationToken);
+            return await _jsRuntime!.InvokeAsync<CanvasData>(
+                "cropper.getCanvasData",
+                cancellationToken,
+                cropperComponentId);
         }
 
         /// <summary>
         /// Get the container size data.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask{ContainerData}"/> representing result container data asynchronous operation.</returns>
-        public async ValueTask<ContainerData> GetContainerDataAsync(CancellationToken cancellationToken = default)
+        public async ValueTask<ContainerData> GetContainerDataAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
         {
             if (Module is null)
             {
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await _jsRuntime!.InvokeAsync<ContainerData>("cropper.getContainerData", cancellationToken);
+            return await _jsRuntime!.InvokeAsync<ContainerData>(
+                "cropper.getContainerData",
+                cancellationToken,
+                cropperComponentId);
         }
 
         /// <summary>
         /// Get the crop box position and size data.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask{CropBoxData}"/> representing result crop box data asynchronous operation.</returns>
-        public async ValueTask<CropBoxData> GetCropBoxDataAsync(CancellationToken cancellationToken = default)
+        public async ValueTask<CropBoxData> GetCropBoxDataAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
         {
             if (Module is null)
             {
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await _jsRuntime!.InvokeAsync<CropBoxData>("cropper.getCropBoxData", cancellationToken);
+            return await _jsRuntime!.InvokeAsync<CropBoxData>(
+                "cropper.getCropBoxData",
+                cancellationToken,
+                cropperComponentId);
         }
 
         /// <summary>
         /// Get a canvas drawn the cropped image.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="getCroppedCanvasOptions">The config options.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing result canvas asynchronous operation.</returns>
         public async ValueTask<CroppedCanvas> GetCroppedCanvasAsync(
+            [NotNull] Guid cropperComponentId,
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             CancellationToken cancellationToken = default)
         {
@@ -231,7 +288,11 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            IJSObjectReference jSCanvas = await _jsRuntime!.InvokeAsync<IJSObjectReference>("cropper.getCroppedCanvas", cancellationToken, getCroppedCanvasOptions);
+            IJSObjectReference jSCanvas = await _jsRuntime!.InvokeAsync<IJSObjectReference>(
+                "cropper.getCroppedCanvas",
+                cancellationToken,
+                cropperComponentId,
+                getCroppedCanvasOptions);
 
             return new CroppedCanvas(jSCanvas);
         }
@@ -239,6 +300,7 @@ namespace Cropper.Blazor.Services
         /// <summary>
         /// Get a canvas drawn the cropped image.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="getCroppedCanvasOptions">The config options.</param>
         /// <param name="type">A string indicating the image format. The default type is image/png; this image format will be also used if the specified type is not supported.</param>
         /// <param name="number">A number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp). A user agent will use its default quality value if this option is not specified, or if the number is outside the allowed range.
@@ -247,6 +309,7 @@ namespace Cropper.Blazor.Services
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask{String}"/> representing URL result canvas asynchronous operation.</returns>
         public async ValueTask<string> GetCroppedCanvasDataURLAsync(
+            [NotNull] Guid cropperComponentId,
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             string type,
             float number,
@@ -260,6 +323,7 @@ namespace Cropper.Blazor.Services
             return await _jsRuntime!.InvokeAsync<string>(
                 "cropper.getCroppedCanvasDataURL",
                 cancellationToken,
+                cropperComponentId,
                 getCroppedCanvasOptions,
                 type,
                 number);
@@ -268,42 +332,58 @@ namespace Cropper.Blazor.Services
         /// <summary>
         /// Get the cropped area position and size data (base on the original image).
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="rounded">Indicate if round the data values or not.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask{CropperData}"/> representing result cropped data asynchronous operation.</returns>
-        public async ValueTask<CropperData> GetDataAsync(bool rounded, CancellationToken cancellationToken = default)
+        public async ValueTask<CropperData> GetDataAsync(
+            [NotNull] Guid cropperComponentId,
+            bool rounded,
+            CancellationToken cancellationToken = default)
         {
             if (Module is null)
             {
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await _jsRuntime!.InvokeAsync<CropperData>("cropper.getData", cancellationToken, rounded);
+            return await _jsRuntime!.InvokeAsync<CropperData>(
+                "cropper.getData",
+                cancellationToken,
+                cropperComponentId,
+                rounded);
         }
 
         /// <summary>
         /// Get the image position and size data.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask{ImageData}"/> representing result image data asynchronous operation.</returns>
-        public async ValueTask<ImageData> GetImageDataAsync(CancellationToken cancellationToken = default)
+        public async ValueTask<ImageData> GetImageDataAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
         {
             if (Module is null)
             {
                 await LoadModuleAsync(cancellationToken);
             }
 
-            return await _jsRuntime!.InvokeAsync<ImageData>("cropper.getImageData", cancellationToken);
+            return await _jsRuntime!.InvokeAsync<ImageData>(
+                "cropper.getImageData",
+                cancellationToken,
+                cropperComponentId);
         }
 
         /// <summary>
         /// Move the canvas with relative offsets.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="offsetX">The relative offset distance on the x-axis.</param>
         /// <param name="offsetY">The relative offset distance on the y-axis.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask MoveAsync(
+            [NotNull] Guid cropperComponentId,
             decimal offsetX,
             decimal? offsetY,
             CancellationToken cancellationToken = default)
@@ -313,17 +393,24 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.move", cancellationToken, offsetX, offsetY);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.move",
+                cancellationToken,
+                cropperComponentId,
+                offsetX,
+                offsetY);
         }
 
         /// <summary>
         /// Move the canvas to an absolute point.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="x">The x-axis coordinate.</param>
         /// <param name="y">The y-axis coordinate.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask MoveToAsync(
+            [NotNull] Guid cropperComponentId,
             decimal x,
             decimal? y,
             CancellationToken cancellationToken = default)
@@ -333,17 +420,24 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.moveTo", cancellationToken, x, y);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.moveTo",
+                cancellationToken,
+                cropperComponentId,
+                x,
+                y);
         }
 
         /// <summary>
         /// Replace the image's src and rebuild the cropper.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="url">The new URL.</param>
         /// <param name="hasSameSize">If the new image has the same size as the old one, then it will not rebuild the cropper and only update the URLs of all related images. This can be used for applying filters.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask ReplaceAsync(
+            [NotNull] Guid cropperComponentId,
             string url,
             bool hasSameSize,
             CancellationToken cancellationToken = default)
@@ -353,31 +447,44 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.replace", cancellationToken, url, hasSameSize);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.replace",
+                cancellationToken,
+                cropperComponentId,
+                url,
+                hasSameSize);
         }
 
         /// <summary>
         /// Reset the image and crop box to their initial states.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        public async ValueTask ResetAsync(CancellationToken cancellationToken = default)
+        public async ValueTask ResetAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
         {
             if (Module is null)
             {
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.reset", cancellationToken);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.reset",
+                cancellationToken,
+                cropperComponentId);
         }
 
         /// <summary>
         /// Rotate the canvas with a relative degree.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="degree">The rotate degree.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask RotateAsync(
+            [NotNull] Guid cropperComponentId,
             decimal degree,
             CancellationToken cancellationToken = default)
         {
@@ -386,16 +493,22 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.rotate", cancellationToken, degree);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.rotate",
+                cancellationToken,
+                cropperComponentId,
+                degree);
         }
 
         /// <summary>
         /// Rotate the canvas to an absolute degree.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="degree">The rotate degree.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask RotateToAsync(
+            [NotNull] Guid cropperComponentId,
             decimal degree,
             CancellationToken cancellationToken = default)
         {
@@ -404,17 +517,23 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.rotateTo", cancellationToken, degree);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.rotateTo",
+                cancellationToken,
+                cropperComponentId,
+                degree);
         }
 
         /// <summary>
         /// Scale the image.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="scaleX">The scale ratio on the x-axis.</param>
         /// <param name="scaleY">The scale ratio on the y-axis.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask ScaleAsync(
+            [NotNull] Guid cropperComponentId,
             decimal scaleX,
             decimal scaleY,
             CancellationToken cancellationToken = default)
@@ -424,16 +543,23 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.scale", cancellationToken, scaleX, scaleY);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.scale",
+                cancellationToken,
+                cropperComponentId,
+                scaleX,
+                scaleY);
         }
 
         /// <summary>
         /// Scale the image on the x-axis.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="scaleX">The scale ratio on the x-axis.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask ScaleXAsync(
+            [NotNull] Guid cropperComponentId,
             decimal scaleX,
             CancellationToken cancellationToken = default)
         {
@@ -442,16 +568,22 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.scaleX", cancellationToken, scaleX);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.scaleX",
+                cancellationToken,
+                cropperComponentId,
+                scaleX);
         }
 
         /// <summary>
         /// Scale the image on the y-axis.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="scaleY">The scale ratio on the y-axis.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask ScaleYAsync(
+            [NotNull] Guid cropperComponentId,
             decimal scaleY,
             CancellationToken cancellationToken = default)
         {
@@ -460,16 +592,22 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.scaleY", cancellationToken, scaleY);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.scaleY",
+                cancellationToken,
+                cropperComponentId,
+                scaleY);
         }
 
         /// <summary>
         /// Change the aspect ratio of the crop box.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="aspectRatio">The new aspect ratio.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask SetAspectRatioAsync(
+            [NotNull] Guid cropperComponentId,
             decimal aspectRatio,
             CancellationToken cancellationToken = default)
         {
@@ -478,16 +616,22 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.setAspectRatio", cancellationToken, aspectRatio);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.setAspectRatio",
+                cancellationToken,
+                cropperComponentId,
+                aspectRatio);
         }
 
         /// <summary>
         /// Set the canvas position and size with new data.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="setCanvasDataOptions">The new canvas data.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask SetCanvasDataAsync(
+            [NotNull] Guid cropperComponentId,
             SetCanvasDataOptions setCanvasDataOptions,
             CancellationToken cancellationToken = default)
         {
@@ -496,16 +640,22 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.setCanvasData", cancellationToken, setCanvasDataOptions);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.setCanvasData",
+                cancellationToken,
+                cropperComponentId,
+                setCanvasDataOptions);
         }
 
         /// <summary>
         /// Set the crop box position and size with new data.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="cropBoxDataOptions">The new crop box data.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask SetCropBoxDataAsync(
+            [NotNull] Guid cropperComponentId,
             SetCropBoxDataOptions cropBoxDataOptions,
             CancellationToken cancellationToken = default)
         {
@@ -514,16 +664,22 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.setCropBoxData", cancellationToken, cropBoxDataOptions);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.setCropBoxData",
+                cancellationToken,
+                cropperComponentId,
+                cropBoxDataOptions);
         }
 
         /// <summary>
         /// Set the cropped area position and size with new data.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="setDataOptions">The new data.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask SetDataAsync(
+            [NotNull] Guid cropperComponentId,
             SetDataOptions setDataOptions,
             CancellationToken cancellationToken = default)
         {
@@ -532,16 +688,22 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.setData", cancellationToken, setDataOptions);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.setData",
+                cancellationToken,
+                cropperComponentId,
+                setDataOptions);
         }
 
         /// <summary>
         /// Change the drag mode.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="dragMode">The new drag mode.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask SetDragModeAsync(
+            [NotNull] Guid cropperComponentId,
             DragMode dragMode,
             CancellationToken cancellationToken = default)
         {
@@ -550,16 +712,22 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.setDragMode", cancellationToken, dragMode.ToEnumString());
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.setDragMode",
+                cancellationToken,
+                cropperComponentId,
+                dragMode.ToEnumString());
         }
 
         /// <summary>
         /// Zoom the canvas with a relative ratio.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="ratio">The target ratio.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask ZoomAsync(
+            [NotNull] Guid cropperComponentId,
             decimal ratio,
             CancellationToken cancellationToken = default)
         {
@@ -568,18 +736,24 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.zoom", cancellationToken, ratio);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.zoom",
+                cancellationToken,
+                cropperComponentId,
+                ratio);
         }
 
         /// <summary>
         /// Zoom the canvas to an absolute ratio.
         /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="ratio">The target ratio.</param>
         /// <param name="pivotX">The zoom pivot point X coordinate.</param>
         /// <param name="pivotY">The zoom pivot point Y coordinate.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask ZoomToAsync(
+            [NotNull] Guid cropperComponentId,
             decimal ratio,
             decimal pivotX,
             decimal pivotY,
@@ -590,7 +764,13 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.zoomTo", cancellationToken, ratio, pivotX, pivotY);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.zoomTo",
+                cancellationToken,
+                cropperComponentId,
+                ratio,
+                pivotX,
+                pivotY);
         }
 
         /// <summary>
@@ -605,7 +785,9 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.noConflict", cancellationToken);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.noConflict",
+                cancellationToken);
         }
 
         /// <summary>
@@ -623,7 +805,10 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime!.InvokeVoidAsync("cropper.setDefaults", cancellationToken, options);
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.setDefaults",
+                cancellationToken,
+                options);
         }
 
         /// <summary>
@@ -647,7 +832,11 @@ namespace Cropper.Blazor.Services
 
             var jsImageStream = imageFile.OpenReadStream(maxAllowedSize, cancellationToken);
             var dotnetImageStream = new DotNetStreamReference(jsImageStream);
-            return await _jsRuntime.InvokeAsync<string>("cropper.getImageUsingStreaming", cancellationToken, dotnetImageStream);
+
+            return await _jsRuntime.InvokeAsync<string>(
+                "cropper.getImageUsingStreaming",
+                cancellationToken,
+                dotnetImageStream);
         }
 
         /// <summary>
@@ -665,7 +854,10 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            await _jsRuntime.InvokeVoidAsync("cropper.revokeObjectUrl", cancellationToken, url);
+            await _jsRuntime.InvokeVoidAsync(
+                "cropper.revokeObjectUrl",
+                cancellationToken,
+                url);
         }
 
         /// <summary>

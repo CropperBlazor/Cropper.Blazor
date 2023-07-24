@@ -23,7 +23,7 @@ namespace Cropper.Blazor.UnitTests.Extensions
             // assert
             ServiceCollectionMock = new(ServiceCollection);
             ServiceCollectionMock.ContainsSingletonService<ICropperJsInteropOptions, CropperJsInteropOptions>();
-            ServiceCollectionMock.TryContainsTransientService<ICropperJsInterop, CropperJsInterop>();
+            ServiceCollectionMock.TryContainsScopedService<ICropperJsInterop, CropperJsInterop>();
         }
 
         public static IEnumerable<object[]> TestData_AddCropper_Service()
