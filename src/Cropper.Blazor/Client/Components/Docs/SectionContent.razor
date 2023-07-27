@@ -14,20 +14,31 @@
         @if (Codes != null || ChildContent != null)
         {
             <MudToolBar Class="@ToolbarClassname">
+                <MudButtonGroup Color="Color.Primary" Class="mud-width-full" Variant="Variant.Outlined" VerticalAlign="IsVerticalAlign">
                 @if(Codes != null)
                 {
                     @foreach (var codefile in Codes)
                     {
-                        <MudButton Class="@GetActiveCode(codefile.code)" OnClick="@(() => SetActiveCode(codefile.code))" Size="Size.Small">@codefile.title</MudButton>
+                        <MudButton
+                            Class="@GetActiveCode(codefile.code)"
+                            OnClick="@(() => SetActiveCode(codefile.code))"
+                            Style="word-break: break-word;"
+                            Size="Size.Small">
+                                @codefile.title
+                        </MudButton>
                     }
                 }
                 <MudSpacer/>
                 @if (HasCode && ChildContent != null)
                 {
-                    <MudButton OnClick="OnShowCode" StartIcon="@(ShowCode ? @Icons.Material.Rounded.CodeOff : Icons.Material.Rounded.Code)" Color="Color.Default" Size="Size.Small">
-                        @(ShowCode ? "Hide code" : "Show code")
+                    <MudButton OnClick="OnShowCode"
+                        StartIcon="@(ShowCode ? @Icons.Material.Rounded.CodeOff : Icons.Material.Rounded.Code)"
+                        Color="Color.Default"
+                        Size="Size.Small">
+                            @(ShowCode ? "Hide code" : "Show code")
                     </MudButton>
                 }
+                </MudButtonGroup>
             </MudToolBar>
         }
         @if (ChildContent != null)
@@ -44,6 +55,11 @@
         <div class="docs-section-source-container">
             @CodeComponent(ActiveCode)
         </div>
-        <MudIconButton Icon="@Icons.Material.Outlined.FileCopy" Size="Size.Small" Class="copy-code-button" @onclick="CopyTextToClipboard" />
+        <MudIconButton
+            Icon="@Icons.Material.Outlined.FileCopy"
+            Size="Size.Medium"
+            Color="Color.Error"
+            Class="copy-code-button"
+            @onclick="CopyTextToClipboardAsync" />
     </div>
 }

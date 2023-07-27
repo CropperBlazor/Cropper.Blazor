@@ -46,6 +46,7 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_InitCropperAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             ElementReference elementReference = new(Guid.NewGuid().ToString());
             Options options = new Faker<Options>().Generate();
             ICropperComponentBase cropperComponentBase = new Mock<ICropperComponentBase>().Object;
@@ -54,6 +55,7 @@ namespace Cropper.Blazor.UnitTests.Services
 
             object[] expectedInitCropperMethodArguments = new object[]
             {
+                cropperComponentId,
                 elementReference,
                 options,
                 refToCropperComponentBase
@@ -67,99 +69,110 @@ namespace Cropper.Blazor.UnitTests.Services
                 .SetVoidResult();
 
             // act
-            await _cropperJsInterop.InitCropperAsync(elementReference, options, refToCropperComponentBase);
+            await _cropperJsInterop.InitCropperAsync(cropperComponentId, elementReference, options, refToCropperComponentBase);
         }
 
         [Fact]
         public async Task Verify_ClearAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
+
             _testContext.JSInterop
-                .SetupVoid("cropper.clear")
+                .SetupVoid("cropper.clear", cropperComponentId)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.ClearAsync();
+            await _cropperJsInterop.ClearAsync(cropperComponentId);
         }
 
         [Fact]
         public async Task Verify_CropAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
+
             _testContext.JSInterop
-                .SetupVoid("cropper.crop")
+                .SetupVoid("cropper.crop", cropperComponentId)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.CropAsync();
+            await _cropperJsInterop.CropAsync(cropperComponentId);
         }
 
         [Fact]
         public async Task Verify_DestroyAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
+
             _testContext.JSInterop
-                .SetupVoid("cropper.destroy")
+                .SetupVoid("cropper.destroy", cropperComponentId)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.DestroyAsync();
+            await _cropperJsInterop.DestroyAsync(cropperComponentId);
         }
 
         [Fact]
         public async Task Verify_DisableAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
+
             _testContext.JSInterop
-                .SetupVoid("cropper.disable")
+                .SetupVoid("cropper.disable", cropperComponentId)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.DisableAsync();
+            await _cropperJsInterop.DisableAsync(cropperComponentId);
         }
 
         [Fact]
         public async Task Verify_EnableAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
+
             _testContext.JSInterop
-                .SetupVoid("cropper.enable")
+                .SetupVoid("cropper.enable", cropperComponentId)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.EnableAsync();
+            await _cropperJsInterop.EnableAsync(cropperComponentId);
         }
 
         [Fact]
         public async Task Verify_GetCanvasDataAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             CanvasData expectedCanvasData = new Faker<CanvasData>();
 
             _testContext.JSInterop
-                .Setup<CanvasData>("cropper.getCanvasData")
+                .Setup<CanvasData>("cropper.getCanvasData", cropperComponentId)
                 .SetResult(expectedCanvasData);
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            CanvasData canvasData = await _cropperJsInterop.GetCanvasDataAsync();
+            CanvasData canvasData = await _cropperJsInterop.GetCanvasDataAsync(cropperComponentId);
 
             // assert
             expectedCanvasData.Should().BeEquivalentTo(canvasData);
@@ -169,17 +182,18 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_GetContainerDataAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             ContainerData expectedContainerData = new Faker<ContainerData>();
 
             _testContext.JSInterop
-                .Setup<ContainerData>("cropper.getContainerData")
+                .Setup<ContainerData>("cropper.getContainerData", cropperComponentId)
                 .SetResult(expectedContainerData);
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            ContainerData containerData = await _cropperJsInterop.GetContainerDataAsync();
+            ContainerData containerData = await _cropperJsInterop.GetContainerDataAsync(cropperComponentId);
 
             // assert
             expectedContainerData.Should().BeEquivalentTo(containerData);
@@ -189,17 +203,18 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_GetCropBoxDataAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             CropBoxData expectedCropBoxData = new Faker<CropBoxData>();
 
             _testContext.JSInterop
-                .Setup<CropBoxData>("cropper.getCropBoxData")
+                .Setup<CropBoxData>("cropper.getCropBoxData", cropperComponentId)
                 .SetResult(expectedCropBoxData);
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            CropBoxData cropBoxData = await _cropperJsInterop.GetCropBoxDataAsync();
+            CropBoxData cropBoxData = await _cropperJsInterop.GetCropBoxDataAsync(cropperComponentId);
 
             // assert
             expectedCropBoxData.Should().BeEquivalentTo(cropBoxData);
@@ -209,6 +224,7 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_GetCroppedCanvasAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             Mock<IJSObjectReference> mockIJSObjectReference = new();
 
             CroppedCanvas expectedCroppedCanvas = new Faker<CroppedCanvas>()
@@ -216,35 +232,40 @@ namespace Cropper.Blazor.UnitTests.Services
             GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>();
 
             _testContext.JSInterop
-                .SetupModule("cropper.getCroppedCanvas", invocation => invocation.Arguments?[0] is GetCroppedCanvasOptions argumentGetCroppedCanvasOptions
-                       && argumentGetCroppedCanvasOptions.Equals(getCroppedCanvasOptions));
+                .SetupModule("cropper.getCroppedCanvas", invocation => invocation.Arguments?[0] is Guid guid
+                    && guid.Equals(cropperComponentId)
+                    && invocation.Arguments?[1] is GetCroppedCanvasOptions argumentGetCroppedCanvasOptions
+                    && argumentGetCroppedCanvasOptions.Equals(getCroppedCanvasOptions));
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            CroppedCanvas croppedCanvas = await _cropperJsInterop.GetCroppedCanvasAsync(getCroppedCanvasOptions);
+            CroppedCanvas croppedCanvas = await _cropperJsInterop.GetCroppedCanvasAsync(cropperComponentId, getCroppedCanvasOptions);
 
             // assert
             expectedCroppedCanvas.Should().BeEquivalentTo(croppedCanvas);
         }
 
         [Fact]
-        public async Task Verify_GetCroppedCanvasDataURLAsync()
+        public async Task Verify_GetCroppedCanvasDataURL_By_TypeAndNumber_Async()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             string expectedCroppedCanvasURL = _faker.Random.Word();
+            string type = _faker.Random.Word();
+            float number = _faker.Random.Float();
             GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>();
 
             _testContext.JSInterop
-                .Setup<string>("cropper.getCroppedCanvasDataURL", getCroppedCanvasOptions)
+                .Setup<string>("cropper.getCroppedCanvasDataURL", cropperComponentId, getCroppedCanvasOptions, type, number)
                 .SetResult(expectedCroppedCanvasURL);
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            string croppedCanvasURL = await _cropperJsInterop.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+            string croppedCanvasURL = await _cropperJsInterop.GetCroppedCanvasDataURLAsync(cropperComponentId, getCroppedCanvasOptions, type, number);
 
             // assert
             expectedCroppedCanvasURL.Should().BeEquivalentTo(croppedCanvasURL);
@@ -254,18 +275,19 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_GetDataAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             CropperData expectedCropperData = new Faker<CropperData>();
             bool rounded = _faker.Random.Bool();
 
             _testContext.JSInterop
-                .Setup<CropperData>("cropper.getData", rounded)
+                .Setup<CropperData>("cropper.getData", cropperComponentId, rounded)
                 .SetResult(expectedCropperData);
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            CropperData cropperData = await _cropperJsInterop.GetDataAsync(rounded);
+            CropperData cropperData = await _cropperJsInterop.GetDataAsync(cropperComponentId, rounded);
 
             // assert
             expectedCropperData.Should().BeEquivalentTo(cropperData);
@@ -275,17 +297,18 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_GetImageDataAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             ImageData expectedImageData = new Faker<ImageData>();
 
             _testContext.JSInterop
-                .Setup<ImageData>("cropper.getImageData")
+                .Setup<ImageData>("cropper.getImageData", cropperComponentId)
                 .SetResult(expectedImageData);
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            ImageData imageData = await _cropperJsInterop.GetImageDataAsync();
+            ImageData imageData = await _cropperJsInterop.GetImageDataAsync(cropperComponentId);
 
             // assert
             expectedImageData.Should().BeEquivalentTo(imageData);
@@ -338,36 +361,38 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_MoveAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             decimal offsetX = _faker.Random.Decimal();
             decimal? offsetY = _faker.Random.Decimal();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.move", offsetX, offsetY)
+                .SetupVoid("cropper.move", cropperComponentId, offsetX, offsetY)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.MoveAsync(offsetX, offsetY);
+            await _cropperJsInterop.MoveAsync(cropperComponentId, offsetX, offsetY);
         }
 
         [Fact]
         public async Task Verify_MoveToAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             decimal x = _faker.Random.Decimal();
             decimal? y = _faker.Random.Decimal();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.moveTo", x, y)
+                .SetupVoid("cropper.moveTo", cropperComponentId, x, y)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.MoveToAsync(x, y);
+            await _cropperJsInterop.MoveToAsync(cropperComponentId, x, y);
         }
 
         [Fact]
@@ -389,33 +414,35 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_ReplaceAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             string url = _faker.Random.String();
             bool onlyColorChanged = _faker.Random.Bool();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.replace", url, onlyColorChanged)
+                .SetupVoid("cropper.replace", cropperComponentId, url, onlyColorChanged)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.ReplaceAsync(url, onlyColorChanged);
+            await _cropperJsInterop.ReplaceAsync(cropperComponentId, url, onlyColorChanged);
         }
 
         [Fact]
         public async Task Verify_ResetAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             _testContext.JSInterop
-                .SetupVoid("cropper.reset")
+                .SetupVoid("cropper.reset", cropperComponentId)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.ResetAsync();
+            await _cropperJsInterop.ResetAsync(cropperComponentId);
         }
 
         [Fact]
@@ -439,154 +466,163 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_RotateAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             decimal degree = _faker.Random.Decimal();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.rotate", degree)
+                .SetupVoid("cropper.rotate", cropperComponentId, degree)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.RotateAsync(degree);
+            await _cropperJsInterop.RotateAsync(cropperComponentId, degree);
         }
 
         [Fact]
         public async Task Verify_RotateToAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             decimal degree = _faker.Random.Decimal();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.rotateTo", degree)
+                .SetupVoid("cropper.rotateTo", cropperComponentId, degree)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.RotateToAsync(degree);
+            await _cropperJsInterop.RotateToAsync(cropperComponentId, degree);
         }
 
         [Fact]
         public async Task Verify_ScaleAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             decimal scaleX = _faker.Random.Decimal();
             decimal scaleY = _faker.Random.Decimal();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.scale", scaleX, scaleY)
+                .SetupVoid("cropper.scale", cropperComponentId, scaleX, scaleY)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.ScaleAsync(scaleX, scaleY);
+            await _cropperJsInterop.ScaleAsync(cropperComponentId, scaleX, scaleY);
         }
 
         [Fact]
         public async Task Verify_ScaleXAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             decimal scaleX = _faker.Random.Decimal();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.scaleX", scaleX)
+                .SetupVoid("cropper.scaleX", cropperComponentId, scaleX)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.ScaleXAsync(scaleX);
+            await _cropperJsInterop.ScaleXAsync(cropperComponentId, scaleX);
         }
 
         [Fact]
         public async Task Verify_ScaleYAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             decimal scaleY = _faker.Random.Decimal();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.scaleY", scaleY)
+                .SetupVoid("cropper.scaleY", cropperComponentId, scaleY)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.ScaleYAsync(scaleY);
+            await _cropperJsInterop.ScaleYAsync(cropperComponentId, scaleY);
         }
 
         [Fact]
         public async Task Verify_SetAspectRatioAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             decimal aspectRatio = _faker.Random.Decimal();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.setAspectRatio", aspectRatio)
+                .SetupVoid("cropper.setAspectRatio", cropperComponentId, aspectRatio)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.SetAspectRatioAsync(aspectRatio);
+            await _cropperJsInterop.SetAspectRatioAsync(cropperComponentId, aspectRatio);
         }
 
         [Fact]
         public async Task Verify_SetCanvasDataAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             SetCanvasDataOptions setCanvasDataOptions = new Faker<SetCanvasDataOptions>();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.setCanvasData", setCanvasDataOptions)
+                .SetupVoid("cropper.setCanvasData", cropperComponentId, setCanvasDataOptions)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.SetCanvasDataAsync(setCanvasDataOptions);
+            await _cropperJsInterop.SetCanvasDataAsync(cropperComponentId, setCanvasDataOptions);
         }
 
         [Fact]
         public async Task Verify_SetCropBoxDataAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             SetCropBoxDataOptions setCropBoxDataOptions = new Faker<SetCropBoxDataOptions>();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.setCropBoxData", setCropBoxDataOptions)
+                .SetupVoid("cropper.setCropBoxData", cropperComponentId, setCropBoxDataOptions)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.SetCropBoxDataAsync(setCropBoxDataOptions);
+            await _cropperJsInterop.SetCropBoxDataAsync(cropperComponentId, setCropBoxDataOptions);
         }
 
         [Fact]
         public async Task Verify_SetDataAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             SetDataOptions setDataOptions = new Faker<SetDataOptions>();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.setData", setDataOptions)
+                .SetupVoid("cropper.setData", cropperComponentId, setDataOptions)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.SetDataAsync(setDataOptions);
+            await _cropperJsInterop.SetDataAsync(cropperComponentId, setDataOptions);
         }
 
         [Fact]
@@ -610,53 +646,56 @@ namespace Cropper.Blazor.UnitTests.Services
         public async Task Verify_SetDragModeAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             DragMode dragMode = _faker.Random.Enum<DragMode>();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.setDragMode", dragMode.ToEnumString())
+                .SetupVoid("cropper.setDragMode", cropperComponentId, dragMode.ToEnumString())
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.SetDragModeAsync(dragMode);
+            await _cropperJsInterop.SetDragModeAsync(cropperComponentId, dragMode);
         }
 
         [Fact]
         public async Task Verify_ZoomAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             decimal ratio = _faker.Random.Decimal();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.zoom", ratio)
+                .SetupVoid("cropper.zoom", cropperComponentId, ratio)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.ZoomAsync(ratio);
+            await _cropperJsInterop.ZoomAsync(cropperComponentId, ratio);
         }
 
         [Fact]
         public async Task Verify_ZoomToAsync()
         {
             // arrange
+            Guid cropperComponentId = Guid.NewGuid();
             decimal ratio = _faker.Random.Decimal();
             decimal pivotX = _faker.Random.Decimal();
             decimal pivotY = _faker.Random.Decimal();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.zoomTo", ratio, pivotX, pivotY)
+                .SetupVoid("cropper.zoomTo", cropperComponentId, ratio, pivotX, pivotY)
                 .SetVoidResult();
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.ZoomToAsync(ratio, pivotX, pivotY);
+            await _cropperJsInterop.ZoomToAsync(cropperComponentId, ratio, pivotX, pivotY);
         }
 
         [Fact]

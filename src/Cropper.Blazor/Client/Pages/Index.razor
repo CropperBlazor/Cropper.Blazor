@@ -2,7 +2,8 @@
 @using Cropper.Blazor.Client.Components
 @using Cropper.Blazor.Client.Components.Docs
 @using Cropper.Blazor.Client.Models;
-@using Cropper.Blazor.Client.Pages.Examples
+@using Cropper.Blazor.Client.Pages.Examples.Installation
+@using Cropper.Blazor.Client.Pages.Examples.Uses.Preview
 
 <MudContainer Class="mt-5 px-4">
     <MudGrid Class="mt-5" Justify="Justify.Center">
@@ -116,6 +117,27 @@
                     </SectionContent>
                 </DocsPageSection>
 
+                <DocsPageSection>
+                    <SectionHeader Title="Add Preview Option">
+                        <SubTitle>Add the following components to your <CodeInline>MainLayout.razor</CodeInline></SubTitle>
+                        <Description>
+                            <MudText Typo="Typo.h6">Notes for Preview Option:</MudText>
+                            <MudList>
+                                <MudListItem Text="The maximum width is the initial width of the preview container." Icon="@Icons.Material.Filled.Circle" />
+                                <MudListItem Text="The maximum height is the initial height of the preview container." Icon="@Icons.Material.Filled.Circle" />
+                                <MudListItem Text="If you set an aspectRatio option, be sure to set the same aspect ratio to the preview container." Icon="@Icons.Material.Filled.Circle" />
+                                <MudListItem Text="If the preview does not display correctly, set the overflow: hidden style to the preview container." Icon="@Icons.Material.Filled.Circle" />
+                            </MudList>
+                        </Description>
+                    </SectionHeader>
+                    <SectionContent @ref="ActivePreviewActive" ChildContent="PreviewActiveRenderFragment" Codes="@(
+                        new CodeFile[]
+                        {
+                            new CodeFile("Preview from String selector", "UsesPreviewFromStringSelectorComponentsExample"),
+                            new CodeFile("Preview from ElementReference selector", "UsesPreviewFromElementReferenceSelectorComponentsExample"),
+                            new CodeFile("Preview from multiple ElementReference selector", "UsesPreviewFromMultipleElementReferenceSelectorComponentsExample")
+                        })" />
+                </DocsPageSection>
             </DocsPageSection>
 
         </MudItem>
