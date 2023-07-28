@@ -215,6 +215,14 @@ namespace Cropper.Blazor.Client.Pages
         public async void OnCropReadyEvent(JSEventData<CropReadyEvent> jSEventData)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropReadyJSEvent, {JsonSerializer.Serialize(jSEventData)}");
+
+            await InvokeAsync(async () =>
+            {
+                ImageData imageData = await CropperComponent!.GetImageDataAsync();
+                decimal initZoomRatio = imageData.Width / imageData.NaturalWidth;
+
+                GetSetCropperData!.SetRatio(initZoomRatio);
+            });
         }
 
         public async void OnLoadImageEvent()
