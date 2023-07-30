@@ -1,0 +1,12 @@
+﻿<PageTitle>@Title</PageTitle>
+<HeadContent>
+    <meta Name="keywords" Content="@GetKeywords()" />
+    <meta Property="og:title" Content="@Title" />
+    <meta Name="twitter:title" Content="@Title" />
+    @if (!string.IsNullOrEmpty(Overview))
+    {
+        <meta Name="description" Content="@GetSubTitle()" />
+        <meta Property="og:description" Content="@GetSubTitle()" />
+        <meta Name="twitter:description" Content="@GetSubTitle()" />
+    }
+</HeadContent>
