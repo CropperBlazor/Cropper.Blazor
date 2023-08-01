@@ -13,14 +13,14 @@ namespace Cropper.Blazor.Models
         public byte[] ImageData { get; set; }
 
         /// <summary>
-        /// The media type defined in the data url. (e.g. image/png;base64)
+        /// The media type defined in the data url. (e.g. image/png;base64).
         /// </summary>
         public string MediaType { get; set; }
 
         /// <summary>
         /// Decodes a data url into a DecodedDataUrl object.
         /// </summary>
-        /// <param name="dataUrl"></param>
+        /// <param name="dataUrl">Represents the data URL.</param>
         public DecodedDataUrl(string dataUrl)
         {
             (ImageData, MediaType) = DataUrlDecoder.Decode(dataUrl);

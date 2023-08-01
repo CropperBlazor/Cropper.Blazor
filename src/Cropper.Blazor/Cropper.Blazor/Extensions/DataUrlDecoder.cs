@@ -12,9 +12,9 @@ namespace Cropper.Blazor.Extensions
         private const string DataUrlPattern = @"data:(?<type>.+?),(?<data>.+)";
         private static readonly Regex DataUrlRegex = new (DataUrlPattern, RegexOptions.Compiled);
         /// <summary>
-        /// Decodes a data url into a byte array and outs the <paramref name="mediaType"/>
+        /// Decodes a data url into a byte array and outs the <paramref name="mediaType"/>.
         /// </summary>
-        /// <param name="dataUrl">The data url to be decoded</param>
+        /// <param name="dataUrl">The data url to be decoded.</param>
         /// <returns>A DecodedDataUrl contained the media type and decoded url.</returns>
         public static (byte[] ImageData, string MediaType) Decode(string dataUrl)
         {
