@@ -4,6 +4,14 @@
 @using Cropper.Blazor.Extensions;
 @using Cropper.Blazor.Models
 
+<SeoHeader Title="Demo"
+           Overview="Cropper.Blazor is a component that wraps around Cropper.js."
+           Keywords="@(
+            new []
+            {
+                "demo"
+            })" />
+
 <MudContainer Class="@((Start.Equals(Breakpoint.Xl) || Start.Equals(Breakpoint.Xxl) ? "mud-container-maxwidth-xl " : "") + "mt-5")">
     <MudGrid Class="mt-2">
         @*//---Cropper Component---//*@
