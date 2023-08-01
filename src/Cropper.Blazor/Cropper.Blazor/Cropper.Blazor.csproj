@@ -14,13 +14,13 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Version>1.2.2</Version>
+		<Version>1.2.4</Version>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageIcon>NuGet.png</PackageIcon>
 		<Company>Cropper.Blazor</Company>
 		<Authors>Max56132, ColdForeign</Authors>
 		<Copyright>Copyright 2022-present Cropper.Blazor</Copyright>
-		<Description>Cropper.Blazor is a component element that wraps around Cropper.js</Description>
+		<Description>Cropper.Blazor is a component that wraps around Cropper.js</Description>
 		<PackageTags>Blazor, Cropper.Blazor, Cropper.js, Blazor Components, Blazor Library, Blazor Cropper, Cropper, Image, Crop, Resize, image-cropper, crop-image, csharp, blazor-cropper </PackageTags>
 		<PackageProjectUrl>https://CropperBlazor.github.io</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/CropperBlazor/Cropper.Blazor</RepositoryUrl>

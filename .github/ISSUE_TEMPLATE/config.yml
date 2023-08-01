@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Github Discussions
+    url: https://github.com/CropperBlazor/Cropper.Blazor/discussions
+    about: Please ask and answer questions here
+  - name: Telegram
+    url: https://t.me/+dLQD8Al6C9s0ZjMy
+    about: You can also ask and answer questions here

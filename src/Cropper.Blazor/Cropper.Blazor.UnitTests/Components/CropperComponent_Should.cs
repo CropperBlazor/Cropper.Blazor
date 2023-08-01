@@ -45,6 +45,88 @@ namespace Cropper.Blazor.UnitTests.Components
             _testContext.Services.AddSingleton(_mockCropperJsInterop.Object);
         }
 
+        [Theory]
+        [InlineData(-100)]
+        [InlineData(-1)]
+        [InlineData(-0.99)]
+        [InlineData(1.11)]
+        [InlineData(111)]
+        public async Task Throw_Exception_Because_Of_Invalid_NumberAsync(float numberImageQuality)
+        {
+            // arrange
+            Faker faker = new();
+            CancellationToken cancellationToken = new();
+            GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>()
+                .Generate();
+            string imageFormatType = faker.Random.Word();
+
+            IRenderedComponent<CropperComponent> cropperComponent = _testContext
+                .RenderComponent<CropperComponent>();
+
+            await cropperComponent.InvokeAsync(async () =>
+            {
+                // act
+                Func<Task> func = async () => await cropperComponent.Instance.GetCroppedCanvasDataURLAsync(
+                    getCroppedCanvasOptions,
+                    imageFormatType,
+                    numberImageQuality,
+                    cancellationToken);
+
+                // assert
+                await func
+                    .Should()
+                    .ThrowAsync<ArgumentException>()
+                    .WithMessage($"The given number should be between 0 and 1 for indication the image quality, but found {numberImageQuality}. (Parameter 'number')");
+
+                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataURLAsync(
+                    It.IsAny<Guid>(),
+                    It.IsAny<GetCroppedCanvasOptions>(),
+                    It.IsAny<string>(),
+                    It.IsAny<float>(),
+                    It.IsAny<CancellationToken>()), Times.Never());
+            });
+        }
+
+        [Fact]
+        private void Should_Dispose_CropperComponent_After_Render()
+        {
+            // arrange
+            CancellationToken cancellationToken = new();
+
+            // act
+            IRenderedComponent<CropperComponent> cropperComponent = _testContext
+                .RenderComponent<CropperComponent>();
+
+            // assert
+            Guid cropperComponentId = (Guid)cropperComponent.Instance
+                .GetInstanceField("CropperComponentId");
+
+            cropperComponent.Instance.Dispose();
+
+            _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Once());
+            _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Once());
+        }
+
+        [Fact]
+        private async Task Should_DisposeAsync_CropperComponent_After_Render_Async()
+        {
+            // arrange
+            CancellationToken cancellationToken = new();
+
+            // act
+            IRenderedComponent<CropperComponent> cropperComponent = _testContext
+                .RenderComponent<CropperComponent>();
+
+            // assert
+            Guid cropperComponentId = (Guid)cropperComponent.Instance
+                .GetInstanceField("CropperComponentId");
+
+            await cropperComponent.Instance.DisposeAsync();
+
+            _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Once());
+            _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Once());
+        }
+
         [Fact]
         public async Task Should_Render_CropperComponent_SuccessfulAsync()
         {
@@ -95,7 +177,7 @@ namespace Cropper.Blazor.UnitTests.Components
                 .Generate();
             GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>()
                 .Generate();
-            Mock<IJSObjectReference> mockIJSObjectReference = new Mock<IJSObjectReference>();
+            Mock<IJSObjectReference> mockIJSObjectReference = new();
             CroppedCanvas expectedCroppedCanvas = new Faker<CroppedCanvas>()
                 .CustomInstantiator(c => new CroppedCanvas(mockIJSObjectReference.Object));
             CropperData expectedCropperData = new Faker<CropperData>()
@@ -129,6 +211,8 @@ namespace Cropper.Blazor.UnitTests.Components
             decimal pivotY = faker.Random.Decimal();
             string newUrlImage = faker.Random.Word();
             bool hasSameSize = faker.Random.Bool();
+            string imageFormatType = faker.Random.Word();
+            float numberImageQuality = faker.Random.Float(0, 1);
 
             Action? onLoadImageHandler = () =>
             {
@@ -220,31 +304,36 @@ namespace Cropper.Blazor.UnitTests.Components
                 onCropReadyEventHandler);
 
             _mockCropperJsInterop
-                .Setup(c => c.GetCanvasDataAsync(cancellationToken))
+                .Setup(c => c.GetCanvasDataAsync(It.IsAny<Guid>(), cancellationToken))
                 .ReturnsAsync(expectedCanvasData);
 
             _mockCropperJsInterop
-                .Setup(c => c.GetContainerDataAsync(cancellationToken))
+                .Setup(c => c.GetContainerDataAsync(It.IsAny<Guid>(), cancellationToken))
                 .ReturnsAsync(expectedContainerData);
 
             _mockCropperJsInterop
-                .Setup(c => c.GetCropBoxDataAsync(cancellationToken))
+                .Setup(c => c.GetCropBoxDataAsync(It.IsAny<Guid>(), cancellationToken))
                 .ReturnsAsync(expectedCropBoxData);
 
             _mockCropperJsInterop
-                .Setup(c => c.GetCroppedCanvasAsync(getCroppedCanvasOptions, cancellationToken))
+                .Setup(c => c.GetCroppedCanvasAsync(It.IsAny<Guid>(), getCroppedCanvasOptions, cancellationToken))
                 .ReturnsAsync(expectedCroppedCanvas);
 
             _mockCropperJsInterop
-                .Setup(c => c.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions, cancellationToken))
+                .Setup(c => c.GetCroppedCanvasDataURLAsync(
+                    It.IsAny<Guid>(),
+                    getCroppedCanvasOptions,
+                    imageFormatType,
+                    numberImageQuality,
+                    cancellationToken))
                 .ReturnsAsync(expectedCroppedCanvasDataURL);
 
             _mockCropperJsInterop
-                .Setup(c => c.GetDataAsync(isRounded, cancellationToken))
+                .Setup(c => c.GetDataAsync(It.IsAny<Guid>(), isRounded, cancellationToken))
                 .ReturnsAsync(expectedCropperData);
 
             _mockCropperJsInterop
-                .Setup(c => c.GetImageDataAsync(cancellationToken))
+                .Setup(c => c.GetImageDataAsync(It.IsAny<Guid>(), cancellationToken))
                 .ReturnsAsync(expectedImageData);
 
             _mockCropperJsInterop
@@ -275,6 +364,8 @@ namespace Cropper.Blazor.UnitTests.Components
             IElement expectedElement = cropperComponent.Find($"img.{imageClass}");
             ElementReference elementReference = (ElementReference)cropperComponent.Instance
                 .GetInstanceField("ImageReference");
+            Guid cropperComponentId = (Guid)cropperComponent.Instance
+                .GetInstanceField("CropperComponentId");
 
             _mockCropperJsInterop.Verify(c => c.LoadModuleAsync(cancellationToken), Times.Once());
             elementReference.Id.Should().NotBeNullOrEmpty();
@@ -287,6 +378,7 @@ namespace Cropper.Blazor.UnitTests.Components
             expectedElement.TriggerEvent("onload", progressEventArgs);
             countCallsOnLoadImageHandler.Should().Be(1);
             _mockCropperJsInterop.Verify(c => c.InitCropperAsync(
+                cropperComponentId,
                 elementReference,
                 options,
                 It.IsAny<DotNetObjectReference<ICropperComponentBase>>(),
@@ -299,10 +391,10 @@ namespace Cropper.Blazor.UnitTests.Components
             await cropperComponent.InvokeAsync(async () =>
             {
                 cropperComponent.Instance.Clear();
-                _mockCropperJsInterop.Verify(c => c.ClearAsync(cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.ClearAsync(cropperComponentId, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.Crop();
-                _mockCropperJsInterop.Verify(c => c.CropAsync(cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.CropAsync(cropperComponentId, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.CropperIsCroped(cropEvent);
                 countCallsOnCropEventHandler.Should().Be(1);
@@ -320,44 +412,44 @@ namespace Cropper.Blazor.UnitTests.Components
                 countCallsOnZoomEventHandler.Should().Be(1);
 
                 cropperComponent.Instance.Destroy();
-                _mockCropperJsInterop.Verify(c => c.DestroyAsync(cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.Disable();
-                _mockCropperJsInterop.Verify(c => c.DisableAsync(cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.DisableAsync(cropperComponentId, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.Enable();
-                _mockCropperJsInterop.Verify(c => c.EnableAsync(cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.EnableAsync(cropperComponentId, cancellationToken), Times.Once());
 
                 CanvasData canvasData = await cropperComponent.Instance.GetCanvasDataAsync();
                 expectedCanvasData.Should().BeEquivalentTo(canvasData);
-                _mockCropperJsInterop.Verify(c => c.GetCanvasDataAsync(cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.GetCanvasDataAsync(cropperComponentId, cancellationToken), Times.Once());
 
                 ContainerData containerData = await cropperComponent.Instance.GetContainerDataAsync();
                 expectedContainerData.Should().BeEquivalentTo(containerData);
-                _mockCropperJsInterop.Verify(c => c.GetContainerDataAsync(cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.GetContainerDataAsync(cropperComponentId, cancellationToken), Times.Once());
 
                 CropBoxData cropBoxData = await cropperComponent.Instance.GetCropBoxDataAsync();
                 expectedCropBoxData.Should().BeEquivalentTo(cropBoxData);
-                _mockCropperJsInterop.Verify(c => c.GetCropBoxDataAsync(cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.GetCropBoxDataAsync(cropperComponentId, cancellationToken), Times.Once());
 
                 object croppedCanvas = await cropperComponent.Instance.GetCroppedCanvasAsync(getCroppedCanvasOptions);
                 expectedCroppedCanvas.Should().BeEquivalentTo(croppedCanvas);
-                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasAsync(getCroppedCanvasOptions, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasAsync(cropperComponentId, getCroppedCanvasOptions, cancellationToken), Times.Once());
 
-                string croppedCanvasDataURL = await cropperComponent.Instance.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+                string croppedCanvasDataURL = await cropperComponent.Instance.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions, imageFormatType, numberImageQuality);
                 expectedCroppedCanvasDataURL.Should().BeEquivalentTo(croppedCanvasDataURL);
-                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataURLAsync(cropperComponentId, getCroppedCanvasOptions, imageFormatType, numberImageQuality, cancellationToken), Times.Once());
 
                 CropperData cropperData = await cropperComponent.Instance.GetDataAsync(isRounded);
                 expectedCropperData.Should().BeEquivalentTo(cropperData);
-                _mockCropperJsInterop.Verify(c => c.GetDataAsync(isRounded, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.GetDataAsync(cropperComponentId, isRounded, cancellationToken), Times.Once());
 
                 ImageData imageData = await cropperComponent.Instance.GetImageDataAsync();
                 expectedImageData.Should().Be(imageData);
-                _mockCropperJsInterop.Verify(c => c.GetImageDataAsync(cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.GetImageDataAsync(cropperComponentId, cancellationToken), Times.Once());
 
                 await cropperComponent.Instance.ReplaceAsync(newUrlImage, hasSameSize);
-                _mockCropperJsInterop.Verify(c => c.ReplaceAsync(newUrlImage, hasSameSize, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.ReplaceAsync(cropperComponentId, newUrlImage, hasSameSize, cancellationToken), Times.Once());
 
                 string image = await cropperComponent.Instance.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken);
                 expectedImage.Should().Be(image);
@@ -367,55 +459,60 @@ namespace Cropper.Blazor.UnitTests.Components
                 countCallsOnCropReadyEventHandler.Should().Be(1);
 
                 cropperComponent.Instance.Move(offsetX, offsetY);
-                _mockCropperJsInterop.Verify(c => c.MoveAsync(offsetX, offsetY, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.MoveAsync(cropperComponentId, offsetX, offsetY, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.MoveTo(x, y);
-                _mockCropperJsInterop.Verify(c => c.MoveToAsync(x, y, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.MoveToAsync(cropperComponentId, x, y, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.OnErrorLoadImage(errorEventArgs);
                 countCallsOnErrorLoadImageHandler.Should().Be(2);
 
                 cropperComponent.Instance.Reset();
-                _mockCropperJsInterop.Verify(c => c.ResetAsync(cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.ResetAsync(cropperComponentId, cancellationToken), Times.Once());
 
                 await cropperComponent.Instance.RevokeObjectUrlAsync(url);
                 _mockCropperJsInterop.Verify(c => c.RevokeObjectUrlAsync(url, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.Rotate(degree);
-                _mockCropperJsInterop.Verify(c => c.RotateAsync(degree, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.RotateAsync(cropperComponentId, degree, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.Scale(scaleX, scaleY);
-                _mockCropperJsInterop.Verify(c => c.ScaleAsync(scaleX, scaleY, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.ScaleAsync(cropperComponentId, scaleX, scaleY, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.ScaleX(scaleX);
-                _mockCropperJsInterop.Verify(c => c.ScaleXAsync(scaleX, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.ScaleXAsync(cropperComponentId, scaleX, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.ScaleY(scaleY);
-                _mockCropperJsInterop.Verify(c => c.ScaleYAsync(scaleY, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.ScaleYAsync(cropperComponentId, scaleY, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.SetAspectRatio(aspectRatio);
-                _mockCropperJsInterop.Verify(c => c.SetAspectRatioAsync(aspectRatio, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.SetAspectRatioAsync(cropperComponentId, aspectRatio, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.SetCanvasData(setCanvasDataOptions);
-                _mockCropperJsInterop.Verify(c => c.SetCanvasDataAsync(setCanvasDataOptions, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.SetCanvasDataAsync(cropperComponentId, setCanvasDataOptions, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.SetCropBoxData(setCropBoxDataOptions);
-                _mockCropperJsInterop.Verify(c => c.SetCropBoxDataAsync(setCropBoxDataOptions, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.SetCropBoxDataAsync(cropperComponentId, setCropBoxDataOptions, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.SetData(setDataOptions);
-                _mockCropperJsInterop.Verify(c => c.SetDataAsync(setDataOptions, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.SetDataAsync(cropperComponentId, setDataOptions, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.SetDragMode(dragMode);
-                _mockCropperJsInterop.Verify(c => c.SetDragModeAsync(dragMode, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.SetDragModeAsync(cropperComponentId, dragMode, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.Zoom(ratio);
-                _mockCropperJsInterop.Verify(c => c.ZoomAsync(ratio, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.ZoomAsync(cropperComponentId, ratio, cancellationToken), Times.Once());
 
                 cropperComponent.Instance.ZoomTo(ratio, pivotX, pivotY);
-                _mockCropperJsInterop.Verify(c => c.ZoomToAsync(ratio, pivotX, pivotY, cancellationToken), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.ZoomToAsync(cropperComponentId, ratio, pivotX, pivotY, cancellationToken), Times.Once());
 
                 await cropperComponent.Instance.DisposeAsync();
                 _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Exactly(2));
+
+                cropperComponent.Instance.Dispose();
+                _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Exactly(2));
+                _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Exactly(3));
             });
         }
 
@@ -467,6 +564,7 @@ namespace Cropper.Blazor.UnitTests.Components
             expectedElement.GetAttribute("blazor:elementreference").Should().BeNullOrEmpty();
 
             _mockCropperJsInterop.Verify(c => c.InitCropperAsync(
+                It.IsAny<Guid>(),
                 It.IsAny<ElementReference>(),
                 It.IsAny<Options>(),
                 It.IsAny<DotNetObjectReference<ICropperComponentBase>>(),
@@ -525,6 +623,7 @@ namespace Cropper.Blazor.UnitTests.Components
             expectedElement.GetAttribute("blazor:elementreference").Should().BeNullOrEmpty();
 
             _mockCropperJsInterop.Verify(c => c.InitCropperAsync(
+                It.IsAny<Guid>(),
                 It.IsAny<ElementReference>(),
                 It.IsAny<Options>(),
                 It.IsAny<DotNetObjectReference<ICropperComponentBase>>(),

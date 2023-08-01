@@ -41,6 +41,13 @@ namespace Cropper.Blazor.Client.Components
             StateHasChanged();
         }
 
+        public void SetRatio(decimal? ratio)
+        {
+            Ratio = ratio;
+
+            StateHasChanged();
+        }
+
         public async Task ApplyZoomRulesForCropperAsync()
         {
             await JSRuntime!.InvokeVoidAsync("window.overrideOnZoomCropperEvent", MinZoomRatio, MaxZoomRatio);

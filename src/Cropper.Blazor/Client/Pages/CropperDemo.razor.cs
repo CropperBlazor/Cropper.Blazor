@@ -42,6 +42,10 @@ namespace Cropper.Blazor.Client.Pages
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
         private Breakpoint Start;
         private Guid SubscriptionId;
+        private ElementReference ElementReferencePreviewLg;
+        private ElementReference ElementReferencePreviewMd;
+        private ElementReference ElementReferencePreviewSm;
+        private ElementReference ElementReferencePreviewXs;
 
         public Dictionary<string, object> InputAttributes { get; set; } =
             new Dictionary<string, object>()
@@ -54,10 +58,24 @@ namespace Cropper.Blazor.Client.Pages
         {
             Options = new Options()
             {
-                Preview = ".img-preview",
+                //Preview = ".img-preview",
                 AspectRatio = (decimal)16 / 9,
                 ViewMode = ViewMode.Vm0
             };
+        }
+
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+            {
+                Options.Preview = new ElementReference[]
+                {
+                    ElementReferencePreviewXs,
+                    ElementReferencePreviewSm,
+                    ElementReferencePreviewMd,
+                    ElementReferencePreviewLg
+                };
+            }
         }
 
         public async void OnCropEvent(JSEventData<CropEvent> cropJSEvent)
@@ -197,6 +215,14 @@ namespace Cropper.Blazor.Client.Pages
         public async void OnCropReadyEvent(JSEventData<CropReadyEvent> jSEventData)
         {
             await JSRuntime!.InvokeVoidAsync("console.log", $"CropReadyJSEvent, {JsonSerializer.Serialize(jSEventData)}");
+
+            await InvokeAsync(async () =>
+            {
+                ImageData imageData = await CropperComponent!.GetImageDataAsync();
+                decimal initZoomRatio = imageData.Width / imageData.NaturalWidth;
+
+                GetSetCropperData!.SetRatio(initZoomRatio);
+            });
         }
 
         public async void OnLoadImageEvent()
@@ -323,7 +349,7 @@ namespace Cropper.Blazor.Client.Pages
         public async void GetCroppedCanvasData(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
             CroppedCanvas croppedCanvas = await CropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
-            string croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL");
+            string croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL", "image/png", 1);
 
             OpenCroppedCanvasDialog(croppedCanvasDataURL);
         }
@@ -335,7 +361,7 @@ namespace Cropper.Blazor.Client.Pages
 
             if (CropperFace == CropperFace.Default)
             {
-                croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL");
+                croppedCanvasDataURL = await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync<string>("toDataURL", "image/png", 1);
             }
             else if (CropperFace == CropperFace.Circle)
             {
@@ -502,7 +528,7 @@ namespace Cropper.Blazor.Client.Pages
                 { "Src", croppedCanvasDataURL }
             };
 
-            DialogOptions options = new DialogOptions
+            DialogOptions options = new()
             {
                 CloseButton = true,
                 MaxWidth = MaxWidth.Medium,

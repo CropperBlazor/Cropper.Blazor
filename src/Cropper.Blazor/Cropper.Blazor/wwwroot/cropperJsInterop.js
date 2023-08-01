@@ -1,119 +1,149 @@
 class CropperDecorator {
 
     constructor() {
-        this.cropperInstance = {};
+        this.cropperInstances = {};
     }
 
-    clear() {
-        return this.cropperInstance.clear();
+    clear(cropperComponentId) {
+        return this.cropperInstances[cropperComponentId]
+            .clear();
     }
 
-    crop() {
-        return this.cropperInstance.crop();
+    crop(cropperComponentId) {
+        return this.cropperInstances[cropperComponentId]
+            .crop();
     }
 
-    destroy() {
-        return this.cropperInstance.destroy();
+    destroy(cropperComponentId) {
+        this.cropperInstances[cropperComponentId]
+            .destroy();
+        delete this.cropperInstances[cropperComponentId];
     }
 
-    disable() {
-        return this.cropperInstance.disable();
+    disable(cropperComponentId) {
+        return this.cropperInstances[cropperComponentId]
+            .disable();
     }
 
-    enable() {
-        return this.cropperInstance.enable();
+    enable(cropperComponentId) {
+        return this.cropperInstances[cropperComponentId]
+            .enable();
     }
 
-    getCanvasData() {
-        return this.cropperInstance.getCanvasData();
+    getCanvasData(cropperComponentId) {
+        return this.cropperInstances[cropperComponentId]
+            .getCanvasData();
     }
 
-    getContainerData() {
-        return this.cropperInstance.getContainerData();
+    getContainerData(cropperComponentId) {
+        return this.cropperInstances[cropperComponentId]
+            .getContainerData();
     }
 
-    getCropBoxData() {
-        return this.cropperInstance.getCropBoxData();
+    getCropBoxData(cropperComponentId) {
+        return this.cropperInstances[cropperComponentId]
+            .getCropBoxData();
     }
 
-    getCroppedCanvas(options) {
-        return this.cropperInstance.getCroppedCanvas(options);
+    getCroppedCanvas(cropperComponentId, options) {
+        return this.cropperInstances[cropperComponentId]
+            .getCroppedCanvas(options);
     }
 
-    getCroppedCanvasDataURL(options) {
-        return this.cropperInstance.getCroppedCanvas(options).toDataURL();
+    getCroppedCanvasDataURL(cropperComponentId, options, type, encoderOptions) {
+        return this.cropperInstances[cropperComponentId]
+            .getCroppedCanvas(options)
+            .toDataURL(type, encoderOptions);
     }
 
-    getData(rounded) {
-        return this.cropperInstance.getData(rounded);
+    getData(cropperComponentId, rounded) {
+        return this.cropperInstances[cropperComponentId]
+            .getData(rounded);
     }
 
-    getImageData() {
-        return this.cropperInstance.getImageData();
+    getImageData(cropperComponentId) {
+        return this.cropperInstances[cropperComponentId]
+            .getImageData();
     }
 
-    move(offsetX, offsetY) {
-        return this.cropperInstance.move(offsetX, offsetY);
+    move(cropperComponentId, offsetX, offsetY) {
+        return this.cropperInstances[cropperComponentId]
+            .move(offsetX, offsetY);
     }
 
-    moveTo(x, y) {
-        return this.cropperInstance.moveTo(x, y);
+    moveTo(cropperComponentId, x, y) {
+        return this.cropperInstances[cropperComponentId]
+            .moveTo(x, y);
     }
 
-    replace(url, onlyColorChanged) {
-        return this.cropperInstance.replace(url, onlyColorChanged);
+    replace(cropperComponentId, url, onlyColorChanged) {
+        return this.cropperInstances[cropperComponentId]
+            .replace(url, onlyColorChanged);
     }
 
-    reset() {
-        return this.cropperInstance.reset();
+    reset(cropperComponentId) {
+        return this.cropperInstances[cropperComponentId]
+            .reset();
     }
 
-    rotate(degree) {
-        return this.cropperInstance.rotate(degree);
+    rotate(cropperComponentId, degree) {
+        return this.cropperInstances[cropperComponentId]
+            .rotate(degree);
     }
 
-    rotateTo(degree) {
-        return this.cropperInstance.rotateTo(degree);
+    rotateTo(cropperComponentId, degree) {
+        return this.cropperInstances[cropperComponentId]
+            .rotateTo(degree);
     }
 
-    scale(scaleX, scaleY) {
-        return this.cropperInstance.scale(scaleX, scaleY);
+    scale(cropperComponentId, scaleX, scaleY) {
+        return this.cropperInstances[cropperComponentId]
+            .scale(scaleX, scaleY);
     }
 
-    scaleX(scaleX) {
-        return this.cropperInstance.scaleX(scaleX);
+    scaleX(cropperComponentId, scaleX) {
+        return this.cropperInstances[cropperComponentId]
+            .scaleX(scaleX);
     }
 
-    scaleY(scaleY) {
-        return this.cropperInstance.scaleY(scaleY);
+    scaleY(cropperComponentId, scaleY) {
+        return this.cropperInstances[cropperComponentId]
+            .scaleY(scaleY);
     }
 
-    setAspectRatio(aspectRatio) {
-        return this.cropperInstance.setAspectRatio(aspectRatio);
+    setAspectRatio(cropperComponentId, aspectRatio) {
+        return this.cropperInstances[cropperComponentId]
+            .setAspectRatio(aspectRatio);
     }
 
-    setCanvasData(data) {
-        return this.cropperInstance.setCanvasData(data);
+    setCanvasData(cropperComponentId, data) {
+        return this.cropperInstances[cropperComponentId]
+            .setCanvasData(data);
     }
 
-    setCropBoxData(data) {
-        return this.cropperInstance.setCropBoxData(data);
+    setCropBoxData(cropperComponentId, data) {
+        return this.cropperInstances[cropperComponentId]
+            .setCropBoxData(data);
     }
 
-    setData(data) {
-        return this.cropperInstance.setData(data);
+    setData(cropperComponentId, data) {
+        return this.cropperInstances[cropperComponentId]
+            .setData(data);
     }
 
-    setDragMode(dragMode) {
-        return this.cropperInstance.setDragMode(dragMode);
+    setDragMode(cropperComponentId, dragMode) {
+        return this.cropperInstances[cropperComponentId]
+            .setDragMode(dragMode);
     }
 
-    zoom(ratio) {
-        return this.cropperInstance.zoom(ratio);
+    zoom(cropperComponentId, ratio) {
+        return this.cropperInstances[cropperComponentId]
+            .zoom(ratio);
     }
 
-    zoomTo(ratio, pivotX, pivotY) {
-        return this.cropperInstance.zoomTo(ratio, { pivotX, pivotY });
+    zoomTo(cropperComponentId, ratio, pivotX, pivotY) {
+        return this.cropperInstances[cropperComponentId]
+            .zoomTo(ratio, { pivotX, pivotY });
     }
 
     noConflict() {
@@ -154,10 +184,10 @@ class CropperDecorator {
     getJSEventDataDetail(instance) {
         if (instance.type === "zoom") {
             return {
-                    oldRatio: instance.detail.oldRatio,
-                    ratio: instance.detail.ratio,
-                    originalEvent: instance.detail.originalEvent ?
-                        DotNet.createJSObjectReference(instance.detail.originalEvent) : null
+                oldRatio: instance.detail.oldRatio,
+                ratio: instance.detail.ratio,
+                originalEvent: instance.detail.originalEvent ?
+                    DotNet.createJSObjectReference(instance.detail.originalEvent) : null
             };
         }
         else if (instance.type === "cropstart" || instance.type === "cropend" || instance.type === "cropmove") {
@@ -201,7 +231,7 @@ class CropperDecorator {
         imageObject.invokeMethodAsync('CropperIsZoomed', jSEventData);
     }
 
-    initCropper(image, optionsImage, imageObject) {
+    initCropper(cropperComponentId, image, optionsImage, imageObject) {
         if (image == null) {
             throw "Parameter 'image' must be is not null!";
         }
@@ -242,7 +272,9 @@ class CropperDecorator {
             });
         }
 
-        this.cropperInstance = new Cropper(image, options);
+        const cropper = new Cropper(image, options);
+
+        this.cropperInstances[cropperComponentId] = cropper;
     }
 }
 
