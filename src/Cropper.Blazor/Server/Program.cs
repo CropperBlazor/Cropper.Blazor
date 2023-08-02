@@ -1,9 +1,12 @@
+using Cropper.Blazor.Client.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.TryAddDocsViewServices();
 
 var app = builder.Build();
 
@@ -28,6 +31,6 @@ app.UseRouting();
 
 app.MapRazorPages();
 app.MapControllers();
-app.MapFallbackToFile("index.html");
+app.MapFallbackToPage("/_Host");
 
 app.Run();
