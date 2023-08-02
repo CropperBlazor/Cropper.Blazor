@@ -47,6 +47,13 @@ namespace Cropper.Blazor.Client.Components
             StateHasChanged();
         }
 
+        public void SetRatio(decimal? ratio)
+        {
+            Ratio = ratio;
+
+            StateHasChanged();
+        }
+
         public async Task ApplyZoomRulesForCropperAsync()
         {
             ImageData currentImageData = await CropperComponent!.GetImageDataAsync();
