@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Cropper.Blazor.Client.Services;
 using Cropper.Blazor.Client.Services.UserPreferences;
+using Cropper.Blazor.Extensions;
 using MudBlazor;
 using MudBlazor.Services;
 
@@ -9,6 +10,8 @@ public static class DocsViewExtension
 {
     public static void TryAddDocsViewServices(this IServiceCollection services)
     {
+        services.AddCropper();
+
         services.AddMudServices(config =>
         {
             config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight;

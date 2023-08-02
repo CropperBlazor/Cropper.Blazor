@@ -1,5 +1,4 @@
 using Cropper.Blazor.Client.Extensions;
-using Cropper.Blazor.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddCropper();
 builder.Services.TryAddDocsViewServices();
 
 var app = builder.Build();
