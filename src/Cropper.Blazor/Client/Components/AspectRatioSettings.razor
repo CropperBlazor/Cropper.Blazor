@@ -11,11 +11,11 @@
     </MudCardHeader>
     <MudCardContent Class="mud-height-full pt-0">
         <MudNumericField @bind-Value="MinAspectRatio" Label="Min aspect ratio"
-                         Disabled="!IsEnableAspectRatioSettings"
+                         Disabled="!IsFreeAspectRatioEnabled"
                          Min="0" Max="MaxAspectRatio">
         </MudNumericField>
         <MudNumericField @bind-Value="MaxAspectRatio" Label="Max aspect ratio"
-                         Disabled="!IsEnableAspectRatioSettings"
+                         Disabled="!IsFreeAspectRatioEnabled"
                          Min="MinAspectRatio ?? 0">
         </MudNumericField>
         <div class="d-flex gap-x-6 align-end">
