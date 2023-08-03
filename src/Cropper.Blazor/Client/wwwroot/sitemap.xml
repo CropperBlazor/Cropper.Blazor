@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://cropperblazor.github.io/</loc>
+    <lastmod>2023-08-02T21:02:02+03:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://cropperblazor.github.io/demo</loc>
+    <lastmod>2023-08-02T21:02:02+03:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://cropperblazor.github.io/api</loc>
+    <lastmod>2023-08-02T21:02:02+03:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cropperblazor.github.io/about</loc>
+    <lastmod>2023-08-02T21:02:02+03:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>
