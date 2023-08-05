@@ -117,10 +117,10 @@
 
                                     <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
                                         <MudTooltip Text="cropper.scaleX(-1)">
-                                            <MudIconButton Icon="@Icons.Material.Filled.SwapHoriz" OnClick="@(()=>ScaleX(-1m*ScaleXValue))" Title="Flip Horizontal" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.SwapHoriz" OnClick="@(()=>ScaleX(-1m))" Title="Flip Horizontal" />
                                         </MudTooltip>
                                         <MudTooltip Text="cropper.scaleY(-1)">
-                                            <MudIconButton Icon="@Icons.Material.Filled.SwapVert" OnClick="@(()=>ScaleY(-1m*ScaleYValue))" Title="Flip Vertical" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.SwapVert" OnClick="@(()=>ScaleY(-1m))" Title="Flip Vertical" />
                                         </MudTooltip>
                                     </MudButtonGroup>
 
@@ -175,7 +175,7 @@
                                         </MudButton>
                                     </MudTooltip>
                                     <MudTooltip Text="cropper.scale(-2, -1)">
-                                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(()=>Scale(-2 * ScaleXValue, -1 * ScaleYValue))">
+                                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(()=>Scale(-2, -1))">
                                             Scale (-2, -1)
                                         </MudButton>
                                     </MudTooltip>

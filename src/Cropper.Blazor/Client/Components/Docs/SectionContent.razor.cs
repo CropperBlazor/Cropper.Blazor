@@ -2,15 +2,14 @@
 using Cropper.Blazor.Client.Models;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using MudBlazor.Services;
 using MudBlazor.Utilities;
 
 namespace Cropper.Blazor.Client.Components.Docs;
 
-public partial class SectionContent
+public partial class SectionContent : IBrowserViewportObserver
 {
     [Inject] protected IJsApiService? JsApiService { get; set; }
-    [Inject] IBreakpointService BreakpointService { get; set; } = null!;
+    [Inject] IBrowserViewportService BreakpointService { get; set; } = null!;
 
     protected string Classname =>
         new CssBuilder("docs-section-content")
@@ -41,28 +40,30 @@ public partial class SectionContent
             .AddClass("show-code", HasCode && ShowCode)
             .Build();
 
-    [Parameter] public string Class { get; set; }
+    [Parameter] public string Class { get; set; } = string.Empty;
     [Parameter] public bool DarkenBackground { get; set; }
     [Parameter] public bool Outlined { get; set; } = true;
     [Parameter] public bool ShowCode { get; set; } = true;
     [Parameter] public bool Block { get; set; }
     [Parameter] public bool FullWidth { get; set; }
-    [Parameter] public string Code { get; set; }
-    [Parameter] public string HighLight { get; set; }
-    [Parameter] public IEnumerable<CodeFile> Codes { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string Code { get; set; } = string.Empty;
+    [Parameter] public string HighLight { get; set; } = string.Empty;
+    [Parameter] public IEnumerable<CodeFile>? Codes { get; set; } = null;
+    [Parameter] public RenderFragment ChildContent { get; set; } = null!;
 
     private bool HasCode;
-    public string ActiveCode;
+    public string ActiveCode = string.Empty;
 
     private bool IsVerticalAlign = false;
+
+    Guid IBrowserViewportObserver.Id { get; } = Guid.NewGuid();
 
     protected override void OnParametersSet()
     {
         if (Codes != null)
         {
             HasCode = true;
-            ActiveCode = Codes.FirstOrDefault().code;
+            ActiveCode = Codes.First().code;
         }
         else if (!string.IsNullOrWhiteSpace(Code))
         {
@@ -75,11 +76,7 @@ public partial class SectionContent
     {
         if (firstRender)
         {
-            await BreakpointService!.SubscribeAsync((br) =>
-            {
-                IsVerticalAlign = BreakpointService!.IsMediaSize(br, Breakpoint.Xs);
-                InvokeAsync(StateHasChanged);
-            });
+            await BreakpointService!.SubscribeAsync(this, fireImmediately: true);
         }
 
         await base.OnAfterRenderAsync(firstRender);
@@ -116,35 +113,49 @@ public partial class SectionContent
     {
         try
         {
-            var key = typeof(SectionContent).Assembly.GetManifestResourceNames().FirstOrDefault(x => x.Contains($".{code}Code.html"));
-            using (var stream = typeof(SectionContent).Assembly.GetManifestResourceStream(key))
-            using (var reader = new StreamReader(stream))
+            string? key = typeof(SectionContent).Assembly.GetManifestResourceNames().FirstOrDefault(x => x.Contains($".{code}Code.html"));
+            using var stream = typeof(SectionContent).Assembly.GetManifestResourceStream(key!);
+            using var reader = new StreamReader(stream!);
+            var read = reader.ReadToEnd();
+
+            if (!string.IsNullOrEmpty(HighLight))
             {
-                var read = reader.ReadToEnd();
-
-                if (!string.IsNullOrEmpty(HighLight))
+                if (HighLight.Contains(','))
                 {
-                    if (HighLight.Contains(","))
-                    {
-                        var highlights = HighLight.Split(",");
+                    var highlights = HighLight.Split(",");
 
-                        foreach (var value in highlights)
-                        {
-                            read = Regex.Replace(read, $"{value}(?=\\s|\")", $"<mark>$&</mark>");
-                        }
-                    }
-                    else
+                    foreach (var value in highlights)
                     {
-                        read = Regex.Replace(read, $"{HighLight}(?=\\s|\")", $"<mark>$&</mark>");
+                        read = Regex.Replace(read, $"{value}(?=\\s|\")", $"<mark>$&</mark>");
                     }
                 }
-
-                builder.AddMarkupContent(0, read);
+                else
+                {
+                    read = Regex.Replace(read, $"{HighLight}(?=\\s|\")", $"<mark>$&</mark>");
+                }
             }
+
+            builder.AddMarkupContent(0, read);
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.StackTrace);
         }
     };
+
+    public async Task NotifyBrowserViewportChangeAsync(BrowserViewportEventArgs browserViewportEventArgs)
+    {
+        if (browserViewportEventArgs.BrowserWindowSize.Width < 600)
+        {
+            IsVerticalAlign = true;
+        }
+        else
+        {
+            IsVerticalAlign = false;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public async ValueTask DisposeAsync() => await BreakpointService.UnsubscribeAsync(this);
 }

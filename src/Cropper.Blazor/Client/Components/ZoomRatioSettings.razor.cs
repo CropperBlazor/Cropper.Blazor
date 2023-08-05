@@ -1,9 +1,9 @@
-﻿using Cropper.Blazor.Components;
+﻿using System.ComponentModel.DataAnnotations;
+using Cropper.Blazor.Components;
 using Cropper.Blazor.Events.ZoomEvent;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.ComponentModel.DataAnnotations;
 
 namespace Cropper.Blazor.Client.Components
 {
@@ -18,7 +18,7 @@ namespace Cropper.Blazor.Client.Components
             set
             {
                 minZoomRatio = value;
-                ApplyZoomRulesForCropperAsync();
+                InvokeAsync(ApplyZoomRulesForCropperAsync);
             }
         }
         private decimal? MaxZoomRatio
@@ -27,7 +27,7 @@ namespace Cropper.Blazor.Client.Components
             set
             {
                 maxZoomRatio = value;
-                ApplyZoomRulesForCropperAsync();
+                InvokeAsync(ApplyZoomRulesForCropperAsync);
             }
         }
         [Inject] private IJSRuntime? JSRuntime { get; set; }

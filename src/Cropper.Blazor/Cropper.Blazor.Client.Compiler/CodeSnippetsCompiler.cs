@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace Cropper.Blazor.Client.Compiler;
 
-public class CodeSnippetsCompiler
+public partial class CodeSnippetsCompiler
 {
-    public bool Execute()
+    public static bool Execute()
     {
         var paths = new Paths();
         var success = true;
@@ -61,7 +61,10 @@ public class CodeSnippetsCompiler
     private static string EscapeComponentSource(string path)
     {
         var source = File.ReadAllText(path, Encoding.UTF8);
-        source = Regex.Replace(source, "@(namespace|layout|page) .+?\n", string.Empty);
+        source = EscapeComponentSourceRegex().Replace(source, string.Empty);
         return source.Replace("\"", "\"\"").Trim();
     }
+
+    [GeneratedRegex("@(namespace|layout|page) .+?\n")]
+    private static partial Regex EscapeComponentSourceRegex();
 }

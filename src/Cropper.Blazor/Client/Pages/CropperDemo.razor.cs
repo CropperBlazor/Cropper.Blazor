@@ -31,8 +31,6 @@ namespace Cropper.Blazor.Client.Pages
         private GetSetCropperData? GetSetCropperData = null!;
         private Options Options = null!;
         private CropperFace CropperFace = CropperFace.Default;
-        private decimal? ScaleXValue;
-        private decimal? ScaleYValue;
         private decimal AspectRatio = 1.7777777777777777m;
         private bool IsFreeAspectRatioEnabled;
 
