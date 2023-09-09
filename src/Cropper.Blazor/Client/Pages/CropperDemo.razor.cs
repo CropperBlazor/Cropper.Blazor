@@ -82,6 +82,9 @@ namespace Cropper.Blazor.Client.Pages
         {
             if (cropJSEvent?.Detail is not null)
             {
+                ScaleXValue = cropJSEvent.Detail.ScaleX;
+                ScaleYValue = cropJSEvent.Detail.ScaleY;
+
                 decimal width = Math.Round(cropJSEvent.Detail.Width ?? 0);
                 decimal height = Math.Round(cropJSEvent.Detail.Height ?? 0);
 
