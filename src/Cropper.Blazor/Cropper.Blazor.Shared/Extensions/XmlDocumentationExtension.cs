@@ -6,29 +6,6 @@ namespace Cropper.Blazor.Shared.Extensions
 {
     public static class XmlDocumentationExtension
     {
-        /// <summary>Enumerates through all the properties with a custom attribute.</summary>
-        /// <typeparam name="AttributeType">The type of the custom attribute.</typeparam>
-        /// <param name="assembly">The assembly to iterate through the properties of.</param>
-        /// <returns>The IEnumerable of the properties with the provided attribute type.</returns>
-        public static IEnumerable<PropertyInfo> GetPropertyInfosWithAttribute<AttributeType>(this Assembly assembly)
-            where AttributeType : Attribute
-        {
-            foreach (var type in assembly.GetTypes())
-            {
-                foreach (var propertyInfo in type.GetProperties(
-                    BindingFlags.Instance |
-                    BindingFlags.Static |
-                    BindingFlags.Public |
-                    BindingFlags.NonPublic))
-                {
-                    if (propertyInfo.GetCustomAttributes(typeof(AttributeType), true).Length > 0)
-                    {
-                        yield return propertyInfo;
-                    }
-                }
-            }
-        }
-
         public static IEnumerable<PropertyInfo> GetPropertyInfosWithAttribute<AttributeType>(this Type type)
             where AttributeType : Attribute
         {
