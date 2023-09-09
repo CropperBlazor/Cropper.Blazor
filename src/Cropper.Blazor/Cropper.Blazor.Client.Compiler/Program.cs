@@ -9,7 +9,7 @@ namespace Cropper.Blazor.Client.Compiler
         {
             var stopWatch = Stopwatch.StartNew();
             var success =
-                new CodeSnippetsCompiler().Execute()
+                CodeSnippetsCompiler.Execute()
                 && new DocStrings().Execute();
 
             Console.WriteLine($"Docs.Compiler completed in {stopWatch.ElapsedMilliseconds} msecs");
