@@ -81,6 +81,7 @@
 
 	<Target Name="IncludeGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="CompileDocs">
 		<ItemGroup>
+			<Compile Include="Models/DocStrings.generated.cs" Condition="!Exists('Models/DocStrings.generated.cs')" />
 			<Compile Include="Models/Snippets.generated.cs" Condition="!Exists('Models/Snippets.generated.cs')" />
 			<EmbeddedResource Include="@(NewExampleCodeToBuild)" Condition="@(NewExampleCodeToBuild-&gt;Count()) != 0" />
 		</ItemGroup>
@@ -103,9 +104,11 @@
 			<FilesToClean Include="./wwwroot/service-worker.published.min.js" />
 			<FilesToClean Include="./wwwroot/overrideCropperJsInteropModule.min.js" />
 			<FilesToClean Include="./wwwroot/jsObjectModule.min.js" />
+			<FilesToClean Include="./Models/DocStrings.generated.cs" />
 			<FilesToClean Include="./Models/Snippets.generated.cs" />
 			<FilesToClean Include="./wwwroot/helper.min.js" />
 			<FilesToClean Include="./wwwroot/sw-registrator.min.js" />
+			<FilesToClean Include="./wwwroot/resizeWindowEventListener.min.js" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
 	</Target>
@@ -125,6 +128,7 @@
 		<Exec Command="dotnet webcompiler ./wwwroot/jsObjectModule.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
 		<Exec Command="dotnet webcompiler ./wwwroot/helper.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
 		<Exec Command="dotnet webcompiler ./wwwroot/sw-registrator.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
+		<Exec Command="dotnet webcompiler ./wwwroot/resizeWindowEventListener.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
 	</Target>
 
 	<Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
@@ -135,6 +139,7 @@
 		<Error Condition="!Exists('wwwroot/jsObjectModule.min.js')" Text="Missing jsObjectModule.min.js in wwwroot" />
 		<Error Condition="!Exists('wwwroot/helper.min.js')" Text="Missing helper.min.js in wwwroot" />
 		<Error Condition="!Exists('wwwroot/sw-registrator.min.js')" Text="Missing sw-registrator.min.js in wwwroot" />
+		<Error Condition="!Exists('wwwroot/resizeWindowEventListener.min.js')" Text="Missing resizeWindowEventListener.min.js in wwwroot" />
 		<ItemGroup>
 			<Content Include="wwwroot/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" />
 			<Content Include="wwwroot/service-worker.min.js" Condition="!Exists('wwwroot/service-worker.min.js')" />
@@ -143,6 +148,7 @@
 			<Content Include="wwwroot/jsObjectModule.min.js" Condition="!Exists('wwwroot/jsObjectModule.min.js')" />
 			<Content Include="wwwroot/helper.min.js" Condition="!Exists('wwwroot/helper.min.js')" />
 			<Content Include="wwwroot/sw-registrator.min.js" Condition="!Exists('wwwroot/sw-registrator.min.js')" />
+			<Content Include="wwwroot/resizeWindowEventListener.min.js" Condition="!Exists('wwwroot/resizeWindowEventListener.min.js')" />
 		</ItemGroup>
 	</Target>
 
@@ -161,6 +167,7 @@
 		<EmbeddedResource Include="Pages\**\*.html" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\Cropper.Blazor.Shared\Cropper.Blazor.Shared.csproj" />
 		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
 	</ItemGroup>
 </Project>

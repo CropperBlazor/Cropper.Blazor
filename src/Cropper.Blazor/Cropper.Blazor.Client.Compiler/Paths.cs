@@ -6,6 +6,7 @@ namespace Cropper.Blazor.Client.Compiler;
 public class Paths
 {
     private const string DocsDirectory = "Client";
+    private const string DocStringsFile = "DocStrings.generated.cs";
     private const string SnippetsFile = "Snippets.generated.cs";
 
     public const string ExampleDiscriminator = "Example"; // example components must contain this string
@@ -46,6 +47,14 @@ public class Paths
         get
         {
             return Path.Join(DocsStringSnippetsDirPath, SnippetsFile);
+        }
+    }
+
+    public string DocStringsFilePath
+    {
+        get
+        {
+            return Path.Join(DocsStringSnippetsDirPath, DocStringsFile);
         }
     }
 }
