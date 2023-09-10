@@ -8,9 +8,12 @@ namespace Cropper.Blazor.Client.Compiler
         public static int Main()
         {
             var stopWatch = Stopwatch.StartNew();
-            var success = CodeSnippetsCompiler.Execute();
+            var success =
+                CodeSnippetsCompiler.Execute()
+                && new DocStrings().Execute();
 
             Console.WriteLine($"Docs.Compiler completed in {stopWatch.ElapsedMilliseconds} msecs");
+
             return success ? 0 : 1;
         }
     }
