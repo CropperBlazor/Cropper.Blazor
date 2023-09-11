@@ -21,6 +21,9 @@
 ## Demo
 - [CropperBlazor.github.io/demo](https://CropperBlazor.github.io/demo)
 
+## API
+- [https://cropperblazor.github.io/api](https://cropperblazor.github.io/api)
+
 ## Prerequisites
 - Supported .NET 7.0, .NET 6.0 versions for these web platforms:
   - Blazor WebAssembly
