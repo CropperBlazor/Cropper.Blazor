@@ -1,7 +1,7 @@
 ﻿<div @ref="@SectionReference" id="@GetSectionId()" class="@Classname">
     @if (!string.IsNullOrWhiteSpace(Title) && HideTitle == false)
     {
-        <MudText Typo="@GetTitleTypo()">
+        <MudText Class="@TitleClass" Typo="@GetTitleTypo()">
             <b>@Title</b>
         </MudText>
     }
