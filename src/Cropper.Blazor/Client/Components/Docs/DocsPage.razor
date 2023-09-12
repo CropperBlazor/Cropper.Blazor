@@ -1,6 +1,6 @@
 ﻿@using MudBlazor;
 
-<MudMainContent>
+<div class="mt-5">
     <MudContainer MaxWidth="MaxWidth.Large">
         <div id="docspage" class="docs-page">
             <CascadingValue Value="this" IsFixed>
@@ -26,6 +26,6 @@
                 <NavLink class="mode-links ml-2" href="@($"api/{_componentName}")" Match="NavLinkMatch.All">API</NavLink>
             </div>
         }
-        <MudPageContentNavigation SectionClassSelector="docs-section-header" @ref="_contentNavigation" ActivateFirstSectionAsDefault="true"/>
+        <MudPageContentNavigation SectionClassSelector="docs-section-header" @ref="_contentNavigation" ActivateFirstSectionAsDefault="true" />
     </MudDrawer>
-</MudMainContent>
+</div>
