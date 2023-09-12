@@ -1,5 +1,26 @@
 ﻿@page "/api"
-<MudContainer Class="mt-5 px-4">
-    <MudText Typo="Typo.h3" Class="text-gradient">Sorry</MudText>
-    <MudText Typo="Typo.h4"><b>Not available now</b></MudText>
-</MudContainer>
+@using Cropper.Blazor.Client.Components.Docs
+@using Cropper.Blazor.Components;
+
+
+@if (ComponentType == null)
+{
+    <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+}
+else
+{
+    <DocsApi Type="@ComponentType"></DocsApi>
+}
+
+
+@code {
+    [Parameter] public string component { get; set; }
+
+    public Type ComponentType { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        ComponentType = typeof(CropperComponent);
+        StateHasChanged();
+    }
+}

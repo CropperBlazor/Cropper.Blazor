@@ -1,14 +1,18 @@
 ﻿using Blazored.LocalStorage;
 using Cropper.Blazor.Client.Services;
 using Cropper.Blazor.Client.Services.UserPreferences;
+using Cropper.Blazor.Extensions;
 using MudBlazor;
 using MudBlazor.Services;
 
 namespace Cropper.Blazor.Client.Extensions;
+
 public static class DocsViewExtension
 {
     public static void TryAddDocsViewServices(this IServiceCollection services)
     {
+        services.AddCropper();
+
         services.AddMudServices(config =>
         {
             config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight;
@@ -24,5 +28,11 @@ public static class DocsViewExtension
         services.AddBlazoredLocalStorage();
         services.AddScoped<IUserPreferencesService, UserPreferencesService>();
         services.AddScoped<LayoutService>();
+        //set the capacity max so that content is not queue. Again this is for prerending to serve the entire page back to crawler
+        services.AddSingleton<IRenderQueueService>(
+            new RenderQueueService
+            {
+                Capacity = int.MaxValue
+            });
     }
 }

@@ -6,12 +6,13 @@
     Cropper.Blazor
   </h1>
   <p align="center">
-    <b>Cropper.Blazor</b>  is a component element that wraps around <a href="https://github.com/fengyuanchen/cropperjs"><b>Cropper.js</b></a>
+    <b>Cropper.Blazor</b> is a component that wraps around <a href="https://github.com/fengyuanchen/cropperjs"><b>Cropper.js</b></a> version 1.6.0
   </p>
 </p>
 
 [![Build and run test](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/ci.yml)
 [![Deploy to GitHub Pages](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/cd.yml/badge.svg?event=push)](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/cd.yml)
+[![Deploy to NuGet](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/release.yml/badge.svg?event=push)](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/release.yml)
 [![coverage](https://codecov.io/github/CropperBlazor/Cropper.Blazor/branch/dev/graph/badge.svg?token=39M66DO85T)](https://codecov.io/github/CropperBlazor/Cropper.Blazor)
 [![GitHub](https://img.shields.io/github/license/CropperBlazor/Cropper.Blazor?color=ff5c9b)](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/LICENSE)
 [![GitHub](https://img.shields.io/github/last-commit/CropperBlazor/Cropper.Blazor?color=009DEA)](https://github.com/CropperBlazor/Cropper.Blazor)
@@ -19,6 +20,9 @@
 
 ## Demo
 - [CropperBlazor.github.io/demo](https://CropperBlazor.github.io/demo)
+
+## API
+- [https://cropperblazor.github.io/api](https://cropperblazor.github.io/api)
 
 ## Prerequisites
 - Supported .NET 7.0, .NET 6.0 versions for these web platforms:

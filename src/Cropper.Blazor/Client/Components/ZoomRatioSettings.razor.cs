@@ -1,4 +1,7 @@
-﻿using Cropper.Blazor.Events.ZoomEvent;
+﻿using System.ComponentModel.DataAnnotations;
+using Cropper.Blazor.Components;
+using Cropper.Blazor.Events.ZoomEvent;
+using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -15,7 +18,7 @@ namespace Cropper.Blazor.Client.Components
             set
             {
                 minZoomRatio = value;
-                ApplyZoomRulesForCropperAsync();
+                InvokeAsync(ApplyZoomRulesForCropperAsync);
             }
         }
         private decimal? MaxZoomRatio
@@ -24,7 +27,7 @@ namespace Cropper.Blazor.Client.Components
             set
             {
                 maxZoomRatio = value;
-                ApplyZoomRulesForCropperAsync();
+                InvokeAsync(ApplyZoomRulesForCropperAsync);
             }
         }
         [Inject] private IJSRuntime? JSRuntime { get; set; }
@@ -32,6 +35,9 @@ namespace Cropper.Blazor.Client.Components
         private decimal? OldRatio { get; set; } = null;
 
         private decimal? Ratio { get; set; } = null;
+
+        [CascadingParameter(Name = "CropperComponent"), Required]
+        private CropperComponent CropperComponent { get; set; } = null!;
 
         public void OnZoomEvent(ZoomEvent? zoomEvent)
         {
@@ -41,8 +47,29 @@ namespace Cropper.Blazor.Client.Components
             StateHasChanged();
         }
 
+        public void SetRatio(decimal? ratio)
+        {
+            Ratio = ratio;
+
+            StateHasChanged();
+        }
+
         public async Task ApplyZoomRulesForCropperAsync()
         {
+            ImageData currentImageData = await CropperComponent!.GetImageDataAsync();
+            decimal currentZoomRatio = currentImageData.Width / currentImageData.NaturalWidth;
+
+            if ((MinZoomRatio is not null) && (MinZoomRatio > currentZoomRatio))
+            {
+                ContainerData containerData = await CropperComponent.GetContainerDataAsync();
+                CropperComponent.ZoomTo((decimal)MinZoomRatio, containerData.Width / 2, containerData.Height / 2);
+            }
+            else if ((MaxZoomRatio is not null) && (currentZoomRatio > MaxZoomRatio))
+            {
+                ContainerData containerData = await CropperComponent.GetContainerDataAsync();
+                CropperComponent.ZoomTo((decimal)MaxZoomRatio, containerData.Width / 2, containerData.Height / 2);
+            }
+
             await JSRuntime!.InvokeVoidAsync("window.overrideOnZoomCropperEvent", MinZoomRatio, MaxZoomRatio);
         }
     }

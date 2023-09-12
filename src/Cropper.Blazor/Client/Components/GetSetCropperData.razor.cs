@@ -48,6 +48,11 @@ namespace Cropper.Blazor.Client.Components
             ZoomRatioSettings!.OnZoomEvent(zoomEvent);
         }
 
+        public void SetRatio(decimal? ratio)
+        {
+            ZoomRatioSettings!.SetRatio(ratio);
+        }
+
         public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)
         {
             SetCropBoxDataOptions.Invoke(cropBoxDataOptions);

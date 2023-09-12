@@ -5,6 +5,15 @@
 @using Cropper.Blazor.Client.Pages.Examples.Installation
 @using Cropper.Blazor.Client.Pages.Examples.Uses.Preview
 
+<SeoHeader Title="Installation"
+           Overview="Getting started with Cropper.Blazor for faster and easier web development."
+           Keywords="@(
+            new []
+            {
+                "home",
+                "installation"
+            })" />
+
 <MudContainer Class="mt-5 px-4">
     <MudGrid Class="mt-5" Justify="Justify.Center">
 
@@ -13,7 +22,7 @@
         </MudItem>
 
         <MudItem xl="12" lg="12" md="12" sm="12" xs="12" Class="d-flex justify-center">
-            <MudText Typo="Typo.h3" Align="Align.Center" Class="pa-0 ma-0 text-gradient">Cropper.Blazor</MudText>
+            <MudText Typo="Typo.h3" Style="word-break: break-all;" Align="Align.Center" Class="pa-0 ma-0 text-gradient">Cropper.Blazor</MudText>
         </MudItem>
 
 
@@ -24,19 +33,32 @@
         <MudItem xl="12" lg="12" md="12" sm="12" xs="12" Class="d-flex justify-center">
             <MudText Align="Align.Center" Class="pa-0 ma-0">
                 <span style="color: var(--mud-palette-primary)"><b>Cropper.Blazor</b></span>
-                is a component element that wraps around
+                is a component that wraps around
                 <a href="https://github.com/fengyuanchen/cropperjs">
                     <span style="color: var(--mud-palette-secondary)"><b>Cropper.js</b></span>
                 </a>
             </MudText>
         </MudItem>
 
+        <MudItem xl="12" lg="12" md="12" sm="12" xs="12" Class="d-flex justify-center gap-4 pb-8">
+            <MudButton Color="Color.Primary" Variant="Variant.Filled" DisableElevation="true"
+                       Class="button-gradient" Size="Size.Large" Href="/demo">             
+                <MudText Align="Align.Center">View Demo</MudText>
+            </MudButton>
+            <MudButton Color="Color.Default" Variant="Variant.Outlined" StartIcon="@Icons.Custom.Brands.GitHub"
+                       Size="Size.Large" Class="ms-4" Href="https://github.com/CropperBlazor/Cropper.Blazor" Target="_blank">
+                <MudText Align="Align.Center">Star on GitHub</MudText>
+            </MudButton>
+        </MudItem>
         <p align="center">
             <a style="text-decoration:none" href="https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/ci.yml" target="_blank">
                 <img src="https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/ci.yml/badge.svg?event=push" alt="Build and run test" />
             </a>
             <a style="text-decoration:none" href="https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/cd.yml" target="_blank">
                 <img src="https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/cd.yml/badge.svg?event=push" alt="Deploy to GitHub Pages">
+            </a>
+            <a style="text-decoration:none" href="https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/release.yml" target="_blank">
+                <img src="https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/release.yml/badge.svg?event=push" alt="Deploy to NuGet">
             </a>
             <a style="text-decoration:none" href="https://codecov.io/github/CropperBlazor/Cropper.Blazor" target="_blank">
                 <img src="https://codecov.io/github/CropperBlazor/Cropper.Blazor/branch/dev/graph/badge.svg?token=39M66DO85T" alt="Code coverage" />
