@@ -52,5 +52,10 @@ namespace Cropper.Blazor.Models
         /// </summary>
         [EnumDataType(typeof(ImageSmoothingQuality))]
         public string? ImageSmoothingQuality { get; set; }
+
+        /// <summary>
+        /// Set true to use rounded values (the cropped area position and size data), the default value is false.
+        /// </summary>
+        public bool? Rounded { get; set; }
     }
 }
