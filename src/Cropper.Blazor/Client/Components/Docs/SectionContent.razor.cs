@@ -2,7 +2,6 @@
 using Cropper.Blazor.Client.Models;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using MudBlazor.Services;
 using MudBlazor.Utilities;
 
 namespace Cropper.Blazor.Client.Components.Docs;
@@ -59,8 +58,6 @@ public partial class SectionContent : IBrowserViewportObserver
 
     Guid IBrowserViewportObserver.Id { get; } = Guid.NewGuid();
 
-    private bool IsVerticalAlign = false;
-
     protected override void OnParametersSet()
     {
         if (Codes != null)
@@ -80,20 +77,6 @@ public partial class SectionContent : IBrowserViewportObserver
         if (firstRender)
         {
             await BreakpointService!.SubscribeAsync(this, fireImmediately: true);
-        }
-
-        await base.OnAfterRenderAsync(firstRender);
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await BreakpointService!.SubscribeAsync((br) =>
-            {
-                IsVerticalAlign = BreakpointService!.IsMediaSize(br, Breakpoint.Xs);
-                InvokeAsync(StateHasChanged);
-            });
         }
 
         await base.OnAfterRenderAsync(firstRender);
