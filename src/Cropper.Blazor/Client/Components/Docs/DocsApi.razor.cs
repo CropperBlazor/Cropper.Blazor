@@ -3,6 +3,7 @@ using System.Reflection;
 using Cropper.Blazor.Client.Models;
 using Cropper.Blazor.Shared.Extensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using MudBlazor;
 
 namespace Cropper.Blazor.Client.Components.Docs
@@ -35,7 +36,7 @@ namespace Cropper.Blazor.Client.Components.Docs
                 foreach (var info in Type.GetPropertyInfosWithAttribute<ParameterAttribute>().OrderBy(x => x.Name))
                 {
                     if (info.GetCustomAttributes(typeof(System.ObsoleteAttribute), true).Length == 0
-                        && (info.PropertyType.Name.Contains("EventCallback") || info.PropertyType.Name.Contains("Action") || info.PropertyType.Name.Contains("Func")))
+                        && IsEventCallback(info))
                     {
                         yield return new ApiProperty
                         {
@@ -65,7 +66,8 @@ namespace Cropper.Blazor.Client.Components.Docs
                 {
                     if (!hiddenMethods.Any(x => x.Contains(info.Name)) && !info.Name.StartsWith("get_") && !info.Name.StartsWith("set_"))
                     {
-                        if (info.GetCustomAttributes(typeof(System.ObsoleteAttribute), true).Length == 0)
+                        if (info.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0 
+                            && info.GetCustomAttributes(typeof(JSInvokableAttribute), true).Length == 0)
                         {
                             yield return new ApiMethod()
                             {
@@ -81,6 +83,13 @@ namespace Cropper.Blazor.Client.Components.Docs
             }
         }
 
+        private bool IsEventCallback(PropertyInfo? propertyInfo)
+        {
+            return propertyInfo!.PropertyType.Name.Contains("EventCallback")
+                || propertyInfo!.PropertyType.Name.Contains("Action")
+                || propertyInfo!.PropertyType.Name.Contains("Func");
+        }
+
         private IEnumerable<ApiProperty> GetProperties()
         {
             string saveTypename = DocStrings.GetSaveTypename(Type);
@@ -91,7 +100,7 @@ namespace Cropper.Blazor.Client.Components.Docs
                                          .OrderBy(x => x.Name))
                 {
                     if (info.GetCustomAttributes(typeof(System.ObsoleteAttribute), true).Length == 0
-                        && !(info.PropertyType.Name.Contains("EventCallback") || info.PropertyType.Name.Contains("Action") || info.PropertyType.Name.Contains("Func")))
+                        && !IsEventCallback(info))
                     {
                         yield return new ApiProperty
                         {
@@ -111,7 +120,7 @@ namespace Cropper.Blazor.Client.Components.Docs
                                          .OrderBy(x => x.Name))
                 {
                     if (info.GetCustomAttributes(typeof(System.ObsoleteAttribute), true).Length == 0
-                        && !(info.PropertyType.Name.Contains("EventCallback") || info.PropertyType.Name.Contains("Action") || info.PropertyType.Name.Contains("Func")))
+                        && !IsEventCallback(info))
                     {
                         yield return new ApiProperty
                         {
@@ -208,32 +217,32 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         DefaultConverter<object> _converter = new DefaultConverter<object>()
         {
-            Culture= CultureInfo.InvariantCulture
+            Culture = CultureInfo.InvariantCulture
         };
 
-        private string PresentDefaultValue(object @default)
+        private string PresentDefaultValue(object value)
         {
-            if (@default == null)
+            if (value == null)
                 return "null";
-            if (@default.GetType() == typeof(string))
+            if (value.GetType() == typeof(string))
             {
-                if (@default.ToString() == string.Empty)
+                if (value.ToString() == string.Empty)
                 {
                     return "";
                 }
                 else
                 {
-                    return $"\"{@default}\"";
+                    return $"\"{value}\"";
                 }
             }
-            if (@default.GetType().IsEnum)
-                return $"{@default.GetType().Name}.{@default}";
-            if (Nullable.GetUnderlyingType(@default.GetType())!=null)
-                return _converter.Set(@default);
-            if (@default.GetType().IsGenericType) // for instance event callbacks
+            if (value.GetType().IsEnum)
+                return $"{value.GetType().Name}.{value}";
+            if (Nullable.GetUnderlyingType(value.GetType()) != null)
+                return _converter.Set(value);
+            if (value.GetType().IsGenericType) // for instance event callbacks
                 return "";
-            if (@default.GetType().IsValueType)
-                return _converter.Set(@default);
+            if (value.GetType().IsValueType)
+                return _converter.Set(value);
             return "";
         }
 
