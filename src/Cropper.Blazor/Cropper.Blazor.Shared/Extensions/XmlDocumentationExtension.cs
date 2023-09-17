@@ -9,11 +9,7 @@ namespace Cropper.Blazor.Shared.Extensions
         public static IEnumerable<PropertyInfo> GetPropertyInfosWithAttribute<AttributeType>(this Type type)
             where AttributeType : Attribute
         {
-            foreach (var propertyInfo in type.GetProperties(
-                BindingFlags.Instance |
-                BindingFlags.Static |
-                BindingFlags.Public |
-                BindingFlags.NonPublic))
+            foreach (var propertyInfo in GetPropertyInfos(type))
             {
                 if (propertyInfo.GetCustomAttributes(typeof(AttributeType), true).Length > 0)
                 {
@@ -21,6 +17,12 @@ namespace Cropper.Blazor.Shared.Extensions
                 }
             }
         }
+
+        public static IEnumerable<PropertyInfo> GetPropertyInfos(this Type type) => type.GetProperties(
+                BindingFlags.Instance |
+                BindingFlags.Static |
+                BindingFlags.Public |
+                BindingFlags.NonPublic);
 
         /// <summary>Gets the file path of an assembly.</summary>
         /// <param name="assembly">The assembly to get the file path of.</param>
@@ -158,7 +160,7 @@ namespace Cropper.Blazor.Shared.Extensions
         /// <param name="methodInfo">The method to get the XML documentation of.</param>
         /// <returns>The XML documentation on the method.</returns>
         /// <remarks>The XML documentation must be loaded into memory for this function to work.</remarks>
-        public static string GetDocumentation(this MethodInfo methodInfo)
+        public static string GetDocumentation(this MethodInfo methodInfo, bool isProperty = false)
         {
             LoadXmlDocumentation(methodInfo.DeclaringType.Assembly);
 
@@ -172,9 +174,15 @@ namespace Cropper.Blazor.Shared.Extensions
 
             var parameterInfos = methodInfo.GetParameters();
 
-            var memberTypePrefix = "M:";
+            var memberTypePrefix = isProperty ? "P:" : "M:";
             var declarationTypeString = GetXmlDocumentationFormattedString(methodInfo.DeclaringType, false, typeGenericMap, methodGenericMap);
             var memberNameString = methodInfo.Name;
+
+            if (memberNameString.StartsWith("get_"))
+            {
+                memberNameString = memberNameString.Replace("get_", string.Empty);
+            }
+
             var methodGenericArgumentsString =
                 methodGenericMap.Count > 0 ?
                 "``" + methodGenericMap.Count :
