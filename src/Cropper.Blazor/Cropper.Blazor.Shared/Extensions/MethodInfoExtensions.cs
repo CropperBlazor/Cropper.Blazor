@@ -120,7 +120,7 @@ namespace Cropper.Blazor.Shared.Extensions
                 case "DOUBLE": return "double";
                 case "DECIMAL": return "decimal";
                 case "OBJECT": return "object";
-                case "VOID": return string.Empty;
+                case "VOID": return "void";
                 case "BOOLEAN": return "bool";
                 case "SBYTE": return "sbyte";
                 case "CHAR": return "char";
@@ -144,7 +144,7 @@ namespace Cropper.Blazor.Shared.Extensions
         /// </summary>
         /// <param name="type">Type. May be generic or nullable</param>
         /// <returns>Full type name, fully qualified namespaces</returns>
-        private static string TypeName(Type type)
+        public static string TypeName(this Type type)
         {
             var first = true;
             var nullableType = Nullable.GetUnderlyingType(type);
@@ -177,7 +177,7 @@ namespace Cropper.Blazor.Shared.Extensions
             return RemoveNamespace(stringBuilder.ToString());
         }
 
-        private static string RemoveNamespace(string value)
+        public static string RemoveNamespace(this string value)
         {
             return value.Split('.')[value.Split('.').Length - 1];
         }

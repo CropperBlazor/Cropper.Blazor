@@ -1,4 +1,5 @@
 ﻿@using Cropper.Blazor.Client.Extensions;
+@using Cropper.Blazor.Models;
 @using Cropper.Blazor.Shared.Extensions;
 
 @if (_nonnullableType.IsEnum)
@@ -20,7 +21,16 @@
 }
 else
 {
-    @Type.GetTypeDisplayName()
+    string contextType = Type.GetContextType();
+
+    if (contextType == string.Empty)
+    {
+        @TypeNameHelper.GetTypeDisplay(Type, false, true)
+    }
+    else
+    {
+        @(new MarkupString(contextType))
+    }
 }
 
 @code {

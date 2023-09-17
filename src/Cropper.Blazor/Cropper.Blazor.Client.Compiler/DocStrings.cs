@@ -35,13 +35,15 @@ namespace Cropper.Blazor.Client.Compiler
                 cb.IndentLevel++;
 
                 var assembly = typeof(CropperComponent).Assembly;
-                foreach (var type in assembly.GetTypes().OrderBy(t => GetSaveTypename(t)))
+                var types = assembly.GetTypes().OrderBy(t => GetSaveTypename(t));
+
+                foreach (var type in types)
                 {
                     foreach (var property in type.GetPropertyInfosWithAttribute<ParameterAttribute>())
                     {
                         var doc = property.GetDocumentation() ?? "";
                         doc = ConvertSeeTags(doc);
-                        doc = Regex.Replace(doc, @"</?.+?>", "");  // remove all other XML tags
+                        //doc = Regex.Replace(doc, @"</?.+?>", "");  // remove all other XML tags
                         cb.AddLine($"public const string {GetSaveTypename(type)}_{property.Name} = @\"{EscapeDescription(doc).Trim()}\";\n");
                     }
 
@@ -52,16 +54,26 @@ namespace Cropper.Blazor.Client.Compiler
 
                     foreach (var method in type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy))
                     {
-                        if (!hiddenMethods.Any(x => x.Contains(method.Name)) && !method.Name.StartsWith("get_") && !method.Name.StartsWith("set_"))
+                        if (!hiddenMethods.Any(x => x.Contains(method.Name)) && !method.Name.StartsWith("set_"))
                         {
                             // omit methods defined in System.Enum
                             if (GetBaseDefinitionClass(method) == typeof(Enum))
                                 continue;
 
-                            var doc = method.GetDocumentation() ?? "";
-                            doc = ConvertSeeTagsFormethod(doc);
+                            bool isProperty = method.Name.StartsWith("get_");
+
+                            var doc = method.GetDocumentation(isProperty) ?? "";
+                            doc = ConvertSeeTagsForMethod(doc);
                             doc = NormalizeWord(doc);
-                            cb.AddLine($"public const string {GetSaveTypename(type)}_method_{GetSaveMethodIdentifier(method)} = @\"{EscapeDescription(doc)}\";\n");
+
+                            if (isProperty)
+                            {
+                                cb.AddLine($"public const string {GetSaveTypename(type)}_property_{method.Name.Replace("get_", string.Empty)} = @\"{EscapeDescription(doc).Trim()}\";\n");
+                            }
+                            else
+                            {
+                                cb.AddLine($"public const string {GetSaveTypename(type)}_method_{GetSaveMethodIdentifier(method)} = @\"{EscapeDescription(doc)}\";\n");
+                            }
                         }
                     }
                 }
@@ -110,7 +122,7 @@ namespace Cropper.Blazor.Client.Compiler
             });
         }
 
-        private static string ConvertSeeTagsFormethod(string doc)
+        private static string ConvertSeeTagsForMethod(string doc)
         {
             var result = doc
                 .Replace("<br />", "")
@@ -119,7 +131,7 @@ namespace Cropper.Blazor.Client.Compiler
                 .Replace("<see cref=\"T:Microsoft.JSInterop.DotNetStreamReference\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.dotnetstreamreference\">DotNetStreamReference</a>")
                 .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">ValueTask</a>")
                 .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask`1\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">ValueTask<></a>")
-                .Replace("<see cref=\"T:Cropper.Blazor.Events.JSEventData`1\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); pointer-events: none; cursor: default; opacity: .6; \" href=\"#\">JSEventData<></a>")
+                .Replace("<see cref=\"T:Cropper.Blazor.Events.JSEventData`1\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"contract/JSEventData\">JSEventData<></a>")
                 .Replace("<see cref=\"T:System.Threading.CancellationToken\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource\">CancellationToken</a>");
 
             return ConvertSeeTags(result);
