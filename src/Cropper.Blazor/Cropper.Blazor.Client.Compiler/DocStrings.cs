@@ -39,10 +39,6 @@ namespace Cropper.Blazor.Client.Compiler
 
                 foreach (var type in types)
                 {
-                    if (type.Name == "JSEventData`1")
-                    {
-
-                    }
                     foreach (var property in type.GetPropertyInfosWithAttribute<ParameterAttribute>())
                     {
                         var doc = property.GetDocumentation() ?? "";
