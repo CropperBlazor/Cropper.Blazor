@@ -66,7 +66,7 @@ namespace Cropper.Blazor.Client.Components.Docs
                 {
                     if (!hiddenMethods.Any(x => x.Contains(info.Name)) && !info.Name.StartsWith("get_") && !info.Name.StartsWith("set_"))
                     {
-                        if (info.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0 
+                        if (info.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0
                             && info.GetCustomAttributes(typeof(JSInvokableAttribute), true).Length == 0)
                         {
                             yield return new ApiMethod()
@@ -93,47 +93,40 @@ namespace Cropper.Blazor.Client.Components.Docs
         private IEnumerable<ApiProperty> GetProperties()
         {
             string saveTypename = DocStrings.GetSaveTypename(Type);
+            IEnumerable<PropertyInfo> types = null!;
 
             if (IsContract)
             {
-                foreach (var info in Type.GetPropertyInfos()
-                                         .OrderBy(x => x.Name))
-                {
-                    if (info.GetCustomAttributes(typeof(System.ObsoleteAttribute), true).Length == 0
-                        && !IsEventCallback(info))
-                    {
-                        yield return new ApiProperty
-                        {
-                            Name = info.Name,
-                            PropertyInfo = info,
-                            Default = GetDefaultValue(info),
-                            IsTwoWay = CheckIsTwoWayProperty(info),
-                            Description = DocStrings.GetMemberDescription(saveTypename, info, IsContract),
-                            Type = info.PropertyType
-                        };
-                    }
-                }
+                types = Type
+                    .GetPropertyInfos();
             }
             else
             {
-                foreach (var info in Type.GetPropertyInfosWithAttribute<ParameterAttribute>()
-                                         .OrderBy(x => x.Name))
+                types = Type
+                    .GetPropertyInfosWithAttribute<ParameterAttribute>();
+            }
+
+            foreach (var info in types.OrderBy(x => x.Name))
+            {
+                if (info.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0
+                    && !IsEventCallback(info))
                 {
-                    if (info.GetCustomAttributes(typeof(System.ObsoleteAttribute), true).Length == 0
-                        && !IsEventCallback(info))
-                    {
-                        yield return new ApiProperty
-                        {
-                            Name = info.Name,
-                            PropertyInfo = info,
-                            Default = GetDefaultValue(info),
-                            IsTwoWay = CheckIsTwoWayProperty(info),
-                            Description = DocStrings.GetMemberDescription(saveTypename, info),
-                            Type = info.PropertyType
-                        };
-                    }
+                    yield return ToApiProperty(info, saveTypename);
                 }
             }
+        }
+
+        private ApiProperty ToApiProperty(PropertyInfo info, string saveTypename)
+        {
+            return new ApiProperty
+            {
+                Name = info.Name,
+                PropertyInfo = info,
+                Default = GetDefaultValue(info),
+                IsTwoWay = CheckIsTwoWayProperty(info),
+                Description = DocStrings.GetMemberDescription(saveTypename, info, IsContract),
+                Type = info.PropertyType
+            };
         }
 
         private string AnalyseMethodDocumentation(string documentation, string occurrence, string parameter = "")
