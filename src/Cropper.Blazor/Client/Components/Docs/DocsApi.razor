@@ -155,7 +155,7 @@
                         <RowTemplate>
                             <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
                                 <MudTd Class="docs-content-api-cell docs-content-api-sm-max-width" DataLabel="Name"><CodeInline>@context.Signature</CodeInline></MudTd>
-                                <MudTd Class="docs-content-api-cell docs-content-api-max-width" Style="word-wrap: break-word;" DataLabel="Parameters">
+                                <MudTd Class="docs-content-api-cell docs-content-api-max-width align-start" Style="word-wrap: break-word;" DataLabel="Parameters">
                                     @if (context.Parameters != null)
                                     {
                                         foreach (var parameterInfo in context.Parameters)
