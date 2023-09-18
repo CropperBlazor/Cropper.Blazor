@@ -195,13 +195,13 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         private object GetDefaultValue(PropertyInfo info)
         {
-            if (_comp_instance == null)
-            {
+                if (_comp_instance == null)
+                {
                 return info.GetValue(Activator.CreateInstance(Type), null);
-            }
+                }
 
-            return info.GetValue(_comp_instance);
-        }
+                return info.GetValue(_comp_instance);
+            }
 
         DefaultConverter<object> _converter = new DefaultConverter<object>()
         {
