@@ -102,19 +102,19 @@
                             </MudTd>
                             <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
                                 <MudTd Class="docs-content-api-cell docs-content-api-description" Style="text-align: end !important;" DataLabel="Description">
-                                    @HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))
+                                    @(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))))
                                 </MudTd>
                             </MudHidden>
                             <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
                                 <MudTd Class="docs-content-api-cell docs-content-api-description" DataLabel="Description">
-                                    @HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))
+                                    @(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))))
                                 </MudTd>
                             </MudHidden>
-                        </RowTemplate>
-                        <GroupFooterTemplate></GroupFooterTemplate>
-                    </MudTable>
-                </SectionContent>
-            </DocsPageSection>
+                            </RowTemplate>
+                            <GroupFooterTemplate></GroupFooterTemplate>
+                        </MudTable>
+                    </SectionContent>
+                </DocsPageSection>
         }
 
         @if (eventCallbacks.Count() > 0)

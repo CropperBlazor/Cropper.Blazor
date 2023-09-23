@@ -1,5 +1,6 @@
 ﻿using Cropper.Blazor.Components;
 using Cropper.Blazor.Models;
+using Cropper.Blazor.Shared.Extensions;
 
 namespace Cropper.Blazor.Client.Components.Docs
 {
@@ -66,19 +67,14 @@ namespace Cropper.Blazor.Client.Components.Docs
 
             if (type == typeof(Options))
             {
-                value = CreateLink(nameof(Options));
+                value = nameof(Options).CreateLink();
             }
             else if (type == typeof(SetDataOptions))
             {
-                value = CreateLink(nameof(SetDataOptions));
+                value = nameof(SetDataOptions).CreateLink();
             }
 
             return value;
-        }
-
-        private static string CreateLink(string name)
-        {
-            return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"contract/{name}\">{name}</a>";
         }
     }
 }

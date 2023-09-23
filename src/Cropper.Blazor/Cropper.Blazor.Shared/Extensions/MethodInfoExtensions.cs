@@ -144,7 +144,7 @@ namespace Cropper.Blazor.Shared.Extensions
         /// </summary>
         /// <param name="type">Type. May be generic or nullable</param>
         /// <returns>Full type name, fully qualified namespaces</returns>
-        public static string TypeName(this Type type)
+        public static string TypeName(this Type type, Func<string, string>? GenericArgumentFormatter = null)
         {
             var first = true;
             var nullableType = Nullable.GetUnderlyingType(type);
@@ -160,7 +160,15 @@ namespace Cropper.Blazor.Shared.Extensions
             }
 
             var stringBuilder = new StringBuilder(type.Name.Substring(0, type.Name.IndexOf('`')));
-            stringBuilder.Append('<');
+
+            if (GenericArgumentFormatter is not null)
+            {
+                stringBuilder.Append("<a target=\"_blank\"><<a/ >");
+            }
+            else
+            {
+                stringBuilder.Append('<');
+            }
 
             foreach (var t in type.GetGenericArguments())
             {
@@ -168,7 +176,16 @@ namespace Cropper.Blazor.Shared.Extensions
                 {
                     stringBuilder.Append(',');
                 }
-                stringBuilder.Append(TypeName(t));
+
+                string typeName = TypeName(t);
+
+                if (GenericArgumentFormatter is not null)
+                {
+                    typeName = GenericArgumentFormatter(typeName);
+                }
+
+                stringBuilder.Append(typeName);
+
                 first = false;
             }
             stringBuilder.Append('>');
@@ -180,6 +197,33 @@ namespace Cropper.Blazor.Shared.Extensions
         public static string RemoveNamespace(this string value)
         {
             return value.Split('.')[value.Split('.').Length - 1];
+        }
+
+        public static string GetFormattedReturnSignature(this MethodInfo method, bool callable = false)
+        {
+            // Define local variables
+            var stringBuilder = new StringBuilder();
+
+            // Define the method access
+            if (callable == false)
+            {
+                // Append return type
+                stringBuilder.Append(RemoveNamespace(TypeName(method.ReturnType, CreateLink)));
+                stringBuilder.Append(' ');
+            }
+
+            // Return final result
+            return stringBuilder.ToString();
+        }
+
+        public static string CreateLink(this string name)
+        {
+            if (name == "string")
+            {
+                return $"<a target=\"_blank\">{name}</a>";
+            }
+
+            return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"contract/{name}\">{name}</a>";
         }
     }
 }
