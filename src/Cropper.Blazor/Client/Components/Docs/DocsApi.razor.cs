@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Reflection;
 using Cropper.Blazor.Client.Models;
+using Cropper.Blazor.Models;
 using Cropper.Blazor.Shared.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -197,7 +198,28 @@ namespace Cropper.Blazor.Client.Components.Docs
         {
             if (_comp_instance == null)
             {
-                return info.GetValue(Activator.CreateInstance(Type), null);
+                var constructors = Type.GetConstructors();
+
+                if (!constructors.Any())
+                {
+                    return info.GetValue(Activator.CreateInstance(Type), null);
+                }
+
+                ParameterInfo[] parameters = constructors.First().GetParameters();
+
+                if (!parameters.Any())
+                {
+                    return info.GetValue(Activator.CreateInstance(Type), null);
+                }
+
+                if (Type == typeof(CroppedCanvas))
+                {
+                    return info.GetValue(new CroppedCanvas(default));
+                }
+                else
+                {
+                    throw new InvalidOperationException("Unsupported type");
+                }
             }
 
             return info.GetValue(_comp_instance);
