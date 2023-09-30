@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Reflection;
 using Cropper.Blazor.Client.Models;
+using Cropper.Blazor.Events;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.Shared.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -209,7 +210,14 @@ namespace Cropper.Blazor.Client.Components.Docs
 
                 if (!parameters.Any())
                 {
-                    return info.GetValue(Activator.CreateInstance(Type), null);
+                    if (Type == typeof(JSEventData<>))
+                    {
+                        return new JSEventData<object>();
+                    }
+                    else
+                    {
+                        return info.GetValue(Activator.CreateInstance(Type), null);
+                    }
                 }
 
                 if (Type == typeof(CroppedCanvas))

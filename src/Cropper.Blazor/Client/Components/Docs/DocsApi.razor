@@ -130,7 +130,7 @@
                         </HeaderContent>
                         <RowTemplate>
                             <MudTd Class="docs-content-api-cell" DataLabel="Name"><CodeInline>@context.Name</CodeInline></MudTd>
-                            <MudTd Class="docs-content-api-cell" DataLabel="Type">@context.Type.GetTypeDisplayName()</MudTd>
+                            <MudTd Class="docs-content-api-cell" DataLabel="Type">@(new MarkupString(context.Type.GetFormattedReturnSignature()))</MudTd>
                             <MudTd Class="docs-content-api-cell docs-content-api-description" DataLabel="Description">
                                 @HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))
                             </MudTd>

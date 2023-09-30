@@ -4,7 +4,7 @@ using System.Text;
 namespace Cropper.Blazor.Shared.Extensions
 {
     // Adaptation from : https://stackoverflow.com/questions/1312166/print-full-signature-of-a-method-from-a-methodinfo/1312321
-    public static class MethodInfoExtensions
+    public static partial class MethodInfoExtensions
     {
         /// <summary>
         /// Return the method signature as a string.
@@ -23,7 +23,7 @@ namespace Cropper.Blazor.Shared.Extensions
             if (callable == false)
             {
                 // Append return type
-                stringBuilder.Append(RemoveNamespace(TypeName(method.ReturnType)));
+                stringBuilder.Append(method.ReturnType.TypeName().RemoveNamespace());
                 stringBuilder.Append(' ');
             }
 
@@ -46,7 +46,7 @@ namespace Cropper.Blazor.Shared.Extensions
                         stringBuilder.Append(", ");
                     }
 
-                    stringBuilder.Append(TypeName(genericArgument));
+                    stringBuilder.Append(genericArgument.TypeName());
                 }
 
                 stringBuilder.Append('>');
@@ -91,7 +91,7 @@ namespace Cropper.Blazor.Shared.Extensions
 
                 if (!callable)
                 {
-                    stringBuilder.Append(TypeName(parameter.ParameterType));
+                    stringBuilder.Append(parameter.ParameterType.TypeName());
                     stringBuilder.Append(' ');
                 }
 
@@ -129,11 +129,11 @@ namespace Cropper.Blazor.Shared.Extensions
                     {
                         if (type != null)
                         {
-                            return string.IsNullOrWhiteSpace(type.FullName) ? RemoveNamespace(type.Name) : RemoveNamespace(type.FullName);
+                            return string.IsNullOrWhiteSpace(type.FullName) ? type.Name.RemoveNamespace() : type.FullName.RemoveNamespace();
                         }
                         else
                         {
-                            return RemoveNamespace(value);
+                            return value.RemoveNamespace();
                         }
                     }
             }
@@ -151,7 +151,7 @@ namespace Cropper.Blazor.Shared.Extensions
 
             if (nullableType != null)
             {
-                return RemoveNamespace(nullableType.Name + "?");
+                return (nullableType.Name + "?").RemoveNamespace();
             }
 
             if (!(type.IsGenericType && type.Name.Contains('`')))
@@ -177,7 +177,7 @@ namespace Cropper.Blazor.Shared.Extensions
                     stringBuilder.Append(',');
                 }
 
-                string typeName = TypeName(t);
+                string typeName = t.TypeName();
 
                 if (GenericArgumentFormatter is not null)
                 {
@@ -188,10 +188,11 @@ namespace Cropper.Blazor.Shared.Extensions
 
                 first = false;
             }
+
             stringBuilder.Append('>');
 
             // Return result
-            return RemoveNamespace(stringBuilder.ToString());
+            return stringBuilder.ToString().RemoveNamespace();
         }
 
         public static string RemoveNamespace(this string value)
@@ -201,6 +202,12 @@ namespace Cropper.Blazor.Shared.Extensions
 
         public static string GetFormattedReturnSignature(this MethodInfo method, bool callable = false)
         {
+            // Return final result
+            return method.ReturnType.GetFormattedReturnSignature(callable);
+        }
+
+        public static string GetFormattedReturnSignature(this Type type, bool callable = false)
+        {
             // Define local variables
             var stringBuilder = new StringBuilder();
 
@@ -208,11 +215,12 @@ namespace Cropper.Blazor.Shared.Extensions
             if (callable == false)
             {
                 // Append return type
-                stringBuilder.Append(RemoveNamespace(TypeName(method.ReturnType, CreateLink)));
+                stringBuilder.Append(type.TypeName(CreateLink).RemoveNamespace());
                 stringBuilder.Append(' ');
             }
 
             // Return final result
+            Console.WriteLine(stringBuilder.ToString());
             return stringBuilder.ToString();
         }
 
@@ -221,6 +229,33 @@ namespace Cropper.Blazor.Shared.Extensions
             if (name == "string")
             {
                 return $"<a target=\"_blank\">{name}</a>";
+            }
+            else if (name == "Action")
+            {
+                return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.action-1\">{name}</a>";
+            }
+            else if (name == "ErrorEventArgs")
+            {
+                return $"<a target=\"_blank\">{name}</a>";
+            }
+            else
+            {
+                // Split the input string by angle brackets '<' and '>'
+                string[] parts = name.Split('<', '>');
+
+                // Get the first word inside the angle brackets
+                if (parts.Length > 1)
+                {
+                    string? firstWord = parts[1].Trim();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.Append(CreateLink(parts.First()));
+                    stringBuilder.Append("<");
+                    stringBuilder.Append(CreateLink(firstWord));
+                    stringBuilder.Append(">");
+
+                    return stringBuilder.ToString();
+                }
             }
 
             return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"contract/{name}\">{name}</a>";
