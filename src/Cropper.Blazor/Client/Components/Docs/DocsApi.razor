@@ -110,11 +110,11 @@
                                     @(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))))
                                 </MudTd>
                             </MudHidden>
-                            </RowTemplate>
-                            <GroupFooterTemplate></GroupFooterTemplate>
-                        </MudTable>
-                    </SectionContent>
-                </DocsPageSection>
+                        </RowTemplate>
+                        <GroupFooterTemplate></GroupFooterTemplate>
+                    </MudTable>
+                </SectionContent>
+            </DocsPageSection>
         }
 
         @if (eventCallbacks.Count() > 0)
@@ -130,14 +130,21 @@
                         </HeaderContent>
                         <RowTemplate>
                             <MudTd Class="docs-content-api-cell" DataLabel="Name"><CodeInline>@context.Name</CodeInline></MudTd>
-                            <MudTd Class="docs-content-api-cell" DataLabel="Type">@context.Type.GetTypeDisplayName()</MudTd>
-                            <MudTd Class="docs-content-api-cell docs-content-api-description" DataLabel="Description">
-                                @HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))
-                            </MudTd>
-                        </RowTemplate>
-                    </MudTable>
-                </SectionContent>
-            </DocsPageSection>
+                            <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
+                                <MudTd Class="docs-content-api-cell" DataLabel="Type">
+                                    <div>@(new MarkupString(context.Type.GetFormattedReturnSignature()))</div>
+                                </MudTd>
+                            </MudHidden>
+                            <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
+                                <MudTd Class="docs-content-api-cell" DataLabel="Type">@(new MarkupString(context.Type.GetFormattedReturnSignature()))</MudTd>
+                                </MudHidden>
+                                <MudTd Class="docs-content-api-cell docs-content-api-description" DataLabel="Description">
+                                    @HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))
+                                </MudTd>
+                            </RowTemplate>
+                        </MudTable>
+                    </SectionContent>
+                </DocsPageSection>
         }
 
         @if (methods.Count() > 0)
