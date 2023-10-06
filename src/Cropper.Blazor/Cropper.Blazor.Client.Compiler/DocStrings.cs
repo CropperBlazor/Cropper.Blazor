@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Cropper.Blazor.Client.Compiler
 {
-    public class DocStrings
+    public partial class DocStrings
     {
         private static string[] hiddenMethods = { "ToString", "GetType", "GetHashCode", "Equals", "SetParametersAsync", "ReferenceEquals" };
 
@@ -41,8 +41,10 @@ namespace Cropper.Blazor.Client.Compiler
                 {
                     foreach (var property in type.GetPropertyInfosWithAttribute<ParameterAttribute>())
                     {
-                        var doc = property.GetDocumentation() ?? "";
-                        doc = ConvertSeeTags(doc);
+                        string doc = property.GetDocumentation() ?? "";
+                        doc = ConvertCrefToHTML(doc);
+                        doc = ConvertMarkdownToHTML(doc);
+
                         //doc = Regex.Replace(doc, @"</?.+?>", "");  // remove all other XML tags
                         cb.AddLine($"public const string {GetSaveTypename(type)}_{property.Name} = @\"{EscapeDescription(doc).Trim()}\";\n");
                     }
@@ -66,10 +68,11 @@ namespace Cropper.Blazor.Client.Compiler
                             string formattedReturnSignature = method.GetFormattedReturnSignature();
                             doc = ConvertSeeTagsForMethod(doc, formattedReturnSignature);
                             doc = NormalizeWord(doc);
+                            doc = ConvertCrefToHTML(doc);
+                            doc = ConvertMarkdownToHTML(doc);
 
                             if (isProperty)
                             {
-                                doc = ConvertMarkdownToHTML(doc);
                                 cb.AddLine($"public const string {GetSaveTypename(type)}_property_{method.Name.Replace("get_", string.Empty)} = @\"{EscapeDescription(doc).Trim()}\";\n");
                             }
                             else
@@ -111,19 +114,6 @@ namespace Cropper.Blazor.Client.Compiler
 
         private static Type GetBaseDefinitionClass(MethodInfo m) => m.GetBaseDefinition().DeclaringType;
 
-        /* Replace <see cref="TYPE_OR_MEMBER_QUALIFIED_NAME"/> tags by TYPE_OR_MEMBER_QUALIFIED_NAME without "Cropper.Blazor." at the beginning.
-         * It is a quick fix. It should be rather represented by <a href="...">...</a> but it is more difficult.
-         */
-        private static string ConvertSeeTags(string doc)
-        {
-            return Regex.Replace(doc, "<see cref=\"[TFPME]:(Cropper\\.)?([^>]+)\" */>", match =>
-            {
-                string result = match.Groups[2].Value;     // get the name of Type or type member (Field, Property, Method, or Event)
-                result = Regex.Replace(result, "`1", "");  // remove `1 from generic type name
-                return result;
-            });
-        }
-
         private static string ConvertMarkdownToHTML(string markdownText)
         {
             // Define a regular expression pattern to match Markdown elements with URLs and text
@@ -135,9 +125,31 @@ namespace Cropper.Blazor.Client.Compiler
             return htmlText;
         }
 
+        private static string ConvertCrefToHTML(string markdownText)
+        {
+            // Define a regular expression pattern to match Markdown elements with URLs and text
+            string pattern = $"<(\\w+) cref=\"([^\"]+)\" />";
+
+            // Replace Markdown elements with HTML links
+            string htmlText = Regex.Replace(markdownText, pattern, match =>
+            {
+                string result = match.Groups[2].Value;
+                string value = result.RemoveNamespace();
+
+                if (result.EndsWith("Microsoft.AspNetCore.Components.Web.ErrorEventArgs"))
+                {
+                    return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.web.erroreventargs\">{value}</a>";
+                }
+
+                return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"contract/{value}\">{value}</a>";
+            });
+
+            return htmlText;
+        }
+
         private static string ConvertSeeTagsForMethod(string doc, string formattedReturnSignature)
         {
-            var result = doc
+            string result = doc
                 .Replace("<br />", "")
                 .Replace("<paramref name=\"scaleX\" />", "scaleX")
                 .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.Forms.IBrowserFile\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.forms.ibrowserfile\">IBrowserFile</a>")
@@ -147,7 +159,7 @@ namespace Cropper.Blazor.Client.Compiler
                 .Replace("<see cref=\"T:Cropper.Blazor.Events.JSEventData`1\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"contract/JSEventData\">JSEventData<></a>")
                 .Replace("<see cref=\"T:System.Threading.CancellationToken\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource\">CancellationToken</a>");
 
-            return ConvertSeeTags(result);
+            return result;
         }
 
         private static string NormalizeWord(string doc)
@@ -160,5 +172,8 @@ namespace Cropper.Blazor.Client.Compiler
         {
             return doc.Replace("\"", "\"\"");
         }
+
+        [GeneratedRegex("<see cref=\"[TFPME]:(Cropper\\.)?([^>]+)\" */>")]
+        private static partial Regex ConvertSeeTagsRegex();
     }
 }
