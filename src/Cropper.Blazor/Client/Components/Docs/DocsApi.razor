@@ -102,12 +102,16 @@
                             </MudTd>
                             <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
                                 <MudTd Class="docs-content-api-cell docs-content-api-description" Style="text-align: end !important;" DataLabel="Description">
-                                    @(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))))
+                                    <div>
+                                        @(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))))
+                                    </div>
                                 </MudTd>
                             </MudHidden>
                             <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
                                 <MudTd Class="docs-content-api-cell docs-content-api-description" DataLabel="Description">
-                                    @(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))))
+                                    <div>
+                                        @(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))))
+                                    </div>
                                 </MudTd>
                             </MudHidden>
                         </RowTemplate>
