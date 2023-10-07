@@ -89,7 +89,7 @@ namespace Cropper.Blazor.Client.Components.Docs
         {
             return (propertyInfo!.PropertyType.Name.Contains("EventCallback") && (propertyInfo!.PropertyType.FullName ?? "").Contains(typeof(EventCallback).Namespace))
                 || (propertyInfo!.PropertyType.Name.Contains("Action") && (propertyInfo!.PropertyType.FullName ?? "").Contains(typeof(Action).Namespace))
-                || (propertyInfo!.PropertyType.Name.Contains("Func")  && (propertyInfo!.PropertyType.FullName ?? "").Contains(typeof(Func<>).Namespace));
+                || (propertyInfo!.PropertyType.Name.Contains("Func") && (propertyInfo!.PropertyType.FullName ?? "").Contains(typeof(Func<>).Namespace));
         }
 
         private IEnumerable<ApiProperty> GetProperties()
