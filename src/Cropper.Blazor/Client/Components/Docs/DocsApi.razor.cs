@@ -87,9 +87,9 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         private bool IsEventCallback(PropertyInfo? propertyInfo)
         {
-            return propertyInfo!.PropertyType.Name.Contains("EventCallback")
-                || propertyInfo!.PropertyType.Name.Contains("Action")
-                || propertyInfo!.PropertyType.Name.Contains("Func");
+            return (propertyInfo!.PropertyType.Name.Contains("EventCallback") && (propertyInfo!.PropertyType.FullName ?? "").Contains(typeof(EventCallback).Namespace))
+                || (propertyInfo!.PropertyType.Name.Contains("Action") && (propertyInfo!.PropertyType.FullName ?? "").Contains(typeof(Action).Namespace))
+                || (propertyInfo!.PropertyType.Name.Contains("Func")  && (propertyInfo!.PropertyType.FullName ?? "").Contains(typeof(Func<>).Namespace));
         }
 
         private IEnumerable<ApiProperty> GetProperties()
@@ -108,12 +108,24 @@ namespace Cropper.Blazor.Client.Components.Docs
                     .GetPropertyInfosWithAttribute<ParameterAttribute>();
             }
 
-            foreach (var info in types.OrderBy(x => x.Name))
+            if (Type.IsEnum)
             {
-                if (info.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0
-                    && !IsEventCallback(info))
+                foreach (var info in Enum.GetValues(Type))
                 {
-                    yield return ToApiProperty(info, saveTypename);
+                    string? enumDisplayStatus = Convert.ChangeType(info, Type).ToString();
+                    yield return ToApiProperty(Type, enumDisplayStatus, ((int)info).ToString());
+                }
+            }
+            else
+            {
+
+                foreach (var info in types.OrderBy(x => x.Name))
+                {
+                    if (info.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0
+                        && !IsEventCallback(info))
+                    {
+                        yield return ToApiProperty(info, saveTypename);
+                    }
                 }
             }
         }
@@ -128,6 +140,18 @@ namespace Cropper.Blazor.Client.Components.Docs
                 IsTwoWay = CheckIsTwoWayProperty(info),
                 Description = DocStrings.GetMemberDescription(saveTypename, info, IsContract),
                 Type = info.PropertyType
+            };
+        }
+
+        private ApiProperty ToApiProperty(Type type, string? enumDisplayStatus, string value)
+        {
+            return new ApiProperty
+            {
+                Name = enumDisplayStatus,
+                PropertyInfo = null,
+                Default = value,
+                Description = DocStrings.GetEnumDescription(type.Name, enumDisplayStatus),
+                Type = type
             };
         }
 

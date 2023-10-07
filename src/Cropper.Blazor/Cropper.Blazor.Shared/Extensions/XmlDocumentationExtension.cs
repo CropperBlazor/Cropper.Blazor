@@ -333,6 +333,19 @@ namespace Cropper.Blazor.Shared.Extensions
             return documentation;
         }
 
+        /// <summary>Gets the XML documentation on a enum.</summary>
+        /// <param name="fieldInfo">The enum to get the XML documentation of.</param>
+        /// <returns>The XML documentation on the enum.</returns>
+        /// <remarks>The XML documentation must be loaded into memory for this function to work.</remarks>
+        public static string GetDocumentation(this Enum fieldInfo)
+        {
+            Type type = fieldInfo.GetType();
+            LoadXmlDocumentation(type.Assembly);
+            var key = "F:" + XmlDocumentationKeyHelper(type.FullName, fieldInfo.ToString());
+            LoadedXmlDocumentation.TryGetValue(key, out var documentation);
+            return documentation;
+        }
+
         /// <summary>Gets the XML documentation on a field.</summary>
         /// <param name="fieldInfo">The field to get the XML documentation of.</param>
         /// <returns>The XML documentation on the field.</returns>
