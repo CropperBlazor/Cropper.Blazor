@@ -220,7 +220,6 @@ namespace Cropper.Blazor.Shared.Extensions
             }
 
             // Return final result
-            Console.WriteLine(stringBuilder.ToString());
             return stringBuilder.ToString();
         }
 

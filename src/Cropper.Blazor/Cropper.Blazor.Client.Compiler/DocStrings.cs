@@ -34,14 +34,15 @@ namespace Cropper.Blazor.Client.Compiler
                 cb.AddLine("{");
                 cb.IndentLevel++;
 
-                var assembly = typeof(CropperComponent).Assembly;
-                var types = assembly.GetTypes().OrderBy(t => GetSaveTypename(t));
+                Assembly assembly = typeof(CropperComponent).Assembly;
+                IOrderedEnumerable<Type> types = assembly.GetTypes().OrderBy(t => GetSaveTypename(t));
 
                 foreach (var type in types)
                 {
                     foreach (var property in type.GetPropertyInfosWithAttribute<ParameterAttribute>())
                     {
                         string doc = property.GetDocumentation() ?? "";
+                        doc = NormalizeWord(doc);
                         doc = ConvertCrefToHTML(doc);
                         doc = ConvertMarkdownToHTML(doc);
 
@@ -64,8 +65,9 @@ namespace Cropper.Blazor.Client.Compiler
 
                             bool isProperty = method.Name.StartsWith("get_");
 
-                            var doc = method.GetDocumentation(isProperty) ?? "";
+                            string doc = method.GetDocumentation(isProperty) ?? "";
                             string formattedReturnSignature = method.GetFormattedReturnSignature();
+
                             doc = ConvertSeeTagsForMethod(doc, formattedReturnSignature);
                             doc = NormalizeWord(doc);
                             doc = ConvertCrefToHTML(doc);
@@ -79,6 +81,24 @@ namespace Cropper.Blazor.Client.Compiler
                             {
                                 cb.AddLine($"public const string {GetSaveTypename(type)}_method_{GetSaveMethodIdentifier(method)} = @\"{EscapeDescription(doc)}\";\n");
                             }
+                        }
+                    }
+
+                    if (type.IsEnum)
+                    {
+                        string[] enumNames = type.GetEnumNames();
+
+                        foreach (string enumName in enumNames)
+                        {
+                            Enum enumValue = (Enum)Enum.Parse(type, enumName);
+                            string doc = enumValue.GetDocumentation();
+                            doc = NormalizeWord(doc);
+                            doc = ConvertCrefToHTML(doc);
+                            doc = ConvertMarkdownToHTML(doc);
+
+                            string description = EscapeDescription(doc);
+
+                            cb.AddLine($"public const string {GetSaveTypename(type)}_enum_{enumName} = @\"{description}\";\n");
                         }
                     }
                 }

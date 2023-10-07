@@ -30,7 +30,18 @@
     else
     {
         <MudText Typo="Typo.h5">
-            Contract <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
+            @if (Type.IsEnum)
+            {
+                <div>
+                    Enum <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
+                </div>
+            }
+            else
+            {
+                <div>
+                    Contract <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
+                </div>
+            }
         </MudText>
     }
     <DocsPageContent>

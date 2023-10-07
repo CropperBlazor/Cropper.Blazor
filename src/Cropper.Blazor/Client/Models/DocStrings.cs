@@ -1,6 +1,6 @@
-﻿using Cropper.Blazor.Shared.Extensions;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text.RegularExpressions;
+using Cropper.Blazor.Shared.Extensions;
 
 namespace Cropper.Blazor.Client.Models
 {
@@ -35,6 +35,18 @@ namespace Cropper.Blazor.Client.Models
                 throw new Exception("Implemented only for properties and methods.");
             }
 
+            return GetDocStrings(name);
+        }
+
+        public static string GetEnumDescription(string enumName, string enumValue)
+        {
+            string name = enumName + "_enum_" + enumValue;
+
+            return GetDocStrings(name);
+        }
+
+        private static string GetDocStrings(string name)
+        {
             var field = typeof(DocStrings).GetField(name, BindingFlags.Public | BindingFlags.Static | BindingFlags.GetField);
 
             if (field == null)
