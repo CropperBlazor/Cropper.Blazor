@@ -41,7 +41,7 @@ Cropper.Blazor is an essential component for building interactive image cropping
   - `dotnet workload update` + rebuilt the project. If that doesn't help, try the step below about override package
   - override package, for example: `<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" VersionOverride="7.0.1" />`
 
-  ## Key features and aspects of the Cropper.Blazor package include:
+ ## Key features and aspects of the Cropper.Blazor package include
 
 - Blazor Integration: Cropper.Blazor is specifically designed for Blazor applications, allowing developers to effortlessly incorporate image cropping capabilities into their Blazor components and pages.
 - Drag-and-Resize Interaction: Users can easily drag and resize the cropping area to precisely select the desired portion of an image. This intuitive interaction method ensures accurate and efficient cropping.
