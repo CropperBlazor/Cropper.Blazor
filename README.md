@@ -6,7 +6,7 @@
     Cropper.Blazor
   </h1>
   <p align="center">
-    <b>Cropper.Blazor</b> is a component that wraps around <a href="https://github.com/fengyuanchen/cropperjs"><b>Cropper.js</b></a> version 1.6.0
+    <b>Cropper.Blazor</b> is a component that wraps around <a href="https://github.com/fengyuanchen/cropperjs"><b>Cropper.js</b></a> version 1.6.1
   </p>
 </p>
 
@@ -30,6 +30,10 @@
   - Blazor Server
   - Blazor Server Hybrid with MVC
   - MAUI Blazor Hybrid
+  
+  Note: if you have problem with MAUI project dependencies: 
+  - `dotnet workload update` + rebuilt the project. If that doesn't help, try the step below about override package
+  - override package, for example: `<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" VersionOverride="7.0.1" />`
 
 ## Installation
 
