@@ -9,7 +9,15 @@ namespace Cropper.Blazor.Shared.Extensions
         public static IEnumerable<PropertyInfo> GetPropertyInfosWithAttribute<AttributeType>(this Type type)
             where AttributeType : Attribute
         {
+<<<<<<< HEAD
             foreach (var propertyInfo in GetPropertyInfos(type))
+=======
+            foreach (var propertyInfo in type.GetProperties(
+                BindingFlags.Instance |
+                BindingFlags.Static |
+                BindingFlags.Public |
+                BindingFlags.NonPublic))
+>>>>>>> origin/master
             {
                 if (propertyInfo.GetCustomAttributes(typeof(AttributeType), true).Length > 0)
                 {
@@ -18,12 +26,15 @@ namespace Cropper.Blazor.Shared.Extensions
             }
         }
 
+<<<<<<< HEAD
         public static IEnumerable<PropertyInfo> GetPropertyInfos(this Type type) => type.GetProperties(
                 BindingFlags.Instance |
                 BindingFlags.Static |
                 BindingFlags.Public |
                 BindingFlags.NonPublic);
 
+=======
+>>>>>>> origin/master
         /// <summary>Gets the file path of an assembly.</summary>
         /// <param name="assembly">The assembly to get the file path of.</param>
         /// <returns>The file path of the assembly.</returns>
@@ -160,7 +171,11 @@ namespace Cropper.Blazor.Shared.Extensions
         /// <param name="methodInfo">The method to get the XML documentation of.</param>
         /// <returns>The XML documentation on the method.</returns>
         /// <remarks>The XML documentation must be loaded into memory for this function to work.</remarks>
+<<<<<<< HEAD
         public static string GetDocumentation(this MethodInfo methodInfo, bool isProperty = false)
+=======
+        public static string GetDocumentation(this MethodInfo methodInfo)
+>>>>>>> origin/master
         {
             LoadXmlDocumentation(methodInfo.DeclaringType.Assembly);
 
@@ -174,6 +189,7 @@ namespace Cropper.Blazor.Shared.Extensions
 
             var parameterInfos = methodInfo.GetParameters();
 
+<<<<<<< HEAD
             var memberTypePrefix = isProperty ? "P:" : "M:";
             var declarationTypeString = GetXmlDocumentationFormattedString(methodInfo.DeclaringType, false, typeGenericMap, methodGenericMap);
             var memberNameString = methodInfo.Name;
@@ -183,6 +199,11 @@ namespace Cropper.Blazor.Shared.Extensions
                 memberNameString = memberNameString.Replace("get_", string.Empty);
             }
 
+=======
+            var memberTypePrefix = "M:";
+            var declarationTypeString = GetXmlDocumentationFormattedString(methodInfo.DeclaringType, false, typeGenericMap, methodGenericMap);
+            var memberNameString = methodInfo.Name;
+>>>>>>> origin/master
             var methodGenericArgumentsString =
                 methodGenericMap.Count > 0 ?
                 "``" + methodGenericMap.Count :
@@ -333,6 +354,7 @@ namespace Cropper.Blazor.Shared.Extensions
             return documentation;
         }
 
+<<<<<<< HEAD
         /// <summary>Gets the XML documentation on a enum.</summary>
         /// <param name="fieldInfo">The enum to get the XML documentation of.</param>
         /// <returns>The XML documentation on the enum.</returns>
@@ -346,6 +368,8 @@ namespace Cropper.Blazor.Shared.Extensions
             return documentation;
         }
 
+=======
+>>>>>>> origin/master
         /// <summary>Gets the XML documentation on a field.</summary>
         /// <param name="fieldInfo">The field to get the XML documentation of.</param>
         /// <returns>The XML documentation on the field.</returns>

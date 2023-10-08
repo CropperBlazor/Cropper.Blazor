@@ -1,6 +1,9 @@
 ﻿using Cropper.Blazor.Components;
+<<<<<<< HEAD
 using Cropper.Blazor.Models;
 using Cropper.Blazor.Shared.Extensions;
+=======
+>>>>>>> origin/master
 
 namespace Cropper.Blazor.Client.Components.Docs
 {
@@ -27,6 +30,7 @@ namespace Cropper.Blazor.Client.Components.Docs
 
             return component;
         }
+<<<<<<< HEAD
 
         public static Type GetTypeFromComponentLink(string component)
         {
@@ -76,5 +80,7 @@ namespace Cropper.Blazor.Client.Components.Docs
 
             return value;
         }
+=======
+>>>>>>> origin/master
     }
 }

@@ -584,7 +584,11 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Get a canvas drawn from the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
         /// </summary>
+<<<<<<< HEAD
         /// <param name="getCroppedCanvasOptions">The <see cref="GetCroppedCanvasOptions"/> used to get a cropped canvas.</param>
+=======
+        /// <param name="getCroppedCanvasOptions">Options for getting cropped canvas.</param>
+>>>>>>> origin/master
         /// <param name="type">A string indicating the image format. The default type is image/png; this image format will be also used if the specified type is not supported.</param>
         /// <param name="number">A number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp).
         /// Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality.

@@ -73,4 +73,8 @@ namespace Cropper.Blazor.Client.Components
             await JSRuntime!.InvokeVoidAsync("window.overrideOnZoomCropperEvent", MinZoomRatio, MaxZoomRatio);
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master

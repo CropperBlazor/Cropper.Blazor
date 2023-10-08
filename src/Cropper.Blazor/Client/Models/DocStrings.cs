@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 ﻿using System.Reflection;
 using System.Text.RegularExpressions;
 using Cropper.Blazor.Shared.Extensions;
+=======
+﻿using Cropper.Blazor.Shared.Extensions;
+using System.Reflection;
+using System.Text.RegularExpressions;
+>>>>>>> origin/master
 
 namespace Cropper.Blazor.Client.Models
 {
@@ -11,11 +17,16 @@ namespace Cropper.Blazor.Client.Models
          *   string saveTypename = DocStrings.GetSaveTypename(type);  // calculate it only once
          *   DocStrings.GetMemberDescription(saveTypename, member);
          */
+<<<<<<< HEAD
         public static string GetMemberDescription(string saveTypename, MemberInfo member, bool isContract = false)
+=======
+        public static string GetMemberDescription(string saveTypename, MemberInfo member)
+>>>>>>> origin/master
         {
             string name;
 
             if (member is PropertyInfo property)
+<<<<<<< HEAD
             {
                 if (isContract)
                 {
@@ -54,6 +65,17 @@ namespace Cropper.Blazor.Client.Models
                 return null;
             }
 
+=======
+                name = saveTypename + "_" + property.Name;
+            else if (member is MethodInfo method)
+                name = saveTypename + "_method_" + GetSaveMethodIdentifier(method);
+            else
+                throw new Exception("Implemented only for properties and methods.");
+
+            var field = typeof(DocStrings).GetField(name, BindingFlags.Public | BindingFlags.Static | BindingFlags.GetField);
+            if (field == null)
+                return null;
+>>>>>>> origin/master
             return (string)field.GetValue(null);
         }
 

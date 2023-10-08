@@ -5,7 +5,11 @@ namespace Cropper.Blazor.Shared.Extensions
     // Adapted from https://github.com/aspnet/Common/blob/dev/shared/Microsoft.Extensions.TypeNameHelper.Sources/TypeNameHelper.cs
     public static class TypeNameHelper
     {
+<<<<<<< HEAD
         public static string GetTypeDisplayName(this Type type) => GetTypeDisplay(type, false);
+=======
+        public static string GetTypeDisplayName(this Type type) => GetTypeDisplayName(type, false);
+>>>>>>> origin/master
 
         public static readonly Dictionary<Type, string> BuiltInTypeNames = new Dictionary<Type, string>
         {
@@ -43,7 +47,11 @@ namespace Cropper.Blazor.Shared.Extensions
         /// <param name="fullName"><c>true</c> to print a fully qualified name.</param>
         /// <param name="includeGenericParameterNames"><c>true</c> to include generic parameter names.</param>
         /// <returns>The pretty printed type name.</returns>
+<<<<<<< HEAD
         public static string GetTypeDisplay(Type type, bool fullName = true, bool includeGenericParameterNames = false)
+=======
+        public static string GetTypeDisplayName(Type type, bool fullName = true, bool includeGenericParameterNames = false)
+>>>>>>> origin/master
         {
             var builder = new StringBuilder();
             ProcessType(builder, type, new DisplayNameOptions(fullName, includeGenericParameterNames));

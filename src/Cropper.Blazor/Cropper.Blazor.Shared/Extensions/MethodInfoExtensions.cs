@@ -4,7 +4,11 @@ using System.Text;
 namespace Cropper.Blazor.Shared.Extensions
 {
     // Adaptation from : https://stackoverflow.com/questions/1312166/print-full-signature-of-a-method-from-a-methodinfo/1312321
+<<<<<<< HEAD
     public static partial class MethodInfoExtensions
+=======
+    public static class MethodInfoExtensions
+>>>>>>> origin/master
     {
         /// <summary>
         /// Return the method signature as a string.
@@ -23,7 +27,11 @@ namespace Cropper.Blazor.Shared.Extensions
             if (callable == false)
             {
                 // Append return type
+<<<<<<< HEAD
                 stringBuilder.Append(method.ReturnType.TypeName().RemoveNamespace());
+=======
+                stringBuilder.Append(RemoveNamespace(TypeName(method.ReturnType)));
+>>>>>>> origin/master
                 stringBuilder.Append(' ');
             }
 
@@ -46,7 +54,11 @@ namespace Cropper.Blazor.Shared.Extensions
                         stringBuilder.Append(", ");
                     }
 
+<<<<<<< HEAD
                     stringBuilder.Append(genericArgument.TypeName());
+=======
+                    stringBuilder.Append(TypeName(genericArgument));
+>>>>>>> origin/master
                 }
 
                 stringBuilder.Append('>');
@@ -91,7 +103,11 @@ namespace Cropper.Blazor.Shared.Extensions
 
                 if (!callable)
                 {
+<<<<<<< HEAD
                     stringBuilder.Append(parameter.ParameterType.TypeName());
+=======
+                    stringBuilder.Append(TypeName(parameter.ParameterType));
+>>>>>>> origin/master
                     stringBuilder.Append(' ');
                 }
 
@@ -120,7 +136,11 @@ namespace Cropper.Blazor.Shared.Extensions
                 case "DOUBLE": return "double";
                 case "DECIMAL": return "decimal";
                 case "OBJECT": return "object";
+<<<<<<< HEAD
                 case "VOID": return "void";
+=======
+                case "VOID": return string.Empty;
+>>>>>>> origin/master
                 case "BOOLEAN": return "bool";
                 case "SBYTE": return "sbyte";
                 case "CHAR": return "char";
@@ -129,11 +149,19 @@ namespace Cropper.Blazor.Shared.Extensions
                     {
                         if (type != null)
                         {
+<<<<<<< HEAD
                             return string.IsNullOrWhiteSpace(type.FullName) ? type.Name.RemoveNamespace() : type.FullName.RemoveNamespace();
                         }
                         else
                         {
                             return value.RemoveNamespace();
+=======
+                            return string.IsNullOrWhiteSpace(type.FullName) ? RemoveNamespace(type.Name) : RemoveNamespace(type.FullName);
+                        }
+                        else
+                        {
+                            return RemoveNamespace(value);
+>>>>>>> origin/master
                         }
                     }
             }
@@ -144,14 +172,22 @@ namespace Cropper.Blazor.Shared.Extensions
         /// </summary>
         /// <param name="type">Type. May be generic or nullable</param>
         /// <returns>Full type name, fully qualified namespaces</returns>
+<<<<<<< HEAD
         public static string TypeName(this Type type, Func<string, string>? GenericArgumentFormatter = null)
+=======
+        private static string TypeName(Type type)
+>>>>>>> origin/master
         {
             var first = true;
             var nullableType = Nullable.GetUnderlyingType(type);
 
             if (nullableType != null)
             {
+<<<<<<< HEAD
                 return (nullableType.Name + "?").RemoveNamespace();
+=======
+                return RemoveNamespace(nullableType.Name + "?");
+>>>>>>> origin/master
             }
 
             if (!(type.IsGenericType && type.Name.Contains('`')))
@@ -160,6 +196,7 @@ namespace Cropper.Blazor.Shared.Extensions
             }
 
             var stringBuilder = new StringBuilder(type.Name.Substring(0, type.Name.IndexOf('`')));
+<<<<<<< HEAD
 
             if (GenericArgumentFormatter is not null)
             {
@@ -169,6 +206,9 @@ namespace Cropper.Blazor.Shared.Extensions
             {
                 stringBuilder.Append('<');
             }
+=======
+            stringBuilder.Append('<');
+>>>>>>> origin/master
 
             foreach (var t in type.GetGenericArguments())
             {
@@ -176,6 +216,7 @@ namespace Cropper.Blazor.Shared.Extensions
                 {
                     stringBuilder.Append(',');
                 }
+<<<<<<< HEAD
 
                 string typeName = t.TypeName();
 
@@ -259,5 +300,20 @@ namespace Cropper.Blazor.Shared.Extensions
 
             return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"contract/{name}\">{name}</a>";
         }
+=======
+                stringBuilder.Append(TypeName(t));
+                first = false;
+            }
+            stringBuilder.Append('>');
+
+            // Return result
+            return RemoveNamespace(stringBuilder.ToString());
+        }
+
+        private static string RemoveNamespace(string value)
+        {
+            return value.Split('.')[value.Split('.').Length - 1];
+        }
+>>>>>>> origin/master
     }
 }
