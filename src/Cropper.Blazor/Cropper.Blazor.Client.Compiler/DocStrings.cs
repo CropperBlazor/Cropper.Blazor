@@ -172,6 +172,7 @@ namespace Cropper.Blazor.Client.Compiler
             string result = doc
                 .Replace("<br />", "")
                 .Replace("<paramref name=\"scaleX\" />", "scaleX")
+                .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.ElementReference\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.elementreference\">ElementReference</a>")
                 .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.Forms.IBrowserFile\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.forms.ibrowserfile\">IBrowserFile</a>")
                 .Replace("<see cref=\"T:Microsoft.JSInterop.DotNetStreamReference\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.dotnetstreamreference\">DotNetStreamReference</a>")
                 .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">ValueTask</a>")
