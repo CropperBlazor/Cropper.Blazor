@@ -18,6 +18,27 @@
 [![GitHub](https://img.shields.io/github/last-commit/CropperBlazor/Cropper.Blazor?color=009DEA)](https://github.com/CropperBlazor/Cropper.Blazor)
 [![NuGet Badge](https://buildstats.info/nuget/Cropper.Blazor)](https://www.nuget.org/packages/Cropper.Blazor/)
 
+Most powerful tool for enabling image cropping when creating an 
+application in Blazor WebAssembly / Server, Hybrid with MAUI, MVC and
+other frameworks.
+
+Cropper.Blazor is an essential component for building interactive image cropping and manipulation features in Blazor web applications. This versatile Blazor library empowers developers to integrate intuitive image cropping functionality directly into their Blazor projects, offering users a seamless and responsive image editing experience.
+
+Key features and aspects of the Cropper.Blazor package include:
+
+- Blazor Integration: Cropper.Blazor is specifically designed for Blazor applications, allowing developers to effortlessly incorporate image cropping capabilities into their Blazor components and pages.
+- Drag-and-Resize Interaction: Users can easily drag and resize the cropping area to precisely select the desired portion of an image. This intuitive interaction method ensures accurate and efficient cropping.
+- Rotation Support: Cropper.Blazor includes the ability to rotate the selected image area, giving users full control over the orientation of their cropped content.
+- Aspect Ratio Control: Developers can define custom aspect ratios for cropping, ensuring that the resulting image maintains specific proportions. This is particularly valuable for applications that require standardized image dimensions.
+- Zoom Functionality: Cropper.Blazor allows users to zoom in and out of the image to fine-tune their cropping selection, guaranteeing precise results.
+- Data Retrieval: The library provides methods to retrieve detailed information about the cropped area, such as coordinates and dimensions. This data can be easily captured and utilized for further processing or image uploads.
+- Customization: Cropper.Blazor offers a wide range of configuration options, enabling developers to tailor the cropping experience to match the visual style and user interface of their Blazor applications.
+- Cross-Browser Compatibility: The package is compatible with various modern web browsers, ensuring consistent functionality and user experience across different platforms.
+- Documentation: Cropper.Blazor is accompanied by comprehensive documentation and practical examples, simplifying the integration process and helping developers make the most of its features.
+- Open Source: Cropper.Blazor is open-source software, available for free use in both personal and commercial Blazor projects.
+
+Cropper.Blazor streamlines the implementation of image cropping and editing within Blazor applications, enhancing user engagement and enabling dynamic image manipulation. Whether you are developing a Blazor-based image editor, profile picture uploader, or any other application that requires image cropping, Cropper.Blazor is a valuable package that simplifies the development process and enriches your application's capabilities.
+
 ## Demo
 - [CropperBlazor.github.io/demo](https://CropperBlazor.github.io/demo)
 
