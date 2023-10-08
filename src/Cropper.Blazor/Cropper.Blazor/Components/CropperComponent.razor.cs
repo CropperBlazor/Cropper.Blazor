@@ -50,7 +50,7 @@ namespace Cropper.Blazor.Components
         public string Src { get; set; } = null!;
 
         /// <summary>
-        /// Specifies the path to the image when loading from <see cref="Src"/> fails.
+        /// Specifies the path to the image when loading from src fails.
         /// </summary>
         [Parameter]
         public string ErrorLoadImageSrc { get; set; } = null!;
@@ -186,7 +186,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event occurs if an error occurred while loading the image.
         /// </summary>
-        /// <param name="errorEventArgs">The error event to send if it's not in a good state.</param>
+        /// <param name="errorEventArgs">The <see cref="ErrorEventArgs"/> used to send if it's not in a good state.</param>
         public void OnErrorLoadImage(ErrorEventArgs errorEventArgs)
         {
             OnErrorLoadImageEvent?.Invoke(errorEventArgs);
@@ -266,7 +266,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Change the drag mode.
         /// </summary>
-        /// <param name="dragMode">The new drag mode.</param>
+        /// <param name="dragMode">The <see cref="DragMode"/> used to set new drag mode.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void SetDragMode(DragMode dragMode, CancellationToken cancellationToken = default)
         {
@@ -449,7 +449,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Change the crop box position and size with new data.
         /// </summary>
-        /// <param name="cropBoxDataOptions">The new crop box data.</param>
+        /// <param name="cropBoxDataOptions">The <see cref="SetCropBoxDataOptions"/> used to set new crop box data.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions, CancellationToken cancellationToken = default)
         {
@@ -459,7 +459,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Change the cropped area position and size with new data (based on the original image).
         /// </summary>
-        /// <param name="setDataOptions">The new data.</param>
+        /// <param name="setDataOptions">The <see cref="SetDataOptions"/> used to set new data.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void SetData(SetDataOptions setDataOptions, CancellationToken cancellationToken = default)
         {
@@ -469,7 +469,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Change the canvas (image wrapper) position and size with new data.
         /// </summary>
-        /// <param name="setCanvasDataOptions">The new canvas data.</param>
+        /// <param name="setCanvasDataOptions">The <see cref="SetCanvasDataOptions"/> used to set new canvas data.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void SetCanvasData(SetCanvasDataOptions setCanvasDataOptions, CancellationToken cancellationToken = default)
         {
@@ -573,7 +573,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Get a canvas drawn from the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
         /// </summary>
-        /// <param name="getCroppedCanvasOptions">Options for getting cropped canvas.</param>
+        /// <param name="getCroppedCanvasOptions">The <see cref="GetCroppedCanvasOptions"/> used to get a cropped canvas.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing canvas drawn the cropped image asynchronous operation.</returns>
         public async ValueTask<CroppedCanvas> GetCroppedCanvasAsync(GetCroppedCanvasOptions getCroppedCanvasOptions, CancellationToken cancellationToken = default)
@@ -584,7 +584,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Get a canvas drawn from the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
         /// </summary>
-        /// <param name="getCroppedCanvasOptions">Options for getting cropped canvas.</param>
+        /// <param name="getCroppedCanvasOptions">The <see cref="GetCroppedCanvasOptions"/> used to get a cropped canvas.</param>
         /// <param name="type">A string indicating the image format. The default type is image/png; this image format will be also used if the specified type is not supported.</param>
         /// <param name="number">A number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp).
         /// Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality.

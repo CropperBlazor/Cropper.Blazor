@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Cropper.Blazor.Client.Compiler
 {
-    public class DocStrings
+    public partial class DocStrings
     {
         private static string[] hiddenMethods = { "ToString", "GetType", "GetHashCode", "Equals", "SetParametersAsync", "ReferenceEquals" };
 
@@ -34,14 +34,19 @@ namespace Cropper.Blazor.Client.Compiler
                 cb.AddLine("{");
                 cb.IndentLevel++;
 
-                var assembly = typeof(CropperComponent).Assembly;
-                foreach (var type in assembly.GetTypes().OrderBy(t => GetSaveTypename(t)))
+                Assembly assembly = typeof(CropperComponent).Assembly;
+                IOrderedEnumerable<Type> types = assembly.GetTypes().OrderBy(t => GetSaveTypename(t));
+
+                foreach (var type in types)
                 {
                     foreach (var property in type.GetPropertyInfosWithAttribute<ParameterAttribute>())
                     {
-                        var doc = property.GetDocumentation() ?? "";
-                        doc = ConvertSeeTags(doc);
-                        doc = Regex.Replace(doc, @"</?.+?>", "");  // remove all other XML tags
+                        string doc = property.GetDocumentation() ?? "";
+                        doc = NormalizeWord(doc);
+                        doc = ConvertCrefToHTML(doc);
+                        doc = ConvertMarkdownToHTML(doc);
+
+                        //doc = Regex.Replace(doc, @"</?.+?>", "");  // remove all other XML tags
                         cb.AddLine($"public const string {GetSaveTypename(type)}_{property.Name} = @\"{EscapeDescription(doc).Trim()}\";\n");
                     }
 
@@ -52,16 +57,48 @@ namespace Cropper.Blazor.Client.Compiler
 
                     foreach (var method in type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy))
                     {
-                        if (!hiddenMethods.Any(x => x.Contains(method.Name)) && !method.Name.StartsWith("get_") && !method.Name.StartsWith("set_"))
+                        if (!hiddenMethods.Any(x => x.Contains(method.Name)) && !method.Name.StartsWith("set_"))
                         {
                             // omit methods defined in System.Enum
                             if (GetBaseDefinitionClass(method) == typeof(Enum))
                                 continue;
 
-                            var doc = method.GetDocumentation() ?? "";
-                            doc = ConvertSeeTagsFormethod(doc);
+                            bool isProperty = method.Name.StartsWith("get_");
+
+                            string doc = method.GetDocumentation(isProperty) ?? "";
+                            string formattedReturnSignature = method.GetFormattedReturnSignature();
+
+                            doc = ConvertSeeTagsForMethod(doc, formattedReturnSignature);
                             doc = NormalizeWord(doc);
-                            cb.AddLine($"public const string {GetSaveTypename(type)}_method_{GetSaveMethodIdentifier(method)} = @\"{EscapeDescription(doc)}\";\n");
+                            doc = ConvertCrefToHTML(doc);
+                            doc = ConvertMarkdownToHTML(doc);
+
+                            if (isProperty)
+                            {
+                                cb.AddLine($"public const string {GetSaveTypename(type)}_property_{method.Name.Replace("get_", string.Empty)} = @\"{EscapeDescription(doc).Trim()}\";\n");
+                            }
+                            else
+                            {
+                                cb.AddLine($"public const string {GetSaveTypename(type)}_method_{GetSaveMethodIdentifier(method)} = @\"{EscapeDescription(doc)}\";\n");
+                            }
+                        }
+                    }
+
+                    if (type.IsEnum)
+                    {
+                        string[] enumNames = type.GetEnumNames();
+
+                        foreach (string enumName in enumNames)
+                        {
+                            Enum enumValue = (Enum)Enum.Parse(type, enumName);
+                            string doc = enumValue.GetDocumentation();
+                            doc = NormalizeWord(doc);
+                            doc = ConvertCrefToHTML(doc);
+                            doc = ConvertMarkdownToHTML(doc);
+
+                            string description = EscapeDescription(doc);
+
+                            cb.AddLine($"public const string {GetSaveTypename(type)}_enum_{enumName} = @\"{description}\";\n");
                         }
                     }
                 }
@@ -97,32 +134,53 @@ namespace Cropper.Blazor.Client.Compiler
 
         private static Type GetBaseDefinitionClass(MethodInfo m) => m.GetBaseDefinition().DeclaringType;
 
-        /* Replace <see cref="TYPE_OR_MEMBER_QUALIFIED_NAME"/> tags by TYPE_OR_MEMBER_QUALIFIED_NAME without "Cropper.Blazor." at the beginning.
-         * It is a quick fix. It should be rather represented by <a href="...">...</a> but it is more difficult.
-         */
-        private static string ConvertSeeTags(string doc)
+        private static string ConvertMarkdownToHTML(string markdownText)
         {
-            return Regex.Replace(doc, "<see cref=\"[TFPME]:(Cropper\\.)?([^>]+)\" */>", match =>
-            {
-                string result = match.Groups[2].Value;     // get the name of Type or type member (Field, Property, Method, or Event)
-                result = Regex.Replace(result, "`1", "");  // remove `1 from generic type name
-                return result;
-            });
+            // Define a regular expression pattern to match Markdown elements with URLs and text
+            string pattern = "<(\\w+) href=\"(.*?)\">(.*?)</\\1>";
+
+            // Replace Markdown elements with HTML links
+            string htmlText = Regex.Replace(markdownText, pattern, "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"$2\">$3</a>");
+
+            return htmlText;
         }
 
-        private static string ConvertSeeTagsFormethod(string doc)
+        private static string ConvertCrefToHTML(string markdownText)
         {
-            var result = doc
+            // Define a regular expression pattern to match Markdown elements with URLs and text
+            string pattern = $"<(\\w+) cref=\"([^\"]+)\" />";
+
+            // Replace Markdown elements with HTML links
+            string htmlText = Regex.Replace(markdownText, pattern, match =>
+            {
+                string result = match.Groups[2].Value;
+                string value = result.RemoveNamespace();
+
+                if (result.EndsWith("Microsoft.AspNetCore.Components.Web.ErrorEventArgs"))
+                {
+                    return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.web.erroreventargs\">{value}</a>";
+                }
+
+                return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"contract/{value}\">{value}</a>";
+            });
+
+            return htmlText;
+        }
+
+        private static string ConvertSeeTagsForMethod(string doc, string formattedReturnSignature)
+        {
+            string result = doc
                 .Replace("<br />", "")
                 .Replace("<paramref name=\"scaleX\" />", "scaleX")
+                .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.ElementReference\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.elementreference\">ElementReference</a>")
                 .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.Forms.IBrowserFile\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.forms.ibrowserfile\">IBrowserFile</a>")
                 .Replace("<see cref=\"T:Microsoft.JSInterop.DotNetStreamReference\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.dotnetstreamreference\">DotNetStreamReference</a>")
                 .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">ValueTask</a>")
-                .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask`1\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">ValueTask<></a>")
-                .Replace("<see cref=\"T:Cropper.Blazor.Events.JSEventData`1\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); pointer-events: none; cursor: default; opacity: .6; \" href=\"#\">JSEventData<></a>")
+                .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask`1\" />", $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">{formattedReturnSignature}</a>")
+                .Replace("<see cref=\"T:Cropper.Blazor.Events.JSEventData`1\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"contract/JSEventData\">JSEventData<></a>")
                 .Replace("<see cref=\"T:System.Threading.CancellationToken\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource\">CancellationToken</a>");
 
-            return ConvertSeeTags(result);
+            return result;
         }
 
         private static string NormalizeWord(string doc)
@@ -135,5 +193,8 @@ namespace Cropper.Blazor.Client.Compiler
         {
             return doc.Replace("\"", "\"\"");
         }
+
+        [GeneratedRegex("<see cref=\"[TFPME]:(Cropper\\.)?([^>]+)\" */>")]
+        private static partial Regex ConvertSeeTagsRegex();
     }
 }

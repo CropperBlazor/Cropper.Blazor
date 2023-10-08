@@ -14,7 +14,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Version>1.2.5</Version>
+		<Version>1.2.6</Version>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageIcon>NuGet.png</PackageIcon>
 		<Company>Cropper.Blazor</Company>
@@ -32,6 +32,7 @@
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
@@ -53,6 +54,10 @@
 	<ItemGroup>
 		<None Include="..\..\..\LICENSE" Pack="true" Visible="false" PackagePath="" />
 		<None Include="..\..\..\content\NuGet.png" Pack="true" Visible="false" PackagePath="" />
+		<None Include="..\..\..\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -105,7 +110,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.11" />
 	</ItemGroup>
 
 </Project>
