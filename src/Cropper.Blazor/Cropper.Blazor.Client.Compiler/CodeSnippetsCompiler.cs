@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Cropper.Blazor.Client.Compiler;
 
-public partial class CodeSnippetsCompiler
+public static partial class CodeSnippetsCompiler
 {
     public static bool Execute()
     {

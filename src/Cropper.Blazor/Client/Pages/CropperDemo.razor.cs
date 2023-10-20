@@ -190,7 +190,7 @@ namespace Cropper.Blazor.Client.Pages
             //    await JSRuntime!.InvokeVoidAsync("console.log", $"CropMoveJSEvent OriginalEvent clientX: {clientX}");
             //}
             CropBoxData cropBoxData = await CropperComponent!.GetCropBoxDataAsync();
-         
+
             if (cropBoxData.Height != 0)
             {
                 decimal aspectRatio = cropBoxData.Width / cropBoxData.Height;

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Cropper.Blazor.Client.Services;
 using Microsoft.AspNetCore.Components;
 using Cropper.Blazor.Client.Models;
 using MudBlazor;
@@ -8,12 +9,17 @@ namespace Cropper.Blazor.Client.Components.Docs
 {
     public partial class DocsPage : ComponentBase
     {
+        [Parameter] public bool DisplayFooter { get; set; }
+
         private Queue<DocsSectionLink> _bufferedSections = new();
         private MudPageContentNavigation _contentNavigation;
         private Stopwatch _stopwatch = Stopwatch.StartNew();
         private string _anchor = null;
+        private bool _displayView;
+        private string _componentName;
+        private bool _renderAds;
         [Inject] NavigationManager NavigationManager { get; set; }
-
+        [Inject] private IRenderQueueService RenderQueue { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         private bool _contentDrawerOpen = true;
@@ -40,6 +46,7 @@ namespace Cropper.Blazor.Client.Components.Docs
         protected override void OnInitialized()
         {
             base.OnInitialized();
+            RenderQueue.Clear();
             var relativePath = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
             if (relativePath.Contains("#") == true)
             {
@@ -51,6 +58,10 @@ namespace Cropper.Blazor.Client.Components.Docs
         {
             _stopwatch = Stopwatch.StartNew();
             _sectionCount = 0;
+
+            /*for after this release is done*/
+            _displayView = false;
+            _componentName = "temp";
         }
 
         protected override void OnAfterRender(bool firstRender)
@@ -62,6 +73,7 @@ namespace Cropper.Blazor.Client.Components.Docs
             }
             if (firstRender)
             {
+                _renderAds = true;
                 StateHasChanged();
             }
         }
