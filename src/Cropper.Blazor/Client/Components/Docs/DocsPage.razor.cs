@@ -9,8 +9,6 @@ namespace Cropper.Blazor.Client.Components.Docs
 {
     public partial class DocsPage : ComponentBase
     {
-        [Parameter] public bool DisplayFooter { get; set; }
-
         private Queue<DocsSectionLink> _bufferedSections = new();
         private MudPageContentNavigation _contentNavigation;
         private Stopwatch _stopwatch = Stopwatch.StartNew();

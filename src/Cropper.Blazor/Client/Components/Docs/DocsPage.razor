@@ -5,14 +5,7 @@
                 @ChildContent
             </CascadingValue>
         </div>
-        <div class="docs-navigation-footer">
-        </div>
     </MudContainer>
-    @if (DisplayFooter)
-    {
-        <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
-        </MudContainer>
-    }
     <MudDrawer Class="docs-page-content-navigation-drawer" @bind-Open="_contentDrawerOpen" Breakpoint="Breakpoint.Lg" Anchor="Anchor.End" ClipMode="DrawerClipMode.Always" Elevation="0" Color="Color.Transparent">
         @if (_displayView)
         {
