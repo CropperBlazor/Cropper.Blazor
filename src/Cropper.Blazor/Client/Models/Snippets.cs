@@ -20,23 +20,22 @@ namespace Cropper.Blazor.Client.Models
 
         public const string InstallScriptManual = @"<script src=""_content/Cropper.Blazor/cropper.min.js""></script>";
 
-        public const string MinMaxZoomRatio_Script =
-            """
+        public const string MinMaxZoomRatio_Script = @"
             window.overrideOnZoomCropperEvent = (minZoomRatio, maxZoomRatio) => {
-                window.cropper.onZoom = function (imageObject, event, correlationId) {
-                    const jSEventData = this.getJSEventData(event, correlationId);
+                    window.cropper.onZoom = (imageObject, event, correlationId) => {
+                        var jSEventData = this.getJSEventData(event, correlationId);
 
-                    const isApplyPreventZoomMinRatio = (minZoomRatio != null) && (minZoomRatio > event.detail.ratio);
-                    const isApplyPreventZoomMaxRatio = (maxZoomRatio != null) && (event.detail.ratio > maxZoomRatio);
+                        var isApplyPreventZoomMinRatio = (minZoomRatio != null) && (minZoomRatio > event.detail.ratio);
+                        var isApplyPreventZoomMaxRatio = (maxZoomRatio != null) && (event.detail.ratio > maxZoomRatio);
 
-                    if (isApplyPreventZoomMinRatio || isApplyPreventZoomMaxRatio) {
-                        event.preventDefault();
-                    }
-                    else {
-                        imageObject.invokeMethodAsync('CropperIsZoomed', jSEventData);\r\n
-                    }
+                        if (isApplyPreventZoomMinRatio || isApplyPreventZoomMaxRatio) {
+                            event.preventDefault();
+                        }
+                        else {
+                            imageObject.invokeMethodAsync('CropperIsZoomed', jSEventData);
+                        }
+                    };
                 };
-            };
-            """;
+            ";
     }
 }
