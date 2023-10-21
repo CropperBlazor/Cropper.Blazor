@@ -123,9 +123,9 @@ And then use it in Razor file ([for example](https://github.com/CropperBlazor/Cr
 
 ```razor
 <CropperComponent
-  Class="cropper-demo"
+  Class="cropper-container"
   ErrorLoadImageClass="cropper-error-load"
-  @ref="cropperComponent"
+  @ref="CropperComponent"
   OnCropStartEvent="OnCropStartEvent"
   OnCropEndEvent="OnCropEndEvent"
   OnCropEvent="OnCropEvent"
@@ -135,10 +135,11 @@ And then use it in Razor file ([for example](https://github.com/CropperBlazor/Cr
   OnLoadImageEvent="OnLoadImageEvent"
   Src="@Src"
   InputAttributes="@InputAttributes"
-  ErrorLoadImageSrc="@ErrorLoadImageSrc"
+  ErrorLoadImageSrc="@_errorLoadImageSrc"
   IsErrorLoadImage="@IsErrorLoadImage"
   OnErrorLoadImageEvent="OnErrorLoadImageEvent"
-  Options="options">
+  Options="Options"
+  IsAvaibleInitCropper="IsAvaibleInitCropper">
 </CropperComponent>
 ```
 
@@ -146,12 +147,14 @@ And then use it in [*.razor.cs file](https://github.com/CropperBlazor/Cropper.Bl
 
 You may override Cropper JavaScript module with execution script which can replace 6 event handlers (onReady, onCropStart, onCropMove, onCropEnd, onCrop, onZoom), such as overriding the onZoom callback in JavaScript:
 ```js
-window.overrideCropperJsInteropModule = (minZoomRatio, maxZoomRatio) => {
+window.overrideOnZoomCropperEvent = (minZoomRatio, maxZoomRatio) => {
     window.cropper.onZoom = function (imageObject, event, correlationId) {
-        const jSEventData = this.getJSEventData(event, correlationId);
-        const isApplyPreventZoomRatio = minZoomRatio != null || maxZoomRatio != null;
+		const jSEventData = this.getJSEventData(event, correlationId);
+		
+		const isApplyPreventZoomMinRatio = (minZoomRatio != null) && (minZoomRatio > event.detail.ratio);
+		const isApplyPreventZoomMaxRatio = (maxZoomRatio != null) && (event.detail.ratio > maxZoomRatio);
 
-        if (isApplyPreventZoomRatio && (event.detail.ratio < minZoomRatio || event.detail.ratio > maxZoomRatio)) {
+		if (isApplyPreventZoomMinRatio || isApplyPreventZoomMaxRatio) {
             event.preventDefault();
         }
         else {
