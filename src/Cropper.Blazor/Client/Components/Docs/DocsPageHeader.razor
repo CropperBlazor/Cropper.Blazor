@@ -1,0 +1,38 @@
+@using System
+@using System.Linq
+@using Microsoft.AspNetCore.Components
+@using MudBlazor
+@using System.Collections.Generic
+@using System.Text.RegularExpressions
+
+@if (SpecialHeaderContent != null)
+{
+    <div class="docs-page-header my-16">
+        @SpecialHeaderContent
+    </div>
+}
+else
+{
+    <div class="docs-page-header mt-6 mb-12">
+        <MudText Typo="@Typo.h3">@Title</MudText>
+        <MudText>@GetSubTitle() @Description</MudText>
+    </div>
+}
+
+@code {
+
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string SubTitle { get; set; }
+    [Parameter] public RenderFragment Description { get; set; }
+    [Parameter] public RenderFragment SpecialHeaderContent { get; set; }
+
+
+    string GetTitle() => $"{Title} - MudBlazor";
+
+    string GetSubTitle()
+    {
+        if (string.IsNullOrEmpty(SubTitle))
+            return "";
+        return SubTitle.TrimEnd('.') + ".";
+    }
+}

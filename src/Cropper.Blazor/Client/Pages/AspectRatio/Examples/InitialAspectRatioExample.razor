@@ -1,0 +1,30 @@
+﻿@using Cropper.Blazor.Models;
+
+<div class="img-container">
+    <CropperComponent Class="big-img" @ref="cropperComponent" Src="images/Rivne.jpg"
+                      Options="cropperOptions" />
+</div>
+
+@code {
+    private CropperComponent? cropperComponent = null!;
+
+    private Options cropperOptions = new Options
+        {
+            InitialAspectRatio = (decimal)1,
+            AspectRatio = 0,
+            ViewMode = ViewMode.Vm3
+        };
+}
+
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        max-width: 800px;
+    }
+</style>

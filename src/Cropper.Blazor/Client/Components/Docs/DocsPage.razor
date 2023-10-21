@@ -1,20 +1,11 @@
-﻿@using MudBlazor;
-
-<div class="mt-5 mb-5">
+﻿<MudMainContent Class="mudblazor-main-content">
     <MudContainer MaxWidth="MaxWidth.Large">
         <div id="docspage" class="docs-page">
             <CascadingValue Value="this" IsFixed>
                 @ChildContent
             </CascadingValue>
         </div>
-        <div class="docs-navigation-footer">
-        </div>
     </MudContainer>
-    @if (DisplayFooter)
-    {
-        <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
-        </MudContainer>
-    }
     <MudDrawer Class="docs-page-content-navigation-drawer" @bind-Open="_contentDrawerOpen" Breakpoint="Breakpoint.Lg" Anchor="Anchor.End" ClipMode="DrawerClipMode.Always" Elevation="0" Color="Color.Transparent">
         @if (_displayView)
         {
@@ -28,4 +19,4 @@
         }
         <MudPageContentNavigation SectionClassSelector="docs-section-header" @ref="_contentNavigation" ActivateFirstSectionAsDefault="true" />
     </MudDrawer>
-</div>
+</MudMainContent>

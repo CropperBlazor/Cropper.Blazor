@@ -8,6 +8,7 @@ public class Paths
     private const string DocsDirectory = "Client";
     private const string DocStringsFile = "DocStrings.generated.cs";
     private const string SnippetsFile = "Snippets.generated.cs";
+    private const string NewFilesToBuild = "NewFilesToBuild.txt";
 
     public const string ExampleDiscriminator = "Example"; // example components must contain this string
 
@@ -55,6 +56,14 @@ public class Paths
         get
         {
             return Path.Join(DocsStringSnippetsDirPath, DocStringsFile);
+        }
+    }
+
+    public string NewFilesToBuildPath
+    {
+        get
+        {
+            return Path.Join(DocsDirPath, NewFilesToBuild);
         }
     }
 }

@@ -1,0 +1,73 @@
+﻿@page "/examples/dimensions"
+@using Cropper.Blazor.Client.Pages.CropBoxDimensions.Examples
+
+<DocsPage>
+    <DocsPageHeader Title="Crop box dimensions" SubTitle="" />
+    <DocsPageContent>
+
+        <DocsPageSection>
+            <SectionHeader Title="Basic dimensions settings">
+                <Description>
+                    To set the <b>initial dimensions</b> of crop area (crop box), you can use the
+                    <CodeInline Class="docs-code-tertiary">SetDataOptions</CodeInline> property,
+                    which is located in the <CodeInline>Option</CodeInline> property of the cropper.
+                    <br><br>
+                    To resize the crop area of ​​an <b>already initialized</b> cropper component
+                    you can use its <CodeInline Class="docs-code-warning">SetData</CodeInline> method.
+                    <br>
+                    <MudAlert Class="mt-3" Severity="Severity.Warning">
+                        <b>Note:</b> This method only available when the value of the
+                        <CodeInline>ViewMode</CodeInline> option is greater than or equal to 1.
+                    </MudAlert>
+                    <MudAlert Class="mt-2" Severity="Severity.Info">
+                        Height and width of the crop area are based on the <b>natural size of the original image</b>.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="CroppedDimensionsExample">
+                <CroppedDimensionsExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Min and Max dimensions">
+                <Description>
+                    You can use the <CodeInline Class="docs-code-tertiary">OnCropEvent</CodeInline> to create
+                    a minimum and/or maximum limit for the size of the crop box.
+                    <CodeInline Tag="true">CropperComponent</CodeInline> has a corresponding
+                    <CodeInline>OnCropEvent</CodeInline> shortcut.
+                    <br>
+                    <MudAlert Class="my-3" Severity="Severity.Info">
+                        <b>This setting may not work with a specific aspect ratio.</b>
+                        It is recommended to use a <b>FREE</b> aspect ratio for this
+                        option or calculate the valid values yourself.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="MinMaxDimensionsExample">
+                <MinMaxDimensionsExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Minimum relative dimensions">
+                <Description>
+                    Use the <CodeInline>MinCropBoxHeight</CodeInline> and <CodeInline>MinCropBoxWidth</CodeInline>
+                    fields in the <CodeInline>Option</CodeInline> cropper component property to
+                    enable minimum limit for the relative size of crop area
+                    <br>
+                    <MudAlert Class="my-3" Severity="Severity.Info">
+                        The <CodeInline>MinCropBoxHeight</CodeInline> and <CodeInline>MinCropBoxWidth</CodeInline>
+                        sizes is <b>relative to the page, not the image</b>.
+                        <br>
+                        Use the examples above to set up natural dimensions.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="MinimumDimensionsExample">
+                <MinimumDimensionsExample />
+            </SectionContent>
+        </DocsPageSection>
+
+    </DocsPageContent>
+</DocsPage>

@@ -34,5 +34,7 @@ public static class DocsViewExtension
             {
                 Capacity = int.MaxValue
             });
+
+        services.AddSingleton<IMenuService, MenuService>();
     }
 }

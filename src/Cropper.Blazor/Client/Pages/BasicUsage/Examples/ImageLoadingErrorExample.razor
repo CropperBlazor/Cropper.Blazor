@@ -1,0 +1,23 @@
+﻿<CropperComponent Src="incorrect-image-link" ErrorLoadImageSrc="images/error300px.png"
+                  IsErrorLoadImage="@IsErrorLoadImage" OnErrorLoadImageEvent="OnErrorLoadImageEvent"
+                  Options="new Blazor.Models.Options()" />
+
+<CropperComponent Src="incorrect-image-link" ErrorLoadImageSrc="images/error300px.png"
+                  ErrorLoadImageClass="error-image" IsErrorLoadImage="@IsErrorLoadImage"
+                  OnErrorLoadImageEvent="OnErrorLoadImageEvent" Options="new Blazor.Models.Options()" />
+@code
+{
+    private bool IsErrorLoadImage { get; set; } = false;
+
+    public void OnErrorLoadImageEvent(ErrorEventArgs errorEventArgs)
+    {
+        IsErrorLoadImage = true;
+        StateHasChanged();
+    }
+}
+
+<style>
+    .error-image {
+        filter: grayscale(100%);
+    }
+</style>

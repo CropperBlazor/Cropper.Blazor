@@ -1,0 +1,124 @@
+﻿@using Cropper.Blazor.Models;
+@using Cropper.Blazor.Events;
+@using Cropper.Blazor.Events.ZoomEvent;
+@using Cropper.Blazor.Events.CropReadyEvent;
+
+<MudGrid>
+    <MudItem xs="12" sm="8" md="8" lg="8">
+        <MudPaper Class="pa-2">
+            <div class="img-container">
+                <CropperComponent Class="big-img" @ref="cropperComponent" Src="images/dolphin.jpg"
+                                  Options="cropperOptions" OnZoomEvent="OnZoomEvent" OnReadyEvent="OnCropReadyEvent" />
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="4" md="4" lg="4">
+        <MudPaper Class="pa-2">
+            <MudNumericField Class="mb-2" @bind-Value="MinZoomRatio" Label="Min zoom ratio"
+                             Min="0" Max="MaxZoomRatio" Variant="Variant.Text" Step=".1M">
+            </MudNumericField>
+            <MudNumericField Class="mb-2" @bind-Value="MaxZoomRatio" Label="Max zoom ratio"
+                             Min="MinZoomRatio ?? 0" Variant="Variant.Text" Step=".1M">
+            </MudNumericField>
+
+            <MudNumericField Class="mb-2" @bind-Value="OldRatio" Label="Old Ratio" Format="N4"
+                             Variant="Variant.Text" HideSpinButtons="true" ReadOnly="true" />
+            <MudNumericField Class="mb-2" @bind-Value="CurrentRatio" Label="Current Ratio" Format="N4"
+                             Variant="Variant.Text" HideSpinButtons="true" ReadOnly="true" />
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    [Inject] private IJSRuntime? JSRuntime { get; set; }
+
+    private CropperComponent? cropperComponent = null!;
+
+    // Setting up initial dimensions of crop area
+    private Options cropperOptions = new Options
+        {
+            AspectRatio = 1m,
+            ViewMode = ViewMode.Vm3
+        };
+
+    private decimal? minZoomRatio = null;
+    private decimal? maxZoomRatio = null;
+
+    private decimal? MinZoomRatio
+    {
+        get => minZoomRatio;
+        set
+        {
+            minZoomRatio = value;
+            InvokeAsync(ApplyZoomRulesForCropperAsync);
+        }
+    }
+    private decimal? MaxZoomRatio
+    {
+        get => maxZoomRatio;
+        set
+        {
+            maxZoomRatio = value;
+            InvokeAsync(ApplyZoomRulesForCropperAsync);
+        }
+    }
+
+    private decimal? OldRatio { get; set; }
+
+    private decimal? CurrentRatio { get; set; }
+
+    public async void OnZoomEvent(JSEventData<ZoomEvent> zoomJSEvent)
+    {
+        await InvokeAsync(() =>
+        {
+            if (zoomJSEvent.Detail is not null)
+            {
+                OldRatio = zoomJSEvent.Detail.OldRatio;
+                CurrentRatio = zoomJSEvent.Detail.Ratio;
+                StateHasChanged();
+            }
+        });
+    }
+
+    public async void OnCropReadyEvent(JSEventData<CropReadyEvent> jSEventData)
+    {
+        await InvokeAsync(async () =>
+        {
+            ImageData imageData = await cropperComponent!.GetImageDataAsync();
+            decimal initZoomRatio = imageData.Width / imageData.NaturalWidth;
+            CurrentRatio = initZoomRatio;
+            StateHasChanged();
+        });
+    }
+
+    public async Task ApplyZoomRulesForCropperAsync()
+    {
+        ImageData currentImageData = await cropperComponent!.GetImageDataAsync();
+        ContainerData containerData = await cropperComponent.GetContainerDataAsync();
+        decimal currentZoomRatio = currentImageData.Width / currentImageData.NaturalWidth;
+
+        if ((MinZoomRatio is not null) && (MinZoomRatio > currentZoomRatio))
+        {
+            cropperComponent.ZoomTo((decimal)MinZoomRatio, containerData.Width / 2, containerData.Height / 2);
+        }
+        else if ((MaxZoomRatio is not null) && (currentZoomRatio > MaxZoomRatio))
+        {
+            cropperComponent.ZoomTo((decimal)MaxZoomRatio, containerData.Width / 2, containerData.Height / 2);
+        }
+
+        await JSRuntime!.InvokeVoidAsync("window.overrideOnZoomCropperEvent", MinZoomRatio, MaxZoomRatio);
+    }
+}
+
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        max-width: 100%;
+    }
+</style>

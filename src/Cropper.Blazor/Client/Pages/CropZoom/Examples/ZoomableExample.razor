@@ -1,0 +1,79 @@
+﻿@using Cropper.Blazor.Models;
+
+<MudGrid>
+    <MudItem xs="12" sm="9" md="9" lg="9">
+        <MudPaper Class="pa-2">
+            <div class="img-container">
+                <CropperComponent Class="big-img" @ref="cropperComponent"
+                                  Src="images/Rivne2.jpg" Options="cropperOptions" />
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="3" md="3" lg="3">
+        <MudPaper Class="pa-2">
+            <MudSwitch Class="mb-2" @bind-Checked="@Zoomable" Label="Zoomable" Color="Color.Primary" />
+            <MudSwitch Class="mb-2" @bind-Checked="@ZoomOnTouch" Label="Zoom On Touch" Color="Color.Primary" />
+            <MudSwitch Class="mb-2" @bind-Checked="@ZoomOnWheel" Label="Zoom On Wheel" Color="Color.Primary" />
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private CropperComponent? cropperComponent = null!;
+
+    // Setting up initial dimensions of crop area
+    private Options cropperOptions = new Options
+        {
+            AspectRatio = 1m,
+            ViewMode = ViewMode.Vm3
+        };
+
+    private void ReloadCropper()
+    {
+        cropperComponent?.Destroy();
+        cropperComponent?.InitCropper();
+    }
+
+    private bool? Zoomable
+    {
+        get => cropperOptions.Zoomable ?? true;
+        set
+        {
+            cropperOptions.Zoomable = value;
+            ReloadCropper();
+        }
+    }
+
+    private bool? ZoomOnTouch
+    {
+        get => cropperOptions.ZoomOnTouch ?? true;
+        set
+        {
+            cropperOptions.ZoomOnTouch = value;
+            ReloadCropper();
+        }
+    }
+
+    private bool? ZoomOnWheel
+    {
+        get => cropperOptions.ZoomOnWheel ?? true;
+        set
+        {
+            cropperOptions.ZoomOnWheel = value;
+            ReloadCropper();
+        }
+    }
+}
+
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        max-width: 100%;
+    }
+</style>

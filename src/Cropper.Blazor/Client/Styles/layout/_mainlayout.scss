@@ -1,10 +1,10 @@
-﻿.title {
+﻿.docs-title {
     font-family: 'Public Sans', 'Roboto', 'Arial', sans-serif;
     font-weight: 600;
-    font-size: 1.75rem;
+    font-size: 3.75rem;
 }
 
-.title-description {
+.docs-title-description {
     font-family: 'Public Sans', 'Roboto', 'Arial', sans-serif;
     font-weight: 500;
     line-height: 1.75;
@@ -13,16 +13,16 @@
 }
 
 @media (max-width: 600px) {
-    .title {
+    .docs-title {
         font-size: 2.5rem;
     }
 
-    .title-description {
+    .docs-title-description {
         font-size: 0.875rem;
     }
 }
 
-.sticky-info {
+.docs-sticky-info {
     position: sticky;
     top: 128px;
 
@@ -33,16 +33,16 @@
     }
 }
 
-.appbar {
+.docs-appbar {
     z-index: calc(var(--mud-zindex-appbar) + 1);
 }
 
-.appbar-filter {
+.docs-appbar-filter {
     backdrop-filter: blur(12px);
     z-index: calc(var(--mud-zindex-appbar) + 1);
 }
 
-.appbar, .menu-list {
+.docs-appbar, .docs-menu-list {
     .mud-autocomplete {
         max-width: 360px;
     }
@@ -57,20 +57,20 @@
 }
 
 .cropperblazor-docs, .cropperblazor-landingpage {
-    .single-link .mud-nav-link {
+    .docs-single-link .mud-nav-link {
         font-weight: 500 !important;
     }
 }
 
 .landing-appbar {
-    position: absolute !important;
+    z-index: calc(var(--mud-zindex-appbar) + 1);
 }
 
 .cropperblazor-logo {
     width: 40px;
 }
 
-.brand-text {
+.docs-brand-text {
     letter-spacing: 0.1rem;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
@@ -78,11 +78,11 @@
     user-select: none;
 }
 
-.text-dec {
+.docs-text-dec {
     text-decoration: underline dotted var(--mud-palette-primary);
 }
 
-.footer {
+.docs-footer {
     .mud-link {
         margin: 8px 0;
         cursor: pointer;
@@ -96,6 +96,6 @@
     }
 }
 
-.gray-bg {
+.docs-gray-bg {
     background-color: var(--mud-palette-background-grey);
 }

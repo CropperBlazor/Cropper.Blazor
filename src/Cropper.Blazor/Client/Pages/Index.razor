@@ -1,9 +1,10 @@
 ﻿@page "/"
+@layout LandingLayout
 @using Cropper.Blazor.Client.Components
 @using Cropper.Blazor.Client.Components.Docs
 @using Cropper.Blazor.Client.Models;
-@using Cropper.Blazor.Client.Pages.Examples.Installation
-@using Cropper.Blazor.Client.Pages.Examples.Uses.Preview
+@using Cropper.Blazor.Client.Pages.Home.Installation.Examples
+@using Cropper.Blazor.Client.Pages.Home.Uses.Examples
 
 <SeoHeader Title="Installation"
            Overview="Getting started with Cropper.Blazor for faster and easier web development."
@@ -143,7 +144,7 @@
                     <SectionHeader Title="Register Services">
                         <Description>Add the following in <CodeInline>Program.cs</CodeInline></Description>
                     </SectionHeader>
-                    <SectionContent Codes="@(new[] {new CodeFile(".NET 6 & .NET 7", "InstallServicesNET6Example")})" />
+                    <SectionContent Codes="@(new[] {new CodeFile(".NET 6 & .NET 7", "InstallServicesNET6Manual")})" />
                 </DocsPageSection>
 
                 <DocsPageSection>

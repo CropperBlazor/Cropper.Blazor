@@ -1,0 +1,90 @@
+﻿@using Cropper.Blazor.Models;
+@using Cropper.Blazor.Events;
+@using Cropper.Blazor.Events.CropEvent;
+
+<MudGrid>
+    <MudItem xs="12" sm="8" md="8" lg="8">
+        <MudPaper Class="pa-2">
+            <div class="img-container">
+                <CropperComponent Class="big-img" @ref="cropperComponent" Src="images/dolphin.jpg"
+                                  Options="CropperOptions" OnCropEvent="OnCropEvent" />
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="4" md="4" lg="4">
+        <MudPaper Class="pa-2">
+            @if (currentCropperData != null)
+            {
+                // Current crop box data
+                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="currentCropperData.X" Step=".2M" Label="X" Variant="Variant.Text"
+                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Margin="Margin.Dense" Format="N4" />
+                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="currentCropperData.Y" Label="Y" Step=".2M" Variant="Variant.Text"
+                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Margin="Margin.Dense" Format="N4" />
+                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="currentCropperData.Width" Label="Width" Step=".2M" Variant="Variant.Text"
+                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Margin="Margin.Dense" Format="N4" />
+                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="currentCropperData.Height" Label="Height" Step=".2M" Variant="Variant.Text"
+                                 Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Margin="Margin.Dense" Format="N4" />
+            }
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private CropperComponent? cropperComponent = null!;
+    private CropperData currentCropperData = null!;
+
+    // Minimum and maximum cropped dimensions settings
+    private static decimal minCroppedWidth = 320;
+    private static decimal minCroppedHeight = 160;
+    private static decimal maxCroppedWidth = 640;
+    private static decimal maxCroppedHeight = 320;
+
+    private Options CropperOptions = new Options
+        {
+            SetDataOptions = new SetDataOptions
+            {
+                Width = (minCroppedWidth + maxCroppedWidth) / 2,
+                Height = (minCroppedHeight + maxCroppedHeight) / 2,
+            },
+            ViewMode = ViewMode.Vm3
+        };
+
+    public async void OnCropEvent(JSEventData<CropEvent> cropJSEvent)
+    {
+        await InvokeAsync(() =>
+        {
+            if (cropJSEvent?.Detail is not null)
+            {
+                decimal width = Math.Round(cropJSEvent.Detail.Width ?? 0);
+                decimal height = Math.Round(cropJSEvent.Detail.Height ?? 0);
+
+                if (width < minCroppedWidth || height < minCroppedHeight
+                    || width > maxCroppedWidth || height > maxCroppedHeight)
+                {
+                    decimal nWidth = Math.Max(minCroppedWidth,
+                        Math.Min(maxCroppedWidth, width));
+                    decimal nHeight = Math.Max(minCroppedHeight,
+                        Math.Min(maxCroppedHeight, height));
+
+                    cropperComponent!.SetData(new SetDataOptions
+                        {
+                            Width = nWidth,
+                            Height = nHeight
+                        });
+                }
+                else
+                {
+                    currentCropperData = cropJSEvent.Detail;
+                    StateHasChanged();
+                }
+            }
+        });
+    }
+}
+
+<style>
+    .img-container {
+        max-height: 400px;
+        width: 100%;
+    }
+</style>

@@ -1,0 +1,81 @@
+﻿@using Cropper.Blazor.Models;
+
+<MudGrid>
+    <MudItem xs="12" sm="8" md="9" lg="9">
+        <MudPaper Class="pa-2">
+            <div class="img-container">
+                <CropperComponent Class="big-img" @ref="CropperComponent"
+                                  Src="images/Rivne2.jpg" Options="CropperOptions" />
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="4" md="9" lg="3">
+        <MudPaper Class="pa-2">
+            <MudNumericField Class="mb-2" @bind-Value="CropBoxWidth" Label="Width" Step=".2M" Variant="Variant.Text"
+                             Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Format="N4" />
+            <MudNumericField Class="mb-2" @bind-Value="CropBoxHeight" Label="Height" Step=".2M" Variant="Variant.Text"
+                             Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Format="N4" />
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private CropperComponent? CropperComponent = null!;
+
+    // Setting up initial dimensions of crop area
+    private Options CropperOptions = new Options
+        {
+            SetDataOptions = new SetDataOptions
+            {
+                Width = 400,
+                Height = 400,
+            },
+            ViewMode = ViewMode.Vm3
+        };
+
+    decimal _cropBoxWidth = 400;
+    decimal _cropBoxHeight = 400;
+
+    private decimal CropBoxWidth
+    {
+        get => _cropBoxWidth;
+        set
+        {
+            _cropBoxWidth = value;
+            CropperComponent!.SetData(new SetDataOptions
+                {
+                    Width = _cropBoxWidth,
+                    Height = _cropBoxHeight
+                });
+            StateHasChanged();
+        }
+    }
+
+    private decimal CropBoxHeight
+    {
+        get => _cropBoxHeight;
+        set
+        {
+            _cropBoxHeight = value;
+            CropperComponent!.SetData(new SetDataOptions
+                {
+                    Width = _cropBoxWidth,
+                    Height = _cropBoxHeight
+                });
+            StateHasChanged();
+        }
+    }
+}
+
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        width: 100%;
+    }
+</style>

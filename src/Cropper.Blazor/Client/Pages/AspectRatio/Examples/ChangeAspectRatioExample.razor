@@ -1,0 +1,69 @@
+﻿@using Cropper.Blazor.Models;
+
+<MudGrid>
+    <MudItem xs="12" sm="8" md="8" lg="8">
+        <MudPaper Class="pa-2">
+            <div class="img-container">
+                <CropperComponent Class="big-img" @ref="cropperComponent"
+                                  Src="images/Rivne2.jpg" Options="cropperOptions" />
+            </div>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="4" md="4" lg="4">
+        <MudPaper Class="pa-2">
+            <MudNumericField Class="mb-2" @bind-Value="CropBoxWidth" Label="Width" Step="100M" Variant="Variant.Text" Min="1"
+                             Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Format="N4" />
+            <MudNumericField Class="mb-2" @bind-Value="CropBoxHeight" Label="Height" Step="100M" Variant="Variant.Text" Min="1"
+                             Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Format="N4" />
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private CropperComponent? cropperComponent = null!;
+
+    // Setting up initial dimensions of crop area
+    private Options cropperOptions = new Options
+        {
+            AspectRatio = 1m,
+            ViewMode = ViewMode.Vm3
+        };
+
+    decimal _cropBoxWidth = 400;
+    decimal _cropBoxHeight = 400;
+
+    private decimal CropBoxWidth
+    {
+        get => _cropBoxWidth;
+        set
+        {
+            _cropBoxWidth = value;
+            cropperComponent!.SetAspectRatio(value / _cropBoxHeight);
+            StateHasChanged();
+        }
+    }
+
+    private decimal CropBoxHeight
+    {
+        get => _cropBoxHeight;
+        set
+        {
+            _cropBoxHeight = value;
+            cropperComponent!.SetAspectRatio(_cropBoxWidth / value);
+            StateHasChanged();
+        }
+    }
+}
+
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        max-width: 100%;
+    }
+</style>
