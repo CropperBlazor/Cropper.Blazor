@@ -19,6 +19,7 @@
                 <ul class="my-2">
                     <li>
                         <MudLink Class="disabled"
+                                 UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
                                  Href="#">
                             <CodeInline>@Type.GetTypeDisplayName()</CodeInline>
                         </MudLink>

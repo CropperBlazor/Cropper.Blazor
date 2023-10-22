@@ -8,7 +8,7 @@
         <DocsPageSection>
             <MudText Typo="Typo.h6" GutterBottom="true">Note</MudText>
             <MudText>The CropperComponent is dependant on <CodeInline Class="docs-code-tertiary">ICropperComponentBase</CodeInline></MudText>
-            <MudText>Check the <MudLink Href="/">Installation</MudLink> page for instructions regarding default setup.</MudText>
+            <MudText>Check the <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Href="/">Installation</MudLink> page for instructions regarding default setup.</MudText>
         </DocsPageSection>
 
         <DocsPageSection>
@@ -16,8 +16,8 @@
                 <Description>
                     To start using the cropper component, <b>you must specify the path to the image</b> 
                     with which you will work in the <CodeInline>Src</CodeInline> property.
-                    You also need to specify the cropper settings using the <CodeInline><MudLink Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline> property,
-                    which can be left as <MudLink Target="_blank" Href="https://github.com/fengyuanchen/cropperjs/blob/main/src/js/defaults.js">default</MudLink>, as in the example below.
+                    You also need to specify the cropper settings using the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline> property,
+                    which can be left as <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://github.com/fengyuanchen/cropperjs/blob/main/src/js/defaults.js">default</MudLink>, as in the example below.
                     <br>
                     <MudAlert Class="my-3" Severity="Severity.Info">
                         Note: With the release of .NET 8, сropper's default settings will be set automatically, 
