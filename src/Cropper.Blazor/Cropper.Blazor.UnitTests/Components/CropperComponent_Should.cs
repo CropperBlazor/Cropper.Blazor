@@ -661,6 +661,8 @@ namespace Cropper.Blazor.UnitTests.Components
                 .Generate();
             ErrorEventArgs errorEventArgs = new Faker<ErrorEventArgs>()
                 .Generate();
+            JSEventData<CropReadyEvent> cropReadyEvent = new Faker<JSEventData<CropReadyEvent>>()
+                .Generate();
             JSEventData<ZoomEvent> zoomEvent = new Faker<JSEventData<ZoomEvent>>()
                 .Generate();
             JSEventData<CropStartEvent> cropStartEvent = new Faker<JSEventData<CropStartEvent>>()
@@ -714,6 +716,7 @@ namespace Cropper.Blazor.UnitTests.Components
 
             await cropperComponent.InvokeAsync(() =>
             {
+                cropperComponent.Instance.IsReady(cropReadyEvent);
                 cropperComponent.Instance.CropperIsCroped(cropEvent);
                 cropperComponent.Instance.CropperIsEnded(cropEndEvent);
                 cropperComponent.Instance.CropperIsMoved(cropMoveEvent);
