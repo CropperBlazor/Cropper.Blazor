@@ -1,4 +1,5 @@
-﻿using Cropper.Blazor.ModuleOptions;
+﻿using System;
+using Cropper.Blazor.ModuleOptions;
 using Cropper.Blazor.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -19,7 +20,8 @@ namespace Cropper.Blazor.Extensions
         /// <returns>Continues the <see cref="IServiceCollection"/> chain.</returns>
         public static IServiceCollection AddCropper(this IServiceCollection services, CropperJsInteropOptions? cropperJsInteropOptions = null)
         {
-            services.AddSingleton<ICropperJsInteropOptions, CropperJsInteropOptions>(services => cropperJsInteropOptions ?? new CropperJsInteropOptions());
+            Func<IServiceProvider, CropperJsInteropOptions> funcServiceProvider = (IServiceProvider serviceProvider) => cropperJsInteropOptions ?? new CropperJsInteropOptions();
+            services.AddSingleton<ICropperJsInteropOptions, CropperJsInteropOptions>(funcServiceProvider);
 
             services.TryAddScoped<ICropperJsInterop, CropperJsInterop>();
 
