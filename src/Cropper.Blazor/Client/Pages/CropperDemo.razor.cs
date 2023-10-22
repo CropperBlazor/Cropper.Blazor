@@ -1,4 +1,6 @@
-﻿using Cropper.Blazor.Client.Components;
+﻿using System.Reflection;
+using System.Text.Json;
+using Cropper.Blazor.Client.Components;
 using Cropper.Blazor.Client.Enums;
 using Cropper.Blazor.Components;
 using Cropper.Blazor.Events;
@@ -14,8 +16,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazor.Services;
-using System.Reflection;
-using System.Text.Json;
 using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Client.Pages
@@ -38,7 +38,7 @@ namespace Cropper.Blazor.Client.Pages
 
         private string Src = "https://fengyuanchen.github.io/cropperjs/v2/picture.jpg";
         private bool IsErrorLoadImage { get; set; } = false;
-        private bool IsAvaibleInitCropper { get; set; } = true;
+        private bool IsAvailableInitCropper { get; set; } = true;
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
         private Breakpoint Start;
         private Guid SubscriptionId;
@@ -392,7 +392,7 @@ namespace Cropper.Blazor.Client.Pages
 
                 Src = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
 
-                IsAvaibleInitCropper = true;
+                IsAvailableInitCropper = true;
                 IsErrorLoadImage = false;
 
                 CropperComponent?.Destroy();
@@ -411,12 +411,12 @@ namespace Cropper.Blazor.Client.Pages
 
                 if (IsErrorLoadImage)
                 {
-                    IsAvaibleInitCropper = true;
+                    IsAvailableInitCropper = true;
                     IsErrorLoadImage = false;
                 }
                 else
                 {
-                    IsAvaibleInitCropper = false;
+                    IsAvailableInitCropper = false;
                 }
 
                 CropperComponent?.ReplaceAsync(src);

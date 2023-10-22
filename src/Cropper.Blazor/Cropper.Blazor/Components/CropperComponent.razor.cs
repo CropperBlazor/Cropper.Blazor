@@ -72,7 +72,7 @@ namespace Cropper.Blazor.Components
         /// In addition, it should be used to disable re-initialization (replace image) of cropper after successful image load when set to false.
         /// </summary>
         [Parameter]
-        public bool IsAvaibleInitCropper { get; set; } = true;
+        public bool IsAvailableInitCropper { get; set; } = true;
 
         /// <summary>
         /// User class names, separated by space.
@@ -177,7 +177,7 @@ namespace Cropper.Blazor.Components
         /// </param>
         private void OnLoadImage(ProgressEventArgs progressEventArgs)
         {
-            if (IsAvaibleInitCropper)
+            if (IsAvailableInitCropper)
             {
                 InitCropper();
             }
@@ -270,7 +270,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void SetDragMode(DragMode dragMode, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.SetDragModeAsync(CropperComponentId, dragMode, cancellationToken);
+            CropperJsIntertop!.SetDragModeAsync(CropperComponentId, dragMode, cancellationToken);
         }
 
         /// <summary>
@@ -284,7 +284,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void Zoom(decimal ratio, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.ZoomAsync(CropperComponentId, ratio, cancellationToken);
+            CropperJsIntertop!.ZoomAsync(CropperComponentId, ratio, cancellationToken);
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void ZoomTo(decimal ratio, decimal pivotX, decimal pivotY, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.ZoomToAsync(CropperComponentId, ratio, pivotX, pivotY, cancellationToken);
+            CropperJsIntertop!.ZoomToAsync(CropperComponentId, ratio, pivotX, pivotY, cancellationToken);
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void Move(decimal offsetX, decimal? offsetY, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.MoveAsync(CropperComponentId, offsetX, offsetY, cancellationToken);
+            CropperJsIntertop!.MoveAsync(CropperComponentId, offsetX, offsetY, cancellationToken);
         }
 
         /// <summary>
@@ -318,7 +318,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void MoveTo(decimal x, decimal? y, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.MoveToAsync(CropperComponentId, x, y, cancellationToken);
+            CropperJsIntertop!.MoveToAsync(CropperComponentId, x, y, cancellationToken);
         }
 
         /// <summary>
@@ -332,7 +332,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void Rotate(decimal degree, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.RotateAsync(CropperComponentId, degree, cancellationToken);
+            CropperJsIntertop!.RotateAsync(CropperComponentId, degree, cancellationToken);
         }
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void ScaleX(decimal scaleX, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.ScaleXAsync(CropperComponentId, scaleX, cancellationToken);
+            CropperJsIntertop!.ScaleXAsync(CropperComponentId, scaleX, cancellationToken);
         }
 
         /// <summary>
@@ -360,7 +360,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void ScaleY(decimal scaleY, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.ScaleYAsync(CropperComponentId, scaleY, cancellationToken);
+            CropperJsIntertop!.ScaleYAsync(CropperComponentId, scaleY, cancellationToken);
         }
 
         /// <summary>
@@ -379,7 +379,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void Scale(decimal scaleX, decimal scaleY, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.ScaleAsync(CropperComponentId, scaleX, scaleY, cancellationToken);
+            CropperJsIntertop!.ScaleAsync(CropperComponentId, scaleX, scaleY, cancellationToken);
         }
 
         /// <summary>
@@ -388,7 +388,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void Crop(CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.CropAsync(CropperComponentId, cancellationToken);
+            CropperJsIntertop!.CropAsync(CropperComponentId, cancellationToken);
         }
 
         /// <summary>
@@ -397,7 +397,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void Clear(CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.ClearAsync(CropperComponentId, cancellationToken);
+            CropperJsIntertop!.ClearAsync(CropperComponentId, cancellationToken);
         }
 
         /// <summary>
@@ -406,7 +406,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void Enable(CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.EnableAsync(CropperComponentId, cancellationToken);
+            CropperJsIntertop!.EnableAsync(CropperComponentId, cancellationToken);
         }
 
         /// <summary>
@@ -415,7 +415,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void Disable(CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.DisableAsync(CropperComponentId, cancellationToken);
+            CropperJsIntertop!.DisableAsync(CropperComponentId, cancellationToken);
         }
 
         /// <summary>
@@ -424,7 +424,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void Reset(CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.ResetAsync(CropperComponentId, cancellationToken);
+            CropperJsIntertop!.ResetAsync(CropperComponentId, cancellationToken);
         }
 
         /// <summary>
@@ -433,7 +433,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void Destroy(CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.DestroyAsync(CropperComponentId, cancellationToken);
+            CropperJsIntertop!.DestroyAsync(CropperComponentId, cancellationToken);
         }
 
         /// <summary>
@@ -443,7 +443,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void SetAspectRatio(decimal aspectRatio, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.SetAspectRatioAsync(CropperComponentId, aspectRatio, cancellationToken);
+            CropperJsIntertop!.SetAspectRatioAsync(CropperComponentId, aspectRatio, cancellationToken);
         }
 
         /// <summary>
@@ -453,7 +453,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.SetCropBoxDataAsync(CropperComponentId, cropBoxDataOptions, cancellationToken);
+            CropperJsIntertop!.SetCropBoxDataAsync(CropperComponentId, cropBoxDataOptions, cancellationToken);
         }
 
         /// <summary>
@@ -463,7 +463,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void SetData(SetDataOptions setDataOptions, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.SetDataAsync(CropperComponentId, setDataOptions, cancellationToken);
+            CropperJsIntertop!.SetDataAsync(CropperComponentId, setDataOptions, cancellationToken);
         }
 
         /// <summary>
@@ -473,7 +473,7 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void SetCanvasData(SetCanvasDataOptions setCanvasDataOptions, CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop?.SetCanvasDataAsync(CropperComponentId, setCanvasDataOptions, cancellationToken);
+            CropperJsIntertop!.SetCanvasDataAsync(CropperComponentId, setCanvasDataOptions, cancellationToken);
         }
 
         /// <summary>

@@ -142,7 +142,7 @@ And then use it in Razor file ([for example](https://github.com/CropperBlazor/Cr
   IsErrorLoadImage="@IsErrorLoadImage"
   OnErrorLoadImageEvent="OnErrorLoadImageEvent"
   Options="Options"
-  IsAvaibleInitCropper="IsAvaibleInitCropper">
+  IsAvailableInitCropper="IsAvailableInitCropper">
 </CropperComponent>
 ```
 

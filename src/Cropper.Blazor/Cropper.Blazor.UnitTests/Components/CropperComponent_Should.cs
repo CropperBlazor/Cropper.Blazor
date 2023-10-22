@@ -272,8 +272,8 @@ namespace Cropper.Blazor.UnitTests.Components
             ComponentParameter isErrorLoadImageParameter = ComponentParameter.CreateParameter(
                 nameof(CropperComponent.IsErrorLoadImage),
                 false);
-            ComponentParameter isAvaibleInitCropperParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.IsAvaibleInitCropper),
+            ComponentParameter isAvailableInitCropperParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.IsAvailableInitCropper),
                 true);
             ComponentParameter onLoadImageParameter = ComponentParameter.CreateParameter(
                 nameof(CropperComponent.OnLoadImageEvent),
@@ -347,7 +347,7 @@ namespace Cropper.Blazor.UnitTests.Components
                     loadingParameter,
                     errorLoadImageSrcParameter,
                     isErrorLoadImageParameter,
-                    isAvaibleInitCropperParameter,
+                    isAvailableInitCropperParameter,
                     srcParameter,
                     imageClassParameter,
                     onLoadImageParameter,
@@ -597,8 +597,8 @@ namespace Cropper.Blazor.UnitTests.Components
             ComponentParameter isErrorLoadImage = ComponentParameter.CreateParameter(
                 nameof(CropperComponent.IsErrorLoadImage),
                 true);
-            ComponentParameter isAvaibleInitCropperParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.IsAvaibleInitCropper),
+            ComponentParameter isAvailableInitCropperParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.IsAvailableInitCropper),
                 false);
 
             // act
@@ -608,7 +608,7 @@ namespace Cropper.Blazor.UnitTests.Components
                     loadingParameter,
                     errorLoadImageSrcParameter,
                     isErrorLoadImage,
-                    isAvaibleInitCropperParameter);
+                    isAvailableInitCropperParameter);
 
             // assert
             IElement expectedElement = cropperComponent.Find($"img.{errorLoadImageClass}");
