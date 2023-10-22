@@ -20,9 +20,10 @@ namespace Cropper.Blazor.Extensions
         /// <returns>Continues the <see cref="IServiceCollection"/> chain.</returns>
         public static IServiceCollection AddCropper(this IServiceCollection services, CropperJsInteropOptions? cropperJsInteropOptions = null)
         {
-            Func<IServiceProvider, CropperJsInteropOptions> funcServiceProvider = (IServiceProvider serviceProvider) => cropperJsInteropOptions ?? new CropperJsInteropOptions();
-            services.AddSingleton<ICropperJsInteropOptions, CropperJsInteropOptions>(funcServiceProvider);
+            CropperJsInteropOptions? options = cropperJsInteropOptions ?? new CropperJsInteropOptions();
+            Func<IServiceProvider, CropperJsInteropOptions> funcServiceProvider = (IServiceProvider serviceProvider) => options;
 
+            services.AddSingleton<ICropperJsInteropOptions, CropperJsInteropOptions>(funcServiceProvider);
             services.TryAddScoped<ICropperJsInterop, CropperJsInterop>();
 
             return services;
