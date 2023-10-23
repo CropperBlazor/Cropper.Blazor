@@ -111,6 +111,10 @@ jobs:
     name: Build Demo Projects
     runs-on: windows-latest
 
+    strategy:
+      matrix:
+        dotnet-version: ['6.0.x', '7.0.x']
+
     steps:
     - uses: actions/checkout@v3
  
@@ -118,9 +122,7 @@ jobs:
     - name: Setup .NET 7, 6
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: |
-            6.0.x
-            7.0.x
+        dotnet-version: ${{ matrix.dotnet-version }}
 
     - name: Install MAUI Workloads
       run: |
@@ -130,22 +132,27 @@ jobs:
       run: dotnet restore
       working-directory: examples
 
-    - name: DotNet Build MVC with Blazor Server Demo Project for .net 7
+    - name: DotNet Build MVC with Blazor Server Demo Project
       run: dotnet build --no-restore
       working-directory: examples\Cropper.MVC.With.Blazor.Server.Net7
+      if: matrix.dotnet-version == '7.0.x'
 
-    - name: DotNet Build Blazor Server Demo Project for .net 7
+    - name: DotNet Build Blazor Server Demo Project
       run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.Server.Net7
+      if: matrix.dotnet-version == '7.0.x'
 
-    - name: DotNet Build Blazor MAUI Demo Project for .net 7
+    - name: DotNet Build Blazor MAUI Demo Project
       run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.MAUI.Net7
+      if: matrix.dotnet-version == '7.0.x'
 
-    - name: DotNet Build Blazor Server Demo Project for .net 6
+    - name: DotNet Build Blazor Server Demo Project
       run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.Server.Net6
+      if: matrix.dotnet-version == '6.0.x'
 
-    - name: DotNet Build Blazor MAUI Demo Project for .net 6
+    - name: DotNet Build Blazor MAUI Demo Project
       run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.MAUI.Net6
+      if: matrix.dotnet-version == '6.0.x'
