@@ -42,9 +42,9 @@ jobs:
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
       
     - name: Coverage
-      uses: codecov/codecov-action@v3.1.1
+      uses: codecov/codecov-action@v3.1.4
       with:
-        file: coverage.net6.0.cobertura.xml
+        files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml
         fail_ci_if_error: true
         verbose: true
         
@@ -107,9 +107,21 @@ jobs:
         folder: release/wwwroot
         repository-name: CropperBlazor/CropperBlazor.github.io
 
+  install-maui-workloads:
+    name: Install MAUI Workloads
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+  
+    - name: Install MAUI Workloads
+      run: |
+          dotnet workload install maui --ignore-failed-sources
+
   demo-projects-build:
     name: Build Demo Projects
     runs-on: windows-latest
+    needs: install-maui-workloads
 
     strategy:
       matrix:
@@ -123,10 +135,6 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
-
-    - name: Install MAUI Workloads
-      run: |
-          dotnet workload install maui --ignore-failed-sources
           
     - name: Restore dependencies for Cropper.Blazor.Demo
       run: dotnet restore
