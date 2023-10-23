@@ -45,7 +45,7 @@ jobs:
     - name: Coverage
       uses: codecov/codecov-action@v3.1.4
       with:
-        file: coverage.net6.0.cobertura.xml
+        files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml
         fail_ci_if_error: true
         verbose: true
       
