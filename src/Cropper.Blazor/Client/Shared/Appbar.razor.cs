@@ -10,7 +10,6 @@ public partial class Appbar
     [Parameter] public EventCallback<MouseEventArgs> DrawerToggleCallback { get; set; }
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private LayoutService LayoutService { get; set; } = null!;
-    [Inject] IMenuService MenuService { get; set; } = null!;
 
     private string GetActiveClass(BasePage page)
     {

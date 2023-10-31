@@ -20,6 +20,12 @@ namespace Cropper.Blazor.Client.Models
 
         public const string InstallScriptManual = @"<script src=""_content/Cropper.Blazor/cropper.min.js""></script>";
 
+        public const string InstallServicesNET6Manual = @"
+            using Cropper.Blazor.Extensions;
+
+            builder.Services.AddCropper();
+            ";
+
         public const string MinMaxZoomRatio_Script = @"
             window.overrideOnZoomCropperEvent = (minZoomRatio, maxZoomRatio) => {
                     window.cropper.onZoom = function (imageObject, event, correlationId) {
