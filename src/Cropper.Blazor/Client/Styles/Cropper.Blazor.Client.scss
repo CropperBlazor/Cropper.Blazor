@@ -38,11 +38,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 400px;
-    height: 400px;
+    width: 25%;
     overflow: hidden;
 
     .loader-image {
+        height: 100%;
         position: absolute;
         inset: 0;
 
@@ -56,7 +56,6 @@
         &:nth-child(2) {
             z-index: 2;
             width: var(--blazor-load-percentage, 0%);
-            height: 400px;
             object-fit: cover;
             object-position: 0% 0%;
             transition: width 0.1s ease-in-out;
@@ -68,8 +67,8 @@
         z-index: 3;
         text-align: center;
         font-weight: bold;
-        inset: calc(200px - 1.25rem) 0 auto 0;
-        font-size: 2.5rem;
+        inset: calc(50% - 1.1rem) 0 auto 0;
+        font-size: 2.2rem;
         font-family: Roboto, Helvetica, Arial, sans-serif;
 
         &::after {
