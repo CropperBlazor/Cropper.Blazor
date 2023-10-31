@@ -33,6 +33,13 @@ Cropper.Blazor is an essential component for building interactive image cropping
 - [CropperBlazor.github.io/examples/cropperusage](https://cropperblazor.github.io/examples/cropperusage)
 
 ## Prerequisites
+| Cropper.Blazor | .NET | Support |
+| :--- | :---: | :---: |
+| - | .NET 3.1 | Not supported |
+| - | .NET 5 | Not supported |
+| 1.1.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) | :heavy_check_mark: |
+| 1.2.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) | :heavy_check_mark: |
+
 - Supported .NET 7.0, .NET 6.0 versions for these web platforms:
   - Blazor WebAssembly
   - Blazor Server
