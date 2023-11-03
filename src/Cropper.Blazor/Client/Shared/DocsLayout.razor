@@ -30,10 +30,13 @@
                     <MudNavLink Href="api" Icon="@Icons.Material.Filled.Api">Api</MudNavLink>
                     <MudNavLink Href="about" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ContactSupport">About</MudNavLink>
                 </MudNavMenu>
-            }   
+            }
         </MudHidden>
         <MudNavMenu Color="Color.Primary" Rounded="true" Dense="true" Margin="Margin.Dense" Class="pa-2 overflow-auto mb-3">
-            @if (!_topMenuOpen && LayoutService.GetDocsBasePage(NavigationManager.Uri) == BasePage.Examples)
+            @{
+                BasePage docsBasePage = LayoutService.GetDocsBasePage(NavigationManager.Uri);
+            }
+            @if (!_topMenuOpen && (docsBasePage== BasePage.Examples || docsBasePage == BasePage.Api || docsBasePage == BasePage.Contract))
             {
                 <NavMenu @ref="@_navMenuRef" />
             }
