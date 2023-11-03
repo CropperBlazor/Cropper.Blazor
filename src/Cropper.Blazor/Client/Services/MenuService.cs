@@ -48,7 +48,8 @@ namespace Cropper.Blazor.Client.Services
                 new DocsLink {Title = "ContainerData", Href = "contract/ContainerData"},
                 new DocsLink {Title = "CanvasData", Href = "contract/CanvasData"},
                 new DocsLink {Title = "CropBoxData", Href = "contract/CropBoxData"},
-                new DocsLink {Title = "JSEventData", Href = "contract/JSEventData"}
+                new DocsLink {Title = "JSEventData", Href = "contract/JSEventData"},
+                new DocsLink {Title = "ViewMode", Href = "contract/ViewMode"}
             };
     }
 }
