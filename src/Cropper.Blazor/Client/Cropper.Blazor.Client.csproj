@@ -153,6 +153,7 @@
 		<Error Condition="!Exists('wwwroot/helper.min.js')" Text="Missing helper.min.js in wwwroot" />
 		<Error Condition="!Exists('wwwroot/sw-registrator.min.js')" Text="Missing sw-registrator.min.js in wwwroot" />
 		<Error Condition="!Exists('wwwroot/resizeWindowEventListener.min.js')" Text="Missing resizeWindowEventListener.min.js in wwwroot" />
+		<Error Condition="!Exists('NewFilesToBuild.txt')" Text="Missing NewFilesToBuild.txt" />
 		<ItemGroup>
 			<Content Include="wwwroot/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" />
 			<Content Include="wwwroot/service-worker.min.js" Condition="!Exists('wwwroot/service-worker.min.js')" />

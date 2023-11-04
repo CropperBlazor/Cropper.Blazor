@@ -32,7 +32,7 @@
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReadmeFile>NuGet_README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
@@ -54,7 +54,7 @@
 	<ItemGroup>
 		<None Include="..\..\..\LICENSE" Pack="true" Visible="false" PackagePath="" />
 		<None Include="..\..\..\content\NuGet.png" Pack="true" Visible="false" PackagePath="" />
-		<None Include="..\..\..\README.md">
+		<None Include="..\..\..\NuGet_README.md">
 		  <Pack>True</Pack>
 		  <PackagePath>\</PackagePath>
 		</None>

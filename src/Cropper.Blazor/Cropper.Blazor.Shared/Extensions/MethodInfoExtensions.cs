@@ -231,7 +231,7 @@ namespace Cropper.Blazor.Shared.Extensions
             }
             else if (name == "Action")
             {
-                return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.action-1\">{name}</a>";
+                return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.action-1\">{name}</a>";
             }
             else if (name == "ErrorEventArgs")
             {
