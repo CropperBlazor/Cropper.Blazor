@@ -9,10 +9,10 @@
         <DocsPageSection>
             <SectionHeader Title="Simple Usage">
                 <Description>
-                    With the <CodeInline Class="docs-code-tertiary">GetCroppedCanvasDataURLAsync</CodeInline> method
+                    With the <CodeInline Class="docs-code-warning">GetCroppedCanvasDataURLAsync</CodeInline> method
                     you can get canvas drawn the cropped image in URL format.
                     <br><br>
-                    <CodeInline Class="docs-code-tertiary">GetCroppedCanvasDataURLAsync</CodeInline> method have following arguments:
+                    <CodeInline Class="docs-code-warning">GetCroppedCanvasDataURLAsync</CodeInline> method have following arguments:
                     <MudList>
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
                             <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/GetCroppedCanvasOptions">GetCroppedCanvasOptions (required)</MudLink></CodeInline> - used to get a cropped canvas;
@@ -31,9 +31,6 @@
                     </MudList>
                     <br>
                     <MudAlert Class="mt-3" Severity="Severity.Info">
-                        <b>Note:</b> The aspect ratio of the output canvas will be fitted to the aspect ratio of the crop box automatically.
-                    </MudAlert>
-                    <MudAlert Class="mt-3" Severity="Severity.Info">
                         <b>Note:</b> If you intend to get a JPEG image from the output canvas, you should set the <CodeInline>fillColor</CodeInline> option first, if not, the transparent part in the JPEG image will become black by default.
                     </MudAlert>
                 </Description>
@@ -46,10 +43,10 @@
         <DocsPageSection>
             <SectionHeader Title="Advanced Usage">
                 <Description>
-                    With the <CodeInline Class="docs-code-tertiary">GetCroppedCanvasAsync</CodeInline> method
+                    With the <CodeInline Class="docs-code-warning">GetCroppedCanvasAsync</CodeInline> method
                     you can get a canvas drawn from the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
                     <br><br>
-                    <CodeInline Class="docs-code-tertiary">GetCroppedCanvasAsync</CodeInline> method have following argument:
+                    <CodeInline Class="docs-code-warning">GetCroppedCanvasAsync</CodeInline> method have following argument:
                     <MudList>
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
                             <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/GetCroppedCanvasOptions">GetCroppedCanvasOptions (required)</MudLink></CodeInline> - used to get a cropped canvas;
@@ -59,29 +56,26 @@
                         </MudListItem>
                     </MudList>
                     <MudAlert Class="mt-3" Severity="Severity.Info">
-                        <b>Note:</b> The aspect ratio of the output canvas will be fitted to the aspect ratio of the crop box automatically.
-                    </MudAlert>
-                    <MudAlert Class="mt-3" Severity="Severity.Info">
                         <b>Note:</b> If you intend to get a JPEG image from the output canvas, you should set the <CodeInline>fillColor</CodeInline> option first, if not, the transparent part in the JPEG image will become black by default.
                     </MudAlert>
                     <br>
-                    This <CodeInline Class="docs-code-tertiary">GetCroppedCanvasAsync</CodeInline> method returns <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/CroppedCanvas">CroppedCanvas</MudLink></CodeInline>.
+                    This <CodeInline Class="docs-code-warning">GetCroppedCanvasAsync</CodeInline> method returns <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/CroppedCanvas">CroppedCanvas</MudLink></CodeInline>.
                     Use <CodeInline>JSRuntimeObjectRef</CodeInline> in the
                     <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/CroppedCanvas">CroppedCanvas</MudLink></CodeInline> which represents a reference to a JavaScript cropped canvas object.
-                    After then, you can display the canvas as an image directly, or use <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL">HTMLCanvasElement.toDataURL</MudLink> to get a Data URL, or use <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob">HTMLCanvasElement.toBlob</MudLink> to get a blob and upload it to server with <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/FormData">FormData</MudLink> if the browser supports these APIs.
+                    After then, you can display the canvas as an image directly, or use <MudLink Class="warning-color" UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL">HTMLCanvasElement.toDataURL</MudLink> to get a Data URL, or use <MudLink Class="warning-color" UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob">HTMLCanvasElement.toBlob</MudLink> to get a blob and upload it to server with <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/FormData">FormData</MudLink> if the browser supports these APIs.
                     <br><br>
-                    In Blazor framework we can invoke JavaScript functions and read a returned value through <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.jsruntimeextensions.invokeasync">JSRuntimeExtensions.InvokeAsync</MudLink>.
+                    In Blazor framework we can invoke JavaScript functions and read a returned value through <MudLink Class="warning-color" UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.jsruntimeextensions.invokeasync">JSRuntimeExtensions.InvokeAsync</MudLink>.
                     <br>
                     Example invoking function for get a canvas drawn in URL format from the cropped image with reference to a JavaScript cropped canvas object: <CodeInline Style="color: var(--mud-palette-text-primary);" Class="text-anywhere-wrap">await croppedCanvas!.JSRuntimeObjectRef.InvokeAsync&lt;string&gt;("toDataURL", "image/png", 1);</CodeInline>
-                    <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Warning">
+                    <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Info">
                         <b>Note:</b> If you gathering get a Data URL using <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/CroppedCanvas">CroppedCanvas</MudLink></CodeInline> by <CodeInline>JSRuntimeObjectRef</CodeInline> property.
-                        <b>Don't use</b> <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL">HTMLCanvasElement.toDataURL()</MudLink> and <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL">HTMLCanvasElement.toDataURL(type)</MudLink> methods without <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL#encoderoptions">encoderOptions</MudLink> argument due to image quality was little lost through
+                        <b>Don't use</b> <MudLink Class="warning-color" UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL">HTMLCanvasElement.toDataURL()</MudLink> and <MudLink Class="warning-color" UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL">HTMLCanvasElement.toDataURL(type)</MudLink> methods without <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL#encoderoptions">encoderOptions</MudLink> argument due to image quality was little lost through
                         default value <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL#encoderoptions">encoderOptions</MudLink>.
                         In addition, different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality.
                     </MudAlert>
-                    <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Warning">
+                    <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Info">
                         <b>Note:</b> if you gathering to get a blob using <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/CroppedCanvas">CroppedCanvas</MudLink></CodeInline> by <CodeInline>JSRuntimeObjectRef</CodeInline> property.
-                        <b>Don't use</b> <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob">HTMLCanvasElement.toBlob(callback)</MudLink> and <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob">HTMLCanvasElement.toBlob(callback, type)</MudLink> methods without <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL#encoderoptions">encoderOptions</MudLink> argument due to image quality was little lost through
+                        <b>Don't use</b> <MudLink Class="warning-color" UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob">HTMLCanvasElement.toBlob(callback)</MudLink> and <MudLink Class="warning-color" UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob">HTMLCanvasElement.toBlob(callback, type)</MudLink> methods without <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL#encoderoptions">encoderOptions</MudLink> argument due to image quality was little lost through
                         default value <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL#encoderoptions">encoderOptions</MudLink>.
                         In addition, different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality.
                     </MudAlert>
