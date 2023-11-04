@@ -140,7 +140,7 @@ namespace Cropper.Blazor.Client.Compiler
             string pattern = "<(\\w+) href=\"(.*?)\">(.*?)</\\1>";
 
             // Replace Markdown elements with HTML links
-            string htmlText = Regex.Replace(markdownText, pattern, "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"$2\">$3</a>");
+            string htmlText = Regex.Replace(markdownText, pattern, "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"$2\">$3</a>");
 
             return htmlText;
         }
@@ -158,10 +158,10 @@ namespace Cropper.Blazor.Client.Compiler
 
                 if (result.EndsWith("Microsoft.AspNetCore.Components.Web.ErrorEventArgs"))
                 {
-                    return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.web.erroreventargs\">{value}</a>";
+                    return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.web.erroreventargs\">{value}</a>";
                 }
 
-                return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"contract/{value}\">{value}</a>";
+                return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"contract/{value}\">{value}</a>";
             });
 
             return htmlText;
@@ -172,13 +172,13 @@ namespace Cropper.Blazor.Client.Compiler
             string result = doc
                 .Replace("<br />", "")
                 .Replace("<paramref name=\"scaleX\" />", "scaleX")
-                .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.ElementReference\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.elementreference\">ElementReference</a>")
-                .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.Forms.IBrowserFile\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.forms.ibrowserfile\">IBrowserFile</a>")
-                .Replace("<see cref=\"T:Microsoft.JSInterop.DotNetStreamReference\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.dotnetstreamreference\">DotNetStreamReference</a>")
-                .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">ValueTask</a>")
-                .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask`1\" />", $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">{formattedReturnSignature}</a>")
-                .Replace("<see cref=\"T:Cropper.Blazor.Events.JSEventData`1\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"contract/JSEventData\">JSEventData<></a>")
-                .Replace("<see cref=\"T:System.Threading.CancellationToken\" />", "<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource\">CancellationToken</a>");
+                .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.ElementReference\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.elementreference\">ElementReference</a>")
+                .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.Forms.IBrowserFile\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.forms.ibrowserfile\">IBrowserFile</a>")
+                .Replace("<see cref=\"T:Microsoft.JSInterop.DotNetStreamReference\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.dotnetstreamreference\">DotNetStreamReference</a>")
+                .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">ValueTask</a>")
+                .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask`1\" />", $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">{formattedReturnSignature}</a>")
+                .Replace("<see cref=\"T:Cropper.Blazor.Events.JSEventData`1\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"contract/JSEventData\">JSEventData<></a>")
+                .Replace("<see cref=\"T:System.Threading.CancellationToken\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource\">CancellationToken</a>");
 
             return result;
         }
