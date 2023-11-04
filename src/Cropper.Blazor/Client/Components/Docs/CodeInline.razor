@@ -1,4 +1,4 @@
-﻿<code class="docs-code @(SecondaryColor? $"docs-code-secondary {Class}": $"docs-code-primary {Class}")">
+﻿<code style="@Style" class="docs-code @(SecondaryColor? $"docs-code-secondary {Class}": $"docs-code-primary {Class}")">
     @if (Tag) {<span>&lt;</span>}@Code@ChildContent@if (Tag) {<span>&gt;</span>}
 </code>
 
@@ -7,6 +7,7 @@
     [Parameter] public RenderFragment? ChildContent { get; set; } = null;
 
     [Parameter] public string? Code { get; set; } = null;
+    [Parameter] public string Style { get; set; } = string.Empty;
 
     [Parameter] public bool SecondaryColor { get; set; }
 
