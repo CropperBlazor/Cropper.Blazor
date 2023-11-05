@@ -197,6 +197,10 @@
     }
 }
 
+.warning-color {
+    color: var(--mud-palette-warning) !important;
+}
+
 .disabled {
     pointer-events: none;
     cursor: default;
