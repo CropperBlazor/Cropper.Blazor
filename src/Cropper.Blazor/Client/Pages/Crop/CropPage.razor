@@ -64,9 +64,12 @@
                     <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/CroppedCanvas">CroppedCanvas</MudLink></CodeInline> which represents a reference to a JavaScript cropped canvas object for get a Data URL
                     via
                     <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL">HTMLCanvasElement.toDataURL</MudLink>:
-                    <CodeInline>
-                        <MudLink Style="color: var(--mud-palette-text-primary) !important;" Class="text-anywhere-wrap" UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.jsruntimeextensions.invokeasync">CroppedCanvas.JSRuntimeObjectRef.InvokeAsync&lt;string&gt;("toDataURL", type, encoderOptions)</MudLink>
-                    </CodeInline>.
+                    <br><br>
+                    <CodeInline Class="mud-width-full">
+                        <SectionContent IsOnlySingleSectionCode="true" Code="InvokeToDataURLExample">
+                            <InvokeToDataURLExample />
+                        </SectionContent>
+                    </CodeInline>
                     <br>
                     <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Info">
                         <b>Note:</b>

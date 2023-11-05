@@ -8,7 +8,7 @@
 @using Cropper.Blazor.Client.Models;
 @using MudBlazor;
 
-@if (Codes != null || ChildContent != null)
+@if ((Codes != null || ChildContent != null) && !IsOnlySingleSectionCode)
 {
     <div class="@Classname">
         @if (Codes != null || ChildContent != null)
@@ -54,16 +54,11 @@
         }
     </div>
 }
-@if (HasCode)
+@if (HasCode || IsOnlySingleSectionCode)
 {
-    <div class="@SourceClassname">
-        <div class="docs-section-source-container">
+    <SectionCode SourceClassname="@SourceClassname" CopyTextToClipboard="CopyTextToClipboardAsync">
+        <CodeComponent>
             @CodeComponent(ActiveCode)
-        </div>
-        <MudIconButton Icon="@Icons.Material.Outlined.FileCopy"
-                       Size="Size.Medium"
-                       Color="Color.Secondary"
-                       Class="copy-code-button"
-        @onclick="CopyTextToClipboardAsync" />
-    </div>
+        </CodeComponent>
+    </SectionCode>
 }
