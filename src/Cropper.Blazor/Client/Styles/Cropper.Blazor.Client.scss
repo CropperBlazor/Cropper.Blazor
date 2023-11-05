@@ -31,14 +31,13 @@
 }
 
 .loader-box {
-    position: relative;
-
     @include responsive-box(100%);
 
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 25%;
+    width: 400px;
+    padding: 25px;
     overflow: hidden;
 
     .loader-image {
@@ -63,12 +62,14 @@
     }
 
     .loader-text {
+        $loader-text-size: #{"clamp(16px, calc(24px + (48 - 16) * (100vw - 280px)/(1920 - 280)), 48px)"};
+
         position: absolute;
         z-index: 3;
         text-align: center;
         font-weight: bold;
-        inset: calc(50% - 1.1rem) 0 auto 0;
-        font-size: 2.2rem;
+        inset: calc(50% - (#{$loader-text-size} / 2)) 0 auto 0;
+        font-size: $loader-text-size;
         font-family: Roboto, Helvetica, Arial, sans-serif;
 
         &::after {
@@ -153,6 +154,10 @@
     -webkit-text-fill-color: transparent;
     font-weight: 800;
     letter-spacing: 1px;
+
+    &.index-title {
+        font-size: #{"clamp(16px, calc(24px + (48 - 16) * (100vw - 280px)/(1920 - 280)), 48px)"};
+    }
 }
 
 .divider {
