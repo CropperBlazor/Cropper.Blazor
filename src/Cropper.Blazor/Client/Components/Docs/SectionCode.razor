@@ -1,0 +1,21 @@
+﻿<div class="@SourceClassname">
+    <div class="docs-section-source-container">
+        @CodeComponent
+    </div>
+    <MudIconButton Icon="@Icons.Material.Outlined.FileCopy"
+                   Size="Size.Medium"
+                   Color="Color.Secondary"
+                   Class="copy-code-button"
+    @onclick="CopyTextToClipboard" />
+</div>
+
+@code {
+    [Parameter]
+    public string SourceClassname { get; set; } = string.Empty;
+
+    [Parameter]
+    public RenderFragment CodeComponent { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> CopyTextToClipboard { get; set; }
+}
