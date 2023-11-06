@@ -99,3 +99,11 @@
 .docs-gray-bg {
     background-color: var(--mud-palette-background-grey);
 }
+
+.text-with-dots {
+    max-width: 100%;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
