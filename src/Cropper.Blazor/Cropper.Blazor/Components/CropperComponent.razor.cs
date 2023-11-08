@@ -41,7 +41,7 @@ namespace Cropper.Blazor.Components
         /// The options for cropping. Check out the available <see cref="Models.Options"/>.
         /// </summary>
         [Parameter]
-        public Options Options { get; set; } = null!;
+        public Options Options { get; set; } = new Options();
 
         /// <summary>
         /// Specifies the path to the image.
@@ -268,7 +268,7 @@ namespace Cropper.Blazor.Components
         /// </summary>
         /// <param name="dragMode">The <see cref="DragMode"/> used to set new drag mode.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void SetDragMode(DragMode dragMode, CancellationToken cancellationToken = default)
+        public void SetDragMode(DragMode dragMode = DragMode.None, CancellationToken cancellationToken = default)
         {
             CropperJsIntertop!.SetDragModeAsync(CropperComponentId, dragMode, cancellationToken);
         }

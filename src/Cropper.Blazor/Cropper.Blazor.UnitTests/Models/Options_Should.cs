@@ -19,12 +19,12 @@ namespace Cropper.Blazor.UnitTests.Models
         {
             protected override void BeginInvokeJS(long taskId, string identifier, string? argsJson, JSCallResultType resultType, long targetInstanceId)
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
 
             protected override void EndInvokeDotNet(DotNetInvocationInfo invocationInfo, in DotNetInvocationResult invocationResult)
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
 
             public JsonSerializerOptions GetJsonSerializerOptions => JsonSerializerOptions;
@@ -75,19 +75,19 @@ namespace Cropper.Blazor.UnitTests.Models
         {
             yield return WrapArgs(
                 null,
-                "{\"correlationId\":\"Cropper.Blazor\"}");
+                "{\"autoCrop\":true,\"autoCropArea\":0.8,\"background\":true,\"center\":true,\"checkCrossOrigin\":true,\"checkOrientation\":true,\"cropBoxMovable\":true,\"cropBoxResizable\":true,\"dragMode\":\"crop\",\"guides\":true,\"highlight\":true,\"minCanvasHeight\":0,\"minCanvasWidth\":0,\"minContainerHeight\":100,\"minContainerWidth\":200,\"minCropBoxHeight\":0,\"minCropBoxWidth\":0,\"modal\":true,\"movable\":true,\"responsive\":true,\"restore\":true,\"rotatable\":true,\"scalable\":true,\"toggleDragModeOnDblclick\":true,\"viewMode\":0,\"wheelZoomRatio\":0.1,\"zoomOnTouch\":true,\"zoomOnWheel\":true,\"zoomable\":true,\"correlationId\":\"Cropper.Blazor\"}");
 
             yield return WrapArgs(
                 ".testClass",
-                "{\"preview\":\".testClass\",\"correlationId\":\"Cropper.Blazor\"}");
+                "{\"preview\":\".testClass\",\"autoCrop\":true,\"autoCropArea\":0.8,\"background\":true,\"center\":true,\"checkCrossOrigin\":true,\"checkOrientation\":true,\"cropBoxMovable\":true,\"cropBoxResizable\":true,\"dragMode\":\"crop\",\"guides\":true,\"highlight\":true,\"minCanvasHeight\":0,\"minCanvasWidth\":0,\"minContainerHeight\":100,\"minContainerWidth\":200,\"minCropBoxHeight\":0,\"minCropBoxWidth\":0,\"modal\":true,\"movable\":true,\"responsive\":true,\"restore\":true,\"rotatable\":true,\"scalable\":true,\"toggleDragModeOnDblclick\":true,\"viewMode\":0,\"wheelZoomRatio\":0.1,\"zoomOnTouch\":true,\"zoomOnWheel\":true,\"zoomable\":true,\"correlationId\":\"Cropper.Blazor\"}");
 
             yield return WrapArgs(
                 new ElementReference("ElementReferenceId"),
-                "{\"preview\":{\"id\":\"ElementReferenceId\",\"context\":null},\"correlationId\":\"Cropper.Blazor\"}");
+                "{\"preview\":{\"id\":\"ElementReferenceId\",\"context\":null},\"autoCrop\":true,\"autoCropArea\":0.8,\"background\":true,\"center\":true,\"checkCrossOrigin\":true,\"checkOrientation\":true,\"cropBoxMovable\":true,\"cropBoxResizable\":true,\"dragMode\":\"crop\",\"guides\":true,\"highlight\":true,\"minCanvasHeight\":0,\"minCanvasWidth\":0,\"minContainerHeight\":100,\"minContainerWidth\":200,\"minCropBoxHeight\":0,\"minCropBoxWidth\":0,\"modal\":true,\"movable\":true,\"responsive\":true,\"restore\":true,\"rotatable\":true,\"scalable\":true,\"toggleDragModeOnDblclick\":true,\"viewMode\":0,\"wheelZoomRatio\":0.1,\"zoomOnTouch\":true,\"zoomOnWheel\":true,\"zoomable\":true,\"correlationId\":\"Cropper.Blazor\"}");
 
             yield return WrapArgs(
                 new ElementReference("ElementReferenceId", new CustomElementReferenceContext()),
-                "{\"preview\":{\"id\":\"ElementReferenceId\",\"context\":{}},\"correlationId\":\"Cropper.Blazor\"}");
+                "{\"preview\":{\"id\":\"ElementReferenceId\",\"context\":{}},\"autoCrop\":true,\"autoCropArea\":0.8,\"background\":true,\"center\":true,\"checkCrossOrigin\":true,\"checkOrientation\":true,\"cropBoxMovable\":true,\"cropBoxResizable\":true,\"dragMode\":\"crop\",\"guides\":true,\"highlight\":true,\"minCanvasHeight\":0,\"minCanvasWidth\":0,\"minContainerHeight\":100,\"minContainerWidth\":200,\"minCropBoxHeight\":0,\"minCropBoxWidth\":0,\"modal\":true,\"movable\":true,\"responsive\":true,\"restore\":true,\"rotatable\":true,\"scalable\":true,\"toggleDragModeOnDblclick\":true,\"viewMode\":0,\"wheelZoomRatio\":0.1,\"zoomOnTouch\":true,\"zoomOnWheel\":true,\"zoomable\":true,\"correlationId\":\"Cropper.Blazor\"}");
 
             yield return WrapArgs(
                 new ElementReference[]
@@ -95,7 +95,7 @@ namespace Cropper.Blazor.UnitTests.Models
                     new ElementReference("ElementReferenceId"),
                     new ElementReference("ElementReferenceId", new CustomElementReferenceContext())
                 },
-                "{\"preview\":[{\"id\":\"ElementReferenceId\",\"context\":null},{\"id\":\"ElementReferenceId\",\"context\":{}}],\"correlationId\":\"Cropper.Blazor\"}");
+                "{\"preview\":[{\"id\":\"ElementReferenceId\",\"context\":null},{\"id\":\"ElementReferenceId\",\"context\":{}}],\"autoCrop\":true,\"autoCropArea\":0.8,\"background\":true,\"center\":true,\"checkCrossOrigin\":true,\"checkOrientation\":true,\"cropBoxMovable\":true,\"cropBoxResizable\":true,\"dragMode\":\"crop\",\"guides\":true,\"highlight\":true,\"minCanvasHeight\":0,\"minCanvasWidth\":0,\"minContainerHeight\":100,\"minContainerWidth\":200,\"minCropBoxHeight\":0,\"minCropBoxWidth\":0,\"modal\":true,\"movable\":true,\"responsive\":true,\"restore\":true,\"rotatable\":true,\"scalable\":true,\"toggleDragModeOnDblclick\":true,\"viewMode\":0,\"wheelZoomRatio\":0.1,\"zoomOnTouch\":true,\"zoomOnWheel\":true,\"zoomable\":true,\"correlationId\":\"Cropper.Blazor\"}");
 
             static object[] WrapArgs(
                 object? preview,
