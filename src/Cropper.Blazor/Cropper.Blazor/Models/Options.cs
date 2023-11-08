@@ -22,7 +22,7 @@ namespace Cropper.Blazor.Models
             ViewMode = 0; // 0, 1, 2, 3
 
             // Define the dragging mode of the cropper
-            DragMode =  Models.DragMode.Crop.ToEnumString()!; // 'crop', 'move' or 'none'
+            DragMode = Models.DragMode.Crop.ToEnumString()!; // 'crop', 'move' or 'none'
 
             // Define the initial aspect ratio of the crop box
             InitialAspectRatio = null;
@@ -55,7 +55,7 @@ namespace Cropper.Blazor.Models
             Guides = true;
 
             // Show the center indicator for guiding
-            Center= true;
+            Center = true;
 
             // Show the white modal to highlight the crop box
             Highlight = true;
