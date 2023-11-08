@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Cropper.Blazor.Extensions;
 
 namespace Cropper.Blazor.Models
 {
@@ -20,20 +21,20 @@ namespace Cropper.Blazor.Models
         /// <summary>
         /// The minimum destination width of the output canvas, the default value is 0.
         /// </summary>
-        public decimal? MinWidth { get; set; }
+        public decimal? MinWidth { get; set; } = 0;
 
         /// <summary>
         /// The minimum destination height of the output canvas, the default value is 0.
         /// </summary>
-        public decimal? MinHeight { get; set; }
+        public decimal? MinHeight { get; set; } = 0;
 
         /// <summary>
-        /// The maximum destination width of the output canvas, the default value is Infinity.
+        /// The maximum destination width of the output canvas, the default value is null (Infinity).
         /// </summary>
         public decimal? MaxWidth { get; set; }
 
         /// <summary>
-        /// The maximum destination height of the output canvas, the default value is Infinity.
+        /// The maximum destination height of the output canvas, the default value is null (Infinity).
         /// </summary>
         public decimal? MaxHeight { get; set; }
 
@@ -44,18 +45,20 @@ namespace Cropper.Blazor.Models
 
         /// <summary>
         /// Set to change if images are smoothed (true, default) or not (false).
+        /// For more information see official <seealso href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingEnabled">imageSmoothingEnabled</seealso> documentation.
         /// </summary>
-        public bool? ImageSmoothingEnabled { get; set; }
+        public bool? ImageSmoothingEnabled { get; set; } = true;
 
         /// <summary>
         /// Set the quality of image smoothing, one of "low" (default), "medium", or "high".
+        /// For more information see official <seealso href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingQuality">imageSmoothingQuality</seealso> documentation.
         /// </summary>
         [EnumDataType(typeof(ImageSmoothingQuality))]
-        public string? ImageSmoothingQuality { get; set; }
+        public string? ImageSmoothingQuality { get; set; } = Models.ImageSmoothingQuality.Low.ToEnumString();
 
         /// <summary>
         /// Set true to use rounded values (the cropped area position and size data), the default value is false.
         /// </summary>
-        public bool? Rounded { get; set; }
+        public bool? Rounded { get; set; } = false;
     }
 }
