@@ -798,7 +798,8 @@ namespace Cropper.Blazor.UnitTests.Components
             && options.MinCropBoxWidth == 0
             && options.MinCropBoxHeight == 0
             && options.MinContainerWidth == 200
-            && options.MinContainerHeight == 100;
+            && options.MinContainerHeight == 100
+            && options.CorrelationId == "Cropper.Blazor";
 
         public void Dispose()
         {
