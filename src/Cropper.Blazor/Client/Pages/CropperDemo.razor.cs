@@ -325,14 +325,12 @@ namespace Cropper.Blazor.Client.Pages
             CropperComponent?.RevokeObjectUrlAsync(Src);
         }
 
-        public void SetAspectRatio(decimal aspectRatio, bool isFreeAspectRatioEnabled = false)
+        public void SetAspectRatio(decimal aspectRatio)
         {
             Options.AspectRatio = aspectRatio;
             IsFreeAspectRatioEnabled = aspectRatio == 0m;
             CropperComponent?.SetAspectRatio(aspectRatio);
         }
-
-        public void SetFreeAspectRatio() => SetAspectRatio(0, true);
 
         public void SetViewMode(ViewMode viewMode)
         {
