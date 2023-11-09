@@ -13,8 +13,6 @@ namespace Cropper.Blazor.Models
     /// </summary>
     public class Options
     {
-        private object? preview = null;
-
         /// <summary>
         /// Implementation of the constructor.
         /// </summary>
