@@ -1,0 +1,57 @@
+﻿<div class="mud-codeblock">
+    <div class="csharp">
+        <pre>
+<span class="keyword">&#64;using </span>Cropper.Blazor.Components;
+<span />
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">div </span><span class="htmlAttributeName">class</span><span class="htmlOperator">=</span><span class="quot">"</span><span class="htmlAttributeValue">img-container</span><span class="quot">"</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CropperComponent </span>
+        <span class="htmlAttributeName">    Class</span><span class="htmlOperator">=</span><span class="quot">"</span><span class="htmlAttributeValue">cropper-example</span><span class="quot">"</span>
+        <span class="htmlAttributeName">    Src</span><span class="htmlOperator">=</span><span class="quot">"</span><span class="htmlAttributeValue">cropperblazor.png</span><span class="quot">"</span>
+        <span class="htmlAttributeName">    Options</span><span class="htmlOperator">=</span><span class="quot">"</span><span class="htmlAttributeValue">Options</span><span class="quot">"</span>
+        <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/<span class="htmlElementName">div</span>&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">div </span><span class="htmlAttributeName">@ref</span><span class="htmlOperator">=</span><span class="quot">"</span><span class="htmlAttributeValue">FirstElementReference</span><span class="quot">"</span> <span class="htmlAttributeName">class</span><span class="htmlOperator">=</span><span class="quot">"</span><span class="htmlAttributeValue">img-example-preview</span><span class="quot">"</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">div </span><span class="htmlAttributeName">@ref</span><span class="htmlOperator">=</span><span class="quot">"</span><span class="htmlAttributeValue">SecondElementReference</span><span class="quot">"</span> <span class="htmlAttributeName">class</span><span class="htmlOperator">=</span><span class="quot">"</span><span class="htmlAttributeValue">img-example-preview</span><span class="quot">"</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+<pre><span class="atSign">@</span>code {
+    <span class="keyword">private </span>Cropper.Blazor.Models.<span class="class">Options</span> Options = <span class="keyword">new</span>();
+    <span class="keyword">private </span>Microsoft.AspNetCore.Components.<span class="class">ElementReference</span> FirstElementReference;
+    <span class="keyword">private </span>Microsoft.AspNetCore.Components.<span class="class">ElementReference</span> SecondElementReference;
+
+    <span class="keyword">protected override void </span><span class="function">OnAfterRender</span>(<span class="keyword">bool</span> <span class="localVar">firstRender</span>)
+    {
+        <span class="keyword">if</span> (<span class="localVar">firstRender</span>)
+        {
+            <span>Options</span><span>.Preview</span> = <span class="keyword">new</span> <span class="class">ElementReference</span>[]
+            {
+                FirstElementReference,
+                SecondElementReference
+            };
+        }
+    }
+}
+</pre>
+</pre>
+    </div>
+    <div class="css">
+        <span class="comment">// Add this style for cropper and preview image.</span>
+        <pre>
+<span class="property">
+.cropper-example {
+    max-height: 300px;
+    width: 100%;
+}
+
+.img-example-preview {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.img-example-preview > ::deep img {
+    max-width: 100%;
+}
+</span>
+        </pre>
+    </div>
+</div>

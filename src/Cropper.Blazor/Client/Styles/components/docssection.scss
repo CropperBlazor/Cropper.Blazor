@@ -197,6 +197,37 @@
     }
 }
 
+@media (min-width: 1280px) {
+    .mud-drawer-open-responsive-lg-right .mud-main-content {
+        margin-right: 120px !important;
+    }
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+
+.docs-content-api-max-width {
+    max-width: 800px;
+}
+
+.docs-content-return-api-max-width, .docs-content-description-api-max-width {
+    max-width: 400px;
+}
+
+.docs-content-api-sm-max-width {
+    text-align: end;
+    padding: 10px;
+}
+
+.docs-content-api-desc-sm-max-width {
+    display: inline-flex;
+    flex-direction: row;
+    white-space: pre;
+}
+
 .warning-color {
     color: var(--mud-palette-warning) !important;
 }

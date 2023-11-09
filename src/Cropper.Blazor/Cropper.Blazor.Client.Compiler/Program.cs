@@ -14,6 +14,7 @@ namespace Cropper.Blazor.Client.Compiler
                && new DocStrings().Execute();
 
             Console.WriteLine($"Docs.Compiler completed in {stopWatch.ElapsedMilliseconds} msecs");
+
             return success ? 0 : 1;
         }
     }

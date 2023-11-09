@@ -15,6 +15,7 @@ public partial class SectionHeader
     [CascadingParameter] private DocsPage DocsPage { get; set; }
 
     [CascadingParameter] private DocsPageSection Section { get; set; }
+    [CascadingParameter] private DocsPage DocsPage { get; set; }
 
     [Parameter] public string Class { get; set; }
 
@@ -26,6 +27,7 @@ public partial class SectionHeader
     [Parameter] public RenderFragment SubTitle { get; set; }
 
     [Parameter] public RenderFragment Description { get; set; }
+    public DocsSectionLink SectionInfo { get; set; }
 
     public ElementReference SectionReference;
 
