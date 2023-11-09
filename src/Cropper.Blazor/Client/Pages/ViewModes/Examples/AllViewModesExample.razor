@@ -1,0 +1,62 @@
+﻿@using Cropper.Blazor.Models;
+
+<div class="img-container">
+    <CropperComponent @ref="cropperComponent" Src="images/Rivne.jpg"
+                      Options="cropperOptions" Class="big-img" />
+</div>
+
+<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
+    <MudTooltip Text="View Mode 0" RootClass="mud-width-full">
+        <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm0))" Color="Color.Primary" Variant="Variant.Filled" Class="ml-0"
+                   Style="@(cropperOptions.ViewMode == ViewMode.Vm0 ? "background-color: var(--mud-palette-primary-darken)" : "")" FullWidth="true">
+            VM0
+        </MudButton>
+    </MudTooltip>
+    <MudTooltip Text="View Mode 1" RootClass="mud-width-full">
+        <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm1))" Color="Color.Primary" Variant="Variant.Filled" Class="ml-0"
+                   Style="@(cropperOptions.ViewMode == ViewMode.Vm1 ? "background-color: var(--mud-palette-primary-darken)" : "")" FullWidth="true">
+            VM1
+        </MudButton>
+    </MudTooltip>
+    <MudTooltip Text="View Mode 2" RootClass="mud-width-full">
+        <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm2))" Color="Color.Primary" Variant="Variant.Filled" Class="ml-0"
+                   Style="@(cropperOptions.ViewMode == ViewMode.Vm2 ? "background-color: var(--mud-palette-primary-darken)" : "")" FullWidth="true">
+            VM2
+        </MudButton>
+    </MudTooltip>
+    <MudTooltip Text="View Mode 3" RootClass="mud-width-full">
+        <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm3))" Color="Color.Primary" Variant="Variant.Filled" Class="ml-0"
+                   Style="@(cropperOptions.ViewMode == ViewMode.Vm3 ? "background-color: var(--mud-palette-primary-darken)" : "")" FullWidth="true">
+            VM3
+        </MudButton>
+    </MudTooltip>
+</MudButtonGroup>
+
+@code {
+    private CropperComponent? cropperComponent = null!;
+
+    private Options cropperOptions = new Options
+        {
+            ViewMode = ViewMode.Vm3
+        };
+
+    public void SetViewMode(ViewMode viewMode)
+    {
+        cropperOptions.ViewMode = viewMode;
+        cropperComponent?.Destroy();
+        cropperComponent?.InitCropper();
+    }
+}
+
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        width: 100%;
+    }
+</style>

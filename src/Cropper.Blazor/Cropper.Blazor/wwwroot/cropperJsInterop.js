@@ -46,11 +46,17 @@ class CropperDecorator {
     }
 
     getCroppedCanvas(cropperComponentId, options) {
+        options.maxWidth ??= Infinity;
+        options.maxHeight ??= Infinity;
+
         return this.cropperInstances[cropperComponentId]
             .getCroppedCanvas(options);
     }
 
     getCroppedCanvasDataURL(cropperComponentId, options, type, encoderOptions) {
+        options.maxWidth ??= Infinity;
+        options.maxHeight ??= Infinity;
+
         return this.cropperInstances[cropperComponentId]
             .getCroppedCanvas(options)
             .toDataURL(type, encoderOptions);

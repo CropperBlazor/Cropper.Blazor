@@ -29,10 +29,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.11" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.11" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.13" PrivateAssets="all" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
-		<PackageReference Include="MudBlazor" Version="6.10.0" />
+		<PackageReference Include="MudBlazor" Version="6.11.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -79,7 +79,17 @@
 		<Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />
 	</Target>
 
-	<Target Name="IncludeGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="CompileDocs">
+	<!--This file contains any ExampleCode that is new and needs including in the build -->
+	<Target Name="ReadFromFile" DependsOnTargets="CompileDocs">
+		<ItemGroup>
+			<NewFiles Include="NewFilesToBuild.txt" />
+		</ItemGroup>
+		<ReadLinesFromFile File="@(NewFiles)">
+			<Output TaskParameter="Lines" ItemName="NewExampleCodeToBuild" />
+		</ReadLinesFromFile>
+	</Target>
+	
+	<Target Name="IncludeGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="CompileDocs;ReadFromFile">
 		<ItemGroup>
 			<Compile Include="Models/DocStrings.generated.cs" Condition="!Exists('Models/DocStrings.generated.cs')" />
 			<Compile Include="Models/Snippets.generated.cs" Condition="!Exists('Models/Snippets.generated.cs')" />
@@ -108,6 +118,9 @@
 			<FilesToClean Include="./Models/Snippets.generated.cs" />
 			<FilesToClean Include="./wwwroot/helper.min.js" />
 			<FilesToClean Include="./wwwroot/sw-registrator.min.js" />
+			<FilesToClean Include="./wwwroot/sw-registrator.min.js" />
+			<FilesToClean Include="**/Code/*.html" />
+			<FilesToClean Include="./NewFilesToBuild.txt" />
 			<FilesToClean Include="./wwwroot/resizeWindowEventListener.min.js" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
@@ -140,6 +153,7 @@
 		<Error Condition="!Exists('wwwroot/helper.min.js')" Text="Missing helper.min.js in wwwroot" />
 		<Error Condition="!Exists('wwwroot/sw-registrator.min.js')" Text="Missing sw-registrator.min.js in wwwroot" />
 		<Error Condition="!Exists('wwwroot/resizeWindowEventListener.min.js')" Text="Missing resizeWindowEventListener.min.js in wwwroot" />
+		<Error Condition="!Exists('NewFilesToBuild.txt')" Text="Missing NewFilesToBuild.txt" />
 		<ItemGroup>
 			<Content Include="wwwroot/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" />
 			<Content Include="wwwroot/service-worker.min.js" Condition="!Exists('wwwroot/service-worker.min.js')" />
@@ -165,6 +179,9 @@
 	<!--Update ExampleCode-->
 	<ItemGroup>
 		<EmbeddedResource Include="Pages\**\*.html" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Pages\CropZoom\Examples\MinMaxZoomRatio_ScriptCode.html" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Cropper.Blazor.Shared\Cropper.Blazor.Shared.csproj" />

@@ -1,0 +1,49 @@
+﻿@using Cropper.Blazor.Client.Enums;
+@inherits LayoutComponentBase
+@layout MainLayout
+
+<MudLayout Class="cropperblazor-docs">
+    <MudAppBar Class="docs-appbar-filter" Color="Color.Transparent" Elevation="0"></MudAppBar>
+    <MudAppBar Class="docs-appbar" Elevation="0">
+        <Appbar DrawerToggleCallback="ToggleDrawer" />
+    </MudAppBar>
+    <MudDrawer Open="@_drawerOpen" OpenChanged="OnDrawerOpenChanged" ClipMode="DrawerClipMode.Docked" Elevation="0" Breakpoint="Breakpoint.Lg">
+        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+            <MudToolBar Dense="true" DisableGutters="true" Class="docs-gray-bg">
+                @if (_topMenuOpen == false)
+                {
+                    <MudIconButton Icon="@Icons.Material.Rounded.ArrowBack" Color="Color.Inherit" OnClick="@((e) => OpenTopMenu())" />
+                }
+                else
+                {
+                    <MudIconButton Icon="@Icons.Material.Rounded.Close" Color="Color.Inherit" OnClick="ToggleDrawer" />
+                }
+                <MudSpacer />
+                <AppbarButtons />
+            </MudToolBar>
+
+            @if (_topMenuOpen == true)
+            {
+                <MudNavMenu Color="Color.Primary" Margin="Margin.Dense" Rounded="true" Class="pa-2">
+                    <MudNavLink Href="demo" Icon="@Icons.Material.Filled.Crop">Demo</MudNavLink>
+                    <MudNavLink Href="examples" Icon="@Icons.Material.Filled.AutoStories">Examples</MudNavLink>
+                    <MudNavLink Href="api" Icon="@Icons.Material.Filled.Api">Api</MudNavLink>
+                    <MudNavLink Href="about" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ContactSupport">About</MudNavLink>
+                </MudNavMenu>
+            }
+        </MudHidden>
+        <MudNavMenu Color="Color.Primary" Rounded="true" Dense="true" Margin="Margin.Dense" Class="pa-2 overflow-auto mb-3">
+            @{
+                BasePage docsBasePage = LayoutService.GetDocsBasePage(NavigationManager.Uri);
+            }
+            @if (!_topMenuOpen && (docsBasePage== BasePage.Examples || docsBasePage == BasePage.Api || docsBasePage == BasePage.Contract))
+            {
+                <NavMenu @ref="@_navMenuRef" />
+            }
+        </MudNavMenu>
+    </MudDrawer>
+    @Body
+    <MudScrollToTop TopOffset="400" Style="z-index:2000;">
+        <MudFab StartIcon="@Icons.Material.Filled.KeyboardArrowUp" Color="Color.Primary" />
+    </MudScrollToTop>
+</MudLayout>

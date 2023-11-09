@@ -1,8 +1,10 @@
-﻿namespace Cropper.Blazor.Client.Services.UserPreferences;
+﻿using Cropper.Blazor.Client.Enums;
+
+namespace Cropper.Blazor.Client.Services.UserPreferences;
 public class UserPreferences
 {
     /// <summary>
-    /// If true DarkTheme is used. LightTheme otherwise
+    /// The current mode of theme
     /// </summary>
-    public bool IsDarkMode { get; set; }
+    public ThemeMode ThemeMode { get; set; }
 }

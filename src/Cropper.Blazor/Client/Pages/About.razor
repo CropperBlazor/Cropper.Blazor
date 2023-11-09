@@ -1,4 +1,5 @@
 ﻿@page "/about"
+@layout LandingLayout
 
 <SeoHeader Title="About"
            Overview="About Cropper.Blazor."
@@ -9,6 +10,94 @@
             })" />
 
 <MudContainer Class="mt-5 px-4">
-    <MudText Typo="Typo.h3" Class="text-gradient">Sorry</MudText>
-    <MudText Typo="Typo.h4"><b>Not available now</b></MudText>
+    <MudText Typo="Typo.h3" GutterBottom="true">About</MudText>
+    <MudText Typo="Typo.subtitle1">
+        <span style="color: var(--mud-palette-primary)"><b>Cropper.Blazor</b></span> is a community-driven initiative aimed at enhancing image cropping in Blazor applications. With a dedicated group of motivated contributors, it's an open invitation for all to join in and make this library even more impressive. Join us to make it even more awesome!
+    </MudText>
+
+    <MudText Typo="Typo.h4" Class="mt-16" GutterBottom="true">
+        Core Team
+    </MudText>
+    <MudText Class="mb-8">
+        The Core Team takes the lead in guiding, developing, and steering the <span style="color: var(--mud-palette-primary)"><b>Cropper.Blazor</b></span> project's development.
+    </MudText>
+    <MudGrid>
+        @foreach (var teamMember in TeamMembers)
+        {
+            <MudItem xs="12" md="6">
+                <MudCard Elevation="4">
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudAvatar Image="@teamMember.Avatar"
+                                       Size="Size.Large"
+                                       Class="mud-elevation-4" />
+                        </CardHeaderAvatar>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">
+                                @teamMember.Name
+                            </MudText>
+                            <MudText Typo="Typo.body1"
+                                     Color="Color.Primary"
+                                     Style="font-weight:500;">
+                                @teamMember.Role
+                            </MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true">
+                                @if (!string.IsNullOrWhiteSpace(teamMember.LinkedIn))
+                                {
+                                    <MudTooltip Text="LinkedIn" Placement="Placement.Top">
+                                        <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn"
+                                                       Href="@teamMember.LinkedIn"
+                                                       Target="_blank"
+                                                       Color="Color.Primary"
+                                                       Edge="Edge.End" />
+                                    </MudTooltip>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(teamMember.Github))
+                                {
+                                    <MudTooltip Text="GitHub" Placement="Placement.Top">
+                                        <MudIconButton Icon="@Icons.Custom.Brands.GitHub"
+                                                       Href="@teamMember.Github"
+                                                       Color="Color.Surface"
+                                                       Target="_blank" />
+                                    </MudTooltip>
+                                }
+                            </MudHidden>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent Class="pt-0 pb-1">
+                        <MudList Dense="true">
+                            <MudListItem Icon="@Icons.Material.Filled.Place" Text="@teamMember.From" />
+                            <MudListItem Icon="@Icons.Material.Filled.Translate" Text="@teamMember.Languages" />
+                            <MudHidden Breakpoint="Breakpoint.Xs" Invert="true">
+                                @if (!string.IsNullOrWhiteSpace(teamMember.Github))
+                                {
+                                    <MudListItem Icon="@Icons.Custom.Brands.GitHub">
+                                        <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
+                                                 Target="_blank"
+                                                 Class="text-with-dots"
+                                                 Href="@teamMember.Github">
+                                            @teamMember.Github
+                                        </MudLink>
+                                    </MudListItem>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(teamMember.LinkedIn))
+                                {
+                                    <MudListItem Icon="@Icons.Custom.Brands.LinkedIn">
+                                        <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
+                                                 Target="_blank"
+                                                 Class="text-with-dots"
+                                                 Href="@teamMember.LinkedIn">
+                                            @teamMember.LinkedIn
+                                        </MudLink>
+                                    </MudListItem>
+                                }
+                            </MudHidden>
+                        </MudList>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
 </MudContainer>

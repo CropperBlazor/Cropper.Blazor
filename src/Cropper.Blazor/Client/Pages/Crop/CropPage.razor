@@ -1,0 +1,88 @@
+﻿@page "/examples/cropping"
+@using Cropper.Blazor.Client.Models;
+@using Cropper.Blazor.Client.Pages.Crop.Examples
+
+<DocsPage>
+    <DocsPageHeader Title="Crop image" SubTitle="Here are examples of basic usage of the getting canvas drawn the cropped image." />
+    <DocsPageContent>
+
+        <DocsPageSection>
+            <SectionHeader Title="Simple Usage">
+                <Description>
+                    With the <CodeInline Class="docs-code-warning">GetCroppedCanvasDataURLAsync</CodeInline> method
+                    you can get canvas drawn the cropped image in URL format.
+                    <br><br>
+                    <CodeInline Class="docs-code-warning">GetCroppedCanvasDataURLAsync</CodeInline> method have following arguments:
+                    <MudList>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
+                            <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/GetCroppedCanvasOptions">GetCroppedCanvasOptions (required)</MudLink></CodeInline> - used to get a cropped canvas;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
+                            <CodeInline>type (not required)</CodeInline> - string indicating the image format. The default type is image/png;
+                            this image format will be also used if the specified type is not supported;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
+                            <CodeInline>number (not required)</CodeInline> - number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp).
+                            Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality. The default value is 1 with maximum image quality.
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
+                            <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource">CancellationToken</MudLink> (not required)</CodeInline> - used to propagate notifications that the operation should be canceled.
+                        </MudListItem>
+                    </MudList>
+                    <br>
+                    <MudAlert Class="mt-3" Severity="Severity.Info">
+                        <b>Note:</b> If you intend to get a JPEG image from the output canvas, you should set the <CodeInline>fillColor</CodeInline> option first, if not, the transparent part in the JPEG image will become black by default.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="BasicCropExample">
+                <BasicCropExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Advanced Usage">
+                <Description>
+                    With the <CodeInline Class="docs-code-warning">GetCroppedCanvasAsync</CodeInline> method
+                    you can get a canvas drawn from the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
+                    <br><br>
+                    <CodeInline Class="docs-code-warning">GetCroppedCanvasAsync</CodeInline> method have following argument:
+                    <MudList>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
+                            <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/GetCroppedCanvasOptions">GetCroppedCanvasOptions (required)</MudLink></CodeInline> - used to get a cropped canvas;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
+                            <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource">CancellationToken</MudLink> (not required)</CodeInline> - used to propagate notifications that the operation should be canceled.
+                        </MudListItem>
+                    </MudList>
+                    <MudAlert Class="mt-3" Severity="Severity.Info">
+                        <b>Note:</b> If you intend to get a JPEG image from the output canvas, you should set the <CodeInline>fillColor</CodeInline> option first, if not, the transparent part in the JPEG image will become black by default.
+                    </MudAlert>
+                    <br>
+                    This <CodeInline Class="docs-code-warning">GetCroppedCanvasAsync</CodeInline> method returns <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/CroppedCanvas">CroppedCanvas</MudLink></CodeInline>.
+                    Use <CodeInline>JSRuntimeObjectRef</CodeInline> in the
+                    <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/CroppedCanvas">CroppedCanvas</MudLink></CodeInline> which represents a reference to a JavaScript cropped canvas object for get a Data URL
+                    via
+                    <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL">HTMLCanvasElement.toDataURL</MudLink>:
+                    <br><br>
+                    <CodeInline Class="mud-width-full">
+                        <SectionContent IsOnlySingleSectionCode="true" Code="InvokeToDataURLExample">
+                            <InvokeToDataURLExample />
+                        </SectionContent>
+                    </CodeInline>
+                    <br>
+                    <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Info">
+                        <b>Note:</b>
+                        Don't use <MudLink Class="warning-color" UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL">InvokeAsync&lt;string&gt;("toDataURL")</MudLink> and <MudLink Class="warning-color" UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL">InvokeAsync&lt;string&gt;("toDataURL", type)</MudLink> methods due to image quality was little lost through
+                        default value <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL#encoderoptions">encoderOptions</MudLink>.
+                        In addition, different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="AdvancedCropExample">
+                <AdvancedCropExample />
+            </SectionContent>
+        </DocsPageSection>
+
+    </DocsPageContent>
+</DocsPage>

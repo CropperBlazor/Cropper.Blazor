@@ -2,13 +2,84 @@
 @import 'layout/_markdown';
 @import 'layout/_updateAvaibleDetector.scss';
 @import 'components/docssection.scss';
+@import 'components/docspage.scss';
+
+.master-loader {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    position: fixed;
+}
+
+.logo-loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+@mixin responsive-box($height) {
+    position: relative;
+
+    &::before {
+        content: '';
+        display: block;
+        padding-top: $height;
+    }
+}
+
+.loader-box {
+    @include responsive-box(100%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    padding: 25px;
+    overflow: hidden;
+
+    .loader-image {
+        height: 100%;
+        position: absolute;
+        inset: 0;
+
+        &:nth-child(1) {
+            -moz-filter: grayscale(1);
+            -webkit-filter: grayscale(1);
+            filter: grayscale(1);
+            z-index: 1;
+        }
+
+        &:nth-child(2) {
+            z-index: 2;
+            width: var(--blazor-load-percentage, 0%);
+            object-fit: cover;
+            object-position: 0% 0%;
+            transition: width 0.1s ease-in-out;
+        }
+    }
+
+    .loader-text {
+        $loader-text-size: #{"clamp(16px, calc(24px + (48 - 16) * (100vw - 280px)/(1920 - 280)), 48px)"};
+
+        position: absolute;
+        z-index: 3;
+        text-align: center;
+        font-weight: bold;
+        inset: calc(50% - (#{$loader-text-size} / 2)) 0 auto 0;
+        font-size: $loader-text-size;
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+
+        &::after {
+            content: var(--blazor-load-percentage-text, "Loading");
+        }
+    }
+}
 
 .no-select {
     user-select: none;
-}
-
-html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .content {
@@ -83,6 +154,10 @@ html, body {
     -webkit-text-fill-color: transparent;
     font-weight: 800;
     letter-spacing: 1px;
+
+    &.index-title {
+        font-size: #{"clamp(16px, calc(24px + (48 - 16) * (100vw - 280px)/(1920 - 280)), 48px)"};
+    }
 }
 
 .divider {
@@ -135,7 +210,7 @@ html, body {
 }
 
 .cropper-face {
-    opacity: 25%;
+    opacity: 10%;
 }
 
 .img-container.cropper-face-close .cropper-container .cropper-crop-box .cropper-face {

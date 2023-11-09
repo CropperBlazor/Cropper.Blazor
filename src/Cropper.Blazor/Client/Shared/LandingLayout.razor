@@ -1,0 +1,31 @@
+﻿@inherits LayoutComponentBase
+@layout MainLayout
+
+<MudLayout Class="cropperblazor-landingpage">
+    <MudAppBar Class="docs-appbar-filter" Color="Color.Transparent" Elevation="0"></MudAppBar>
+    <MudAppBar Class="landing-appbar" Elevation="25">
+        <Appbar DrawerToggleCallback="ToggleDrawer" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen" Variant="@DrawerVariant.Temporary" Elevation="25">
+        <MudToolBar Dense="true" DisableGutters="true" Class="docs-gray-bg pa-2">
+            <MudIconButton Icon="@Icons.Material.Rounded.Close" Color="Color.Inherit" OnClick="ToggleDrawer" />
+            <MudSpacer />
+            <AppbarButtons />
+        </MudToolBar>
+        <MudNavMenu Color="Color.Primary" Margin="Margin.Dense" Rounded="true" Class="pa-2">
+            <MudNavLink Href="demo" Icon="@Icons.Material.Filled.Crop">Demo</MudNavLink>
+            <MudNavLink Href="examples" Icon="@Icons.Material.Filled.AutoStories">Examples</MudNavLink>
+            <MudNavLink Href="api" Icon="@Icons.Material.Filled.Api">Api</MudNavLink>
+            <MudNavLink Href="about" Icon="@Icons.Material.Filled.ContactSupport">About</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+        <MudContainer MaxWidth="MaxWidth.Large">
+            <Footer Class="mud-text-secondary pb-8 mt-16" />
+        </MudContainer>
+        <MudScrollToTop TopOffset="400" Style="z-index:2000;">
+            <MudFab StartIcon="@Icons.Material.Filled.KeyboardArrowUp" Color="Color.Primary" />
+        </MudScrollToTop>
+    </MudMainContent>
+</MudLayout>

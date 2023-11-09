@@ -33,12 +33,12 @@ namespace Cropper.Blazor.Client.Pages
         private CropperFace CropperFace = CropperFace.Default;
         private decimal? ScaleXValue;
         private decimal? ScaleYValue;
-        private decimal AspectRatio = 1.7777777777777777m;
         private bool IsFreeAspectRatioEnabled;
+        //private decimal AspectRatio = 1.7777777777777777m;
 
         private string Src = "https://fengyuanchen.github.io/cropperjs/v2/picture.jpg";
         private bool IsErrorLoadImage { get; set; } = false;
-        private bool IsAvaibleInitCropper { get; set; } = true;
+        private bool IsAvailableInitCropper { get; set; } = true;
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
         private Breakpoint Start;
         private Guid SubscriptionId;
@@ -59,7 +59,7 @@ namespace Cropper.Blazor.Client.Pages
             Options = new Options()
             {
                 //Preview = ".img-preview",
-                AspectRatio = (decimal)16 / 9,
+                AspectRatio = 1.7777777777777777m,
                 ViewMode = ViewMode.Vm0
             };
         }
@@ -103,11 +103,11 @@ namespace Cropper.Blazor.Client.Pages
                     {
                         if (nWidth == 0)
                         {
-                            nWidth = nHeight * AspectRatio;
+                            nWidth = nHeight * Options.AspectRatio ?? 0M;
                         }
                         else if (nHeight == 0)
                         {
-                            nHeight = nWidth * AspectRatio;
+                            nHeight = nWidth * Options.AspectRatio ?? 0M;
                         }
                     }
 
@@ -195,7 +195,7 @@ namespace Cropper.Blazor.Client.Pages
             {
                 decimal aspectRatio = cropBoxData.Width / cropBoxData.Height;
 
-                AspectRatio = aspectRatio;
+                Options.AspectRatio = aspectRatio;
                 GetSetCropperData!.AspectRatioSettings.SetUpAspectRatio(aspectRatio);
 
                 if (GetSetCropperData?.AspectRatioSettings?.MinAspectRatio is not null
@@ -219,7 +219,7 @@ namespace Cropper.Blazor.Client.Pages
             }
             else
             {
-                AspectRatio = 0;
+                Options.AspectRatio = 0;
                 GetSetCropperData!.AspectRatioSettings.SetUpAspectRatio(0);
             }
         }
@@ -325,19 +325,12 @@ namespace Cropper.Blazor.Client.Pages
             CropperComponent?.RevokeObjectUrlAsync(Src);
         }
 
-        public void SetAspectRatio(decimal aspectRatio, bool isFreeAspectRatioEnabled = false)
+        public void SetAspectRatio(decimal aspectRatio)
         {
-            IsFreeAspectRatioEnabled = isFreeAspectRatioEnabled;
-
-            //if (aspectRatio != 0)
-            //{
-            //    AspectRatio = aspectRatio;
-            //}
-
+            Options.AspectRatio = aspectRatio;
+            IsFreeAspectRatioEnabled = aspectRatio == 0m;
             CropperComponent?.SetAspectRatio(aspectRatio);
         }
-
-        public void SetFreeAspectRatio() => SetAspectRatio(0, true);
 
         public void SetViewMode(ViewMode viewMode)
         {
@@ -399,7 +392,7 @@ namespace Cropper.Blazor.Client.Pages
 
                 Src = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
 
-                IsAvaibleInitCropper = true;
+                IsAvailableInitCropper = true;
                 IsErrorLoadImage = false;
 
                 CropperComponent?.Destroy();
@@ -418,12 +411,12 @@ namespace Cropper.Blazor.Client.Pages
 
                 if (IsErrorLoadImage)
                 {
-                    IsAvaibleInitCropper = true;
+                    IsAvailableInitCropper = true;
                     IsErrorLoadImage = false;
                 }
                 else
                 {
-                    IsAvaibleInitCropper = false;
+                    IsAvailableInitCropper = false;
                 }
 
                 CropperComponent?.ReplaceAsync(src);

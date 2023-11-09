@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Web;
 using Cropper.Blazor.Client.Models;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -38,9 +39,11 @@ public partial class SectionContent : IBrowserViewportObserver
         new CssBuilder("docs-section-source")
             .AddClass($"outlined", Outlined && ChildContent != null)
             .AddClass("show-code", HasCode && ShowCode)
+            .AddClass(ShowCodeClass)
             .Build();
 
     [Parameter] public string Class { get; set; } = string.Empty;
+    [Parameter] public string ShowCodeClass { get; set; } = string.Empty;
     [Parameter] public bool DarkenBackground { get; set; }
     [Parameter] public bool Outlined { get; set; } = true;
     [Parameter] public bool ShowCode { get; set; } = true;
@@ -50,6 +53,7 @@ public partial class SectionContent : IBrowserViewportObserver
     [Parameter] public string HighLight { get; set; } = string.Empty;
     [Parameter] public IEnumerable<CodeFile>? Codes { get; set; } = null;
     [Parameter] public RenderFragment ChildContent { get; set; } = null!;
+    [Parameter] public bool IsOnlySingleSectionCode { get; set; } = false;
 
     private bool HasCode;
     public string ActiveCode = string.Empty;
@@ -106,7 +110,7 @@ public partial class SectionContent : IBrowserViewportObserver
 
     private async Task CopyTextToClipboardAsync()
     {
-        await JsApiService!.CopyToClipboardAsync(Snippets.GetCode(string.IsNullOrWhiteSpace(Code) ? ActiveCode : Code));
+        await JsApiService!.CopyToClipboardAsync(HttpUtility.HtmlDecode(Snippets.GetCode(string.IsNullOrWhiteSpace(Code) ? ActiveCode : Code)));
     }
 
     RenderFragment CodeComponent(string code) => builder =>
@@ -135,7 +139,7 @@ public partial class SectionContent : IBrowserViewportObserver
                 }
             }
 
-            builder.AddMarkupContent(0, read);
+            builder.AddMarkupContent(0, HttpUtility.HtmlDecode(read));
         }
         catch (Exception ex)
         {

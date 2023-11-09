@@ -1,10 +1,12 @@
 ﻿@using Cropper.Blazor.Client.Enums
+@using Cropper.Blazor.Client.Services;
+
 <MudHidden Breakpoint="Breakpoint.MdAndUp">
     <MudIconButton OnClick="DrawerToggleCallback" Icon="@Icons.Material.Rounded.Notes" Color="Color.Inherit" Edge="Edge.Start" />
     <MudSpacer />
     <NavLink ActiveClass="d-flex" href="" style="margin: 0 -42px 0 0">
         <CropperBlazorLogo Class="cropperblazor-logo" />
-        <MudText Typo="Typo.h4" Class="ml-3 brand-text text-gradient">CB</MudText>
+        <MudText Typo="Typo.h4" Class="ml-3 docs-brand-text text-gradient">CB</MudText>
     </NavLink>
     <MudSpacer />
     <MudTooltip Duration="500" Text="#supportukraine" Placement="Placement.Bottom" RootClass="mr-3 py-3">
@@ -17,9 +19,10 @@
 <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
     <NavLink ActiveClass="d-flex" href="">
         <CropperBlazorLogo Class="cropperblazor-logo" />
-        <MudText Typo="Typo.h4" Class="ml-3 mr-2 brand-text text-gradient">Cropper.Blazor</MudText>
+        <MudText Typo="Typo.h4" Class="ml-3 mr-2 docs-brand-text text-gradient">Cropper.Blazor</MudText>
     </NavLink>
     <MudButton Href="demo" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Crop" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Demo)">Demo</MudButton>
+    <MudButton Href="examples" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.AutoStories" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Examples)">Examples</MudButton>
     <MudButton Href="api" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.Api" Color="Color.Inherit" Class="@GetActiveClass(BasePage.Api)">Api</MudButton>
     <MudButton Href="about" Variant="Variant.Text" Size="Size.Large" EndIcon="@Icons.Material.Filled.ContactSupport" Color="Color.Inherit" Class="@GetActiveClass(BasePage.About)">About</MudButton>
     <MudSpacer />

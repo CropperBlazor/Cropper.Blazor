@@ -1,0 +1,58 @@
+﻿@page "/examples/viewmodes"
+@using Cropper.Blazor.Client.Pages.ViewModes.Examples
+
+<DocsPage>
+    <DocsPageHeader Title="View Modes" SubTitle="Define the view mode of the cropper" />
+    <DocsPageContent>
+
+        <DocsPageSection>
+            <SectionHeader Title="Simple Usage">
+                <Description>
+                    With the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/ViewMode">ViewMode</MudLink></CodeInline> in <CodeInline><MudLink Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline> prop
+                    you can change the view mode of the cropper.
+                    <br><br>
+                    <CodeInline Class="docs-code-tertiary">ViewMode</CodeInline> enumeration contains the following view modes:
+                    <MudList>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
+                            <CodeInline>Vm0</CodeInline> - no restrictions;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
+                            <CodeInline>Vm1</CodeInline> - restrict the crop box not 
+                            to exceed the size of the canvas;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
+                            <CodeInline>Vm2</CodeInline> - restrict the minimum canvas size 
+                            to fit within the container. If the proportions of the canvas 
+                            and the container differ, the minimum canvas will be surrounded 
+                            by extra space in one of the dimensionss;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
+                            <CodeInline>Vm3</CodeInline> - restrict the minimum canvas size to fill fit the container. 
+                            If the proportions of the canvas and the container are different, 
+                            the container will not be able to fit the whole canvas in one of the dimensions;
+                        </MudListItem>
+                    </MudList>
+                    <br>
+                    <MudAlert Class="mt-3" Severity="Severity.Info">
+                        If you set <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/ViewMode">ViewMode</MudLink></CodeInline> to <CodeInline Class="docs-code-tertiary">ViewMode</CodeInline>.
+                        <CodeInline>Vm0</CodeInline>, the crop box can extend outside the canvas, 
+                        while a value of <CodeInline>Vm1</CodeInline>, <CodeInline>Vm2</CodeInline>, 
+                        or <CodeInline>Vm3</CodeInline> will restrict the crop box to the size of the canvas.
+                    </MudAlert>
+
+                    <MudAlert Class="mt-2" Severity="Severity.Info">
+                        <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/ViewMode">ViewMode</MudLink></CodeInline> of <CodeInline>Vm2</CodeInline> or <CodeInline>Vm3</CodeInline>
+                        will additionally restrict the canvas to the container. 
+                        <br>
+                        There is no difference between <CodeInline>Vm2</CodeInline> and <CodeInline>Vm3</CodeInline> 
+                        when the proportions of the canvas and the container are the same.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="AllViewModesExample">
+                <AllViewModesExample />
+            </SectionContent>
+        </DocsPageSection>
+
+    </DocsPageContent>
+</DocsPage>

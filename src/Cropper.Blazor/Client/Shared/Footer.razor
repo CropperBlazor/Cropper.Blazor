@@ -1,0 +1,40 @@
+﻿@using MudBlazor.Utilities;
+
+<div class="@ContainerClassnames">
+    <MudGrid Class="docs-footer">
+        <MudItem xs="6" sm="3">
+            <div class="d-flex flex-column">
+                <div class="d-flex align-center mb-3">
+                    <CropperBlazorLogo Style="width:24px;" Class="mr-2" />
+                    <MudLink Href="/" Typo="Typo.subtitle2" Color="Color.Inherit" Underline="Underline.None">Cropper.Blazor</MudLink>
+                </div>
+            </div>
+            <div class="d-flex mt-4">
+                <MudIconButton Href="https://github.com/Cropper.Blazor/Cropper.Blazor" Target="_blank" Edge="Edge.Start" Class="me-2" Color="Color.Inherit" Icon="@Icons.Custom.Brands.GitHub" aria-label="github" />
+            </div>
+        </MudItem>
+        <MudItem xs="6" sm="3" Class="d-flex flex-column">
+            <MudLink Class="mb-3" Href="/demo" Typo="Typo.subtitle2" Color="Color.Inherit" Underline="Underline.None">Demo</MudLink>
+        </MudItem>
+        <MudItem xs="6" sm="3" Class="d-flex flex-column">
+            <MudLink Class="mb-3" Href="/examples" Typo="Typo.subtitle2" Color="Color.Inherit" Underline="Underline.None">Examples</MudLink>
+        </MudItem>
+        <MudItem xs="6" sm="3" Class="d-flex flex-column">
+            <MudLink Class="mb-3" Href="/api" Typo="Typo.subtitle2" Color="Color.Inherit" Underline="Underline.None">API</MudLink>
+        </MudItem>
+        <MudItem xs="12">
+            <MudToolBar DisableGutters="true" Dense="true">
+                <MudText Typo="Typo.body1">Copyright © 2022-2023 Cropper.Blazor.</MudText>
+            </MudToolBar>
+        </MudItem>
+    </MudGrid>
+</div>
+
+@code {
+    [Parameter] public string Class { get; set; }
+
+    protected string ContainerClassnames =>
+       new CssBuilder("section-container")
+         .AddClass(Class)
+       .Build();
+}

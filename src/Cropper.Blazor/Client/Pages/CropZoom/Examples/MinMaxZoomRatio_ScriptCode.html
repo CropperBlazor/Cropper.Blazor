@@ -1,0 +1,23 @@
+﻿<div class="mud-codeblock">
+	<div class="html">
+		<pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
+	window.overrideOnZoomCropperEvent = (minZoomRatio, maxZoomRatio) => {
+		window.cropper.onZoom = function (imageObject, event, correlationId) {
+			const jSEventData = this.getJSEventData(event, correlationId);
+
+			const isApplyPreventZoomMinRatio = (minZoomRatio != null) && (minZoomRatio > event.detail.ratio);
+			const isApplyPreventZoomMaxRatio = (maxZoomRatio != null) && (event.detail.ratio > maxZoomRatio);
+
+			if (isApplyPreventZoomMinRatio || isApplyPreventZoomMaxRatio) {
+				event.preventDefault();
+			}
+			else {
+				imageObject.invokeMethodAsync('CropperIsZoomed', jSEventData);
+			}
+		};
+	};
+<span class="htmlTagDelimiter">&lt;&#47;</span><span class="htmlElementName">script</span> <span class="htmlTagDelimiter">&gt;</span>
+</pre>
+	</div>
+</div>

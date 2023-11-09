@@ -1,0 +1,93 @@
+﻿@page "/examples/aspectratio"
+@using Cropper.Blazor.Client.Pages.AspectRatio.Examples
+
+<DocsPage>
+    <DocsPageHeader Title="Aspect Ratio" SubTitle="An aspect ratio is a proportional relationship between an image's width and height." />
+    <DocsPageContent>
+
+        <DocsPageSection>
+            <MudText Typo="Typo.h6" GutterBottom="true">Q&A</MudText>
+            <div class="d-flex flex-row mt-2">
+                <MudIcon Icon="@Icons.Material.Filled.Circle" Size="Size.Small" />
+                <MudText Class="ml-2" style="line-height: normal;">How to fix the aspect ratio in free ratio mode?</MudText>
+            </div>
+            <MudText Class="ml-7 mt-2">Just hold the <b>Shift key</b> when you resize the crop box.</MudText>
+            <div class="d-flex flex-row mt-2">
+                <MudIcon Icon="@Icons.Material.Filled.Circle" Size="Size.Small" />
+                <MudText Class="ml-2" style="line-height: normal;">How to crop a square area in free ratio mode?</MudText>
+            </div>
+            <MudText Class="ml-7 mt-2">Just hold the <b>Shift key</b> when you crop on the image.</MudText>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Basic setup">
+                <Description>
+                    You can use <CodeInline>AspectRatio</CodeInline> decimal field in the
+                    <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline> property to define the <b>fixed</b> aspect ratio of the crop box.
+                    <br><br>
+                    To enable <b>free</b> aspect ratio setting <CodeInline>AspectRatio</CodeInline>
+                    propety to <CodeInline>0</CodeInline>.
+                    <br>
+                    <MudAlert Class="my-3" Severity="Severity.Info">
+                        Note: By default, the crop box has a <b>free ratio</b>.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="SetupAspectRatioExample">
+                <SetupAspectRatioExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Change aspect ratio">
+                <Description>
+                    You can change the aspect ratio of initialized cropper with the
+                    <CodeInline Class="docs-code-warning">SetAspectRatio</CodeInline> method.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="ChangeAspectRatioExample">
+                <ChangeAspectRatioExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Initial aspect ratio">
+                <Description>
+                    Use <CodeInline>InitialAspectRatio</CodeInline> in the
+                    <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline> cropper component property
+                    to define the initial aspect ratio of the crop box.
+                    <br><br>
+                    By default, it is the same as the aspect ratio of the canvas (image wrapper).
+                    <br>
+                    <MudAlert Class="my-3" Severity="Severity.Warning">
+                        Only available when the <CodeInline>AspectRatio</CodeInline>
+                        option is set to <CodeInline>0</CodeInline> (free ratio).
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="InitialAspectRatioExample">
+                <InitialAspectRatioExample />
+            </SectionContent>
+        </DocsPageSection>
+
+
+        <DocsPageSection>
+            <SectionHeader Title="Min & Max settings">
+                <Description>
+                    You can use the <CodeInline Class="docs-code-tertiary">CropMoveEvent</CodeInline>
+                    to create a minimum and/or maximum limit for aspect ratio of the crop box.
+                    <CodeInline Tag="true">CropperComponent</CodeInline> has a corresponding
+                    <CodeInline>OnCropMoveEvent</CodeInline> shortcut.
+                    <br>
+                    <MudAlert Class="my-3" Severity="Severity.Warning">
+                        Only available when the <CodeInline>AspectRatio</CodeInline>
+                        option is set to <CodeInline>0</CodeInline> (free ratio).
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="MinMaxAspectRatioExample">
+                <MinMaxAspectRatioExample />
+            </SectionContent>
+        </DocsPageSection>
+    </DocsPageContent>
+</DocsPage>

@@ -4,6 +4,8 @@ public enum BasePage
 {
     None,
     Demo,
+    Examples,
     Api,
-    About
+    About,
+    Contract
 }

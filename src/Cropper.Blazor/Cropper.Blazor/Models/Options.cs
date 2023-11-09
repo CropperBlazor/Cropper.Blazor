@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json.Serialization;
+using Cropper.Blazor.Extensions;
 using Microsoft.AspNetCore.Components;
 
 namespace Cropper.Blazor.Models
@@ -12,6 +13,101 @@ namespace Cropper.Blazor.Models
     /// </summary>
     public class Options
     {
+        /// <summary>
+        /// Implementation of the constructor.
+        /// </summary>
+        public Options()
+        {
+            // Define the view mode of the cropper
+            ViewMode = 0; // 0, 1, 2, 3
+
+            // Define the dragging mode of the cropper
+            DragMode = Models.DragMode.Crop.ToEnumString()!; // 'crop', 'move' or 'none'
+
+            // Define the initial aspect ratio of the crop box
+            InitialAspectRatio = null;
+
+            // Define the aspect ratio of the crop box
+            AspectRatio = null;
+
+            // An object with the previous cropping result data
+            SetDataOptions = null;
+
+            // A selector for adding extra containers to preview
+            Preview = null;
+
+            // Re-render the cropper when resize the window
+            Responsive = true;
+
+            // Restore the cropped area after resize the window
+            Restore = true;
+
+            // Check if the current image is a cross-origin image
+            CheckCrossOrigin = true;
+
+            // Check the current image's Exif Orientation information
+            CheckOrientation = true;
+
+            // Show the black modal
+            Modal = true;
+
+            // Show the dashed lines for guiding
+            Guides = true;
+
+            // Show the center indicator for guiding
+            Center = true;
+
+            // Show the white modal to highlight the crop box
+            Highlight = true;
+
+            // Show the grid background
+            Background = true;
+
+            // Enable to crop the image automatically when initialize
+            AutoCrop = true;
+
+            // Define the percentage of automatic cropping area when initializes
+            AutoCropArea = 0.8m;
+
+            // Enable to move the image
+            Movable = true;
+
+            // Enable to rotate the image
+            Rotatable = true;
+
+            // Enable to scale the image
+            Scalable = true;
+
+            // Enable to zoom the image
+            Zoomable = true;
+
+            // Enable to zoom the image by dragging touch
+            ZoomOnTouch = true;
+
+            // Enable to zoom the image by wheeling mouse
+            ZoomOnWheel = true;
+
+            // Define zoom ratio when zoom the image by wheeling mouse
+            WheelZoomRatio = 0.1m;
+
+            // Enable to move the crop box
+            CropBoxMovable = true;
+
+            // Enable to resize the crop box
+            CropBoxResizable = true;
+
+            // Toggle drag mode between "crop" and "move" when click twice on the cropper
+            ToggleDragModeOnDblclick = true;
+
+            // Size limitation
+            MinCanvasWidth = 0;
+            MinCanvasHeight = 0;
+            MinCropBoxWidth = 0;
+            MinCropBoxHeight = 0;
+            MinContainerWidth = 200;
+            MinContainerHeight = 100;
+        }
+
         private object? preview = null;
 
         /// <summary>

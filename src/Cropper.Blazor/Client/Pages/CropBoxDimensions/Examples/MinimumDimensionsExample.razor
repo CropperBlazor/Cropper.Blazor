@@ -1,0 +1,36 @@
+﻿@using Cropper.Blazor.Models;
+@using Cropper.Blazor.Events;
+@using Cropper.Blazor.Events.CropEvent;
+
+<MudPaper Class="img-container">
+    <CropperComponent Class="big-img" @ref="cropperComponent" Src="images/Odesa.jpg"
+                      Options="cropperOptions" />
+</MudPaper>
+
+@code {
+    private CropperComponent? cropperComponent = null!;
+
+    // Minimum relative sizes
+    private static decimal minCropBoxWidth = 300;
+    private static decimal minCropBoxHeight = 150;
+
+    private Options cropperOptions = new Options
+        {
+            MinCropBoxWidth = minCropBoxWidth,
+            MinCropBoxHeight = minCropBoxHeight,
+            ViewMode = ViewMode.Vm3
+        };
+}
+
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        width: 100%;
+    }
+</style>
