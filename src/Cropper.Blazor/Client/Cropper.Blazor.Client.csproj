@@ -21,6 +21,7 @@
 	<PropertyGroup>
 		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
 		<BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
+		<BlazorWasmPrerenderingMode>Static</BlazorWasmPrerenderingMode>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -28,6 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="BlazorWasmPreRendering.Build" Version="3.1.0-preview.4" />
 		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.13" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.13" PrivateAssets="all" />
