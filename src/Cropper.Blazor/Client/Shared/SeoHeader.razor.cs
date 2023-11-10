@@ -22,17 +22,14 @@ namespace Cropper.Blazor.Client.Shared
 
         string GetKeywords()
         {
-            var keywords = new List<string>();
-
-            keywords.AddRange(Keywords);
-
-            keywords.AddRange(new[]
+            var keywords = new List<string>()
             {
                 "Cropper.Blazor",
+                "Blazor.Cropper",
+                "cropper",
                 "blazor",
                 "component",
                 "crop-image",
-                "cropper",
                 "cropperjs",
                 "Cropper.js",
                 "Blazor Components",
@@ -45,8 +42,14 @@ namespace Cropper.Blazor.Client.Shared
                 "image-cropper",
                 "crop-image",
                 "csharp",
-                "blazor-cropper"
-            });
+                "blazor-cropper",
+                ".net",
+                ".net core",
+                "pwa",
+                "webassembly"
+            };
+
+            keywords.AddRange(Keywords);
 
             return string.Join(", ", keywords);
         }
