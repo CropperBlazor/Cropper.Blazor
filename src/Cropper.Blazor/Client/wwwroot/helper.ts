@@ -1,4 +1,4 @@
-import { IDownloadOptions } from "./types/IDownloadOptions"
+import { IDownloadOptions } from './types/IDownloadOptions'
 
 window.downloadFromUrl = (options: IDownloadOptions): void => {
   const anchorElement = document.createElement('a')

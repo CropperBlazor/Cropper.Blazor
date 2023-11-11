@@ -152,6 +152,8 @@
 			<FilesToClean Include="./wwwroot/resizeWindowEventListener.js" />
 			<FilesToClean Include="./wwwroot/resizeWindowEventListener.min.js" />
 			<FilesToClean Include="./wwwroot/types/index.js" />
+			<FilesToClean Include="./wwwroot/types/IDownloadOptions.js" />
+			<FilesToClean Include="./wwwroot/types/JsObject.js" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
 	</Target>

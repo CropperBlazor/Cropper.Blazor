@@ -1,3 +1,3 @@
-import { JsObject } from "./types/JsObject";
+import { JsObject } from './types/JsObject'
 
 window.jsObject = new JsObject()

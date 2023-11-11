@@ -1,5 +1,5 @@
-import { IDownloadOptions } from "./IDownloadOptions"
-import { JsObject } from "./JsObject"
+import { IDownloadOptions } from './IDownloadOptions'
+import { JsObject } from './JsObject'
 
 declare global {
   interface Window {

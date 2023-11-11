@@ -1,6 +1,6 @@
-﻿interface IDownloadOptions {
-    url: string
-    fileName?: string
+interface IDownloadOptions {
+  url: string
+  fileName?: string
 }
 
-export { IDownloadOptions };
+export { IDownloadOptions }
