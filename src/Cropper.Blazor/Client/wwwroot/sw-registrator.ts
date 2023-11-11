@@ -1,13 +1,13 @@
-window.updateAvailable = new Promise((resolve, reject) => {
+﻿window.updateAvailable = new Promise<boolean>((resolve, reject) => {
     if (!('serviceWorker' in navigator)) {
-        const errorMessage = `This browser doesn't support service workers`;
+        const errorMessage: string = `This browser doesn't support service workers`;
         console.error(errorMessage);
         reject(errorMessage);
         return;
     }
 
     navigator.serviceWorker.register('/service-worker.min.js')
-        .then(registration => {
+        .then((registration: ServiceWorkerRegistration) => {
             console.info(`Service worker registration successful (scope: ${registration.scope})`);
 
             setInterval(() => {
@@ -20,10 +20,10 @@ window.updateAvailable = new Promise((resolve, reject) => {
                     if (installingServiceWorker.state === 'installed') {
                         resolve(!!navigator.serviceWorker.controller);
                     }
-                }
+                };
             };
         })
-        .catch(error => {
+        .catch((error: Error) => {
             console.error('Service worker registration failed with error:', error);
             reject(error);
         });

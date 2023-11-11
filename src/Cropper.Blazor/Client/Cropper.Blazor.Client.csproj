@@ -22,7 +22,6 @@
 		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
 		<BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
 		<BlazorWasmPrerenderingMode>Static</BlazorWasmPrerenderingMode>
-		<BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -39,8 +38,31 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ServiceWorker Include="wwwroot\service-worker.min.js" PublishedContent="wwwroot\service-worker.published.min.js" />
+		<None Include="tsconfig.json" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<ServiceWorker Include="wwwroot/service-worker.min.js" PublishedContent="wwwroot/service-worker.published.min.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.2.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<TypeScriptTarget>ES2016</TypeScriptTarget>
+		<TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+		<TypeScriptModuleKind>ES2015</TypeScriptModuleKind>
+		<TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+		<TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
+		<TypeScriptRemoveComments>True</TypeScriptRemoveComments>
+		<TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+		<TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+		<TypeScriptSourceMap>True</TypeScriptSourceMap>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<UpToDateCheckInput Remove="Pages\CroppedCanvasDialog.razor" />
@@ -91,7 +113,7 @@
 			<Output TaskParameter="Lines" ItemName="NewExampleCodeToBuild" />
 		</ReadLinesFromFile>
 	</Target>
-	
+
 	<Target Name="IncludeGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="CompileDocs;ReadFromFile">
 		<ItemGroup>
 			<Compile Include="Models/DocStrings.generated.cs" Condition="!Exists('Models/DocStrings.generated.cs')" />
@@ -115,16 +137,21 @@
 			<FilesToClean Include="./wwwroot/Cropper.Blazor.Client.min.css" />
 			<FilesToClean Include="./wwwroot/service-worker.min.js" />
 			<FilesToClean Include="./wwwroot/service-worker.published.min.js" />
+			<FilesToClean Include="./wwwroot/overrideCropperJsInteropModule.js" />
 			<FilesToClean Include="./wwwroot/overrideCropperJsInteropModule.min.js" />
+			<FilesToClean Include="./wwwroot/jsObjectModule.js" />
 			<FilesToClean Include="./wwwroot/jsObjectModule.min.js" />
 			<FilesToClean Include="./Models/DocStrings.generated.cs" />
 			<FilesToClean Include="./Models/Snippets.generated.cs" />
+			<FilesToClean Include="./wwwroot/helper.js" />
 			<FilesToClean Include="./wwwroot/helper.min.js" />
-			<FilesToClean Include="./wwwroot/sw-registrator.min.js" />
+			<FilesToClean Include="./wwwroot/sw-registrator.js" />
 			<FilesToClean Include="./wwwroot/sw-registrator.min.js" />
 			<FilesToClean Include="**/Code/*.html" />
 			<FilesToClean Include="./NewFilesToBuild.txt" />
+			<FilesToClean Include="./wwwroot/resizeWindowEventListener.js" />
 			<FilesToClean Include="./wwwroot/resizeWindowEventListener.min.js" />
+			<FilesToClean Include="./wwwroot/types/index.js" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
 	</Target>
@@ -184,10 +211,11 @@
 		<EmbeddedResource Include="Pages\**\*.html" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Remove="Pages\CropZoom\Examples\MinMaxZoomRatio_ScriptCode.html" />
+		<None Remove="Pages\CropZoom\Examples\MinMaxZoomRatio_ScriptCode.html" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Cropper.Blazor.Shared\Cropper.Blazor.Shared.csproj" />
 		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
 	</ItemGroup>
+
 </Project>

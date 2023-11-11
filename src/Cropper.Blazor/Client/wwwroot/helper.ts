@@ -1,4 +1,4 @@
-﻿window.downloadFromUrl = (options) => {
+﻿window.downloadFromUrl = (options: DownloadOptions): void => {
     const anchorElement = document.createElement('a');
     anchorElement.href = options.url;
     anchorElement.download = options.fileName ?? '';
@@ -6,11 +6,11 @@
     anchorElement.remove();
 };
 
-window.addClipPathPolygon = (sourceCanvas, path) => {
+window.addClipPathPolygon = (sourceCanvas: HTMLCanvasElement, path: number[]): string => {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    const width = sourceCanvas.width,
-        height = sourceCanvas.height;
+    const width = sourceCanvas.width;
+    const height = sourceCanvas.height;
 
     canvas.width = width;
     canvas.height = height;
@@ -33,11 +33,11 @@ window.addClipPathPolygon = (sourceCanvas, path) => {
     return canvas.toDataURL("image/png", 1);
 }
 
-window.addClipPathEllipse = (sourceCanvas) => {
+window.addClipPathEllipse = (sourceCanvas: HTMLCanvasElement): string => {
     const createdCanvas = document.createElement('canvas');
     const contextCanvas = createdCanvas.getContext('2d');
-    const widthCanvas = sourceCanvas.width,
-        heightCanvas = sourceCanvas.height;
+    const widthCanvas = sourceCanvas.width;
+    const heightCanvas = sourceCanvas.height;
 
     createdCanvas.width = widthCanvas;
     createdCanvas.height = heightCanvas;

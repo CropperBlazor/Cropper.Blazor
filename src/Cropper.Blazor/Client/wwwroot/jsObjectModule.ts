@@ -1,22 +1,21 @@
 ﻿class JsObject {
-    getPropertyList(path) {
-        let res = path.replace('[', '.').replace(']', '').split('.');
+    getPropertyList(path: string): string[] {
+        let res: string[] = path.replace('[', '.').replace(']', '').split('.');
 
-        if (res[0] === "") { // if we pass "[0].id" we want to return [0,'id']
+        if (res[0] === "") {
             res.shift();
         }
 
         return res;
     }
 
-    getInstanceProperty(instance, propertyPath) {
-
+    getInstanceProperty(instance: any, propertyPath: string): any {
         if (propertyPath === '') {
             return instance;
         }
 
-        let currentProperty = instance;
-        let splitProperty = this.getPropertyList(propertyPath);
+        let currentProperty: any = instance;
+        let splitProperty: string[] = this.getPropertyList(propertyPath);
 
         for (let i = 0; i < splitProperty.length; i++) {
             if (splitProperty[i] in currentProperty) {
@@ -30,4 +29,4 @@
     }
 }
 
-window.jsObject = new JsObject();
+(window as any).jsObject = new JsObject();
