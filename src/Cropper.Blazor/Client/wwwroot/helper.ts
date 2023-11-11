@@ -1,4 +1,6 @@
-window.downloadFromUrl = (options: DownloadOptions): void => {
+import { IDownloadOptions } from "./types/IDownloadOptions"
+
+window.downloadFromUrl = (options: IDownloadOptions): void => {
   const anchorElement = document.createElement('a')
   anchorElement.href = options.url
   anchorElement.download = options.fileName ?? ''
