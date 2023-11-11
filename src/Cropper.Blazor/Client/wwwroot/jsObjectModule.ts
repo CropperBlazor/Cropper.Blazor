@@ -29,4 +29,4 @@
     }
 }
 
-(window as any).jsObject = new JsObject();
+window.jsObject = new JsObject();
