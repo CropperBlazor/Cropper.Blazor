@@ -51,7 +51,8 @@ namespace Cropper.Blazor.Client.Pages
             new Dictionary<string, object>()
             {
                 { "loading", "lazy" },
-                { "test-Attribute", "123-test" }
+                { "test-Attribute", "123-test" },
+                { "alt", "Cropper.Blazor demo image" }
             };
 
         protected override void OnInitialized()

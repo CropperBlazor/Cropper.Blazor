@@ -27,5 +27,12 @@ namespace Cropper.Blazor.Client.Pages
                 Languages = "English, Ukrainian"
             }
         };
+
+        public Dictionary<string, object> AvatarInputAttributes { get; set; } =
+            new Dictionary<string, object>()
+            {
+                { "loading", "lazy" },
+                { "alt", "GitHub avatar image" }
+            };
     }
 }
