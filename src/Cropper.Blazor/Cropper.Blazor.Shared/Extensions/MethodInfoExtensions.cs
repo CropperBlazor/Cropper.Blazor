@@ -131,6 +131,7 @@ namespace Cropper.Blazor.Shared.Extensions
             {
                 return "null";
             }
+
             Type type = value.GetType();
 
             if (type == typeof(string))
@@ -144,14 +145,32 @@ namespace Cropper.Blazor.Shared.Extensions
                     return $"\"{value}\"";
                 }
             }
+
             if (type.IsEnum)
+            {
                 return $"{type.Name}.{value}";
+            }
+
             if (Nullable.GetUnderlyingType(type) != null)
+            {
                 return _converter.Set(value);
+            }
+
             if (type.IsGenericType) // for instance event callbacks
+            {
                 return "";
+            }
+
             if (type.IsValueType)
+            {
                 return _converter.Set(value);
+            }
+
+            if (type.IsClass)
+            {
+                return type.Name;
+            }
+
             return "";
         }
 
