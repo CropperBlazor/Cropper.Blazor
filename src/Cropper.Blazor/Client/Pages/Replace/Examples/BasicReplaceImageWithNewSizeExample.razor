@@ -1,0 +1,52 @@
+﻿<div class="img-container">
+    <CropperComponent Class="big-img" Src="images/Landscape-Color.jpg" @ref="cropperComponent" Options="new Blazor.Models.Options()" />
+</div>
+
+@if (!IsReplaced)
+{
+    <div class="button" @onclick="ReplaceImageAsync">
+        Replace image
+    </div>
+}
+
+@* Make sure the size of the image fits perfectly into the container *@
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        width: 100%;
+    }
+
+    /* These styles are just needed for a nice button and don't related with cropper component */
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+
+@code {
+    private CropperComponent? cropperComponent = null!;
+
+    /* This property is only needed to display the 'Replace image' block. */
+    private bool IsReplaced = false;
+
+    public async Task ReplaceImageAsync()
+    {
+        IsReplaced = true;
+
+        await cropperComponent!.ReplaceAsync("images/raspberry.jpg", false);
+    }
+}

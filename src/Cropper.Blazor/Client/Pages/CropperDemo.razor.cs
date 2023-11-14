@@ -408,7 +408,7 @@ namespace Cropper.Blazor.Client.Pages
             if (imageFile != null)
             {
                 string oldSrc = Src;
-                string src = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
+                string newSrc = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
 
                 if (IsErrorLoadImage)
                 {
@@ -420,8 +420,13 @@ namespace Cropper.Blazor.Client.Pages
                     IsAvailableInitCropper = false;
                 }
 
-                CropperComponent?.ReplaceAsync(src);
-                CropperComponent?.RevokeObjectUrlAsync(oldSrc);
+                await Task.WhenAll(
+                    CropperComponent?.ReplaceAsync(newSrc, false).AsTask(),
+                    CropperComponent?.RevokeObjectUrlAsync(oldSrc).AsTask())
+                    .ContinueWith(x =>
+                    {
+                        Src = newSrc;
+                    });
             }
         }
 

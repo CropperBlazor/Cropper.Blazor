@@ -1,0 +1,41 @@
+﻿@page "/examples/replacing"
+@using Cropper.Blazor.Client.Models;
+@using Cropper.Blazor.Client.Pages.Replace.Examples
+
+<DocsPage>
+    <DocsPageHeader Title="Replace image" SubTitle="Replace the image's src and rebuild the cropper." />
+    <DocsPageContent>
+
+        <DocsPageSection>
+            <SectionHeader Title="Simple Usage">
+                <Description>
+                    With the <CodeInline Class="docs-code-warning">ReplaceAsync</CodeInline> method
+                    you can replace the image's src and rebuild the cropper.
+                    <br><br>
+                    <CodeInline Class="docs-code-warning">GetCroppedCanvasDataURLAsync</CodeInline> method have following arguments:
+                    <MudList>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
+                            <CodeInline>url (required)</CodeInline> - used to set a new URL;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
+                            <CodeInline>hasSameSize (not required, default - true)</CodeInline> - If the new image has the same size as the old one, then it will not rebuild the cropper and only update the URLs of all related images. This can be used for applying filters;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
+                            <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource">CancellationToken</MudLink> (not required)</CodeInline> - used to propagate notifications that the operation should be canceled.
+                        </MudListItem>
+                    </MudList>
+                    <br>
+                </Description>
+            </SectionHeader>
+            <SectionContent @ref="ActiveReplaceActive" ChildContent="ReplaceActiveRenderFragment" Codes="@(
+                        new CodeFile[]
+                        {
+                            new CodeFile("Basic replace image with the same size", "BasicReplaceImageWithSameSizeExample"),
+                            new CodeFile("Basic replace image with the new size", "BasicReplaceImageWithNewSizeExample"),
+                            new CodeFile("Using input file replace image with the same size", "BasicInputReplaceImageWithSameSizeExample"),
+                            new CodeFile("Using input file replace image with the new size", "BasicInputReplaceImageWithNewSizeExample")
+                        })" />
+        </DocsPageSection>
+
+    </DocsPageContent>
+</DocsPage>

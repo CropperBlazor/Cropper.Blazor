@@ -519,6 +519,7 @@ namespace Cropper.Blazor.Components
             bool hasSameSize = true,
             CancellationToken cancellationToken = default)
         {
+            Src = url;
             await CropperJsIntertop!.ReplaceAsync(CropperComponentId, url, hasSameSize, cancellationToken);
         }
 

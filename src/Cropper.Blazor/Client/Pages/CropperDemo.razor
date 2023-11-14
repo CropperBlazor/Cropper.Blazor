@@ -148,11 +148,11 @@
                                             <MudIconButton Icon="@Icons.Material.Filled.Sync" OnClick="Reset" Title="Reset" />
                                         </MudTooltip>
                                         <MudTooltip Text="Import image with Blob URLs">
-                                            <InputFile id="imageInput" OnChange="InputFileChangeAsync" accept="image/*" hidden multiple />
+                                            <InputFile id="imageInput" OnChange="InputFileChangeAsync" accept="image/*" hidden />
                                             <MudIconButton HtmlTag="label" Icon="@Icons.Material.Filled.PhotoCamera" for="imageInput" Title="Upload image file" />
                                         </MudTooltip>
                                         <MudTooltip Text="Replace image with Blob URLs">
-                                            <InputFile id="imageReplaceInput" OnChange="ReplaceImageAsync" accept="image/*" hidden multiple />
+                                            <InputFile id="imageReplaceInput" OnChange="ReplaceImageAsync" accept="image/*" hidden />
                                             <MudIconButton HtmlTag="label" Icon="@Icons.Material.Filled.FindReplace" for="imageReplaceInput" Title="Replace image file" />
                                         </MudTooltip>
                                         <MudTooltip Text="cropper.destroy()">
