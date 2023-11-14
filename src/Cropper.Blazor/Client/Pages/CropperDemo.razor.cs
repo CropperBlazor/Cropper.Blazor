@@ -371,13 +371,13 @@ namespace Cropper.Blazor.Client.Pages
             }
             else if (CropperFace == CropperFace.Circle)
             {
-                croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.addClipPathEllipse", croppedCanvas!.JSRuntimeObjectRef);
+                croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.getEllipseImage", croppedCanvas!.JSRuntimeObjectRef);
             }
             else
             {
                 IEnumerable<int> croppedPathToCanvasCropper = GetCroppedPathToCanvasCropper();
 
-                croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.addClipPathPolygon", croppedCanvas!.JSRuntimeObjectRef, croppedPathToCanvasCropper);
+                croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.getPolygonImage", croppedCanvas!.JSRuntimeObjectRef, croppedPathToCanvasCropper);
             }
 
             OpenCroppedCanvasDialog(croppedCanvasDataURL);

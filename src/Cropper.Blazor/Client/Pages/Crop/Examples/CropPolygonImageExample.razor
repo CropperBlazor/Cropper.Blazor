@@ -71,7 +71,7 @@
         CroppedCanvas croppedCanvas = await cropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
         // Invoke toDataURL JavaScript function from the canvas object.
         croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>(
-            "window.addClipPathPolygon",
+            "window.getPolygonImage",
             croppedCanvas!.JSRuntimeObjectRef,
             // Defines a polygon using an SVG fill rule and a set of vertices previously defined in the following format styles:
             // .img-container.cropper-face-pentagon.cropper-container.cropper-crop-box.cropper-face {
