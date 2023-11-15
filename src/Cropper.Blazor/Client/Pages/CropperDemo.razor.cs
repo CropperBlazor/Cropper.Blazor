@@ -51,7 +51,8 @@ namespace Cropper.Blazor.Client.Pages
             new Dictionary<string, object>()
             {
                 { "loading", "lazy" },
-                { "test-Attribute", "123-test" }
+                { "test-Attribute", "123-test" },
+                { "alt", "Cropper.Blazor demo image" }
             };
 
         protected override void OnInitialized()
@@ -370,13 +371,13 @@ namespace Cropper.Blazor.Client.Pages
             }
             else if (CropperFace == CropperFace.Circle)
             {
-                croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.addClipPathEllipse", croppedCanvas!.JSRuntimeObjectRef);
+                croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.getEllipseImage", croppedCanvas!.JSRuntimeObjectRef);
             }
             else
             {
                 IEnumerable<int> croppedPathToCanvasCropper = GetCroppedPathToCanvasCropper();
 
-                croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.addClipPathPolygon", croppedCanvas!.JSRuntimeObjectRef, croppedPathToCanvasCropper);
+                croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.getPolygonImage", croppedCanvas!.JSRuntimeObjectRef, croppedPathToCanvasCropper);
             }
 
             OpenCroppedCanvasDialog(croppedCanvasDataURL);
@@ -407,7 +408,7 @@ namespace Cropper.Blazor.Client.Pages
             if (imageFile != null)
             {
                 string oldSrc = Src;
-                string src = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
+                string newSrc = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
 
                 if (IsErrorLoadImage)
                 {
@@ -419,8 +420,13 @@ namespace Cropper.Blazor.Client.Pages
                     IsAvailableInitCropper = false;
                 }
 
-                CropperComponent?.ReplaceAsync(src);
-                CropperComponent?.RevokeObjectUrlAsync(oldSrc);
+                await Task.WhenAll(
+                    CropperComponent?.ReplaceAsync(newSrc, false).AsTask(),
+                    CropperComponent?.RevokeObjectUrlAsync(oldSrc).AsTask())
+                    .ContinueWith(x =>
+                    {
+                        Src = newSrc;
+                    });
             }
         }
 

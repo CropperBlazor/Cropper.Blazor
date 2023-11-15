@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Reflection;
+﻿using System.Reflection;
 using Cropper.Blazor.Client.Models;
 using Cropper.Blazor.Events;
 using Cropper.Blazor.Models;
@@ -256,38 +255,6 @@ namespace Cropper.Blazor.Client.Components.Docs
 
             return info.GetValue(_comp_instance);
         }
-
-        DefaultConverter<object> _converter = new DefaultConverter<object>()
-        {
-            Culture = CultureInfo.InvariantCulture
-        };
-
-        private string PresentDefaultValue(object value)
-        {
-            if (value == null)
-                return "null";
-            if (value.GetType() == typeof(string))
-            {
-                if (value.ToString() == string.Empty)
-                {
-                    return "";
-                }
-                else
-                {
-                    return $"\"{value}\"";
-                }
-            }
-            if (value.GetType().IsEnum)
-                return $"{value.GetType().Name}.{value}";
-            if (Nullable.GetUnderlyingType(value.GetType()) != null)
-                return _converter.Set(value);
-            if (value.GetType().IsGenericType) // for instance event callbacks
-                return "";
-            if (value.GetType().IsValueType)
-                return _converter.Set(value);
-            return "";
-        }
-
 
         #region Grouping properties
 

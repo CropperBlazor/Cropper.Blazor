@@ -30,5 +30,12 @@ namespace Cropper.Blazor.Client.Pages
                 throw new InvalidOperationException();
             }
         };
+
+        public Dictionary<string, object> LogoInputAttributes { get; set; } =
+            new Dictionary<string, object>()
+            {
+                { "loading", "lazy" },
+                { "alt", "Cropper.Blazor logo" }
+            };
     }
 }

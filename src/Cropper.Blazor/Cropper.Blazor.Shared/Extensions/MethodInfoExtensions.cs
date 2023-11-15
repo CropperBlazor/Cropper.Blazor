@@ -1,5 +1,7 @@
-﻿using System.Reflection;
+﻿using System.Globalization;
+using System.Reflection;
 using System.Text;
+using MudBlazor;
 
 namespace Cropper.Blazor.Shared.Extensions
 {
@@ -96,12 +98,80 @@ namespace Cropper.Blazor.Shared.Extensions
                 }
 
                 stringBuilder.Append(parameter.Name);
+
+                if (parameter.DefaultValue is not DBNull)
+                {
+                    bool isStruct = parameter.ParameterType.IsValueType && !parameter.ParameterType.IsPrimitive;
+
+                    if (isStruct)
+                    {
+                        stringBuilder.Append($" = default");
+                    }
+                    else
+                    {
+                        stringBuilder.Append($" = {PresentDefaultValue(parameter.DefaultValue)}");
+                    }
+                }
             }
 
             stringBuilder.Append(')');
 
             // Return final result
             return stringBuilder.ToString();
+        }
+
+        private static DefaultConverter<object> _converter = new DefaultConverter<object>()
+        {
+            Culture = CultureInfo.InvariantCulture
+        };
+
+        public static string PresentDefaultValue(this object value)
+        {
+            if (value is null)
+            {
+                return "null";
+            }
+
+            Type type = value.GetType();
+
+            if (type == typeof(string))
+            {
+                if (value.ToString() == string.Empty)
+                {
+                    return "";
+                }
+                else
+                {
+                    return $"\"{value}\"";
+                }
+            }
+
+            if (type.IsEnum)
+            {
+                return $"{type.Name}.{value}";
+            }
+
+            if (Nullable.GetUnderlyingType(type) != null)
+            {
+                return _converter.Set(value);
+            }
+
+            if (type.IsGenericType) // for instance event callbacks
+            {
+                return "";
+            }
+
+            if (type.IsValueType)
+            {
+                return _converter.Set(value);
+            }
+
+            if (type.IsClass)
+            {
+                return type.Name;
+            }
+
+            return "";
         }
 
         public static string GetAliases(string value, Type type = null)

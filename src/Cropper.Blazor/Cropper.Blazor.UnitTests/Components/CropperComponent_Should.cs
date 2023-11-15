@@ -451,6 +451,7 @@ namespace Cropper.Blazor.UnitTests.Components
 
                 await cropperComponent.Instance.ReplaceAsync(newUrlImage, hasSameSize);
                 _mockCropperJsInterop.Verify(c => c.ReplaceAsync(cropperComponentId, newUrlImage, hasSameSize, cancellationToken), Times.Once());
+                cropperComponent.Instance.Src.Should().BeEquivalentTo(newUrlImage);
 
                 string image = await cropperComponent.Instance.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken);
                 expectedImage.Should().Be(image);

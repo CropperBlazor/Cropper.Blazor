@@ -6,7 +6,7 @@
     anchorElement.remove();
 };
 
-window.addClipPathPolygon = (sourceCanvas, path) => {
+window.getPolygonImage = (sourceCanvas, path) => {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     const width = sourceCanvas.width,
@@ -33,7 +33,7 @@ window.addClipPathPolygon = (sourceCanvas, path) => {
     return canvas.toDataURL("image/png", 1);
 }
 
-window.addClipPathEllipse = (sourceCanvas) => {
+window.getEllipseImage = (sourceCanvas) => {
     const createdCanvas = document.createElement('canvas');
     const contextCanvas = createdCanvas.getContext('2d');
     const widthCanvas = sourceCanvas.width,

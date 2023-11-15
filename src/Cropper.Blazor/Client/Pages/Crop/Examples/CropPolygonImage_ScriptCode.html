@@ -1,0 +1,34 @@
+﻿<div class="mud-codeblock">
+    <div class="html">
+        <pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
+    window.getPolygonImage = (sourceCanvas, path) => {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const width = sourceCanvas.width,
+            height = sourceCanvas.height;
+
+        canvas.width = width;
+        canvas.height = height;
+        context.imageSmoothingEnabled = true;
+
+        context.beginPath();
+        context.moveTo(path[0] * width / 100, path[1] * height / 100);
+        context.fillStyle = "rgba(255, 255, 255, 0)";
+
+        for (let i = 2; i < path.length; i += 2) {
+            context.lineTo(path[i] * width / 100, path[i + 1] * height / 100);
+        }
+
+        context.closePath();
+        context.clip();
+        context.fill();
+        context.globalCompositeOperation = 'lighter';
+        context.drawImage(sourceCanvas, 0, 0, width, height);
+
+        return canvas.toDataURL("image/png", 1);
+    }
+<span class="htmlTagDelimiter">&lt;&#47;</span><span class="htmlElementName">script</span> <span class="htmlTagDelimiter">&gt;</span>
+</pre>
+    </div>
+</div>
