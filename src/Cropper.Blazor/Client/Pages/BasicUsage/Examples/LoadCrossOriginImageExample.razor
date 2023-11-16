@@ -1,0 +1,29 @@
+﻿@using Cropper.Blazor.Models
+
+<div class="img-container">
+    <CropperComponent Src="cropperblazor.png" Options="options" InputAttributes="InputAttributes" />
+</div>
+
+<style>
+    .img-container {
+        max-height: 300px;
+        width: 100%;
+    }
+</style>
+
+@code {
+    private Options options;
+
+    public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>
+    {
+        { "crossorigin", "anonymous" } // Another possible values: "use-credentials" or "" (the same as "anonymous"). An invalid keyword and an empty string will be handled as the anonymous keyword. For more information see official https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin documentation
+    };
+
+    protected override void OnInitialized()
+    {
+        options = new Options
+        {
+
+        };
+    }
+}
