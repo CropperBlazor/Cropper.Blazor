@@ -21,7 +21,7 @@
 	<PropertyGroup>
 		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
 		<BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
-		<!--<PublishTrimmed>true</PublishTrimmed>-->
+		<PublishTrimmed>true</PublishTrimmed>
 		<BlazorWasmPrerenderingMode>Static</BlazorWasmPrerenderingMode>
 	</PropertyGroup>
 
