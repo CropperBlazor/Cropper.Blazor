@@ -34,9 +34,13 @@ jobs:
     - name: Install MAUI Workloads
       run: |
           dotnet workload install wasm-tools --ignore-failed-sources
+
+    - name: Restore dotnet tool
+      run: dotnet tool restore
+      working-directory: src/Cropper.Blazor/Cropper.Blazor
       
     - name: DotNet Build library project
-      run: dotnet build -c Release
+      run: dotnet build
       working-directory: src/Cropper.Blazor/Cropper.Blazor
 
     - name: DotNet Build client & server projects
