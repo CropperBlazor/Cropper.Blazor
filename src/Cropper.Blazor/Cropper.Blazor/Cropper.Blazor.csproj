@@ -90,7 +90,7 @@
 		<Exec ContinueOnError="true" Command="dotnet tool restore --disable-parallel --ignore-failed-sources" StandardOutputImportance="high" />
 	</Target>
 
-	<Target Name="WebCompiler" DependsOnTargets="PreBuildEvent">
+	<Target Name="WebCompiler" DependsOnTargets="ToolRestore">
 		<Message Text="Running webcompiler" Importance="high" />
 		<!--Minify js-->
 		<Exec Command="dotnet webcompiler ./wwwroot/cropperJsInterop.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
