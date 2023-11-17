@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.MAUI.Net6", "Cropper.Blazor.MAUI.Net6\Cropper.Blazor.MAUI.Net6.csproj", "{D5F661BA-5BF8-4F3B-83AA-56B0FF02F4A3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{49B4C364-A66D-44E3-8094-35C8CEC06100}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.MAUI.Net7", "Cropper.Blazor.MAUI.Net7\Cropper.Blazor.MAUI.Net7.csproj", "{7D576440-AFE9-4544-8473-0A557A545728}"
@@ -19,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor", "..\src\Cr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.MVC.With.Blazor.Server.Net7", "Cropper.MVC.With.Blazor.Server.Net7\Cropper.MVC.With.Blazor.Server.Net7.csproj", "{B6352D48-8912-40CA-B099-E337F1B3CD4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Blazor.MAUI.Net8", "Cropper.Blazor.MAUI.Net8\Cropper.Blazor.MAUI.Net8.csproj", "{0C1676CF-1503-4ECC-AD16-4FD844C0FCC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.MAUI.Net8", "Cropper.Blazor.MAUI.Net8\Cropper.Blazor.MAUI.Net8.csproj", "{0C1676CF-1503-4ECC-AD16-4FD844C0FCC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper.Blazor.Server.Net8", "Cropper.Blazor.Server.Net8\Cropper.Blazor.Server.Net8.csproj", "{9A16F9F9-231A-42C8-A2E9-AE687141BC3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Server.Net8", "Cropper.Blazor.Server.Net8\Cropper.Blazor.Server.Net8.csproj", "{9A16F9F9-231A-42C8-A2E9-AE687141BC3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,12 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D5F661BA-5BF8-4F3B-83AA-56B0FF02F4A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5F661BA-5BF8-4F3B-83AA-56B0FF02F4A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5F661BA-5BF8-4F3B-83AA-56B0FF02F4A3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{D5F661BA-5BF8-4F3B-83AA-56B0FF02F4A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5F661BA-5BF8-4F3B-83AA-56B0FF02F4A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D5F661BA-5BF8-4F3B-83AA-56B0FF02F4A3}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{7D576440-AFE9-4544-8473-0A557A545728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7D576440-AFE9-4544-8473-0A557A545728}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D576440-AFE9-4544-8473-0A557A545728}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -72,7 +64,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D5F661BA-5BF8-4F3B-83AA-56B0FF02F4A3} = {49B4C364-A66D-44E3-8094-35C8CEC06100}
 		{7D576440-AFE9-4544-8473-0A557A545728} = {49B4C364-A66D-44E3-8094-35C8CEC06100}
 		{DCB512C2-9EF1-4777-82B8-D9E8FAFD3883} = {49B4C364-A66D-44E3-8094-35C8CEC06100}
 		{A607E161-5266-4B13-AB68-6DEBB8768F54} = {49B4C364-A66D-44E3-8094-35C8CEC06100}
