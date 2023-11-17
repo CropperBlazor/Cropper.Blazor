@@ -86,7 +86,7 @@
 		<Delete Files="@(FilesToClean)" />
 	</Target>
 
-	<Target Name="ToolRestore">
+	<Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
 		<Exec Command="dotnet tool restore" StandardOutputImportance="high" />
 	</Target>
 
