@@ -21,7 +21,7 @@
 	<PropertyGroup>
 		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
 		<BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
-		<PublishTrimmed>true</PublishTrimmed>
+		<!--<PublishTrimmed>true</PublishTrimmed>-->
 		<BlazorWasmPrerenderingMode>Static</BlazorWasmPrerenderingMode>
 	</PropertyGroup>
 
@@ -129,7 +129,7 @@
 	</Target>
 
 	<Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
-		<Exec Command="dotnet tool restore --disable-parallel" StandardOutputImportance="low" />
+		<Exec Command="dotnet tool restore --disable-parallel" StandardOutputImportance="high" />
 	</Target>
 
 	<Target Name="WebCompiler" DependsOnTargets="ToolRestore">
