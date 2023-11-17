@@ -33,6 +33,10 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
       working-directory: src/Cropper.Blazor
+
+    - name: Restore dotnet tool
+      run: dotnet tool restore
+      working-directory: src/Cropper.Blazor/Cropper.Blazor
       
     - name: Build
       run: dotnet build --no-restore
