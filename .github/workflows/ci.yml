@@ -35,6 +35,10 @@ jobs:
       run: |
           dotnet workload install wasm-tools --ignore-failed-sources
 
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: src/Cropper.Blazor
+
     - name: Restore dotnet tool
       run: dotnet tool restore
       working-directory: src/Cropper.Blazor/Cropper.Blazor
