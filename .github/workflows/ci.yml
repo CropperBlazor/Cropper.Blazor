@@ -36,7 +36,7 @@ jobs:
           dotnet workload install wasm-tools --ignore-failed-sources
       
     - name: DotNet Build library project
-      run: dotnet build
+      run: dotnet build -c Release
       working-directory: src/Cropper.Blazor/Cropper.Blazor
 
     - name: DotNet Build client & server projects
