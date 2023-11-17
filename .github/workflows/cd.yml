@@ -21,13 +21,14 @@ jobs:
       # uses GitHub's checkout action to checkout code form the master branch
     - uses: actions/checkout@v3
     
-      # sets up .NET Core SDK 7, 6
-    - name: Setup .NET 7, 6
+    # sets up .NET Core SDK 8, 7, 6
+    - name: Setup .NET 8, 7, 6
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: |
             6.0.x
             7.0.x
+            8.0.x
         
     - name: Restore dependencies
       run: dotnet restore
@@ -44,7 +45,7 @@ jobs:
     - name: Coverage
       uses: codecov/codecov-action@v3.1.4
       with:
-        files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml
+        files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml
         fail_ci_if_error: true
         verbose: true
         
@@ -125,13 +126,13 @@ jobs:
 
     strategy:
       matrix:
-        dotnet-version: ['6.0.x', '7.0.x']
+        dotnet-version: ['6.0.x', '7.0.x', '8.0.x']
 
     steps:
     - uses: actions/checkout@v3
  
-    # sets up .NET Core SDK 7, 6
-    - name: Setup .NET 7, 6
+    # sets up .NET Core SDK 8, 7, 6
+    - name: Setup .NET 8, 7, 6
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
@@ -164,3 +165,13 @@ jobs:
       run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.MAUI.Net6
       if: matrix.dotnet-version == '6.0.x'
+
+    - name: DotNet Build Blazor Server Demo Project
+      run: dotnet build --no-restore
+      working-directory: examples\Cropper.Blazor.Server.Net8
+      if: matrix.dotnet-version == '8.0.x'
+
+    - name: DotNet Build Blazor MAUI Demo Project
+      run: dotnet build --no-restore
+      working-directory: examples\Cropper.Blazor.MAUI.Net8
+      if: matrix.dotnet-version == '8.0.x'
