@@ -144,9 +144,9 @@ jobs:
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
           
-    - name: Restore dependencies for Cropper.Blazor.Demo
-      run: dotnet restore
-      working-directory: examples
+    # - name: Restore dependencies for Cropper.Blazor.Demo
+    #  run: dotnet restore
+    #  working-directory: examples
 
     - name: DotNet Build MVC with Blazor Server Demo Project
       run: dotnet build --no-restore
