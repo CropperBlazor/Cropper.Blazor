@@ -149,36 +149,36 @@ jobs:
     #  working-directory: examples
 
     - name: DotNet Build MVC with Blazor Server Demo Project
-      run: dotnet build --no-restore
+      run: dotnet build
       working-directory: examples\Cropper.MVC.With.Blazor.Server.Net7
       if: matrix.dotnet-version == '7.0.x'
 
     - name: DotNet Build Blazor Server Demo Project
-      run: dotnet build --no-restore
+      run: dotnet build
       working-directory: examples\Cropper.Blazor.Server.Net7
       if: matrix.dotnet-version == '7.0.x'
 
     - name: DotNet Build Blazor MAUI Demo Project
-      run: dotnet build --no-restore
+      run: dotnet build
       working-directory: examples\Cropper.Blazor.MAUI.Net7
       if: matrix.dotnet-version == '7.0.x'
 
     - name: DotNet Build Blazor Server Demo Project
-      run: dotnet build --no-restore
+      run: dotnet build
       working-directory: examples\Cropper.Blazor.Server.Net6
       if: matrix.dotnet-version == '6.0.x'
 
     # - name: DotNet Build Blazor MAUI Demo Project
-    #   run: dotnet build --no-restore
+    #   run: dotnet build
     #   working-directory: examples\Cropper.Blazor.MAUI.Net6
     #   if: matrix.dotnet-version == '6.0.x'
 
     - name: DotNet Build Blazor Server Demo Project
-      run: dotnet build --no-restore
+      run: dotnet build
       working-directory: examples\Cropper.Blazor.Server.Net8
       if: matrix.dotnet-version == '8.0.x'
 
     - name: DotNet Build Blazor MAUI Demo Project
-      run: dotnet build --no-restore
+      run: dotnet build
       working-directory: examples\Cropper.Blazor.MAUI.Net8
       if: matrix.dotnet-version == '8.0.x'
