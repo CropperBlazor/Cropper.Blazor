@@ -33,7 +33,7 @@ jobs:
 
     - name: Install MAUI Workloads
       run: |
-          dotnet workload install wasm-tools --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/8.0.1xx.json --ignore-failed-sources
+          dotnet workload install wasm-tools --ignore-failed-sources
 
     - name: Restore dependencies
       run: dotnet restore
