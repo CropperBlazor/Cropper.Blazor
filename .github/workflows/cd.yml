@@ -131,10 +131,6 @@ jobs:
     runs-on: windows-latest
     needs: install-maui-workloads
 
-    strategy:
-      matrix:
-        dotnet-version: ['6.0.x', '7.0.x', '8.0.x']
-
     steps:
     - uses: actions/checkout@v3
  
@@ -142,43 +138,43 @@ jobs:
     - name: Setup .NET 8, 7, 6
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ matrix.dotnet-version }}
+        dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
           
-    # - name: Restore dependencies for Cropper.Blazor.Demo
-    #  run: dotnet restore
-    #  working-directory: examples
+    - name: Install MAUI Workloads
+      run: |
+          dotnet workload install maui --ignore-failed-sources
+          
+    - name: Restore dependencies for Cropper.Blazor.Demo
+      run: dotnet restore
+      working-directory: examples
 
-    - name: DotNet Build MVC with Blazor Server Demo Project
-      run: dotnet build
+    - name: DotNet Build MVC with Blazor Server Demo Project for .net 7
+      run: dotnet build --no-restore
       working-directory: examples\Cropper.MVC.With.Blazor.Server.Net7
-      if: matrix.dotnet-version == '7.0.x'
 
-    - name: DotNet Build Blazor Server Demo Project
-      run: dotnet build
+    - name: DotNet Build Blazor Server Demo Project for .net 7
+      run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.Server.Net7
-      if: matrix.dotnet-version == '7.0.x'
 
-    - name: DotNet Build Blazor MAUI Demo Project
-      run: dotnet build
+    - name: DotNet Build Blazor MAUI Demo Project for .net 7
+      run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.MAUI.Net7
-      if: matrix.dotnet-version == '7.0.x'
 
-    - name: DotNet Build Blazor Server Demo Project
-      run: dotnet build
+    - name: DotNet Build Blazor Server Demo Project for .net 6
+      run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.Server.Net6
-      if: matrix.dotnet-version == '6.0.x'
 
-    # - name: DotNet Build Blazor MAUI Demo Project
-    #   run: dotnet build
+    # - name: DotNet Build Blazor MAUI Demo Project for .net 6
+    #   run: dotnet build --no-restore
     #   working-directory: examples\Cropper.Blazor.MAUI.Net6
-    #   if: matrix.dotnet-version == '6.0.x'
 
-    - name: DotNet Build Blazor Server Demo Project
-      run: dotnet build
+    - name: DotNet Build Blazor Server Demo Project for .net 8
+      run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.Server.Net8
-      if: matrix.dotnet-version == '8.0.x'
 
-    - name: DotNet Build Blazor MAUI Demo Project
-      run: dotnet build
+    - name: DotNet Build Blazor MAUI Demo Project for .net 8
+      run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.MAUI.Net8
-      if: matrix.dotnet-version == '8.0.x'
