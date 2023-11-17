@@ -39,9 +39,17 @@ jobs:
       run: dotnet restore
       working-directory: src/Cropper.Blazor
       
-    - name: DotNet Build
-      run: dotnet build
-      working-directory: src/Cropper.Blazor
+    - name: DotNet Build library project
+      run: dotnet build --no-restore
+      working-directory: src/Cropper.Blazor/Cropper.Blazor
+
+    - name: DotNet Build client & server projects
+      run: dotnet build --no-restore
+      working-directory: src/Cropper.Blazor/Server
+
+    - name: DotNet Build unit tests project
+      run: dotnet build --no-restore
+      working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests
       
     - name: Test
       run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
