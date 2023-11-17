@@ -122,7 +122,7 @@ jobs:
     - name: search workloads
       run: dotnet workload search
   
-    - name: Install MAUI Workloads
+    - name: Install Windows, Android MAUI Workloads
       run: |
           dotnet workload install maui-windows maui-android --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/8.0.1xx.json --ignore-failed-sources
           dotnet workload install wasm-tools --ignore-failed-sources
@@ -146,10 +146,6 @@ jobs:
             6.0.x
             7.0.x
             8.0.x
-          
-    - name: Install MAUI Workloads
-      run: |
-          dotnet workload install maui --ignore-failed-sources
           
     - name: Restore dependencies for Cropper.Blazor.Demo
       run: dotnet restore

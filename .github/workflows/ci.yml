@@ -31,7 +31,7 @@ jobs:
             7.0.x
             8.0.x
 
-    - name: Install MAUI Workloads
+    - name: Install WASM tools Workloads
       run: |
           dotnet workload install wasm-tools --ignore-failed-sources
 
