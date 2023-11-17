@@ -31,6 +31,10 @@ jobs:
             7.0.x
             8.0.x
 
+    - name: Install MAUI Workloads
+      run: |
+          dotnet workload install wasm-tools --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/8.0.1xx.json --ignore-failed-sources
+
     - name: Restore dependencies
       run: dotnet restore
       working-directory: src/Cropper.Blazor
