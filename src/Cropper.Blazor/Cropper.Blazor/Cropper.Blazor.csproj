@@ -87,7 +87,7 @@
 	</Target>
 
 	<Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
-		<Exec Command="dotnet tool restore --disable-parallel" StandardOutputImportance="high" />
+		<Exec Command="dotnet tool restore --disable-parallel" StandardOutputImportance="low" />
 	</Target>
 
 	<Target Name="WebCompiler" DependsOnTargets="ToolRestore">
