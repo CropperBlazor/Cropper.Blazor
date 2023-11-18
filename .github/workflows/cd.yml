@@ -138,7 +138,11 @@ jobs:
 
     - name: list workloads
       run: dotnet workload list
-          
+
+    - name: Restore dotnet workload 
+      run: dotnet workload restore
+      working-directory: examples
+      
     - name: Restore dependencies for Cropper.Blazor.Demo
       run: dotnet restore
       working-directory: examples
