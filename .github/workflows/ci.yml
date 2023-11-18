@@ -24,20 +24,24 @@ jobs:
  
     # sets up .NET Core SDK 8, 7, 6
     - name: Setup .NET 8, 7, 6
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v3.2.0
       with:
         dotnet-version: |
             6.0.x
             7.0.x
             8.0.x
 
-    - name: Install MAUI Workloads
+    - name: Install WASM tools Workloads
       run: |
           dotnet workload install wasm-tools --ignore-failed-sources
 
     - name: Restore dependencies
       run: dotnet restore
       working-directory: src/Cropper.Blazor
+
+    - name: Restore dotnet tool
+      run: dotnet tool restore
+      working-directory: src/Cropper.Blazor/Cropper.Blazor
       
     - name: DotNet Build
       run: dotnet build --no-restore
