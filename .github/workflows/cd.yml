@@ -112,28 +112,9 @@ jobs:
         folder: release/wwwroot
         repository-name: CropperBlazor/CropperBlazor.github.io
 
-  install-maui-workloads:
-    name: Install MAUI Workloads
-    runs-on: windows-latest
-
-    steps:
-    - uses: actions/checkout@v3
-  
-    - name: search workloads
-      run: dotnet workload search
-  
-    - name: Install Windows, Android MAUI Workloads
-      run: |
-          dotnet workload install maui-windows maui-android --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/8.0.1xx.json --ignore-failed-sources
-          dotnet workload install wasm-tools --ignore-failed-sources
-
-    - name: list workloads
-      run: dotnet workload list
-
   demo-projects-build:
     name: Build Demo Projects
     runs-on: windows-latest
-    needs: install-maui-workloads
 
     steps:
     - uses: actions/checkout@v3
@@ -146,6 +127,17 @@ jobs:
             6.0.x
             7.0.x
             8.0.x
+
+    - name: search workloads
+      run: dotnet workload search
+  
+    - name: Install Windows, Android MAUI Workloads
+      run: |
+          dotnet workload install maui-windows maui-android --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/8.0.1xx.json --ignore-failed-sources
+          dotnet workload install wasm-tools --ignore-failed-sources
+
+    - name: list workloads
+      run: dotnet workload list
           
     - name: Restore dependencies for Cropper.Blazor.Demo
       run: dotnet restore
