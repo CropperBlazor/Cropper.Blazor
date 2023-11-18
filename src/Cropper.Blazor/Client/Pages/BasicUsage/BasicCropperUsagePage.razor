@@ -2,6 +2,14 @@
 @page "/examples"
 @using Cropper.Blazor.Client.Pages.BasicUsage.Examples
 
+<SeoHeader Title="Basic usage"
+           Overview="Examples of basic usage of the cropper component."
+           Keywords="@(
+            new []
+            {
+                "examples"
+            })" />
+
 <DocsPage>
     <DocsPageHeader Title="Basic usage" SubTitle="Here are examples of basic usage of the cropper component." />
     <DocsPageContent>
@@ -15,13 +23,13 @@
         <DocsPageSection>
             <SectionHeader Title="Simple Usage">
                 <Description>
-                    To start using the cropper component, <b>you must specify the path to the image</b> 
+                    To start using the cropper component, <b>you must specify the path to the image</b>
                     with which you will work in the <CodeInline>Src</CodeInline> property.
                     You also need to specify the cropper settings using the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline> property,
                     which can be left as <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://github.com/fengyuanchen/cropperjs/blob/main/src/js/defaults.js">default</MudLink>, as in the example below.
                     <br>
                     <MudAlert Class="my-3" Severity="Severity.Info">
-                        Note: With the release of 1.2.7 Cropper.Blazor NuGet package, сropper's default settings will be set automatically, 
+                        Note: With the release of 1.2.7 Cropper.Blazor NuGet package, сropper's default settings will be set automatically,
                         so you do not need to define them when declaring a component.
                     </MudAlert>
                 </Description>
@@ -38,7 +46,7 @@
                     so be sure to wrap the image with a visible block element.
                     <br>
                     <MudAlert Class="my-3" Severity="Severity.Info">
-                        Note: If you are using cropper in a modal, you should initialize the cropper after the 
+                        Note: If you are using cropper in a modal, you should initialize the cropper after the
                         modal is shown completely. Otherwise, you will not get the correct cropper.
                     </MudAlert>
                 </Description>
@@ -51,11 +59,11 @@
         <DocsPageSection>
             <SectionHeader Title="Image loading error">
                 <Description>
-                    You can use the <CodeInline>OnErrorLoadImageEvent</CodeInline> event and the 
+                    You can use the <CodeInline>OnErrorLoadImageEvent</CodeInline> event and the
                     <CodeInline>ErrorLoadImageSrc</CodeInline> prop to notify the user of an error loading a photo in Cropper.
                     <br><br>
-                    For example, the <CodeInline>Src</CodeInline> property contains an incorrect path to the photo, 
-                    so the cropper will  not be created during initialization, and the image will be replaced with 
+                    For example, the <CodeInline>Src</CodeInline> property contains an incorrect path to the photo,
+                    so the cropper will  not be created during initialization, and the image will be replaced with
                     what was specified in the <CodeInline>ErrorLoadImageSrc</CodeInline> property.
                     <br><br>
                     You can add css styles to the image using the <CodeInline>ErrorLoadImageClass</CodeInline> property,
@@ -64,6 +72,22 @@
             </SectionHeader>
             <SectionContent Code="ImageLoadingErrorExample">
                 <ImageLoadingErrorExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Load cross-origin image">
+                <Description>
+                    A cross origin image with a <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin">crossorigin</MudLink> attribute and an available Access-Control-Allow-Origin response header can be cropped by <span style="color: var(--mud-palette-primary)"><b>Cropper.Blazor</b></span>.
+                    If you try to start cropper on a cross-origin image, please make sure that your browser supports
+                    <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes">HTML5 CORS settings attributes</MudLink>,
+                    and your image server supports the Access-Control-Allow-Origin option (see the <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS">HTTP access control (CORS)</MudLink>).
+                    <br><br>
+                    If your image isn't be a cross-origin, set the <CodeInline>CheckCrossOrigin</CodeInline> in the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline> property to <CodeInline>false</CodeInline>.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="LoadCrossOriginImageExample">
+                <LoadCrossOriginImageExample />
             </SectionContent>
         </DocsPageSection>
 

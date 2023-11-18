@@ -6,7 +6,7 @@
 @using Cropper.Blazor.Client.Pages.Home.Installation.Examples
 @using Cropper.Blazor.Client.Pages.Home.Uses.Examples
 
-<SeoHeader Title="Installation"
+<SeoHeader Title="Cropper Blazor component for cropping images"
            Overview="Getting started with Cropper.Blazor for faster and easier web development."
            Keywords="@(
             new []
@@ -19,7 +19,7 @@
     <MudGrid Class="mt-5" Justify="Justify.Center">
 
         <MudItem xl="12" lg="12" md="12" sm="12" xs="12" Class="d-flex justify-center">
-            <MudImage Src="cropperblazor.png" Fluid="true" Width="256" Height="256" />
+            <MudImage Src="cropperblazor.png" UserAttributes="@LogoInputAttributes" Fluid="true" Width="256" Height="256" />
         </MudItem>
 
         <MudItem xl="12" lg="12" md="12" sm="12" xs="12" Class="d-flex justify-center">
@@ -144,7 +144,7 @@
                     <SectionHeader Title="Register Services">
                         <Description>Add the following in <CodeInline>Program.cs</CodeInline></Description>
                     </SectionHeader>
-                    <SectionContent Codes="@(new[] {new CodeFile(".NET 6 & .NET 7", "InstallServicesNET6Manual")})" />
+                    <SectionContent Codes="@(new[] {new CodeFile(".NET 6, 7, 8", "InstallServicesNET6Manual")})" />
                 </DocsPageSection>
 
                 <DocsPageSection>

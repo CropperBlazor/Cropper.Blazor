@@ -1,12 +1,18 @@
 ﻿<PageTitle>@Title</PageTitle>
 <HeadContent>
-    <meta Name="keywords" Content="@GetKeywords()" />
-    <meta Property="og:title" Content="@Title" />
-    <meta Name="twitter:title" Content="@Title" />
+    <meta name="keywords" content="@GetKeywords()" />
+    <meta property="og:title" content="@Title" />
+    <meta name="twitter:title" content="@Title" />
+    <meta name="twitter:card" content="@Title" />
+    <meta name="twitter:image" content="https://cropperblazor.github.io/cropperblazor.png" />
+    <meta property="og:url" content="https://cropperblazor.github.io/" />
+    <meta property="og:site_name" content="Cropper.Blazor" />
+    <meta property="og:image" content="https://cropperblazor.github.io/cropperblazor.png" />
+    <meta property="og:type" content="website" />
     @if (!string.IsNullOrEmpty(Overview))
     {
-        <meta Name="description" Content="@GetSubTitle()" />
-        <meta Property="og:description" Content="@GetSubTitle()" />
-        <meta Name="twitter:description" Content="@GetSubTitle()" />
+        <meta name="description" content="@GetSubTitle()" />
+        <meta property="og:description" content="@GetSubTitle()" />
+        <meta name="twitter:description" content="@GetSubTitle()" />
     }
 </HeadContent>

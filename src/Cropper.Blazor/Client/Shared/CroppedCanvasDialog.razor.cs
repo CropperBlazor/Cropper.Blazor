@@ -17,5 +17,12 @@ namespace Cropper.Blazor.Client.Shared
               "downloadFromUrl",
               new { Url = Src, FileName = $"{Guid.NewGuid()}.png" });
         }
+
+        public Dictionary<string, object> CroppedImageInputAttributes { get; set; } =
+            new Dictionary<string, object>()
+            {
+                { "loading", "lazy" },
+                { "alt", "Cropped image" }
+            };
     }
 }

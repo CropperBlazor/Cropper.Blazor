@@ -1,0 +1,92 @@
+﻿<div class="img-container">
+    <CropperComponent Class="big-img"
+    Src="@src"
+    ErrorLoadImageSrc="@_errorLoadImageSrc"
+    ErrorLoadImageClass="cropper-error-load"
+    IsAvailableInitCropper="@IsAvailableInitCropper"
+    IsErrorLoadImage="@IsErrorLoadImage"
+    OnErrorLoadImageEvent="OnErrorLoadImageEvent"
+    @ref="cropperComponent"
+    Options="new Blazor.Models.Options()" />
+</div>
+
+<InputFile id="imageReplaceInput" OnChange="ReplaceImageAsync" accept="image/*" />
+
+@* Make sure the size of the image fits perfectly into the container *@
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        width: 100%;
+    }
+
+    /* These styles are just needed for a nice button and don't related with cropper component */
+    #imageReplaceInput {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+
+@code {
+    private readonly string _errorLoadImageSrc = "not-found-image.jpg";
+    private bool IsErrorLoadImage { get; set; } = false;
+    private bool IsAvailableInitCropper { get; set; } = true;
+    private string src = "images/Landscape-Color.jpg";
+    private CropperComponent? cropperComponent = null!;
+
+    public async Task ReplaceImageAsync(InputFileChangeEventArgs inputFileChangeEventArgs)
+    {
+        IBrowserFile imageFile = inputFileChangeEventArgs.File;
+
+        if (imageFile != null)
+        {
+            string oldSrc = src;
+            string newSrc = await cropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
+
+            /* These conditions are required for error handling. */
+            if (IsErrorLoadImage)
+            {
+                IsAvailableInitCropper = true;
+                IsErrorLoadImage = false;
+            }
+            else
+            {
+                IsAvailableInitCropper = false;
+            }
+
+            await Task.WhenAll(
+                cropperComponent?.ReplaceAsync(newSrc, false).AsTask(),
+                cropperComponent?.RevokeObjectUrlAsync(oldSrc).AsTask())
+                .ContinueWith(x =>
+                {
+                    src = newSrc;
+                });
+        }
+    }
+
+    public void OnErrorLoadImageEvent(ErrorEventArgs errorEventArgs)
+    {
+        IsErrorLoadImage = true;
+        Destroy();
+        StateHasChanged();
+    }
+
+    private void Destroy()
+    {
+        cropperComponent?.Destroy();
+        cropperComponent?.RevokeObjectUrlAsync(src);
+    }
+}

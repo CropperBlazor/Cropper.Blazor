@@ -8,12 +8,17 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services
-.AddScoped(sp => new HttpClient
-{
-    BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
-})
-.AddCropper()
-.TryAddDocsViewServices();
+ConfigureServices(builder.Services, builder.HostEnvironment);
 
 await builder.Build().RunAsync();
+
+static void ConfigureServices(IServiceCollection services, IWebAssemblyHostEnvironment hostEnvironment)
+{
+    services
+        .AddScoped(sp => new HttpClient
+        {
+            BaseAddress = new Uri(hostEnvironment.BaseAddress)
+        })
+        .AddCropper()
+        .TryAddDocsViewServices();
+}

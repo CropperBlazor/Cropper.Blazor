@@ -14,7 +14,7 @@
     {
         <link rel="canonical" Href="@ApiLink.GetComponentLinkFor(Type)" />
         <DocsPageSection api-link-section>
-            <SectionHeader Title="Pages" TitleClass="mt-0" />
+            <SectionHeader Title="Pages" TitleClass="mt-3" />
             <div class="docs-page-apilinks">
                 <ul class="my-2">
                     <li>
@@ -30,7 +30,7 @@
     }
     else
     {
-        <MudText Typo="Typo.h5">
+        <MudText Typo="Typo.h5" Class="mt-3">
             @if (Type.IsEnum)
             {
                 <div>
@@ -101,7 +101,7 @@
                             </MudTd>
                             <MudTd Class="docs-content-api-cell" DataLabel="Default">
                                 @{
-                                    var def = PresentDefaultValue(context.Default);
+                                    var def = context.Default.PresentDefaultValue();
                                 }
                                 @if (def.Contains("<path"))
                                 {

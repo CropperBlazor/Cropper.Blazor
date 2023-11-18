@@ -1,0 +1,75 @@
+﻿@using Cropper.Blazor.Extensions;
+@using Cropper.Blazor.Models;
+
+<div class="img-container cropper-face-circle">
+    <CropperComponent Class="big-img" Src="images/lone-tree.jpg" @ref="cropperComponent" Options="new Blazor.Models.Options()" />
+</div>
+
+<div class="button" @onclick="GetCroppedCanvasAsync">
+    Get cropped image
+</div>
+
+<img class="cropped-img-container" src="@croppedCanvasDataURL" />
+
+@* Make sure the size of the image fits perfectly into the container *@
+<style>
+    .cropper-face {
+        opacity: 25%;
+    }
+
+    .img-container.cropper-face-circle .cropper-container .cropper-crop-box .cropper-face {
+        border-radius: 50%;
+    }
+
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        width: 100%;
+    }
+
+    /* Means that the cropped image will take up 100% of the width of its containing element */
+    .cropped-img-container {
+        width: 100%;
+    }
+
+    /* These styles are just needed for a nice button and don't related with cropper component */
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+
+@code {
+    [Inject] private IJSRuntime? JSRuntime { get; set; }
+
+    private CropperComponent? cropperComponent = null!;
+    private string croppedCanvasDataURL;
+
+    public async Task GetCroppedCanvasAsync()
+    {
+        GetCroppedCanvasOptions getCroppedCanvasOptions = new GetCroppedCanvasOptions
+        {
+            MaxHeight = 4096,
+            MaxWidth = 4096,
+            ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString()
+        };
+
+        // Get a reference to a JavaScript cropped canvas object.
+        CroppedCanvas croppedCanvas = await cropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
+        // Invoke toDataURL JavaScript function from the canvas object.
+        croppedCanvasDataURL = await JSRuntime!.InvokeAsync<string>("window.getEllipseImage", croppedCanvas!.JSRuntimeObjectRef);
+    }
+}

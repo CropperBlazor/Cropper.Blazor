@@ -24,7 +24,7 @@
         </MudItem>
         <MudItem xs="12">
             <MudToolBar DisableGutters="true" Dense="true">
-                <MudText Typo="Typo.body1">Copyright © 2022-2023 Cropper.Blazor.</MudText>
+                <MudText Typo="Typo.body1">Copyright © 2022-@DateTime.Now.Year Cropper.Blazor.</MudText>
             </MudToolBar>
         </MudItem>
     </MudGrid>
@@ -36,5 +36,5 @@
     protected string ContainerClassnames =>
        new CssBuilder("section-container")
          .AddClass(Class)
-       .Build();
+         .Build();
 }

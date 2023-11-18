@@ -84,5 +84,23 @@
             </SectionContent>
         </DocsPageSection>
 
+        <DocsPageSection>
+            <SectionHeader Title="Crop a round image">
+
+            </SectionHeader>
+            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", "CropRoundImageExample"), new CodeFile("script.js", "CropRoundImage_Script")})">
+                <CropRoundImageExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Crop a polygon image">
+
+            </SectionHeader>
+            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", "CropPolygonImageExample"), new CodeFile("script.js", "CropPolygonImage_Script")})">
+                <CropPolygonImageExample />
+            </SectionContent>
+        </DocsPageSection>
+
     </DocsPageContent>
 </DocsPage>

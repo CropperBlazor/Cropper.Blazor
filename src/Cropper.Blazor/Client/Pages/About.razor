@@ -28,9 +28,12 @@
                 <MudCard Elevation="4">
                     <MudCardHeader>
                         <CardHeaderAvatar>
-                            <MudAvatar Image="@teamMember.Avatar"
-                                       Size="Size.Large"
-                                       Class="mud-elevation-4" />
+                            <MudAvatar Size="Size.Large"
+                                       Class="mud-elevation-4">
+                                <MudImage UserAttributes="@AvatarInputAttributes" Src="@teamMember.Avatar">
+
+                                </MudImage>
+                            </MudAvatar>
                         </CardHeaderAvatar>
                         <CardHeaderContent>
                             <MudText Typo="Typo.h6">
