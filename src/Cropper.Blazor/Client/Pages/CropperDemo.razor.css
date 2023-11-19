@@ -24,7 +24,7 @@
     max-width: 100%;
 }
 
-.img-preview > img {
+.img-preview > ::deep img {
     max-width: 100%;
 }
 
