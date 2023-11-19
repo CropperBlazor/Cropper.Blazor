@@ -20,7 +20,7 @@
     overflow: hidden;
 }
 
-.img-container > img {
+.img-container > ::deep img {
     max-width: 100%;
 }
 
