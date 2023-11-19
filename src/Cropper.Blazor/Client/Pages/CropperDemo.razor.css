@@ -10,7 +10,7 @@
     min-height: 200px;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
     .img-container {
         min-height: 573px;
     }
@@ -20,11 +20,11 @@
     overflow: hidden;
 }
 
-.img-container > ::deep img {
+.img-container > img {
     max-width: 100%;
 }
 
-.img-preview > ::deep img {
+.img-preview > img {
     max-width: 100%;
 }
 

@@ -1,5 +1,6 @@
 using Cropper.Blazor.Client;
 using Cropper.Blazor.Client.Extensions;
+using Cropper.Blazor.Client.Services;
 using Cropper.Blazor.Extensions;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -19,6 +20,7 @@ static void ConfigureServices(IServiceCollection services, IWebAssemblyHostEnvir
         {
             BaseAddress = new Uri(hostEnvironment.BaseAddress)
         })
+        .AddSingleton<GitHubApiClient>()
         .AddCropper()
         .TryAddDocsViewServices();
 }

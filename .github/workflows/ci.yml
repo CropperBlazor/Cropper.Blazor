@@ -59,7 +59,7 @@ jobs:
         verbose: true
       
     - name: Super-Linter
-      uses: super-linter/super-linter@v5.7.0
+      uses: github/super-linter@v4.8.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         OUTPUT_FOLDER: Reports
