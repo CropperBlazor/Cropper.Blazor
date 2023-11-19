@@ -44,6 +44,7 @@
         height: 100%;
         position: absolute;
         inset: 0;
+        padding: 20px;
 
         &:nth-child(1) {
             -moz-filter: grayscale(1);
@@ -73,7 +74,7 @@
         font-family: Roboto, Helvetica, Arial, sans-serif;
 
         &::after {
-            content: var(--blazor-load-percentage-text, "Loading");
+            content: var(--blazor-load-percentage-text, "0%");
         }
     }
 }
