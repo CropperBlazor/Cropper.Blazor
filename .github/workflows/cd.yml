@@ -74,6 +74,30 @@ jobs:
         files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml
         fail_ci_if_error: true
         verbose: true
+
+    - name: Wait for Exit Code 1 for Cropper.Blazor.Sitemap.Generator project
+      run: |
+        for ((i=0; i<30000; i++)); do
+          dotnet run --no-build -c Release || exit_code=$?
+          if [ $exit_code -eq 1 ]; then
+            echo "Application exited with code 1"
+            exit 0
+          fi
+          sleep 1
+        done
+        echo "Application did not exit with code 1 within the specified time."
+        exit 1
+      working-directory: src/Cropper.Blazor/Cropper.Blazor.Sitemap.Generator
+
+    - name: Check if sitemap.xml File Exists
+      run: |
+        $filePath = "./src/Cropper.Blazor/Client/wwwroot/sitemap.xml"
+        if (Test-Path $filePath) {
+          Write-Host "sitemap.xml file exists at $filePath"
+        } else {
+          Write-Host "File does not exist at $filePath"
+          exit 1
+        }
         
      # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project

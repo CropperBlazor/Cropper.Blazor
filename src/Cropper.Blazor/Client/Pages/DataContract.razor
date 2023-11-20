@@ -1,5 +1,9 @@
 ﻿@page "/contract/{name}"
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, urls: PageURLs)]
+
 @using Cropper.Blazor.Client.Components.Docs
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
 
 <DocsApi Type="@ComponentType" IsContract="true">
 
