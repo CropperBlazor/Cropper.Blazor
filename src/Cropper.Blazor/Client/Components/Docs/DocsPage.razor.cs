@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using Cropper.Blazor.Client.Services;
 using Microsoft.AspNetCore.Components;
-using Cropper.Blazor.Client.Models;
 using MudBlazor;
 using MudBlazor.Interfaces;
 

@@ -16,6 +16,8 @@ jobs:
     # use ubuntu-latest image to run steps on
     runs-on: ubuntu-latest
     environment: github-pages
+    env: 
+     JAVA_HOME: '/home/runner/android-sdk'
     needs: demo-projects-build
     steps:
       # uses GitHub's checkout action to checkout code form the master branch
@@ -29,6 +31,22 @@ jobs:
             6.0.x
             7.0.x
             8.0.x
+
+    - name: Cache JDK
+      id: cache-jdk
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.JAVA_HOME }}
+        key: ${{ runner.os }}-jdk-11
+        restore-keys: |
+            ${{ runner.os }}-jdk-
+
+    - name: Setup Java JDK
+      if: steps.cache-jdk.outputs.cache-hit != 'true'
+      uses: actions/setup-java@v3.13.0
+      with:
+        distribution: 'microsoft'
+        java-version: 11
         
     - name: Install WASM tools Workloads
       run: |
