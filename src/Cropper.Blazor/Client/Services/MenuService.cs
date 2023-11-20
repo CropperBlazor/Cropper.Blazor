@@ -23,8 +23,9 @@ namespace Cropper.Blazor.Client.Services
         public IEnumerable<DocsLink> Examples => _examples ??= new List<DocsLink>
         {
             new DocsLink {Title = "Basic Usage", Href = "examples/cropperusage"},
-            new DocsLink {Title = "Crop Box Dimensions", Href = "examples/dimensions"},
             new DocsLink {Title = "View Modes", Href = "examples/viewmodes"},
+            new DocsLink {Title = "Preview", Href = "examples/preview"},
+            new DocsLink {Title = "Crop Box Dimensions", Href = "examples/dimensions"},
             new DocsLink {Title = "Aspect Ratio", Href = "examples/aspectratio"},
             new DocsLink {Title = "Zooming", Href = "examples/zooming"},
             new DocsLink {Title = "Cropping", Href = "examples/cropping"},

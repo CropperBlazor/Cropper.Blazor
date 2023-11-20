@@ -1,0 +1,74 @@
+﻿@page "/examples/preview"
+@using Cropper.Blazor.Client.Models
+@using Cropper.Blazor.Client.Pages.Preview.Examples
+
+<DocsPage>
+    <DocsPageHeader Title="Cropper Preview"
+                    SubTitle="Define the preview of the cropper." />
+
+    <DocsPageContent>
+
+        <DocsPageSection>
+            <SectionHeader Title="Add Preview Option">
+                <Description>
+                    With the <CodeInline>Preview</CodeInline> in <CodeInline><MudLink Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline> prop
+                    you can add extra elements (containers) for preview.
+                    An element or an array of elements or a list
+                    <a target="_blank" rel="noopener" style="color: var(--mud-palette-primary);" href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.elementreference">ElementReference</a>
+                    or a valid string selector for <a target="_blank" rel="noopener" style="color: var(--mud-palette-primary);" href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll">Document.querySelectorAll</a>.
+                    <br><br>
+                    Notes for Preview Option:
+                    <MudList>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
+                            The maximum width is the initial width of the preview container;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
+                            The maximum height is the initial height of the preview container;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
+                            If you set an <CodeInline>AspectRatio</CodeInline> option in <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline>, be sure to set the same aspect ratio to the preview container;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
+                            If the preview does not display correctly, set the <CodeInline>overflow: hidden</CodeInline> style to the preview container.
+                        </MudListItem>
+                    </MudList>
+                </Description>
+            </SectionHeader>
+            <SectionContent @ref="ActivePreviewActive" ChildContent="PreviewActiveRenderFragment" Codes="@(
+                        new CodeFile[]
+                        {
+                            new CodeFile("Preview from String selector", "UsesPreviewFromStringSelectorComponentsExample"),
+                            new CodeFile("Preview from ElementReference selector", "UsesPreviewFromElementReferenceSelectorComponentsExample"),
+                            new CodeFile("Preview from multiple ElementReference selector", "UsesPreviewFromMultipleElementReferenceSelectorComponentsExample")
+                        })" />
+        </DocsPageSection>
+
+    </DocsPageContent>
+</DocsPage>
+
+@code {
+    SectionContent ActivePreviewActive = null!;
+
+    RenderFragment PreviewActiveRenderFragment => builder =>
+    {
+        if (ActivePreviewActive.ActiveCode == nameof(UsesPreviewFromStringSelectorComponentsExample))
+        {
+            builder.OpenComponent<UsesPreviewFromStringSelectorComponentsExample>(1);
+            builder.CloseComponent();
+        }
+        else if (ActivePreviewActive.ActiveCode == nameof(UsesPreviewFromElementReferenceSelectorComponentsExample))
+        {
+            builder.OpenComponent<UsesPreviewFromElementReferenceSelectorComponentsExample>(1);
+            builder.CloseComponent();
+        }
+        else if (ActivePreviewActive.ActiveCode == nameof(UsesPreviewFromMultipleElementReferenceSelectorComponentsExample))
+        {
+            builder.OpenComponent<UsesPreviewFromMultipleElementReferenceSelectorComponentsExample>(1);
+            builder.CloseComponent();
+        }
+        else
+        {
+            throw new InvalidOperationException();
+        }
+    };
+}
