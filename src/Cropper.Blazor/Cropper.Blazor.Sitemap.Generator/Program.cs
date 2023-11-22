@@ -38,7 +38,7 @@ public class Program
                 xmlDoc,
                 root,
                 entry.Url,
-                entry.LastModified.ToString(),
+                entry.LastModified.ToString("yyyy-MM-ddTHH:mm:sszzz"),
                 entry.ChangeFrequency.GetDescription(),
                 entry.Priority.ToString());
         }

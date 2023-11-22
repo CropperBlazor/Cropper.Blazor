@@ -7,14 +7,14 @@ namespace Cropper.Blazor.Shared.Attributes
     {
         public ChangeFreq ChangeFreq { get; }
         public double Priority { get; }
-        public string[] Urls { get; }
+        public string[]? Urls { get; }
 
         public SitemapUrlAttribute(
             string urls = null,
             ChangeFreq changeFreq = ChangeFreq.Daily,
             double priority = 0.5)
         {
-            Urls = urls.Split(",");
+            Urls = urls?.Split(",");
             ChangeFreq = changeFreq;
             Priority = priority;
         }
