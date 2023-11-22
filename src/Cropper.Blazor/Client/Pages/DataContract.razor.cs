@@ -8,7 +8,7 @@ namespace Cropper.Blazor.Client.Pages
         [Parameter]
         public string Name { get; set; }
 
-        public Type ComponentType { get; set; }
+        public Type? ComponentType { get; set; }
 
         protected override void OnParametersSet()
         {

@@ -28,7 +28,7 @@ namespace Cropper.Blazor.Client.Components.Docs
             return component;
         }
 
-        public static Type GetTypeFromComponentLink(string component)
+        public static Type? GetTypeFromComponentLink(string component)
         {
             if (component.Contains('#') == true)
             {
@@ -37,7 +37,7 @@ namespace Cropper.Blazor.Client.Components.Docs
 
             if (string.IsNullOrEmpty(component))
             {
-                throw new ArgumentException(nameof(component));
+                return null;
             }
 
             var assembly = typeof(CropperComponent).Assembly;
@@ -58,7 +58,7 @@ namespace Cropper.Blazor.Client.Components.Docs
                 }
             }
 
-            throw new ArgumentNullException(nameof(component));
+            return null;
         }
 
         public static string GetContextType(this Type type)
