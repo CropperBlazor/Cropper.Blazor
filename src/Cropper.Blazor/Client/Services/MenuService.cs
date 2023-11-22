@@ -29,7 +29,8 @@ namespace Cropper.Blazor.Client.Services
             new DocsLink {Title = "Aspect Ratio", Href = "examples/aspectratio"},
             new DocsLink {Title = "Zooming", Href = "examples/zooming"},
             new DocsLink {Title = "Cropping", Href = "examples/cropping"},
-            new DocsLink {Title = "Replacing", Href = "examples/replacing"}
+            new DocsLink {Title = "Replacing", Href = "examples/replacing"},
+            new DocsLink {Title = "Rebuild cropper", Href = "examples/rebuild"}
         };
 
         public IEnumerable<DocsLink> Api => _api ??= new List<DocsLink>
