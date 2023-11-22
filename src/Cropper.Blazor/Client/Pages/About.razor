@@ -1,5 +1,9 @@
 ﻿@page "/about"
 @layout LandingLayout
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7)]
+
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
 
 <SeoHeader Title="About"
            Overview="About Cropper.Blazor."

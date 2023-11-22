@@ -1,9 +1,13 @@
 @page "/demo"
 @layout LandingLayout
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.9)]
+
 @using Cropper.Blazor.Client.Components
 @using Cropper.Blazor.Components
 @using Cropper.Blazor.Extensions;
 @using Cropper.Blazor.Models
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
 
 <SeoHeader Title="Demo"
            Overview="Cropper.Blazor is a component that wraps around Cropper.js."

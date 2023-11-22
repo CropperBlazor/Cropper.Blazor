@@ -1,6 +1,10 @@
 ﻿@page "/api"
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.8)]
+
 @using Cropper.Blazor.Client.Components.Docs
 @using Cropper.Blazor.Components;
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
 
 <SeoHeader Title="API"
            Overview="Cropper component API."

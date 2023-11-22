@@ -1,6 +1,10 @@
 ﻿@page "/releases"
 @layout LandingLayout
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.8)]
+
 @using System.Globalization
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
 
 <SeoHeader Title="Releases - Cropper.Blazor"
            Overview="Releases Cropper.Blazor."
