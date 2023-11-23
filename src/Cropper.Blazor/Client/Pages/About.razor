@@ -1,12 +1,21 @@
 ﻿@page "/about"
 @layout LandingLayout
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7)]
+
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
 
 <SeoHeader Title="About"
            Overview="About Cropper.Blazor."
            Keywords="@(
             new []
             {
-                "about"
+                "Core Team",
+                "Core Team cropper",
+                "Core Team Cropper.Blazor",
+                "about",
+                "about cropper",
+                "about Cropper.Blazor"
             })" />
 
 <MudContainer Class="mt-5 px-4">

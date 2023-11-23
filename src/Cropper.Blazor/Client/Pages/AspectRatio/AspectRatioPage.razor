@@ -1,6 +1,27 @@
 ﻿@page "/examples/aspectratio"
 @using Cropper.Blazor.Client.Pages.AspectRatio.Examples
 
+<SeoHeader Title="Aspect Ratio - Cropper.Blazor"
+           Overview="An aspect ratio is a proportional relationship between an image's width and height."
+           Keywords="@(
+            new []
+            {
+                "Aspect Ratio",
+                "Aspect Ratio Cropper.Blazor",
+                "Aspect Ratio Cropper",
+                "Aspect Cropper.Blazor",
+                "Aspect Cropper",
+                "Ratio Cropper.Blazor",
+                "Ratio Cropper",
+                "Change aspect ratio",
+                "Change ratio",
+                "Initial aspect ratio",
+                "Initial ratio",
+                "Min and Max ratio",
+                "Min ratio",
+                "Max ratio"
+            })" />
+
 <DocsPage>
     <DocsPageHeader Title="Aspect Ratio" SubTitle="An aspect ratio is a proportional relationship between an image's width and height." />
     <DocsPageContent>
@@ -72,7 +93,7 @@
 
 
         <DocsPageSection>
-            <SectionHeader Title="Min & Max settings">
+            <SectionHeader Title="Min & Max aspect ratio">
                 <Description>
                     You can use the <CodeInline Class="docs-code-tertiary">CropMoveEvent</CodeInline>
                     to create a minimum and/or maximum limit for aspect ratio of the crop box.

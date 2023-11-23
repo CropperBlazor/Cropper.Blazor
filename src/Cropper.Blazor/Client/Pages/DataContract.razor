@@ -1,6 +1,28 @@
 ﻿@page "/contract/{name}"
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, urls: PageURLs)]
+
 @using Cropper.Blazor.Client.Components.Docs
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
 
-<DocsApi Type="@ComponentType" IsContract="true">
+@if (ComponentType is not null)
+{
+    <SeoHeader Title="@($"Contract {Name}")"
+               Overview="@($"Contract {Name}.")"
+               Keywords="@(
+            new []
+            {
+                Name,
+                $"Contract {Name}"
+            })" />
 
-</DocsApi>
+    <DocsApi Type="@ComponentType" IsContract="true">
+
+    </DocsApi>
+}
+else
+{
+    <MudText>
+        @($"Contract '{Name}' does not exist");
+    </MudText>
+}

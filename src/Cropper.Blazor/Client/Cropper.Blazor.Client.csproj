@@ -125,6 +125,7 @@
 			<FilesToClean Include="**/Code/*.html" />
 			<FilesToClean Include="./NewFilesToBuild.txt" />
 			<FilesToClean Include="./wwwroot/resizeWindowEventListener.min.js" />
+			<FilesToClean Include="./wwwroot/sitemap.xml" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
 	</Target>

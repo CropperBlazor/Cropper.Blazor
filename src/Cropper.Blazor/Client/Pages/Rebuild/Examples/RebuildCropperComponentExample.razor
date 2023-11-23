@@ -1,16 +1,16 @@
 ﻿<div class="img-container">
     <CropperComponent Class="big-img"
-    Src="@src"
-    ErrorLoadImageSrc="@_errorLoadImageSrc"
-    ErrorLoadImageClass="cropper-error-load center"
-    IsAvailableInitCropper="@IsAvailableInitCropper"
-    IsErrorLoadImage="@IsErrorLoadImage"
-    OnErrorLoadImageEvent="OnErrorLoadImageEvent"
-    @ref="cropperComponent"
-    Options="new Blazor.Models.Options()" />
+                      Src="@src"
+                      ErrorLoadImageSrc="@_errorLoadImageSrc"
+                      ErrorLoadImageClass="cropper-error-load center"
+                      IsAvailableInitCropper="@IsAvailableInitCropper"
+                      IsErrorLoadImage="@IsErrorLoadImage"
+                      OnErrorLoadImageEvent="OnErrorLoadImageEvent"
+                      @ref="cropperComponent"
+                      Options="new Blazor.Models.Options()" />
 </div>
 
-<InputFile id="imageReplaceInput" OnChange="ReplaceImageAsync" accept="image/*" />
+<InputFile id="imageRebuildInput" OnChange="RebuildImageAsync" accept="image/*" />
 
 @* Make sure the size of the image fits perfectly into the container *@
 <style>
@@ -26,7 +26,7 @@
     }
 
     /* These styles are just needed for a nice button and don't related with cropper component */
-    #imageReplaceInput {
+    #imageRebuildInput {
         display: inline-block;
         padding: 10px 20px;
         background-color: #007bff;
@@ -55,36 +55,24 @@
     private readonly string _errorLoadImageSrc = "not-found-image.jpg";
     private bool IsErrorLoadImage { get; set; } = false;
     private bool IsAvailableInitCropper { get; set; } = true;
-    private string src = "images/Landscape-Color.jpg";
+    private string src = "images/underwater-magic-world.jpeg";
     private CropperComponent? cropperComponent = null!;
 
-    public async Task ReplaceImageAsync(InputFileChangeEventArgs inputFileChangeEventArgs)
+    public async Task RebuildImageAsync(InputFileChangeEventArgs inputFileChangeEventArgs)
     {
         IBrowserFile imageFile = inputFileChangeEventArgs.File;
 
         if (imageFile != null)
         {
             string oldSrc = src;
-            string newSrc = await cropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
 
-            /* These conditions are required for error handling. */
-            if (IsErrorLoadImage)
-            {
-                IsAvailableInitCropper = true;
-                IsErrorLoadImage = false;
-            }
-            else
-            {
-                IsAvailableInitCropper = false;
-            }
+            src = await cropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
 
-            await Task.WhenAll(
-                cropperComponent?.ReplaceAsync(newSrc, false).AsTask(),
-                cropperComponent?.RevokeObjectUrlAsync(oldSrc).AsTask())
-                .ContinueWith(x =>
-                {
-                    src = newSrc;
-                });
+            IsAvailableInitCropper = true;
+            IsErrorLoadImage = false;
+
+            cropperComponent?.Destroy();
+            cropperComponent?.RevokeObjectUrlAsync(oldSrc);
         }
     }
 

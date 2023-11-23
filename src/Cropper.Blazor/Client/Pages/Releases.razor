@@ -1,13 +1,19 @@
 ﻿@page "/releases"
 @layout LandingLayout
-@using System.Globalization
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.8)]
 
-<SeoHeader Title="Releases - Cropper.Blazor<"
+@using System.Globalization
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
+
+<SeoHeader Title="Releases - Cropper.Blazor"
            Overview="Releases Cropper.Blazor."
            Keywords="@(
             new []
             {
-                "releases"
+                "releases",
+                "Releases Cropper.Blazor",
+                "Releases Cropper"
             })" />
 
 <MudContainer Class="mt-5 px-4">

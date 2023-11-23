@@ -2,12 +2,24 @@
 @page "/examples"
 @using Cropper.Blazor.Client.Pages.BasicUsage.Examples
 
-<SeoHeader Title="Basic usage"
+<SeoHeader Title="Basic usage - Cropper.Blazor"
            Overview="Examples of basic usage of the cropper component."
            Keywords="@(
             new []
             {
-                "examples"
+                "examples",
+                "examples usage",
+                "examples cropper",
+                "examples cropper component",
+                "examples cropper.Blazor component",
+                "Basic usage",
+                "Basic usage cropper",
+                "Basic usage cropper.Blazor",
+                "Load cross-origin image",
+                "cross-origin image",
+                "cross-origin",
+                "Image loading error",
+                "Cropper sizing"
             })" />
 
 <DocsPage>
@@ -16,7 +28,7 @@
 
         <DocsPageSection>
             <MudText Typo="Typo.h6" GutterBottom="true">Note</MudText>
-            <MudText>The CropperComponent is dependant on <CodeInline Class="docs-code-tertiary">ICropperComponentBase</CodeInline></MudText>
+            <MudText>The CropperComponent is dependent on <CodeInline Class="docs-code-tertiary">ICropperComponentBase</CodeInline></MudText>
             <MudText>Check the <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Href="/">Installation</MudLink> page for instructions regarding default setup.</MudText>
         </DocsPageSection>
 
@@ -35,7 +47,9 @@
                 </Description>
             </SectionHeader>
             <SectionContent Code="BasicCropperUsageExample">
-                <BasicCropperUsageExample />
+                <div class="img-container">
+                    <BasicCropperUsageExample />
+                </div>
             </SectionContent>
         </DocsPageSection>
 
