@@ -64,15 +64,16 @@ jobs:
 
     - name: Check if sitemap.xml File Exists
       run: |
-        $filePath = "./src/Cropper.Blazor/Client/wwwroot/sitemap.xml"
+        $filePath = "./sitemap.xml"
         if (Test-Path $filePath) {
-          Write-Host "sitemap.xml file exists at $filePath"
+          Write-Host "sitemap.xml file exists
         } else {
-          Write-Host "File does not exist at $filePath"
+          Write-Host "File does not exist
           exit 1
         }
-        
-     # publishes Blazor project to the release-folder
+      working-directory: src/Cropper.Blazor/Client/wwwroot
+      
+      # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
       run: dotnet publish ./src/Cropper.Blazor/Client/Cropper.Blazor.Client.csproj -c Release --output release --nologo
       
