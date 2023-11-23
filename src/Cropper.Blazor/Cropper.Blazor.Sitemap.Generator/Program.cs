@@ -18,7 +18,7 @@ public class Program
 
         Console.WriteLine($"Cropper.Blazor.Sitemap.Generator completed in {stopWatch.ElapsedMilliseconds} msecs");
 
-        return 1;
+        return 0;
     }
 
     static void SaveSitemapEntries(List<SitemapEntry> entries)
