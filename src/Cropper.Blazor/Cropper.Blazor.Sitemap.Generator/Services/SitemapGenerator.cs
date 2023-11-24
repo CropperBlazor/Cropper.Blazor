@@ -18,46 +18,88 @@ namespace Cropper.Blazor.Sitemap.Generator.Services
 
             foreach (Type componentType in componentTypes)
             {
-                SitemapUrlAttribute? sitemapAttribute = componentType.GetCustomAttribute<SitemapUrlAttribute>();
-                RouteAttribute routeAttribute = componentType.GetCustomAttributes<RouteAttribute>().FirstOrDefault();
+                IEnumerable<SitemapUrlAttribute> sitemapAttributes = componentType.GetCustomAttributes<SitemapUrlAttribute>();
 
-                string url = routeAttribute?.Template;
-                IEnumerable<string> sitemapUrls = sitemapAttribute?.Urls?.Where(url => !string.IsNullOrWhiteSpace(url)) ?? Enumerable.Empty<string>();
-                if (sitemapUrls.Any())
+                if (sitemapAttributes.Any())
                 {
-                    // Create a sitemap entry for the component using the sitemap URL routes
-                    foreach (string sitemapUrl in sitemapUrls)
+                    foreach (SitemapUrlAttribute sitemapAttribute in sitemapAttributes)
                     {
-                        SitemapEntry entry = new SitemapEntry
+                        if (!string.IsNullOrWhiteSpace(sitemapAttribute?.Url))
                         {
-                            Url = $"{baseUrl}{sitemapUrl}",
-                            LastModified = DateTime.UtcNow,
-                            ChangeFrequency = sitemapAttribute?.ChangeFreq ?? ChangeFreq.Daily,
-                            Priority = sitemapAttribute?.Priority ?? 0.5
-                        };
-
-                        sitemapEntries.Add(entry);
+                            // Create a sitemap entry for the component using the sitemap URL routes
+                            AddSitemapEntry(
+                                sitemapEntries,
+                                baseUrl,
+                                sitemapAttribute!.Url,
+                                sitemapAttribute?.ChangeFreq,
+                                sitemapAttribute?.Priority);
+                        }
+                        else
+                        {
+                            AddRouteSitemapEntry(
+                                sitemapEntries,
+                                componentType,
+                                baseUrl,
+                                sitemapAttribute?.ChangeFreq,
+                                sitemapAttribute?.Priority);
+                        }
                     }
                 }
                 else
                 {
-                    if (!string.IsNullOrWhiteSpace(url))
-                    {
-                        // Create a sitemap entry for the component using the current route
-                        SitemapEntry entry = new SitemapEntry
-                        {
-                            Url = $"{baseUrl}{url}",
-                            LastModified = DateTime.UtcNow,
-                            ChangeFrequency = sitemapAttribute?.ChangeFreq ?? ChangeFreq.Daily,
-                            Priority = sitemapAttribute?.Priority ?? 0.5
-                        };
-
-                        sitemapEntries.Add(entry);
-                    }
+                    AddRouteSitemapEntry(
+                        sitemapEntries,
+                        componentType,
+                        baseUrl,
+                        null,
+                        null);
                 }
             }
 
             return sitemapEntries;
+        }
+
+        private void AddRouteSitemapEntry(
+            List<SitemapEntry> sitemapEntries,
+            Type componentType,
+            string baseUrl,
+            ChangeFreq? changeFreq,
+            double? priority)
+        {
+            IEnumerable<RouteAttribute> routeAttributes = componentType.GetCustomAttributes<RouteAttribute>();
+
+            foreach (RouteAttribute routeAttribute in routeAttributes)
+            {
+                string url = routeAttribute!.Template;
+                if (!string.IsNullOrWhiteSpace(url))
+                {
+                    // Create a sitemap entry for the component using the current route
+                    AddSitemapEntry(
+                        sitemapEntries,
+                        baseUrl,
+                        url,
+                        changeFreq,
+                        priority);
+                }
+            }
+        }
+
+        private void AddSitemapEntry(
+            List<SitemapEntry> sitemapEntries,
+            string baseUrl,
+            string url,
+            ChangeFreq? changeFreq,
+            double? priority)
+        {
+            SitemapEntry entry = new SitemapEntry
+            {
+                Url = $"{baseUrl}{url}",
+                LastModified = DateTime.UtcNow,
+                ChangeFrequency = changeFreq ?? ChangeFreq.Daily,
+                Priority = priority ?? 0.5
+            };
+
+            sitemapEntries.Add(entry);
         }
     }
 }

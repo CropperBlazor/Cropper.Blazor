@@ -14,11 +14,39 @@ public class Program
         List<SitemapEntry> entries = new SitemapGenerator()
             .GenerateSitemapEntries();
 
+        ValidateSitemapEntries(entries);
+
         SaveSitemapEntries(entries);
 
         Console.WriteLine($"Cropper.Blazor.Sitemap.Generator completed in {stopWatch.ElapsedMilliseconds} msecs");
 
         return 0;
+    }
+
+    static void ValidateSitemapEntries(List<SitemapEntry> entries)
+    {
+        var urls = entries
+            .Where(e => !string.IsNullOrWhiteSpace(e.Url))
+            .Select(e => e.Url);
+
+        List<string> duplicatedUrls = new List<string>();
+
+        // HashSet to store unique URLs
+        HashSet<string> uniqueUrls = new HashSet<string>();
+
+        // Check for unique URLs and display the result
+        foreach (var url in urls)
+        {
+            if (!uniqueUrls.Add(url))
+            {
+                duplicatedUrls.Add(url);
+            }
+        }
+
+        if (duplicatedUrls.Any())
+        {
+            throw new ArgumentException($"Duplicated URLs: {string.Join(", ", duplicatedUrls)}");
+        }
     }
 
     static void SaveSitemapEntries(List<SitemapEntry> entries)

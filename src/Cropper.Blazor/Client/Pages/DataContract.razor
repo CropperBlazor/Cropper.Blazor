@@ -1,5 +1,22 @@
 ﻿@page "/contract/{name}"
-@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, urls: PageURLs)]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/CanvasData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/ContainerData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/CropBoxData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/CropEndEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/CropMoveEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/CropReadyEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/CropStartEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/CropperData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/DragMode")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/GetCroppedCanvasOptions")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/ImageData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/JSEventData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/Options")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/SetCanvasDataOptions")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/SetCropBoxDataOptions")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/SetDataOptions")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/ViewMode")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/contract/ZoomEvent")]
 
 @using Cropper.Blazor.Client.Components.Docs
 @using Cropper.Blazor.Shared.Attributes

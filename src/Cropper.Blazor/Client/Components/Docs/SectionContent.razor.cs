@@ -118,6 +118,12 @@ public partial class SectionContent : IBrowserViewportObserver
         try
         {
             string? key = typeof(SectionContent).Assembly.GetManifestResourceNames().FirstOrDefault(x => x.Contains($".{code}Code.html"));
+
+            if (key is null)
+            {
+                throw new KeyNotFoundException($"'.{code}Code.html' code not exist");
+            }
+
             using var stream = typeof(SectionContent).Assembly.GetManifestResourceStream(key!);
             using var reader = new StreamReader(stream!);
             var read = reader.ReadToEnd();
@@ -143,7 +149,7 @@ public partial class SectionContent : IBrowserViewportObserver
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.StackTrace);
+            Console.WriteLine($"{ex.Message}, {ex.StackTrace}");
         }
     };
 
