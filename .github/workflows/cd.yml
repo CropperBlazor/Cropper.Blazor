@@ -59,20 +59,21 @@ jobs:
 
     - name: Wait for Exit Code 1 for Cropper.Blazor.Sitemap.Generator project
       run: |
-        dotnet run --no-build -c Release
+        dotnet run -c Release
       working-directory: src/Cropper.Blazor/Cropper.Blazor.Sitemap.Generator
 
     - name: Check if sitemap.xml File Exists
       run: |
-        $filePath = "./src/Cropper.Blazor/Client/wwwroot/sitemap.xml"
-        if (Test-Path $filePath) {
-          Write-Host "sitemap.xml file exists at $filePath"
-        } else {
-          Write-Host "File does not exist at $filePath"
+        filePath="./sitemap.xml"
+        if [ -f "$filePath" ]; then
+          echo "sitemap.xml file exists"
+        else
+          echo "File does not exist"
           exit 1
-        }
-        
-     # publishes Blazor project to the release-folder
+        fi
+      working-directory: src/Cropper.Blazor/Client/wwwroot
+      
+      # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
       run: dotnet publish ./src/Cropper.Blazor/Client/Cropper.Blazor.Client.csproj -c Release --output release --nologo
       
