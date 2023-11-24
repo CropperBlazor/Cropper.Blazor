@@ -2,19 +2,19 @@
 
 namespace Cropper.Blazor.Shared.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class SitemapUrlAttribute : Attribute
     {
         public ChangeFreq ChangeFreq { get; }
         public double Priority { get; }
-        public string[]? Urls { get; }
+        public string Url { get; }
 
         public SitemapUrlAttribute(
-            string urls = null,
+            string url = null,
             ChangeFreq changeFreq = ChangeFreq.Daily,
             double priority = 0.5)
         {
-            Urls = urls?.Split(",");
+            Url = url;
             ChangeFreq = changeFreq;
             Priority = priority;
         }
