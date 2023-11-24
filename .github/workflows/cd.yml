@@ -64,7 +64,7 @@ jobs:
 
     - name: Check if sitemap.xml File Exists
       run: |
-        $filePath = "./sitemap.xml"
+        filePath="./sitemap.xml"
         if (Test-Path $filePath) {
           Write-Host "sitemap.xml file exists
         } else {
