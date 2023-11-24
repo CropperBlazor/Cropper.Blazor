@@ -65,12 +65,12 @@ jobs:
     - name: Check if sitemap.xml File Exists
       run: |
         filePath="./sitemap.xml"
-        if (Test-Path $filePath) {
-          Write-Host "sitemap.xml file exists
-        } else {
-          Write-Host "File does not exist
+        if [ -f "$filePath" ]; then
+          echo "sitemap.xml file exists"
+        else
+          echo "File does not exist"
           exit 1
-        }
+        fi
       working-directory: src/Cropper.Blazor/Client/wwwroot
       
       # publishes Blazor project to the release-folder
