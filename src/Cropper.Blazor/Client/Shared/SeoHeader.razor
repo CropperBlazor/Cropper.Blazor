@@ -9,10 +9,12 @@
     <meta property="og:site_name" content="Cropper.Blazor" />
     <meta property="og:image" content="https://cropperblazor.github.io/cropperblazor.png" />
     <meta property="og:type" content="website" />
+
     @if (!string.IsNullOrEmpty(Overview))
     {
-        <meta name="description" content="@GetSubTitle()" />
-        <meta property="og:description" content="@GetSubTitle()" />
-        <meta name="twitter:description" content="@GetSubTitle()" />
+    <meta name="description" content="@GetSubTitle()" />
+    <meta property="og:description" content="@GetSubTitle()" />
+    <meta name="twitter:description" content="@GetSubTitle()" />
     }
+
 </HeadContent>
