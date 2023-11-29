@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Components;
 
 namespace Cropper.Blazor.Client.Shared;
+
 public partial class LandingLayout : LayoutComponentBase
 {
     [Inject] private LayoutService LayoutService { get; set; } = null!;
-
 
     private bool _drawerOpen = false;
 
