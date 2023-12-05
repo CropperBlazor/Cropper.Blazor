@@ -2,8 +2,6 @@
 using Cropper.Blazor.Client.Models;
 using Cropper.Blazor.Client.Services;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using static MudBlazor.Colors;
 
 namespace Cropper.Blazor.Client.Pages
 {
@@ -12,13 +10,13 @@ namespace Cropper.Blazor.Client.Pages
         [Inject]
         public GitHubApiClient GitHubApiClient { get; set; } = null!;
 
-        private GitHubReleases[] _githubReleases = Array.Empty<GitHubReleases>();
+        private GitHubReleases[] _gitHubReleases = Array.Empty<GitHubReleases>();
         private CancellationToken _cancellationToken;
 
         protected override async Task OnInitializedAsync()
         {
             _cancellationToken = new();
-            _githubReleases = await GitHubApiClient.GetReleasesAsync(_cancellationToken);
+            _gitHubReleases = await GitHubApiClient.GetReleasesAsync(_cancellationToken);
             StateHasChanged();
         }
 
