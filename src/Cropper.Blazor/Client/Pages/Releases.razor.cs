@@ -52,7 +52,6 @@ namespace Cropper.Blazor.Client.Pages
 
                 if (newUrl == url)
                 {
-                    // If valid, return the replacement string
                     return $"(<a target=\"_blank\" class=\"text-with-dots\" rel=\"noopener\" style=\"color: var(--mud-palette-primary);\" href=\"{result}\">{result}</a>)";
                 }
 
