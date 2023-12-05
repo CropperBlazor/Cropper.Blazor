@@ -19,14 +19,14 @@
 <MudContainer Class="mt-5 px-4">
     <DocsPageHeader Title="Releases" />
     <DocsPageContent>
-        @if (_githubReleases == null)
+        @if (_gitHubReleases == null)
         {
             <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
         }
         else
         {
             <MudGrid Class="docs-github-releases">
-                @foreach (var release in _githubReleases)
+                @foreach (var release in _gitHubReleases)
                 {
                     <MudItem xs="12" md="4">
                         <div class="docs-sticky-info">
