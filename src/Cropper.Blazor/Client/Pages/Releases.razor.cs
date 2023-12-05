@@ -30,7 +30,9 @@ namespace Cropper.Blazor.Client.Pages
             value = Regex.Replace(value, @"((###\s)(?<subtitle>.+))(?<items>.*(?:\r?\n[*] .*)*)", "<h6 class=\"mud-typography mud-typography-h6\">${subtitle}</h6><ul class=\"mt-3 mb-6 px-6\">${items}</ul>");
             value = Regex.Replace(value, @"((##\s)(?<title>.+))(?<items>.*(?:\r?\n[*] .*)*)", "<h5 class=\"mud-typography mud-typography-h5\">${title}</h5><ul class=\"mt-3 mb-6 px-6\">${items}</ul>");
             value = Regex.Replace(value, @"-\s*(.*)", "<li>$1</li>", RegexOptions.Multiline);
-            value = Regex.Replace(value, @"(@)(\S+)", "<a target=\"_blank\" href=\"https://github.com/$2\" class=\"mud-link mud-default-text mud-link-underline-hover\"><b>@$2</b></a>");
+            value = Regex.Replace(value, @"(@)(\S+),?", (m) => {
+                return $"<a target=\"_blank\" href=\"https://github.com/{m.Groups[2].Value.TrimEnd(',')}\" class=\"mud-link mud-default-text mud-link-underline-hover\"><b>@{m.Groups[2].Value}</b></a>";
+            });
             value = Regex.Replace(value, @"([*][*]Full Changelog[*][*]: )(https://github.com/CropperBlazor/Cropper.Blazor/compare/)(.+)", "<p class=\"mud-typography mud-typography-body1\">Full Changelog: <a rel=\"noopener\" style=\"color: var(--mud-palette-primary); target=\"_blank\" href=\"$2$3\" class=\"docs-code docs-code-primary\">$3</a></p>");
             value = Regex.Replace(value, @"\[([^)]+)\]\(([^)]+)\)", $"<a class=\"text-with-dots\" target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary);\" href=\"$2\">$1</a>");
             value = Regex.Replace(value, @"\(([^)]+)\)", ReplaceLinkUrl, RegexOptions.IgnoreCase);
@@ -47,8 +49,8 @@ namespace Cropper.Blazor.Client.Pages
             if (Uri.TryCreate(url, UriKind.Absolute, out Uri result))
             {
                 string newUrl = url;
-                newUrl = Regex.Replace(newUrl, @"https:\/\/github\.com\/([^\/]+)\/([^\/]+)\/pull\/(\d+)", $"<a target=\"_blank\" class=\"text-with-dots\" rel=\"noopener\" style=\"color: var(--mud-palette-primary);\" href=\"{url}\">PR#$3</a>");
-                newUrl = Regex.Replace(newUrl, @"https:\/\/github\.com\/([^\/]+)\/([^\/]+)\/issues\/(\d+)", $"<a target=\"_blank\" class=\"text-with-dots\" rel=\"noopener\" style=\"color: var(--mud-palette-primary);\" href=\"{url}\">Issue#$3</a>");
+                newUrl = Regex.Replace(newUrl, @"https:\/\/github\.com\/([^\/]+)\/([^\/]+)\/pull\/(\d+)", $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary);\" href=\"{url}\">PR#$3</a>");
+                newUrl = Regex.Replace(newUrl, @"https:\/\/github\.com\/([^\/]+)\/([^\/]+)\/issues\/(\d+)", $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary);\" href=\"{url}\">Issue#$3</a>");
 
                 if (newUrl == url)
                 {
