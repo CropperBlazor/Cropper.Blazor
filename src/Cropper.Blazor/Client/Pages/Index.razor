@@ -3,6 +3,7 @@
 @using Cropper.Blazor.Client.Components
 @using Cropper.Blazor.Client.Components.Docs
 @using Cropper.Blazor.Client.Models;
+@using Cropper.Blazor.Client.Pages.Examples
 @using Cropper.Blazor.Client.Pages.Home.Installation.Examples
 @using Cropper.Blazor.Client.Pages.Home.Uses.Examples
 
@@ -142,9 +143,19 @@
 
                 <DocsPageSection>
                     <SectionHeader Title="Register Services">
-                        <Description>Add the following in <CodeInline>Program.cs</CodeInline></Description>
+                        <Description>
+                            Add the following in <CodeInline>Program.cs</CodeInline>
+                            <br><br>
+                            You can change the path to the CropperJSInterop.min.js module if for some reason 
+                            it is located outside the server root folder.
+                        </Description>
                     </SectionHeader>
-                    <SectionContent Codes="@(new[] {new CodeFile(".NET 6 & .NET 7", "InstallServicesNET6Manual")})" />
+                    <SectionContent Style="background-color: var(--mud-palette-background-grey)!important;" Codes="@(
+                        new CodeFile[] {
+                            new CodeFile("Add Service", "InstallServicesManual"),
+                            new CodeFile("Override internal path", "InstallServicesOverrideInternal"),
+                            new CodeFile("Override full global path", "InstallServicesOverrideGlobal")
+                        })" />
                 </DocsPageSection>
 
                 <DocsPageSection>
@@ -178,7 +189,7 @@
                             </MudList>
                         </Description>
                     </SectionHeader>
-                    <SectionContent @ref="ActivePreviewActive" ChildContent="PreviewActiveRenderFragment" Codes="@(
+                    <SectionContent  @ref="ActivePreviewActive" ChildContent="PreviewActiveRenderFragment" Codes="@(
                         new CodeFile[]
                         {
                             new CodeFile("Preview from String selector", "UsesPreviewFromStringSelectorComponentsExample"),
