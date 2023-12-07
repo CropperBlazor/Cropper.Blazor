@@ -20,10 +20,29 @@ namespace Cropper.Blazor.Client.Models
 
         public const string InstallScriptManual = @"<script src=""_content/Cropper.Blazor/cropper.min.js""></script>";
 
-        public const string InstallServicesNET6Manual = @"
+        public const string InstallServicesManual = @"
             using Cropper.Blazor.Extensions;
 
             builder.Services.AddCropper();
+            ";
+
+        public const string InstallServicesOverrideGlobal = @"
+            using Cropper.Blazor.Extensions;
+
+            builder.Services.AddCropper(new CropperJsInteropOptions()
+            {
+                DefaultInternalPathToCropperModule = ""{YourPath}/_content/Cropper.Blazor/cropperJsInterop.min.js""
+            });
+            ";
+
+        public const string InstallServicesOverrideInternal = @"
+            using Cropper.Blazor.Extensions;
+
+            builder.Services.AddCropper(new CropperJsInteropOptions()
+            {
+                IsActiveGlobalPath = true,
+                GlobalPathToCropperModule = ""{StartUrlWithPath}/_content/Cropper.Blazor/cropperJsInterop.min.js""
+            });
             ";
 
         public const string MinMaxZoomRatio_Script = @"

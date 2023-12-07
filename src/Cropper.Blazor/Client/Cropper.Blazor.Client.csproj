@@ -185,11 +185,6 @@
 	  <None Remove="Pages\CropZoom\Examples\MinMaxZoomRatio_ScriptCode.html" />
 	  <None Remove="Pages\Crop\Examples\CropPolygonImage_ScriptCode.html" />
 	  <None Remove="Pages\Crop\Examples\CropRoundImage_ScriptCode.html" />
-	  <None Remove="Pages\ManualMarkdown\InstallServicesOverrideGlobalCode.html" />
-	  <None Remove="Pages\ManualMarkdown\InstallServicesOverrideInternalCode.html" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Compile Include="Pages\ManualMarkdown\InstallServicesOverrideGlobal.razor" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Cropper.Blazor.Shared\Cropper.Blazor.Shared.csproj" />
