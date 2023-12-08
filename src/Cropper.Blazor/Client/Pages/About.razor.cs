@@ -21,7 +21,7 @@ namespace Cropper.Blazor.Client.Pages
                 Avatar = "https://avatars.githubusercontent.com/u/38187349?v=4",
                 From = "Ukraine",
                 Github = "https://github.com/ColdForeign",
-                LinkedIn = string.Empty,
+                LinkedIn = "https://www.linkedin.com/in/george-radchuk/",
                 Name = "George Radchuk",
                 Role = "Creator",
                 Languages = "English, Ukrainian"
