@@ -23,6 +23,7 @@ public partial class SectionContent : IBrowserViewportObserver
     protected string ToolbarClassname =>
         new CssBuilder("docs-section-content-toolbar")
             .AddClass($"outlined", Outlined && ChildContent != null)
+            .AddClass("darken", ChildContent == null && Codes != null)
             .Build();
 
     protected string InnerClassname =>
