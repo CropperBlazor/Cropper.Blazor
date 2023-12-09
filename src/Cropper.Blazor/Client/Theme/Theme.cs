@@ -147,8 +147,8 @@ public class Theme
         Dark = "#110E2D",
         DarkLighten = "#1A1643",
         GrayDefault = "#4B5563",
-        GrayLight = "#9CA3AF",
-        GrayLighter = "#adbdccff"
+        GrayLight = "#e8e8e8",
+        GrayLighter = "#f9f9f9"
     };
     private static readonly PaletteDark LandingPageDarkPalette = new()
     {
@@ -167,6 +167,8 @@ public class Theme
         ActionDefault = "#92929f",
         DrawerIcon = "#92929f",
         DrawerText = "#92929f",
+        GrayLight = "#2a2833",
+        GrayLighter = "#1e1e2d",
         DrawerBackground = "#151521",
         OverlayLight = "#1e1e2d80",
         Divider = "#5c5c6a"
