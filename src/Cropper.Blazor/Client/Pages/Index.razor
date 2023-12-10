@@ -153,7 +153,7 @@
                             it is located outside the server root folder.
                         </Description>
                     </SectionHeader>
-                    <SectionContent Style="background-color: var(--mud-palette-background-grey)!important;" Codes="@(
+                    <SectionContent Codes="@(
                         new CodeFile[] {
                             new CodeFile("Add Service", "InstallServicesManual"),
                             new CodeFile("Override internal path", "InstallServicesOverrideInternal"),
@@ -165,7 +165,7 @@
                     <SectionHeader Class="mt-3">
                         <Description>Also for server-side (Blazor Server or MVC with Blazor Server) you need add configuration SignalR, increase <CodeInline>MaximumReceiveMessageSize</CodeInline> of a single incoming hub message (default is 32KB) and map SignalR to your path.</Description>
                     </SectionHeader>
-                    <SectionContent Code="InstallServicesForBlazorServerExample" />
+                    <SectionContent Code="InstallServicesForBlazorServerManual" />
                 </DocsPageSection>
 
                 <DocsPageSection>
