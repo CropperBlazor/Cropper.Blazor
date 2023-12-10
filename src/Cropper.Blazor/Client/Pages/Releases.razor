@@ -1,5 +1,4 @@
 ﻿@page "/releases"
-@layout LandingLayout
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.8)]
 
 @using System.Globalization
@@ -7,7 +6,7 @@
 @using Cropper.Blazor.Shared.Models
 
 <SeoHeader Title="Releases - Cropper.Blazor"
-           Overview="Releases Cropper.Blazor."
+           Overview="Cropper.Blazor releases and update history."
            Keywords="@(
             new []
             {
@@ -16,10 +15,10 @@
                 "Releases Cropper"
             })" />
 
-<MudContainer Class="mt-5 px-4">
+<DocsPage DisplayFooter="true">
     <DocsPageHeader Title="Releases" />
     <DocsPageContent>
-        @if (_gitHubReleases == null)
+        @if (_gitHubReleases.Length == 0)
         {
             <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
         }
@@ -50,4 +49,4 @@
             </MudGrid>
         }
     </DocsPageContent>
-</MudContainer>
+</DocsPage>
