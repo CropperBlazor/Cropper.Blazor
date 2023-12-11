@@ -2,6 +2,15 @@
     min-height: calc(100vh - 600px);
 }
 
+.docs-css-api-header {
+    margin-top: 8px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: var(--mud-palette-action-default);
+    padding-left: 34px;
+    margin-bottom: 2px;
+}
+
 .docs-page-content-navigation-drawer {
     .title {
         font-weight: 500;

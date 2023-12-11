@@ -60,6 +60,29 @@
         flex-direction: column;
         position: relative;
 
+        .mud-toolbar-wrap-content {
+            .mud-button {
+                &.file-button {
+                    margin-right: 0;
+                    border: none !important;
+                    border-radius: 0 !important;
+
+                    &:first-child {
+                        border-radius: 8px 8px 0 0 !important;
+                    }
+
+                    &.active {
+                        background-color: var(--mud-palette-primary-darken);
+                        color: var(--mud-palette-success-text);
+                    }
+                }
+
+                &:last-child:not(.file-button) {
+                    border-top-right-radius: 0;
+                }
+            }
+        }
+
         .docs-section-content-toolbar {
             height: unset;
             padding: 0;
@@ -92,7 +115,7 @@
                 background-color: var(--mud-palette-grey-light);
 
                 .file-button {
-                    margin-right: 0px !important;
+                    margin-right: 0 !important;
 
                     &.active {
                         background-color: var(--mud-palette-background-grey);
@@ -109,7 +132,7 @@
 
                         &:first-child {
                             border-top-left-radius: 8px;
-                            border-bottom-left-radius: 0px;
+                            border-bottom-left-radius: 0;
                             border-left: none;
                         }
                     }
@@ -117,29 +140,6 @@
                     &.active {
                         color: var(--mud-palette-primary);
                     }
-                }
-            }
-        }
-
-        .mud-toolbar-wrap-content {
-            .mud-button {
-                &.file-button {
-                    margin-right: 0px;
-                    border: none !important;
-                    border-radius: 0 !important;
-
-                    &:first-child {
-                        border-radius: 8px 8px 0 0 !important;
-                    }
-
-                    &.active {
-                        background-color: var(--mud-palette-primary-darken);
-                        color: var(--mud-palette-success-text);
-                    }
-                }
-
-                &:last-child:not(.file-button) {
-                    border-top-right-radius: 0px;
                 }
             }
         }
