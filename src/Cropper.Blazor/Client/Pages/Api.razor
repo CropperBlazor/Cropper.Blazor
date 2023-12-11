@@ -6,7 +6,7 @@
 @using Cropper.Blazor.Shared.Attributes
 @using Cropper.Blazor.Shared.Models
 
-<SeoHeader Title="API"
+<SeoHeader Title="API - Cropper.Blazor"
            Overview="Cropper component API."
            Keywords="@(
             new []
@@ -29,9 +29,7 @@ else
 
 
 @code {
-    [Parameter] public string component { get; set; }
-
-    public Type ComponentType { get; set; }
+    public Type ComponentType { get; set; } = null!;
 
     protected override void OnParametersSet()
     {
