@@ -100,7 +100,7 @@ public class Theme
         },
         H4 = new H4()
         {
-            FontSize = "1.8rem",
+            FontSize = "2.125rem",
             FontWeight = 700,
         },
         H5 = new H5()
