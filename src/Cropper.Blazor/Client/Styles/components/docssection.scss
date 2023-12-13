@@ -61,25 +61,23 @@
         position: relative;
 
         .mud-toolbar-wrap-content {
-            .mud-button {
-                &.file-button {
-                    margin-right: 0;
-                    border: none !important;
-                    border-radius: 0 !important;
+            .file-button {
+                margin-right: 0 !important;
+                border: none !important;
+                border-radius: 0 !important;
 
-                    &:first-child {
-                        border-radius: 8px 8px 0 0 !important;
-                    }
-
-                    &.active {
-                        background-color: var(--mud-palette-primary-darken);
-                        color: var(--mud-palette-success-text);
-                    }
+                &:first-child {
+                    border-radius: 8px 8px 0 0 !important;
                 }
 
-                &:last-child:not(.file-button) {
-                    border-top-right-radius: 0;
+                &.active {
+                    background-color: var(--mud-palette-primary-darken) !important;
+                    color: var(--mud-palette-success-text) !important;
                 }
+            }
+
+            &:last-child:not(.file-button) {
+                border-top-right-radius: 0;
             }
         }
 
