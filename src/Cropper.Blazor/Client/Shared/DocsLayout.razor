@@ -9,7 +9,7 @@
     </MudAppBar>
     <MudDrawer Open="@_drawerOpen" OpenChanged="OnDrawerOpenChanged" ClipMode="DrawerClipMode.Docked" Elevation="0" Breakpoint="Breakpoint.Lg">
         <MudHidden Breakpoint="Breakpoint.MdAndUp">
-            <MudToolBar Dense="true" DisableGutters="true" Class="docs-gray-bg">
+            <MudToolBar Class="docs-gray-bg">
                 @if (_topMenuOpen == false)
                 {
                     <MudIconButton Icon="@Icons.Material.Rounded.ArrowBack" Color="Color.Inherit" OnClick="@((e) => OpenTopMenu())" />
@@ -25,6 +25,7 @@
             @if (_topMenuOpen == true)
             {
                 <MudNavMenu Color="Color.Primary" Margin="Margin.Dense" Rounded="true" Class="pa-2">
+                    <MudNavLink Href="" Icon="@Icons.Material.Filled.Start">Getting Started</MudNavLink>
                     <MudNavLink Href="demo" Icon="@Icons.Material.Filled.Crop">Demo</MudNavLink>
                     <MudNavLink Href="examples" Icon="@Icons.Material.Filled.AutoStories">Examples</MudNavLink>
                     <MudNavLink Href="api" Icon="@Icons.Material.Filled.Api">Api</MudNavLink>
@@ -37,7 +38,7 @@
             @{
                 BasePage docsBasePage = LayoutService.GetDocsBasePage(NavigationManager.Uri);
             }
-            @if (!_topMenuOpen && (docsBasePage== BasePage.Examples || docsBasePage == BasePage.Api || docsBasePage == BasePage.Contract))
+            @if (!_topMenuOpen && (docsBasePage == BasePage.Examples || docsBasePage == BasePage.Api || docsBasePage == BasePage.Contract || docsBasePage == BasePage.Releases))
             {
                 <NavMenu @ref="@_navMenuRef" />
             }
