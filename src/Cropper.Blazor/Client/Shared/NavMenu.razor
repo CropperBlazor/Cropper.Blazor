@@ -10,8 +10,14 @@
     }
 </MudNavGroup>
 <MudNavGroup Title="API" Expanded="@(_section == "api")" ExpandIcon="@Icons.Material.Filled.ExpandMore">
-    @foreach (var link in MenuService.Api)
+    @foreach (var title in MenuService.Api.GroupBy(x => x.Group).Select(x => x.Key))
     {
-        <MudNavLink Href="@link.Href">@link.Title</MudNavLink>
+        <div class="docs-css-api-header">
+            @title
+        </div>
+        @foreach (var link in MenuService.Api.Where(x => x.Group == title))
+        {
+            <MudNavLink Href="@link.Href" Match="NavLinkMatch.All">@link.Title</MudNavLink>
+        }
     }
 </MudNavGroup>
