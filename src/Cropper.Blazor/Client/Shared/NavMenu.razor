@@ -6,7 +6,7 @@
 <MudNavGroup Title="Examples" Expanded="@(_section == "examples")" ExpandIcon="@Icons.Material.Filled.ExpandMore">
     @foreach (var link in MenuService.Examples)
     {
-        <MudNavLink Href="@link.Href">@link.Title</MudNavLink>
+        <MudNavLink Href="@link.Href" Match="NavLinkMatch.Prefix">@link.Title</MudNavLink>
     }
 </MudNavGroup>
 <MudNavGroup Title="API" Expanded="@(_section == "api")" ExpandIcon="@Icons.Material.Filled.ExpandMore">

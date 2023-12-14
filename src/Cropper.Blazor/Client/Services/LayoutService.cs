@@ -95,8 +95,6 @@ public class LayoutService
             return BasePage.Api;
         else if (uri.Contains("/about"))
             return BasePage.About;
-        else if (uri.Contains("/contract"))
-            return BasePage.Contract;
         else if (uri.Contains("/releases"))
             return BasePage.Releases;
         else

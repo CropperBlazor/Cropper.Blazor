@@ -36,24 +36,24 @@ namespace Cropper.Blazor.Client.Services
         public IEnumerable<DocsLink> Api => _api ??= new List<DocsLink>
         {
             new DocsLink {Title = "CropperComponent", Href = "api"},
-            new DocsLink {Title = "ViewMode", Href = "contract/ViewMode"},
-            new DocsLink {Title = "DragMode", Href = "contract/DragMode"},
-            new DocsLink {Group = "Options", Title = "Options", Href = "contract/Options"},
-            new DocsLink {Group = "Options", Title = "GetCroppedCanvasOptions", Href = "contract/GetCroppedCanvasOptions"},
-            new DocsLink {Group = "Options", Title = "SetCropBoxDataOptions", Href = "contract/SetCropBoxDataOptions"},
-            new DocsLink {Group = "Options", Title = "SetCanvasDataOptions", Href = "contract/SetCanvasDataOptions"},
-            new DocsLink {Group = "Options", Title = "SetDataOptions", Href = "contract/SetDataOptions"},
-            new DocsLink {Group = "Event", Title = "CropEndEvent", Href = "contract/CropEndEvent"},
-            new DocsLink {Group = "Event", Title = "CropMoveEvent", Href = "contract/CropMoveEvent"},
-            new DocsLink {Group = "Event", Title = "CropStartEvent", Href = "contract/CropStartEvent"},
-            new DocsLink {Group = "Event", Title = "CropReadyEvent", Href = "contract/CropReadyEvent"},
-            new DocsLink {Group = "Event", Title = "ZoomEvent", Href = "contract/ZoomEvent"},
-            new DocsLink {Group = "Data", Title = "CropperData", Href = "contract/CropperData"},
-            new DocsLink {Group = "Data", Title = "ImageData", Href = "contract/ImageData"},
-            new DocsLink {Group = "Data", Title = "ContainerData", Href = "contract/ContainerData"},
-            new DocsLink {Group = "Data", Title = "CanvasData", Href = "contract/CanvasData"},
-            new DocsLink {Group = "Data", Title = "CropBoxData", Href = "contract/CropBoxData"},
-            new DocsLink {Group = "Data", Title = "JSEventData", Href = "contract/JSEventData"}
+            new DocsLink {Title = "ViewMode", Href = "api/ViewMode"},
+            new DocsLink {Title = "DragMode", Href = "api/DragMode"},
+            new DocsLink {Group = "Options", Title = "Options", Href = "api/Options"},
+            new DocsLink {Group = "Options", Title = "GetCroppedCanvasOptions", Href = "api/GetCroppedCanvasOptions"},
+            new DocsLink {Group = "Options", Title = "SetCropBoxDataOptions", Href = "api/SetCropBoxDataOptions"},
+            new DocsLink {Group = "Options", Title = "SetCanvasDataOptions", Href = "api/SetCanvasDataOptions"},
+            new DocsLink {Group = "Options", Title = "SetDataOptions", Href = "api/SetDataOptions"},
+            new DocsLink {Group = "Event", Title = "CropEndEvent", Href = "api/CropEndEvent"},
+            new DocsLink {Group = "Event", Title = "CropMoveEvent", Href = "api/CropMoveEvent"},
+            new DocsLink {Group = "Event", Title = "CropStartEvent", Href = "api/CropStartEvent"},
+            new DocsLink {Group = "Event", Title = "CropReadyEvent", Href = "api/CropReadyEvent"},
+            new DocsLink {Group = "Event", Title = "ZoomEvent", Href = "api/ZoomEvent"},
+            new DocsLink {Group = "Data", Title = "CropperData", Href = "api/CropperData"},
+            new DocsLink {Group = "Data", Title = "ImageData", Href = "api/ImageData"},
+            new DocsLink {Group = "Data", Title = "ContainerData", Href = "api/ContainerData"},
+            new DocsLink {Group = "Data", Title = "CanvasData", Href = "api/CanvasData"},
+            new DocsLink {Group = "Data", Title = "CropBoxData", Href = "api/CropBoxData"},
+            new DocsLink {Group = "Data", Title = "JSEventData", Href = "api/JSEventData"}
         };
     }
 }

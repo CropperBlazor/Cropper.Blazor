@@ -1,5 +1,5 @@
-﻿@page "/examples/cropperusage"
-@page "/examples"
+﻿@page "/examples"
+@page "/examples/cropperusage"
 @using Cropper.Blazor.Client.Pages.BasicUsage.Examples
 
 <SeoHeader Title="Basic usage - Cropper.Blazor"
@@ -39,7 +39,7 @@
                 <Description>
                     To start using the cropper component, <b>you must specify the path to the image</b>
                     with which you will work in the <CodeInline>Src</CodeInline> property.
-                    You also need to specify the cropper settings using the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline> property,
+                    You also need to specify the cropper settings using the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/Options">Options</MudLink></CodeInline> property,
                     which can be left as <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://github.com/fengyuanchen/cropperjs/blob/main/src/js/defaults.js">default</MudLink>, as in the example below.
                     <br>
                     <MudAlert Class="my-3" Severity="Severity.Info">
@@ -99,7 +99,7 @@
                     <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes">HTML5 CORS settings attributes</MudLink>,
                     and your image server supports the Access-Control-Allow-Origin option (see the <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS">HTTP access control (CORS)</MudLink>).
                     <br><br>
-                    If your image isn't be a cross-origin, set the <CodeInline>CheckCrossOrigin</CodeInline> in the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline> property to <CodeInline>false</CodeInline>.
+                    If your image isn't be a cross-origin, set the <CodeInline>CheckCrossOrigin</CodeInline> in the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/Options">Options</MudLink></CodeInline> property to <CodeInline>false</CodeInline>.
                 </Description>
             </SectionHeader>
             <SectionContent Code="LoadCrossOriginImageExample">
