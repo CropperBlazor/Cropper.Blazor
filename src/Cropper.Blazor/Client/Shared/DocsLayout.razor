@@ -27,7 +27,7 @@
                 <MudNavMenu Color="Color.Primary" Margin="Margin.Dense" Rounded="true" Class="pa-2">
                     <MudNavLink Href="" Icon="@Icons.Material.Filled.Start" Match="NavLinkMatch.All">Getting Started</MudNavLink>
                     <MudNavLink Href="demo" Icon="@Icons.Material.Filled.Crop">Demo</MudNavLink>
-                    <MudNavLink Href="examples" Icon="@Icons.Material.Filled.AutoStories">Examples</MudNavLink>
+                    <MudNavLink Href="examples/cropperusage" Icon="@Icons.Material.Filled.AutoStories">Examples</MudNavLink>
                     <MudNavLink Href="api" Icon="@Icons.Material.Filled.Api">Api</MudNavLink>
                     <MudNavLink Href="about" Icon="@Icons.Material.Filled.ContactSupport">About</MudNavLink>
                     <MudNavLink Href="releases" Icon="@Icons.Material.Filled.NewReleases">Releases</MudNavLink>
@@ -38,7 +38,7 @@
             @{
                 BasePage docsBasePage = LayoutService.GetDocsBasePage(NavigationManager.Uri);
             }
-            @if (!_topMenuOpen && (docsBasePage == BasePage.Examples || docsBasePage == BasePage.Api || docsBasePage == BasePage.Contract || docsBasePage == BasePage.Releases))
+            @if (!_topMenuOpen && (docsBasePage == BasePage.Examples || docsBasePage == BasePage.Api || docsBasePage == BasePage.Releases))
             {
                 <NavMenu @ref="@_navMenuRef" />
             }
