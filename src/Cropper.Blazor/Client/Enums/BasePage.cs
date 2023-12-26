@@ -7,5 +7,6 @@ public enum BasePage
     Examples,
     Api,
     About,
-    Contract
+    Contract,
+    Releases
 }

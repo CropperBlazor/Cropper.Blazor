@@ -20,6 +20,7 @@ public partial class SectionHeader
 
     [Parameter] public string Title { get; set; }
     [Parameter] public string TitleClass { get; set; }
+    [Parameter] public string TitleId { get; set; }
 
     [Parameter] public bool HideTitle { get; set; }
 

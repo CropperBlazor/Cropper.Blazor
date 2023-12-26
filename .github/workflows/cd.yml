@@ -21,17 +21,26 @@ jobs:
       # uses GitHub's checkout action to checkout code form the master branch
     - uses: actions/checkout@v3
     
-      # sets up .NET Core SDK 7, 6
-    - name: Setup .NET 7, 6
+    # sets up .NET Core SDK 8, 7, 6
+    - name: Setup .NET 8, 7, 6
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: |
             6.0.x
             7.0.x
+            8.0.x
         
+    - name: Install WASM tools Workloads
+      run: |
+          dotnet workload install wasm-tools --ignore-failed-sources
+
     - name: Restore dependencies
       run: dotnet restore
       working-directory: src/Cropper.Blazor
+
+    - name: Restore dotnet tool
+      run: dotnet tool restore
+      working-directory: src/Cropper.Blazor/Cropper.Blazor
       
     - name: Build
       run: dotnet build --no-restore
@@ -44,11 +53,27 @@ jobs:
     - name: Coverage
       uses: codecov/codecov-action@v3.1.4
       with:
-        files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml
+        files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml
         fail_ci_if_error: true
         verbose: true
-        
-     # publishes Blazor project to the release-folder
+
+    - name: Wait for Exit Code 1 for Cropper.Blazor.Sitemap.Generator project
+      run: |
+        dotnet run -c Release
+      working-directory: src/Cropper.Blazor/Cropper.Blazor.Sitemap.Generator
+
+    - name: Check if sitemap.xml File Exists
+      run: |
+        filePath="./sitemap.xml"
+        if [ -f "$filePath" ]; then
+          echo "sitemap.xml file exists"
+        else
+          echo "File does not exist"
+          exit 1
+        fi
+      working-directory: src/Cropper.Blazor/Client/wwwroot
+      
+      # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
       run: dotnet publish ./src/Cropper.Blazor/Client/Cropper.Blazor.Client.csproj -c Release --output release --nologo
       
@@ -107,60 +132,87 @@ jobs:
         folder: release/wwwroot
         repository-name: CropperBlazor/CropperBlazor.github.io
 
-  install-maui-workloads:
-    name: Install MAUI Workloads
-    runs-on: windows-latest
-
-    steps:
-    - uses: actions/checkout@v3
-  
-    - name: Install MAUI Workloads
-      run: |
-          dotnet workload install maui --ignore-failed-sources
-
   demo-projects-build:
     name: Build Demo Projects
     runs-on: windows-latest
-    needs: install-maui-workloads
-
-    strategy:
-      matrix:
-        dotnet-version: ['6.0.x', '7.0.x']
+    env: 
+     JAVA_HOME: '/home/runner/android-sdk'
 
     steps:
     - uses: actions/checkout@v3
  
-    # sets up .NET Core SDK 7, 6
-    - name: Setup .NET 7, 6
-      uses: actions/setup-dotnet@v3
+    # sets up .NET Core SDK 8, 7, 6
+    - name: Setup .NET 8, 7, 6
+      uses: actions/setup-dotnet@v3.2.0
       with:
-        dotnet-version: ${{ matrix.dotnet-version }}
-          
+        dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+            
+    - name: Cache JDK
+      id: cache-jdk
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.JAVA_HOME }}
+        key: ${{ runner.os }}-jdk-11
+        restore-keys: |
+            ${{ runner.os }}-jdk-
+
+    - name: Setup Java JDK
+      if: steps.cache-jdk.outputs.cache-hit != 'true'
+      uses: actions/setup-java@v3.13.0
+      with:
+        distribution: 'microsoft'
+        java-version: 11
+        
+    - name: search workloads
+      run: dotnet workload search
+  
+    - name: Install Windows, Android MAUI Workloads
+      run: |
+          dotnet workload install maui-windows maui-android --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/8.0.1xx.json --ignore-failed-sources
+          dotnet workload install wasm-tools --ignore-failed-sources
+
+    - name: list workloads
+      run: dotnet workload list
+
+    - name: Restore dotnet workload 
+      run: dotnet workload restore
+      working-directory: examples
+      
     - name: Restore dependencies for Cropper.Blazor.Demo
       run: dotnet restore
       working-directory: examples
 
-    - name: DotNet Build MVC with Blazor Server Demo Project
+    - name: Restore dotnet tool
+      run: dotnet tool restore
+      working-directory: src/Cropper.Blazor/Cropper.Blazor
+
+    - name: DotNet Build MVC with Blazor Server Demo Project for .net 7
       run: dotnet build --no-restore
       working-directory: examples\Cropper.MVC.With.Blazor.Server.Net7
-      if: matrix.dotnet-version == '7.0.x'
 
-    - name: DotNet Build Blazor Server Demo Project
+    - name: DotNet Build Blazor Server Demo Project for .net 7
       run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.Server.Net7
-      if: matrix.dotnet-version == '7.0.x'
 
-    - name: DotNet Build Blazor MAUI Demo Project
+    - name: DotNet Build Blazor MAUI Demo Project for .net 7
       run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.MAUI.Net7
-      if: matrix.dotnet-version == '7.0.x'
 
-    - name: DotNet Build Blazor Server Demo Project
+    - name: DotNet Build Blazor Server Demo Project for .net 6
       run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.Server.Net6
-      if: matrix.dotnet-version == '6.0.x'
 
-    - name: DotNet Build Blazor MAUI Demo Project
+    # - name: DotNet Build Blazor MAUI Demo Project for .net 6
+    #   run: dotnet build --no-restore
+    #   working-directory: examples\Cropper.Blazor.MAUI.Net6
+
+    - name: DotNet Build Blazor Server Demo Project for .net 8
       run: dotnet build --no-restore
-      working-directory: examples\Cropper.Blazor.MAUI.Net6
-      if: matrix.dotnet-version == '6.0.x'
+      working-directory: examples\Cropper.Blazor.Server.Net8
+
+    - name: DotNet Build Blazor MAUI Demo Project for .net 8
+      run: dotnet build --no-restore
+      working-directory: examples\Cropper.Blazor.MAUI.Net8

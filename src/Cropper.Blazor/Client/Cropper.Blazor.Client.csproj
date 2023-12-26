@@ -12,7 +12,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
@@ -21,6 +21,8 @@
 	<PropertyGroup>
 		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
 		<BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
+		<PublishTrimmed>true</PublishTrimmed>
+		<RunAOTCompilation>false</RunAOTCompilation>
 		<BlazorWasmPrerenderingMode>Static</BlazorWasmPrerenderingMode>
 	</PropertyGroup>
 
@@ -30,9 +32,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="BlazorWasmPreRendering.Build" Version="3.1.0-preview.4" />
-		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.13" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.13" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0" PrivateAssets="all" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
 	</ItemGroup>
 
@@ -123,12 +125,13 @@
 			<FilesToClean Include="**/Code/*.html" />
 			<FilesToClean Include="./NewFilesToBuild.txt" />
 			<FilesToClean Include="./wwwroot/resizeWindowEventListener.min.js" />
+			<FilesToClean Include="./wwwroot/sitemap.xml" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
 	</Target>
 
-	<Target Name="ToolRestore">
-		<Exec Command="dotnet tool restore" StandardOutputImportance="high" />
+	<Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
+		<!--<Exec ContinueOnError="true" Command="dotnet tool restore" StandardOutputImportance="high" />-->
 	</Target>
 
 	<Target Name="WebCompiler" DependsOnTargets="ToolRestore">

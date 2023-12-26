@@ -1,0 +1,53 @@
+﻿@page "/releases"
+@layout LandingLayout
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.8)]
+
+@using System.Globalization
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
+
+<SeoHeader Title="Releases - Cropper.Blazor"
+           Overview="Releases Cropper.Blazor."
+           Keywords="@(
+            new []
+            {
+                "releases",
+                "Releases Cropper.Blazor",
+                "Releases Cropper"
+            })" />
+
+<MudContainer Class="mt-5 px-4">
+    <DocsPageHeader Title="Releases" />
+    <DocsPageContent>
+        @if (_gitHubReleases == null)
+        {
+            <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+        }
+        else
+        {
+            <MudGrid Class="docs-github-releases">
+                @foreach (var release in _gitHubReleases)
+                {
+                    <MudItem xs="12" md="4">
+                        <div class="docs-sticky-info">
+                            <MudText Typo="Typo.h5" Inline="true">
+                                Version
+                            </MudText>
+                            <MudText Typo="Typo.h5" Inline="true" Color="Color.Primary">
+                                <b>@release.TagName</b>
+                            </MudText>
+                            <MudText Typo="Typo.subtitle1">
+                                Released on @release.PublishedAt.ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture)
+                            </MudText>
+                        </div>
+                    </MudItem>
+                    <MudItem xs="12" md="8">
+                        <div class="docs-github-release-body">
+                            @((MarkupString)GetBody(release.Body))
+                        </div>
+                    </MudItem>
+                }
+            </MudGrid>
+        }
+    </DocsPageContent>
+</MudContainer>
