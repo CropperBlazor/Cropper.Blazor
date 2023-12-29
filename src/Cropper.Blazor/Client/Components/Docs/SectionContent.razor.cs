@@ -42,6 +42,7 @@ public partial class SectionContent : IBrowserViewportObserver
             .AddClass(ShowCodeClass)
             .Build();
 
+    [Parameter] public string Style { get; set; } = null!;
     [Parameter] public string Class { get; set; } = string.Empty;
     [Parameter] public string ShowCodeClass { get; set; } = string.Empty;
     [Parameter] public bool DarkenBackground { get; set; }

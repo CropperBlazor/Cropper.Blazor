@@ -1,9 +1,0 @@
-﻿@namespace Cropper.Blazor.Client.Pages.Examples
-
-builder.Services.AddServerSideBlazor()
-    .AddHubOptions(options =>
-    {
-        options.MaximumReceiveMessageSize = 32 * 1024 * 100;
-    });
-
-app.MapBlazorHub();

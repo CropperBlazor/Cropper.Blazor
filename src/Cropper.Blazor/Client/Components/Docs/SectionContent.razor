@@ -10,40 +10,40 @@
 
 @if ((Codes != null || ChildContent != null) && !IsOnlySingleSectionCode)
 {
-    <div class="@Classname">
+    <div class="@Classname" style="@Style">
         @if (Codes != null || ChildContent != null)
         {
-            <MudToolBar Class="@ToolbarClassname">
-                <MudButtonGroup Color="Color.Primary" Class="mud-width-full"
-                                Variant="Variant.Text" VerticalAlign="IsVerticalAlign"
-                                Style="border-radius: 8px 8px 0 0">
-                    @if (Codes != null)
+            <MudToolBar Class="@ToolbarClassname" WrapContent="IsVerticalAlign">
+                @if (Codes != null)
+                {
+                    @foreach (var codefile in Codes)
                     {
-                        @foreach (var codefile in Codes)
-                        {
-                            <MudButton Class="@GetActiveCode(codefile.code)"
-                                       OnClick="@(() => SetActiveCode(codefile.code))"
-                                       Style="word-break: break-word;"
-                                       Size="Size.Small">
-                                @codefile.title
-                            </MudButton>
-                        }
-                    }
-
-                    @if (!IsVerticalAlign)
-                    {
-                        <MudSpacer />
-                    }
-
-                    @if (HasCode && ChildContent != null)
-                    {
-                        <MudButton OnClick="OnShowCode"
-                                   StartIcon="@(ShowCode ? @Icons.Material.Rounded.CodeOff : Icons.Material.Rounded.Code)"
+                        <MudButton Class="@GetActiveCode(codefile.code)"
+                                   Variant="@(IsVerticalAlign ? Variant.Filled : Variant.Text)"
+                                   Color="@(IsVerticalAlign ? Color.Primary : Color.Default)"
+                                   FullWidth="IsVerticalAlign"
+                                   OnClick="@(() => SetActiveCode(codefile.code))"
+                                   Style="word-break: break-word;"
                                    Size="Size.Small">
-                            @(ShowCode ? "Hide code" : "Show code")
+                            @codefile.title
                         </MudButton>
                     }
-                </MudButtonGroup>
+                }
+
+                @if (!IsVerticalAlign)
+                {
+                    <MudSpacer />
+                }
+
+                @if (HasCode && ChildContent != null)
+                {
+                    <MudButton OnClick="OnShowCode"
+                               FullWidth="IsVerticalAlign"
+                               StartIcon="@(ShowCode ? @Icons.Material.Rounded.CodeOff : Icons.Material.Rounded.Code)"
+                               Size="Size.Small">
+                        @(ShowCode ? "Hide code" : "Show code")
+                    </MudButton>
+                }
             </MudToolBar>
         }
         @if (ChildContent != null)

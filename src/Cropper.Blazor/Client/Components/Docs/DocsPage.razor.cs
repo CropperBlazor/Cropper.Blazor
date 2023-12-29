@@ -18,6 +18,7 @@ namespace Cropper.Blazor.Client.Components.Docs
         [Inject] NavigationManager NavigationManager { get; set; }
         [Inject] private IRenderQueueService RenderQueue { get; set; }
         [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public bool DisplayFooter { get; set; }
 
         private bool _contentDrawerOpen = true;
         public event Action<Stopwatch> Rendered;

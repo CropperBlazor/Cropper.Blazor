@@ -10,9 +10,9 @@ public class LayoutService
     private UserPreferences.UserPreferences _userPreferences = null!;
     private bool _systemPreferences;
 
-    public bool IsDarkMode { get; private set; } = false;
+    public bool IsDarkMode { get; private set; }
 
-    public ThemeMode ThemeMode = ThemeMode.System;
+    public ThemeMode DarkModeToggle = ThemeMode.System;
 
     public MudTheme CurrentTheme { get; private set; } = null!;
     public event EventHandler MajorUpdateOccured = null!;
@@ -43,37 +43,38 @@ public class LayoutService
         }
     }
 
-    public async Task OnSystemPreferenceChanged(bool newValue)
+    public Task OnSystemPreferenceChanged(bool newValue)
     {
         _systemPreferences = newValue;
-        if (ThemeMode == ThemeMode.System)
+        if (DarkModeToggle == ThemeMode.System)
         {
             IsDarkMode = newValue;
             OnMajorUpdateOccured();
         }
+        return Task.CompletedTask;
     }
 
     private void OnMajorUpdateOccured() => MajorUpdateOccured?.Invoke(this, EventArgs.Empty);
 
     public async Task ToggleDarkMode()
     {
-        switch (ThemeMode)
+        switch (DarkModeToggle)
         {
             case ThemeMode.System:
-                ThemeMode = ThemeMode.Light;
+                DarkModeToggle = ThemeMode.Light;
                 IsDarkMode = false;
                 break;
             case ThemeMode.Light:
-                ThemeMode = ThemeMode.Dark;
+                DarkModeToggle = ThemeMode.Dark;
                 IsDarkMode = true;
                 break;
             case ThemeMode.Dark:
-                ThemeMode = ThemeMode.System;
+                DarkModeToggle = ThemeMode.System;
                 IsDarkMode = _systemPreferences;
                 break;
         }
 
-        _userPreferences.ThemeMode = ThemeMode;
+        _userPreferences.ThemeMode = DarkModeToggle;
         await _userPreferencesService.SaveUserPreferences(_userPreferences);
         OnMajorUpdateOccured();
     }
@@ -94,8 +95,6 @@ public class LayoutService
             return BasePage.Api;
         else if (uri.Contains("/about"))
             return BasePage.About;
-        else if (uri.Contains("/contract"))
-            return BasePage.Contract;
         else if (uri.Contains("/releases"))
             return BasePage.Releases;
         else
