@@ -58,7 +58,6 @@
             width: var(--blazor-load-percentage, 0%);
             object-fit: cover;
             object-position: 0% 0%;
-            transition: width 0.1s ease-in-out;
         }
     }
 
