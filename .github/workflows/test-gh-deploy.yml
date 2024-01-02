@@ -7,7 +7,7 @@ concurrency:
 # Run workflow on every push to the master branch
 on:
   push:
-    branches: [ fix/* ]
+    branches: [ test/* ]
     paths-ignore:
       - '**.md'
     
