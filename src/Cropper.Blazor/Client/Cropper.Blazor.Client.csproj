@@ -9,7 +9,6 @@
 
 	<PropertyGroup>
 		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
-		<BlazorWasmPrerenderingMode>Static</BlazorWasmPrerenderingMode>
 		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
 	</PropertyGroup>
 
