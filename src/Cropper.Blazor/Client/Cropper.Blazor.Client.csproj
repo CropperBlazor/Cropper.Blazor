@@ -10,8 +10,6 @@
 	<PropertyGroup>
 		<BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
 		<BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
-		<PublishTrimmed>true</PublishTrimmed>
-		<RunAOTCompilation>false</RunAOTCompilation>
 		<BlazorWasmPrerenderingMode>Static</BlazorWasmPrerenderingMode>
 		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
 	</PropertyGroup>
