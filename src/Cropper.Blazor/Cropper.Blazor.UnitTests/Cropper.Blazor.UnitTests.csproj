@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Bogus" Version="35.2.0" />
+		<PackageReference Include="Bogus" Version="35.4.0" />
 		<PackageReference Include="bunit" Version="1.25.3" />
 		<PackageReference Include="coverlet.msbuild" Version="6.0.0">
 			<PrivateAssets>all</PrivateAssets>
