@@ -1,13 +1,13 @@
 ﻿<div class="img-container">
     <CropperComponent Class="big-img"
-    Src="@src"
-    ErrorLoadImageSrc="@_errorLoadImageSrc"
-    ErrorLoadImageClass="cropper-error-load"
-    IsAvailableInitCropper="@IsAvailableInitCropper"
-    IsErrorLoadImage="@IsErrorLoadImage"
-    OnErrorLoadImageEvent="OnErrorLoadImageEvent"
-    @ref="cropperComponent"
-    Options="new Blazor.Models.Options()" />
+                      Src="@src"
+                      ErrorLoadImageSrc="@_errorLoadImageSrc"
+                      ErrorLoadImageClass="cropper-error-load center"
+                      IsAvailableInitCropper="@IsAvailableInitCropper"
+                      IsErrorLoadImage="@IsErrorLoadImage"
+                      OnErrorLoadImageEvent="OnErrorLoadImageEvent"
+                      @ref="cropperComponent"
+                      Options="new Blazor.Models.Options()" />
 </div>
 
 <InputFile id="imageReplaceInput" OnChange="ReplaceImageAsync" accept="image/*" />
@@ -37,6 +37,17 @@
         text-decoration: none;
         font-size: 16px;
         cursor: pointer;
+    }
+
+    .cropper-error-load {
+        max-height: inherit;
+        max-width: 100%;
+    }
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>
 

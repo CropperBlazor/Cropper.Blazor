@@ -2,6 +2,28 @@
 @using Cropper.Blazor.Client.Models;
 @using Cropper.Blazor.Client.Pages.Crop.Examples
 
+<SeoHeader Title="Crop image - Cropper.Blazor"
+           Overview="Here are examples of basic usage of the getting canvas drawn the cropped image."
+           Keywords="@(
+            new []
+            {
+                "Cropper.Blazor URL",
+                "Cropper URL",
+                "cropped image",
+                "Crop image",
+                "Crop image Cropper.Blazor",
+                "Crop image Cropper",
+                "Crop Cropper.Blazor",
+                "Crop Cropper",
+                "image Cropper.Blazor",
+                "image Cropper",
+                "image",
+                "Crop a round image",
+                "round image",
+                "Crop a polygon image",
+                "polygon image"
+            })" />
+
 <DocsPage>
     <DocsPageHeader Title="Crop image" SubTitle="Here are examples of basic usage of the getting canvas drawn the cropped image." />
     <DocsPageContent>
@@ -15,7 +37,7 @@
                     <CodeInline Class="docs-code-warning">GetCroppedCanvasDataURLAsync</CodeInline> method have following arguments:
                     <MudList>
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
-                            <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/GetCroppedCanvasOptions">GetCroppedCanvasOptions (required)</MudLink></CodeInline> - used to get a cropped canvas;
+                            <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/GetCroppedCanvasOptions">GetCroppedCanvasOptions (required)</MudLink></CodeInline> - used to get a cropped canvas;
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
                             <CodeInline>type (not required)</CodeInline> - string indicating the image format. The default type is image/png;
@@ -49,7 +71,7 @@
                     <CodeInline Class="docs-code-warning">GetCroppedCanvasAsync</CodeInline> method have following argument:
                     <MudList>
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
-                            <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/GetCroppedCanvasOptions">GetCroppedCanvasOptions (required)</MudLink></CodeInline> - used to get a cropped canvas;
+                            <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/GetCroppedCanvasOptions">GetCroppedCanvasOptions (required)</MudLink></CodeInline> - used to get a cropped canvas;
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
                             <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource">CancellationToken</MudLink> (not required)</CodeInline> - used to propagate notifications that the operation should be canceled.
@@ -59,9 +81,9 @@
                         <b>Note:</b> If you intend to get a JPEG image from the output canvas, you should set the <CodeInline>fillColor</CodeInline> option first, if not, the transparent part in the JPEG image will become black by default.
                     </MudAlert>
                     <br>
-                    This <CodeInline Class="docs-code-warning">GetCroppedCanvasAsync</CodeInline> method returns <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/CroppedCanvas">CroppedCanvas</MudLink></CodeInline>.
+                    This <CodeInline Class="docs-code-warning">GetCroppedCanvasAsync</CodeInline> method returns <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/CroppedCanvas">CroppedCanvas</MudLink></CodeInline>.
                     Use <CodeInline>JSRuntimeObjectRef</CodeInline> in the
-                    <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/CroppedCanvas">CroppedCanvas</MudLink></CodeInline> which represents a reference to a JavaScript cropped canvas object for get a Data URL
+                    <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/CroppedCanvas">CroppedCanvas</MudLink></CodeInline> which represents a reference to a JavaScript cropped canvas object for get a Data URL
                     via
                     <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL">HTMLCanvasElement.toDataURL</MudLink>:
                     <br><br>

@@ -4,34 +4,50 @@
     <MudGrid Class="docs-footer">
         <MudItem xs="6" sm="3">
             <div class="d-flex flex-column">
-                <div class="d-flex align-center mb-3">
+                <div class="d-flex flex-wrap align-center mb-3">
                     <CropperBlazorLogo Style="width:24px;" Class="mr-2" />
                     <MudLink Href="/" Typo="Typo.subtitle2" Color="Color.Inherit" Underline="Underline.None">Cropper.Blazor</MudLink>
                 </div>
+                <div class="d-flex align-center my-2">
+                    <MudIcon Icon="@Icons.Material.Rounded.NearMe" Size="Size.Small" Color="Color.Inherit" Class="mr-2" />
+                    <MudText Typo="Typo.body1">Ukraine</MudText>
+                </div>
             </div>
-            <div class="d-flex mt-4">
-                <MudIconButton Href="https://github.com/Cropper.Blazor/Cropper.Blazor" Target="_blank" Edge="Edge.Start" Class="me-2" Color="Color.Inherit" Icon="@Icons.Custom.Brands.GitHub" aria-label="github" />
+            <div class="d-flex my-2">
+                <MudIconButton Rel="noopener" Href="https://github.com/CropperBlazor/Cropper.Blazor" Target="_blank" Edge="Edge.Start"
+                               Class="me-2" Color="Color.Inherit" Icon="@Icons.Custom.Brands.GitHub" aria-label="github" />
             </div>
         </MudItem>
         <MudItem xs="6" sm="3" Class="d-flex flex-column">
-            <MudLink Class="mb-3" Href="/demo" Typo="Typo.subtitle2" Color="Color.Inherit" Underline="Underline.None">Demo</MudLink>
+            <MudLink Class="mb-3" Href="/" Typo="Typo.subtitle2" Color="Color.Inherit" Underline="Underline.None">Getting Started</MudLink>
+            <MudLink Href="/demo" Typo="Typo.body1" Color="Color.Inherit" Underline="Underline.None">Demo</MudLink>
+            <MudLink Href="/about" Typo="Typo.body1" Color="Color.Inherit" Underline="Underline.None">About</MudLink>
+            <MudLink Href="/releases" Typo="Typo.body1" Color="Color.Inherit" Underline="Underline.None">Releases</MudLink>
         </MudItem>
-        <MudItem xs="6" sm="3" Class="d-flex flex-column">
-            <MudLink Class="mb-3" Href="/examples" Typo="Typo.subtitle2" Color="Color.Inherit" Underline="Underline.None">Examples</MudLink>
+        <MudItem xs="12" sm="3" Class="d-flex flex-column">
+            <MudLink Class="mb-3" Href="/examples/cropperusage" Typo="Typo.subtitle2" Color="Color.Inherit" Underline="Underline.None">All Examples</MudLink>
+            <MudLink Href="/examples/cropperusage" Typo="Typo.body1" Color="Color.Inherit" Underline="Underline.None">Basic Usage</MudLink>
+            <MudLink Href="/examples/cropping" Typo="Typo.body1" Color="Color.Inherit" Underline="Underline.None">Cropping</MudLink>
+            <MudLink Href="/examples/dimensions" Typo="Typo.body1" Color="Color.Inherit" Underline="Underline.None">Crop Box Dimensions</MudLink>
+            <MudLink Href="/examples/viewmodes" Typo="Typo.body1" Color="Color.Inherit" Underline="Underline.None">View Modes</MudLink>
         </MudItem>
-        <MudItem xs="6" sm="3" Class="d-flex flex-column">
+        <MudItem xs="12" sm="3" Class="d-flex flex-column">
             <MudLink Class="mb-3" Href="/api" Typo="Typo.subtitle2" Color="Color.Inherit" Underline="Underline.None">API</MudLink>
+            <MudLink Href="/api" Typo="Typo.body1" Color="Color.Inherit" Underline="Underline.None">CropperComponent</MudLink>
+            <MudLink Href="/api/Options" Typo="Typo.body1" Color="Color.Inherit" Underline="Underline.None">Options</MudLink>
+            <MudLink Href="/api/GetCroppedCanvasOptions" Typo="Typo.body1" Color="Color.Inherit" Underline="Underline.None">GetCroppedCanvasOptions</MudLink>
+            <MudLink Href="/api/SetCropBoxDataOptions" Typo="Typo.body1" Color="Color.Inherit" Underline="Underline.None">SetCropBoxDataOptions</MudLink>
         </MudItem>
         <MudItem xs="12">
             <MudToolBar DisableGutters="true" Dense="true">
-                <MudText Typo="Typo.body1">Copyright © 2022-@DateTime.Now.Year Cropper.Blazor.</MudText>
+                <MudText Typo="Typo.body1">Copyright © 2022-@DateTime.Now.Year <span class="text-gradient">Cropper.Blazor</span></MudText>
             </MudToolBar>
         </MudItem>
     </MudGrid>
 </div>
 
 @code {
-    [Parameter] public string Class { get; set; }
+    [Parameter] public string Class { get; set; } = null!;
 
     protected string ContainerClassnames =>
        new CssBuilder("section-container")

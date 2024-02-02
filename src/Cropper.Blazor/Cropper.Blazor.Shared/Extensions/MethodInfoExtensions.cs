@@ -327,7 +327,7 @@ namespace Cropper.Blazor.Shared.Extensions
                 }
             }
 
-            return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"contract/{name}\">{name}</a>";
+            return $"<a target=\"_blank\" style=\"color: var(--mud-palette-primary); \" href=\"api/{name}\">{name}</a>";
         }
     }
 }

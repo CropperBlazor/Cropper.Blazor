@@ -56,8 +56,24 @@ jobs:
         files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml
         fail_ci_if_error: true
         verbose: true
-        
-     # publishes Blazor project to the release-folder
+
+    - name: Wait for Exit Code 1 for Cropper.Blazor.Sitemap.Generator project
+      run: |
+        dotnet run -c Release
+      working-directory: src/Cropper.Blazor/Cropper.Blazor.Sitemap.Generator
+
+    - name: Check if sitemap.xml File Exists
+      run: |
+        filePath="./sitemap.xml"
+        if [ -f "$filePath" ]; then
+          echo "sitemap.xml file exists"
+        else
+          echo "File does not exist"
+          exit 1
+        fi
+      working-directory: src/Cropper.Blazor/Client/wwwroot
+      
+      # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
       run: dotnet publish ./src/Cropper.Blazor/Client/Cropper.Blazor.Client.csproj -c Release --output release --nologo
       
@@ -119,6 +135,8 @@ jobs:
   demo-projects-build:
     name: Build Demo Projects
     runs-on: windows-latest
+    env: 
+     JAVA_HOME: '/home/runner/android-sdk'
 
     steps:
     - uses: actions/checkout@v3
@@ -131,7 +149,23 @@ jobs:
             6.0.x
             7.0.x
             8.0.x
+            
+    - name: Cache JDK
+      id: cache-jdk
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.JAVA_HOME }}
+        key: ${{ runner.os }}-jdk-11
+        restore-keys: |
+            ${{ runner.os }}-jdk-
 
+    - name: Setup Java JDK
+      if: steps.cache-jdk.outputs.cache-hit != 'true'
+      uses: actions/setup-java@v3.13.0
+      with:
+        distribution: 'microsoft'
+        java-version: 11
+        
     - name: search workloads
       run: dotnet workload search
   

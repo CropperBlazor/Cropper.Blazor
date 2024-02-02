@@ -14,7 +14,7 @@
 else
 {
     <div class="docs-page-header mt-6 mb-12">
-        <MudText Typo="@Typo.h3">@Title</MudText>
+        <MudText Typo="@TitleTypo">@Title</MudText>
         <MudText>@GetSubTitle() @Description</MudText>
     </div>
 }
@@ -25,9 +25,10 @@ else
     [Parameter] public string SubTitle { get; set; }
     [Parameter] public RenderFragment Description { get; set; }
     [Parameter] public RenderFragment SpecialHeaderContent { get; set; }
+    [Parameter] public Typo TitleTypo { get; set; } = Typo.h3;
 
 
-    string GetTitle() => $"{Title} - MudBlazor";
+    string GetTitle() => $"{Title} - Cropper.Blazor";
 
     string GetSubTitle()
     {

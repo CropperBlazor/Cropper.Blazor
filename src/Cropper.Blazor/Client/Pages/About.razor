@@ -1,12 +1,21 @@
 ﻿@page "/about"
 @layout LandingLayout
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7)]
 
-<SeoHeader Title="About"
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
+
+<SeoHeader Title="About - Cropper.Blazor"
            Overview="About Cropper.Blazor."
            Keywords="@(
             new []
             {
-                "about"
+                "Core Team",
+                "Core Team cropper",
+                "Core Team Cropper.Blazor",
+                "about",
+                "about cropper",
+                "about Cropper.Blazor"
             })" />
 
 <MudContainer Class="mt-5 px-4">
@@ -53,6 +62,7 @@
                                         <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn"
                                                        Href="@teamMember.LinkedIn"
                                                        Target="_blank"
+                                                       Rel="noopener"
                                                        Color="Color.Primary"
                                                        Edge="Edge.End" />
                                     </MudTooltip>
@@ -63,7 +73,8 @@
                                         <MudIconButton Icon="@Icons.Custom.Brands.GitHub"
                                                        Href="@teamMember.Github"
                                                        Color="Color.Surface"
-                                                       Target="_blank" />
+                                                       Target="_blank"
+                                                       Rel="noopener" />
                                     </MudTooltip>
                                 }
                             </MudHidden>

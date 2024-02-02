@@ -1,6 +1,45 @@
-﻿@page "/contract/{name}"
+﻿@page "/api/{name}"
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CanvasData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ContainerData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropBoxData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropEndEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropMoveEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropReadyEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropStartEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropperData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/DragMode")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/GetCroppedCanvasOptions")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ImageData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/JSEventData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/Options")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/SetCanvasDataOptions")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/SetCropBoxDataOptions")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/SetDataOptions")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ViewMode")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ZoomEvent")]
+
 @using Cropper.Blazor.Client.Components.Docs
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
 
-<DocsApi Type="@ComponentType" IsContract="true">
+@if (ComponentType is not null)
+{
+    <SeoHeader Title="@($"Contract {Name} - Cropper.Blazor")"
+               Overview="@($"Contract {Name}.")"
+               Keywords="@(
+            new []
+            {
+                Name,
+                $"Contract {Name}"
+            })" />
 
-</DocsApi>
+    <DocsApi Type="@ComponentType" IsContract="true">
+
+    </DocsApi>
+}
+else
+{
+    <MudText>
+        @($"Contract '{Name}' does not exist");
+    </MudText>
+}

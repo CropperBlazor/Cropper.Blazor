@@ -44,6 +44,7 @@
         height: 100%;
         position: absolute;
         inset: 0;
+        padding: 20px;
 
         &:nth-child(1) {
             -moz-filter: grayscale(1);
@@ -57,7 +58,6 @@
             width: var(--blazor-load-percentage, 0%);
             object-fit: cover;
             object-position: 0% 0%;
-            transition: width 0.1s ease-in-out;
         }
     }
 
@@ -73,7 +73,7 @@
         font-family: Roboto, Helvetica, Arial, sans-serif;
 
         &::after {
-            content: var(--blazor-load-percentage-text, "Loading");
+            content: var(--blazor-load-percentage-text, "0%");
         }
     }
 }
@@ -188,7 +188,7 @@
 
 .cropper-error-load {
     max-height: inherit;
-    max-width: inherit;
+    max-width: 100%;
 }
 
 .support-ukraine {

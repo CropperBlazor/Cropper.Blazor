@@ -42,6 +42,7 @@ public partial class SectionContent : IBrowserViewportObserver
             .AddClass(ShowCodeClass)
             .Build();
 
+    [Parameter] public string Style { get; set; } = null!;
     [Parameter] public string Class { get; set; } = string.Empty;
     [Parameter] public string ShowCodeClass { get; set; } = string.Empty;
     [Parameter] public bool DarkenBackground { get; set; }
@@ -118,6 +119,12 @@ public partial class SectionContent : IBrowserViewportObserver
         try
         {
             string? key = typeof(SectionContent).Assembly.GetManifestResourceNames().FirstOrDefault(x => x.Contains($".{code}Code.html"));
+
+            if (key is null)
+            {
+                throw new KeyNotFoundException($"'.{code}Code.html' code not exist");
+            }
+
             using var stream = typeof(SectionContent).Assembly.GetManifestResourceStream(key!);
             using var reader = new StreamReader(stream!);
             var read = reader.ReadToEnd();
@@ -143,7 +150,7 @@ public partial class SectionContent : IBrowserViewportObserver
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.StackTrace);
+            Console.WriteLine($"{ex.Message}, {ex.StackTrace}");
         }
     };
 

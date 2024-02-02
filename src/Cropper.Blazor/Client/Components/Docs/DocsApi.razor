@@ -10,42 +10,42 @@
 @using Cropper.Blazor.Shared.Extensions;
 
 <DocsPage>
-    @if (!IsContract)
-    {
-        <link rel="canonical" Href="@ApiLink.GetComponentLinkFor(Type)" />
-        <DocsPageSection api-link-section>
-            <SectionHeader Title="Pages" TitleClass="mt-3" />
-            <div class="docs-page-apilinks">
-                <ul class="my-2">
-                    <li>
-                        <MudLink Class="disabled"
-                                 UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
-                                 Href="#">
-                            <CodeInline>@Type.GetTypeDisplayName()</CodeInline>
-                        </MudLink>
-                    </li>
-                </ul>
-            </div>
-        </DocsPageSection>
-    }
-    else
-    {
-        <MudText Typo="Typo.h5" Class="mt-3">
-            @if (Type.IsEnum)
-            {
-                <div>
-                    Enum <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
-                </div>
-            }
-            else
-            {
-                <div>
-                    Contract <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
-                </div>
-            }
-        </MudText>
-    }
+    <DocsPageHeader Title="Cropper Component API" TitleTypo="@Typo.h4" />
     <DocsPageContent>
+        @if (!IsContract)
+        {
+            <link rel="canonical" Href="@ApiLink.GetComponentLinkFor(Type)" />
+            <DocsPageSection api-link-section>
+                <SectionHeader Title="Pages" TitleClass="mt-3" />
+                <div class="docs-page-apilinks">
+                    <ul class="my-2">
+                        <li>
+                            <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
+                                     Href="examples/cropperusage">
+                                <CodeInline>@Type.GetTypeDisplayName()</CodeInline>
+                                </MudLink>
+                            </li>
+                        </ul>
+                    </div>
+                </DocsPageSection>
+        }
+        else
+        {
+            <MudText Typo="Typo.h5" Class="mt-3">
+                @if (Type.IsEnum)
+                {
+                    <div>
+                        Enum <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        Contract <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
+                    </div>
+                }
+            </MudText>
+        }
 
         @{
             // save as lists to speed up displaying the page

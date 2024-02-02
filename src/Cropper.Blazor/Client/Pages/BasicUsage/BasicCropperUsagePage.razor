@@ -1,13 +1,25 @@
-﻿@page "/examples/cropperusage"
-@page "/examples"
+﻿@page "/examples"
+@page "/examples/cropperusage"
 @using Cropper.Blazor.Client.Pages.BasicUsage.Examples
 
-<SeoHeader Title="Basic usage"
+<SeoHeader Title="Basic usage - Cropper.Blazor"
            Overview="Examples of basic usage of the cropper component."
            Keywords="@(
             new []
             {
-                "examples"
+                "examples",
+                "examples usage",
+                "examples cropper",
+                "examples cropper component",
+                "examples cropper.Blazor component",
+                "Basic usage",
+                "Basic usage cropper",
+                "Basic usage cropper.Blazor",
+                "Load cross-origin image",
+                "cross-origin image",
+                "cross-origin",
+                "Image loading error",
+                "Cropper sizing"
             })" />
 
 <DocsPage>
@@ -15,9 +27,11 @@
     <DocsPageContent>
 
         <DocsPageSection>
-            <MudText Typo="Typo.h6" GutterBottom="true">Note</MudText>
-            <MudText>The CropperComponent is dependant on <CodeInline Class="docs-code-tertiary">ICropperComponentBase</CodeInline></MudText>
-            <MudText>Check the <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Href="/">Installation</MudLink> page for instructions regarding default setup.</MudText>
+            <SectionHeader Title="Installation">
+                <Description>
+                    Check the <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Href="/#installPackage">Installation</MudLink> page for instructions on setting up the library before using cropper component.
+                </Description>
+            </SectionHeader>
         </DocsPageSection>
 
         <DocsPageSection>
@@ -25,7 +39,7 @@
                 <Description>
                     To start using the cropper component, <b>you must specify the path to the image</b>
                     with which you will work in the <CodeInline>Src</CodeInline> property.
-                    You also need to specify the cropper settings using the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline> property,
+                    You also need to specify the cropper settings using the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/Options">Options</MudLink></CodeInline> property,
                     which can be left as <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://github.com/fengyuanchen/cropperjs/blob/main/src/js/defaults.js">default</MudLink>, as in the example below.
                     <br>
                     <MudAlert Class="my-3" Severity="Severity.Info">
@@ -35,7 +49,9 @@
                 </Description>
             </SectionHeader>
             <SectionContent Code="BasicCropperUsageExample">
-                <BasicCropperUsageExample />
+                <div class="img-container">
+                    <BasicCropperUsageExample />
+                </div>
             </SectionContent>
         </DocsPageSection>
 
@@ -83,7 +99,7 @@
                     <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes">HTML5 CORS settings attributes</MudLink>,
                     and your image server supports the Access-Control-Allow-Origin option (see the <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS">HTTP access control (CORS)</MudLink>).
                     <br><br>
-                    If your image isn't be a cross-origin, set the <CodeInline>CheckCrossOrigin</CodeInline> in the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/contract/Options">Options</MudLink></CodeInline> property to <CodeInline>false</CodeInline>.
+                    If your image isn't be a cross-origin, set the <CodeInline>CheckCrossOrigin</CodeInline> in the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/Options">Options</MudLink></CodeInline> property to <CodeInline>false</CodeInline>.
                 </Description>
             </SectionHeader>
             <SectionContent Code="LoadCrossOriginImageExample">

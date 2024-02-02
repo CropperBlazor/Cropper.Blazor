@@ -2,6 +2,20 @@
 @using Cropper.Blazor.Client.Models;
 @using Cropper.Blazor.Client.Pages.Replace.Examples
 
+<SeoHeader Title="Replace image - Cropper.Blazor"
+           Overview="Replace image Cropper.Blazor."
+           Keywords="@(
+            new []
+            {
+                "Replace image",
+                "Replace image Cropper.Blazor",
+                "Replace image Cropper",
+                "Replace Cropper.Blazor",
+                "Replace Cropper",
+                "Replace",
+                "Rebuild the cropper"
+            })" />
+
 <DocsPage>
     <DocsPageHeader Title="Replace image" SubTitle="Replace the image's src and rebuild the cropper." />
     <DocsPageContent>
@@ -25,15 +39,18 @@
                         </MudListItem>
                     </MudList>
                     <br>
+                    <MudAlert Class="my-3" Severity="Severity.Warning">
+                        Call <CodeInline>RevokeObjectUrlAsync</CodeInline> method when you've finished using an object URL to let the browser know not to keep the reference to the file any longer.
+                    </MudAlert>
                 </Description>
             </SectionHeader>
             <SectionContent @ref="ActiveReplaceActive" ChildContent="ReplaceActiveRenderFragment" Codes="@(
                         new CodeFile[]
                         {
-                            new CodeFile("Basic replace image with the same size", "BasicReplaceImageWithSameSizeExample"),
-                            new CodeFile("Basic replace image with the new size", "BasicReplaceImageWithNewSizeExample"),
-                            new CodeFile("Using input file replace image with the same size", "BasicInputReplaceImageWithSameSizeExample"),
-                            new CodeFile("Using input file replace image with the new size", "BasicInputReplaceImageWithNewSizeExample")
+                            new CodeFile("Replace with the same size", "BasicReplaceImageWithSameSizeExample"),
+                            new CodeFile("Replace with the new size", "BasicReplaceImageWithNewSizeExample"),
+                            new CodeFile("Replace with the same size from file", "BasicInputReplaceImageWithSameSizeExample"),
+                            new CodeFile("Replace with the new size from file", "BasicInputReplaceImageWithNewSizeExample")
                         })" />
         </DocsPageSection>
 
