@@ -87,17 +87,35 @@ public class LayoutService
 
     public BasePage GetDocsBasePage(string uri)
     {
-        if (uri.Contains("/demo"))
+        Uri webUri = new Uri(uri);
+
+        if (webUri.AbsolutePath.Contains("/demo"))
+        {
             return BasePage.Demo;
-        else if (uri.Contains("/examples"))
+        }
+        else if (webUri.AbsolutePath.Contains("/examples"))
+        {
             return BasePage.Examples;
-        else if (uri.Contains("/api"))
+        }
+        else if (webUri.AbsolutePath.Contains("/api"))
+        {
             return BasePage.Api;
-        else if (uri.Contains("/about"))
+        }
+        else if (webUri.AbsolutePath.Contains("/about"))
+        {
             return BasePage.About;
-        else if (uri.Contains("/releases"))
+        }
+        else if (webUri.AbsolutePath.Contains("/releases"))
+        {
             return BasePage.Releases;
+        }
+        else if (webUri.AbsolutePath == "/")
+        {
+            return BasePage.Home;
+        }
         else
+        {
             return BasePage.None;
+        }
     }
 }

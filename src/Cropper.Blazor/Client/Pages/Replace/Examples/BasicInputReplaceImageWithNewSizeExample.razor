@@ -79,8 +79,10 @@
             }
 
             await Task.WhenAll(
-                cropperComponent?.ReplaceAsync(newSrc, false).AsTask(),
-                cropperComponent?.RevokeObjectUrlAsync(oldSrc).AsTask())
+                cropperComponent!.ReplaceAsync(newSrc, false).AsTask(),
+                // For certain platforms based on WebView2 in Windows Forms and WPF Blazor Hybrids, the 'RevokeObjectUrlAsync(oldSrc)' method does not work correctly in this place.
+                // We recommend clearing redundant Blob resources (old src) in the 'OnLoadImageEvent' event of cropper component.
+                cropperComponent!.RevokeObjectUrlAsync(oldSrc).AsTask())
                 .ContinueWith(x =>
                 {
                     src = newSrc;

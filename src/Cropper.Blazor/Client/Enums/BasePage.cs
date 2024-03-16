@@ -7,5 +7,6 @@ public enum BasePage
     Examples,
     Api,
     About,
-    Releases
+    Releases,
+    Home
 }

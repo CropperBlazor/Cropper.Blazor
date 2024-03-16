@@ -2,6 +2,7 @@
 using Cropper.Blazor.Client.Models;
 using Cropper.Blazor.Client.Services;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace Cropper.Blazor.Client.Pages
 {
@@ -10,14 +11,32 @@ namespace Cropper.Blazor.Client.Pages
         [Inject]
         public GitHubApiClient GitHubApiClient { get; set; } = null!;
 
+        [Inject]
+        public ISnackbar Snackbar { get; set; } = null!;
+
         private GitHubReleases[] _gitHubReleases = Array.Empty<GitHubReleases>();
         private CancellationToken _cancellationToken;
+        private bool? HasGitHubReleasesRequestError = null;
 
         protected override async Task OnInitializedAsync()
         {
-            _cancellationToken = new();
-            _gitHubReleases = await GitHubApiClient.GetReleasesAsync(_cancellationToken);
-            StateHasChanged();
+            await GetReleasesAsync();
+        }
+
+        private async Task GetReleasesAsync()
+        {
+            try
+            {
+                _cancellationToken = new();
+                _gitHubReleases = await GitHubApiClient.GetReleasesAsync(_cancellationToken);
+                HasGitHubReleasesRequestError = false;
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                HasGitHubReleasesRequestError = true;
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
         }
 
         public void Dispose()
