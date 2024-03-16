@@ -16,11 +16,32 @@
             })" />
 
 <DocsPage DisplayFooter="true">
-    <DocsPageHeader Title="Releases" />
+    <DocsPageHeader>
+        <SpecialHeaderContent>
+            <div class="docs-page-header mt-6 mb-12">
+                <MudText Typo="Typo.h3">Releases</MudText>
+                <MudLink Href="https://github.com/CropperBlazor/Cropper.Blazor/releases"
+                         UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
+                         Target="_blank">
+                    Look at GitHub
+                </MudLink>
+            </div>
+        </SpecialHeaderContent>
+    </DocsPageHeader>
     <DocsPageContent>
-        @if (_gitHubReleases.Length == 0)
+        @if (HasGitHubReleasesRequestError is null)
         {
             <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+        }
+        else if (HasGitHubReleasesRequestError == true)
+        {
+            <MudText Class="mb-2">
+                Oops something went wrong. Please try again later.
+            </MudText>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary"
+                       OnClick="@(()=>GetReleasesAsync())">
+                Get Releases
+            </MudButton>
         }
         else
         {
