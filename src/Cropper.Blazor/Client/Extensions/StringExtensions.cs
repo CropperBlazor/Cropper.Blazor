@@ -13,11 +13,13 @@ namespace Cropper.Blazor.Client.Extensions
 
             using MemoryStream uncompressed = new(Encoding.UTF8.GetBytes(code));
             using MemoryStream compressed = new();
-            using DeflateStream compressor = new(compressed, CompressionMode.Compress);
-            uncompressed.CopyTo(compressor);
-            compressor.Close();
-            bytes = compressed.ToArray();
-            urlEncodedBase64compressedCode = WebEncoders.Base64UrlEncode(bytes);
+            using (DeflateStream compressor = new(compressed, CompressionMode.Compress))
+            {
+                uncompressed.CopyTo(compressor);
+                compressor.Close();
+                bytes = compressed.ToArray();
+                urlEncodedBase64compressedCode = WebEncoders.Base64UrlEncode(bytes);
+            }
 
             return urlEncodedBase64compressedCode;
         }
