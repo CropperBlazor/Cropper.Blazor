@@ -55,7 +55,7 @@
         // Releases an existing object URL which was previously created by calling URL.
         // Call this method when you've finished using an object URL to let the browser know not to keep the reference to the file any longer.
         // For certain platforms based on WebView2 in Windows Forms and WPF Blazor Hybrids, the 'RevokeObjectUrlAsync(oldSrc)' method does not work correctly in this place.
-        // We recommend clearing redundant Blob resources (old src) in the 'OnLoadImageEvent' event of cropper component.
+        // We recommend clearing redundant Blob resources (old src) in the 'OnLoadImageEvent' event of cropper component or use equivalent "Rebuild cropper" functionality instead of replace functionality with 'hasSameSize = false' argument.
         // cropperComponent!.RevokeObjectUrlAsync(oldSrc);
     }
 }
