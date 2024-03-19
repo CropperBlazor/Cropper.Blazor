@@ -1,6 +1,6 @@
 ﻿@using MudBlazor.Utilities;
 
-<div class="@ContainerClassnames">
+<div class="@ContainerClassNames">
     <MudGrid Class="docs-footer">
         <MudItem xs="6" sm="3">
             <div class="d-flex flex-column">
@@ -49,7 +49,7 @@
 @code {
     [Parameter] public string Class { get; set; } = null!;
 
-    protected string ContainerClassnames =>
+    protected string ContainerClassNames =>
        new CssBuilder("section-container")
          .AddClass(Class)
          .Build();

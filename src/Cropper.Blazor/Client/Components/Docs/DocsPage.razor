@@ -22,17 +22,17 @@
                 </MudToolBar>
             </MudContainer>
     }
-    <MudDrawer Class="docs-page-content-navigation-drawer" @bind-Open="_contentDrawerOpen" Breakpoint="Breakpoint.Lg" Anchor="Anchor.End" ClipMode="DrawerClipMode.Always" Elevation="0" Color="Color.Transparent">
-        @if (_displayView)
+    <MudDrawer Class="docs-page-content-navigation-drawer" @bind-Open="_contentDrawerOpen" Breakpoint="Breakpoint.Lg" Anchor="MudBlazor.Anchor.End" ClipMode="DrawerClipMode.Always" Elevation="0" Color="Color.Transparent">
+        @if (IsDisplayView)
         {
             <MudText Typo="Typo.subtitle1" Class="title" GutterBottom="true">
                 Mode
             </MudText>
             <div class="d-flex px-2 mb-2">
-                <NavLink class="mode-links mr-2" href="@($"components/{_componentName}")" Match="NavLinkMatch.All">Overview</NavLink>
-                <NavLink class="mode-links ml-2" href="@($"api/{_componentName}")" Match="NavLinkMatch.All">API</NavLink>
+                <NavLink class="mode-links mr-2" href="@($"components/{ComponentName}")" Match="NavLinkMatch.All">Overview</NavLink>
+                <NavLink class="mode-links ml-2" href="@($"api/{ComponentName}")" Match="NavLinkMatch.All">API</NavLink>
             </div>
         }
-        <MudPageContentNavigation SectionClassSelector="docs-section-header" @ref="_contentNavigation" ActivateFirstSectionAsDefault="true" />
+        <MudPageContentNavigation SectionClassSelector="docs-section-header" @ref="ContentNavigation" ActivateFirstSectionAsDefault="true" />
     </MudDrawer>
 </MudMainContent>

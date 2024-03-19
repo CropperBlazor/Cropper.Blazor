@@ -16,16 +16,14 @@
             })" />
 
 <DocsPage DisplayFooter="true">
-    <DocsPageHeader>
+    <DocsPageHeader DocsPageHeaderClass="mt-8 mb-12">
         <SpecialHeaderContent>
-            <div class="docs-page-header mt-6 mb-12">
-                <MudText Typo="Typo.h3">Releases</MudText>
-                <MudLink Href="https://github.com/CropperBlazor/Cropper.Blazor/releases"
-                         UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
-                         Target="_blank">
-                    Look at GitHub
-                </MudLink>
-            </div>
+            <MudText Typo="Typo.h3" GutterBottom="true">Releases</MudText>
+            <MudLink Href="https://github.com/CropperBlazor/Cropper.Blazor/releases"
+                     UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
+                     Target="_blank">
+                Look at GitHub
+            </MudLink>
         </SpecialHeaderContent>
     </DocsPageHeader>
     <DocsPageContent>
@@ -46,7 +44,7 @@
         else
         {
             <MudGrid Class="docs-github-releases">
-                @foreach (var release in _gitHubReleases)
+                @foreach (var release in GitHubReleases)
                 {
                     <MudItem xs="12" md="4">
                         <div class="docs-sticky-info">

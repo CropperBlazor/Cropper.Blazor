@@ -1,16 +1,16 @@
-using Microsoft.AspNetCore.Components;
-using Cropper.Blazor.Client.Services;
 using Cropper.Blazor.Client.Extensions;
+using Cropper.Blazor.Client.Services;
+using Microsoft.AspNetCore.Components;
 
 namespace Cropper.Blazor.Client.Shared
 {
     public partial class NavMenu
     {
-        [Inject] IMenuService MenuService { get; set; }
+        [Inject] private IMenuService MenuService { get; set; } = null!;
 
-        [Inject] NavigationManager NavMan { get; set; }
+        [Inject] private NavigationManager NavMan { get; set; } = null!;
 
-        string _section;
+        private string? Section;
 
         protected override void OnInitialized()
         {
@@ -20,7 +20,7 @@ namespace Cropper.Blazor.Client.Shared
 
         public void Refresh()
         {
-            _section = NavMan.GetSection();
+            Section = NavMan.GetSection();
             StateHasChanged();
         }
     }

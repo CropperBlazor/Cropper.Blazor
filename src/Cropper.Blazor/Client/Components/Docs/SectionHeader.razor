@@ -1,4 +1,4 @@
-﻿<div @ref="@SectionReference" id="@GetSectionId()" class="@Classname">
+﻿<div @ref="@SectionReference" id="@GetSectionId()" class="@ClassName">
     @if (!String.IsNullOrWhiteSpace(Title) && HideTitle == false)
     {
         <MudText UserAttributes="@(new Dictionary<string, object>{ {"id", TitleId} })" Class="@TitleClass" Typo="@GetTitleTypo()">

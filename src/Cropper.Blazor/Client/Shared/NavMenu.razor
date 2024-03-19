@@ -3,19 +3,19 @@
 
 <MudText Typo="Typo.subtitle1" Class="mt-1 mb-2 ml-2 d-flex d-md-none"><b>Docs</b></MudText>
 <MudNavLink Href="demo" Class="docs-single-link">Demo</MudNavLink>
-<MudNavGroup Title="Examples" Expanded="@(_section == "examples")" ExpandIcon="@Icons.Material.Filled.ExpandMore">
-    @foreach (var link in MenuService.Examples)
+<MudNavGroup Title="Examples" Expanded="@(Section == "examples")" ExpandIcon="@Icons.Material.Filled.ExpandMore">
+    @foreach (var link in MenuService.DocsLinkExamples)
     {
         <MudNavLink Href="@link.Href" Match="NavLinkMatch.Prefix">@link.Title</MudNavLink>
     }
 </MudNavGroup>
-<MudNavGroup Title="API" Expanded="@(_section == "api")" ExpandIcon="@Icons.Material.Filled.ExpandMore">
-    @foreach (var title in MenuService.Api.GroupBy(x => x.Group).Select(x => x.Key))
+<MudNavGroup Title="API" Expanded="@(Section == "api")" ExpandIcon="@Icons.Material.Filled.ExpandMore">
+    @foreach (var title in MenuService.DocsLinkApi.GroupBy(x => x.Group).Select(x => x.Key))
     {
         <div class="docs-css-api-header">
             @title
         </div>
-        @foreach (var link in MenuService.Api.Where(x => x.Group == title))
+        @foreach (var link in MenuService.DocsLinkApi.Where(x => x.Group == title))
         {
             <MudNavLink Href="@link.Href" Match="NavLinkMatch.All">@link.Title</MudNavLink>
         }

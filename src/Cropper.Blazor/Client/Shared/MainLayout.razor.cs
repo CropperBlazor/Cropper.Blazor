@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
-using Cropper.Blazor.Client.Services;
+﻿using Cropper.Blazor.Client.Services;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace Cropper.Blazor.Client.Shared
@@ -30,7 +30,7 @@ namespace Cropper.Blazor.Client.Shared
 
         private async Task ApplyUserPreferences()
         {
-            var defaultDarkMode = await _mudThemeProvider.GetSystemPreference();
+            bool defaultDarkMode = await _mudThemeProvider.GetSystemPreference();
             await LayoutService.ApplyUserPreferences(defaultDarkMode);
         }
 
@@ -44,6 +44,9 @@ namespace Cropper.Blazor.Client.Shared
             LayoutService.MajorUpdateOccured -= LayoutServiceOnMajorUpdateOccured;
         }
 
-        private void LayoutServiceOnMajorUpdateOccured(object sender, EventArgs e) => StateHasChanged();
+        private void LayoutServiceOnMajorUpdateOccured(object? sender, EventArgs e)
+        {
+            StateHasChanged();
+        }
     }
 }

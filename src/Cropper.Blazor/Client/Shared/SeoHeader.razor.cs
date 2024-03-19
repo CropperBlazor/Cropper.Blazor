@@ -13,17 +13,17 @@ namespace Cropper.Blazor.Client.Shared
         [Parameter]
         public IEnumerable<string> Keywords { get; set; } = new List<string>();
 
-        string GetSubTitle()
+        private string GetSubTitle()
         {
             if (string.IsNullOrEmpty(Overview))
                 return "";
             return Overview.TrimEnd('.') + ".";
         }
 
-        string GetKeywords()
+        private string GetKeywords()
         {
-            var keywords = new List<string>()
-            {
+            List<string> keywords =
+            [
                 "Cropper.Blazor",
                 "Blazor.Cropper",
                 "cropper",
@@ -46,10 +46,9 @@ namespace Cropper.Blazor.Client.Shared
                 ".net",
                 ".net core",
                 "pwa",
-                "webassembly"
-            };
-
-            keywords.AddRange(Keywords);
+                "webassembly",
+                .. Keywords,
+            ];
 
             return string.Join(", ", keywords);
         }

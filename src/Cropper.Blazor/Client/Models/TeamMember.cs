@@ -2,12 +2,12 @@
 {
     public class TeamMember
     {
-        public string Name { get; set; }
-        public string Role { get; set; }
-        public string From { get; set; }
-        public string Github { get; set; }
-        public string Avatar { get; set; }
-        public string LinkedIn { get; set; }
-        public string Languages { get; set; }
+        public required string Name { get; set; }
+        public required string Role { get; set; }
+        public required string From { get; set; }
+        public required string Github { get; set; }
+        public required string Avatar { get; set; }
+        public required string LinkedIn { get; set; }
+        public required string Languages { get; set; }
     }
 }

@@ -41,7 +41,6 @@ namespace Cropper.Blazor.Client.Pages
         private bool IsAvailableInitCropper { get; set; } = true;
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
         private Breakpoint Start;
-        private Guid SubscriptionId;
         private ElementReference ElementReferencePreviewLg;
         private ElementReference ElementReferencePreviewMd;
         private ElementReference ElementReferencePreviewSm;
@@ -421,8 +420,8 @@ namespace Cropper.Blazor.Client.Pages
                 }
 
                 await Task.WhenAll(
-                    CropperComponent?.ReplaceAsync(newSrc, false).AsTask(),
-                    CropperComponent?.RevokeObjectUrlAsync(oldSrc).AsTask())
+                    CropperComponent!.ReplaceAsync(newSrc, false).AsTask(),
+                    CropperComponent!.RevokeObjectUrlAsync(oldSrc).AsTask())
                     .ContinueWith(x =>
                     {
                         Src = newSrc;
@@ -440,7 +439,6 @@ namespace Cropper.Blazor.Client.Pages
                 });
 
                 Start = subscriptionResult.Breakpoint;
-                SubscriptionId = subscriptionResult.SubscriptionId;
 
                 StateHasChanged();
             }
@@ -526,9 +524,9 @@ namespace Cropper.Blazor.Client.Pages
             CropperFace switch
             {
                 // That enumerable is equivalent css like that (the same for another paths) - clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
-                CropperFace.Close => new List<int> { 20, 0, 0, 20, 30, 50, 0, 80, 20, 100, 50, 70, 80, 100, 100, 80, 70, 50, 100, 20, 80, 0, 50, 30 },
-                CropperFace.Pentagon => new List<int> { 50, 0, 100, 38, 82, 100, 18, 100, 0, 38 },
-                CropperFace.Arrow => new List<int> { 40, 0, 40, 40, 100, 40, 100, 60, 40, 60, 40, 100, 0, 50 },
+                CropperFace.Close => [ 20, 0, 0, 20, 30, 50, 0, 80, 20, 100, 50, 70, 80, 100, 100, 80, 70, 50, 100, 20, 80, 0, 50, 30 ],
+                CropperFace.Pentagon => [50, 0, 100, 38, 82, 100, 18, 100, 0, 38],
+                CropperFace.Arrow => [40, 0, 40, 40, 100, 40, 100, 60, 40, 60, 40, 100, 0, 50],
                 _ => throw new InvalidOperationException()
             };
 

@@ -6,7 +6,7 @@ namespace Cropper.Blazor.Client.Components.Docs;
 
 public partial class SectionHeader
 {
-    protected string Classname =>
+    protected string ClassName =>
         new CssBuilder("docs-section-header")
             .AddClass(Class)
             .Build();

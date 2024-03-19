@@ -4,9 +4,9 @@ using MudBlazor;
 
 namespace Cropper.Blazor.Client.Services;
 
-public class LayoutService
+public class LayoutService(IUserPreferencesService userPreferencesService)
 {
-    private readonly IUserPreferencesService _userPreferencesService = null!;
+    private readonly IUserPreferencesService _userPreferencesService = userPreferencesService;
     private UserPreferences.UserPreferences _userPreferences = null!;
     private bool _systemPreferences;
 
@@ -17,14 +17,16 @@ public class LayoutService
     public MudTheme CurrentTheme { get; private set; } = null!;
     public event EventHandler MajorUpdateOccured = null!;
 
-    public LayoutService(IUserPreferencesService userPreferencesService) => _userPreferencesService = userPreferencesService;
-
-    public void SetDarkMode(bool value) => IsDarkMode = value;
+    public void SetDarkMode(bool value)
+    {
+        IsDarkMode = value;
+    }
 
     public async Task ApplyUserPreferences(bool isDarkModeDefaultTheme)
     {
         _systemPreferences = isDarkModeDefaultTheme;
         _userPreferences = await _userPreferencesService.LoadUserPreferences();
+
         if (_userPreferences != null)
         {
             IsDarkMode = _userPreferences.ThemeMode switch
@@ -46,15 +48,20 @@ public class LayoutService
     public Task OnSystemPreferenceChanged(bool newValue)
     {
         _systemPreferences = newValue;
+
         if (DarkModeToggle == ThemeMode.System)
         {
             IsDarkMode = newValue;
             OnMajorUpdateOccured();
         }
+
         return Task.CompletedTask;
     }
 
-    private void OnMajorUpdateOccured() => MajorUpdateOccured?.Invoke(this, EventArgs.Empty);
+    private void OnMajorUpdateOccured()
+    {
+        MajorUpdateOccured?.Invoke(this, EventArgs.Empty);
+    }
 
     public async Task ToggleDarkMode()
     {
@@ -87,7 +94,7 @@ public class LayoutService
 
     public BasePage GetDocsBasePage(string uri)
     {
-        Uri webUri = new Uri(uri);
+        Uri webUri = new(uri);
 
         if (webUri.AbsolutePath.Contains("/demo"))
         {

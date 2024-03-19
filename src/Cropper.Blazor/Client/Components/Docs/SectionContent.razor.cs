@@ -12,7 +12,7 @@ public partial class SectionContent : IBrowserViewportObserver
     [Inject] protected IJsApiService? JsApiService { get; set; }
     [Inject] IBrowserViewportService BreakpointService { get; set; } = null!;
 
-    protected string Classname =>
+    protected string ClassName =>
         new CssBuilder("docs-section-content")
             .AddClass($"outlined", Outlined && ChildContent != null)
             .AddClass($"darken", DarkenBackground)
@@ -20,13 +20,13 @@ public partial class SectionContent : IBrowserViewportObserver
             .AddClass(Class)
             .Build();
 
-    protected string ToolbarClassname =>
+    protected string ToolbarClassName =>
         new CssBuilder("docs-section-content-toolbar")
             .AddClass($"outlined", Outlined && ChildContent != null)
             .AddClass("darken", ChildContent == null && Codes != null)
             .Build();
 
-    protected string InnerClassname =>
+    protected string InnerClassName =>
         new CssBuilder("docs-section-content-inner")
             .AddClass($"relative d-flex flex-grow-1 flex-wrap justify-center align-center", !Block)
             .AddClass($"d-block mx-auto", Block)
@@ -35,7 +35,7 @@ public partial class SectionContent : IBrowserViewportObserver
             .AddClass("px-8 pb-8 pt-2", HasCode)
             .Build();
 
-    protected string SourceClassname =>
+    protected string SourceClassName =>
         new CssBuilder("docs-section-source")
             .AddClass($"outlined", Outlined && ChildContent != null)
             .AddClass("show-code", HasCode && ShowCode)

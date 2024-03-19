@@ -10,22 +10,22 @@
 
 @if ((Codes != null || ChildContent != null) && !IsOnlySingleSectionCode)
 {
-    <div class="@Classname" style="@Style">
+    <div class="@ClassName" style="@Style">
         @if (Codes != null || ChildContent != null)
         {
-            <MudToolBar Class="@ToolbarClassname" WrapContent="IsVerticalAlign">
+            <MudToolBar Class="@ToolbarClassName" WrapContent="IsVerticalAlign">
                 @if (Codes != null)
                 {
-                    @foreach (var codefile in Codes)
+                    @foreach (var codeFile in Codes)
                     {
-                        <MudButton Class="@GetActiveCode(codefile.code)"
+                        <MudButton Class="@GetActiveCode(codeFile.code)"
                                    Variant="@(IsVerticalAlign ? Variant.Filled : Variant.Text)"
                                    Color="@(IsVerticalAlign ? Color.Primary : Color.Default)"
                                    FullWidth="IsVerticalAlign"
-                                   OnClick="@(() => SetActiveCode(codefile.code))"
+                                   OnClick="@(() => SetActiveCode(codeFile.code))"
                                    Style="word-break: break-word;"
                                    Size="Size.Small">
-                            @codefile.title
+                            @codeFile.title
                         </MudButton>
                     }
                 }
@@ -48,7 +48,7 @@
         }
         @if (ChildContent != null)
         {
-            <div class="@InnerClassname">
+            <div class="@InnerClassName">
                 @ChildContent
             </div>
         }
@@ -56,7 +56,7 @@
 }
 @if (HasCode || IsOnlySingleSectionCode)
 {
-    <SectionCode SourceClassname="@SourceClassname" CopyTextToClipboard="CopyTextToClipboardAsync">
+    <SectionCode SourceClassName="@SourceClassName" CopyTextToClipboard="CopyTextToClipboardAsync">
         <CodeComponent>
             @CodeComponent(ActiveCode)
         </CodeComponent>
