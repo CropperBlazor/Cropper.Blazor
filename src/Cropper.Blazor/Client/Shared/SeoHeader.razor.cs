@@ -16,7 +16,10 @@ namespace Cropper.Blazor.Client.Shared
         private string GetSubTitle()
         {
             if (string.IsNullOrEmpty(Overview))
-                return "";
+            {
+                return string.Empty;
+            }
+
             return Overview.TrimEnd('.') + ".";
         }
 
