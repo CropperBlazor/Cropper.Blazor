@@ -18,7 +18,7 @@ public class LayoutService
     public LayoutService(IUserPreferencesService userPreferencesService) =>
         _userPreferencesService = userPreferencesService;
 
-    public async Task ApplyUserPreferences(bool isDarkModeDefaultTheme)
+    public async Task ApplyUserPreferencesAsync(bool isDarkModeDefaultTheme)
     {
         _systemPreferences = isDarkModeDefaultTheme;
         _userPreferences = await _userPreferencesService.LoadUserPreferences();
@@ -98,24 +98,34 @@ public class LayoutService
     {
         IsDarkMode = value;
     }
-    public async Task ToggleDarkMode()
+
+    public async Task ToggleDarkModeAsync()
     {
         switch (DarkModeToggle)
         {
             case ThemeMode.System:
-                DarkModeToggle = ThemeMode.Light;
-                IsDarkMode = false;
-                break;
+                {
+                    DarkModeToggle = ThemeMode.Light;
+                    IsDarkMode = false;
+
+                    break;
+                }
 
             case ThemeMode.Light:
-                DarkModeToggle = ThemeMode.Dark;
-                IsDarkMode = true;
-                break;
+                {
+                    DarkModeToggle = ThemeMode.Dark;
+                    IsDarkMode = true;
+
+                    break;
+                }
 
             case ThemeMode.Dark:
-                DarkModeToggle = ThemeMode.System;
-                IsDarkMode = _systemPreferences;
-                break;
+                {
+                    DarkModeToggle = ThemeMode.System;
+                    IsDarkMode = _systemPreferences;
+
+                    break;
+                }
         }
 
         _userPreferences.ThemeMode = DarkModeToggle;

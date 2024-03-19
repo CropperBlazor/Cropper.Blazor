@@ -31,7 +31,7 @@ namespace Cropper.Blazor.Client.Shared
         private async Task ApplyUserPreferences()
         {
             bool defaultDarkMode = await _mudThemeProvider.GetSystemPreference();
-            await LayoutService.ApplyUserPreferences(defaultDarkMode);
+            await LayoutService.ApplyUserPreferencesAsync(defaultDarkMode);
         }
 
         private async Task OnSystemPreferenceChanged(bool newValue)
