@@ -12,7 +12,7 @@ public partial class SectionContent : IBrowserViewportObserver
     [Inject] protected IJsApiService? JsApiService { get; set; }
     [Inject] IBrowserViewportService BreakpointService { get; set; } = null!;
 
-    protected string Classname =>
+    protected string ClassName =>
         new CssBuilder("docs-section-content")
             .AddClass($"outlined", Outlined && ChildContent != null)
             .AddClass($"darken", DarkenBackground)
@@ -20,13 +20,13 @@ public partial class SectionContent : IBrowserViewportObserver
             .AddClass(Class)
             .Build();
 
-    protected string ToolbarClassname =>
+    protected string ToolbarClassName =>
         new CssBuilder("docs-section-content-toolbar")
             .AddClass($"outlined", Outlined && ChildContent != null)
-            .AddClass("darken", ChildContent == null && Codes != null)
+            .AddClass("darken", ChildContent == null && Codes != null && Codes.Any())
             .Build();
 
-    protected string InnerClassname =>
+    protected string InnerClassName =>
         new CssBuilder("docs-section-content-inner")
             .AddClass($"relative d-flex flex-grow-1 flex-wrap justify-center align-center", !Block)
             .AddClass($"d-block mx-auto", Block)
@@ -35,7 +35,7 @@ public partial class SectionContent : IBrowserViewportObserver
             .AddClass("px-8 pb-8 pt-2", HasCode)
             .Build();
 
-    protected string SourceClassname =>
+    protected string SourceClassName =>
         new CssBuilder("docs-section-source")
             .AddClass($"outlined", Outlined && ChildContent != null)
             .AddClass("show-code", HasCode && ShowCode)
@@ -50,7 +50,7 @@ public partial class SectionContent : IBrowserViewportObserver
     [Parameter] public bool ShowCode { get; set; } = true;
     [Parameter] public bool Block { get; set; }
     [Parameter] public bool FullWidth { get; set; }
-    [Parameter] public string Code { get; set; } = string.Empty;
+    [Parameter] public Type Code { get; set; }
     [Parameter] public string HighLight { get; set; } = string.Empty;
     [Parameter] public IEnumerable<CodeFile>? Codes { get; set; } = null;
     [Parameter] public RenderFragment ChildContent { get; set; } = null!;
@@ -65,15 +65,15 @@ public partial class SectionContent : IBrowserViewportObserver
 
     protected override void OnParametersSet()
     {
-        if (Codes != null)
+        if (Codes != null && Codes.Any())
         {
             HasCode = true;
-            ActiveCode = Codes.First().code;
+            ActiveCode = Codes.First().Code.Name;
         }
-        else if (!string.IsNullOrWhiteSpace(Code))
+        else if (Code is not null)
         {
             HasCode = true;
-            ActiveCode = Code;
+            ActiveCode = Code.Name;
         }
     }
 
@@ -111,7 +111,7 @@ public partial class SectionContent : IBrowserViewportObserver
 
     private async Task CopyTextToClipboardAsync()
     {
-        await JsApiService!.CopyToClipboardAsync(HttpUtility.HtmlDecode(Snippets.GetCode(string.IsNullOrWhiteSpace(Code) ? ActiveCode : Code)));
+        await JsApiService!.CopyToClipboardAsync(HttpUtility.HtmlDecode(Snippets.GetCode(Code is null ? ActiveCode : Code.Name)));
     }
 
     RenderFragment CodeComponent(string code) => builder =>

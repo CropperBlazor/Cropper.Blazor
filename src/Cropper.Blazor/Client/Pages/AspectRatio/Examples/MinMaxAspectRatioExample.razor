@@ -41,11 +41,11 @@
     public decimal CurrentAspectRatio { get; set; } = 1;
 
     private Options cropperOptions = new Options
-        {
-            InitialAspectRatio = (decimal)1,
-            AspectRatio = 0,
-            ViewMode = ViewMode.Vm3
-        };
+    {
+        InitialAspectRatio = (decimal)1,
+        AspectRatio = 0,
+        ViewMode = ViewMode.Vm3
+    };
 
     public async void OnCropMoveEvent(JSEventData<CropMoveEvent> cropMoveJSEvent)
     {

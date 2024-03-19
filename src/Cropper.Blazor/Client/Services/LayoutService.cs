@@ -6,25 +6,23 @@ namespace Cropper.Blazor.Client.Services;
 
 public class LayoutService
 {
-    private readonly IUserPreferencesService _userPreferencesService = null!;
-    private UserPreferences.UserPreferences _userPreferences = null!;
-    private bool _systemPreferences;
-
-    public bool IsDarkMode { get; private set; }
-
     public ThemeMode DarkModeToggle = ThemeMode.System;
-
-    public MudTheme CurrentTheme { get; private set; } = null!;
+    private readonly IUserPreferencesService _userPreferencesService;
+    private bool _systemPreferences;
+    private UserPreferences.UserPreferences _userPreferences = null!;
     public event EventHandler MajorUpdateOccured = null!;
 
-    public LayoutService(IUserPreferencesService userPreferencesService) => _userPreferencesService = userPreferencesService;
+    public MudTheme CurrentTheme { get; private set; } = null!;
+    public bool IsDarkMode { get; private set; }
 
-    public void SetDarkMode(bool value) => IsDarkMode = value;
+    public LayoutService(IUserPreferencesService userPreferencesService) =>
+        _userPreferencesService = userPreferencesService;
 
-    public async Task ApplyUserPreferences(bool isDarkModeDefaultTheme)
+    public async Task ApplyUserPreferencesAsync(bool isDarkModeDefaultTheme)
     {
         _systemPreferences = isDarkModeDefaultTheme;
         _userPreferences = await _userPreferencesService.LoadUserPreferences();
+
         if (_userPreferences != null)
         {
             IsDarkMode = _userPreferences.ThemeMode switch
@@ -43,51 +41,9 @@ public class LayoutService
         }
     }
 
-    public Task OnSystemPreferenceChanged(bool newValue)
-    {
-        _systemPreferences = newValue;
-        if (DarkModeToggle == ThemeMode.System)
-        {
-            IsDarkMode = newValue;
-            OnMajorUpdateOccured();
-        }
-        return Task.CompletedTask;
-    }
-
-    private void OnMajorUpdateOccured() => MajorUpdateOccured?.Invoke(this, EventArgs.Empty);
-
-    public async Task ToggleDarkMode()
-    {
-        switch (DarkModeToggle)
-        {
-            case ThemeMode.System:
-                DarkModeToggle = ThemeMode.Light;
-                IsDarkMode = false;
-                break;
-            case ThemeMode.Light:
-                DarkModeToggle = ThemeMode.Dark;
-                IsDarkMode = true;
-                break;
-            case ThemeMode.Dark:
-                DarkModeToggle = ThemeMode.System;
-                IsDarkMode = _systemPreferences;
-                break;
-        }
-
-        _userPreferences.ThemeMode = DarkModeToggle;
-        await _userPreferencesService.SaveUserPreferences(_userPreferences);
-        OnMajorUpdateOccured();
-    }
-
-    public void SetBaseTheme(MudTheme theme)
-    {
-        CurrentTheme = theme;
-        OnMajorUpdateOccured();
-    }
-
     public BasePage GetDocsBasePage(string uri)
     {
-        Uri webUri = new Uri(uri);
+        Uri webUri = new(uri);
 
         if (webUri.AbsolutePath.Contains("/demo"))
         {
@@ -117,5 +73,68 @@ public class LayoutService
         {
             return BasePage.None;
         }
+    }
+
+    public Task OnSystemPreferenceChanged(bool newValue)
+    {
+        _systemPreferences = newValue;
+
+        if (DarkModeToggle == ThemeMode.System)
+        {
+            IsDarkMode = newValue;
+            OnMajorUpdateOccured();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public void SetBaseTheme(MudTheme theme)
+    {
+        CurrentTheme = theme;
+        OnMajorUpdateOccured();
+    }
+
+    public void SetDarkMode(bool value)
+    {
+        IsDarkMode = value;
+    }
+
+    public async Task ToggleDarkModeAsync()
+    {
+        switch (DarkModeToggle)
+        {
+            case ThemeMode.System:
+                {
+                    DarkModeToggle = ThemeMode.Light;
+                    IsDarkMode = false;
+
+                    break;
+                }
+
+            case ThemeMode.Light:
+                {
+                    DarkModeToggle = ThemeMode.Dark;
+                    IsDarkMode = true;
+
+                    break;
+                }
+
+            case ThemeMode.Dark:
+                {
+                    DarkModeToggle = ThemeMode.System;
+                    IsDarkMode = _systemPreferences;
+
+                    break;
+                }
+        }
+
+        _userPreferences.ThemeMode = DarkModeToggle;
+        await _userPreferencesService.SaveUserPreferences(_userPreferences);
+        OnMajorUpdateOccured();
+    }
+
+    private void OnMajorUpdateOccured()
+    {
+        MajorUpdateOccured?.Invoke(this, EventArgs.Empty);
     }
 }

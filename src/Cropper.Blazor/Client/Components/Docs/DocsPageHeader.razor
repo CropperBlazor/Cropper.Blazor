@@ -4,19 +4,20 @@
 @using MudBlazor
 @using System.Collections.Generic
 @using System.Text.RegularExpressions
+@using MudBlazor.Utilities
 
 @if (SpecialHeaderContent != null)
 {
-    <div class="docs-page-header my-16">
+    <div class="@DocsPageHeaderClassName">
         @SpecialHeaderContent
     </div>
 }
 else
 {
-    <div class="docs-page-header mt-6 mb-12">
+    <div class="@DocsPageHeaderClassName">
         <MudText Typo="@TitleTypo">@Title</MudText>
-        <MudText>@GetSubTitle() @Description</MudText>
-    </div>
+            <MudText>@GetSubTitle() @Description</MudText>
+        </div>
 }
 
 @code {
@@ -26,6 +27,12 @@ else
     [Parameter] public RenderFragment Description { get; set; }
     [Parameter] public RenderFragment SpecialHeaderContent { get; set; }
     [Parameter] public Typo TitleTypo { get; set; } = Typo.h3;
+    [Parameter] public string DocsPageHeaderClass { get; set; }
+
+    protected string DocsPageHeaderClassName =>
+        new CssBuilder("docs-page-header")
+            .AddClass(!string.IsNullOrWhiteSpace(DocsPageHeaderClass) ? DocsPageHeaderClass : "mt-6 mb-12")
+            .Build();
 
 
     string GetTitle() => $"{Title} - Cropper.Blazor";

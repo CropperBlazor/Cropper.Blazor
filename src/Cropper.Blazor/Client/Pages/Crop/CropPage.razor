@@ -57,7 +57,7 @@
                     </MudAlert>
                 </Description>
             </SectionHeader>
-            <SectionContent Code="BasicCropExample">
+            <SectionContent Code="typeof(BasicCropExample)">
                 <BasicCropExample />
             </SectionContent>
         </DocsPageSection>
@@ -88,7 +88,7 @@
                     <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL">HTMLCanvasElement.toDataURL</MudLink>:
                     <br><br>
                     <CodeInline Class="mud-width-full">
-                        <SectionContent IsOnlySingleSectionCode="true" Code="InvokeToDataURLExample">
+                        <SectionContent IsOnlySingleSectionCode="true" Code="typeof(InvokeToDataURLExample)">
                             <InvokeToDataURLExample />
                         </SectionContent>
                     </CodeInline>
@@ -101,7 +101,7 @@
                     </MudAlert>
                 </Description>
             </SectionHeader>
-            <SectionContent Code="AdvancedCropExample">
+            <SectionContent Code="typeof(AdvancedCropExample)">
                 <AdvancedCropExample />
             </SectionContent>
         </DocsPageSection>
@@ -110,7 +110,7 @@
             <SectionHeader Title="Crop a round image">
 
             </SectionHeader>
-            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", "CropRoundImageExample"), new CodeFile("script.js", "CropRoundImage_Script")})">
+            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", typeof(CropRoundImageExample)), new CodeFile("script.js", typeof(CropRoundImage_Script))})">
                 <CropRoundImageExample />
             </SectionContent>
         </DocsPageSection>
@@ -119,7 +119,7 @@
             <SectionHeader Title="Crop a polygon image">
 
             </SectionHeader>
-            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", "CropPolygonImageExample"), new CodeFile("script.js", "CropPolygonImage_Script")})">
+            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", typeof(CropPolygonImageExample)), new CodeFile("script.js", typeof(CropPolygonImage_Script))})">
                 <CropPolygonImageExample />
             </SectionContent>
         </DocsPageSection>

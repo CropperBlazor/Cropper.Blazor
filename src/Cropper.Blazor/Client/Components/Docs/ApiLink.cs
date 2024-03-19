@@ -1,4 +1,5 @@
-﻿using Cropper.Blazor.Components;
+﻿using System.Reflection;
+using Cropper.Blazor.Components;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.Shared.Extensions;
 
@@ -6,7 +7,7 @@ namespace Cropper.Blazor.Client.Components.Docs
 {
     public static class ApiLink
     {
-        private static Dictionary<Type, string> SpecialCaseComponents =
+        private static readonly Dictionary<Type, string> _specialCaseComponents =
            new()
            {
                [typeof(CropperComponent)] = "cropper-component"
@@ -19,7 +20,7 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         private static string GetComponentName(Type type)
         {
-            if (!SpecialCaseComponents.TryGetValue(type, out var component))
+            if (!_specialCaseComponents.TryGetValue(type, out string? component))
             {
                 component = new string(type.ToString().Replace("Cropper.Blazor", "").TakeWhile(c => c != '`').ToArray())
                     .ToLowerInvariant();
@@ -32,7 +33,7 @@ namespace Cropper.Blazor.Client.Components.Docs
         {
             if (component.Contains('#') == true)
             {
-                component = component.Substring(0, component.IndexOf('#'));
+                component = component[..component.IndexOf('#')];
             }
 
             if (string.IsNullOrEmpty(component))
@@ -40,18 +41,18 @@ namespace Cropper.Blazor.Client.Components.Docs
                 return null;
             }
 
-            var assembly = typeof(CropperComponent).Assembly;
-            var types = assembly.GetTypes();
+            Assembly assembly = typeof(CropperComponent).Assembly;
+            Type[] types = assembly.GetTypes();
 
-            foreach (var x in types)
+            foreach (Type x in types)
             {
-                if (new string(x.Name.ToLowerInvariant().TakeWhile(c => c != '`').ToArray()) == $"{component}".ToLowerInvariant())
+                if (new string(x.Name.TakeWhile(c => c != '`').ToArray()).Equals($"{component}", StringComparison.InvariantCultureIgnoreCase))
                 {
                     if (x.Name.Contains('`'))
                     {
                         return x;
                     }
-                    else if (x.Name.ToLowerInvariant() == $"{component}".ToLowerInvariant())
+                    else if (x.Name.Equals($"{component}", StringComparison.InvariantCultureIgnoreCase))
                     {
                         return x;
                     }

@@ -11,18 +11,21 @@ namespace Cropper.Blazor.Client.Components.Docs
 {
     public partial class DocsApi
     {
-        private List<string> hiddenMethods = new List<string>()
-        {
+        private readonly List<string> _hiddenMethods =
+        [
             "ToString",
             "GetType",
             "GetHashCode",
             "Equals",
             "SetParametersAsync",
             "ReferenceEquals"
-        };
+        ];
 
         [Parameter] public Type Type { get; set; }
         [Parameter] public bool IsContract { get; set; } = false;
+
+        // used for default value getting
+        private object CompInstance;
 
         private IEnumerable<ApiProperty> GetEventCallbacks()
         {
@@ -65,7 +68,7 @@ namespace Cropper.Blazor.Client.Components.Docs
             {
                 foreach (var info in Type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.Static).OrderBy(x => x.Name))
                 {
-                    if (!hiddenMethods.Any(x => x.Contains(info.Name)) && !info.Name.StartsWith("get_") && !info.Name.StartsWith("set_"))
+                    if (!_hiddenMethods.Any(x => x.Contains(info.Name)) && !info.Name.StartsWith("get_") && !info.Name.StartsWith("set_"))
                     {
                         if (info.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0
                             && info.GetCustomAttributes(typeof(JSInvokableAttribute), true).Length == 0)
@@ -84,7 +87,7 @@ namespace Cropper.Blazor.Client.Components.Docs
             }
         }
 
-        private bool IsEventCallback(PropertyInfo? propertyInfo)
+        private static bool IsEventCallback(PropertyInfo? propertyInfo)
         {
             return (propertyInfo!.PropertyType.Name.Contains("EventCallback") && (propertyInfo!.PropertyType.FullName ?? "").Contains(typeof(EventCallback).Namespace))
                 || (propertyInfo!.PropertyType.Name.Contains("Action") && (propertyInfo!.PropertyType.FullName ?? "").Contains(typeof(Action).Namespace))
@@ -142,7 +145,7 @@ namespace Cropper.Blazor.Client.Components.Docs
             };
         }
 
-        private ApiProperty ToApiProperty(Type type, string? enumDisplayStatus, string value)
+        private static ApiProperty ToApiProperty(Type type, string? enumDisplayStatus, string value)
         {
             return new ApiProperty
             {
@@ -154,7 +157,7 @@ namespace Cropper.Blazor.Client.Components.Docs
             };
         }
 
-        private string AnalyseMethodDocumentation(string documentation, string occurrence, string parameter = "")
+        private static string AnalyseMethodDocumentation(string documentation, string occurrence, string parameter = "")
         {
             try
             {
@@ -191,20 +194,17 @@ namespace Cropper.Blazor.Client.Components.Docs
             return string.Empty;
         }
 
-        private bool CheckIsTwoWayEventCallback(PropertyInfo propertyInfo) => propertyInfo.Name.EndsWith("Changed") ? true : false;
+        private static bool CheckIsTwoWayEventCallback(PropertyInfo propertyInfo) => propertyInfo.Name.EndsWith("Changed");
 
         private bool CheckIsTwoWayProperty(PropertyInfo propertyInfo)
         {
-            PropertyInfo eventCallbackInfo = Type.GetProperty(propertyInfo.Name + "Changed");
+            PropertyInfo? eventCallbackInfo = Type.GetProperty(propertyInfo.Name + "Changed");
 
             return eventCallbackInfo != null &&
                    eventCallbackInfo.PropertyType.Name.Contains("EventCallback") &&
                    eventCallbackInfo.GetCustomAttribute<ParameterAttribute>() != null &&
                    eventCallbackInfo.GetCustomAttribute<ObsoleteAttribute>() == null;
         }
-
-        // used for default value getting
-        object _comp_instance;
 
         RenderFragment RenderTheType()
         {
@@ -213,14 +213,14 @@ namespace Cropper.Blazor.Client.Components.Docs
             return new RenderFragment(builder =>
             {
                 builder.OpenComponent(0, Type);
-                builder.AddComponentReferenceCapture(1, inst => { _comp_instance = inst; });
+                builder.AddComponentReferenceCapture(1, inst => { CompInstance = inst; });
                 builder.CloseComponent();
             });
         }
 
         private object GetDefaultValue(PropertyInfo info)
         {
-            if (_comp_instance == null)
+            if (CompInstance == null)
             {
                 var constructors = Type.GetConstructors();
 
@@ -253,14 +253,14 @@ namespace Cropper.Blazor.Client.Components.Docs
                 }
             }
 
-            return info.GetValue(_comp_instance);
+            return info.GetValue(CompInstance);
         }
 
         #region Grouping properties
 
         private enum Grouping { Categories, Inheritance, None }
 
-        private Grouping _propertiesGrouping = Grouping.None;
+        private readonly Grouping _propertiesGrouping = Grouping.None;
 
         private TableGroupDefinition<ApiProperty> PropertiesGroupDefinition => _propertiesGrouping switch
         {
@@ -283,8 +283,12 @@ namespace Cropper.Blazor.Client.Components.Docs
         private static int NumberOfAncestorClasses(Type type)
         {
             int n = 0;
+
             while ((type = type.BaseType) != null)
+            {
                 n++;
+            }
+
             return n;
         }
 

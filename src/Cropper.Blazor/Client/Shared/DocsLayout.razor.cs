@@ -9,7 +9,7 @@ public partial class DocsLayout : LayoutComponentBase
 
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
-    private NavMenu _navMenuRef;
+    private NavMenu? NavMenuRef;
     private bool _drawerOpen = true;
     private bool _topMenuOpen = false;
 
@@ -21,12 +21,18 @@ public partial class DocsLayout : LayoutComponentBase
     protected override void OnAfterRender(bool firstRender)
     {
         //refresh nav menu because no parameters change in nav menu but internal data does
-        _navMenuRef?.Refresh();
+        NavMenuRef?.Refresh();
     }
 
-    private void ToggleDrawer() => _drawerOpen = !_drawerOpen;
+    private void ToggleDrawer()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
 
-    private void OpenTopMenu() => _topMenuOpen = true;
+    private void OpenTopMenu()
+    {
+        _topMenuOpen = true;
+    }
 
     private void OnDrawerOpenChanged(bool value)
     {

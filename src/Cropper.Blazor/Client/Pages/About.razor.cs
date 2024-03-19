@@ -4,9 +4,9 @@ namespace Cropper.Blazor.Client.Pages
 {
     public partial class About
     {
-        public IEnumerable<TeamMember> TeamMembers => new TeamMember[]
-        {
-            new TeamMember
+        public static IEnumerable<TeamMember> TeamMembers =>
+        [
+            new()
             {
                 Avatar = "https://avatars.githubusercontent.com/u/50423072?v=4",
                 From = "Kyiv, Ukraine",
@@ -16,7 +16,7 @@ namespace Cropper.Blazor.Client.Pages
                 Role = "Creator",
                 Languages = "English, Ukrainian"
             },
-            new TeamMember
+            new()
             {
                 Avatar = "https://avatars.githubusercontent.com/u/38187349?v=4",
                 From = "Ukraine",
@@ -26,10 +26,10 @@ namespace Cropper.Blazor.Client.Pages
                 Role = "Creator",
                 Languages = "English, Ukrainian"
             }
-        };
+        ];
 
         public Dictionary<string, object> AvatarInputAttributes { get; set; } =
-            new Dictionary<string, object>()
+            new()
             {
                 { "loading", "lazy" },
                 { "alt", "GitHub avatar image" }

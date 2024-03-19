@@ -11,8 +11,8 @@ namespace Cropper.Blazor.Client.Extensions
         public static string GetSection(this NavigationManager navMan)
         {
             // get the absolute path with out the base path
-            var currentUri = navMan.Uri.Remove(0, navMan.BaseUri.Length - 1);
-            var firstElement = currentUri
+            string currentUri = navMan.Uri.Remove(0, navMan.BaseUri.Length - 1);
+            string? firstElement = currentUri
                 .Split("/", StringSplitOptions.RemoveEmptyEntries)
                 .FirstOrDefault();
             return firstElement;
@@ -25,8 +25,8 @@ namespace Cropper.Blazor.Client.Extensions
         public static string GetComponentLink(this NavigationManager navMan)
         {
             // get the absolute path with out the base path
-            var currentUri = navMan.Uri.Remove(0, navMan.BaseUri.Length - 1);
-            var secondElement = currentUri
+            string currentUri = navMan.Uri.Remove(0, navMan.BaseUri.Length - 1);
+            string? secondElement = currentUri
                 .Split("/", StringSplitOptions.RemoveEmptyEntries)
                 .ElementAtOrDefault(1);
             return secondElement;
