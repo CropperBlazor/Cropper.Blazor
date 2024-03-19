@@ -8,13 +8,13 @@
 @using Cropper.Blazor.Client.Models;
 @using MudBlazor;
 
-@if ((Codes != null || ChildContent != null) && !IsOnlySingleSectionCode)
+@if (((Codes != null && Codes.Any()) || ChildContent != null) && !IsOnlySingleSectionCode)
 {
     <div class="@ClassName" style="@Style">
-        @if (Codes != null || ChildContent != null)
+        @if ((Codes != null && Codes.Any()) || ChildContent != null)
         {
             <MudToolBar Class="@ToolbarClassName" WrapContent="IsVerticalAlign">
-                @if (Codes != null)
+                @if (Codes != null && Codes.Any())
                 {
                     @foreach (var codeFile in Codes)
                     {

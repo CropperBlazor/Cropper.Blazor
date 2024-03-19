@@ -23,7 +23,7 @@ public partial class SectionContent : IBrowserViewportObserver
     protected string ToolbarClassName =>
         new CssBuilder("docs-section-content-toolbar")
             .AddClass($"outlined", Outlined && ChildContent != null)
-            .AddClass("darken", ChildContent == null && Codes != null)
+            .AddClass("darken", ChildContent == null && Codes != null && Codes.Any())
             .Build();
 
     protected string InnerClassName =>
@@ -65,7 +65,7 @@ public partial class SectionContent : IBrowserViewportObserver
 
     protected override void OnParametersSet()
     {
-        if (Codes != null)
+        if (Codes != null && Codes.Any())
         {
             HasCode = true;
             ActiveCode = Codes.First().Code.Name;
