@@ -12,7 +12,7 @@ namespace Cropper.Blazor.Client.Pages
         public GitHubApiClient GitHubApiClient { get; set; } = null!;
 
         [Inject]
-        public ISnackbar SnackBar { get; set; } = null!;
+        public ISnackbar Snackbar { get; set; } = null!;
 
         private GitHubReleases[] GitHubReleases = [];
         private CancellationToken CancellationToken;
@@ -35,7 +35,7 @@ namespace Cropper.Blazor.Client.Pages
             catch (Exception ex)
             {
                 HasGitHubReleasesRequestError = true;
-                SnackBar.Add(ex.Message, Severity.Error);
+                Snackbar.Add(ex.Message, Severity.Error);
             }
         }
 

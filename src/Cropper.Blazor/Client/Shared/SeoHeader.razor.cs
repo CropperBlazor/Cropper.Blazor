@@ -40,7 +40,7 @@ namespace Cropper.Blazor.Client.Shared
                 ".net core",
                 "pwa",
                 "webassembly",
-                .. Keywords,
+                ..Keywords,
             ];
 
             return string.Join(", ", keywords);

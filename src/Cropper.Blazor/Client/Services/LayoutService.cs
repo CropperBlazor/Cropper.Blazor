@@ -4,16 +4,19 @@ using MudBlazor;
 
 namespace Cropper.Blazor.Client.Services;
 
-public class LayoutService(IUserPreferencesService userPreferencesService)
+public class LayoutService
 {
     public ThemeMode DarkModeToggle = ThemeMode.System;
-    private readonly IUserPreferencesService _userPreferencesService = userPreferencesService;
+    private readonly IUserPreferencesService _userPreferencesService;
     private bool _systemPreferences;
     private UserPreferences.UserPreferences _userPreferences = null!;
     public event EventHandler MajorUpdateOccured = null!;
 
     public MudTheme CurrentTheme { get; private set; } = null!;
     public bool IsDarkMode { get; private set; }
+
+    public LayoutService(IUserPreferencesService userPreferencesService) =>
+        _userPreferencesService = userPreferencesService;
 
     public async Task ApplyUserPreferences(bool isDarkModeDefaultTheme)
     {
