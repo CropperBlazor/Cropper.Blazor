@@ -120,28 +120,28 @@
                     <SectionHeader TitleId="installPackage" Title="Install the package">
                         <Description>Find the package through NuGet Package Manager or install it with following command:</Description>
                     </SectionHeader>
-                    <SectionContent Code="InstallationManualPackageExample" />
+                    <SectionContent Code="typeof(InstallationManualPackageExample)" />
                 </DocsPageSection>
 
                 <DocsPageSection>
                     <SectionHeader Title="Add Imports">
                         <Description>After the package is added, you need to add the following in your <CodeInline>_Imports.razor</CodeInline></Description>
                     </SectionHeader>
-                    <SectionContent Code="InstallationManualImportsExample" />
+                    <SectionContent Code="typeof(InstallationManualImportsExample)" />
                 </DocsPageSection>
 
                 <DocsPageSection>
                     <SectionHeader Title="Add font and style references">
                         <Description>Add the following to your HTML head section, it's either <CodeInline>index.html</CodeInline> or <CodeInline>_Layout.cshtml</CodeInline>/<CodeInline>_Host.cshtml</CodeInline> depending on whether you're running WebAssembly/MAUI or Server.</Description>
                     </SectionHeader>
-                    <SectionContent Code="InstallationManualCssFontsExample" />
+                    <SectionContent Code="typeof(InstallationManualCssFontsExample)" />
                 </DocsPageSection>
 
                 <DocsPageSection>
                     <SectionHeader Title="Add script reference">
                         <Description>In the same file but located in the end of it add the Cropper.Blazor js file, it should be in the same location as the default blazor script.</Description>
                     </SectionHeader>
-                    <SectionContent Code="InstallScriptManual" />
+                    <SectionContent Code="typeof(InstallScriptManual)" />
                 </DocsPageSection>
 
                 <DocsPageSection>
@@ -155,9 +155,9 @@
                     </SectionHeader>
                     <SectionContent Codes="@(
                         new CodeFile[] {
-                            new CodeFile("Add Service", "InstallServicesManual"),
-                            new CodeFile("Override internal path", "InstallServicesOverrideInternal"),
-                            new CodeFile("Override full global path", "InstallServicesOverrideGlobal")
+                            new CodeFile("Add Service", typeof(InstallServicesManual)),
+                            new CodeFile("Override internal path", typeof(InstallServicesOverrideInternal)),
+                            new CodeFile("Override full global path", typeof(InstallServicesOverrideGlobal))
                         })" />
                 </DocsPageSection>
 
@@ -165,7 +165,7 @@
                     <SectionHeader Class="mt-3">
                         <Description>Also for server-side (Blazor Server or MVC with Blazor Server) you need add configuration SignalR, increase <CodeInline>MaximumReceiveMessageSize</CodeInline> of a single incoming hub message (default is 32KB) and map SignalR to your path. However, if your images are too large, the <CodeInline>MaximumReceiveMessageSize</CodeInline> variable should be increased to the desired value.</Description>
                     </SectionHeader>
-                    <SectionContent Code="InstallServicesForBlazorServerManual" />
+                    <SectionContent Code="typeof(InstallServicesForBlazorServerManual)" />
                 </DocsPageSection>
 
                 <DocsPageSection>
@@ -174,7 +174,7 @@
                             Run following command and rebuilt the project. If that doesn't help, try the step below about override package versions.
                         </Description>
                     </SectionHeader>
-                    <SectionContent Code="DotnetWorkloadUpdateCommandExample"></SectionContent>
+                    <SectionContent Code="typeof(DotnetWorkloadUpdateCommandExample)"></SectionContent>
                 </DocsPageSection>
 
                 <DocsPageSection>
@@ -183,7 +183,7 @@
                             When resolving MAUI project dependency conflicts, you can override an individual package version by using the <CodeInline>VersionOverride</CodeInline> property on a <CodeInline>@("<PackageReference />")</CodeInline> item.
                         </Description>
                     </SectionHeader>
-                    <SectionContent Code="VersionOverridePackageReferenceCommandExample">
+                    <SectionContent Code="typeof(VersionOverridePackageReferenceCommandExample)">
 
                     </SectionContent>
                 </DocsPageSection>
@@ -192,7 +192,7 @@
                     <SectionHeader Title="Add Components">
                         <Description>Add the following components to your <CodeInline>MainLayout.razor</CodeInline></Description>
                     </SectionHeader>
-                    <SectionContent Code="InstallationManualComponentsExample">
+                    <SectionContent Code="typeof(InstallationManualComponentsExample)">
                         <div class="img-container">
                             <InstallationManualComponentsExample />
                         </div>

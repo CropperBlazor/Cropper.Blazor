@@ -50,7 +50,7 @@ public partial class SectionContent : IBrowserViewportObserver
     [Parameter] public bool ShowCode { get; set; } = true;
     [Parameter] public bool Block { get; set; }
     [Parameter] public bool FullWidth { get; set; }
-    [Parameter] public string Code { get; set; } = string.Empty;
+    [Parameter] public Type Code { get; set; }
     [Parameter] public string HighLight { get; set; } = string.Empty;
     [Parameter] public IEnumerable<CodeFile>? Codes { get; set; } = null;
     [Parameter] public RenderFragment ChildContent { get; set; } = null!;
@@ -68,12 +68,12 @@ public partial class SectionContent : IBrowserViewportObserver
         if (Codes != null)
         {
             HasCode = true;
-            ActiveCode = Codes.First().code;
+            ActiveCode = Codes.First().Code.Name;
         }
-        else if (!string.IsNullOrWhiteSpace(Code))
+        else if (Code is not null)
         {
             HasCode = true;
-            ActiveCode = Code;
+            ActiveCode = Code.Name;
         }
     }
 
@@ -111,7 +111,7 @@ public partial class SectionContent : IBrowserViewportObserver
 
     private async Task CopyTextToClipboardAsync()
     {
-        await JsApiService!.CopyToClipboardAsync(HttpUtility.HtmlDecode(Snippets.GetCode(string.IsNullOrWhiteSpace(Code) ? ActiveCode : Code)));
+        await JsApiService!.CopyToClipboardAsync(HttpUtility.HtmlDecode(Snippets.GetCode(Code is null ? ActiveCode : Code.Name)));
     }
 
     RenderFragment CodeComponent(string code) => builder =>

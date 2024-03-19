@@ -50,7 +50,7 @@
                     zoom the image by <b>mouse wheeling</b>.
                 </Description>
             </SectionHeader>
-            <SectionContent Code="ZoomableExample">
+            <SectionContent Code="typeof(ZoomableExample)">
                 <ZoomableExample />
             </SectionContent>
         </DocsPageSection>
@@ -65,7 +65,7 @@
                     By default, <CodeInline>WheelZoomRatio</CodeInline> is 0,1.
                 </Description>
             </SectionHeader>
-            <SectionContent Code="WheelZoomRatioExample">
+            <SectionContent Code="typeof(WheelZoomRatioExample)">
                 <WheelZoomRatioExample />
             </SectionContent>
         </DocsPageSection>
@@ -75,7 +75,7 @@
                 <Description>
                     For zoom the canvas (image wrapper) with a <b>relative</b> ratio
                     use <CodeInline Class="docs-code-warning">Zoom(<CodeInline>ratio</CodeInline>)</CodeInline>
-                    <CodeInline Tag="true">CropperComponent</CodeInline> method, where 
+                    <CodeInline Tag="true">CropperComponent</CodeInline> method, where
                     <CodeInline>ratio</CodeInline> parameter is decimal number.
                     <br>
                     <MudList>
@@ -88,7 +88,7 @@
                     </MudList>
                 </Description>
             </SectionHeader>
-            <SectionContent Code="RelativeZoomExample">
+            <SectionContent Code="typeof(RelativeZoomExample)">
                 <RelativeZoomExample />
             </SectionContent>
         </DocsPageSection>
@@ -99,14 +99,14 @@
                 <Description>
                     For zoom the canvas (image wrapper) with a <b>relative</b> ratio
                     use <CodeInline Class="docs-code-warning">ZoomTo(<CodeInline>ratio, pivotX, pivotY</CodeInline>)</CodeInline>
-                    <CodeInline Tag="true">CropperComponent</CodeInline> method, where <CodeInline>ratio</CodeInline> 
+                    <CodeInline Tag="true">CropperComponent</CodeInline> method, where <CodeInline>ratio</CodeInline>
                     parameter is <b>positive (ratio &gt; 0) decimal</b> number. <CodeInline>pivotX</CodeInline> and <CodeInline>pivotY</CodeInline>
                     parameters is the decimal coordinates of the center point for zooming, base on the top left corner of the cropper container.
                     <br><br>
                     In the example, іmage zoomed to 50% from the center of the container.
                 </Description>
             </SectionHeader>
-            <SectionContent Code="AbsoluteZoomExample">
+            <SectionContent Code="typeof(AbsoluteZoomExample)">
                 <AbsoluteZoomExample />
             </SectionContent>
         </DocsPageSection>
@@ -117,8 +117,8 @@
                     You can override the <CodeInline Class="docs-code-tertiary">OnZoomEvent</CodeInline> to establish minimum and/or
                     maximum ratio limits for zooming the canvas by preventing the default logic.
                     <br>
-                    To override the <CodeInline Class="docs-code-tertiary">OnZoomEvent</CodeInline> event, you need to use 
-                    <b>JavaScript</b>, in which you assign a new function to the 
+                    To override the <CodeInline Class="docs-code-tertiary">OnZoomEvent</CodeInline> event, you need to use
+                    <b>JavaScript</b>, in which you assign a new function to the
                     <CodeInline>window</CodeInline>.<CodeInline>cropper</CodeInline>.<CodeInline Class="docs-code-warning">onZoom</CodeInline> event.
                     An example of an event override is shown below.
                     <MudAlert Class="my-3" Severity="Severity.Warning">
@@ -127,7 +127,7 @@
                     </MudAlert>
                 </Description>
             </SectionHeader>
-            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", "MinMaxZoomRatioExample"), new CodeFile("script.js", "MinMaxZoomRatio_Script")})">
+            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", typeof(MinMaxZoomRatioExample)), new CodeFile("script.js", typeof(MinMaxZoomRatio_Script))})">
                 <MinMaxZoomRatioExample />
             </SectionContent>
         </DocsPageSection>

@@ -18,14 +18,14 @@
                 {
                     @foreach (var codeFile in Codes)
                     {
-                        <MudButton Class="@GetActiveCode(codeFile.code)"
+                        <MudButton Class="@GetActiveCode(codeFile.Code.Name)"
                                    Variant="@(IsVerticalAlign ? Variant.Filled : Variant.Text)"
                                    Color="@(IsVerticalAlign ? Color.Primary : Color.Default)"
                                    FullWidth="IsVerticalAlign"
-                                   OnClick="@(() => SetActiveCode(codeFile.code))"
+                                   OnClick="@(() => SetActiveCode(codeFile.Code.Name))"
                                    Style="word-break: break-word;"
                                    Size="Size.Small">
-                            @codeFile.title
+                            @codeFile.Title
                         </MudButton>
                     }
                 }
