@@ -5,23 +5,13 @@ namespace Cropper.Blazor.Client.Shared
     public partial class SeoHeader
     {
         [Parameter]
-        public string? Title { get; set; }
+        public IEnumerable<string> Keywords { get; set; } = [];
 
         [Parameter]
         public string? Overview { get; set; }
 
         [Parameter]
-        public IEnumerable<string> Keywords { get; set; } = new List<string>();
-
-        private string GetSubTitle()
-        {
-            if (string.IsNullOrEmpty(Overview))
-            {
-                return string.Empty;
-            }
-
-            return Overview.TrimEnd('.') + ".";
-        }
+        public string? Title { get; set; }
 
         private string GetKeywords()
         {
@@ -54,6 +44,16 @@ namespace Cropper.Blazor.Client.Shared
             ];
 
             return string.Join(", ", keywords);
+        }
+
+        private string GetSubTitle()
+        {
+            if (string.IsNullOrWhiteSpace(Overview))
+            {
+                return string.Empty;
+            }
+
+            return Overview.TrimEnd('.') + ".";
         }
     }
 }

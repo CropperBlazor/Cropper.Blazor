@@ -52,6 +52,7 @@ namespace Cropper.Blazor.Client.Pages
         private bool IsErrorLoadImage { get; set; } = false;
 
         [Inject] private IJSRuntime? JSRuntime { get; set; }
+
         public void Dispose()
         {
             Dispose(true);

@@ -6,21 +6,14 @@ namespace Cropper.Blazor.Client.Services;
 
 public class LayoutService(IUserPreferencesService userPreferencesService)
 {
-    private readonly IUserPreferencesService _userPreferencesService = userPreferencesService;
-    private UserPreferences.UserPreferences _userPreferences = null!;
-    private bool _systemPreferences;
-
-    public bool IsDarkMode { get; private set; }
-
     public ThemeMode DarkModeToggle = ThemeMode.System;
-
-    public MudTheme CurrentTheme { get; private set; } = null!;
+    private readonly IUserPreferencesService _userPreferencesService = userPreferencesService;
+    private bool _systemPreferences;
+    private UserPreferences.UserPreferences _userPreferences = null!;
     public event EventHandler MajorUpdateOccured = null!;
 
-    public void SetDarkMode(bool value)
-    {
-        IsDarkMode = value;
-    }
+    public MudTheme CurrentTheme { get; private set; } = null!;
+    public bool IsDarkMode { get; private set; }
 
     public async Task ApplyUserPreferences(bool isDarkModeDefaultTheme)
     {
@@ -43,53 +36,6 @@ public class LayoutService(IUserPreferencesService userPreferencesService)
             _userPreferences = new UserPreferences.UserPreferences { ThemeMode = ThemeMode.System };
             await _userPreferencesService.SaveUserPreferences(_userPreferences);
         }
-    }
-
-    public Task OnSystemPreferenceChanged(bool newValue)
-    {
-        _systemPreferences = newValue;
-
-        if (DarkModeToggle == ThemeMode.System)
-        {
-            IsDarkMode = newValue;
-            OnMajorUpdateOccured();
-        }
-
-        return Task.CompletedTask;
-    }
-
-    private void OnMajorUpdateOccured()
-    {
-        MajorUpdateOccured?.Invoke(this, EventArgs.Empty);
-    }
-
-    public async Task ToggleDarkMode()
-    {
-        switch (DarkModeToggle)
-        {
-            case ThemeMode.System:
-                DarkModeToggle = ThemeMode.Light;
-                IsDarkMode = false;
-                break;
-            case ThemeMode.Light:
-                DarkModeToggle = ThemeMode.Dark;
-                IsDarkMode = true;
-                break;
-            case ThemeMode.Dark:
-                DarkModeToggle = ThemeMode.System;
-                IsDarkMode = _systemPreferences;
-                break;
-        }
-
-        _userPreferences.ThemeMode = DarkModeToggle;
-        await _userPreferencesService.SaveUserPreferences(_userPreferences);
-        OnMajorUpdateOccured();
-    }
-
-    public void SetBaseTheme(MudTheme theme)
-    {
-        CurrentTheme = theme;
-        OnMajorUpdateOccured();
     }
 
     public BasePage GetDocsBasePage(string uri)
@@ -124,5 +70,58 @@ public class LayoutService(IUserPreferencesService userPreferencesService)
         {
             return BasePage.None;
         }
+    }
+
+    public Task OnSystemPreferenceChanged(bool newValue)
+    {
+        _systemPreferences = newValue;
+
+        if (DarkModeToggle == ThemeMode.System)
+        {
+            IsDarkMode = newValue;
+            OnMajorUpdateOccured();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public void SetBaseTheme(MudTheme theme)
+    {
+        CurrentTheme = theme;
+        OnMajorUpdateOccured();
+    }
+
+    public void SetDarkMode(bool value)
+    {
+        IsDarkMode = value;
+    }
+    public async Task ToggleDarkMode()
+    {
+        switch (DarkModeToggle)
+        {
+            case ThemeMode.System:
+                DarkModeToggle = ThemeMode.Light;
+                IsDarkMode = false;
+                break;
+
+            case ThemeMode.Light:
+                DarkModeToggle = ThemeMode.Dark;
+                IsDarkMode = true;
+                break;
+
+            case ThemeMode.Dark:
+                DarkModeToggle = ThemeMode.System;
+                IsDarkMode = _systemPreferences;
+                break;
+        }
+
+        _userPreferences.ThemeMode = DarkModeToggle;
+        await _userPreferencesService.SaveUserPreferences(_userPreferences);
+        OnMajorUpdateOccured();
+    }
+
+    private void OnMajorUpdateOccured()
+    {
+        MajorUpdateOccured?.Invoke(this, EventArgs.Empty);
     }
 }
