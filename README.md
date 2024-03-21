@@ -100,15 +100,15 @@ using Cropper.Blazor.Extensions;
 builder.Services.AddCropper();
 ```
 
-In addition, you can change the path to the CropperJSInterop.min.js module if for some reason it is located outside the server root folder as follows:
-- Override internal path to CropperJSInterop.min.js module:
+In addition, you can change the path to the cropperJSInterop.min.js module if for some reason it is located outside the server root folder as follows:
+- Override internal path to cropperJSInterop.min.js module:
 ```c#
 builder.Services.AddCropper(new CropperJsInteropOptions()
 {
     DefaultInternalPathToCropperModule = "<YourPath>/_content/Cropper.Blazor/cropperJsInterop.min.js"
 })
 ```
-- Override full global path to CropperJSInterop.min.js module:
+- Override full global path to cropperJSInterop.min.js module:
 ```c#
 builder.Services.AddCropper(new CropperJsInteropOptions()
 {
