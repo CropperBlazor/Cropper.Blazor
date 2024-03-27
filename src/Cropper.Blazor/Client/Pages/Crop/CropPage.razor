@@ -129,6 +129,8 @@
                 <SectionHeader Title="Preparing the image for uploading to the server">
                     <Description>
                         With the <CodeInline Class="docs-code-warning">@nameof(DataUrlDecoder.Decode)</CodeInline> extension method
+                        in <CodeInline>@nameof(DataUrlDecoder)</CodeInline> static class
+                        from the <CodeInline>@typeof(DataUrlDecoder).Namespace</CodeInline> namespace,
                         you can decode the data url into a Base64 image data and outs the media type.
                         <br><br>
                         <CodeInline Class="docs-code-warning">@nameof(DataUrlDecoder.Decode)</CodeInline> method have following argument:
@@ -137,6 +139,8 @@
                                 <CodeInline>dataUrl (required)</CodeInline> - The data url to be decoded (e.g. data:image/png;base64,SGVsbG8gd29ybGQ=).
                             </MudListItem>
                         </MudList>
+                        If the parsing data url was unsuccessful, we throw the following <CodeInline Class="docs-code-warning">@nameof(ArgumentException)</CodeInline> exception with the following message:
+                        <CodeInline>@("Could not parse '{dataUrl}' as '\"data:(?<type>.+?),(?<data>.+)\"' data URL pattern.")</CodeInline>
                         <br>
                         <MudAlert Class="my-3" Severity="Severity.Info">
                             Note: This method is available as of version 1.3.1 of the Cropper.Blazor NuGet package.
