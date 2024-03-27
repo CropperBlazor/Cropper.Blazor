@@ -1,0 +1,78 @@
+﻿@using Cropper.Blazor.Extensions;
+@using Cropper.Blazor.Models;
+
+<div class="img-container">
+    <CropperComponent Class="big-img" Src="icon-515x512.png" @ref="cropperComponent" Options="new Blazor.Models.Options()" />
+</div>
+
+@if (decodedImageData is { base64ImageData: null, mediaType: null })
+{
+    <div class="button" @onclick="GetDecodedImageDataAsync">
+        Get decoded image data
+    </div>
+}
+else
+{
+    <MudText Typo="Typo.body2">
+        Media type: @decodedImageData!.mediaType
+    </MudText>
+    <MudText Typo="Typo.body2" Class="text-with-dots">
+        Base64: @decodedImageData!.base64ImageData
+    </MudText>
+    <MudText Typo="Typo.body2" Class="text-with-dots">
+        Data URL: @croppedCanvasDataURL
+    </MudText>
+}
+
+@* Make sure the size of the image fits perfectly into the container *@
+<style>
+    .big-img {
+        max-height: 400px;
+
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        width: 100%;
+    }
+
+    /* Means that the cropped image will take up 100% of the width of its containing element */
+    .cropped-img-container {
+        width: 100%;
+    }
+
+    /* These styles are just needed for a nice button and don't related with cropper component */
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+
+@code {
+    private CropperComponent? cropperComponent = null!;
+    private string croppedCanvasDataURL;
+    private (string base64ImageData, string mediaType) decodedImageData;
+
+    public async Task GetDecodedImageDataAsync()
+    {
+        GetCroppedCanvasOptions getCroppedCanvasOptions = new GetCroppedCanvasOptions
+        {
+            MaxHeight = 4096,
+            MaxWidth = 4096,
+            ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString()
+        };
+
+        croppedCanvasDataURL = await cropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
+        decodedImageData = croppedCanvasDataURL.Decode();
+    }
+}
