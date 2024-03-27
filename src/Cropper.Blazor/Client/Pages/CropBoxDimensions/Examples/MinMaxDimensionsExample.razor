@@ -40,14 +40,14 @@
     private static decimal maxCroppedHeight = 320;
 
     private Options CropperOptions = new Options
+    {
+        SetDataOptions = new SetDataOptions
         {
-            SetDataOptions = new SetDataOptions
-            {
-                Width = (minCroppedWidth + maxCroppedWidth) / 2,
-                Height = (minCroppedHeight + maxCroppedHeight) / 2,
-            },
-            ViewMode = ViewMode.Vm3
-        };
+            Width = (minCroppedWidth + maxCroppedWidth) / 2,
+            Height = (minCroppedHeight + maxCroppedHeight) / 2
+        },
+        ViewMode = ViewMode.Vm3
+    };
 
     public async void OnCropEvent(JSEventData<CropEvent> cropJSEvent)
     {
