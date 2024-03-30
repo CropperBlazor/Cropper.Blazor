@@ -11,17 +11,17 @@ namespace Cropper.Blazor.Client.Extensions
             string urlEncodedBase64compressedCode;
             byte[] bytes;
 
-            using (var uncompressed = new MemoryStream(Encoding.UTF8.GetBytes(code)))
-            using (var compressed = new MemoryStream())
-            using (var compressor = new DeflateStream(compressed, CompressionMode.Compress))
+            using MemoryStream uncompressed = new(Encoding.UTF8.GetBytes(code));
+            using MemoryStream compressed = new();
+            using (DeflateStream compressor = new(compressed, CompressionMode.Compress))
             {
                 uncompressed.CopyTo(compressor);
                 compressor.Close();
                 bytes = compressed.ToArray();
                 urlEncodedBase64compressedCode = WebEncoders.Base64UrlEncode(bytes);
-
-                return urlEncodedBase64compressedCode;
             }
+
+            return urlEncodedBase64compressedCode;
         }
     }
 }

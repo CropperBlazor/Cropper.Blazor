@@ -7,10 +7,10 @@ namespace Cropper.Blazor.Shared.Attributes
     {
         public ChangeFreq ChangeFreq { get; }
         public double Priority { get; }
-        public string Url { get; }
+        public string? Url { get; }
 
         public SitemapUrlAttribute(
-            string url = null,
+            string? url = null,
             ChangeFreq changeFreq = ChangeFreq.Daily,
             double priority = 0.5)
         {

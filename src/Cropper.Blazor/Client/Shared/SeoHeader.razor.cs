@@ -5,25 +5,18 @@ namespace Cropper.Blazor.Client.Shared
     public partial class SeoHeader
     {
         [Parameter]
-        public string? Title { get; set; }
+        public IEnumerable<string> Keywords { get; set; } = [];
 
         [Parameter]
         public string? Overview { get; set; }
 
         [Parameter]
-        public IEnumerable<string> Keywords { get; set; } = new List<string>();
+        public string? Title { get; set; }
 
-        string GetSubTitle()
+        private string GetKeywords()
         {
-            if (string.IsNullOrEmpty(Overview))
-                return "";
-            return Overview.TrimEnd('.') + ".";
-        }
-
-        string GetKeywords()
-        {
-            var keywords = new List<string>()
-            {
+            List<string> keywords =
+            [
                 "Cropper.Blazor",
                 "Blazor.Cropper",
                 "cropper",
@@ -46,12 +39,21 @@ namespace Cropper.Blazor.Client.Shared
                 ".net",
                 ".net core",
                 "pwa",
-                "webassembly"
-            };
-
-            keywords.AddRange(Keywords);
+                "webassembly",
+                ..Keywords,
+            ];
 
             return string.Join(", ", keywords);
+        }
+
+        private string GetSubTitle()
+        {
+            if (string.IsNullOrWhiteSpace(Overview))
+            {
+                return string.Empty;
+            }
+
+            return Overview.TrimEnd('.') + ".";
         }
     }
 }

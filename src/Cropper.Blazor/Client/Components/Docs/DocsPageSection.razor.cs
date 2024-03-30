@@ -9,7 +9,7 @@ public partial class DocsPageSection
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object> UserAttributes { get; set; } = new Dictionary<string, object>();
+    public Dictionary<string, object> UserAttributes { get; set; } = [];
 
     public int Level { get; private set; }
 

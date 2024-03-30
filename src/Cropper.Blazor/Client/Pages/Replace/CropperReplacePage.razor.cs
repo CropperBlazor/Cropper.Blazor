@@ -6,9 +6,9 @@ namespace Cropper.Blazor.Client.Pages.Replace
 {
     public partial class CropperReplacePage
     {
-        SectionContent ActiveReplaceActive = null!;
+        private SectionContent ActiveReplaceActive = null!;
 
-        RenderFragment ReplaceActiveRenderFragment => builder =>
+        private RenderFragment ReplaceActiveRenderFragment => builder =>
         {
             if (ActiveReplaceActive.ActiveCode == nameof(BasicReplaceImageWithNewSizeExample))
             {

@@ -2,6 +2,7 @@
 using Cropper.Blazor.Client.Models;
 using Cropper.Blazor.Client.Services;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace Cropper.Blazor.Client.Pages
 {
@@ -10,19 +11,37 @@ namespace Cropper.Blazor.Client.Pages
         [Inject]
         public GitHubApiClient GitHubApiClient { get; set; } = null!;
 
-        private GitHubReleases[] _gitHubReleases = Array.Empty<GitHubReleases>();
-        private CancellationToken _cancellationToken;
+        [Inject]
+        public ISnackbar Snackbar { get; set; } = null!;
+
+        private GitHubReleases[] GitHubReleases = [];
+        private CancellationToken CancellationToken;
+        private bool? HasGitHubReleasesRequestError = null;
 
         protected override async Task OnInitializedAsync()
         {
-            _cancellationToken = new();
-            _gitHubReleases = await GitHubApiClient.GetReleasesAsync(_cancellationToken);
-            StateHasChanged();
+            await GetReleasesAsync();
+        }
+
+        private async Task GetReleasesAsync()
+        {
+            try
+            {
+                CancellationToken = new();
+                GitHubReleases = await GitHubApiClient.GetReleasesAsync(CancellationToken);
+                HasGitHubReleasesRequestError = false;
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                HasGitHubReleasesRequestError = true;
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
         }
 
         public void Dispose()
         {
-            _cancellationToken.ThrowIfCancellationRequested();
+            CancellationToken.ThrowIfCancellationRequested();
         }
 
         private string GetBody(string value)
@@ -44,7 +63,7 @@ namespace Cropper.Blazor.Client.Pages
             string url = match.Groups[1].Value;
 
             // Check if the URL is valid
-            if (Uri.TryCreate(url, UriKind.Absolute, out Uri result))
+            if (Uri.TryCreate(url, UriKind.Absolute, out Uri? result))
             {
                 string newUrl = url;
                 newUrl = Regex.Replace(newUrl, @"https:\/\/github\.com\/([^\/]+)\/([^\/]+)\/pull\/(\d+)", $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary);\" href=\"{url}\">PR#$3</a>");

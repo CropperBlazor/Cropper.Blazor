@@ -1,5 +1,4 @@
-﻿using Cropper.Blazor.Client.Models;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MudBlazor.Utilities;
 
@@ -7,7 +6,7 @@ namespace Cropper.Blazor.Client.Components.Docs;
 
 public partial class SectionHeader
 {
-    protected string Classname =>
+    protected string ClassName =>
         new CssBuilder("docs-section-header")
             .AddClass(Class)
             .Build();
@@ -55,7 +54,8 @@ public partial class SectionHeader
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
-        if (firstRender == true && DocsPage != null && !String.IsNullOrWhiteSpace(Title))
+
+        if (firstRender == true && DocsPage != null && !string.IsNullOrWhiteSpace(Title))
         {
             DocsPage.AddSection(SectionInfo, Section);
         }

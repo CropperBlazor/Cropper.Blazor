@@ -90,15 +90,15 @@ using Cropper.Blazor.Extensions;
 builder.Services.AddCropper();
 ```
 
-In addition, you can change the path to the CropperJSInterop.min.js module if for some reason it is located outside the server root folder as follows:
-- Override internal path to CropperJSInterop.min.js module:
+In addition, you can change the path to the cropperJSInterop.min.js module if for some reason it is located outside the server root folder as follows:
+- Override internal path to cropperJSInterop.min.js module:
 ```c#
 builder.Services.AddCropper(new CropperJsInteropOptions()
 {
     DefaultInternalPathToCropperModule = "<YourPath>/_content/Cropper.Blazor/cropperJsInterop.min.js"
 })
 ```
-- Override full global path to CropperJSInterop.min.js module:
+- Override full global path to cropperJSInterop.min.js module:
 ```c#
 builder.Services.AddCropper(new CropperJsInteropOptions()
 {
@@ -107,7 +107,7 @@ builder.Services.AddCropper(new CropperJsInteropOptions()
 })
 ```
 
-Also for server-side (Blazor Server or MVC with Blazor Server) you need add configuration SignalR, increase MaximumReceiveMessageSize of a single incoming hub message (default is 32KB) and map SignalR to your path. [For example](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/examples/Cropper.Blazor.Server.Net7/Program.cs):
+Also for server-side (Blazor Server or MVC with Blazor Server) you need add configuration SignalR, increase MaximumReceiveMessageSize of a single incoming hub message (default is 32KB) and map SignalR to your path. However, if your images are too large, the MaximumReceiveMessageSize variable should be increased to the desired value. [For example](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/examples/Cropper.Blazor.Server.Net7/Program.cs):
 ```c#
 builder.Services.AddServerSideBlazor()
     .AddHubOptions(options =>

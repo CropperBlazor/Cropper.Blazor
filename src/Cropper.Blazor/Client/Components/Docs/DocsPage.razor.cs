@@ -8,80 +8,93 @@ namespace Cropper.Blazor.Client.Components.Docs
 {
     public partial class DocsPage : ComponentBase
     {
-        private Queue<DocsSectionLink> _bufferedSections = new();
-        private MudPageContentNavigation _contentNavigation;
-        private Stopwatch _stopwatch = Stopwatch.StartNew();
-        private string _anchor = null;
-        private bool _displayView;
-        private string _componentName;
-        private bool _renderAds;
-        [Inject] NavigationManager NavigationManager { get; set; }
-        [Inject] private IRenderQueueService RenderQueue { get; set; }
+        private const char NumberSignSymbol = '#';
+        private readonly Queue<DocsSectionLink> _bufferedSections = new();
+        private MudPageContentNavigation ContentNavigation;
+        private Stopwatch Stopwatch = Stopwatch.StartNew();
+        private string? Anchor = null;
+        private bool IsDisplayView;
+        private string? ComponentName;
+        private bool IsRenderAds;
+        [Inject] NavigationManager NavigationManager { get; set; } = null!;
+        [Inject] private IRenderQueueService RenderQueue { get; set; } = null!;
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Parameter] public bool DisplayFooter { get; set; }
 
         private bool _contentDrawerOpen = true;
         public event Action<Stopwatch> Rendered;
-        private Dictionary<DocsPageSection, MudPageContentSection> _sectionMapper = new();
+        private readonly Dictionary<DocsPageSection, MudPageContentSection> _sectionMapper = [];
 
-        int _sectionCount;
+        private int _sectionCount;
 
         public int SectionCount
         {
             get
             {
                 lock (this)
+                {
                     return _sectionCount;
+                }
             }
         }
 
         public int IncrementSectionCount()
         {
             lock (this)
+            {
                 return _sectionCount++;
+            }
         }
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
             RenderQueue.Clear();
-            var relativePath = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-            if (relativePath.Contains("#") == true)
+            string relativePath = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+
+            if (relativePath.Contains(NumberSignSymbol) == true)
             {
-                _anchor = relativePath.Split(new[] { "#" }, StringSplitOptions.RemoveEmptyEntries)[1];
+                Anchor = relativePath.Split(NumberSignSymbol, StringSplitOptions.RemoveEmptyEntries)[1];
             }
         }
 
         protected override void OnParametersSet()
         {
-            _stopwatch = Stopwatch.StartNew();
+            Stopwatch = Stopwatch.StartNew();
             _sectionCount = 0;
 
             /*for after this release is done*/
-            _displayView = false;
-            _componentName = "temp";
+            IsDisplayView = false;
+            ComponentName = "temp";
         }
 
         protected override void OnAfterRender(bool firstRender)
         {
-            if (_stopwatch.IsRunning)
+            if (Stopwatch.IsRunning)
             {
-                _stopwatch.Stop();
-                Rendered?.Invoke(_stopwatch);
+                Stopwatch.Stop();
+                Rendered?.Invoke(Stopwatch);
             }
+
             if (firstRender)
             {
-                _renderAds = true;
+                IsRenderAds = true;
                 StateHasChanged();
             }
         }
 
         public string GetParentTitle(DocsPageSection section)
         {
-            if (section == null) { return string.Empty; }
+            if (section == null)
+            {
+                return string.Empty;
+            }
 
             if (section == null || section.ParentSection == null ||
-                _sectionMapper.ContainsKey(section.ParentSection) == false) { return string.Empty; }
+                _sectionMapper.ContainsKey(section.ParentSection) == false)
+            {
+                return string.Empty;
+            }
 
             var item = _sectionMapper[section.ParentSection];
 
@@ -92,36 +105,38 @@ namespace Cropper.Blazor.Client.Components.Docs
         {
             _bufferedSections.Enqueue(sectionLinkInfo);
 
-            if (_contentNavigation != null)
+            if (ContentNavigation != null)
             {
                 while (_bufferedSections.Count > 0)
                 {
-                    var item = _bufferedSections.Dequeue();
+                    DocsSectionLink item = _bufferedSections.Dequeue();
 
-                    if (_contentNavigation.Sections.FirstOrDefault(x => x.Id == sectionLinkInfo.Id) == default)
+                    if (ContentNavigation.Sections.FirstOrDefault(x => x.Id == sectionLinkInfo.Id) == default)
                     {
-                        MudPageContentSection parentInfo = null;
+                        MudPageContentSection? parentInfo = null;
+
                         if (section.ParentSection != null && _sectionMapper.ContainsKey(section.ParentSection) == true)
                         {
                             parentInfo = _sectionMapper[section.ParentSection];
                         }
 
-                        var info =
-                            new MudPageContentSection(sectionLinkInfo.Title, sectionLinkInfo.Id, section.Level,
+                        MudPageContentSection info =
+                            new(sectionLinkInfo.Title, sectionLinkInfo.Id, section.Level,
                                 parentInfo);
+
                         _sectionMapper.Add(section, info);
-                        _contentNavigation.AddSection(info, false);
+                        ContentNavigation.AddSection(info, false);
                     }
                 }
 
-                ((IMudStateHasChanged)_contentNavigation).StateHasChanged();
+                ((IMudStateHasChanged)ContentNavigation).StateHasChanged();
 
-                if (_anchor != null)
+                if (Anchor != null)
                 {
-                    if (sectionLinkInfo.Id == _anchor)
+                    if (sectionLinkInfo.Id == Anchor)
                     {
-                        await _contentNavigation.ScrollToSection(new Uri(NavigationManager.Uri));
-                        _anchor = null;
+                        await ContentNavigation.ScrollToSection(new Uri(NavigationManager.Uri));
+                        Anchor = null;
                     }
                 }
             }

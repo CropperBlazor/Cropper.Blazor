@@ -18,16 +18,9 @@ namespace Cropper.Blazor.Client.Services
 
         public async Task<GitHubReleases[]> GetReleasesAsync(CancellationToken cancellationToken)
         {
-            try
-            {
-                GitHubReleases[]? result = await _http.GetFromJsonAsync<GitHubReleases[]>("repos/CropperBlazor/Cropper.Blazor/releases?per_page=100", cancellationToken);
+            GitHubReleases[]? result = await _http.GetFromJsonAsync<GitHubReleases[]>("repos/CropperBlazor/Cropper.Blazor/releases?per_page=100", cancellationToken);
 
-                return result ?? Array.Empty<GitHubReleases>();
-            }
-            catch
-            {
-                return Array.Empty<GitHubReleases>();
-            }
+            return result ?? Array.Empty<GitHubReleases>();
         }
 
         public void Dispose()

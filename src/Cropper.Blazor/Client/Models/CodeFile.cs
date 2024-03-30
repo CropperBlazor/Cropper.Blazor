@@ -1,3 +1,3 @@
 ﻿namespace Cropper.Blazor.Client.Models;
 
-public record CodeFile(string title, string code);
+public record CodeFile(string Title, Type Code);
