@@ -21,5 +21,4 @@ namespace Cropper.Blazor.MAUI.Net8.WinUI
 
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
     }
-
 }

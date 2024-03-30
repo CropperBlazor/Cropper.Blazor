@@ -36,8 +36,8 @@ namespace Cropper.Blazor.WebView.Net6
         public Dictionary<string, object> InputAttributes { get; set; } =
             new Dictionary<string, object>()
             {
-                        { "loading", "lazy" },
-                        { "test-Attribute", "123-test" }
+                { "loading", "lazy" },
+                { "test-Attribute", "123-test" }
             };
         protected override void OnInitialized()
         {
