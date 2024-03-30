@@ -1,12 +1,13 @@
 ﻿<div class="img-container">
     <CropperComponent Class="big-img"
-                      Src="@src"
+                      Src="@Src"
+                      OnLoadImageEvent="OnLoadImageEvent"
                       ErrorLoadImageSrc="@_errorLoadImageSrc"
                       ErrorLoadImageClass="cropper-error-load center"
                       IsAvailableInitCropper="@IsAvailableInitCropper"
                       IsErrorLoadImage="@IsErrorLoadImage"
                       OnErrorLoadImageEvent="OnErrorLoadImageEvent"
-                      @ref="cropperComponent"
+                      @ref="CropperComponent"
                       Options="new Blazor.Models.Options()" />
 </div>
 
@@ -55,8 +56,9 @@
     private readonly string _errorLoadImageSrc = "not-found-image.jpg";
     private bool IsErrorLoadImage { get; set; } = false;
     private bool IsAvailableInitCropper { get; set; } = true;
-    private string src = "images/Landscape-Color.jpg";
-    private CropperComponent? cropperComponent = null!;
+    private string Src = "images/Landscape-Color.jpg";
+    private string OldSrc = string.Empty;
+    private CropperComponent? CropperComponent = null!;
 
     public async Task ReplaceImageAsync(InputFileChangeEventArgs inputFileChangeEventArgs)
     {
@@ -64,8 +66,8 @@
 
         if (imageFile != null)
         {
-            string oldSrc = src;
-            string newSrc = await cropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
+            OldSrc = Src;
+            string newSrc = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
 
             /* These conditions are required for error handling. */
             if (IsErrorLoadImage)
@@ -79,14 +81,25 @@
             }
 
             await Task.WhenAll(
-                cropperComponent!.ReplaceAsync(newSrc, false).AsTask(),
-                // For certain platforms based on WebView2 in Windows Forms and WPF Blazor Hybrids, the 'RevokeObjectUrlAsync(oldSrc)' method does not work correctly in this place.
+                CropperComponent!.ReplaceAsync(newSrc, false).AsTask()
+                // For certain platforms based on WebView in MAUI, Windows Forms and WPF Blazor Hybrids, the 'RevokeObjectUrlAsync(OldSrc)' method does not work correctly in this place.
                 // We recommend clearing redundant Blob resources (old src) in the 'OnLoadImageEvent' event of cropper component or use equivalent "Rebuild cropper" functionality instead of replace functionality with 'hasSameSize = false' argument.
-                cropperComponent!.RevokeObjectUrlAsync(oldSrc).AsTask())
+                // Note: from version 1.3.2 of the Cropper.Blazor NuGet package and 'IsAvailableInitCropper = false' triggers the 'OnLoadImageEvent' event after a successful image replacement. Previously it only worked with 'IsAvailableInitCropper = true'
+                
+                //, CropperComponent!.RevokeObjectUrlAsync(OldSrc).AsTask()
+                )
                     .ContinueWith(x =>
                     {
-                        src = newSrc;
+                        Src = newSrc;
                     });
+        }
+    }
+
+    public async void OnLoadImageEvent()
+    {
+        if (!string.IsNullOrWhiteSpace(OldSrc))
+        {
+            await CropperComponent!.RevokeObjectUrlAsync(OldSrc);
         }
     }
 
@@ -99,7 +112,7 @@
 
     private void Destroy()
     {
-        cropperComponent?.Destroy();
-        cropperComponent?.RevokeObjectUrlAsync(src);
+        CropperComponent?.Destroy();
+        CropperComponent?.RevokeObjectUrlAsync(Src);
     }
 }

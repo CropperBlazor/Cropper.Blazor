@@ -1,0 +1,56 @@
+﻿@using Cropper.Blazor.Components
+@using Cropper.Blazor.Models
+@using Microsoft.AspNetCore.Components.Forms
+@using MudBlazor
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Cropper Blazor Server Demo</PageTitle>
+
+<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+    <MudTooltip Text="Import image with Blob URLs">
+        <InputFile id="imageInput" OnChange="InputFileChange" accept="image/*" hidden multiple />
+        <MudIconButton HtmlTag="label" Icon="@Icons.Filled.PhotoCamera" for="imageInput" Title="Upload image file" />
+    </MudTooltip>
+    <MudTooltip Text="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })">
+        <MudButton Color="Color.Secondary" Variant="Variant.Filled"
+                   OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096}))">
+            Get Cropped Canvas
+        </MudButton>
+    </MudTooltip>
+</MudButtonGroup>
+
+<div class="img-container">
+    <CropperComponent Class="cropper-container big-img"
+                      ErrorLoadImageClass="cropper-error-load"
+                      @ref="cropperComponent"
+                      OnCropStartEvent="OnCropStartEvent"
+                      OnCropEndEvent="OnCropEndEvent"
+                      OnCropEvent="OnCropEvent"
+                      OnZoomEvent="OnZoomEvent"
+                      OnCropMoveEvent="OnCropMoveEvent"
+                      OnReadyEvent="OnCropReadyEvent"
+                      OnLoadImageEvent="OnLoadImageEvent"
+                      Src="@Src"
+                      InputAttributes="@InputAttributes"
+                      ErrorLoadImageSrc="@_errorLoadImageSrc"
+                      IsErrorLoadImage="@IsErrorLoadImage"
+                      OnErrorLoadImageEvent="OnErrorLoadImageEvent"
+                      Options="options" />
+</div>
+
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        width: 100%;
+    }
+
+</style>
