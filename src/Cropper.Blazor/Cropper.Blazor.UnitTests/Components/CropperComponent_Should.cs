@@ -632,6 +632,136 @@ namespace Cropper.Blazor.UnitTests.Components
                 It.IsAny<CancellationToken>()), Times.Never());
         }
 
+        [Fact]
+        public void Should_Render_CropperComponent_With_IsNotAvaibleInitCropper_Parameter_With_OnLoadImageHandler()
+        {
+            // arrange
+            CancellationToken cancellationToken = new();
+            ProgressEventArgs progressEventArgs = new Faker<ProgressEventArgs>()
+                .Generate();
+            Options options = new Faker<Options>()
+                .Generate();
+            ErrorEventArgs errorEventArgs = new Faker<ErrorEventArgs>()
+                .Generate();
+            JSEventData<CropReadyEvent> cropReadyEvent = new Faker<JSEventData<CropReadyEvent>>()
+                .Generate();
+            JSEventData<ZoomEvent> zoomEvent = new Faker<JSEventData<ZoomEvent>>()
+                .Generate();
+            JSEventData<CropStartEvent> cropStartEvent = new Faker<JSEventData<CropStartEvent>>()
+                .Generate();
+            JSEventData<CropMoveEvent> cropMoveEvent = new Faker<JSEventData<CropMoveEvent>>()
+                .Generate();
+            JSEventData<CropEndEvent> cropEndEvent = new Faker<JSEventData<CropEndEvent>>()
+                .Generate();
+            JSEventData<CropEvent> cropEvent = new Faker<JSEventData<CropEvent>>()
+                .Generate();
+            int countCallsOnLoadImageHandler = 0;
+
+            Action? onLoadImageHandler = () =>
+            {
+                countCallsOnLoadImageHandler++;
+            };
+
+            ComponentParameter optionsParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.Options),
+                options);
+            ComponentParameter onLoadImageParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.OnLoadImageEvent),
+                onLoadImageHandler);
+            ComponentParameter isAvailableInitCropperParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.IsAvailableInitCropper),
+                false);
+
+            // act
+            IRenderedComponent<CropperComponent> cropperComponent = _testContext
+                .RenderComponent<CropperComponent>(
+                    optionsParameter,
+                    onLoadImageParameter,
+                    isAvailableInitCropperParameter);
+
+            // assert
+            IElement expectedElement = cropperComponent.Find($"img");
+            ElementReference elementReference = (ElementReference)cropperComponent.Instance
+                .GetInstanceField("ImageReference");
+            Guid cropperComponentId = (Guid)cropperComponent.Instance
+                .GetInstanceField("CropperComponentId");
+
+            _mockCropperJsInterop.Verify(c => c.LoadModuleAsync(cancellationToken), Times.Once());
+            elementReference.Id.Should().NotBeNullOrEmpty();
+            expectedElement.ClassName.Should().BeNull();
+            expectedElement.GetAttribute("src").Should().BeNull();
+            expectedElement.GetAttribute("blazor:elementreference").Should().Be(elementReference.Id);
+
+            countCallsOnLoadImageHandler.Should().Be(0);
+            expectedElement.TriggerEvent("onload", progressEventArgs);
+            countCallsOnLoadImageHandler.Should().Be(1);
+        }
+
+        [Fact]
+        public void Should_Render_CropperComponent_With_IsNotAvaibleInitCropper_Parameter_With_Empty_OnLoadImageHandler()
+        {
+            // arrange
+            CancellationToken cancellationToken = new();
+            ProgressEventArgs progressEventArgs = new Faker<ProgressEventArgs>()
+                .Generate();
+            Options options = new Faker<Options>()
+                .Generate();
+            ErrorEventArgs errorEventArgs = new Faker<ErrorEventArgs>()
+                .Generate();
+            JSEventData<CropReadyEvent> cropReadyEvent = new Faker<JSEventData<CropReadyEvent>>()
+                .Generate();
+            JSEventData<ZoomEvent> zoomEvent = new Faker<JSEventData<ZoomEvent>>()
+                .Generate();
+            JSEventData<CropStartEvent> cropStartEvent = new Faker<JSEventData<CropStartEvent>>()
+                .Generate();
+            JSEventData<CropMoveEvent> cropMoveEvent = new Faker<JSEventData<CropMoveEvent>>()
+                .Generate();
+            JSEventData<CropEndEvent> cropEndEvent = new Faker<JSEventData<CropEndEvent>>()
+                .Generate();
+            JSEventData<CropEvent> cropEvent = new Faker<JSEventData<CropEvent>>()
+                .Generate();
+            int countCallsOnLoadImageHandler = 0;
+
+            Action? onLoadImageHandler = () =>
+            {
+                countCallsOnLoadImageHandler++;
+            };
+
+            ComponentParameter optionsParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.Options),
+                options);
+            ComponentParameter onLoadImageParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.OnLoadImageEvent),
+                null);
+            ComponentParameter isAvailableInitCropperParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.IsAvailableInitCropper),
+                false);
+
+            // act
+            IRenderedComponent<CropperComponent> cropperComponent = _testContext
+                .RenderComponent<CropperComponent>(
+                    optionsParameter,
+                    onLoadImageParameter,
+                    isAvailableInitCropperParameter);
+
+            // assert
+            IElement expectedElement = cropperComponent.Find($"img");
+            ElementReference elementReference = (ElementReference)cropperComponent.Instance
+                .GetInstanceField("ImageReference");
+            Guid cropperComponentId = (Guid)cropperComponent.Instance
+                .GetInstanceField("CropperComponentId");
+
+            _mockCropperJsInterop.Verify(c => c.LoadModuleAsync(cancellationToken), Times.Once());
+            elementReference.Id.Should().NotBeNullOrEmpty();
+            expectedElement.ClassName.Should().BeNull();
+            expectedElement.GetAttribute("src").Should().BeNull();
+            expectedElement.GetAttribute("blazor:elementreference").Should().Be(elementReference.Id);
+
+            countCallsOnLoadImageHandler.Should().Be(0);
+            expectedElement.TriggerEvent("onload", progressEventArgs);
+            countCallsOnLoadImageHandler.Should().Be(0);
+        }
+
         [Theory]
         [InlineData(nameof(CropperComponent.CropperIsCroped))]
         [InlineData(nameof(CropperComponent.CropperIsEnded))]

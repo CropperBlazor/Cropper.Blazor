@@ -181,6 +181,10 @@ namespace Cropper.Blazor.Components
             {
                 InitCropper();
             }
+            else
+            {
+                OnLoadImageEvent?.Invoke();
+            }
         }
 
         /// <summary>
