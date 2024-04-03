@@ -49,12 +49,16 @@ namespace Cropper.Blazor.Client.Shared
                 "avatar cropper",
                 "photo cropper",
                 "image cropper",
+                "resize image",
+                "photo resizer",
                 "blazor online cropper",
                 "blazor free image cropper",
                 "blazor photo cropper",
                 "blazor avatar cropper",
                 "blazor photo cropper",
                 "blazor image cropper",
+                "blazor resize image",
+                "blazor photo resizer",
                 ..Keywords,
             ];
 
