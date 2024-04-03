@@ -40,6 +40,15 @@ namespace Cropper.Blazor.Client.Shared
                 ".net core",
                 "pwa",
                 "webassembly",
+                "blazor image editor",
+                "image editor",
+                "blazor image",
+                "blazor image cropper",
+                "free image cropper",
+                "online cropper",
+                "photo cropper",
+                "avatar cropper",
+                "photo cropper",
                 ..Keywords,
             ];
 
