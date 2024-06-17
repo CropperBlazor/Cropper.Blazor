@@ -80,7 +80,7 @@
                 IsAvailableInitCropper = false;
             }
 
-            // In the new .NET 8 with new render modes, SDK parameters components are not updated timely when using 'blazor.web.js'.
+            // In the .NET 8 with new render modes, SDK parameters components are not updated timely when using 'blazor.web.js'.
             // We strongly recommend using StateHasChanged() method after changing a component's parameter,
             // but be careful with this because you're updating the entire component where there may be more than one component,
             // which can also affect performance a bit when there are too many components on the page or animations.
