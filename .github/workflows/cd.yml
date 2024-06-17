@@ -51,8 +51,9 @@ jobs:
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
       
     - name: Coverage
-      uses: codecov/codecov-action@v3.1.4
+      uses: codecov/codecov-action@v4
       with:
+        token: ${{ secrets.CODECOV_TOKEN }}
         files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml
         fail_ci_if_error: true
         verbose: true
