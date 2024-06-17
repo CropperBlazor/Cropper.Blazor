@@ -51,8 +51,7 @@ jobs:
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
       
     - name: Coverage
-      - uses: actions/checkout@main
-      - uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v4
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml
