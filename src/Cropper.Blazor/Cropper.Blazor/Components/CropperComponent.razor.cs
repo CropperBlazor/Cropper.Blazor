@@ -50,6 +50,12 @@ namespace Cropper.Blazor.Components
         public string Src { get; set; } = null!;
 
         /// <summary>
+        /// 
+        /// </summary>
+        [Parameter]
+        public CropperComponentType CropperComponentType { get; set; } = CropperComponentType.Image;
+
+        /// <summary>
         /// Specifies the path to the image when loading from src fails.
         /// </summary>
         [Parameter]
@@ -203,7 +209,15 @@ namespace Cropper.Blazor.Components
         public void InitCropper(CancellationToken cancellationToken = default)
         {
             ICropperComponentBase cropperComponentBase = this;
-            CropperJsIntertop!.InitCropperAsync(CropperComponentId, ImageReference, Options!, DotNetObjectReference.Create(cropperComponentBase), cancellationToken);
+
+            // pass CropperComponentType
+            CropperJsIntertop!.InitCropperAsync(
+                CropperComponentId,
+                ImageReference,
+                Options!,
+                DotNetObjectReference.Create(cropperComponentBase),
+                cancellationToken);
+
             OnLoadImageEvent?.Invoke();
         }
 

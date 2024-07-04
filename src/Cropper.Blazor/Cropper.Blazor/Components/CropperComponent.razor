@@ -1,16 +1,29 @@
-﻿@if (IsErrorLoadImage == true)
+﻿@using Models;
+
+@if (IsErrorLoadImage == true)
 {
-    <img
-     class="@ErrorLoadImageClass"
-     @attributes="InputAttributes"
-     src="@ErrorLoadImageSrc">
+    <img class="@ErrorLoadImageClass"
+         @attributes="InputAttributes"
+         src="@ErrorLoadImageSrc">
 }
 else
 {
-    <img @ref="ImageReference"
-     class="@Class"
-     @attributes="InputAttributes"
-     @onerror="@OnErrorLoadImage"
-     @onload="OnLoadImage"
-     src="@Src">
+    if (CropperComponentType == CropperComponentType.Canvas)
+    {
+        <canvas @ref="ImageReference"
+                class="@Class"
+                @attributes="InputAttributes"
+                @onerror="@OnErrorLoadImage"
+                @onload="OnLoadImage">
+        </canvas>
+    }
+    else
+    {
+        <img @ref="ImageReference"
+             class="@Class"
+             @attributes="InputAttributes"
+             @onerror="@OnErrorLoadImage"
+             @onload="OnLoadImage"
+             src="@Src">
+    }
 }
