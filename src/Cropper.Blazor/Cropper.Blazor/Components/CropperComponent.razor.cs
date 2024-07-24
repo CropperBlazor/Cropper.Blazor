@@ -210,7 +210,6 @@ namespace Cropper.Blazor.Components
         {
             ICropperComponentBase cropperComponentBase = this;
 
-            // pass CropperComponentType
             CropperJsIntertop!.InitCropperAsync(
                 CropperComponentId,
                 ImageReference,

@@ -96,6 +96,8 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
+            string? cropperComponentTypeName = cropperComponentType.ToEnumString();
+
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.initCropper",
                 cancellationToken,
@@ -103,7 +105,7 @@ namespace Cropper.Blazor.Services
                 image,
                 options,
                 cropperComponentBase,
-                cropperComponentType.ToEnumString());
+                cropperComponentTypeName);
         }
 
         /// <summary>
