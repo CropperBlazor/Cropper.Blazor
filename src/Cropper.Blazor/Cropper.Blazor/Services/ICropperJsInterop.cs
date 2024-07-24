@@ -29,6 +29,7 @@ namespace Cropper.Blazor.Services
         /// <param name="image">Reference to img html-DOM</param>
         /// <param name="options">Cropper options</param>
         /// <param name="cropperComponentBase">Reference to base cropper component. Default equal to 'this' object.</param>
+        /// <param name="cropperComponentType"></param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask InitCropperAsync(
@@ -36,6 +37,7 @@ namespace Cropper.Blazor.Services
             [NotNull] ElementReference image,
             [NotNull] Options options,
             [NotNull] DotNetObjectReference<ICropperComponentBase> cropperComponentBase,
+            [NotNull] CropperComponentType cropperComponentType,
             CancellationToken cancellationToken = default);
 
         /// <summary>

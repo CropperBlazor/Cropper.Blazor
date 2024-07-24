@@ -216,6 +216,7 @@ namespace Cropper.Blazor.Components
                 ImageReference,
                 Options!,
                 DotNetObjectReference.Create(cropperComponentBase),
+                CropperComponentType,
                 cancellationToken);
 
             OnLoadImageEvent?.Invoke();

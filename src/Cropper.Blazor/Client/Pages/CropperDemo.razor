@@ -24,6 +24,7 @@
             <MudPaper Class="pa-4" Elevation="2">
                 <div class="@GetClassNameCropper()">
                     <CropperComponent Class="cropper-container"
+                                      CropperComponentType="@CropperComponentType.Canvas"
                                       ErrorLoadImageClass="cropper-error-load"
                                       @ref="CropperComponent"
                                       OnCropStartEvent="OnCropStartEvent"

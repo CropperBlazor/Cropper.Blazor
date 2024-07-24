@@ -1,4 +1,6 @@
-﻿namespace Cropper.Blazor.Models
+﻿using System.Runtime.Serialization;
+
+namespace Cropper.Blazor.Models
 {
     /// <summary>
     /// 
@@ -8,11 +10,13 @@
         /// <summary>
         /// 
         /// </summary>
+        [EnumMember(Value = "image")]
         Image,
 
         /// <summary>
         /// 
         /// </summary>
+        [EnumMember(Value = "canvas")]
         Canvas
     }
 }
