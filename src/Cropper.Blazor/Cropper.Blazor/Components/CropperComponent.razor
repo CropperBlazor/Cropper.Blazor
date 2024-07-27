@@ -10,12 +10,9 @@ else
 {
     if (CropperComponentType == Models.CropperComponentType.Canvas)
     {
-        <canvas @ref="ImageReference"
+        <canvas @ref="CanvasReference"
                 class="@Class"
-                @attributes="InputAttributes"
-                @onerror="@OnErrorLoadImage"
-                @onload="OnLoadImage">
-        </canvas>
+                @attributes="InputAttributes" />
     }
     else
     {
