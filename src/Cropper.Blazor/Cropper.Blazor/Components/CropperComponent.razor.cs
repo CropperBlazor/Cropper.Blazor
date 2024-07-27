@@ -55,7 +55,8 @@ namespace Cropper.Blazor.Components
         public string Src { get; set; } = null!;
 
         /// <summary>
-        /// 
+        /// Specifies the target element for cropping, the default value is <see cref="CropperComponentType.Image"/>.
+        /// In addition, for <see cref="CropperComponentType.Canvas"/> type requires manual uploading of images into canvas HTMl element, including error handling.
         /// </summary>
         [Parameter]
         public CropperComponentType CropperComponentType { get; set; } = CropperComponentType.Image;
@@ -180,7 +181,8 @@ namespace Cropper.Blazor.Components
         }
 
         /// <summary>
-        /// 
+        /// Returns the reference to the cropper element, which can be either a canvas or an image, depending on the <see cref="CropperComponentType"/>.
+        /// If an error occurs while loading the image (when <see cref="IsErrorLoadImage"/> equal to true), null is returned.
         /// </summary>
         public ElementReference? GetCropperElementReference()
         {
