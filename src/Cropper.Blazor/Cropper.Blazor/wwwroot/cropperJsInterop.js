@@ -237,17 +237,13 @@ class CropperDecorator {
         imageObject.invokeMethodAsync('CropperIsZoomed', jSEventData);
     }
 
-    initCropper(cropperComponentId, image, optionsImage, imageObject, cropperComponentType) {
+    initCropper(cropperComponentId, image, optionsImage, imageObject) {
         if (image == null) {
             throw "Parameter 'image' must be is not null!";
         }
 
         if (optionsImage == null) {
             throw "Parameter 'optionsImage' must be is not null!";
-        }
-
-        if (cropperComponentType == null) {
-            throw "Parameter 'cropperComponentType' must be is not null!";
         }
 
         const options = {};

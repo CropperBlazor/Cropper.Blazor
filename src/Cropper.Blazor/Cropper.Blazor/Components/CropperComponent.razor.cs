@@ -182,7 +182,22 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// 
         /// </summary>
-        public ElementReference? GetCanvasReference() => CanvasReference;
+        public ElementReference? GetCropperElementReference()
+        {
+            if (IsErrorLoadImage)
+            {
+                return null;
+            }
+
+            if (CropperComponentType == CropperComponentType.Canvas)
+            {
+                return CanvasReference!.Value;
+            }
+            else
+            {
+                return ImageReference!.Value;
+            }
+        }
 
         /// <summary>
         /// This event is fired when the image is loaded.
@@ -219,17 +234,19 @@ namespace Cropper.Blazor.Components
         public void InitCropper(CancellationToken cancellationToken = default)
         {
             ICropperComponentBase cropperComponentBase = this;
+            ElementReference? cropperElementReference = GetCropperElementReference();
 
-            Console.WriteLine("Init");
+            if (cropperElementReference.HasValue)
+            {
+                CropperJsIntertop!.InitCropperAsync(
+                    CropperComponentId,
+                    cropperElementReference.Value,
+                    Options!,
+                    DotNetObjectReference.Create(cropperComponentBase),
+                    cancellationToken);
 
-            CropperJsIntertop!.InitCropperAsync(
-                CropperComponentId,
-                CropperComponentType == CropperComponentType.Canvas ? CanvasReference!.Value : ImageReference!.Value,
-                Options!,
-                DotNetObjectReference.Create(cropperComponentBase),
-                cancellationToken);
-
-            OnLoadImageEvent?.Invoke();
+                OnLoadImageEvent?.Invoke();
+            }
         }
 
         /// <summary>
