@@ -191,11 +191,11 @@ namespace Cropper.Blazor.Components
 
             if (CropperComponentType == CropperComponentType.Canvas)
             {
-                return CanvasReference!.Value;
+                return CanvasReference;
             }
             else
             {
-                return ImageReference!.Value;
+                return ImageReference;
             }
         }
 
