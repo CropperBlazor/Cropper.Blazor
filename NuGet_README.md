@@ -1,4 +1,4 @@
-## Cropper.Blazor is a component that wraps around Cropper.js version 1.6.1
+## Cropper.Blazor is a component that wraps around Cropper.js version 1.6.2
 
 [![Build and run test](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/ci.yml)
 [![Deploy to GitHub Pages](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/cd.yml/badge.svg?event=push)](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/cd.yml)
