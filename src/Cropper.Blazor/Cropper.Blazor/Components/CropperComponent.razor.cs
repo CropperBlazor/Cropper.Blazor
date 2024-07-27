@@ -202,7 +202,7 @@ namespace Cropper.Blazor.Components
         }
 
         /// <summary>
-        /// This event is fired when the image is loaded.
+        /// This event is fired when an image is loaded or called manually.
         /// </summary>
         /// <param name="progressEventArgs">
         ///     <para>If successful, outputs a <see cref="ProgressEventArgs"/> which is </para>
