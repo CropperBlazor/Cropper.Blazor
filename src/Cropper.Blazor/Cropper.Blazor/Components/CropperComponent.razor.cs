@@ -30,7 +30,12 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Gets a reference to the img HTML element rendered by the component.
         /// </summary>
-        private ElementReference ImageReference;
+        private ElementReference? ImageReference;
+
+        /// <summary>
+        /// Gets a reference to the canvas HTML element rendered by the component.
+        /// </summary>
+        private ElementReference? CanvasReference;
 
         /// <summary>
         /// The unique identifier of the cropper component.
@@ -48,6 +53,13 @@ namespace Cropper.Blazor.Components
         /// </summary>
         [Parameter]
         public string Src { get; set; } = null!;
+
+        /// <summary>
+        /// Specifies the target element for cropping, the default value is <see cref="CropperComponentType.Image"/>.
+        /// In addition, for <see cref="CropperComponentType.Canvas"/> type requires manual uploading of images into canvas HTMl element, including error handling.
+        /// </summary>
+        [Parameter]
+        public CropperComponentType CropperComponentType { get; set; } = CropperComponentType.Image;
 
         /// <summary>
         /// Specifies the path to the image when loading from src fails.
@@ -169,7 +181,28 @@ namespace Cropper.Blazor.Components
         }
 
         /// <summary>
-        /// This event is fired when the image is loaded.
+        /// Returns the reference to the cropper element, which can be either a canvas or an image, depending on the <see cref="CropperComponentType"/>.
+        /// If an error occurs while loading the image (when <see cref="IsErrorLoadImage"/> equal to true), null is returned.
+        /// </summary>
+        public ElementReference? GetCropperElementReference()
+        {
+            if (IsErrorLoadImage)
+            {
+                return null;
+            }
+
+            if (CropperComponentType == CropperComponentType.Canvas)
+            {
+                return CanvasReference;
+            }
+            else
+            {
+                return ImageReference;
+            }
+        }
+
+        /// <summary>
+        /// This event is fired when an image is loaded or called manually.
         /// </summary>
         /// <param name="progressEventArgs">
         ///     <para>If successful, outputs a <see cref="ProgressEventArgs"/> which is </para>
@@ -203,8 +236,19 @@ namespace Cropper.Blazor.Components
         public void InitCropper(CancellationToken cancellationToken = default)
         {
             ICropperComponentBase cropperComponentBase = this;
-            CropperJsIntertop!.InitCropperAsync(CropperComponentId, ImageReference, Options!, DotNetObjectReference.Create(cropperComponentBase), cancellationToken);
-            OnLoadImageEvent?.Invoke();
+            ElementReference? cropperElementReference = GetCropperElementReference();
+
+            if (cropperElementReference.HasValue)
+            {
+                CropperJsIntertop!.InitCropperAsync(
+                    CropperComponentId,
+                    cropperElementReference.Value,
+                    Options!,
+                    DotNetObjectReference.Create(cropperComponentBase),
+                    cancellationToken);
+
+                OnLoadImageEvent?.Invoke();
+            }
         }
 
         /// <summary>
