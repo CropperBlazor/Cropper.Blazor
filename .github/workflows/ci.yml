@@ -13,7 +13,8 @@ on:
     branches:
     - fix/*
     - feature/*
-
+  pull_request_target:
+    types: [opened, reopened]
 jobs:
   build:
     name: Build & Test
