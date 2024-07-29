@@ -10,12 +10,8 @@ on:
     - fix/*
     - feature/*
   pull_request_target:
-    branches:
-    - fix/*
-    - feature/*
-  pull_request_target:
-    types: [assigned, opened, synchronize, reopened]
-    
+    types: [opened]
+
 jobs:
   build:
     name: Build & Test
