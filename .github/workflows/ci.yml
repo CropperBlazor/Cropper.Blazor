@@ -10,9 +10,7 @@ on:
     - fix/*
     - feature/*
   pull_request_target:
-    branches:
-    - fix/*
-    - feature/*
+    types: [opened]
 
 jobs:
   build:
