@@ -17,18 +17,10 @@ jobs:
     environment: github-pages
     needs: demo-projects-build
     steps:
-      - uses: actions/checkout@v4
-      
       - name: Build & Test
-        uses: .github/workflows/build-test-template.yml@develop
-      
-      - name: Coverage
-        uses: codecov/codecov-action@v4
+        uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml
-          fail_ci_if_error: true
-          verbose: true
+         configuration: Debug
 
       - name: Wait for Exit Code 0 for Cropper.Blazor.Sitemap.Generator project
         run: |

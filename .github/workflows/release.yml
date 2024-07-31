@@ -8,42 +8,15 @@ on:
     
 jobs:
   deploy-to-nuget:
-
-    # use ubuntu-latest image to run steps on
     runs-on: ubuntu-latest
+    name: Deploy to NuGet
+
     steps:
-
-    # uses GitHub's checkout action to checkout code form the master branch
-    - uses: actions/checkout@v4
-    
-    # sets up .NET Core SDK 8, 7, 6
-    - name: Setup .NET 8, 7, 6
-      uses: actions/setup-dotnet@v4
+    - name: Build & Test
+      uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
       with:
-        dotnet-version: |
-            6.0.x
-            7.0.x
-            8.0.x
-        
-    - name: Install WASM tools Workloads
-      run: |
-          dotnet workload install wasm-tools --ignore-failed-sources
-
-    - name: Restore dependencies
-      run: dotnet restore
-      working-directory: src/Cropper.Blazor
-
-    - name: Restore dotnet tool
-      run: dotnet tool restore
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
-      
-    - name: Build
-      run: dotnet build -c Release --no-restore
-      working-directory: src/Cropper.Blazor
-      
-    - name: Test
-      run: dotnet test -c Release --no-build --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
-      working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
+        configuration: Release
+        publish-coverage: false
 
     - name: Pack package
       run: dotnet pack -c Release

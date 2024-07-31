@@ -2,6 +2,17 @@ name: Build and run tests
 
 on:
   workflow_call:
+    inputs:
+      configuration:
+        description: 'dotnet build configuration'
+        required: false
+        type: string
+        default: Debug
+      publish-coverage:
+        description: 'publish coverage to codecov'
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   build_and_test:
@@ -11,7 +22,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
  
-    # sets up .NET Core SDK 8, 7, 6
     - name: Setup .NET 8, 7, 6
       uses: actions/setup-dotnet@v4
       with:
@@ -33,9 +43,18 @@ jobs:
       working-directory: src/Cropper.Blazor/Cropper.Blazor
       
     - name: DotNet Build
-      run: dotnet build --no-restore
+      run: dotnet build -c ${{ inputs.dotnet-version }} --no-restore
       working-directory: src/Cropper.Blazor
       
     - name: Test
-      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
+      run: dotnet test -c ${{ inputs.dotnet-version }} --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests
+
+    - name: Coverage
+      if: ${{ inputs.publish-coverage == true }}
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml
+        fail_ci_if_error: true
+        verbose: true

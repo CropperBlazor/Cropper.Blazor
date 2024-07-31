@@ -18,15 +18,7 @@ jobs:
     name: Check code quality
     steps:
       - name: Build & Test
-        uses: .github/workflows/build-test-template.yml@develop
-
-      - name: Coverage
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml
-          fail_ci_if_error: true
-          verbose: true
+        uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
 
       - uses: actions/checkout@v4
   
