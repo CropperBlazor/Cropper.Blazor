@@ -160,6 +160,16 @@ namespace Cropper.Blazor.Client.Compiler
                 {
                     return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.web.erroreventargs\">{value}</a>";
                 }
+                else if (result.Contains("Cropper.Blazor.Models.CropperComponentType"))
+                {
+                    (string enumName, string enumItemName) = result.RemoveNamespaceFromEnumValue();
+
+                    return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"api/{enumName}\">{enumName}.{enumItemName}</a>";
+                }
+                else if (result.EndsWith("Cropper.Blazor.Components.CropperComponent.IsErrorLoadImage"))
+                {
+                    return value;
+                }
 
                 return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"api/{value}\">{value}</a>";
             });

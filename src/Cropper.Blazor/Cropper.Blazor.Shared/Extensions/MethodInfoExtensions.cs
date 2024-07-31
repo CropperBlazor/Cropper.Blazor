@@ -270,6 +270,14 @@ namespace Cropper.Blazor.Shared.Extensions
             return value.Split('.')[value.Split('.').Length - 1];
         }
 
+        public static (string enumName, string enumItemName) RemoveNamespaceFromEnumValue(this string value)
+        {
+            var lengthValue = value.Split('.').Length;
+            var splittedValue = value.Split('.');
+
+            return (splittedValue[lengthValue - 2], splittedValue[lengthValue - 1]);
+        }
+
         public static string GetFormattedReturnSignature(this MethodInfo method, bool callable = false)
         {
             // Return final result
