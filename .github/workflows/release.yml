@@ -1,34 +1,37 @@
 name: Deploy to NuGet
 
-# Run workflow on every push to the master branch
 on:
   push:
     branches:
     - master
     
 jobs:
+  build-and-test:
+    name: Build & Test
+    uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
+    with:
+      configuration: Release
+      publish-coverage: false
+
   deploy-to-nuget:
-    runs-on: ubuntu-latest
     name: Deploy to NuGet
-
+    runs-on: ubuntu-latest
+    needs: build-and-test
     steps:
-    - name: Build & Test
-      uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
-      with:
-        configuration: Release
-        publish-coverage: false
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Pack package
-      run: dotnet pack -c Release
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
+      - name: Pack package
+        run: dotnet pack -c Release
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
 
-    - name: Push to NuGet Gallery
-      run: dotnet nuget push bin/Release/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{secrets.NUGET_API_KEY}} --skip-duplicate
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
+      - name: Push to NuGet Gallery
+        run: dotnet nuget push bin/Release/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{secrets.NUGET_API_KEY}} --skip-duplicate
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
       
-    - name: Add NuGet repository source
-      run: dotnet nuget add source --username CropperBlazor --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/CropperBlazor/index.json"
+      - name: Add NuGet repository source
+        run: dotnet nuget add source --username CropperBlazor --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/CropperBlazor/index.json"
 
-    - name: Publish NuGet package to GitHub packages
-      run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
+      - name: Publish NuGet package to GitHub packages
+        run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
+        working-directory: src/Cropper.Blazor/Cropper.Blazor

@@ -14,13 +14,18 @@ on:
 
 jobs:
   code-quality-check:
-    runs-on: ubuntu-latest
     name: Check code quality
-    steps:
-      - name: Build & Test
-        uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
+    uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
 
-      - uses: actions/checkout@v4
+  code-linting:
+    name: Code linting
+    runs-on: ubuntu-latest
+    needs: code-quality-check
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
   
       - name: Super-Linter
         uses: github/super-linter@v4.8.1

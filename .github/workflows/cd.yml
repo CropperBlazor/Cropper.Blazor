@@ -4,7 +4,6 @@ concurrency:
   group: github-pages
   cancel-in-progress: true
 
-# Run workflow on every push to the master branch
 on:
   push:
     branches: [ dev ]
@@ -12,15 +11,17 @@ on:
       - '**.md'
     
 jobs:
+  code-quality-check:
+    name: Check code quality
+    uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
+
   deploy-to-github-pages:
     runs-on: ubuntu-latest
     environment: github-pages
-    needs: demo-projects-build
+    needs: [code-quality-check, demo-projects-build]
     steps:
-      - name: Build & Test
-        uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
-        with:
-         configuration: Debug
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Wait for Exit Code 0 for Cropper.Blazor.Sitemap.Generator project
         run: |
@@ -100,13 +101,13 @@ jobs:
   demo-projects-build:
     name: Build Demo Projects
     runs-on: windows-latest
+    needs: code-quality-check
     env: 
      JAVA_HOME: '/home/runner/android-sdk'
 
     steps:
     - uses: actions/checkout@v4
  
-    # sets up .NET Core SDK 8, 7, 6
     - name: Setup .NET 8, 7, 6
       uses: actions/setup-dotnet@v4
       with:
