@@ -7,7 +7,7 @@ on:
         description: 'dotnet build configuration'
         required: false
         type: string
-        default: Debug
+        default: 'Debug'
       publish-coverage:
         description: 'publish coverage to codecov'
         required: false
