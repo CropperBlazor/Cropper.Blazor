@@ -11,10 +11,7 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
     name: Build & Test
-    steps:
-      - name: Build & Test
-        uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
-        with:
-          publish-coverage: false
+    uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
+    with:
+      publish-coverage: false
