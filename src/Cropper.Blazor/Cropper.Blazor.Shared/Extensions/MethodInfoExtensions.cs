@@ -268,7 +268,6 @@ namespace Cropper.Blazor.Shared.Extensions
         public static string RemoveNamespace(this string value)
         {
             var splittedValue = value.Split('.');
-            
             return splittedValue[splittedValue.Length - 1];
         }
 
