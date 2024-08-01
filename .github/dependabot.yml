@@ -5,3 +5,7 @@ updates:
     target-branch: "dev" # Location of package manifests
     schedule:
       interval: "monthly"
+    groups:
+      dotnet:
+        patterns:
+          - "*"

@@ -1,4 +1,4 @@
-name: Build and run tests
+name: Build, run tests, code linting
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -10,66 +10,39 @@ on:
     - fix/*
     - feature/*
   pull_request_target:
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
-  build:
-    name: Build & Test
+  code-quality-check:
+    name: Check code quality
+    uses: ./.github/workflows/build-test-template.yml
+    secrets: inherit
+
+  code-linting:
+    name: Code linting
     runs-on: ubuntu-latest
-
+    needs: code-quality-check
     steps:
-    - uses: actions/checkout@v3
- 
-    # sets up .NET Core SDK 8, 7, 6
-    - name: Setup .NET 8, 7, 6
-      uses: actions/setup-dotnet@v3.2.0
-      with:
-        dotnet-version: |
-            6.0.x
-            7.0.x
-            8.0.x
-
-    - name: Install WASM tools Workloads
-      run: |
-          dotnet workload install wasm-tools --ignore-failed-sources
-
-    - name: Restore dependencies
-      run: dotnet restore
-      working-directory: src/Cropper.Blazor
-
-    - name: Restore dotnet tool
-      run: dotnet tool restore
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
-      
-    - name: DotNet Build
-      run: dotnet build --no-restore
-      working-directory: src/Cropper.Blazor
-      
-    - name: Test
-      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
-      working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
-    
-    - name: Coverage
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml
-        fail_ci_if_error: true
-        verbose: true
-      
-    - name: Super-Linter
-      uses: github/super-linter@v4.8.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        OUTPUT_FOLDER: Reports
-        OUTPUT_DETAILS: detailed
-        ERROR_ON_MISSING_EXEC_BIT: true
-        VALIDATE_ALL_CODEBASE: true
-        VALIDATE_MARKDOWN: false
-        VALIDATE_JAVASCRIPT_STANDARD: false
-        LOG_LEVEL: WARN
-        FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
-        FILTER_REGEX_INCLUDE: /github/workspace/src/Cropper.Blazor/.*
-        JSCPD_CONFIG_FILE: '.jscpd.json'
-        HTML_FILE_NAME: '.htmlhintrc'
-        CSS_FILE_NAME: '.stylelintrc.json'
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+  
+      - name: Super-Linter
+        uses: super-linter/super-linter@v6.8.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OUTPUT_FOLDER: Reports
+          OUTPUT_DETAILS: detailed
+          ERROR_ON_MISSING_EXEC_BIT: true
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_MARKDOWN: false
+          VALIDATE_CHECKOV: false
+          VALIDATE_JSCPD: false
+          VALIDATE_JAVASCRIPT_STANDARD: false
+          LOG_LEVEL: WARN
+          FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
+          FILTER_REGEX_INCLUDE: /github/workspace/src/Cropper.Blazor/.*
+          JSCPD_CONFIG_FILE: '.jscpd.json'
+          HTML_FILE_NAME: '.htmlhintrc'
+          CSS_FILE_NAME: '.stylelintrc.json'
