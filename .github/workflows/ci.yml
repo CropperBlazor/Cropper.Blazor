@@ -34,10 +34,8 @@ jobs:
           OUTPUT_FOLDER: Reports
           OUTPUT_DETAILS: detailed
           ERROR_ON_MISSING_EXEC_BIT: true
-          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_ALL_CODEBASE: true
           VALIDATE_MARKDOWN: false
-          VALIDATE_CHECKOV: false
-          VALIDATE_JSCPD: false
           VALIDATE_JAVASCRIPT_STANDARD: false
           LOG_LEVEL: WARN
           FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
