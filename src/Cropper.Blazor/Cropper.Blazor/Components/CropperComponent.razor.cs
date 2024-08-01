@@ -193,7 +193,7 @@ namespace Cropper.Blazor.Components
         /// <returns>A <see cref="Nullable{ElementReference}"/> representing reference to the cropper element.</returns>
         public ElementReference? GetCropperElementReference()
         {
-            if (IsErrorLoadImage )
+            if (IsErrorLoadImage)
             {
                 return null;
             }
