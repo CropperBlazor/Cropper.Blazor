@@ -5,17 +5,16 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  push:
-    branches:
-    - fix/*
-    - feature/*
-  pull_request_target:
-    types: [opened, synchronize]
+    pull_request_target:
+      types: [opened, synchronize]
+      branches-ignore:
+        - master
+        - dependabot/*
 
 jobs:
   code-quality-check:
     name: Check code quality
-    uses: ./.github/workflows/build-test-template.yml
+    uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
     secrets: inherit
 
   code-linting:
@@ -29,16 +28,14 @@ jobs:
           fetch-depth: 0
   
       - name: Super-Linter
-        uses: super-linter/super-linter@v6.8.0
+        uses: super-linter/super-linter@v4.8.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT_FOLDER: Reports
           OUTPUT_DETAILS: detailed
           ERROR_ON_MISSING_EXEC_BIT: true
-          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_ALL_CODEBASE: true
           VALIDATE_MARKDOWN: false
-          VALIDATE_CHECKOV: false
-          VALIDATE_JSCPD: false
           VALIDATE_JAVASCRIPT_STANDARD: false
           LOG_LEVEL: WARN
           FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
