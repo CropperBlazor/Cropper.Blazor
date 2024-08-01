@@ -23,11 +23,11 @@
                             <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
                                      Href="examples/cropperusage">
                                 <CodeInline>@Type.GetTypeDisplayName()</CodeInline>
-                                </MudLink>
-                            </li>
-                        </ul>
-                    </div>
-                </DocsPageSection>
+                            </MudLink>
+                        </li>
+                    </ul>
+                </div>
+            </DocsPageSection>
         }
         else
         {
@@ -71,7 +71,7 @@
                             {
                                 <MudTh colspan="4">
                                     <MudText Typo="Typo.h6">@($"Inherited from {((Type)context.Key).GetTypeDisplayName()}")</MudText>
-                                    </MudTh>
+                                </MudTh>
                             }
                             else if (_propertiesGrouping == Grouping.Categories)
                             {
@@ -153,14 +153,14 @@
                             </MudHidden>
                             <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
                                 <MudTd Class="docs-content-api-cell" DataLabel="Type">@(new MarkupString(context.Type.GetFormattedReturnSignature()))</MudTd>
-                                </MudHidden>
-                                <MudTd Class="docs-content-api-cell docs-content-api-description" DataLabel="Description">
-                                    @HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))
-                                </MudTd>
-                            </RowTemplate>
-                        </MudTable>
-                    </SectionContent>
-                </DocsPageSection>
+                            </MudHidden>
+                            <MudTd Class="docs-content-api-cell docs-content-api-description" DataLabel="Description">
+                                @HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))
+                            </MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </SectionContent>
+            </DocsPageSection>
         }
 
         @if (methods.Count() > 0)
@@ -234,14 +234,14 @@
                                     }
                                 </MudTd>
                                 <MudTd Class="docs-content-api-cell docs-content-description-api-max-width" DataLabel="Description">@(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Documentation, "summary"))))</MudTd>
-                                </MudHidden>
-                            </RowTemplate>
-                            <PagerContent>
-                                <MudTablePager PageSizeOptions="new int[]{10, 20, 50}" />
-                            </PagerContent>
-                        </MudTable>
-                    </SectionContent>
-                </DocsPageSection>
+                            </MudHidden>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudTablePager PageSizeOptions="new int[]{10, 20, 50}" />
+                        </PagerContent>
+                    </MudTable>
+                </SectionContent>
+            </DocsPageSection>
         }
     </DocsPageContent>
 </DocsPage>
