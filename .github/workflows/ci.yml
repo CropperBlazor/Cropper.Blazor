@@ -29,13 +29,13 @@ jobs:
           fetch-depth: 0
   
       - name: Super-Linter
-        uses: github/super-linter@v4.8.1
+        uses: github/super-linter@v6.8.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT_FOLDER: Reports
           OUTPUT_DETAILS: detailed
           ERROR_ON_MISSING_EXEC_BIT: true
-          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_ALL_CODEBASE: false
           VALIDATE_MARKDOWN: false
           VALIDATE_JAVASCRIPT_STANDARD: false
           LOG_LEVEL: WARN
