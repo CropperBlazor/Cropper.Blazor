@@ -10,7 +10,7 @@ jobs:
     name: Build & Test
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
     with:
-      configuration: Release
+      configuration: 'Release'
       publish-coverage: false
 
   deploy-to-nuget:
