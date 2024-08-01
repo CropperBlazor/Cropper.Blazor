@@ -5,11 +5,11 @@ concurrency:
   cancel-in-progress: true
 
 on:
-    pull_request_target:
-      types: [opened, synchronize]
-      branches-ignore:
-        - master
-        - dependabot/*
+  pull_request_target:
+    types: [opened, synchronize]
+    branches-ignore:
+      - master
+      - dependabot/*
 
 jobs:
   code-quality-check:
@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 0
   
       - name: Super-Linter
-        uses: super-linter/super-linter@v4.8.1
+        uses: super-linter/super-linter@v6.8.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT_FOLDER: Reports
