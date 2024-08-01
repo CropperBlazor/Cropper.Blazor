@@ -16,6 +16,7 @@ jobs:
   code-quality-check:
     name: Check code quality
     uses: ./.github/workflows/build-test-template.yml
+    secrets: inherit
 
   code-linting:
     name: Code linting
