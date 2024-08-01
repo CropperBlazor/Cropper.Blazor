@@ -13,7 +13,7 @@ on:
 jobs:
   code-quality-check:
     name: Check code quality
-    uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
+    uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
     secrets: inherit
 
   deploy-to-github-pages:
