@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 0
   
       - name: Super-Linter
-        uses: super-linter/super-linter@v6.8.0
+        uses: super-linter/super-linter@v4.8.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT_FOLDER: Reports
