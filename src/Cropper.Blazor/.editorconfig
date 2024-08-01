@@ -24,6 +24,11 @@ csharp_style_expression_bodied_local_functions = false:silent
 [*.xml]
 indent_size = 2
 
+# YML files
+[*.yml]
+indent_size = 2
+indent_style = space
+
 [*.{cs,vb}]
 #### Naming styles ####
 
