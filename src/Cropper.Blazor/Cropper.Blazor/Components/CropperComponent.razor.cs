@@ -80,6 +80,12 @@ namespace Cropper.Blazor.Components
         public bool IsErrorLoadImage { get; set; }
 
         /// <summary>
+        /// Content is shown instead of the default error image.
+        /// </summary>
+        [Parameter]
+        public RenderFragment? ErrorLoadImageContent { get; set; }
+
+        /// <summary>
         /// Responsible for allowing the initialization of the cropper after a successful image download, the default is always allowed (true).
         /// In addition, it should be used to disable re-initialization (replace image) of cropper after successful image load when set to false.
         /// </summary>
