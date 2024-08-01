@@ -938,6 +938,56 @@ namespace Cropper.Blazor.UnitTests.Components
         }
 
         [Fact]
+        public void Should_Render_CropperComponent_With_ErrorLoadImageContent_Parameter()
+        {
+            // arrange
+            RenderFragment errorLoadImageContent = builder =>
+            {
+                builder.OpenElement(0, "div");
+                builder.AddAttribute(1, "class", "error-img");
+                builder.CloseElement();
+            };
+            Dictionary<string, object> inputAttributes = new()
+            {
+                { "loading", "lazy" },
+                { "Attribute_TEST", "TEST_VALUE" },
+                { "src", "new_src" }
+            };
+
+            ComponentParameter errorLoadImageContentParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.ErrorLoadImageContent),
+                errorLoadImageContent);
+            ComponentParameter loadingParameter = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.InputAttributes),
+                inputAttributes);
+            ComponentParameter isErrorLoadImage = ComponentParameter.CreateParameter(
+                nameof(CropperComponent.IsErrorLoadImage),
+                true);
+
+            // act
+            IRenderedComponent<CropperComponent> cropperComponent = _testContext
+                .RenderComponent<CropperComponent>(
+                    errorLoadImageContentParameter,
+                    loadingParameter,
+                    isErrorLoadImage);
+
+            // assert
+            IElement expectedElement = cropperComponent.Find("div.error-img");
+            ElementReference? elementReference = cropperComponent.Instance
+                .GetCropperElementReference();
+
+            elementReference.Should().BeNull();
+            expectedElement.ClassName.Should().Be("error-img");
+
+            _mockCropperJsInterop.Verify(c => c.InitCropperAsync(
+                It.IsAny<Guid>(),
+                It.IsAny<ElementReference>(),
+                It.IsAny<Options>(),
+                It.IsAny<DotNetObjectReference<ICropperComponentBase>>(),
+                It.IsAny<CancellationToken>()), Times.Never());
+        }
+
+        [Fact]
         public void Should_Not_Render_CropperComponent_With_IsNotAvaibleInitCropper_Parameter()
         {
             // arrange
