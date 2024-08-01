@@ -1,0 +1,3 @@
+* text eol=crlf
+*.sln text eol=crlf
+*.png -text
