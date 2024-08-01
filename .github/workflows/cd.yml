@@ -24,6 +24,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: src/Cropper.Blazor
+
+      - name: Restore dotnet tool
+        run: dotnet tool restore
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
+
       - name: Wait for Exit Code 0 for Cropper.Blazor.Sitemap.Generator project
         run: |
           dotnet run -c Release
