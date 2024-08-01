@@ -50,6 +50,8 @@ jobs:
       run: dotnet test -c ${{ inputs.configuration }} --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
       working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests
 
+    - uses: actions/checkout@main
+
     - name: Coverage
       if: ${{ inputs.publish-coverage == true }}
       uses: codecov/codecov-action@v4
