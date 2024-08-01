@@ -262,7 +262,7 @@ namespace Cropper.Blazor.Shared.Extensions
             stringBuilder.Append('>');
 
             // Return result
-            return stringBuilder.ToString().RemoveNamespace();
+            return stringBuilder.ToString();
         }
 
         public static string RemoveNamespace(this string value)
@@ -294,7 +294,7 @@ namespace Cropper.Blazor.Shared.Extensions
             if (callable == false)
             {
                 // Append return type
-                stringBuilder.Append(type.TypeName(CreateLink).RemoveNamespace());
+                stringBuilder.Append(type.TypeName(CreateLink));
                 stringBuilder.Append(' ');
             }
 
@@ -314,7 +314,15 @@ namespace Cropper.Blazor.Shared.Extensions
             }
             else if (name == "ErrorEventArgs")
             {
-                return $"<a target=\"_blank\">{name}</a>";
+                return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.web\">{name}</a>";
+            }
+            else if (name == "RenderFragment")
+            {
+                return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.renderfragment\">{name}</a>";
+            }
+            else if (name == "IJSObjectReference")
+            {
+                return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.ijsobjectreference\">{name}</a>";
             }
             else
             {

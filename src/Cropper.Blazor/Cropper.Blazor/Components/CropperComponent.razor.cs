@@ -190,6 +190,7 @@ namespace Cropper.Blazor.Components
         /// Returns the reference to the cropper element, which can be either a canvas or an image, depending on the <see cref="CropperComponentType"/>.
         /// If an error occurs while loading the image (when <see cref="IsErrorLoadImage"/> equal to true), null is returned.
         /// </summary>
+        /// <returns>A <see cref="Nullable{ElementReference}"/> representing reference to the cropper element.</returns>
         public ElementReference? GetCropperElementReference()
         {
             if (IsErrorLoadImage)
