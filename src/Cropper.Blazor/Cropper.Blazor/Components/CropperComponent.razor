@@ -2,9 +2,16 @@
 
 @if (IsErrorLoadImage == true)
 {
-    <img class="@ErrorLoadImageClass"
-         @attributes="InputAttributes"
-         src="@ErrorLoadImageSrc">
+    @if (ErrorLoadImageContent is null)
+    {
+        <img class="@ErrorLoadImageClass"
+             @attributes="InputAttributes"
+             src="@ErrorLoadImageSrc">
+    }
+    else
+    {
+        @ErrorLoadImageContent
+    }
 }
 else
 {
