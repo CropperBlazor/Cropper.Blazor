@@ -90,8 +90,8 @@ namespace Cropper.Blazor.Client.Compiler
 
                         foreach (string enumName in enumNames)
                         {
-                            Enum enum-value = (Enum)Enum.Parse(type, enumName);
-                            string doc = enum-value.GetDocumentation();
+                            Enum enumValue = (Enum)Enum.Parse(type, enumName);
+                            string doc = enumValue.GetDocumentation();
                             doc = NormalizeWord(doc);
                             doc = ConvertCrefToHTML(doc);
                             doc = ConvertMarkdownToHTML(doc);
@@ -162,7 +162,7 @@ namespace Cropper.Blazor.Client.Compiler
                 }
                 else if (result.Contains("Cropper.Blazor.Models.CropperComponentType"))
                 {
-                    (string enumName, string enumItemName) = result.RemoveNamespaceFromenum-value();
+                    (string enumName, string enumItemName) = result.RemoveNamespaceFromEnumValue();
 
                     return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"api/{enumName}\">{enumName}.{enumItemName}</a>";
                 }

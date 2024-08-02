@@ -56,7 +56,7 @@ namespace Cropper.Blazor.Client.Compiler
 
                     // Note: the @ creates problems and thus we replace it with an unlikely placeholder and in the markup replace back.
                     var html = formatter.GetHtmlString(blocks0, Languages.Html).Replace("PlaceholdeR", "@");
-                    html = AttributePostprocessing(html).Replace("@", "<span class=\"at-sign\">&#64;</span>");
+                    html = AttributePostprocessing(html).Replace("@", "<span class=\"atSign\">&#64;</span>");
 
                     var currentCode = string.Empty;
                     if (File.Exists(markupPath))
@@ -73,7 +73,7 @@ namespace Cropper.Blazor.Client.Compiler
                     {
                         cb.AddLine(
                             formatter.GetHtmlString("@code" + blocks[1], Languages.CSharp)
-                                .Replace("@", "<span class=\"at-sign\">&#64;</span>")
+                                .Replace("@", "<span class=\"atSign\">&#64;</span>")
                                 .ToLfLineEndings());
                     }
 
