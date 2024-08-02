@@ -67,8 +67,8 @@ namespace Cropper.Blazor.Shared.Extensions
                         }
                         var correctGeneric = genericParameters.Dequeue();
                         result += (firstIteration ? string.Empty : ",") +
-                            (correctGeneric.IsGenericParameter 
-                            ? showGenericParameters ? (firstIteration ? string.Empty : " ") + correctGeneric.Name : string.Empty 
+                            (correctGeneric.IsGenericParameter
+                            ? showGenericParameters ? (firstIteration ? string.Empty : " ") + correctGeneric.Name : string.Empty
                             : (firstIteration ? string.Empty : " ") + correctGeneric.ConvertToCSharpSource());
                         firstIteration = false;
                     }
