@@ -17,7 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Testing", "C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{624968C7-925A-4896-8405-4174FD48B9BC}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
+		..\..\.editorconfig = ..\..\.editorconfig
+		..\..\.gitattributes = ..\..\.gitattributes
 		..\..\.github\CODE_OF_CONDUCT.md = ..\..\.github\CODE_OF_CONDUCT.md
 		..\..\.github\PULL_REQUEST_TEMPLATE.md = ..\..\.github\PULL_REQUEST_TEMPLATE.md
 		..\..\README.md = ..\..\README.md
