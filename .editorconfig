@@ -20,9 +20,9 @@ csharp_style_expression_bodied_accessors = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
 
-[*.{csproj,vcxproj,vcxproj.filters,proj,nativeproj,locproj}]
-indent_size = 2
-tab_width = 2
+[*.{csproj,sln,vcxproj,vcxproj.filters,proj,nativeproj,locproj}]
+indent_size = 4
+tab_width = 4
 indent_style = tab
 
 # Xml build files
@@ -95,3 +95,8 @@ indent_size = 4
 end_of_line = crlf
 dotnet_style_coalesce_expression = true:suggestion
 insert_final_newline = true
+
+[*.html]
+tab_width = 4
+indent_size = 4
+indent_style = tab
