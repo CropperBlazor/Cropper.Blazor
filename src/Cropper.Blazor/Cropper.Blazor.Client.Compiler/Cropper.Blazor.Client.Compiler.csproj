@@ -6,11 +6,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="ColorCode.HTML" Version="2.0.15" />
+		<PackageReference Include="ColorCode.HTML" Version="2.0.15" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Cropper.Blazor.Shared\Cropper.Blazor.Shared.csproj" />
-    <ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Cropper.Blazor.Shared\Cropper.Blazor.Shared.csproj" />
+		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
+	</ItemGroup>
+	
 </Project>
