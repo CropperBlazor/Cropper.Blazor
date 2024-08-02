@@ -5,7 +5,9 @@
   ],
   "ignore": [
 	"**/src/Cropper.Blazor/Cropper.Blazor.UnitTests/**",
-	"**/examples/**"
+	"**/examples/**",
+	"**/*.md",
+	"**/*excubowebcompiler.json"
   ],
   "absolute": true,
   "minTokens": 100,
