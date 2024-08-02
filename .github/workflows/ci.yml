@@ -25,12 +25,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
           fetch-depth: 0
           
       - name: Super-Linter
         uses: super-linter/super-linter@v6.8.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: ${{ github.event.pull_request.base.ref }}
           OUTPUT_FOLDER: Reports
           OUTPUT_DETAILS: detailed
           ERROR_ON_MISSING_EXEC_BIT: true

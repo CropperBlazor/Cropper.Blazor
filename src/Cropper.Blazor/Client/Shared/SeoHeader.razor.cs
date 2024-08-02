@@ -59,7 +59,7 @@ namespace Cropper.Blazor.Client.Shared
                 "blazor image cropper",
                 "blazor resize image",
                 "blazor photo resizer",
-                ..Keywords,
+                ..Keywords
             ];
 
             return string.Join(", ", keywords);
