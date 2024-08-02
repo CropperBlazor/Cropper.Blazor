@@ -10,6 +10,5 @@
 	"**/*excubowebcompiler.json"
   ],
   "absolute": true,
-  "minTokens": 100,
-  "min-lines": 7
+  "minTokens": 75
 }
