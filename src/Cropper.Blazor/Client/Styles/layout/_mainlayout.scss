@@ -1,18 +1,18 @@
 ﻿.docs-title {
-    font-family: 'Public Sans', 'Roboto', 'Arial', sans-serif;
+    font-family: 'Public Sans', Roboto, Arial, sans-serif;
     font-weight: 600;
     font-size: 3.75rem;
 }
 
 .docs-title-description {
-    font-family: 'Public Sans', 'Roboto', 'Arial', sans-serif;
+    font-family: 'Public Sans', Roboto, Arial, sans-serif;
     font-weight: 500;
     line-height: 1.75;
     font-size: 1.1rem;
     margin: 0 4px;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .docs-title {
         font-size: 2.5rem;
     }
@@ -48,7 +48,7 @@
     }
 
     .mud-button {
-        font-family: 'Public Sans', 'Roboto', 'Arial', sans-serif;
+        font-family: 'Public Sans', Roboto, Arial, sans-serif;
         font-weight: 500;
         line-height: 1.75;
         letter-spacing: 0.02857em;
@@ -75,7 +75,7 @@
 .docs-brand-text {
     letter-spacing: 0.1rem;
     font-weight: 500;
-    font-family: 'Roboto', sans-serif;
+    font-family: Roboto, sans-serif;
     margin-inline-start: 12px;
     user-select: none;
 }
@@ -92,7 +92,7 @@
     }
 }
 
-@media (max-width: 960px) {
+@media (width <= 960px) {
     :root {
         --mud-drawer-width-left: 300px !important;
     }

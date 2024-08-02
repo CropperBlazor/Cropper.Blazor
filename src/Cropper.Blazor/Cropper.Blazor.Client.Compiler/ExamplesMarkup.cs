@@ -56,7 +56,7 @@ namespace Cropper.Blazor.Client.Compiler
 
                     // Note: the @ creates problems and thus we replace it with an unlikely placeholder and in the markup replace back.
                     var html = formatter.GetHtmlString(blocks0, Languages.Html).Replace("PlaceholdeR", "@");
-                    html = AttributePostprocessing(html).Replace("@", "<span class=\"atSign\">&#64;</span>");
+                    html = AttributePostprocessing(html).Replace("@", "<span class=\"at-sign\">&#64;</span>");
 
                     var currentCode = string.Empty;
                     if (File.Exists(markupPath))
@@ -73,7 +73,7 @@ namespace Cropper.Blazor.Client.Compiler
                     {
                         cb.AddLine(
                             formatter.GetHtmlString("@code" + blocks[1], Languages.CSharp)
-                                .Replace("@", "<span class=\"atSign\">&#64;</span>")
+                                .Replace("@", "<span class=\"at-sign\">&#64;</span>")
                                 .ToLfLineEndings());
                     }
 
@@ -118,7 +118,7 @@ namespace Cropper.Blazor.Client.Compiler
         {
             return Regex.Replace(
                 html,
-                @"<span class=""htmlAttributeValue"">&quot;(?'value'.*?)&quot;</span>",
+                @"<span class=""html-attribute-value"">&quot;(?'value'.*?)&quot;</span>",
                 new MatchEvaluator(m =>
                     {
                         var value = m.Groups["value"].Value;
@@ -136,15 +136,15 @@ namespace Cropper.Blazor.Client.Compiler
             if (Regex.IsMatch(value, "^[A-Z][A-Za-z0-9]+[.][A-Za-z][A-Za-z0-9]+$"))
             {
                 var tokens = value.Split('.');
-                return $"<span class=\"enum\">{tokens[0]}</span><span class=\"enumValue\">.{tokens[1]}</span>";
+                return $"<span class=\"enum\">{tokens[0]}</span><span class=\"enum-value\">.{tokens[1]}</span>";
             }
 
             if (Regex.IsMatch(value, "^@[A-Za-z0-9]+$"))
             {
-                return $"<span class=\"sharpVariable\">{value}</span>";
+                return $"<span class=\"sharp-variable\">{value}</span>";
             }
 
-            return $"<span class=\"htmlAttributeValue\">{value}</span>";
+            return $"<span class=\"html-attribute-value\">{value}</span>";
         }
     }
 }

@@ -271,7 +271,7 @@ namespace Cropper.Blazor.Shared.Extensions
             return splittedValue[splittedValue.Length - 1];
         }
 
-        public static (string enumName, string enumItemName) RemoveNamespaceFromEnumValue(this string value)
+        public static (string enumName, string enumItemName) RemoveNamespaceFromenum-value(this string value)
         {
             var splittedValue = value.Split('.');
             var lengthValue = splittedValue.Length;

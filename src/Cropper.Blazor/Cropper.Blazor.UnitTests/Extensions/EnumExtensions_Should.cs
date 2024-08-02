@@ -27,10 +27,10 @@ namespace Cropper.Blazor.UnitTests.Extensions
         }
 
         [Theory, MemberData(nameof(TestData_ToEnumString))]
-        public void ToEnumString(TestEnum enumValue, string expectedString)
+        public void ToEnumString(TestEnum enum-value, string expectedString)
         {
             // act
-            var actualValue = enumValue.ToEnumString();
+            var actualValue = enum-value.ToEnumString();
 
             // assert
             actualValue.Should().Be(expectedString);
@@ -43,11 +43,11 @@ namespace Cropper.Blazor.UnitTests.Extensions
             yield return WrapArgs(TestEnum.SecondValue, TestEnum_Second_Name);
 
             static object[] WrapArgs(
-                TestEnum enumValue,
+                TestEnum enum-value,
                 string? expectedString)
                 => new object[]
                 {
-                    enumValue,
+                    enum-value,
                     expectedString!
                 };
         }

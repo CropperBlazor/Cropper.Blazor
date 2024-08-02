@@ -1,46 +1,46 @@
 ﻿.mud-landingpage-editor {
     & .html, .codearea {
-        & .htmlTagDelimiter {
+        & .html-tag-delimiter {
             color: #979797;
         }
 
-        & .htmlElementName {
+        & .html-element-name {
             color: #988ef1;
         }
 
-        & .htmlAttributeName {
+        & .html-attribute-name {
             color: #27b5b5;
         }
 
-        & .htmlOperator, .quot {
+        & .html-operator, .quot {
             color: #c8c8c8;
         }
 
-        & .htmlAttributeValue {
+        & .html-attribute-value {
             color: #ededed;
         }
 
-        & .htmlLink {
+        & .html-link {
             color: #61afef;
             text-decoration: underline;
         }
 
         & .enum {
             color: #b4eb8f;
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgb(255 255 255 / 15%);
         }
 
-        & .enumValue, .sharpVariable {
+        & .enum-value, .sharp-variable {
             color: #ededed;
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgb(255 255 255 / 15%);
         }
 
         & .keyword {
             color: #61afef;
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgb(255 255 255 / 15%);
         }
 
-        & .atSign {
+        & .at-sign {
             color: #8323d8;
         }
 
@@ -50,7 +50,7 @@
     }
 
     & .csharp {
-        & .atSign {
+        & .at-sign {
             color: #000;
             background-color: #d2d295;
         }
@@ -110,7 +110,7 @@
 
     & .css {
         & .property {
-            color: hsl(76, 21%, 52%);
+            color: hsl(76deg 21% 52%);
         }
 
         & .comment {
@@ -119,7 +119,7 @@
     }
 
     & .csharp {
-        & .atSign {
+        & .at-sign {
             color: #8323d8;
         }
 
@@ -159,19 +159,19 @@
             color: #57a64a;
         }
 
-        & .htmlElementName {
+        & .html-element-name {
             color: #7e6fffff;
         }
 
-        & .htmlAttributeName {
+        & .html-attribute-name {
             color: #8323d8;
         }
 
-        & .htmlAttributeValue {
+        & .html-attribute-value {
             color: #ff4081;
         }
 
-        & .htmlOperator {
+        & .html-operator {
             color: #737373;
         }
 
@@ -195,28 +195,28 @@
             user-select: all;
         }
 
-        & .htmlTagDelimiter {
+        & .html-tag-delimiter {
             color: #979797;
         }
 
-        & .htmlElementName {
+        & .html-element-name {
             color: var(--mud-palette-primary);
             font-weight: 600;
         }
 
-        & .htmlAttributeName {
+        & .html-attribute-name {
             color: #8323d8;
         }
 
-        & .htmlOperator, .quot {
+        & .html-operator, .quot {
             color: #737373;
         }
 
-        & .htmlAttributeValue {
+        & .html-attribute-value {
             color: #ff4081;
         }
 
-        & .htmlLink {
+        & .html-link {
             color: #ff4081;
             text-decoration: underline;
         }
@@ -226,7 +226,7 @@
             background-color: var(--mud-palette-grey-light);
         }
 
-        & .enumValue, .sharpVariable {
+        & .enum-value, .sharp-variable {
             color: var(--mud-palette-text-primary);
             background-color: var(--mud-palette-grey-light);
         }
@@ -236,7 +236,7 @@
             background-color: var(--mud-palette-grey-light);
         }
 
-        & .atSign {
+        & .at-sign {
             color: #8323d8;
         }
 
