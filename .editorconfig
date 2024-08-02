@@ -20,9 +20,10 @@ csharp_style_expression_bodied_accessors = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
 
-# Xml files
 [*.{csproj,vcxproj,vcxproj.filters,proj,nativeproj,locproj}]
 indent_size = 2
+tab_width = 2
+indent_style = tab
 
 # Xml build files
 [*.builds]
