@@ -12,7 +12,7 @@
     margin: 0 4px;
 }
 
-@media (width <= 600px) {
+@media (max-width: 600px) {
     .docs-title {
         font-size: 2.5rem;
     }
@@ -92,7 +92,7 @@
     }
 }
 
-@media (width <= 960px) {
+@media (max-width: 960px) {
     :root {
         --mud-drawer-width-left: 300px !important;
     }

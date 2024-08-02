@@ -19,6 +19,7 @@
         "ignorePseudoElements": [ "deep" ]
       }
     ],
-    "indentation": 4
+    "indentation": 4,
+    "media-feature-range-notation": "prefix"
   }
 }
