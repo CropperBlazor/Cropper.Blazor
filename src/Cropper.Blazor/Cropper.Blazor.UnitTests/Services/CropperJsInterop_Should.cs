@@ -335,7 +335,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 using DotNetStreamReference dotnetImageStream = new(jsImageStream);
                 _testContext.JSInterop
                     .Setup<string>("cropper.getImageUsingStreaming",
-                                   jSRuntimeInvocation => jSRuntimeInvocation.Arguments.Count == 1 && VerifyStreamArgument(jSRuntimeInvocation))
+                    jSRuntimeInvocation => jSRuntimeInvocation.Arguments.Count == 1 && VerifyStreamArgument(jSRuntimeInvocation))
                     .SetResult(expectedImageData);
 
                 bool VerifyStreamArgument(JSRuntimeInvocation jSRuntimeInvocation)

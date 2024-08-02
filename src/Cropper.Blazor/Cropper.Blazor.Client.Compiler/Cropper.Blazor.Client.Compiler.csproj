@@ -13,5 +13,5 @@
 		<ProjectReference Include="..\Cropper.Blazor.Shared\Cropper.Blazor.Shared.csproj" />
 		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
 	</ItemGroup>
-	
+
 </Project>

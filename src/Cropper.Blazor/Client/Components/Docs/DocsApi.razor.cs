@@ -200,10 +200,10 @@ namespace Cropper.Blazor.Client.Components.Docs
         {
             PropertyInfo? eventCallbackInfo = Type.GetProperty(propertyInfo.Name + "Changed");
 
-            return eventCallbackInfo != null &&
-                   eventCallbackInfo.PropertyType.Name.Contains("EventCallback") &&
-                   eventCallbackInfo.GetCustomAttribute<ParameterAttribute>() != null &&
-                   eventCallbackInfo.GetCustomAttribute<ObsoleteAttribute>() == null;
+            return eventCallbackInfo != null && 
+                eventCallbackInfo.PropertyType.Name.Contains("EventCallback") &&
+                eventCallbackInfo.GetCustomAttribute<ParameterAttribute>() != null &&
+                eventCallbackInfo.GetCustomAttribute<ObsoleteAttribute>() == null;
         }
 
         RenderFragment RenderTheType()
