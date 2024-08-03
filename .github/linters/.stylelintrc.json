@@ -1,8 +1,12 @@
 {
+  "extends": [ "stylelint-config-standard", "stylelint-config-standard-scss" ],
   "rules": {
-    "at-rule-no-unknown": [true, {
-      "ignoreAtRules": ["function", "if", "each", "include", "mixin"]
-    }],
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [ "function", "if", "each", "include", "mixin" ]
+      }
+    ],
     "selector-pseudo-class-no-unknown": [
       true,
       {
