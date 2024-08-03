@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Cropper.Blazor.Client.Compiler;
 
-public class Paths
+public static class Paths
 {
     private const string DocsDirectory = "Client";
     private const string DocStringsFile = "DocStrings.generated.cs";
@@ -27,43 +27,13 @@ public class Paths
         }
     }
 
-    public string DocsDirPath
-    {
-        get
-        {
-            return Directory.EnumerateDirectories(SrcDirPath, DocsDirectory).FirstOrDefault();
-        }
-    }
+    public static string DocsDirPath => Directory.EnumerateDirectories(SrcDirPath, DocsDirectory).FirstOrDefault();
 
-    public string DocsStringSnippetsDirPath
-    {
-        get
-        {
-            return Path.Join(DocsDirPath, "Models");
-        }
-    }
+    public static string DocsStringSnippetsDirPath => Path.Join(DocsDirPath, "Models");
 
-    public string SnippetsFilePath
-    {
-        get
-        {
-            return Path.Join(DocsStringSnippetsDirPath, SnippetsFile);
-        }
-    }
+    public static string SnippetsFilePath => Path.Join(DocsStringSnippetsDirPath, SnippetsFile);
 
-    public string DocStringsFilePath
-    {
-        get
-        {
-            return Path.Join(DocsStringSnippetsDirPath, DocStringsFile);
-        }
-    }
+    public static string DocStringsFilePath => Path.Join(DocsStringSnippetsDirPath, DocStringsFile);
 
-    public string NewFilesToBuildPath
-    {
-        get
-        {
-            return Path.Join(DocsDirPath, NewFilesToBuild);
-        }
-    }
+    public static string NewFilesToBuildPath => Path.Join(DocsDirPath, NewFilesToBuild);
 }
