@@ -1,5 +1,5 @@
 {
-  "extends": "stylelint-config-standard",
+  "extends": [ "stylelint-config-standard", "stylelint-config-standard-scss" ],
   "rules": {
     "at-rule-no-unknown": [true, {
       "ignoreAtRules": ["function", "if", "each", "include", "mixin"]
