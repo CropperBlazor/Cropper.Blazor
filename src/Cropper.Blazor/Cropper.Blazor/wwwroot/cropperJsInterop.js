@@ -239,11 +239,11 @@ class CropperDecorator {
 
   initCropper (cropperComponentId, image, optionsImage, imageObject) {
     if (image == null) {
-      throw "Parameter 'image' must be is not null!"
+      throw new Error("Parameter 'image' must be is not null!")
     }
 
     if (optionsImage == null) {
-      throw "Parameter 'optionsImage' must be is not null!"
+      throw new Error("Parameter 'optionsImage' must be is not null!")
     }
 
     const options = {}
