@@ -152,11 +152,11 @@ class CropperDecorator {
   }
 
   noConflict () {
-    return Cropper.noConflict()
+    return Cropper.noConflict() // eslint-disable-line no-undef
   }
 
   setDefaults (options) {
-    return Cropper.setDefaults(options)
+    return Cropper.setDefaults(options) // eslint-disable-line no-undef
   }
 
   async getImageUsingStreaming (imageStream) {
@@ -192,14 +192,14 @@ class CropperDecorator {
         oldRatio: instance.detail.oldRatio,
         ratio: instance.detail.ratio,
         originalEvent: instance.detail.originalEvent
-          ? DotNet.createJSObjectReference(instance.detail.originalEvent)
+          ? DotNet.createJSObjectReference(instance.detail.originalEvent) // eslint-disable-line no-undef
           : null
       }
     } else if (instance.type === 'cropstart' || instance.type === 'cropend' || instance.type === 'cropmove') {
       return {
         action: instance.detail.action,
         originalEvent: instance.detail.originalEvent
-          ? DotNet.createJSObjectReference(instance.detail.originalEvent)
+          ? DotNet.createJSObjectReference(instance.detail.originalEvent) // eslint-disable-line no-undef
           : null
       }
     }
@@ -278,7 +278,7 @@ class CropperDecorator {
       })
     }
 
-    const cropper = new Cropper(image, options)
+    const cropper = new Cropper(image, options) // eslint-disable-line no-undef
 
     this.cropperInstances[cropperComponentId] = cropper
   }
