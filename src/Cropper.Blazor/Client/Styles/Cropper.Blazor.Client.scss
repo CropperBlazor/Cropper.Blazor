@@ -32,7 +32,6 @@
 
 .loader-box {
     @include responsive-box(100%);
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,7 +61,7 @@
     }
 
     .loader-text {
-        $loader-text-size: #{"clamp(16px, calc(24px + (48 - 16) * (100vw - 280px)/(1920 - 280)), 48px)"};
+        $loader-text-size: clamp(16px, calc(24px + (48 - 16) * (100vw - 280px)/(1920 - 280)), 48px);
 
         position: absolute;
         z-index: 3;
