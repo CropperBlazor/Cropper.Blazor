@@ -38,7 +38,6 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_MARKDOWN: false
           VALIDATE_JAVASCRIPT_PRETTIER: false
-          VALIDATE_JAVASCRIPT_STANDARD: true
           LOG_LEVEL: WARN
           FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
           FILTER_REGEX_INCLUDE: /github/workspace/src/Cropper.Blazor/.*
