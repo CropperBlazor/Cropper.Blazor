@@ -20,7 +20,7 @@ self.addEventListener('activate', event => {
       ]
     )
       .catch(
-        (err) => { // eslint-disable-line handle-callback-err
+        (err) => { // eslint-disable-line
           event.skipWaiting()
         }
       )
