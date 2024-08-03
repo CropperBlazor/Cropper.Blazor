@@ -1,12 +1,8 @@
 {
-  "extends": [ "stylelint-config-standard", "stylelint-config-standard-scss" ],
   "rules": {
     "at-rule-no-unknown": [true, {
       "ignoreAtRules": ["function", "if", "each", "include", "mixin"]
     }],
-    "selector-list-comma-newline-after": "always-multi-line",
-    "selector-list-comma-newline-before": "never-multi-line",
-    "block-closing-brace-newline-before": "always",
     "selector-pseudo-class-no-unknown": [
       true,
       {
@@ -19,7 +15,6 @@
         "ignorePseudoElements": [ "deep" ]
       }
     ],
-    "indentation": 4,
     "media-feature-range-notation": "prefix"
   }
 }
