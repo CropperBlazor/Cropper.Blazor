@@ -71,7 +71,7 @@ class CropperDecorator {
   replace(cropperComponentId, url, onlyColorChanged) {
     return this.cropperInstances[cropperComponentId].replace(
       url,
-      onlyColorChanged,
+      onlyColorChanged
     );
   }
 
@@ -101,7 +101,7 @@ class CropperDecorator {
 
   setAspectRatio(cropperComponentId, aspectRatio) {
     return this.cropperInstances[cropperComponentId].setAspectRatio(
-      aspectRatio,
+      aspectRatio
     );
   }
 
