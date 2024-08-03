@@ -41,6 +41,5 @@ jobs:
           FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
           FILTER_REGEX_INCLUDE: /github/workspace/src/Cropper.Blazor/.*
           JSCPD_CONFIG_FILE: '.jscpd.json'
-          JAVASCRIPT_ES_CONFIG_FILE: '.eslintrc.json'
           HTML_FILE_NAME: '.htmlhintrc'
           CSS_FILE_NAME: '.stylelintrc.json'
