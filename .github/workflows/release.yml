@@ -11,7 +11,7 @@ jobs:
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@develop
     with:
       configuration: 'Release'
-      publish-coverage: false
+      publish-coverage: true
 
   deploy-to-nuget:
     name: Deploy to NuGet
