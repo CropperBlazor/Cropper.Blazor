@@ -22,17 +22,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Restore dependencies
-        run: dotnet restore
-        working-directory: src/Cropper.Blazor/Cropper.Blazor
+      # - name: Restore dependencies
+      #   run: dotnet restore
+      #   working-directory: src/Cropper.Blazor/Cropper.Blazor
 
       - name: Restore dotnet tool
         run: dotnet tool restore
         working-directory: src/Cropper.Blazor/Cropper.Blazor
 
-      - name: Build
-        run: dotnet build -c Release --no-restore
-        working-directory: src/Cropper.Blazor/Cropper.Blazor
+      # - name: Build
+      #   run: dotnet build -c Release --no-restore
+      #   working-directory: src/Cropper.Blazor/Cropper.Blazor
 
       - name: Pack package
         run: dotnet pack -c Release
