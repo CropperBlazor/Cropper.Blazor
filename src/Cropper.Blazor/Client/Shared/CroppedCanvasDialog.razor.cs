@@ -14,8 +14,8 @@ namespace Cropper.Blazor.Client.Shared
         public async Task DownloadImageSrcAsync()
         {
             await JSRuntime!.InvokeVoidAsync(
-              "downloadFromUrl",
-              new { Url = Src, FileName = $"{Guid.NewGuid()}.png" });
+                "downloadFromUrl",
+                new { Url = Src, FileName = $"{Guid.NewGuid()}.png" });
         }
 
         public Dictionary<string, object> CroppedImageInputAttributes { get; set; } =

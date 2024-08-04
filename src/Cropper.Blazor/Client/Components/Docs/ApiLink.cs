@@ -10,10 +10,10 @@ namespace Cropper.Blazor.Client.Components.Docs
     public static class ApiLink
     {
         private static readonly Dictionary<Type, string> _specialCaseComponents =
-           new()
-           {
-               [typeof(CropperComponent)] = "cropper-component"
-           };
+            new()
+            {
+                [typeof(CropperComponent)] = "cropper-component"
+            };
 
         public static string GetComponentLinkFor(Type type)
         {

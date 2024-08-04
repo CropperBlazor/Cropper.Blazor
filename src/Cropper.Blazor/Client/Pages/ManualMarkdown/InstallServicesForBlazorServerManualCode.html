@@ -1,15 +1,15 @@
 <div class="mud-codeblock">
-    <div class="csharp">
-        <pre>
+	<div class="csharp">
+		<pre>
 <span class="keyword">using</span> Cropper.Blazor.Extensions;
 
-<span class="localVar">builder</span>.Services.<span class="function">AddServerSideBlazor</span>()
-    .<span class="function">AddHubOptions</span>(<span class="localVar">options</span> => 
-    {
-	    <span class="localVar">options</span>.MaximumReceiveMessageSize = <span class="number">32</span> * <span class="number">1024</span> * <span class="number">100</span>;
-    });
+<span class="local-var">builder</span>.Services.<span class="function">AddServerSideBlazor</span>()
+	.<span class="function">AddHubOptions</span>(<span class="local-var">options</span> => 
+	{
+		<span class="local-var">options</span>.MaximumReceiveMessageSize = <span class="number">32</span> * <span class="number">1024</span> * <span class="number">100</span>;
+	});
 
-<span class="localVar">app</span>.<span class="function">MapBlazorHub</span>();
+<span class="local-var">app</span>.<span class="function">MapBlazorHub</span>();
 </pre>
-    </div>
+	</div>
 </div>

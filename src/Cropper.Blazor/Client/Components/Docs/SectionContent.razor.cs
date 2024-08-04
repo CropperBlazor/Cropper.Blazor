@@ -125,28 +125,30 @@ public partial class SectionContent : IBrowserViewportObserver
                 throw new KeyNotFoundException($"'.{code}Code.html' code not exist");
             }
 
-            using var stream = typeof(SectionContent).Assembly.GetManifestResourceStream(key!);
-            using var reader = new StreamReader(stream!);
-            var read = reader.ReadToEnd();
-
-            if (!string.IsNullOrEmpty(HighLight))
+            using (var stream = typeof(SectionContent).Assembly.GetManifestResourceStream(key))
+            using (var reader = new StreamReader(stream))
             {
-                if (HighLight.Contains(','))
-                {
-                    var highlights = HighLight.Split(",");
+                var read = reader.ReadToEnd();
 
-                    foreach (var value in highlights)
+                if (!string.IsNullOrEmpty(HighLight))
+                {
+                    if (HighLight.Contains(','))
                     {
-                        read = Regex.Replace(read, $"{value}(?=\\s|\")", $"<mark>$&</mark>");
+                        var highlights = HighLight.Split(",");
+
+                        foreach (var value in highlights)
+                        {
+                            read = Regex.Replace(read, $"{value}(?=\\s|\")", $"<mark>$&</mark>");
+                        }
+                    }
+                    else
+                    {
+                        read = Regex.Replace(read, $"{HighLight}(?=\\s|\")", $"<mark>$&</mark>");
                     }
                 }
-                else
-                {
-                    read = Regex.Replace(read, $"{HighLight}(?=\\s|\")", $"<mark>$&</mark>");
-                }
-            }
 
-            builder.AddMarkupContent(0, HttpUtility.HtmlDecode(read));
+                builder.AddMarkupContent(0, read);
+            }
         }
         catch (Exception ex)
         {
