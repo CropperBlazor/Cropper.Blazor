@@ -22,27 +22,51 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
+
       - name: Restore dotnet tool
         run: dotnet tool restore
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
         working-directory: src/Cropper.Blazor/Cropper.Blazor
 
       - name: Pack package
         run: dotnet pack -c Release
         working-directory: src/Cropper.Blazor/Cropper.Blazor
 
-      - name: Verify cropperJsInterop.min.js static web asset
+      - name: Verify file keys in Cropper.Blazor.staticwebassets.runtime.json
         run: |
-          json_path="src/Cropper.Blazor/Cropper.Blazor/bin/Release/net8.0/Cropper.Blazor.staticwebassets.runtime.json"
-          if [ -f "$json_path" ]; then
-            if jq -e '.Root.Children["cropperJsInterop.min.js"]' "$json_path" > /dev/null; then
-              echo "Key 'cropperJsInterop.min.js' exists."
+          error_messages=""
+          for net_version in 6.0 7.0 8.0; do
+            json_path="src/Cropper.Blazor/Cropper.Blazor/bin/Release/net$net_version/Cropper.Blazor.staticwebassets.runtime.json"
+          
+            if [ -f "$json_path" ]; then
+              if ! jq -e '.Root.Children["cropperJsInterop.min.js"]' "$json_path" > /dev/null; then
+                error_messages+="For .NET $net_version: Key 'cropperJsInterop.min.js' does not exist.\n"
+              fi
+              if ! jq -e '.Root.Children["cropperJsInterop.js"]' "$json_path" > /dev/null; then
+                error_messages+="For .NET $net_version: Key 'cropperJsInterop.js' does not exist.\n"
+              fi
+              if ! jq -e '.Root.Children["cropper.min.css"]' "$json_path" > /dev/null; then
+                error_messages+="For .NET $net_version: Key 'cropper.min.css' does not exist.\n"
+              fi
+              if ! jq -e '.Root.Children["cropper.min.js"]' "$json_path" > /dev/null; then
+                error_messages+="For .NET $net_version: Key 'cropper.min.js' does not exist.\n"
+              fi
             else
-              echo "Key 'cropperJsInterop.min.js' does not exist."
-              exit 1
+              error_messages+="File $json_path does not exist for .NET $net_version.\n"
             fi
-          else
-            echo "File $json_path does not exist."
+          done
+
+          if [ -n "$error_messages" ]; then
+            echo -e "$error_messages"
             exit 1
+          else
+            echo "All keys exist for .NET 6, .NET 7, and .NET 8."
           fi
 
       - name: Push to NuGet Gallery

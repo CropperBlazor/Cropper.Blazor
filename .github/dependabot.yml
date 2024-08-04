@@ -5,6 +5,7 @@ updates:
     target-branch: "dev"
     schedule:
       interval: "monthly"
+    open-pull-requests-limit: 100
     groups:
       dotnet:
         patterns:
