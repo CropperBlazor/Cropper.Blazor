@@ -15,14 +15,13 @@ namespace Cropper.Blazor.Client.Compiler
 
         public bool Execute()
         {
-            var paths = new Paths();
             var success = true;
             try
             {
                 var currentCode = string.Empty;
-                if (File.Exists(paths.DocStringsFilePath))
+                if (File.Exists(Paths.DocStringsFilePath))
                 {
-                    currentCode = File.ReadAllText(paths.DocStringsFilePath);
+                    currentCode = File.ReadAllText(Paths.DocStringsFilePath);
                 }
 
                 var cb = new CodeBuilder();
@@ -110,12 +109,12 @@ namespace Cropper.Blazor.Client.Compiler
 
                 if (currentCode != cb.ToString())
                 {
-                    File.WriteAllText(paths.DocStringsFilePath, cb.ToString());
+                    File.WriteAllText(Paths.DocStringsFilePath, cb.ToString());
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error generating {paths.DocStringsFilePath} : {e.Message}");
+                Console.WriteLine($"Error generating {Paths.DocStringsFilePath} : {e.Message}");
                 success = false;
             }
 
@@ -160,6 +159,16 @@ namespace Cropper.Blazor.Client.Compiler
                 {
                     return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.web.erroreventargs\">{value}</a>";
                 }
+                else if (result.Contains("Cropper.Blazor.Models.CropperComponentType"))
+                {
+                    (string enumName, string enumItemName) = result.RemoveNamespaceFromEnumValue();
+
+                    return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"api/{enumName}\">{enumName}.{enumItemName}</a>";
+                }
+                else if (result.EndsWith("Cropper.Blazor.Components.CropperComponent.IsErrorLoadImage"))
+                {
+                    return value;
+                }
 
                 return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"api/{value}\">{value}</a>";
             });
@@ -177,6 +186,7 @@ namespace Cropper.Blazor.Client.Compiler
                 .Replace("<see cref=\"T:Microsoft.JSInterop.DotNetStreamReference\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.dotnetstreamreference\">DotNetStreamReference</a>")
                 .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">ValueTask</a>")
                 .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask`1\" />", $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">{formattedReturnSignature}</a>")
+                .Replace("<see cref=\"T:System.Nullable`1\" />", $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1\">{formattedReturnSignature}</a>")
                 .Replace("<see cref=\"T:Cropper.Blazor.Events.JSEventData`1\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"api/JSEventData\">JSEventData<></a>")
                 .Replace("<see cref=\"T:System.Threading.CancellationToken\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource\">CancellationToken</a>");
 

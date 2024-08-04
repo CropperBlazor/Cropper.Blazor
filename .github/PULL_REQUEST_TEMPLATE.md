@@ -12,13 +12,13 @@
 <!--
   It serves as a gentle reminder for common tasks. Confirm it's done and check everything that applies.
 -->
-- [ ] Documentation updated
 - [ ] Tests cover new or modified code
 - [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
+- [ ] I have made corresponding changes to the site documentation
+- [ ] I have made corresponding changes to the README, NuGet README file
 - [ ] My changes generate no new warnings
-- [ ] New dependencies added
+- [ ] New dependencies added or updated
 - [ ] Includes breaking changes
 - [ ] Version bumped
 

@@ -100,7 +100,7 @@ namespace Cropper.Blazor.Shared.Extensions
                 builder.Append(type.Name);
             }
             else if (type.Assembly.ManifestModule.Name == "FSharp.Core.dll"
-                     && FSharpTypeNames.TryGetValue(type.Name, out builtInName))
+                && FSharpTypeNames.TryGetValue(type.Name, out builtInName))
             {
                 builder.Append(builtInName);
             }
@@ -173,7 +173,7 @@ namespace Cropper.Blazor.Shared.Extensions
             }
 
             if (type.Assembly.ManifestModule.Name == "FSharp.Core.dll"
-                     && FSharpTypeNames.TryGetValue(type.Name, out var builtInName))
+                && FSharpTypeNames.TryGetValue(type.Name, out var builtInName))
             {
                 builder.Append(builtInName);
             }

@@ -2,16 +2,18 @@
 using Cropper.Blazor.Components;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.Shared.Extensions;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace Cropper.Blazor.Client.Components.Docs
 {
     public static class ApiLink
     {
         private static readonly Dictionary<Type, string> _specialCaseComponents =
-           new()
-           {
-               [typeof(CropperComponent)] = "cropper-component"
-           };
+            new()
+            {
+                [typeof(CropperComponent)] = "cropper-component"
+            };
 
         public static string GetComponentLinkFor(Type type)
         {
@@ -73,6 +75,18 @@ namespace Cropper.Blazor.Client.Components.Docs
             else if (type == typeof(SetDataOptions))
             {
                 value = nameof(SetDataOptions).CreateLink();
+            }
+            else if (type == typeof(CropperComponentType))
+            {
+                value = nameof(CropperComponentType).CreateLink();
+            }
+            else if (type == typeof(RenderFragment))
+            {
+                value = nameof(RenderFragment).CreateLink();
+            }
+            else if (type == typeof(IJSObjectReference))
+            {
+                value = nameof(IJSObjectReference).CreateLink();
             }
 
             return value;

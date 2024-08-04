@@ -194,7 +194,7 @@ namespace Cropper.Blazor.Client.Pages
                     || height < GetSetCropperData!.CroppedDimensionsSettings.MinimumHeight
                     || width > GetSetCropperData!.CroppedDimensionsSettings.MaximumWidth
                     || height > GetSetCropperData!.CroppedDimensionsSettings.MaximumHeight
-                  )
+                    )
                 {
                     decimal nWidth = Math.Max(GetSetCropperData!.CroppedDimensionsSettings.MinimumWidth ?? 0M,
                             Math.Min(GetSetCropperData!.CroppedDimensionsSettings.MaximumWidth ?? 0M, width));

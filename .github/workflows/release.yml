@@ -1,61 +1,38 @@
 name: Deploy to NuGet
 
-# Run workflow on every push to the master branch
 on:
   push:
     branches:
     - master
     
 jobs:
+  build-and-test:
+    name: Build & Test
+    uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
+    secrets: inherit
+    with:
+      configuration: 'Release'
+      publish-coverage: true
+
   deploy-to-nuget:
-
-    # use ubuntu-latest image to run steps on
+    name: Deploy to NuGet
     runs-on: ubuntu-latest
+    needs: build-and-test
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    # uses GitHub's checkout action to checkout code form the master branch
-    - uses: actions/checkout@v3
-    
-    # sets up .NET Core SDK 8, 7, 6
-    - name: Setup .NET 8, 7, 6
-      uses: actions/setup-dotnet@v3.2.0
-      with:
-        dotnet-version: |
-            6.0.x
-            7.0.x
-            8.0.x
-        
-    - name: Install WASM tools Workloads
-      run: |
-          dotnet workload install wasm-tools --ignore-failed-sources
+      - name: Pack package
+        run: dotnet pack -c Release
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
 
-    - name: Restore dependencies
-      run: dotnet restore
-      working-directory: src/Cropper.Blazor
-
-    - name: Restore dotnet tool
-      run: dotnet tool restore
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
+      - name: Push to NuGet Gallery
+        run: dotnet nuget push bin/Release/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{secrets.NUGET_API_KEY}} --skip-duplicate
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
       
-    - name: Build
-      run: dotnet build -c Release --no-restore
-      working-directory: src/Cropper.Blazor
-      
-    - name: Test
-      run: dotnet test -c Release --no-build --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
-      working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
+      - name: Add NuGet repository source
+        run: dotnet nuget add source --username CropperBlazor --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/CropperBlazor/index.json"
 
-    - name: Pack package
-      run: dotnet pack -c Release
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
-
-    - name: Push to NuGet Gallery
-      run: dotnet nuget push bin/Release/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{secrets.NUGET_API_KEY}} --skip-duplicate
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
-      
-    - name: Add NuGet repository source
-      run: dotnet nuget add source --username CropperBlazor --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/CropperBlazor/index.json"
-
-    - name: Publish NuGet package to GitHub packages
-      run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
+      - name: Publish NuGet package to GitHub packages
+        run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
+        working-directory: src/Cropper.Blazor/Cropper.Blazor

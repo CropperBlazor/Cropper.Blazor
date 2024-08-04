@@ -4,7 +4,6 @@ concurrency:
   group: github-pages
   cancel-in-progress: true
 
-# Run workflow on every push to the master branch
 on:
   push:
     branches: [ dev ]
@@ -12,138 +11,114 @@ on:
       - '**.md'
     
 jobs:
+  code-quality-check:
+    name: Check code quality
+    uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
+    secrets: inherit
+
   deploy-to-github-pages:
-    # use ubuntu-latest image to run steps on
     runs-on: ubuntu-latest
     environment: github-pages
-    needs: demo-projects-build
+    needs: [code-quality-check, demo-projects-build]
     steps:
-      # uses GitHub's checkout action to checkout code form the master branch
-    - uses: actions/checkout@v3
-    
-    # sets up .NET Core SDK 8, 7, 6
-    - name: Setup .NET 8, 7, 6
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: |
-            6.0.x
-            7.0.x
-            8.0.x
-        
-    - name: Install WASM tools Workloads
-      run: |
-          dotnet workload install wasm-tools --ignore-failed-sources
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Restore dependencies
-      run: dotnet restore
-      working-directory: src/Cropper.Blazor
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: src/Cropper.Blazor
 
-    - name: Restore dotnet tool
-      run: dotnet tool restore
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
-      
-    - name: Build
-      run: dotnet build --no-restore
-      working-directory: src/Cropper.Blazor
-      
-    - name: Test
-      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
-      working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests    
-      
-    - name: Coverage
-      uses: codecov/codecov-action@v3.1.4
-      with:
-        files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml
-        fail_ci_if_error: true
-        verbose: true
+      - name: Restore dotnet tool
+        run: dotnet tool restore
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
 
-    - name: Wait for Exit Code 1 for Cropper.Blazor.Sitemap.Generator project
-      run: |
-        dotnet run -c Release
-      working-directory: src/Cropper.Blazor/Cropper.Blazor.Sitemap.Generator
+      - name: Wait for Exit Code 0 for Cropper.Blazor.Sitemap.Generator project
+        run: |
+          dotnet run -c Release
+        working-directory: src/Cropper.Blazor/Cropper.Blazor.Sitemap.Generator
 
-    - name: Check if sitemap.xml File Exists
-      run: |
-        filePath="./sitemap.xml"
-        if [ -f "$filePath" ]; then
-          echo "sitemap.xml file exists"
-        else
-          echo "File does not exist"
-          exit 1
-        fi
-      working-directory: src/Cropper.Blazor/Client/wwwroot
-      
-      # publishes Blazor project to the release-folder
-    - name: Publish .NET Core Project
-      run: dotnet publish ./src/Cropper.Blazor/Client/Cropper.Blazor.Client.csproj -c Release --output release --nologo
-      
-     # changes the base-tag in index.html from '/' to 'Cropper.Blazor' to match GitHub Pages repository subdirectory
-     #- name: Change base-tag in index.html from / to Cropper.Blazor
-     #  run: sed -i 's/<base href="\/" \/>/<base href="\/Cropper.Blazor\/" \/>/g' release/wwwroot/index.html
-     
-    - name: Fix service-worker-assets.js hashes
-      working-directory: release/wwwroot
-      run: |
-        jsFile=$(<service-worker-assets.js)
-        # remove JavaScript from contents so it can be interpreted as JSON
-        json=$(echo "$jsFile" | sed "s/self.assetsManifest = //g" | sed "s/;//g")
-        # grab the assets JSON array
-        assets=$(echo "$json" | jq '.assets[]' -c)
-        for asset in $assets
-        do
-          oldHash=$(echo "$asset" | jq '.hash')
-          #remove leading and trailing quotes
-          oldHash="${oldHash:1:-1}"
-          path=$(echo "$asset" | jq '.url')
-          #remove leading and trailing quotes
-          path="${path:1:-1}"
-          # shellcheck disable=2086
-          newHash="sha256-$(openssl dgst -sha256 -binary $path | openssl base64 -A)"
-          
-          # shellcheck disable=2086
-          if [ $oldHash != $newHash ]; then
-            # escape slashes for json
-            # shellcheck disable=2001
-            oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
-            # shellcheck disable=2001
-            newHash=$(echo "$newHash" | sed 's;/;\\/;g')
-            echo "Updating hash for $path from $oldHash to $newHash"
-            # escape slashes second time for sed
-            # shellcheck disable=2001
-            oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
-            jsFile=$(echo -n "$jsFile" | sed "s;$oldHash;$newHash;g")
+      - name: Check if sitemap.xml File Exists
+        run: |
+          filePath="./sitemap.xml"
+          if [ -f "$filePath" ]; then
+            echo "sitemap.xml file exists"
+          else
+            echo "File does not exist"
+            exit 1
           fi
-        done
-        echo -n "$jsFile" > service-worker-assets.js
+        working-directory: src/Cropper.Blazor/Client/wwwroot
+        
+        # publishes Blazor project to the release-folder
+      - name: Publish .NET Core Project
+        run: dotnet publish ./src/Cropper.Blazor/Client/Cropper.Blazor.Client.csproj -c Release --output release --nologo
+        
+       # changes the base-tag in index.html from '/' to 'Cropper.Blazor' to match GitHub Pages repository subdirectory
+       #- name: Change base-tag in index.html from / to Cropper.Blazor
+       #  run: sed -i 's/<base href="\/" \/>/<base href="\/Cropper.Blazor\/" \/>/g' release/wwwroot/index.html
+       
+      - name: Fix service-worker-assets.js hashes
+        working-directory: release/wwwroot
+        run: |
+          jsFile=$(<service-worker-assets.js)
+          # remove JavaScript from contents so it can be interpreted as JSON
+          json=$(echo "$jsFile" | sed "s/self.assetsManifest = //g" | sed "s/;//g")
+          # grab the assets JSON array
+          assets=$(echo "$json" | jq '.assets[]' -c)
+          for asset in $assets
+          do
+            oldHash=$(echo "$asset" | jq '.hash')
+            #remove leading and trailing quotes
+            oldHash="${oldHash:1:-1}"
+            path=$(echo "$asset" | jq '.url')
+            #remove leading and trailing quotes
+            path="${path:1:-1}"
+            # shellcheck disable=2086
+            newHash="sha256-$(openssl dgst -sha256 -binary $path | openssl base64 -A)"
+            
+            # shellcheck disable=2086
+            if [ $oldHash != $newHash ]; then
+              # escape slashes for json
+              # shellcheck disable=2001
+              oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
+              # shellcheck disable=2001
+              newHash=$(echo "$newHash" | sed 's;/;\\/;g')
+              echo "Updating hash for $path from $oldHash to $newHash"
+              # escape slashes second time for sed
+              # shellcheck disable=2001
+              oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
+              jsFile=$(echo -n "$jsFile" | sed "s;$oldHash;$newHash;g")
+            fi
+          done
+          echo -n "$jsFile" > service-worker-assets.js
 
-     # copy index.html to 404.html to serve the same file when a file is not found
-    - name: copy index.html to 404.html
-      run: cp release/wwwroot/index.html release/wwwroot/404.html
+       # copy index.html to 404.html to serve the same file when a file is not found
+      - name: copy index.html to 404.html
+        run: cp release/wwwroot/index.html release/wwwroot/404.html
 
-     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
-    - name: Add .nojekyll file
-      run: touch release/wwwroot/.nojekyll
-      
-    - name: Uploading files to gh-pages branch
-      uses: JamesIves/github-pages-deploy-action@v4.4.0
-      with:
-        token: ${{ secrets.DEPLOY_KEY }}
-        branch: gh-pages
-        folder: release/wwwroot
-        repository-name: CropperBlazor/CropperBlazor.github.io
+       # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+      - name: Add .nojekyll file
+        run: touch release/wwwroot/.nojekyll
+        
+      - name: Uploading files to gh-pages branch
+        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        with:
+          token: ${{ secrets.DEPLOY_KEY }}
+          branch: gh-pages
+          folder: release/wwwroot
+          repository-name: CropperBlazor/CropperBlazor.github.io
 
   demo-projects-build:
     name: Build Demo Projects
     runs-on: windows-latest
+    needs: code-quality-check
     env: 
      JAVA_HOME: '/home/runner/android-sdk'
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
  
-    # sets up .NET Core SDK 8, 7, 6
     - name: Setup .NET 8, 7, 6
-      uses: actions/setup-dotnet@v3.2.0
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
             6.0.x
@@ -152,7 +127,7 @@ jobs:
             
     - name: Cache JDK
       id: cache-jdk
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.JAVA_HOME }}
         key: ${{ runner.os }}-jdk-11
@@ -161,7 +136,7 @@ jobs:
 
     - name: Setup Java JDK
       if: steps.cache-jdk.outputs.cache-hit != 'true'
-      uses: actions/setup-java@v3.13.0
+      uses: actions/setup-java@v4
       with:
         distribution: 'microsoft'
         java-version: 11

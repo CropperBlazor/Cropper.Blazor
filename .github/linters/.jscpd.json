@@ -4,7 +4,11 @@
     "consoleFull"
   ],
   "ignore": [
-    "**/src/Cropper.Blazor/Cropper.Blazor.UnitTests/**"
+	"**/src/Cropper.Blazor/Cropper.Blazor.UnitTests/**",
+	"**/examples/**",
+	"**/*.md",
+	"**/*excubowebcompiler.json"
   ],
-  "absolute": true
+  "absolute": true,
+  "minTokens": 75
 }

@@ -2,27 +2,27 @@
 <html lang="en-us">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-    <meta name="robots" content="index, follow" />
-    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-    <meta name="docsearch:language" content="en" />
-    <meta name="docsearch:version" content="master" />
-    <meta name="google-site-verification" content="x2SFbVPxbn1Gk2wv-POqGp4oAlzFZV7FLIXDzrOCvlY" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <base href="/" />
-    <link href="manifest.json" rel="manifest" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#ff5c9b" />
-    <meta name="msapplication-TileColor" content="#110e2d" />
-    <meta name="theme-color" content="#ffffff" />
-    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
-    <link href="_content/Cropper.Blazor/cropper.min.css" rel="stylesheet" />
-    <link href="Cropper.Blazor.Client.styles.css" rel="stylesheet" />
-    <link href="Cropper.Blazor.Client.min.css" rel="stylesheet" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+	<meta name="robots" content="index, follow" />
+	<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+	<meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+	<meta name="docsearch:language" content="en" />
+	<meta name="docsearch:version" content="master" />
+	<meta name="google-site-verification" content="x2SFbVPxbn1Gk2wv-POqGp4oAlzFZV7FLIXDzrOCvlY" />
+	<link rel="icon" type="image/x-icon" href="favicon.ico" />
+	<base href="/" />
+	<link href="manifest.json" rel="manifest" />
+	<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+	<link rel="mask-icon" href="safari-pinned-tab.svg" color="#ff5c9b" />
+	<meta name="msapplication-TileColor" content="#110e2d" />
+	<meta name="theme-color" content="#ffffff" />
+	<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+	<link href="_content/Cropper.Blazor/cropper.min.css" rel="stylesheet" />
+	<link href="Cropper.Blazor.Client.styles.css" rel="stylesheet" />
+	<link href="Cropper.Blazor.Client.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -38,40 +38,40 @@
 		</div>
 	</div>
 
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
-    </div>
-    <script src="decode.min.js"></script>
-    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
-    <script>
-        Blazor.start({
-            loadBootResource: function (type, name, defaultUri, integrity) {
-                // For framework resources, use the precompressed .br files for faster downloads
-                // This is needed only because GitHub pages doesn't natively support Brotli (or even gzip for .dll files)
-                if (type !== 'dotnetjs' && location.hostname !== 'localhost') {
-                    return (async function () {
-                        const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });
-                        if (!response.ok) {
-                            throw new Error(response.statusText);
-                        }
-                        const originalResponseBuffer = await response.arrayBuffer();
-                        const originalResponseArray = new Int8Array(originalResponseBuffer);
-                        const decompressedResponseArray = BrotliDecode(originalResponseArray);
-                        const contentType = type === 'dotnetwasm' ? 'application/wasm' : 'application/octet-stream';
-                        return new Response(decompressedResponseArray, { headers: { 'content-type': contentType } });
-                    })();
-                }
-            }
-        });
-    </script>
-    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
-    <script src="_content/Cropper.Blazor/cropper.min.js"></script>
-    <script src="overrideCropperJsInteropModule.min.js"></script>
-    <script src="jsObjectModule.min.js"></script>
-    <script src="helper.min.js"></script>
-    <script src="sw-registrator.min.js"></script>
+	<div id="blazor-error-ui">
+		An unhandled error has occurred.
+		<a href="" class="reload">Reload</a>
+		<a class="dismiss">🗙</a>
+	</div>
+	<script src="decode.min.js"></script>
+	<script src="_framework/blazor.webassembly.js" autostart="false"></script>
+	<script>
+		Blazor.start({
+			loadBootResource: function (type, name, defaultUri, integrity) {
+				// For framework resources, use the precompressed .br files for faster downloads
+				// This is needed only because GitHub pages doesn't natively support Brotli (or even gzip for .dll files)
+				if (type !== 'dotnetjs' && location.hostname !== 'localhost') {
+					return (async function () {
+						const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });
+						if (!response.ok) {
+							throw new Error(response.statusText);
+						}
+						const originalResponseBuffer = await response.arrayBuffer();
+						const originalResponseArray = new Int8Array(originalResponseBuffer);
+						const decompressedResponseArray = BrotliDecode(originalResponseArray);
+						const contentType = type === 'dotnetwasm' ? 'application/wasm' : 'application/octet-stream';
+						return new Response(decompressedResponseArray, { headers: { 'content-type': contentType } });
+					})();
+				}
+			}
+		});
+	</script>
+	<script src="_content/MudBlazor/MudBlazor.min.js"></script>
+	<script src="_content/Cropper.Blazor/cropper.min.js"></script>
+	<script src="overrideCropperJsInteropModule.min.js"></script>
+	<script src="jsObjectModule.min.js"></script>
+	<script src="helper.min.js"></script>
+	<script src="sw-registrator.min.js"></script>
 </body>
 
 </html>

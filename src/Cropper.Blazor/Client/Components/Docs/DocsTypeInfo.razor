@@ -58,7 +58,7 @@ else
 
     private string ShowType()
     {
-        string typeDisplayName = Type.GetTypeDisplayName();
+        string typeDisplayName = Type.GetFormattedReturnSignature();
 
         if (IsDeniedTooltipContent(typeDisplayName))
         {

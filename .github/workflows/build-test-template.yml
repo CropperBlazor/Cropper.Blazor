@@ -1,0 +1,61 @@
+name: Build and run tests
+
+on:
+  workflow_call:
+    inputs:
+      configuration:
+        description: 'dotnet build configuration'
+        required: false
+        type: string
+        default: 'Debug'
+      publish-coverage:
+        description: 'publish coverage to codecov'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  build_and_test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+ 
+    - name: Setup .NET 8, 7, 6
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+
+    - name: Install WASM tools Workloads
+      run: |
+          dotnet workload install wasm-tools --ignore-failed-sources
+
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: src/Cropper.Blazor
+
+    - name: Restore dotnet tool
+      run: dotnet tool restore
+      working-directory: src/Cropper.Blazor/Cropper.Blazor
+      
+    - name: DotNet Build
+      run: dotnet build -c ${{ inputs.configuration }} --no-restore
+      working-directory: src/Cropper.Blazor
+      
+    - name: Test
+      run: dotnet test -c ${{ inputs.configuration }} --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
+      working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests
+
+    - name: Coverage
+      if: ${{ inputs.publish-coverage == true }}
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml
+        fail_ci_if_error: true
+        verbose: true

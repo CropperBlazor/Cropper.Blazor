@@ -18,10 +18,10 @@
 
 	<!--Packages-->
 	<ItemGroup>
-		<PackageReference Include="BlazorWasmPreRendering.Build" Version="3.1.0-preview.4" />
-		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.3" PrivateAssets="all" />
+		<PackageReference Include="BlazorWasmPreRendering.Build" Version="4.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.7" PrivateAssets="all" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
 	</ItemGroup>
 
@@ -58,7 +58,7 @@
 	<PropertyGroup>
 		<ProjectDocsCompiler>dotnet run --configuration release --project "$(SolutionDir)Cropper.Blazor.Client.Compiler/Cropper.Blazor.Client.Compiler.csproj"</ProjectDocsCompiler>
 	</PropertyGroup>
-	
+
 	<!--Execute the code generator-->
 	<Target Name="CompileDocs" BeforeTargets="BeforeBuild">
 		<!--Command-line for the code generator-->
@@ -165,11 +165,11 @@
 			<Content Include="wwwroot/resizeWindowEventListener.min.js" Condition="!Exists('wwwroot/resizeWindowEventListener.min.js')" />
 		</ItemGroup>
 	</Target>
-	
+
 	<!--Dont Include in build output-->
 	<ItemGroup>
 		<Content Remove="compilerconfig.json" />
 		<Content Remove="excubowebcompiler.json" />
 	</ItemGroup>
-	
+
 </Project>
