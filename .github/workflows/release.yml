@@ -30,6 +30,21 @@ jobs:
         run: dotnet pack -c Release
         working-directory: src/Cropper.Blazor/Cropper.Blazor
 
+      - name: Verify cropperJsInterop.min.js static web asset
+        run: |
+          json_path="src/Cropper.Blazor/Cropper.Blazor/bin/Release/net8.0/Cropper.Blazor.staticwebassets.runtime.json"
+          if [ -f "$json_path" ]; then
+            if jq -e '.Root.Children["cropperJsInterop.min.js"]' "$json_path" > /dev/null; then
+              echo "Key 'cropperJsInterop.min.js' exists."
+            else
+              echo "Key 'cropperJsInterop.min.js' does not exist."
+              exit 1
+            fi
+          else
+            echo "File $json_path does not exist."
+            exit 1
+          fi
+
       - name: Push to NuGet Gallery
         run: dotnet nuget push bin/Release/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{secrets.NUGET_API_KEY}} --skip-duplicate
         working-directory: src/Cropper.Blazor/Cropper.Blazor
