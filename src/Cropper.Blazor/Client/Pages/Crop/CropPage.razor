@@ -36,7 +36,7 @@
                     you can get canvas drawn the cropped image in URL format.
                     <br><br>
                     <CodeInline Class="docs-code-warning">GetCroppedCanvasDataURLAsync</CodeInline> method have following arguments:
-                    <MudList>
+                    <MudList T="string">
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
                             <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/GetCroppedCanvasOptions">GetCroppedCanvasOptions (required)</MudLink></CodeInline> - used to get a cropped canvas;
                         </MudListItem>
@@ -70,7 +70,7 @@
                     you can get a canvas drawn from the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
                     <br><br>
                     <CodeInline Class="docs-code-warning">GetCroppedCanvasAsync</CodeInline> method have following argument:
-                    <MudList>
+                    <MudList T="string">
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
                             <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/GetCroppedCanvasOptions">GetCroppedCanvasOptions (required)</MudLink></CodeInline> - used to get a cropped canvas;
                         </MudListItem>
@@ -135,7 +135,7 @@
                     you can decode the data url into a Base64 image data and outs the media type.
                     <br><br>
                     <CodeInline Class="docs-code-warning">@nameof(DataUrlDecoder.Decode)</CodeInline> method have following argument:
-                    <MudList>
+                    <MudList T="string">
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
                             <CodeInline>dataUrl (required)</CodeInline> - The data url to be decoded (e.g. data:image/png;base64,SGVsbG8gd29ybGQ=).
                         </MudListItem>

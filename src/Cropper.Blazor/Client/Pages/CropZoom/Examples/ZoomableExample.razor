@@ -11,9 +11,9 @@
     </MudItem>
     <MudItem xs="12" sm="3" md="3" lg="3">
         <MudPaper Class="pa-2">
-            <MudSwitch Class="mb-2" @bind-Checked="@Zoomable" Label="Zoomable" Color="Color.Primary" />
-            <MudSwitch Class="mb-2" @bind-Checked="@ZoomOnTouch" Label="Zoom On Touch" Color="Color.Primary" />
-            <MudSwitch Class="mb-2" @bind-Checked="@ZoomOnWheel" Label="Zoom On Wheel" Color="Color.Primary" />
+            <MudSwitch T="bool" Class="mb-2" @bind-Checked="@Zoomable" Label="Zoomable" Color="Color.Primary" />
+            <MudSwitch T="bool" Class="mb-2" @bind-Checked="@ZoomOnTouch" Label="Zoom On Touch" Color="Color.Primary" />
+            <MudSwitch T="bool" Class="mb-2" @bind-Checked="@ZoomOnWheel" Label="Zoom On Wheel" Color="Color.Primary" />
         </MudPaper>
     </MudItem>
 </MudGrid>

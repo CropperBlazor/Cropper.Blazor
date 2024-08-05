@@ -1,7 +1,7 @@
 ﻿@using MudBlazor.Utilities;
 
 <div class="@ContainerClassNames">
-    <MudGrid Class="docs-footer">
+    <MudGrid Spacing="3" Class="docs-footer">
         <MudItem xs="6" sm="3">
             <div class="d-flex flex-column">
                 <div class="d-flex flex-wrap align-center mb-3">
@@ -39,7 +39,7 @@
             <MudLink Href="/api/SetCropBoxDataOptions" Typo="Typo.body1" Color="Color.Inherit" Underline="Underline.None">SetCropBoxDataOptions</MudLink>
         </MudItem>
         <MudItem xs="12">
-            <MudToolBar DisableGutters="true" Dense="true">
+            <MudToolBar Gutters="false" Dense="true">
                 <MudText Typo="Typo.body1">Copyright © 2022-@DateTime.Now.Year <span class="text-gradient">Cropper.Blazor</span></MudText>
             </MudToolBar>
         </MudItem>

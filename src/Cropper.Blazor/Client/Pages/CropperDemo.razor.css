@@ -1,6 +1,6 @@
 ﻿.img-container,
 .img-preview {
-    background-color: var(--mud-palette-background-grey);
+    background-color: var(--mud-palette-background-gray);
     text-align: center;
     width: 100%;
 }
