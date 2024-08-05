@@ -46,8 +46,7 @@ namespace Cropper.Blazor.Client.Pages
                 { "alt", "Cropper.Blazor demo image" }
             };
 
-        [Inject] 
-        private IBrowserViewportService BrowserViewportService { get; set; } = null!;
+        [Inject] private IBrowserViewportService BrowserViewportService { get; set; } = null!;
 
         private bool IsAvailableInitCropper { get; set; } = true;
         //private decimal AspectRatio = 1.7777777777777777m;
