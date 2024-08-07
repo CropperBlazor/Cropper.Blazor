@@ -20,7 +20,7 @@ using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Client.Pages
 {
-    public partial class CropperDemo : IDisposable
+    public partial class CropperDemo : IDisposable, IAsyncDisposable
     {
         public CropperComponent? CropperComponent = null!;
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
