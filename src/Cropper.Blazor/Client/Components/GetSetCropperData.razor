@@ -1,8 +1,8 @@
 ﻿@using Cropper.Blazor.Models
 
 <MudItem xxl="12" xl="12" lg="12" md="12" sm="12" xs="12" Class="pt-0">
-    <MudExpansionPanels Dense="true" DisableGutters="true" DisableBorders="true" Elevation="0">
-        <MudExpansionPanel IsInitiallyExpanded="true" Style="background-color: var(--mud-palette-background)">
+    <MudExpansionPanels Dense="true" Gutters="true" Outlined="false" Elevation="0">
+        <MudExpansionPanel Expanded="true" Gutters="true" Style="background-color: var(--mud-palette-background)">
             <TitleContent>
                 <div class="d-flex">
                     <MudIcon Icon="@Icons.Material.Filled.Handyman" class="mr-3"></MudIcon>
@@ -10,7 +10,7 @@
                 </div>
             </TitleContent>
             <ChildContent>
-                <MudGrid>
+                <MudGrid Spacing="3">
                     <MudItem xxl="4" xl="4" lg="4" md="4" sm="12" xs="12">
                         @*//---Enable setup minimum and maximum cropped dimensions---//*@
                         <CroppedDimensionsSettings @ref="CroppedDimensionsSettings" />
@@ -33,8 +33,8 @@
 
 
 <MudItem xxl="12" xl="12" lg="12" md="12" sm="12" xs="12" Class="pt-0">
-    <MudExpansionPanels Dense="true" DisableGutters="true" DisableBorders="true" Elevation="0">
-        <MudExpansionPanel IsInitiallyExpanded="true" Style="background-color: var(--mud-palette-background)">
+    <MudExpansionPanels Dense="true" Gutters="true" Outlined="false" Elevation="0">
+        <MudExpansionPanel Expanded="true" Gutters="true" Style="background-color: var(--mud-palette-background)">
             <TitleContent>
                 <div class="d-flex">
                     <MudIcon Icon="@Icons.Material.Filled.MobiledataOff" class="mr-3"></MudIcon>
@@ -42,7 +42,7 @@
                 </div>
             </TitleContent>
             <ChildContent>
-                <MudGrid>
+                <MudGrid Spacing="3">
                     <MudItem xxl="3" xl="3" lg="3" md="3" sm="12" xs="12">
                         @*//---Cropper Data---//*@
                         <MudCard>

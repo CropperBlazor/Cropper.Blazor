@@ -20,7 +20,7 @@ using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
 namespace Cropper.Blazor.Client.Pages
 {
-    public partial class CropperDemo : IDisposable
+    public partial class CropperDemo : IDisposable, IAsyncDisposable
     {
         public CropperComponent? CropperComponent = null!;
         private readonly string _errorLoadImageSrc = "not-found-image.jpg";
@@ -37,6 +37,7 @@ namespace Cropper.Blazor.Client.Pages
         private decimal? ScaleYValue;
         private string Src = "https://fengyuanchen.github.io/cropperjs/v2/picture.jpg";
         private Breakpoint Start;
+
         public Dictionary<string, object> InputAttributes { get; set; } =
             new Dictionary<string, object>()
             {
@@ -45,7 +46,7 @@ namespace Cropper.Blazor.Client.Pages
                 { "alt", "Cropper.Blazor demo image" }
             };
 
-        [Inject] private IBreakpointService BreakpointListener { get; set; } = null!;
+        [Inject] private IBrowserViewportService BrowserViewportService { get; set; } = null!;
 
         private bool IsAvailableInitCropper { get; set; } = true;
         //private decimal AspectRatio = 1.7777777777777777m;
@@ -450,17 +451,32 @@ namespace Cropper.Blazor.Client.Pages
         {
             if (firstRender)
             {
-                var subscriptionResult = await BreakpointListener.SubscribeAsync((breakpoint) =>
-                {
-                    InvokeAsync(StateHasChanged);
-                });
-
-                Start = subscriptionResult.Breakpoint;
+                await BrowserViewportService.SubscribeAsync(this, fireImmediately: true);
 
                 StateHasChanged();
             }
 
             await base.OnAfterRenderAsync(firstRender);
+        }
+
+        public async ValueTask DisposeAsync() => await BrowserViewportService.UnsubscribeAsync(this);
+
+        Guid IBrowserViewportObserver.Id { get; } = Guid.NewGuid();
+
+        ResizeOptions IBrowserViewportObserver.ResizeOptions { get; } = new()
+        {
+            ReportRate = 250,
+            NotifyOnBreakpointOnly = true
+        };
+
+        Task IBrowserViewportObserver.NotifyBrowserViewportChangeAsync(BrowserViewportEventArgs browserViewportEventArgs)
+        {
+            if (browserViewportEventArgs.IsImmediate)
+            {
+                Start = browserViewportEventArgs.Breakpoint;
+            }
+
+            return InvokeAsync(StateHasChanged);
         }
 
         protected override void OnInitialized()
@@ -515,7 +531,7 @@ namespace Cropper.Blazor.Client.Pages
                 CloseButton = true,
                 MaxWidth = MaxWidth.Medium,
                 FullWidth = true,
-                DisableBackdropClick = true
+                BackdropClick = false
             };
 
             _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);

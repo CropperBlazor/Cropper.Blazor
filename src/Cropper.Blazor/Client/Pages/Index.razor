@@ -20,7 +20,7 @@
             })" />
 
 <MudContainer Class="mt-5 px-4">
-    <MudGrid Class="mt-5" Justify="Justify.Center">
+    <MudGrid Spacing="3" Class="mt-5" Justify="Justify.Center">
 
         <MudItem xl="12" lg="12" md="12" sm="12" xs="12" Class="d-flex justify-center">
             <MudImage Src="cropperblazor.png" UserAttributes="@LogoInputAttributes" Fluid="true" Width="256" Height="256" />
@@ -81,7 +81,7 @@
         </p>
 
     </MudGrid>
-    <MudGrid Class="mt-2" Justify="Justify.Center">
+    <MudGrid Spacing="3" Class="mt-2" Justify="Justify.Center">
 
         <MudItem xl="12" lg="12" md="12" sm="12" xs="12">
             <DocsPageSection>
@@ -95,7 +95,7 @@
                 <DocsPageSection>
                     <SectionHeader Title="Key features and aspects of the Cropper.Blazor package include">
                         <Description>
-                            <MudList>
+                            <MudList T="string" Padding="true">
                                 <MudListItem Text="Blazor Integration: Cropper.Blazor is specifically designed for Blazor applications, allowing developers to effortlessly incorporate image cropping capabilities into their Blazor components and pages." Icon="@Icons.Material.Filled.Circle" />
                                 <MudListItem Text="Drag-and-Resize Interaction: Users can easily drag and resize the cropping area to precisely select the desired portion of an image. This intuitive interaction method ensures accurate and efficient cropping." Icon="@Icons.Material.Filled.Circle" />
                                 <MudListItem Text="Rotation Support: Cropper.Blazor includes the ability to rotate the selected image area, giving users full control over the orientation of their cropped content." Icon="@Icons.Material.Filled.Circle" />

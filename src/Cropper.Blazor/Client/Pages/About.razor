@@ -30,7 +30,7 @@
     <MudText Class="mb-8">
         The Core Team takes the lead in guiding, developing, and steering the <span style="color: var(--mud-palette-primary)"><b>Cropper.Blazor</b></span> project's development.
     </MudText>
-    <MudGrid>
+    <MudGrid Spacing="3">
         @foreach (var teamMember in TeamMembers)
         {
             <MudItem xs="12" md="6">
@@ -81,7 +81,7 @@
                         </CardHeaderActions>
                     </MudCardHeader>
                     <MudCardContent Class="pt-0 pb-1">
-                        <MudList Dense="true">
+                        <MudList T="string" Dense="true">
                             <MudListItem Icon="@Icons.Material.Filled.Place" Text="@teamMember.From" />
                             <MudListItem Icon="@Icons.Material.Filled.Translate" Text="@teamMember.Languages" />
                             <MudHidden Breakpoint="Breakpoint.Xs" Invert="true">

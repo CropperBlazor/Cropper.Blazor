@@ -223,17 +223,17 @@
 
         & .enum {
             color: #00c853;
-            background-color: var(--mud-palette-grey-light);
+            background-color: var(--mud-palette-gray-light);
         }
 
         & .enum-value, .sharp-variable {
             color: var(--mud-palette-text-primary);
-            background-color: var(--mud-palette-grey-light);
+            background-color: var(--mud-palette-gray-light);
         }
 
         & .keyword {
             color: #2196f3;
-            background-color: var(--mud-palette-grey-light);
+            background-color: var(--mud-palette-gray-light);
         }
 
         & .at-sign {
