@@ -24,6 +24,10 @@ updates:
     schedule:
       interval: monthly
     open-pull-requests-limit: 100
+    groups:
+      actions:
+        patterns:
+          - "*"
     reviewers:
       - MaxymGorn
       - ColdForeign
