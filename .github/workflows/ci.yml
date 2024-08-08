@@ -8,15 +8,17 @@ on:
   pull_request:
     branches-ignore:
       - master
-      - dependabot
+      - dependabot/**
 
 jobs:
   code-quality-check:
+    if: ${{ github.actor != 'dependabot[bot]' }}
     name: Check code quality
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
     secrets: inherit
 
   code-linting:
+    if: ${{ github.actor != 'dependabot[bot]' }}
     name: Code linting
     runs-on: ubuntu-latest
     needs: code-quality-check
