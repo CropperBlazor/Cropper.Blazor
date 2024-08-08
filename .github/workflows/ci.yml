@@ -6,10 +6,10 @@ concurrency:
 
 on:
   pull_request:
-    branches-ignore:
-    - master
-    - dependabot/**
-    - dependabot/*/*/*/*/**
+    branches:
+    - '**'
+    - '!master'
+    - '!dependabot/*/*/*/*/**'
 
 jobs:
   code-quality-check:
