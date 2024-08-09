@@ -14,8 +14,6 @@ jobs:
     name: Check code quality
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
     secrets: inherit
-    with:
-      publish-coverage: ${{ github.actor != 'dependabot[bot]' }}
 
   code-linting:
     name: Code linting
