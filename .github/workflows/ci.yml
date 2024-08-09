@@ -9,16 +9,7 @@ on:
     branches-ignore:
     - master
 
-env:
-  DEPENDABOT_BRANCH: ${{ github.actor == 'dependabot[bot]' }}
-
 jobs:
-  greeting_job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Test"
-        run: echo "DEPENDABOT_BRANCH"
-
   code-quality-check:
     name: Check code quality
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
