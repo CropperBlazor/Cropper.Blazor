@@ -41,7 +41,7 @@ jobs:
       - name: Verify file keys in Cropper.Blazor.staticwebassets.runtime.json
         run: |
           error_messages=""
-          for net_version in 6.0 7.0 8.0; do
+          for net_version in 6.0 7.0 8.0 9.0; do
             json_path="src/Cropper.Blazor/Cropper.Blazor/bin/Release/net$net_version/Cropper.Blazor.staticwebassets.runtime.json"
           
             if [ -f "$json_path" ]; then
@@ -66,7 +66,7 @@ jobs:
             echo -e "$error_messages"
             exit 1
           else
-            echo "All keys exist for .NET 6, .NET 7, and .NET 8."
+            echo "All keys exist for .NET 6, .NET 7, .NET 8 and .NET 9."
           fi
 
       - name: Push to NuGet Gallery
