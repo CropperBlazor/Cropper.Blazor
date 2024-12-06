@@ -117,14 +117,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
  
-    - name: Setup .NET 9, 8, 7, 6
+    - name: Setup .NET 8, 7, 6
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
             6.0.x
             7.0.x
             8.0.x
-            9.0.x
             
     - name: Cache JDK
       id: cache-jdk
