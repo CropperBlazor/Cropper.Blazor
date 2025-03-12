@@ -39,9 +39,10 @@ Cropper.Blazor is an essential component for building interactive image cropping
 | - | .NET 5 | Not supported |
 | 1.1.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) | :heavy_check_mark: |
 | 1.2.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) | :heavy_check_mark: |
-| 1.3.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) & [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) | :heavy_check_mark: |
+| 1.3.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) & <br/> [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) | :heavy_check_mark: |
+| 1.4.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) & <br/> [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) & [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) | :heavy_check_mark: |
 
-- Supported .NET 8.0, .NET 7.0, .NET 6.0 versions for these web platforms:
+- Supported .NET 9.0, .NET 8.0, .NET 7.0, .NET 6.0 versions for these web platforms:
   - Blazor WebAssembly
   - Blazor Server
   - Blazor Server Hybrid with MVC
