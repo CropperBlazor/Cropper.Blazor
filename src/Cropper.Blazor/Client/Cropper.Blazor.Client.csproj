@@ -18,10 +18,10 @@
 
 	<!--Packages-->
 	<ItemGroup>
-		<PackageReference Include="BlazorWasmPreRendering.Build" Version="5.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0" PrivateAssets="all" />
+		<PackageReference Include="BlazorWasmPreRendering.Build" Version="5.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.3" PrivateAssets="all" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
 	</ItemGroup>
 

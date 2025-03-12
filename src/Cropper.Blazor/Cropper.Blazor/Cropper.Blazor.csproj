@@ -14,7 +14,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Version>1.3.5</Version>
+		<Version>1.4.0</Version>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageIcon>NuGet.png</PackageIcon>
 		<Company>Cropper.Blazor</Company>
@@ -42,7 +42,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0|AnyCPU'">
 		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591;CS1572;CS1573</WarningsAsErrors>
 	</PropertyGroup>
-	
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
 		<WarningsAsErrors>$(WarningsAsErrors);NU1605;CS1591;CS1572;CS1573</WarningsAsErrors>
 	</PropertyGroup>
@@ -122,7 +122,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.32" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.36" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
@@ -130,11 +130,11 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.14" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.3" />
 	</ItemGroup>
 
 </Project>
