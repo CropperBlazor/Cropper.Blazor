@@ -20,14 +20,14 @@
             </MudNumericField>
         </div>
         <div class="d-flex align-end gap-x-6">
-            <MudChip Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">
+            <MudChip T="string" Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">
                 Zoom event old ratio:
             </MudChip>
             <MudNumericField @bind-Value="OldRatio" Format="N2" Variant="Variant.Text"
                              HideSpinButtons="true" ReadOnly="true" Class="flex-1" />
         </div>
         <div class="d-flex align-end gap-x-6">
-            <MudChip Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">
+            <MudChip T="string" Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">
                 Zoom event ratio:
             </MudChip>
             <MudNumericField @bind-Value="CurrentRatio" Format="N2" Variant="Variant.Text"

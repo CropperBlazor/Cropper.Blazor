@@ -24,6 +24,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+              9.0.x
+
       - name: Restore dependencies
         run: dotnet restore
         working-directory: src/Cropper.Blazor
@@ -117,13 +123,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
  
-    - name: Setup .NET 8, 7, 6
+    - name: Setup .NET 9, 8, 7, 6
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
             6.0.x
             7.0.x
             8.0.x
+            9.0.x
             
     - name: Cache JDK
       id: cache-jdk
@@ -172,9 +179,9 @@ jobs:
       run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.Server.Net7
 
-    - name: DotNet Build Blazor MAUI Demo Project for .net 7
-      run: dotnet build --no-restore
-      working-directory: examples\Cropper.Blazor.MAUI.Net7
+    # - name: DotNet Build Blazor MAUI Demo Project for .net 7
+    #   run: dotnet build --no-restore
+    #   working-directory: examples\Cropper.Blazor.MAUI.Net7
 
     - name: DotNet Build Blazor Server Demo Project for .net 6
       run: dotnet build --no-restore

@@ -5,8 +5,6 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{49B4C364-A66D-44E3-8094-35C8CEC06100}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.MAUI.Net7", "Cropper.Blazor.MAUI.Net7\Cropper.Blazor.MAUI.Net7.csproj", "{7D576440-AFE9-4544-8473-0A557A545728}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Server.Net6", "Cropper.Blazor.Server.Net6\Cropper.Blazor.Server.Net6.csproj", "{DCB512C2-9EF1-4777-82B8-D9E8FAFD3883}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Server.Net7", "Cropper.Blazor.Server.Net7\Cropper.Blazor.Server.Net7.csproj", "{A607E161-5266-4B13-AB68-6DEBB8768F54}"
@@ -39,12 +37,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7D576440-AFE9-4544-8473-0A557A545728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D576440-AFE9-4544-8473-0A557A545728}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D576440-AFE9-4544-8473-0A557A545728}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{7D576440-AFE9-4544-8473-0A557A545728}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D576440-AFE9-4544-8473-0A557A545728}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D576440-AFE9-4544-8473-0A557A545728}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{DCB512C2-9EF1-4777-82B8-D9E8FAFD3883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DCB512C2-9EF1-4777-82B8-D9E8FAFD3883}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCB512C2-9EF1-4777-82B8-D9E8FAFD3883}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -84,7 +76,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{7D576440-AFE9-4544-8473-0A557A545728} = {4DED931E-A01B-4B5F-AA64-A003FC0F8DC1}
 		{DCB512C2-9EF1-4777-82B8-D9E8FAFD3883} = {FE00A07D-B8ED-4AC5-81A7-9F0AF7AE949B}
 		{A607E161-5266-4B13-AB68-6DEBB8768F54} = {FE00A07D-B8ED-4AC5-81A7-9F0AF7AE949B}
 		{84AC7F07-3FB9-4147-AB61-733243686D9A} = {4F93F51C-1D65-4E5D-86F7-7BC5B8899180}
