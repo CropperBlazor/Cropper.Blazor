@@ -28,6 +28,11 @@ namespace Cropper.Blazor.Components
         [Inject] ICropperJsInterop CropperJsIntertop { get; set; } = null!;
 
         /// <summary>
+        /// 
+        /// </summary>
+        public ImageReceiver ImageReceiver { get; set; }
+
+        /// <summary>
         /// Gets a reference to the img HTML element rendered by the component.
         /// </summary>
         private ElementReference? ImageReference;
@@ -665,6 +670,23 @@ namespace Cropper.Blazor.Components
                     number,
                     cancellationToken)
             };
+        }
+
+        /// <summary>
+        /// Called to dispose this instance and internal services.
+        /// </summary>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask StartImageTransferAsync(
+            GetCroppedCanvasOptions getCroppedCanvasOptions,
+            CancellationToken cancellationToken = default)
+        {
+            ImageReceiver = new ImageReceiver();
+
+            await CropperJsIntertop.StartImageTransferAsync(
+                CropperComponentId,
+                getCroppedCanvasOptions,
+                DotNetObjectReference.Create(ImageReceiver),
+                cancellationToken);
         }
 
         /// <summary>

@@ -281,7 +281,33 @@ class CropperDecorator {
     const cropper = new Cropper(image, options) // eslint-disable-line no-undef
 
     this.cropperInstances[cropperComponentId] = cropper
-  }
+    }
+
+    async sendImageInChunks(cropperComponentId, options, dotNetObject) {
+        return new Promise((resolve, reject) => {
+            this.cropperInstances[cropperComponentId].getCroppedCanvas(options).toBlob(async (blob) => {
+                const reader = blob.stream().getReader();
+
+                async function read(dotNetImageReceiver) {
+                    const { done, value } = await reader.read();
+
+                    if (done) {
+
+                        await dotNetImageReceiver.invokeMethodAsync("CompleteImageTransfer");
+                        resolve();
+
+                        return;
+                    }
+
+                    // Send chunk as Uint8Array
+                    await dotNetImageReceiver.invokeMethodAsync("ReceiveImageChunk", value);
+                    read(dotNetImageReceiver);
+                }
+
+                read(dotNetObject);
+            }, "image/png");
+        });
+    };
 }
 
 window.cropper = new CropperDecorator()

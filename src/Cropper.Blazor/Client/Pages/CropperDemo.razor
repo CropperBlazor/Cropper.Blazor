@@ -185,16 +185,22 @@
                                             Scale (-2, -1)
                                         </MudButton>
                                     </MudTooltip>
-                                    <MudTooltip Text="cropper.getCroppedCanvasDataURL({ maxWidth: 4096, maxHeight: 4096 })">
+                                    <MudTooltip Text="cropper.getCroppedCanvasDataURL({ maxWidth: 16096, maxHeight: 16096 })">
                                         <MudButton Color="Color.Secondary" Variant="Variant.Filled"
-                                                   OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                                                   OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
                                             Get Cropped Canvas by URL
                                         </MudButton>
                                     </MudTooltip>
-                                    <MudTooltip Text="cropper.getCroppedCanvasData({ maxWidth: 4096, maxHeight: 4096 })">
+                                    <MudTooltip Text="cropper.getCroppedCanvasData({ maxWidth: 16096, maxHeight: 16096 })">
                                         <MudButton Color="Color.Secondary" Variant="Variant.Filled"
-                                                   OnClick="@(()=>GetCroppedCanvasData(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                                                   OnClick="@(()=>GetCroppedCanvasData(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
                                             Get Cropped Canvas by element
+                                        </MudButton>
+                                    </MudTooltip>
+                                    <MudTooltip Text="Get Image Receiver">
+                                        <MudButton Color="Color.Secondary" Variant="Variant.Filled"
+                                                   OnClick="@(()=>GetFullImageAsync(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                                            Get Image Receiver
                                         </MudButton>
                                     </MudTooltip>
                                     <MudButtonGroup Color="Color.Secondary" Variant="Variant.Filled">

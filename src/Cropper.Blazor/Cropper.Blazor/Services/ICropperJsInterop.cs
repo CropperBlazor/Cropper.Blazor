@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Cropper.Blazor.Base;
+using Cropper.Blazor.Components;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -418,5 +419,15 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask DisposeAsync();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        ValueTask StartImageTransferAsync(
+            Guid cropperComponentId,
+            GetCroppedCanvasOptions getCroppedCanvasOptions,
+            DotNetObjectReference<ImageReceiver> imageReceiverReference,
+            CancellationToken cancellationToken = default);
     }
 }
