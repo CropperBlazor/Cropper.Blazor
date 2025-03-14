@@ -124,6 +124,19 @@ namespace Cropper.Blazor.Client.Pages
             OpenCroppedCanvasDialog(croppedCanvasDataURL);
         }
 
+        public async void GetFullImageAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        {
+            await CropperComponent!.StartImageTransferAsync(getCroppedCanvasOptions);
+
+            InvokeAsync(async () =>{
+                using MemoryStream stream = await CropperComponent.ImageReceiver.GetFullImageAsync();
+                var b = stream.ToArray();
+
+                var inputAsString = "data:image/png;base64," + Convert.ToBase64String(b);
+                OpenCroppedCanvasDialog(inputAsString);
+            });
+        }
+
         public IEnumerable<int> GetCroppedPathToCanvasCropper() =>
             CropperFace switch
             {

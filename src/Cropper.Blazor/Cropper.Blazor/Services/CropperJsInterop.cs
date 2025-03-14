@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Cropper.Blazor.Base;
+using Cropper.Blazor.Components;
 using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.ModuleOptions;
@@ -858,6 +859,33 @@ namespace Cropper.Blazor.Services
                 "cropper.revokeObjectUrl",
                 cancellationToken,
                 url);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="getCroppedCanvasOptions">The config options.</param>
+        /// <param name="imageReceiverReference">Reference to image receiver.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask StartImageTransferAsync(
+            [NotNull] Guid cropperComponentId,
+            GetCroppedCanvasOptions getCroppedCanvasOptions,
+            [NotNull] DotNetObjectReference<ImageReceiver> imageReceiverReference,
+            CancellationToken cancellationToken = default)
+        {
+            if (Module is null)
+            {
+                await LoadModuleAsync(cancellationToken);
+            }
+
+            await _jsRuntime.InvokeVoidAsync(
+                "cropper.sendImageInChunks",
+                cancellationToken,
+                cropperComponentId,
+                getCroppedCanvasOptions,
+                imageReceiverReference);
         }
 
         /// <summary>
