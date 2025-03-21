@@ -423,11 +423,21 @@ namespace Cropper.Blazor.Services
         /// <summary>
         /// 
         /// </summary>
-        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        ValueTask StartImageTransferAsync(
-            Guid cropperComponentId,
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="getCroppedCanvasOptions">The config options.</param>
+        /// <param name="imageReceiverReference">Reference to image receiver.</param>
+        /// <param name="type">A string indicating the image format. The default type is image/png; this image format will be also used if the specified type is not supported.</param>
+        /// <param name="number">A number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp). A user agent will use its default quality value if this option is not specified, or if the number is outside the allowed range.
+        /// Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality.
+        /// </param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing result canvas asynchronous operation.</returns>
+        ValueTask<CroppedCanvas> StartImageTransferAsync(
+            [NotNull] Guid cropperComponentId,
             GetCroppedCanvasOptions getCroppedCanvasOptions,
-            DotNetObjectReference<ImageReceiver> imageReceiverReference,
+            [NotNull] DotNetObjectReference<ImageReceiver> imageReceiverReference,
+            string type,
+            float number,
             CancellationToken cancellationToken = default);
     }
 }

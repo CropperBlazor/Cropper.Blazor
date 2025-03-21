@@ -124,16 +124,24 @@ namespace Cropper.Blazor.Client.Pages
             OpenCroppedCanvasDialog(croppedCanvasDataURL);
         }
 
-        public async void GetFullImageAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        public async void GetImageChunkStreamAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            await CropperComponent!.StartImageTransferAsync(getCroppedCanvasOptions);
+            CroppedCanvas croppedCanvas = await CropperComponent!.StartImageTransferAsync(getCroppedCanvasOptions);
+            //decimal width = await JSRuntime!.InvokeAsync<decimal>(
+            //    "jsObject.getInstanceProperty",
+            //    croppedCanvas!.JSRuntimeObjectRef, "width");
+            //decimal height = await JSRuntime!.InvokeAsync<decimal>(
+            //    "jsObject.getInstanceProperty",
+            //    croppedCanvas!.JSRuntimeObjectRef, "height");
+
+            //Console.WriteLine($"{width} {height}");
 
             InvokeAsync(async () =>{
-                using MemoryStream stream = await CropperComponent.ImageReceiver.GetFullImageAsync();
-                var b = stream.ToArray();
+                using MemoryStream croppedCanvasDataStream = await CropperComponent.ImageReceiver.GetImageChunkStreamAsync();
+                byte[] croppedCanvasData = croppedCanvasDataStream.ToArray();
+                string croppedCanvasDataURL = "data:image/png;base64," + Convert.ToBase64String(croppedCanvasData);
 
-                var inputAsString = "data:image/png;base64," + Convert.ToBase64String(b);
-                OpenCroppedCanvasDialog(inputAsString);
+                OpenCroppedCanvasDialog(croppedCanvasDataURL);
             });
         }
 
@@ -547,7 +555,7 @@ namespace Cropper.Blazor.Client.Pages
                 BackdropClick = false
             };
 
-            _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+            _dialogService.ShowAsync<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
         }
 
         private void Reset()

@@ -197,10 +197,10 @@
                                             Get Cropped Canvas by element
                                         </MudButton>
                                     </MudTooltip>
-                                    <MudTooltip Text="Get Image Receiver">
+                                    <MudTooltip Text="Get Chunked Stream Image ({ maxWidth: 16096, maxHeight: 16096 })">
                                         <MudButton Color="Color.Secondary" Variant="Variant.Filled"
-                                                   OnClick="@(()=>GetFullImageAsync(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
-                                            Get Image Receiver
+                                                   OnClick="@(()=>GetImageChunkStreamAsync(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                                            Get Chunked Stream Image (None block UI)
                                         </MudButton>
                                     </MudTooltip>
                                     <MudButtonGroup Color="Color.Secondary" Variant="Variant.Filled">

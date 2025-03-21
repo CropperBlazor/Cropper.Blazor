@@ -54,7 +54,7 @@ namespace Cropper.Blazor.Components
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<MemoryStream> GetFullImageAsync(CancellationToken cancellationToken = default)
+        public async Task<MemoryStream> GetImageChunkStreamAsync(CancellationToken cancellationToken = default)
         {
             MemoryStream memoryStream = new MemoryStream();
 

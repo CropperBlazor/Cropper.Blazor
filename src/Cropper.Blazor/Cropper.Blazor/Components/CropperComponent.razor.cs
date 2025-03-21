@@ -673,20 +673,34 @@ namespace Cropper.Blazor.Components
         }
 
         /// <summary>
-        /// Called to dispose this instance and internal services.
+        /// .
         /// </summary>
-        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        public async ValueTask StartImageTransferAsync(
+        /// <param name="getCroppedCanvasOptions">The <see cref="GetCroppedCanvasOptions"/> used to get a cropped canvas.</param>
+        /// <param name="type">A string indicating the image format. The default type is image/png; this image format will be also used if the specified type is not supported.</param>
+        /// <param name="number">A number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp).
+        /// Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality. The default value is 1 with maximum image quality.
+        /// </param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing result canvas asynchronous operation.</returns>
+        public async ValueTask<CroppedCanvas> StartImageTransferAsync(
             GetCroppedCanvasOptions getCroppedCanvasOptions,
+            string type = "image/png",
+            float number = 1,
             CancellationToken cancellationToken = default)
         {
             ImageReceiver = new ImageReceiver();
 
-            await CropperJsIntertop.StartImageTransferAsync(
+            return number switch
+            {
+                < 0 or > 1 => throw new ArgumentException($"The given number should be between 0 and 1 for indication the image quality, but found {number}.", nameof(number)),
+                _ => await CropperJsIntertop.StartImageTransferAsync(
                 CropperComponentId,
                 getCroppedCanvasOptions,
                 DotNetObjectReference.Create(ImageReceiver),
-                cancellationToken);
+                type,
+                number,
+                cancellationToken)
+            };
         }
 
         /// <summary>
