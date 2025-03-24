@@ -283,27 +283,63 @@ class CropperDecorator {
         this.cropperInstances[cropperComponentId] = cropper
     }
 
-    async sendImageInChunks(cropperComponentId, options, dotNetObject, type, encoderOptions) {
-        return this.cropperInstances[cropperComponentId].getCroppedCanvas(options).toBlob((blob) => {
-            const reader = blob.stream().getReader();
+    sendImageInChunks(cropperComponentId, options, dotNetObject, type, encoderOptions) {
+        options.maxWidth ??= Infinity
+        options.maxHeight ??= Infinity
 
-            async function read(dotNetImageReceiver) {
-                const { done, value } = await reader.read();
+        const cropperInstance = this.cropperInstances[cropperComponentId];
 
-                if (done) {
-                    await dotNetImageReceiver.invokeMethodAsync("CompleteImageTransfer");
-
-                    return;
+        setTimeout(() => {
+            cropperInstance.getCroppedCanvas(options).toBlob(async (blob) => {
+                // Create Web Worker dynamically
+                if (!this.worker) {
+                    this.worker = this.createImageWorker();
                 }
 
-                await dotNetImageReceiver.invokeMethodAsync("ReceiveImageChunk", value);
+                // Send the Blob to the worker
+                this.worker.postMessage({ blob });
 
-                read(dotNetImageReceiver);
-            }
+                // Handle messages from the worker
+                this.worker.onmessage = async function (event) {
+                    if (event.data.complete) {
+                        await dotNetObject.invokeMethodAsync("CompleteImageTransfer");
+                    } else if (event.data.chunk) {
+                        await dotNetObject.invokeMethodAsync("ReceiveImageChunk", event.data.chunk);
+                    }
+                };
+            }, type, encoderOptions);
+        }, 0);
+    }
 
-            read(dotNetObject);
-        }, type, encoderOptions);
-    };
+
+    createImageWorker() {
+        function workerScript() {
+            self.onmessage = function (event) {
+                const { blob } = event.data;
+                const reader = blob.stream().getReader();
+
+                async function read() {
+                    const { done, value } = await reader.read();
+                    if (done) {
+                        self.postMessage({ complete: true });
+                        return;
+                    }
+                    self.postMessage({ chunk: value });
+                    read();
+                }
+
+                read();
+            };
+        }
+
+        // Convert function to string and extract its body
+        const workerFunctionString = workerScript.toString();
+        const workerCode = workerFunctionString.substring(workerFunctionString.indexOf("{") + 1, workerFunctionString.lastIndexOf("}"));
+
+        // Create a Blob and Web Worker
+        const workerBlob = new Blob([workerCode], { type: "application/javascript" });
+        return new Worker(URL.createObjectURL(workerBlob));
+    }
 }
 
 window.cropper = new CropperDecorator()

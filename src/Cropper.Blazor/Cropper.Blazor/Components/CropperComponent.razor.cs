@@ -681,8 +681,8 @@ namespace Cropper.Blazor.Components
         /// Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality. The default value is 1 with maximum image quality.
         /// </param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing result canvas asynchronous operation.</returns>
-        public async ValueTask<CroppedCanvas> StartImageTransferAsync(
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask StartImageTransferAsync(
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             string type = "image/png",
             float number = 1,
@@ -690,17 +690,18 @@ namespace Cropper.Blazor.Components
         {
             ImageReceiver = new ImageReceiver();
 
-            return number switch
+            if (number < 0 || number > 1)
             {
-                < 0 or > 1 => throw new ArgumentException($"The given number should be between 0 and 1 for indication the image quality, but found {number}.", nameof(number)),
-                _ => await CropperJsIntertop.StartImageTransferAsync(
+                throw new ArgumentException($"The given number should be between 0 and 1 for indicating the image quality, but found {number}.", nameof(number));
+            }
+
+            await CropperJsIntertop.StartImageTransferAsync(
                 CropperComponentId,
                 getCroppedCanvasOptions,
                 DotNetObjectReference.Create(ImageReceiver),
                 type,
                 number,
-                cancellationToken)
-            };
+                cancellationToken);
         }
 
         /// <summary>

@@ -431,8 +431,8 @@ namespace Cropper.Blazor.Services
         /// Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality.
         /// </param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing result canvas asynchronous operation.</returns>
-        ValueTask<CroppedCanvas> StartImageTransferAsync(
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        ValueTask StartImageTransferAsync(
             [NotNull] Guid cropperComponentId,
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             [NotNull] DotNetObjectReference<ImageReceiver> imageReceiverReference,

@@ -872,8 +872,8 @@ namespace Cropper.Blazor.Services
         /// Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality.
         /// </param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing result canvas asynchronous operation.</returns>
-        public async ValueTask<CroppedCanvas> StartImageTransferAsync(
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask StartImageTransferAsync(
             [NotNull] Guid cropperComponentId,
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             [NotNull] DotNetObjectReference<ImageReceiver> imageReceiverReference,
@@ -886,7 +886,7 @@ namespace Cropper.Blazor.Services
                 await LoadModuleAsync(cancellationToken);
             }
 
-            IJSObjectReference jSCanvas = await _jsRuntime.InvokeAsync<IJSObjectReference>(
+            await _jsRuntime.InvokeVoidAsync(
                 "cropper.sendImageInChunks",
                 cancellationToken,
                 cropperComponentId,
@@ -894,8 +894,6 @@ namespace Cropper.Blazor.Services
                 imageReceiverReference,
                 type,
                 number);
-
-            return new CroppedCanvas(jSCanvas);
         }
 
         /// <summary>
