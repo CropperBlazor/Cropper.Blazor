@@ -291,54 +291,33 @@ class CropperDecorator {
 
         setTimeout(() => {
             cropperInstance.getCroppedCanvas(options).toBlob(async (blob) => {
-                // Create Web Worker dynamically
-                if (!this.worker) {
-                    this.worker = this.createImageWorker();
-                }
 
-                // Send the Blob to the worker
-                this.worker.postMessage({ blob });
-
-                // Handle messages from the worker
-                this.worker.onmessage = async function (event) {
-                    if (event.data.complete) {
-                        await dotNetObject.invokeMethodAsync("CompleteImageTransfer");
-                    } else if (event.data.chunk) {
-                        await dotNetObject.invokeMethodAsync("ReceiveImageChunk", event.data.chunk);
-                    }
-                };
-            }, type, encoderOptions);
-        }, 0);
-    }
-
-
-    createImageWorker() {
-        function workerScript() {
-            self.onmessage = function (event) {
-                const { blob } = event.data;
                 const reader = blob.stream().getReader();
 
-                async function read() {
-                    const { done, value } = await reader.read();
-                    if (done) {
-                        self.postMessage({ complete: true });
+                async function read(dotNetImageReceiver) {
+                    try {
+                        const { done, value } = await reader.read();
+
+                        if (done) {
+
+                            await dotNetImageReceiver.invokeMethodAsync("CompleteImageTransfer");
+
+                            return;
+                        }
+
+                        await dotNetImageReceiver.invokeMethodAsync("ReceiveImageChunk", value);
+
+                        read(dotNetImageReceiver);
+                    } catch (imageProcessingError) {
+                        await dotNetObject.invokeMethodAsync("HandleImageProcessingError", imageProcessingError.toString());
+
                         return;
                     }
-                    self.postMessage({ chunk: value });
-                    read();
                 }
 
-                read();
-            };
-        }
-
-        // Convert function to string and extract its body
-        const workerFunctionString = workerScript.toString();
-        const workerCode = workerFunctionString.substring(workerFunctionString.indexOf("{") + 1, workerFunctionString.lastIndexOf("}"));
-
-        // Create a Blob and Web Worker
-        const workerBlob = new Blob([workerCode], { type: "application/javascript" });
-        return new Worker(URL.createObjectURL(workerBlob));
+                read(dotNetObject);
+            }, type, encoderOptions);
+        }, 0);
     }
 }
 

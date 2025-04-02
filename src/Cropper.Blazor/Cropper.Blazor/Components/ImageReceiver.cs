@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using Cropper.Blazor.Exceptions;
 using Microsoft.JSInterop;
 
 namespace Cropper.Blazor.Components
@@ -14,6 +15,24 @@ namespace Cropper.Blazor.Components
     public class ImageReceiver
     {
         private readonly Channel<byte[]> _channel = Channel.CreateUnbounded<byte[]>();
+        private ImageProcessingException? imageProcessingException;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ImageProcessingException? ImageProcessingException { get => imageProcessingException; }
+
+        /// <summary>
+        /// s
+        /// </summary>
+        /// <param name="errorMessage"></param>
+        /// <returns></returns>
+        [JSInvokable("HandleImageProcessingError")]
+        public void HandleImageProcessingError(string errorMessage)
+        {
+            imageProcessingException = new(errorMessage);
+            CompleteImageTransfer();
+        }
 
         /// <summary>
         /// 
@@ -61,6 +80,13 @@ namespace Cropper.Blazor.Components
             await foreach (var chunk in GetImageStreamAsync(cancellationToken))
             {
                 await memoryStream.WriteAsync(chunk, 0, chunk.Length, cancellationToken);
+            }
+
+            if (ImageProcessingException != null)
+            {
+                await memoryStream.DisposeAsync();
+
+                throw ImageProcessingException;
             }
 
             return memoryStream;

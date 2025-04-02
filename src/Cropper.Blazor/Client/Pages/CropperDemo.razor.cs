@@ -10,6 +10,7 @@ using Cropper.Blazor.Events.CropMoveEvent;
 using Cropper.Blazor.Events.CropReadyEvent;
 using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
+using Cropper.Blazor.Exceptions;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -126,22 +127,23 @@ namespace Cropper.Blazor.Client.Pages
 
         public async void GetImageChunkStreamAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            CroppedCanvas croppedCanvas = await CropperComponent!.StartImageTransferAsync(getCroppedCanvasOptions);
-            //decimal width = await JSRuntime!.InvokeAsync<decimal>(
-            //    "jsObject.getInstanceProperty",
-            //    croppedCanvas!.JSRuntimeObjectRef, "width");
-            //decimal height = await JSRuntime!.InvokeAsync<decimal>(
-            //    "jsObject.getInstanceProperty",
-            //    croppedCanvas!.JSRuntimeObjectRef, "height");
+            await CropperComponent!.StartImageTransferAsync(getCroppedCanvasOptions);
 
-            //Console.WriteLine($"{width} {height}");
+            InvokeAsync(async () =>
+            {
+                try
+                {
+                    using MemoryStream croppedCanvasDataStream = await CropperComponent.ImageReceiver.GetImageChunkStreamAsync();
+                    byte[] croppedCanvasData = croppedCanvasDataStream.ToArray();
 
-            InvokeAsync(async () =>{
-                using MemoryStream croppedCanvasDataStream = await CropperComponent.ImageReceiver.GetImageChunkStreamAsync();
-                byte[] croppedCanvasData = croppedCanvasDataStream.ToArray();
-                string croppedCanvasDataURL = "data:image/png;base64," + Convert.ToBase64String(croppedCanvasData);
+                    string croppedCanvasDataURL = "data:image/png;base64," + Convert.ToBase64String(croppedCanvasData);
 
-                OpenCroppedCanvasDialog(croppedCanvasDataURL);
+                    OpenCroppedCanvasDialog(croppedCanvasDataURL);
+                }
+                catch (ImageProcessingException ex)
+                {
+                    JSRuntime.InvokeVoidAsync("console.log", ex.ToString());
+                }
             });
         }
 
