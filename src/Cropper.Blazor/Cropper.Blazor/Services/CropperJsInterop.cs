@@ -873,7 +873,7 @@ namespace Cropper.Blazor.Services
         /// </param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        public async ValueTask StartImageTransferAsync(
+        public async ValueTask GetCroppedCanvasDataBackgroundAsync(
             [NotNull] Guid cropperComponentId,
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             [NotNull] DotNetObjectReference<ImageReceiver> imageReceiverReference,

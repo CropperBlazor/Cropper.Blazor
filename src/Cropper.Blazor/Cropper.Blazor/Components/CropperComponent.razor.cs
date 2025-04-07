@@ -694,7 +694,7 @@ namespace Cropper.Blazor.Components
 
             ImageReceiver imageReceiver = new();
 
-            await CropperJsIntertop.StartImageTransferAsync(
+            await CropperJsIntertop.GetCroppedCanvasDataBackgroundAsync(
                 CropperComponentId,
                 getCroppedCanvasOptions,
                 DotNetObjectReference.Create(imageReceiver),

@@ -53,7 +53,7 @@ namespace Cropper.Blazor.UnitTests.Components
         [InlineData(-0.99)]
         [InlineData(1.11)]
         [InlineData(111)]
-        public async Task Throw_Exception_Because_Of_Invalid_NumberAsync(float numberImageQuality)
+        public async Task Throw_Exception_Because_Of_Invalid_Number_When_GetCroppedCanvasDataURLAsync(float numberImageQuality)
         {
             // arrange
             Faker faker = new();
@@ -87,6 +87,49 @@ namespace Cropper.Blazor.UnitTests.Components
                     It.IsAny<float>(),
                     It.IsAny<CancellationToken>()), Times.Never());
             });
+        }
+
+        [Theory]
+        [InlineData(-100)]
+        [InlineData(-1)]
+        [InlineData(-0.99)]
+        [InlineData(1.11)]
+        [InlineData(111)]
+        public async Task Throw_Exception_Because_Of_Invalid_Number_When_GetCroppedCanvasDataBackgroundAsync(float numberImageQuality)
+        {
+            // arrange
+            Faker faker = new();
+            CancellationToken cancellationToken = new();
+            GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>()
+                .Generate();
+            string imageFormatType = faker.Random.Word();
+
+            IRenderedComponent<CropperComponent> cropperComponent = _testContext
+                .RenderComponent<CropperComponent>();
+
+            await cropperComponent.InvokeAsync(async () =>
+            {
+                // act
+                Func<Task> func = async () => await cropperComponent.Instance.GetCroppedCanvasDataBackgroundAsync(
+                    getCroppedCanvasOptions,
+                    imageFormatType,
+                    numberImageQuality,
+                    cancellationToken);
+
+                // assert
+                await func
+                    .Should()
+                    .ThrowAsync<ArgumentException>()
+                    .WithMessage($"The given number should be between 0 and 1 for indicating the image quality, but found {numberImageQuality}. (Parameter 'number')");
+
+                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataBackgroundAsync(
+                    It.IsAny<Guid>(),
+                    It.IsAny<GetCroppedCanvasOptions>(),
+                    It.IsAny<DotNetObjectReference<ImageReceiver>>(),
+                    It.IsAny<string>(),
+                    It.IsAny<float>(),
+                    It.IsAny<CancellationToken>()), Times.Never());
+                });
         }
 
         [Fact]
