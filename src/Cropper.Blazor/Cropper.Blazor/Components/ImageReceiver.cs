@@ -10,7 +10,8 @@ using Microsoft.JSInterop;
 namespace Cropper.Blazor.Components
 {
     /// <summary>
-    /// 
+    /// Represents a receiver for image data streamed from JavaScript to .NET, 
+    /// supporting chunked image transfer, error handling, and final image assembly.
     /// </summary>
     public class ImageReceiver
     {
@@ -18,15 +19,15 @@ namespace Cropper.Blazor.Components
         private ImageProcessingException? imageProcessingException;
 
         /// <summary>
-        /// 
+        /// Gets the exception that occurred during image processing.
         /// </summary>
         public ImageProcessingException? ImageProcessingException { get => imageProcessingException; }
 
         /// <summary>
-        /// s
+        /// Handles an image processing error invoked from JavaScript.
+        /// Sets the exception and completes the image transfer.
         /// </summary>
-        /// <param name="errorMessage"></param>
-        /// <returns></returns>
+        /// <param name="errorMessage">The error message from JavaScript.</param>
         [JSInvokable("HandleImageProcessingError")]
         public void HandleImageProcessingError(string errorMessage)
         {
@@ -35,10 +36,10 @@ namespace Cropper.Blazor.Components
         }
 
         /// <summary>
-        /// 
+        /// Receives a chunk of image data from JavaScript.
         /// </summary>
-        /// <param name="chunk"></param>
-        /// <returns></returns>
+        /// <param name="chunk">The image data chunk.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         [JSInvokable("ReceiveImageChunk")]
         public async ValueTask ReceiveImageChunkAsync(byte[] chunk)
         {
@@ -46,9 +47,8 @@ namespace Cropper.Blazor.Components
         }
 
         /// <summary>
-        /// 
+        /// Marks the end of the image data transfer from JavaScript.
         /// </summary>
-        /// <returns></returns>
         [JSInvokable("CompleteImageTransfer")]
         public void CompleteImageTransfer()
         {
@@ -56,10 +56,10 @@ namespace Cropper.Blazor.Components
         }
 
         /// <summary>
-        /// 
+        /// Asynchronously streams the received image data chunks.
         /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
+        /// <returns>An async enumerable of byte arrays representing the image chunks.</returns>
         public async IAsyncEnumerable<byte[]> GetImageStreamAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             await foreach (var chunk in _channel.Reader.ReadAllAsync(cancellationToken))
@@ -69,10 +69,13 @@ namespace Cropper.Blazor.Components
         }
 
         /// <summary>
-        /// 
+        /// Asynchronously reads the image chunks into a memory stream.
         /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
+        /// <exception cref="ImageProcessingException">
+        /// Thrown if an error occurs during image processing.
+        /// </exception>
+        /// <returns>A <see cref="Task{MemoryStream}"/> representing asynchronous operation on stream image data.</returns>
         public async Task<MemoryStream> GetImageChunkStreamAsync(CancellationToken cancellationToken = default)
         {
             MemoryStream memoryStream = new MemoryStream();

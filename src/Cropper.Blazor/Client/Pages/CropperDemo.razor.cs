@@ -127,13 +127,13 @@ namespace Cropper.Blazor.Client.Pages
 
         public async void GetImageChunkStreamAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            await CropperComponent!.StartImageTransferAsync(getCroppedCanvasOptions);
+            ImageReceiver imageReceiver = await CropperComponent!.GetCroppedCanvasDataBackgroundAsync(getCroppedCanvasOptions);
 
             InvokeAsync(async () =>
             {
                 try
                 {
-                    using MemoryStream croppedCanvasDataStream = await CropperComponent.ImageReceiver.GetImageChunkStreamAsync();
+                    using MemoryStream croppedCanvasDataStream = await imageReceiver.GetImageChunkStreamAsync();
                     byte[] croppedCanvasData = croppedCanvasDataStream.ToArray();
 
                     string croppedCanvasDataURL = "data:image/png;base64," + Convert.ToBase64String(croppedCanvasData);

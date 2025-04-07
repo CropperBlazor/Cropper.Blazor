@@ -862,7 +862,7 @@ namespace Cropper.Blazor.Services
         }
 
         /// <summary>
-        /// 
+        /// Get a canvas drawn the cropped image in background.
         /// </summary>
         /// <param name="cropperComponentId">The identifier of the cropper component.</param>
         /// <param name="getCroppedCanvasOptions">The config options.</param>
