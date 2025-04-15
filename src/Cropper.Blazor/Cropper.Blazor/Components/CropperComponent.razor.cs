@@ -686,6 +686,7 @@ namespace Cropper.Blazor.Components
         /// </param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <exception cref="ArgumentException">Thrown when the <paramref name="number"/> is outside the range of 0 and 1.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maximumReceiveChunkSize"/> is less than or equal to 0.</exception>
         /// <returns>A <see cref="ValueTask{ImageReceiver}"/> representing the asynchronous operation to retrieve cropped canvas data.</returns>
         public async ValueTask<ImageReceiver> GetCroppedCanvasDataBackgroundAsync(
             GetCroppedCanvasOptions getCroppedCanvasOptions,
@@ -697,6 +698,11 @@ namespace Cropper.Blazor.Components
             if (number < 0 || number > 1)
             {
                 throw new ArgumentException($"The given number should be between 0 and 1 for indicating the image quality, but found {number}.", nameof(number));
+            }
+
+            if (maximumReceiveChunkSize is not null && maximumReceiveChunkSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(maximumReceiveChunkSize), "Chunk size must be greater than 0 bytes when specified.");
             }
 
             ImageReceiver imageReceiver = new();

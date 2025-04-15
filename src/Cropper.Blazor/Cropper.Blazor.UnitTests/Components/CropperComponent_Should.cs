@@ -104,7 +104,7 @@ namespace Cropper.Blazor.UnitTests.Components
             GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>()
                 .Generate();
             string imageFormatType = faker.Random.Word();
-            int? maximumReceiveChunkSize = faker.Random.Int(0, 100);
+            int? maximumReceiveChunkSize = faker.Random.Int(1, 100);
 
             IRenderedComponent<CropperComponent> cropperComponent = _testContext
                 .RenderComponent<CropperComponent>();
@@ -124,6 +124,51 @@ namespace Cropper.Blazor.UnitTests.Components
                     .Should()
                     .ThrowAsync<ArgumentException>()
                     .WithMessage($"The given number should be between 0 and 1 for indicating the image quality, but found {numberImageQuality}. (Parameter 'number')");
+
+                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataBackgroundAsync(
+                    It.IsAny<Guid>(),
+                    It.IsAny<GetCroppedCanvasOptions>(),
+                    It.IsAny<DotNetObjectReference<ImageReceiver>>(),
+                    It.IsAny<string>(),
+                    It.IsAny<float>(),
+                    It.IsAny<int?>(),
+                    It.IsAny<CancellationToken>()), Times.Never());
+            });
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        [InlineData(-1024)]
+        public async Task Throw_Exception_Because_Of_Invalid_MaximumReceiveChunkSize_When_GetCroppedCanvasDataBackgroundAsync(int maximumReceiveChunkSize)
+        {
+            // arrange
+            Faker faker = new();
+            CancellationToken cancellationToken = new();
+            GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>()
+                .Generate();
+            string imageFormatType = faker.Random.Word();
+            float numberImageQuality = faker.Random.Float(0f, 1f);
+
+            IRenderedComponent<CropperComponent> cropperComponent = _testContext
+                .RenderComponent<CropperComponent>();
+
+            await cropperComponent.InvokeAsync(async () =>
+            {
+                // act
+                Func<Task> func = async () => await cropperComponent.Instance.GetCroppedCanvasDataBackgroundAsync(
+                    getCroppedCanvasOptions,
+                    imageFormatType,
+                    numberImageQuality,
+                    maximumReceiveChunkSize,
+                    cancellationToken);
+
+                // assert
+                await func
+                    .Should()
+                    .ThrowAsync<ArgumentOutOfRangeException>()
+                    .WithParameterName("maximumReceiveChunkSize")
+                    .WithMessage("Chunk size must be greater than 0 bytes when specified.*");
 
                 _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataBackgroundAsync(
                     It.IsAny<Guid>(),
@@ -266,7 +311,7 @@ namespace Cropper.Blazor.UnitTests.Components
             bool hasSameSize = faker.Random.Bool();
             string imageFormatType = faker.Random.Word();
             float numberImageQuality = faker.Random.Float(0, 1);
-            int? maximumReceiveChunkSize = faker.Random.Int(0, 100);
+            int? maximumReceiveChunkSize = faker.Random.Int(1, 100);
 
             Action? onLoadImageHandler = () =>
             {
@@ -684,7 +729,7 @@ namespace Cropper.Blazor.UnitTests.Components
             bool hasSameSize = faker.Random.Bool();
             string imageFormatType = faker.Random.Word();
             float numberImageQuality = faker.Random.Float(0, 1);
-            int? maximumReceiveChunkSize = faker.Random.Int(0, 100);
+            int? maximumReceiveChunkSize = faker.Random.Int(1, 100);
 
             Action<JSEventData<CropEvent>>? onCropEventHandler = (JSEventData<CropEvent> c) =>
             {
