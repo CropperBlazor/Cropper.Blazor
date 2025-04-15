@@ -7,6 +7,7 @@ using Bogus;
 using Bunit;
 using Bunit.TestDoubles;
 using Cropper.Blazor.Base;
+using Cropper.Blazor.Components;
 using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.ModuleOptions;
@@ -269,6 +270,34 @@ namespace Cropper.Blazor.UnitTests.Services
 
             // assert
             expectedCroppedCanvasURL.Should().BeEquivalentTo(croppedCanvasURL);
+        }
+
+        [Fact]
+        public async Task Verify_GetCroppedCanvasDataBackground_Async()
+        {
+            // arrange
+            Guid cropperComponentId = Guid.NewGuid();
+            string expectedCroppedCanvasURL = _faker.Random.Word();
+            string type = _faker.Random.Word();
+            float number = _faker.Random.Float();
+            GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>();
+            DotNetObjectReference<ImageReceiver> refToImageReceiver = new Faker<DotNetObjectReference<ImageReceiver>>()
+                .CustomInstantiator(f => DotNetObjectReference.Create(new Faker<ImageReceiver>().Generate()));
+
+            _testContext.JSInterop
+                .SetupVoid("cropper.sendImageInChunks", cropperComponentId, getCroppedCanvasOptions, refToImageReceiver, type, number)
+                .SetVoidResult();
+
+            // assert
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
+
+            // act
+            await _cropperJsInterop.GetCroppedCanvasDataBackgroundAsync(
+                cropperComponentId,
+                getCroppedCanvasOptions,
+                refToImageReceiver,
+                type,
+                number);
         }
 
         [Fact]
