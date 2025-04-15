@@ -280,12 +280,13 @@ namespace Cropper.Blazor.UnitTests.Services
             string expectedCroppedCanvasURL = _faker.Random.Word();
             string type = _faker.Random.Word();
             float number = _faker.Random.Float();
+            int? maximumReceiveChunkSize = _faker.Random.Int(0, 100);
             GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>();
             DotNetObjectReference<ImageReceiver> refToImageReceiver = new Faker<DotNetObjectReference<ImageReceiver>>()
                 .CustomInstantiator(f => DotNetObjectReference.Create(new Faker<ImageReceiver>().Generate()));
 
             _testContext.JSInterop
-                .SetupVoid("cropper.sendImageInChunks", cropperComponentId, getCroppedCanvasOptions, refToImageReceiver, type, number)
+                .SetupVoid("cropper.sendImageInChunks", cropperComponentId, getCroppedCanvasOptions, refToImageReceiver, type, number, maximumReceiveChunkSize)
                 .SetVoidResult();
 
             // assert
@@ -297,7 +298,8 @@ namespace Cropper.Blazor.UnitTests.Services
                 getCroppedCanvasOptions,
                 refToImageReceiver,
                 type,
-                number);
+                number,
+                maximumReceiveChunkSize);
         }
 
         [Fact]

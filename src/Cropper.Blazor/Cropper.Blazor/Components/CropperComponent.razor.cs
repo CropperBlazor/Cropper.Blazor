@@ -678,6 +678,12 @@ namespace Cropper.Blazor.Components
         /// <param name="number">A number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp).
         /// Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality. The default value is 1 with maximum image quality.
         /// </param>
+        /// <param name="maximumReceiveChunkSize">
+        /// The maximum size of each image chunk to receive, in bytes. For example, 65536 equals 64 KB.
+        /// If specified, incoming image data will be split into chunks of this size during transmission.
+        /// If null, the chunk size will be handled automatically based on the stream's native chunking behavior.
+        /// This helps control memory usage and ensures compatibility with interop limits.
+        /// </param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <exception cref="ArgumentException">Thrown when the <paramref name="number"/> is outside the range of 0 and 1.</exception>
         /// <returns>A <see cref="ValueTask{ImageReceiver}"/> representing the asynchronous operation to retrieve cropped canvas data.</returns>
@@ -685,6 +691,7 @@ namespace Cropper.Blazor.Components
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             string type = "image/png",
             float number = 1,
+            int? maximumReceiveChunkSize = null,
             CancellationToken cancellationToken = default)
         {
             if (number < 0 || number > 1)
@@ -700,6 +707,7 @@ namespace Cropper.Blazor.Components
                 DotNetObjectReference.Create(imageReceiver),
                 type,
                 number,
+                maximumReceiveChunkSize,
                 cancellationToken);
 
             return imageReceiver;

@@ -283,7 +283,7 @@ class CropperDecorator {
     this.cropperInstances[cropperComponentId] = cropper
   }
 
-  sendImageInChunks (cropperComponentId, options, dotNetObject, type, encoderOptions) {
+  sendImageInChunks (cropperComponentId, options, dotNetObject, type, encoderOptions, maximumReceiveChunkSize) {
     options.maxWidth ??= Infinity
     options.maxHeight ??= Infinity
 
@@ -303,7 +303,14 @@ class CropperDecorator {
               return
             }
 
-            await dotNetImageReceiver.invokeMethodAsync('ReceiveImageChunk', value)
+            if (maximumReceiveChunkSize) {
+              for (let i = 0; i < value.length; i += maximumReceiveChunkSize) {
+                const chunk = value.slice(i, i + maximumReceiveChunkSize)
+                await dotNetImageReceiver.invokeMethodAsync('ReceiveImageChunk', chunk)
+              }
+            } else {
+              await dotNetImageReceiver.invokeMethodAsync('ReceiveImageChunk', value)
+            }
 
             read(dotNetImageReceiver)
           } catch (imageProcessingError) {

@@ -104,6 +104,7 @@ namespace Cropper.Blazor.UnitTests.Components
             GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>()
                 .Generate();
             string imageFormatType = faker.Random.Word();
+            int? maximumReceiveChunkSize = faker.Random.Int(0, 100);
 
             IRenderedComponent<CropperComponent> cropperComponent = _testContext
                 .RenderComponent<CropperComponent>();
@@ -115,6 +116,7 @@ namespace Cropper.Blazor.UnitTests.Components
                     getCroppedCanvasOptions,
                     imageFormatType,
                     numberImageQuality,
+                    maximumReceiveChunkSize,
                     cancellationToken);
 
                 // assert
@@ -129,6 +131,7 @@ namespace Cropper.Blazor.UnitTests.Components
                     It.IsAny<DotNetObjectReference<ImageReceiver>>(),
                     It.IsAny<string>(),
                     It.IsAny<float>(),
+                    It.IsAny<int?>(),
                     It.IsAny<CancellationToken>()), Times.Never());
             });
         }
@@ -263,6 +266,7 @@ namespace Cropper.Blazor.UnitTests.Components
             bool hasSameSize = faker.Random.Bool();
             string imageFormatType = faker.Random.Word();
             float numberImageQuality = faker.Random.Float(0, 1);
+            int? maximumReceiveChunkSize = faker.Random.Int(0, 100);
 
             Action? onLoadImageHandler = () =>
             {
@@ -385,9 +389,10 @@ namespace Cropper.Blazor.UnitTests.Components
                     It.IsAny<DotNetObjectReference<ImageReceiver>>(),
                     imageFormatType,
                     numberImageQuality,
+                    maximumReceiveChunkSize,
                     cancellationToken))
-                .Callback<Guid, GetCroppedCanvasOptions, DotNetObjectReference<ImageReceiver>, string, float, CancellationToken>(
-                    async (id, options, imageReceiverRef, format, quality, token) =>
+                .Callback<Guid, GetCroppedCanvasOptions, DotNetObjectReference<ImageReceiver>, string, float, int?, CancellationToken>(
+                    async (id, options, imageReceiverRef, format, quality, maximumReceiveChunkSize, token) =>
                     {
                         await imageReceiverRef.Value.ReceiveImageChunkAsync(chunksImageReceiver);
                         imageReceiverRef.Value.CompleteImageTransfer();
@@ -505,7 +510,7 @@ namespace Cropper.Blazor.UnitTests.Components
                 expectedCroppedCanvasDataURL.Should().BeEquivalentTo(croppedCanvasDataURL);
                 _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataURLAsync(cropperComponentId, getCroppedCanvasOptions, imageFormatType, numberImageQuality, cancellationToken), Times.Once());
 
-                ImageReceiver imageReceiver = await cropperComponent.Instance.GetCroppedCanvasDataBackgroundAsync(getCroppedCanvasOptions, imageFormatType, numberImageQuality);
+                ImageReceiver imageReceiver = await cropperComponent.Instance.GetCroppedCanvasDataBackgroundAsync(getCroppedCanvasOptions, imageFormatType, numberImageQuality, maximumReceiveChunkSize);
                 MemoryStream imageChunkStream = await imageReceiver.GetImageChunkStreamAsync();
 
                 imageChunkStream.ToArray().Should().BeEquivalentTo(chunksImageReceiver);
@@ -515,6 +520,7 @@ namespace Cropper.Blazor.UnitTests.Components
                     It.IsAny<DotNetObjectReference<ImageReceiver>>(),
                     imageFormatType,
                     numberImageQuality,
+                    maximumReceiveChunkSize,
                     cancellationToken), Times.Once());
 
                 CropperData cropperData = await cropperComponent.Instance.GetDataAsync(isRounded);
@@ -678,6 +684,7 @@ namespace Cropper.Blazor.UnitTests.Components
             bool hasSameSize = faker.Random.Bool();
             string imageFormatType = faker.Random.Word();
             float numberImageQuality = faker.Random.Float(0, 1);
+            int? maximumReceiveChunkSize = faker.Random.Int(0, 100);
 
             Action<JSEventData<CropEvent>>? onCropEventHandler = (JSEventData<CropEvent> c) =>
             {
@@ -788,9 +795,10 @@ namespace Cropper.Blazor.UnitTests.Components
                     It.IsAny<DotNetObjectReference<ImageReceiver>>(),
                     imageFormatType,
                     numberImageQuality,
+                    maximumReceiveChunkSize,
                     cancellationToken))
-                .Callback<Guid, GetCroppedCanvasOptions, DotNetObjectReference<ImageReceiver>, string, float, CancellationToken>(
-                    async (id, options, imageReceiverRef, format, quality, token) =>
+                .Callback<Guid, GetCroppedCanvasOptions, DotNetObjectReference<ImageReceiver>, string, float, int?, CancellationToken>(
+                    async (id, options, imageReceiverRef, format, quality, maximumReceiveChunkSize, token) =>
                     {
                         await imageReceiverRef.Value.ReceiveImageChunkAsync(chunksImageReceiver);
                         imageReceiverRef.Value.CompleteImageTransfer();
@@ -907,7 +915,7 @@ namespace Cropper.Blazor.UnitTests.Components
                     numberImageQuality,
                     cancellationToken), Times.Once());
 
-                ImageReceiver imageReceiver = await cropperComponent.Instance.GetCroppedCanvasDataBackgroundAsync(getCroppedCanvasOptions, imageFormatType, numberImageQuality);
+                ImageReceiver imageReceiver = await cropperComponent.Instance.GetCroppedCanvasDataBackgroundAsync(getCroppedCanvasOptions, imageFormatType, numberImageQuality, maximumReceiveChunkSize);
                 MemoryStream imageChunkStream = await imageReceiver.GetImageChunkStreamAsync();
 
                 imageChunkStream.ToArray().Should().BeEquivalentTo(chunksImageReceiver);
@@ -917,6 +925,7 @@ namespace Cropper.Blazor.UnitTests.Components
                     It.IsAny<DotNetObjectReference<ImageReceiver>>(),
                     imageFormatType,
                     numberImageQuality,
+                    maximumReceiveChunkSize,
                     cancellationToken), Times.Once());
 
 
