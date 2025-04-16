@@ -311,7 +311,7 @@ namespace Cropper.Blazor.UnitTests.Components
             bool hasSameSize = faker.Random.Bool();
             string imageFormatType = faker.Random.Word();
             float numberImageQuality = faker.Random.Float(0, 1);
-            int? maximumReceiveChunkSize = faker.Random.Int(1, 100);
+            int? maximumReceiveChunkSize = null;
 
             Action? onLoadImageHandler = () =>
             {
