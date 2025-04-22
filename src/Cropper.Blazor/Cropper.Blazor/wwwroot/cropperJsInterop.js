@@ -304,39 +304,39 @@ class CropperDecorator {
             }
 
             if (maximumReceiveChunkSize) {
-                let offset = 0;
+              let offset = 0
 
-                // Function to calculate JSON size for the current chunk using binary estimation
-                function getJsonSizeBinary(chunk) {
-                    const length = chunk.length;
-                    const bytesPerElement = 3;  // Max 3 digits for the number (0 to 255)
-                    const commas = length - 1;  // Comma between elements
-                    const brackets = 2; // For '[' and ']'
+              // Function to calculate JSON size for the current chunk using binary estimation
+              function getJsonSizeBinary (chunk) {
+                const length = chunk.length
+                const bytesPerElement = 3 // Max 3 digits for the number (0 to 255)
+                const commas = length - 1 // Comma between elements
+                const brackets = 2 // For '[' and ']'
 
-                    return (length * bytesPerElement) + commas + brackets;
+                return (length * bytesPerElement) + commas + brackets
+              }
+
+              // While we have data to process
+              while (offset < value.length) {
+                // Start with the maximum chunk size
+                let chunkSize = Math.min(maximumReceiveChunkSize, value.length - offset) // Adjust chunk size not to exceed remaining data
+                let chunk = value.slice(offset, offset + chunkSize)
+                let jsonSize = getJsonSizeBinary(chunk)
+
+                // If chunk size exceeds the max allowed, reduce it by 512 bytes (or more if necessary)
+                if (jsonSize > maximumReceiveChunkSize) {
+                  chunkSize = Math.max(chunkSize - 512, 1) // Reduce by 512 bytes at a time
+                  chunk = value.slice(offset, offset + chunkSize)
+                  jsonSize = getJsonSizeBinary(chunk)
                 }
 
-                // While we have data to process
-                while (offset < value.length) {
-                    // Start with the maximum chunk size
-                    let chunkSize = Math.min(maximumReceiveChunkSize, value.length - offset);  // Adjust chunk size not to exceed remaining data
-                    let chunk = value.slice(offset, offset + chunkSize);
-                    let jsonSize = getJsonSizeBinary(chunk);
+                console.log(chunkSize)
+                // Send the chunk
+                await dotNetImageReceiver.invokeMethodAsync('ReceiveImageChunk', chunk)
 
-                    // If chunk size exceeds the max allowed, reduce it by 512 bytes (or more if necessary)
-                    if (jsonSize > maximumReceiveChunkSize) {
-                        chunkSize = Math.max(chunkSize - 512, 1);  // Reduce by 512 bytes at a time
-                        chunk = value.slice(offset, offset + chunkSize);
-                        jsonSize = getJsonSizeBinary(chunk);
-                    }
-
-                    console.log(chunkSize);
-                    // Send the chunk
-                    await dotNetImageReceiver.invokeMethodAsync('ReceiveImageChunk', chunk);
-
-                    // Update the offset to process the next chunk
-                    offset += chunkSize;
-                }
+                // Update the offset to process the next chunk
+                offset += chunkSize
+              }
             } else {
               await dotNetImageReceiver.invokeMethodAsync('ReceiveImageChunk', value)
             }
