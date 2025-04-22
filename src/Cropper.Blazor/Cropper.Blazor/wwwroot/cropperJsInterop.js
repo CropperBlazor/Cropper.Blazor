@@ -316,25 +316,35 @@ class CropperDecorator {
                 return (length * bytesPerElement) + commas + brackets
               }
 
-              // While we have data to process
+              // While we still have data to process
               while (offset < value.length) {
-                // Start with the maximum chunk size
-                let chunkSize = Math.min(maximumReceiveChunkSize, value.length - offset) // Adjust chunk size not to exceed remaining data
+                let chunkSize = Math.min(maximumReceiveChunkSize, value.length - offset) // Adjust chunk size to max allowed
                 let chunk = value.slice(offset, offset + chunkSize)
                 let jsonSize = getJsonSizeBinary(chunk)
 
-                // If chunk size exceeds the max allowed, reduce it by 512 bytes (or more if necessary)
-                if (jsonSize > maximumReceiveChunkSize) {
-                  chunkSize = Math.max(chunkSize - 512, 1) // Reduce by 512 bytes at a time
+                console.log(`${jsonSize} jsonSize first for ${offset} offset`)
+
+                // If the JSON size is too large, reduce the chunk size in steps
+                while (jsonSize > maximumReceiveChunkSize && chunkSize > 1) {
+                  console.log(`${jsonSize} jsonSize second for ${offset} offset`)
+
+                  chunkSize = Math.max(chunkSize - 512, 1) // Reduce by 512 bytes
                   chunk = value.slice(offset, offset + chunkSize)
                   jsonSize = getJsonSizeBinary(chunk)
+
+                  // If the chunk size is small enough, break the loop
+                  if (chunkSize <= 512) {
+                    console.log('Breaking loop because chunk size is too small')
+                    break
+                  }
                 }
 
-                console.log(chunkSize)
+                // Log the final chunk size and send the chunk
+                console.log(`${jsonSize} final json size for ${offset} offset`)
                 // Send the chunk
                 await dotNetImageReceiver.invokeMethodAsync('ReceiveImageChunk', chunk)
 
-                // Update the offset to process the next chunk
+                // Update the offset
                 offset += chunkSize
               }
             } else {
