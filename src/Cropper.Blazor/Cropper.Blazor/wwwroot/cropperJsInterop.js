@@ -304,9 +304,22 @@ class CropperDecorator {
             }
 
             if (maximumReceiveChunkSize) {
-              for (let i = 0; i < value.length; i += maximumReceiveChunkSize) {
-                const chunk = value.slice(i, i + maximumReceiveChunkSize)
+              let offset = 0
+
+              while (offset < value.length) {
+                let chunkSize = 1024 // Start with a small chunk
+                let chunk = value.slice(offset, offset + chunkSize)
+
+                // Manually estimate the JSON size (each byte adds 1 character, plus two for brackets and commas)
+                while (chunkSize < value.length) {
+                  const jsonSize = (chunkSize * 2) + 2 // 2 for brackets, 2 for commas
+                  if (jsonSize > maximumReceiveChunkSize) break
+                  chunkSize += 256 // Increment step
+                  chunk = value.slice(offset, offset + chunkSize)
+                }
+
                 await dotNetImageReceiver.invokeMethodAsync('ReceiveImageChunk', chunk)
+                offset += chunkSize
               }
             } else {
               await dotNetImageReceiver.invokeMethodAsync('ReceiveImageChunk', value)
