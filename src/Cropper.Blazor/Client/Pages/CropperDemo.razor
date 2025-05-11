@@ -197,12 +197,6 @@
                                             Get Cropped Canvas by element
                                         </MudButton>
                                     </MudTooltip>
-                                    <MudTooltip Text="Get Chunked Stream Image ({ maxWidth: 16096, maxHeight: 16096 })">
-                                        <MudButton Color="Color.Secondary" Variant="Variant.Filled"
-                                                   OnClick="@(()=>GetImageChunkStreamAsync(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
-                                            Get Chunked Stream Image (None block UI)
-                                        </MudButton>
-                                    </MudTooltip>
                                     <MudButtonGroup Color="Color.Secondary" Variant="Variant.Filled">
                                         <MudTooltip Text="cropper.getCroppedCanvasDataURL({ width: 320, height: 180 })">
                                             <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 180, MaxWidth = 320, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
@@ -215,6 +209,12 @@
                                             </MudButton>
                                         </MudTooltip>
                                     </MudButtonGroup>
+                                    <MudTooltip Text="Get Chunked Stream Image In Background ({ maxWidth: 16096, maxHeight: 16096 })">
+                                        <MudButton Color="Color.Secondary" Variant="Variant.Filled"
+                                                   OnClick="@(()=>GetImageChunkStreamAsync(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                                            Get Chunked Stream Image In Background
+                                        </MudButton>
+                                    </MudTooltip>
                                 </MudPaper>
                             </MudItem>
                             @*//---Aspect Ratio | View Mode | Get Cropped Canvas---//*@
@@ -230,7 +230,15 @@
                                                         GET
                                                     </MudButton>
                                                 </MudTooltip>
-
+                                                <MudTooltip Text="Get cropped image with polygon filter in background" RootClass="mud-width-full">
+                                                    <MudButton OnClick="@(()=>GetCroppedCanvasDataByPolygonFilterInBackground(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))"
+                                                               Color="Color.Secondary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.CropOriginal"
+                                                               Class="ml-0 mud-width-full" Style="height: 100%">
+                                                        GET In Background
+                                                    </MudButton>
+                                                </MudTooltip>
+                                            </MudButtonGroup>
+                                            <MudButtonGroup Vertical="false" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
                                                 <MudMenu Dense="true" Class="mud-width-full" MaxHeight="350"
                                                          AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopCenter">
                                                     <ActivatorContent>
@@ -268,12 +276,6 @@
                                                     <MudButton OnClick="@(()=>SetAspectRatio(1m))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
                                                                Style="@(Options.AspectRatio == 1m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
                                                         1:1
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="aspectRatio: 2 / 3" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetAspectRatio(0.6666666666666666m))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
-                                                               Style="@(Options.AspectRatio == 0.6666666666666666m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        2:3
                                                     </MudButton>
                                                 </MudTooltip>
                                                 <MudTooltip Text="aspectRatio: 0" RootClass="mud-width-full">
