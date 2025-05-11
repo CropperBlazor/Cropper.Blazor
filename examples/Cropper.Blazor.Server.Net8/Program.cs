@@ -14,7 +14,7 @@ builder.Services.AddServerSideBlazor()
         options.HandshakeTimeout = TimeSpan.FromSeconds(15);
         options.KeepAliveInterval = TimeSpan.FromSeconds(15);
         options.MaximumParallelInvocationsPerClient = 1;
-        options.MaximumReceiveMessageSize = 1024 * 2;
+        options.MaximumReceiveMessageSize = 1024 * 32;
         options.StreamBufferCapacity = 10;
     });
 builder.Services.AddCropper();

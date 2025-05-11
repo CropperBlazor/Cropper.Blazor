@@ -92,7 +92,7 @@ namespace Cropper.Blazor.Server.Net6.Pages
         {
             ImageReceiver imageReceiver = await cropperComponent!.GetCroppedCanvasDataBackgroundAsync(
                             getCroppedCanvasOptions,
-                            maximumReceiveChunkSize: 1024 * 2);
+                            maximumReceiveChunkSize: 1024 * 128);
 
             InvokeAsync(async () =>
             {
