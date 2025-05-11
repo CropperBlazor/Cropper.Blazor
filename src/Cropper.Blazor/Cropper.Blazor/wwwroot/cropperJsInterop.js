@@ -304,8 +304,6 @@ class CropperDecorator {
             }
 
             if (maximumReceiveChunkSize) {
-              let offset = 0
-
               // Function to calculate JSON size for the current chunk using binary estimation
               function getJsonSizeBinary (chunk) {
                 const length = chunk.length
@@ -316,35 +314,37 @@ class CropperDecorator {
                 return (length * bytesPerElement) + commas + brackets
               }
 
-              // While we still have data to process
+              let offset = 0
+              let lastGoodChunkSize = maximumReceiveChunkSize
+
               while (offset < value.length) {
-                let chunkSize = Math.min(maximumReceiveChunkSize, value.length - offset) // Adjust chunk size to max allowed
+                // Start with the last known good chunk size, or the remaining length
+                let chunkSize = Math.min(lastGoodChunkSize, value.length - offset)
                 let chunk = value.slice(offset, offset + chunkSize)
                 let jsonSize = getJsonSizeBinary(chunk)
 
-                console.log(`${jsonSize} jsonSize first for ${offset} offset`)
-
-                // If the JSON size is too large, reduce the chunk size in steps
+                // If the JSON size is too large, reduce the chunk size gradually
                 while (jsonSize > maximumReceiveChunkSize && chunkSize > 1) {
-                  console.log(`${jsonSize} jsonSize second for ${offset} offset`)
-
-                  chunkSize = Math.max(chunkSize - 512, 1) // Reduce by 512 bytes
+                  // Reduce the chunk size in steps of 512 bytes, but not below 1 byte
+                  chunkSize = Math.max(chunkSize - 512, 1)
                   chunk = value.slice(offset, offset + chunkSize)
                   jsonSize = getJsonSizeBinary(chunk)
 
-                  // If the chunk size is small enough, break the loop
+                  // Stop reducing if the chunk size is already very small
                   if (chunkSize <= 512) {
-                    console.log('Breaking loop because chunk size is too small')
                     break
                   }
                 }
 
-                // Log the final chunk size and send the chunk
-                console.log(`${jsonSize} final json size for ${offset} offset`)
-                // Send the chunk
+                // Send the valid chunk to the receiver
                 await dotNetImageReceiver.invokeMethodAsync('ReceiveImageChunk', chunk)
 
-                // Update the offset
+                // Update the last good chunk size if current chunk was acceptable
+                if (jsonSize <= maximumReceiveChunkSize) {
+                  lastGoodChunkSize = chunkSize
+                }
+
+                // Move the offset forward by the size of the chunk just sent
                 offset += chunkSize
               }
             } else {

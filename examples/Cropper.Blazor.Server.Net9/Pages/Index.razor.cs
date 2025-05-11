@@ -14,7 +14,7 @@ using Microsoft.JSInterop;
 using MudBlazor;
 using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 
-namespace Cropper.Blazor.Server.Net6.Pages
+namespace Cropper.Blazor.Server.Net9.Pages
 {
     public partial class Index : IDisposable
     {
@@ -107,7 +107,7 @@ namespace Cropper.Blazor.Server.Net6.Pages
                     {
                         { "Src", croppedCanvasDataURL }
                     };
-                    var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
+                    var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, BackdropClick = true };
                     _dialogService!.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
                 }
                 catch (ImageProcessingException ex)

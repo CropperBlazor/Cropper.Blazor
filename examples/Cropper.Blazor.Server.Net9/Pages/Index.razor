@@ -10,9 +10,9 @@
         <InputFile id="imageInput" OnChange="InputFileChange" accept="image/*" hidden multiple />
         <MudIconButton HtmlTag="label" Icon="@Icons.Material.Filled.PhotoCamera" for="imageInput" Title="Upload image file" />
     </MudTooltip>
-    <MudTooltip Text="cropper.getCroppedCanvas({ maxWidth: 16096, maxHeight: 16096 })">
+    <MudTooltip Text="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })">
         <MudButton Color="Color.Secondary" Variant="Variant.Filled"
-                   OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096}))">
+                   OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096}))">
             Get Cropped Canvas
         </MudButton>
     </MudTooltip>

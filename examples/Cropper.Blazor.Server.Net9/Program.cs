@@ -1,5 +1,5 @@
 using Cropper.Blazor.Extensions;
-using Cropper.Blazor.Server.Net7.Data;
+using Cropper.Blazor.Server.Net9.Data;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +14,7 @@ builder.Services.AddServerSideBlazor()
         options.HandshakeTimeout = TimeSpan.FromSeconds(15);
         options.KeepAliveInterval = TimeSpan.FromSeconds(15);
         options.MaximumParallelInvocationsPerClient = 1;
-        options.MaximumReceiveMessageSize = 64 * 1024;
+        options.MaximumReceiveMessageSize = 1024 * 2;
         options.StreamBufferCapacity = 10;
     });
 builder.Services.AddCropper();
