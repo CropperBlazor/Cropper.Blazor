@@ -54,22 +54,22 @@ window.getEllipseImage = (sourceCanvas) => {
 
 window.getEllipseImageInBackground = (sourceCanvas, dotNetImageReceiverRef, maximumReceiveChunkSize) => {
   setTimeout(() => {
-    const createdCanvas = document.createElement('canvas')
-    const contextCanvas = createdCanvas.getContext('2d')
+    const newCanvas = document.createElement('canvas')
+    const ctxCanvas = newCanvas.getContext('2d')
     const widthCanvas = sourceCanvas.width
     const heightCanvas = sourceCanvas.height
 
-    createdCanvas.width = widthCanvas
-    createdCanvas.height = heightCanvas
-    contextCanvas.imageSmoothingEnabled = true
+    newCanvas.width = widthCanvas
+    newCanvas.height = heightCanvas
+    ctxCanvas.imageSmoothingEnabled = true
 
     // Draw the source image
-    contextCanvas.drawImage(sourceCanvas, 0, 0, widthCanvas, heightCanvas)
+    ctxCanvas.drawImage(sourceCanvas, 0, 0, widthCanvas, heightCanvas)
 
     // Clip to ellipse
-    contextCanvas.globalCompositeOperation = 'destination-in'
-    contextCanvas.beginPath()
-    contextCanvas.ellipse(
+    ctxCanvas.globalCompositeOperation = 'destination-in'
+    ctxCanvas.beginPath()
+    ctxCanvas.ellipse(
       widthCanvas / 2,
       heightCanvas / 2,
       widthCanvas / 2,
@@ -79,10 +79,10 @@ window.getEllipseImageInBackground = (sourceCanvas, dotNetImageReceiverRef, maxi
       2 * Math.PI,
       true
     )
-    contextCanvas.fill()
+    ctxCanvas.fill()
 
     // Convert to blob and stream in chunks
-    createdCanvas.toBlob(async (blob) => {
+    newCanvas.toBlob(async (blob) => {
       await window.cropper.readBlobInChunks(blob, dotNetImageReceiverRef, maximumReceiveChunkSize)
     }, 'image/png', 1)
   }, 0)
@@ -90,31 +90,31 @@ window.getEllipseImageInBackground = (sourceCanvas, dotNetImageReceiverRef, maxi
 
 window.getPolygonImageInBackground = (sourceCanvas, path, dotNetImageReceiverRef, maximumReceiveChunkSize) => {
   setTimeout(() => {
-    const canvas = document.createElement('canvas')
-    const context = canvas.getContext('2d')
-    const width = sourceCanvas.width
-    const height = sourceCanvas.height
+    const createdCanvas = document.createElement('canvas')
+    const contextCanvas = createdCanvas.getContext('2d')
+    const widthCanvas = sourceCanvas.width
+    const heightCanvas = sourceCanvas.height
 
-    canvas.width = width
-    canvas.height = height
-    context.imageSmoothingEnabled = true
+    createdCanvas.width = widthCanvas
+    createdCanvas.height = heightCanvas
+    contextCanvas.imageSmoothingEnabled = true
 
-    context.beginPath()
-    context.moveTo(path[0] * width / 100, path[1] * height / 100)
-    context.fillStyle = 'rgba(255, 255, 255, 0)'
+    contextCanvas.beginPath()
+    contextCanvas.moveTo(path[0] * widthCanvas / 100, path[1] * heightCanvas / 100)
+    contextCanvas.fillStyle = 'rgba(255, 255, 255, 0)'
 
     for (let i = 2; i < path.length; i += 2) {
-      context.lineTo(path[i] * width / 100, path[i + 1] * height / 100)
+      contextCanvas.lineTo(path[i] * widthCanvas / 100, path[i + 1] * heightCanvas / 100)
     }
 
-    context.closePath()
-    context.clip()
-    context.fill()
-    context.globalCompositeOperation = 'lighter'
-    context.drawImage(sourceCanvas, 0, 0, width, height)
+    contextCanvas.closePath()
+    contextCanvas.clip()
+    contextCanvas.fill()
+    contextCanvas.globalCompositeOperation = 'lighter'
+    contextCanvas.drawImage(sourceCanvas, 0, 0, widthCanvas, heightCanvas)
 
     // Convert to blob and stream in chunks
-    canvas.toBlob(async (blob) => {
+    createdCanvas.toBlob(async (blob) => {
       await window.cropper.readBlobInChunks(blob, dotNetImageReceiverRef, maximumReceiveChunkSize)
     }, 'image/png', 1)
   }, 0)
