@@ -353,7 +353,7 @@ class CropperDecorator {
 
             read(dotNetImageReceiver)
           } catch (imageProcessingError) {
-            await dotNetObject.invokeMethodAsync('HandleImageProcessingError', imageProcessingError.toString())
+              await dotNetImageReceiver.invokeMethodAsync('HandleImageProcessingError', imageProcessingError.toString())
           }
         }
 
