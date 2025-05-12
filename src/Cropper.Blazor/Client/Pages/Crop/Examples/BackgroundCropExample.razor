@@ -6,7 +6,7 @@
     <CropperComponent Class="big-img" Src="images/budir-church-bu-akirkja-iceland.jpg" @ref="cropperComponent" Options="new Blazor.Models.Options()" />
 </div>
 
-<div class="button" @onclick="GetCroppedCanvasDataBackgroundAsync">
+<div class="button" @onclick="GetCroppedCanvasDataInBackgroundAsync">
     Get cropped image in background
 </div>
 
@@ -50,7 +50,7 @@
     private string croppedCanvasDataURL;
 
 
-    public async Task GetCroppedCanvasDataBackgroundAsync()
+    public async Task GetCroppedCanvasDataInBackgroundAsync()
     {
         // Define options for the cropped canvas, including size and image quality
         GetCroppedCanvasOptions getCroppedCanvasOptions = new GetCroppedCanvasOptions
@@ -61,7 +61,7 @@
         };
 
         // Call the cropper component to get the cropped canvas image
-        ImageReceiver imageReceiver = await cropperComponent!.GetCroppedCanvasDataBackgroundAsync(getCroppedCanvasOptions);
+        ImageReceiver imageReceiver = await cropperComponent!.GetCroppedCanvasDataInBackgroundAsync(getCroppedCanvasOptions);
 
         try
         {

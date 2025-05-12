@@ -299,6 +299,33 @@ namespace Cropper.Blazor.Services
         }
 
         /// <summary>
+        /// Get a canvas drawn the cropped image in background.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="getCroppedCanvasOptions">The config options.</param>
+        /// <param name="croppedCanvasReceiverReference">Reference to cropped canvas receiver.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing result canvas asynchronous operation.</returns>
+        public async ValueTask GetCroppedCanvasInBackgroundAsync(
+            [NotNull] Guid cropperComponentId,
+            GetCroppedCanvasOptions getCroppedCanvasOptions,
+            DotNetObjectReference<CroppedCanvasReceiver> croppedCanvasReceiverReference,
+            CancellationToken cancellationToken = default)
+        {
+            if (Module is null)
+            {
+                await LoadModuleAsync(cancellationToken);
+            }
+
+             await _jsRuntime!.InvokeVoidAsync(
+                "cropper.getCroppedCanvasInBackground",
+                cancellationToken,
+                cropperComponentId,
+                getCroppedCanvasOptions,
+                croppedCanvasReceiverReference);
+        }
+
+        /// <summary>
         /// Get a canvas drawn the cropped image.
         /// </summary>
         /// <param name="cropperComponentId">The identifier of the cropper component.</param>
@@ -879,7 +906,7 @@ namespace Cropper.Blazor.Services
         /// </param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        public async ValueTask GetCroppedCanvasDataBackgroundAsync(
+        public async ValueTask GetCroppedCanvasDataInBackgroundAsync(
             [NotNull] Guid cropperComponentId,
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             [NotNull] DotNetObjectReference<ImageReceiver> imageReceiverReference,

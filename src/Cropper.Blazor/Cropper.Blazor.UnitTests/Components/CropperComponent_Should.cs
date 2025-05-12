@@ -96,7 +96,7 @@ namespace Cropper.Blazor.UnitTests.Components
         [InlineData(-0.99)]
         [InlineData(1.11)]
         [InlineData(111)]
-        public async Task Throw_Exception_Because_Of_Invalid_Number_When_GetCroppedCanvasDataBackgroundAsync(float numberImageQuality)
+        public async Task Throw_Exception_Because_Of_Invalid_Number_When_GetCroppedCanvasDataInBackgroundAsync(float numberImageQuality)
         {
             // arrange
             Faker faker = new();
@@ -112,7 +112,7 @@ namespace Cropper.Blazor.UnitTests.Components
             await cropperComponent.InvokeAsync(async () =>
             {
                 // act
-                Func<Task> func = async () => await cropperComponent.Instance.GetCroppedCanvasDataBackgroundAsync(
+                Func<Task> func = async () => await cropperComponent.Instance.GetCroppedCanvasDataInBackgroundAsync(
                     getCroppedCanvasOptions,
                     imageFormatType,
                     numberImageQuality,
@@ -125,7 +125,7 @@ namespace Cropper.Blazor.UnitTests.Components
                     .ThrowAsync<ArgumentException>()
                     .WithMessage($"The given number should be between 0 and 1 for indicating the image quality, but found {numberImageQuality}. (Parameter 'number')");
 
-                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataBackgroundAsync(
+                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataInBackgroundAsync(
                     It.IsAny<Guid>(),
                     It.IsAny<GetCroppedCanvasOptions>(),
                     It.IsAny<DotNetObjectReference<ImageReceiver>>(),
@@ -140,7 +140,7 @@ namespace Cropper.Blazor.UnitTests.Components
         [InlineData(0)]
         [InlineData(-1)]
         [InlineData(-1024)]
-        public async Task Throw_Exception_Because_Of_Invalid_MaximumReceiveChunkSize_When_GetCroppedCanvasDataBackgroundAsync(int maximumReceiveChunkSize)
+        public async Task Throw_Exception_Because_Of_Invalid_MaximumReceiveChunkSize_When_GetCroppedCanvasDataInBackgroundAsync(int maximumReceiveChunkSize)
         {
             // arrange
             Faker faker = new();
@@ -156,7 +156,7 @@ namespace Cropper.Blazor.UnitTests.Components
             await cropperComponent.InvokeAsync(async () =>
             {
                 // act
-                Func<Task> func = async () => await cropperComponent.Instance.GetCroppedCanvasDataBackgroundAsync(
+                Func<Task> func = async () => await cropperComponent.Instance.GetCroppedCanvasDataInBackgroundAsync(
                     getCroppedCanvasOptions,
                     imageFormatType,
                     numberImageQuality,
@@ -170,7 +170,7 @@ namespace Cropper.Blazor.UnitTests.Components
                     .WithParameterName("maximumReceiveChunkSize")
                     .WithMessage("Chunk size must be greater than 0 bytes when specified.*");
 
-                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataBackgroundAsync(
+                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataInBackgroundAsync(
                     It.IsAny<Guid>(),
                     It.IsAny<GetCroppedCanvasOptions>(),
                     It.IsAny<DotNetObjectReference<ImageReceiver>>(),
@@ -276,6 +276,7 @@ namespace Cropper.Blazor.UnitTests.Components
             GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>()
                 .Generate();
             Mock<IJSObjectReference> mockIJSObjectReference = new();
+            Mock<IJSObjectReference> mockCroppedCanvasIJSObjectReference = new();
             CroppedCanvas expectedCroppedCanvas = new Faker<CroppedCanvas>()
                 .CustomInstantiator(c => new CroppedCanvas(mockIJSObjectReference.Object));
             CropperData expectedCropperData = new Faker<CropperData>()
@@ -428,7 +429,7 @@ namespace Cropper.Blazor.UnitTests.Components
                 .ReturnsAsync(expectedCroppedCanvasDataURL);
 
             _mockCropperJsInterop
-                .Setup(c => c.GetCroppedCanvasDataBackgroundAsync(
+                .Setup(c => c.GetCroppedCanvasDataInBackgroundAsync(
                     It.IsAny<Guid>(),
                     getCroppedCanvasOptions,
                     It.IsAny<DotNetObjectReference<ImageReceiver>>(),
@@ -441,6 +442,18 @@ namespace Cropper.Blazor.UnitTests.Components
                     {
                         await imageReceiverRef.Value.ReceiveImageChunkAsync(chunksImageReceiver);
                         imageReceiverRef.Value.CompleteImageTransfer();
+                    });
+
+            _mockCropperJsInterop
+                .Setup(c => c.GetCroppedCanvasInBackgroundAsync(
+                    It.IsAny<Guid>(),
+                    getCroppedCanvasOptions,
+                    It.IsAny<DotNetObjectReference<CroppedCanvasReceiver>>(),
+                    cancellationToken))
+                .Callback<Guid, GetCroppedCanvasOptions, DotNetObjectReference<CroppedCanvasReceiver>, CancellationToken>(
+                    (id, options, canvasReceiverRef, token) =>
+                    {
+                        canvasReceiverRef.Value.ReceiveCanvasReference(mockCroppedCanvasIJSObjectReference.Object);
                     });
 
             _mockCropperJsInterop
@@ -555,17 +568,32 @@ namespace Cropper.Blazor.UnitTests.Components
                 expectedCroppedCanvasDataURL.Should().BeEquivalentTo(croppedCanvasDataURL);
                 _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataURLAsync(cropperComponentId, getCroppedCanvasOptions, imageFormatType, numberImageQuality, cancellationToken), Times.Once());
 
-                ImageReceiver imageReceiver = await cropperComponent.Instance.GetCroppedCanvasDataBackgroundAsync(getCroppedCanvasOptions, imageFormatType, numberImageQuality, maximumReceiveChunkSize);
+                ImageReceiver imageReceiver = await cropperComponent.Instance.GetCroppedCanvasDataInBackgroundAsync(getCroppedCanvasOptions, imageFormatType, numberImageQuality, maximumReceiveChunkSize);
                 MemoryStream imageChunkStream = await imageReceiver.GetImageChunkStreamAsync();
 
                 imageChunkStream.ToArray().Should().BeEquivalentTo(chunksImageReceiver);
-                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataBackgroundAsync(
+                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataInBackgroundAsync(
                     cropperComponentId,
                     getCroppedCanvasOptions,
                     It.IsAny<DotNetObjectReference<ImageReceiver>>(),
                     imageFormatType,
                     numberImageQuality,
                     maximumReceiveChunkSize,
+                    cancellationToken), Times.Once());
+
+                CroppedCanvasReceiver croppedCanvasReceiver = await cropperComponent
+                    .Instance
+                    .GetCroppedCanvasInBackgroundAsync(getCroppedCanvasOptions, (c, ct) =>
+                    {
+                        c.JSRuntimeObjectRef.Should().BeEquivalentTo(mockCroppedCanvasIJSObjectReference.Object);
+                        return Task.CompletedTask;
+                    });
+                croppedCanvasReceiver.CroppedCanvas.JSRuntimeObjectRef.Should().BeEquivalentTo(mockCroppedCanvasIJSObjectReference.Object);
+
+                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasInBackgroundAsync(
+                    cropperComponentId,
+                    getCroppedCanvasOptions,
+                    It.IsAny<DotNetObjectReference<CroppedCanvasReceiver>>(),
                     cancellationToken), Times.Once());
 
                 CropperData cropperData = await cropperComponent.Instance.GetDataAsync(isRounded);
@@ -834,7 +862,7 @@ namespace Cropper.Blazor.UnitTests.Components
                 .ReturnsAsync(expectedCroppedCanvasDataURL);
 
             _mockCropperJsInterop
-                .Setup(c => c.GetCroppedCanvasDataBackgroundAsync(
+                .Setup(c => c.GetCroppedCanvasDataInBackgroundAsync(
                     It.IsAny<Guid>(),
                     getCroppedCanvasOptions,
                     It.IsAny<DotNetObjectReference<ImageReceiver>>(),
@@ -960,11 +988,11 @@ namespace Cropper.Blazor.UnitTests.Components
                     numberImageQuality,
                     cancellationToken), Times.Once());
 
-                ImageReceiver imageReceiver = await cropperComponent.Instance.GetCroppedCanvasDataBackgroundAsync(getCroppedCanvasOptions, imageFormatType, numberImageQuality, maximumReceiveChunkSize);
+                ImageReceiver imageReceiver = await cropperComponent.Instance.GetCroppedCanvasDataInBackgroundAsync(getCroppedCanvasOptions, imageFormatType, numberImageQuality, maximumReceiveChunkSize);
                 MemoryStream imageChunkStream = await imageReceiver.GetImageChunkStreamAsync();
 
                 imageChunkStream.ToArray().Should().BeEquivalentTo(chunksImageReceiver);
-                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataBackgroundAsync(
+                _mockCropperJsInterop.Verify(c => c.GetCroppedCanvasDataInBackgroundAsync(
                     cropperComponentId,
                     getCroppedCanvasOptions,
                     It.IsAny<DotNetObjectReference<ImageReceiver>>(),

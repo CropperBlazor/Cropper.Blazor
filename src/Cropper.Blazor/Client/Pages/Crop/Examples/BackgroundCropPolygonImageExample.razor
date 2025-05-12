@@ -6,7 +6,7 @@
     <CropperComponent Class="big-img" Src="images/Mushrooms.jpg" @ref="cropperComponent" Options="new Blazor.Models.Options()" />
 </div>
 
-<div class="button" @onclick="GetCroppedCanvasDataBackgroundAsync">
+<div class="button" @onclick="GetCroppedCanvasDataInBackgroundAsync">
     Get cropped image in background
 </div>
 
@@ -57,9 +57,9 @@
     [Inject] private IJSRuntime? JSRuntime { get; set; }
 
     private CropperComponent? cropperComponent = null!;
-    private string croppedCanvasDataURL;
+    private string? croppedCanvasDataURL;
 
-    public async Task GetCroppedCanvasDataBackgroundAsync()
+    public async Task GetCroppedCanvasDataInBackgroundAsync()
     {
         GetCroppedCanvasOptions getCroppedCanvasOptions = new GetCroppedCanvasOptions
         {
@@ -68,39 +68,59 @@
             ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString()
         };
 
-        try
-        {
-            // Create an image receiver to receive the processed image data
-            ImageReceiver imageReceiver = new ImageReceiver();
+        CroppedCanvasReceiver croppedCanvasReceiver = await cropperComponent!.GetCroppedCanvasInBackgroundAsync(
+            getCroppedCanvasOptions,
+            async (croppedCanvas, ct) =>
+            {
+                // Create an image receiver to receive the processed image data
+                ImageReceiver imageReceiver = new ImageReceiver();
 
-            // Request the cropped canvas object from the cropper component using specified options
-            CroppedCanvas croppedCanvas = await cropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
+                try
+                {
+                    // Invoke a JavaScript function to apply elliptical background processing to the canvas,
+                    // passing in the cropped canvas object and a .NET object reference for callback
+                    await JSRuntime!.InvokeVoidAsync(
+                        "window.getPolygonImageInBackground",
+                        croppedCanvas!.JSRuntimeObjectRef,
+                        // Defines a polygon using an SVG fill rule and a set of vertices previously defined in the following format styles:
+                        // .img-container.cropper-face-pentagon.cropper-container.cropper-crop-box.cropper-face {
+                        //     clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+                        // }
+                        // In our case, we need to pass the same data, but without the percent sign (%)
+                        new int[] { 50, 0, 100, 38, 82, 100, 18, 100, 0, 38 },
+                        DotNetObjectReference.Create(imageReceiver));
 
-            // Invoke a JavaScript function to apply elliptical background processing to the canvas,
-            // passing in the cropped canvas object and a .NET object reference for callback
-            await JSRuntime!.InvokeVoidAsync(
-                "window.getPolygonImageInBackground",
-                croppedCanvas!.JSRuntimeObjectRef,
-                // Defines a polygon using an SVG fill rule and a set of vertices previously defined in the following format styles:
-                // .img-container.cropper-face-pentagon.cropper-container.cropper-crop-box.cropper-face {
-                //     clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-                // }
-                // In our case, we need to pass the same data, but without the percent sign (%)
-                new int[] { 50, 0, 100, 38, 82, 100, 18, 100, 0, 38 },
-                DotNetObjectReference.Create(imageReceiver));
+                    // Retrieve the image stream from the receiver
+                    using MemoryStream croppedCanvasDataStream = await imageReceiver.GetImageChunkStreamAsync();
 
-            // Retrieve the image stream from the receiver
-            using MemoryStream croppedCanvasDataStream = await imageReceiver.GetImageChunkStreamAsync();
+                    // Convert the stream to a byte array
+                    byte[] croppedCanvasData = croppedCanvasDataStream.ToArray();
 
-            // Convert the stream to a byte array
-            byte[] croppedCanvasData = croppedCanvasDataStream.ToArray();
+                    // Encode the image data as a base64 data URL for use in HTML
+                    croppedCanvasDataURL = "data:image/png;base64," + Convert.ToBase64String(croppedCanvasData);
 
-            // Encode the image data as a base64 data URL for use in HTML
-            croppedCanvasDataURL = "data:image/png;base64," + Convert.ToBase64String(croppedCanvasData);
-        }
-        catch (ImageProcessingException ex)
-        {
-            // Handle any image processing errors (currently empty - consider logging or rethrowing)
-        }
+                    // Force a UI refresh to reflect the new image
+                    // This is required because we're in an async JS interop callback context,
+                    // which runs outside of Blazor’s normal rendering/event loop.
+                    // Calling StateHasChanged directly here might not work as expected
+                    // because it may not execute on the Blazor synchronization context.
+                    // InvokeAsync ensures StateHasChanged is called on the correct thread.
+
+                    // Use InvokeAsync(StateHasChanged) in the following cases:
+                    // 1. **JS Interop callbacks** – when data is updated via JS and needs a re-render.
+                    // 2. **Background tasks** – when working with tasks outside the Blazor rendering context.
+
+                    // **Be careful with InvokeAsync(StateHasChanged) in components with many elements or heavy rendering logic**:
+                    // - Calling StateHasChanged frequently can cause **performance issues** if the component contains many UI elements.
+                    // - Each call to StateHasChanged forces a full re-render of the component, which can be costly in large or complex components.
+                    // - To mitigate this, consider breaking down your large components into **smaller, more manageable child components**.
+                    // - **Smaller components** will re-render independently, reducing the overall re-render scope and improving performance.
+                    await InvokeAsync(StateHasChanged);
+                }
+                catch (ImageProcessingException ex)
+                {
+                    // Handle any image processing errors (currently empty - consider logging or rethrowing)
+                }
+            });
     }
 }

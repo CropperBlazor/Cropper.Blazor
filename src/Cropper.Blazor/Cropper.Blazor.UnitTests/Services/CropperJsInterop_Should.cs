@@ -273,6 +273,34 @@ namespace Cropper.Blazor.UnitTests.Services
         }
 
         [Fact]
+        public async Task Verify_GetCroppedCanvasInBackground_Async()
+        {
+            // arrange
+            Guid cropperComponentId = Guid.NewGuid();
+            Mock<IJSObjectReference> mockIJSObjectReference = new();
+
+            CroppedCanvas expectedCroppedCanvas = new Faker<CroppedCanvas>()
+                .CustomInstantiator(c => new CroppedCanvas(mockIJSObjectReference.Object));
+            GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>();
+            DotNetObjectReference<CroppedCanvasReceiver> refToCanvasReceiver = new Faker<DotNetObjectReference<CroppedCanvasReceiver>>()
+                .CustomInstantiator(f => DotNetObjectReference.Create(new CroppedCanvasReceiver((c, ct) =>
+                {
+                    return Task.CompletedTask;
+                }, default)));
+
+            _testContext.JSInterop
+                .SetupVoid("cropper.getCroppedCanvasInBackground", cropperComponentId, getCroppedCanvasOptions, refToCanvasReceiver)
+                .SetVoidResult();
+
+            // assert
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
+
+            // act
+            await _cropperJsInterop
+                .GetCroppedCanvasInBackgroundAsync(cropperComponentId, getCroppedCanvasOptions, refToCanvasReceiver);
+        }
+
+        [Fact]
         public async Task Verify_GetCroppedCanvasDataBackground_Async()
         {
             // arrange
@@ -293,7 +321,7 @@ namespace Cropper.Blazor.UnitTests.Services
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.GetCroppedCanvasDataBackgroundAsync(
+            await _cropperJsInterop.GetCroppedCanvasDataInBackgroundAsync(
                 cropperComponentId,
                 getCroppedCanvasOptions,
                 refToImageReceiver,

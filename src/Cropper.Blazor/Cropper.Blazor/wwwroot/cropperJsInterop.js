@@ -52,6 +52,15 @@ class CropperDecorator {
       .getCroppedCanvas(options)
   }
 
+  getCroppedCanvasInBackground (cropperComponentId, options, dotNetCanvasReceiverRef) {
+    setTimeout(async () => {
+      const croppedCanvas = this.getCroppedCanvas(cropperComponentId, options)
+      const jsCroppedCanvasRef = DotNet.createJSObjectReference(croppedCanvas)
+
+      await dotNetCanvasReceiverRef.invokeMethodAsync('ReceiveCanvasReference', jsCroppedCanvasRef)
+    }, 0)
+  }
+
   getCroppedCanvasDataURL (cropperComponentId, options, type, encoderOptions) {
     options.maxWidth ??= Infinity
     options.maxHeight ??= Infinity
@@ -284,6 +293,20 @@ class CropperDecorator {
   }
 
   async readBlobInChunks (blob, dotNetImageReceiverRef, maximumReceiveChunkSize) {
+    // Validate blob
+    if (!(blob instanceof Blob)) {
+      throw new TypeError('blob must be a valid Blob object.')
+    }
+
+    // Validate dotNetImageReceiverRef
+    if (!dotNetImageReceiverRef || typeof dotNetImageReceiverRef.invokeMethodAsync !== 'function') {
+      throw new TypeError('dotNetImageReceiverRef must be a valid .NET object reference with an invokeMethodAsync function.')
+    }
+
+    // Validate maximumReceiveChunkSize
+    if (maximumReceiveChunkSize != null && maximumReceiveChunkSize <= 0) {
+      throw new RangeError('maximumReceiveChunkSize must be greater than 0 bytes when specified.')
+    }
     const reader = blob.stream().getReader()
 
     async function read (dotNetImageReceiver) {
