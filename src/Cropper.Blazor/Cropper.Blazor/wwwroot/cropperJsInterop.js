@@ -55,7 +55,7 @@ class CropperDecorator {
   getCroppedCanvasInBackground (cropperComponentId, options, dotNetCanvasReceiverRef) {
     setTimeout(async () => {
       const croppedCanvas = this.getCroppedCanvas(cropperComponentId, options)
-      const jsCroppedCanvasRef = DotNet.createJSObjectReference(croppedCanvas)
+      const jsCroppedCanvasRef = DotNet.createJSObjectReference(croppedCanvas) // eslint-disable-line no-undef
 
       await dotNetCanvasReceiverRef.invokeMethodAsync('ReceiveCanvasReference', jsCroppedCanvasRef)
     }, 0)

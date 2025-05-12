@@ -139,7 +139,7 @@ namespace Cropper.Blazor.Client.Pages
         }
 
         public async void GetCroppedCanvasDataByPolygonFilterInBackground(GetCroppedCanvasOptions getCroppedCanvasOptions)
-        {          
+        {
             if (CropperFace == CropperFace.Default)
             {
                 ImageReceiver imageReceiver = await CropperComponent!.GetCroppedCanvasDataInBackgroundAsync(getCroppedCanvasOptions);
