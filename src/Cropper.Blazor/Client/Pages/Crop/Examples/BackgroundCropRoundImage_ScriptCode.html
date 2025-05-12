@@ -1,0 +1,43 @@
+﻿<div class="mud-codeblock">
+	<div class="html">
+		<pre>
+<span class="html-tag-delimiter">&lt;</span><span class="html-element-name">script</span><span class="html-tag-delimiter">&gt;</span>
+window.getEllipseImageInBackground = (sourceCanvas, dotNetImageReceiverRef, maximumReceiveChunkSize) => {
+  setTimeout(() => {
+    const newCanvas = document.createElement('canvas')
+    const ctxCanvas = newCanvas.getContext('2d')
+    const widthCanvas = sourceCanvas.width
+    const heightCanvas = sourceCanvas.height
+
+    newCanvas.width = widthCanvas
+    newCanvas.height = heightCanvas
+    ctxCanvas.imageSmoothingEnabled = true
+
+    // Draw the source image
+    ctxCanvas.drawImage(sourceCanvas, 0, 0, widthCanvas, heightCanvas)
+
+    // Clip to ellipse
+    ctxCanvas.globalCompositeOperation = 'destination-in'
+    ctxCanvas.beginPath()
+    ctxCanvas.ellipse(
+      widthCanvas / 2,
+      heightCanvas / 2,
+      widthCanvas / 2,
+      heightCanvas / 2,
+      0,
+      0,
+      2 * Math.PI,
+      true
+    )
+    ctxCanvas.fill()
+
+    // Convert to blob and stream in chunks
+    newCanvas.toBlob(async (blob) => {
+      await window.cropper.readBlobInChunks(blob, dotNetImageReceiverRef, maximumReceiveChunkSize)
+    }, 'image/png', 1)
+  }, 0)
+}
+<span class="html-tag-delimiter">&lt;&#47;</span><span class="html-element-name">script</span> <span class="html-tag-delimiter">&gt;</span>
+</pre>
+	</div>
+</div>

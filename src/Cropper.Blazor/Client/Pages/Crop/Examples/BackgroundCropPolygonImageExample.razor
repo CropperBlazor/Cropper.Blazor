@@ -2,8 +2,8 @@
 @using Cropper.Blazor.Models;
 @using Cropper.Blazor.Exceptions;
 
-<div class="img-container">
-    <CropperComponent Class="big-img" Src="images/budir-church-bu-akirkja-iceland.jpg" @ref="cropperComponent" Options="new Blazor.Models.Options()" />
+<div class="img-container cropper-face-pentagon">
+    <CropperComponent Class="big-img" Src="images/Mushrooms.jpg" @ref="cropperComponent" Options="new Blazor.Models.Options()" />
 </div>
 
 <div class="button" @onclick="GetCroppedCanvasDataBackgroundAsync">
@@ -14,6 +14,14 @@
 
 @* Make sure the size of the image fits perfectly into the container *@
 <style>
+    .cropper-face {
+        opacity: 25%;
+    }
+
+    .img-container.cropper-face-pentagon .cropper-container .cropper-crop-box .cropper-face {
+        clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    }
+
     .big-img {
         max-height: 400px;
         /* This rule is very important, please don't ignore this */
@@ -46,13 +54,13 @@
 </style>
 
 @code {
+    [Inject] private IJSRuntime? JSRuntime { get; set; }
+
     private CropperComponent? cropperComponent = null!;
     private string croppedCanvasDataURL;
 
-
     public async Task GetCroppedCanvasDataBackgroundAsync()
     {
-        // Define options for the cropped canvas, including size and image quality
         GetCroppedCanvasOptions getCroppedCanvasOptions = new GetCroppedCanvasOptions
         {
             MaxHeight = 4096,
@@ -60,11 +68,27 @@
             ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString()
         };
 
-        // Call the cropper component to get the cropped canvas image
-        ImageReceiver imageReceiver = await cropperComponent!.GetCroppedCanvasDataBackgroundAsync(getCroppedCanvasOptions);
-
         try
         {
+            // Create an image receiver to receive the processed image data
+            ImageReceiver imageReceiver = new ImageReceiver();
+
+            // Request the cropped canvas object from the cropper component using specified options
+            CroppedCanvas croppedCanvas = await cropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
+
+            // Invoke a JavaScript function to apply elliptical background processing to the canvas,
+            // passing in the cropped canvas object and a .NET object reference for callback
+            await JSRuntime!.InvokeVoidAsync(
+                "window.getPolygonImageInBackground",
+                croppedCanvas!.JSRuntimeObjectRef,
+                // Defines a polygon using an SVG fill rule and a set of vertices previously defined in the following format styles:
+                // .img-container.cropper-face-pentagon.cropper-container.cropper-crop-box.cropper-face {
+                //     clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+                // }
+                // In our case, we need to pass the same data, but without the percent sign (%)
+                new int[] { 50, 0, 100, 38, 82, 100, 18, 100, 0, 38 },
+                DotNetObjectReference.Create(imageReceiver));
+
             // Retrieve the image stream from the receiver
             using MemoryStream croppedCanvasDataStream = await imageReceiver.GetImageChunkStreamAsync();
 

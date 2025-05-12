@@ -1,0 +1,39 @@
+﻿<div class="mud-codeblock">
+	<div class="html">
+        <pre>
+<span class="html-tag-delimiter">&lt;</span><span class="html-element-name">script</span><span class="html-tag-delimiter">&gt;</span>
+window.getPolygonImageInBackground = (sourceCanvas, path, dotNetImageReceiverRef, maximumReceiveChunkSize) => {
+  setTimeout(() => {
+    const createdCanvas = document.createElement('canvas')
+    const contextCanvas = createdCanvas.getContext('2d')
+    const widthCanvas = sourceCanvas.width
+    const heightCanvas = sourceCanvas.height
+
+    createdCanvas.width = widthCanvas
+    createdCanvas.height = heightCanvas
+    contextCanvas.imageSmoothingEnabled = true
+
+    contextCanvas.beginPath()
+    contextCanvas.moveTo(path[0] * widthCanvas / 100, path[1] * heightCanvas / 100)
+    contextCanvas.fillStyle = 'rgba(255, 255, 255, 0)'
+
+    for (let i = 2; i < path.length; i += 2) {
+      contextCanvas.lineTo(path[i] * widthCanvas / 100, path[i + 1] * heightCanvas / 100)
+    }
+
+    contextCanvas.closePath()
+    contextCanvas.clip()
+    contextCanvas.fill()
+    contextCanvas.globalCompositeOperation = 'lighter'
+    contextCanvas.drawImage(sourceCanvas, 0, 0, widthCanvas, heightCanvas)
+
+    // Convert to blob and stream in chunks
+    createdCanvas.toBlob(async (blob) => {
+      await window.cropper.readBlobInChunks(blob, dotNetImageReceiverRef, maximumReceiveChunkSize)
+    }, 'image/png', 1)
+  }, 0)
+}
+<span class="html-tag-delimiter">&lt;&#47;</span><span class="html-element-name">script</span> <span class="html-tag-delimiter">&gt;</span>
+</pre>
+	</div>
+</div>

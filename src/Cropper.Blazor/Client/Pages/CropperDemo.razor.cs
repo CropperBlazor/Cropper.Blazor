@@ -139,9 +139,7 @@ namespace Cropper.Blazor.Client.Pages
         }
 
         public async void GetCroppedCanvasDataByPolygonFilterInBackground(GetCroppedCanvasOptions getCroppedCanvasOptions)
-        {
-            CroppedCanvas croppedCanvas = await CropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
-
+        {          
             if (CropperFace == CropperFace.Default)
             {
                 ImageReceiver imageReceiver = await CropperComponent!.GetCroppedCanvasDataBackgroundAsync(getCroppedCanvasOptions);
@@ -151,6 +149,7 @@ namespace Cropper.Blazor.Client.Pages
             else if (CropperFace == CropperFace.Circle)
             {
                 ImageReceiver imageReceiver = new ImageReceiver();
+                CroppedCanvas croppedCanvas = await CropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
 
                 await JSRuntime!.InvokeVoidAsync(
                     "window.getEllipseImageInBackground",
@@ -163,6 +162,7 @@ namespace Cropper.Blazor.Client.Pages
             {
                 ImageReceiver imageReceiver = new ImageReceiver();
                 IEnumerable<int> croppedPathToCanvasCropper = GetCroppedPathToCanvasCropper();
+                CroppedCanvas croppedCanvas = await CropperComponent!.GetCroppedCanvasAsync(getCroppedCanvasOptions);
 
                 await JSRuntime!.InvokeVoidAsync(
                     "window.getPolygonImageInBackground",

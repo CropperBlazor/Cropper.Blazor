@@ -11,6 +11,8 @@
                 "Cropper.Blazor URL",
                 "Cropper URL",
                 "cropped image",
+                "Background Crop",
+                "Background Crop image",
                 "Crop image",
                 "Crop image Cropper.Blazor",
                 "Crop image Cropper",
@@ -172,6 +174,24 @@
             </SectionHeader>
             <SectionContent Code="typeof(BackgroundCropExample)">
                 <BackgroundCropExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Crop a round image in Background">
+
+            </SectionHeader>
+            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", typeof(BackgroundCropRoundImageExample)), new CodeFile("script.js", typeof(BackgroundCropRoundImage_Script))})">
+                <BackgroundCropRoundImageExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Crop a polygon image in Background">
+
+            </SectionHeader>
+            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", typeof(BackgroundCropPolygonImageExample)), new CodeFile("script.js", typeof(BackgroundCropPolygonImage_Script))})">
+                <BackgroundCropPolygonImageExample />
             </SectionContent>
         </DocsPageSection>
 
