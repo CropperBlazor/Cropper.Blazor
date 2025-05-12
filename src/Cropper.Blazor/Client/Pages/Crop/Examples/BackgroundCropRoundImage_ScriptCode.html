@@ -20,20 +20,20 @@
 			ctxCanvas.globalCompositeOperation = 'destination-in'
 			ctxCanvas.beginPath()
 			ctxCanvas.ellipse(
-			  widthCanvas / 2,
-			  heightCanvas / 2,
-			  widthCanvas / 2,
-			  heightCanvas / 2,
-			  0,
-			  0,
-			  2 * Math.PI,
-			  true
+				widthCanvas / 2,
+				heightCanvas / 2,
+				widthCanvas / 2,
+				heightCanvas / 2,
+				0,
+				0,
+				2 * Math.PI,
+				true
 			)
 			ctxCanvas.fill()
 
 			// Convert to blob and stream in chunks
 			newCanvas.toBlob(async (blob) => {
-			  await window.cropper.readBlobInChunks(blob, dotNetImageReceiverRef, maximumReceiveChunkSize)
+				await window.cropper.readBlobInChunks(blob, dotNetImageReceiverRef, maximumReceiveChunkSize)
 			}, 'image/png', 1)
 		}, 0)
 	}

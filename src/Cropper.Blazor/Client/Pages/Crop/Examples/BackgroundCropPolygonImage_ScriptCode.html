@@ -18,7 +18,7 @@
 			contextCanvas.fillStyle = 'rgba(255, 255, 255, 0)'
 
 			for (let i = 2; i < path.length; i += 2) {
-			  contextCanvas.lineTo(path[i] * widthCanvas / 100, path[i + 1] * heightCanvas / 100)
+				contextCanvas.lineTo(path[i] * widthCanvas / 100, path[i + 1] * heightCanvas / 100)
 			}
 
 			contextCanvas.closePath()
@@ -29,7 +29,7 @@
 
 			// Convert to blob and stream in chunks
 			createdCanvas.toBlob(async (blob) => {
-			  await window.cropper.readBlobInChunks(blob, dotNetImageReceiverRef, maximumReceiveChunkSize)
+				await window.cropper.readBlobInChunks(blob, dotNetImageReceiverRef, maximumReceiveChunkSize)
 			}, 'image/png', 1)
 		}, 0)
 	}
