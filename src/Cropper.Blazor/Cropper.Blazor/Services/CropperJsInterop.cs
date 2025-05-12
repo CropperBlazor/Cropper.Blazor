@@ -318,11 +318,11 @@ namespace Cropper.Blazor.Services
             }
 
             await _jsRuntime!.InvokeVoidAsync(
-               "cropper.getCroppedCanvasInBackground",
-               cancellationToken,
-               cropperComponentId,
-               getCroppedCanvasOptions,
-               croppedCanvasReceiverReference);
+                "cropper.getCroppedCanvasInBackground",
+                cancellationToken,
+                cropperComponentId,
+                getCroppedCanvasOptions,
+                croppedCanvasReceiverReference);
         }
 
         /// <summary>
