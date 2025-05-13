@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using Cropper.Blazor.Client.Models;
+using Cropper.Blazor.Components;
 using Cropper.Blazor.Events;
+using Cropper.Blazor.Exceptions;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.Shared.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -246,6 +248,14 @@ namespace Cropper.Blazor.Client.Components.Docs
                 if (Type == typeof(CroppedCanvas))
                 {
                     return info.GetValue(new CroppedCanvas(default));
+                }
+                else if (Type == typeof(CroppedCanvasReceiver))
+                {
+                    return info.GetValue(new CroppedCanvasReceiver(default, default));
+                }
+                else if (Type == typeof(ImageProcessingException))
+                {
+                    return info.GetValue(new ImageProcessingException(default));
                 }
                 else
                 {
