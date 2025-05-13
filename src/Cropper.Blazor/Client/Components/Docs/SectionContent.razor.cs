@@ -147,7 +147,14 @@ public partial class SectionContent : IBrowserViewportObserver
                     }
                 }
 
-                builder.AddMarkupContent(0, read);
+                if (IsOnlySingleSectionCode)
+                {
+                    builder.AddMarkupContent(0, HttpUtility.HtmlDecode(read));
+                }
+                else
+                {
+                    builder.AddMarkupContent(0, read);
+                }
             }
         }
         catch (Exception ex)
