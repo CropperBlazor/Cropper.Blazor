@@ -41,8 +41,7 @@ namespace Cropper.Blazor.Client.Components.Docs
             {
                 foreach (var info in Type.GetPropertyInfosWithAttribute<ParameterAttribute>().OrderBy(x => x.Name))
                 {
-                    if (info.GetCustomAttributes(typeof(System.ObsoleteAttribute), true).Length == 0
-                        && IsEventCallback(info))
+                    if (IsEventCallback(info))
                     {
                         yield return new ApiProperty
                         {
@@ -72,8 +71,7 @@ namespace Cropper.Blazor.Client.Components.Docs
                 {
                     if (!_hiddenMethods.Any(x => x.Contains(info.Name)) && !info.Name.StartsWith("get_") && !info.Name.StartsWith("set_"))
                     {
-                        if (info.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0
-                            && info.GetCustomAttributes(typeof(JSInvokableAttribute), true).Length == 0)
+                        if (info.GetCustomAttributes(typeof(JSInvokableAttribute), true).Length == 0)
                         {
                             yield return new ApiMethod()
                             {
@@ -125,8 +123,7 @@ namespace Cropper.Blazor.Client.Components.Docs
 
                 foreach (var info in types.OrderBy(x => x.Name))
                 {
-                    if (info.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0
-                        && !IsEventCallback(info))
+                    if (!IsEventCallback(info))
                     {
                         yield return ToApiProperty(info, saveTypename);
                     }
