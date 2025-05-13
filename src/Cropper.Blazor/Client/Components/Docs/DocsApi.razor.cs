@@ -73,9 +73,21 @@ namespace Cropper.Blazor.Client.Components.Docs
                     {
                         if (info.GetCustomAttributes(typeof(JSInvokableAttribute), true).Length == 0)
                         {
+                            Attribute? attribute = info
+                                .GetCustomAttribute(typeof(ObsoleteAttribute), true);
+                            string? warningSignatureMessage = null;
+
+                            if (attribute != null)
+                            {
+                                ObsoleteAttribute obsoleteAttr = (ObsoleteAttribute)attribute;
+
+                                warningSignatureMessage = obsoleteAttr.Message;
+                            }
+
                             yield return new ApiMethod()
                             {
                                 MethodInfo = info,
+                                WarningSignatureMessage = warningSignatureMessage,
                                 Return = info.ReturnParameter,
                                 Signature = info.GetSignature(),
                                 Parameters = info.GetParameters(),

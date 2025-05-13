@@ -179,7 +179,20 @@
                         </HeaderContent>
                         <RowTemplate>
                             <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
-                                <MudTd Class="docs-content-api-cell docs-content-api-sm-max-width" DataLabel="Name"><CodeInline>@context.Signature</CodeInline></MudTd>
+                                <MudTd Class="docs-content-api-cell docs-content-api-sm-max-width" DataLabel="Name">
+                                    @if (!string.IsNullOrWhiteSpace(context.WarningSignatureMessage))
+                                    {
+                                        <CodeInline>
+                                            <CodeInline Class="docs-code-warning">@context.WarningSignatureMessage</CodeInline>
+                                            @context.Signature
+                                        </CodeInline>
+
+                                    }
+                                    else
+                                    {
+                                        <CodeInline>@context.Signature</CodeInline>
+                                    }
+                                </MudTd>
                                 <MudTd Class="docs-content-api-cell docs-content-api-max-width align-start" Style="word-wrap: break-word;" DataLabel="Parameters">
                                     @if (context.Parameters != null)
                                     {
@@ -209,7 +222,21 @@
                                 </MudTd>
                             </MudHidden>
                             <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
-                                <MudTd Class="docs-content-api-cell docs-content-api-max-width" DataLabel="Name"><CodeInline>@context.Signature</CodeInline></MudTd>
+                                <MudTd Class="docs-content-api-cell docs-content-api-max-width" DataLabel="Name">
+                                    <CodeInline>@context.Signature</CodeInline>
+                                    @if (!string.IsNullOrWhiteSpace(context.WarningSignatureMessage))
+                                    {
+                                        <MudChip Style="height: auto; padding: 8px; margin-top: 8px;"
+                                                 T="string"
+                                                 Variant="Variant.Outlined"
+                                                 Color="Color.Warning"
+                                                 Size="Size.Small">
+                                            <div style="white-space: normal; word-break: break-word;">
+                                                @context.WarningSignatureMessage
+                                            </div>
+                                        </MudChip>
+                                    }
+                                </MudTd>
                                 <MudTd Class="docs-content-api-cell docs-content-api-max-width" Style="word-wrap: break-word;" DataLabel="Parameters">
                                     @if (context.Parameters != null)
                                     {
