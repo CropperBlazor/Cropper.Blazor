@@ -183,7 +183,7 @@
                                     @if (!string.IsNullOrWhiteSpace(context.WarningSignatureMessage))
                                     {
                                         <CodeInline>
-                                            <CodeInline Class="docs-code-warning">@context.WarningSignatureMessage</CodeInline>
+                                            <div style="color: var(--mud-palette-warning);">@context.WarningSignatureMessage</div>
                                             @context.Signature
                                         </CodeInline>
 
@@ -266,7 +266,12 @@
                             </MudHidden>
                         </RowTemplate>
                         <PagerContent>
-                            <MudTablePager PageSizeOptions="new int[]{10, 20, 50}" />
+                            <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
+                                <MudTablePager PageSizeOptions="new int[]{5, 10}" Class="docs-content-api-table-pager" />
+                            </MudHidden>
+                            <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
+                                <MudTablePager PageSizeOptions="new int[]{10, 20, 50}" />
+                            </MudHidden>
                         </PagerContent>
                     </MudTable>
                 </SectionContent>

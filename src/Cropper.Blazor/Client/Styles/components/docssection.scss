@@ -194,6 +194,11 @@
     max-width: 400px;
 }
 
+.docs-content-api-table-pager {
+    display: flex;
+    justify-content: center;
+}
+
 .docs-content-api-sm-max-width {
     text-align: end;
     padding: 10px;
