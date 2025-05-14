@@ -59,7 +59,7 @@
                         <b>Note:</b> If you intend to get a JPEG image from the output canvas, you should set the <CodeInline>fillColor</CodeInline> option first, if not, the transparent part in the JPEG image will become black by default.
                     </MudAlert>
                     <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Warning">
-                        This method blocks the UI thread. Use <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Href="/examples/cropping#crop-in-background">GetCroppedCanvasDataInBackgroundAsync</MudLink></CodeInline> instead for background operation.
+                        This method blocks the UI thread. Instead, use <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Href="/examples/cropping#crop-in-background">GetCroppedCanvasDataInBackgroundAsync</MudLink></CodeInline> to work in the background.
                     </MudAlert>
                 </Description>
             </SectionHeader>
@@ -107,7 +107,7 @@
                         In addition, different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality.
                     </MudAlert>
                     <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Warning">
-                        This method blocks the UI thread. Use <CodeInline>GetCroppedCanvasInBackgroundAsync</CodeInline> instead for background operation.
+                        This method blocks the UI thread. Instead, use <CodeInline>GetCroppedCanvasInBackgroundAsync</CodeInline> to work in the background.
                         See related usages for <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Href="/examples/cropping#crop-a-round-image-in-background">round</MudLink></CodeInline>
                         or <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Href="/examples/cropping#crop-a-polygon-image-in-background">polygon</MudLink></CodeInline> cropping.
                     </MudAlert>
