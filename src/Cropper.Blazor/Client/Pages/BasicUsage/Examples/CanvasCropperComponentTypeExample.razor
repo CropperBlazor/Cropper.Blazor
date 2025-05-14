@@ -1,16 +1,48 @@
 ﻿@using Cropper.Blazor.Models
 
-<div class="img-container">
+<div class="cropper-canvas-container">
     <CropperComponent @ref="cropperComponent"
+                      IsErrorLoadImage="@IsErrorLoadImage"
+                      ErrorLoadImageSrc="images/error300px.png"
+                      ErrorLoadImageClass="error-image"
                       CropperComponentType="CropperComponentType.Canvas"
                       InputAttributes="@InputAttributes"
                       Options="options" />
 </div>
 
+@if (!IsErrorLoadImage)
+{
+    <div class="button" @onclick="SetError">
+        Set Error
+    </div>
+}
+
 <style>
-    .img-container {
+    .cropper-canvas-container {
         max-height: 300px;
         width: 100%;
+        /* These styles below are just needed for a nice button and don't related with cropper component */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .error-image {
+        filter: grayscale(100%);
+    }
+
+    /* These styles are just needed for a nice button and don't related with cropper component */
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
     }
 </style>
 
@@ -19,6 +51,7 @@
 
     private CropperComponent? cropperComponent = null!;
     private Options options;
+    private bool IsErrorLoadImage { get; set; } = false;
 
     public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>
     {
@@ -55,5 +88,13 @@
         }
 
         await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public void SetError()
+    {
+        // You can use 'ErrorLoadImageContent' instead of 'ErrorLoadImageSrc', 'ErrorLoadImageClass'
+        // parameters in cropper component to set up custom error image content
+        IsErrorLoadImage = true;
+        cropperComponent!.Destroy();
     }
 }
