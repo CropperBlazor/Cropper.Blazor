@@ -121,20 +121,20 @@ window.getPolygonImageInBackground = (sourceCanvas, path, dotNetImageReceiverRef
 }
 
 window.fillCanvasWithRandomColors = (canvas) => {
-    if (!canvas) return;
+  if (!canvas) return
 
-    const ctx = canvas.getContext('2d');
-    const width = canvas.width;
-    const height = canvas.height;
-    const imageData = ctx.createImageData(width, height);
-    const data = imageData.data;
+  const ctx = canvas.getContext('2d')
+  const width = canvas.width
+  const height = canvas.height
+  const imageData = ctx.createImageData(width, height)
+  const data = imageData.data
 
-    for (let i = 0; i < data.length; i += 4) {
-        data[i] = Math.random() * 255;     // Red
-        data[i + 1] = Math.random() * 255; // Green
-        data[i + 2] = Math.random() * 255; // Blue
-        data[i + 3] = 255;                 // Alpha
-    }
+  for (let i = 0; i < data.length; i += 4) {
+    data[i] = Math.random() * 255 // Red
+    data[i + 1] = Math.random() * 255 // Green
+    data[i + 2] = Math.random() * 255 // Blue
+    data[i + 3] = 255 // Alpha
+  }
 
-    ctx.putImageData(imageData, 0, 0);
-};
+  ctx.putImageData(imageData, 0, 0)
+}
