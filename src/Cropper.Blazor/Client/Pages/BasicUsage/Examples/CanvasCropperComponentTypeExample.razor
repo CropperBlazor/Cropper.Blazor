@@ -1,0 +1,59 @@
+﻿@using Cropper.Blazor.Models
+
+<div class="img-container">
+    <CropperComponent @ref="cropperComponent"
+                      CropperComponentType="CropperComponentType.Canvas"
+                      InputAttributes="@InputAttributes"
+                      Options="options" />
+</div>
+
+<style>
+    .img-container {
+        max-height: 300px;
+        width: 100%;
+    }
+</style>
+
+@code {
+    [Inject] private IJSRuntime? JSRuntime { get; set; }
+
+    private CropperComponent? cropperComponent = null!;
+    private Options options;
+
+    public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>
+    {
+        { "id", "canvas-cropper" }
+    };
+
+    protected override void OnInitialized()
+    {
+        options = new Options
+        {
+
+        };
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // When using CropperComponentType.Canvas, the canvas element is used directly
+            // instead of an <img> tag. This requires manually drawing or uploading an image
+            // into the <canvas> element via JavaScript or library. Error handling (e.g., for failed image
+            // loading) is also your responsibility in this case.
+            // This approach is ideal when you’re building a drawing, painting, or image editing
+            // tool where you need full control over the canvas content.
+            ElementReference? canvasElementReference = cropperComponent!.GetCropperElementReference();
+
+            // Example: Fill the canvas with random colors using JavaScript
+            await JSRuntime!.InvokeVoidAsync(
+                "fillCanvasWithRandomColors",
+                canvasElementReference);
+
+            // Initialize the cropper component after the canvas is ready
+            cropperComponent.InitCropper();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

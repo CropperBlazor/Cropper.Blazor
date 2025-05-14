@@ -1,0 +1,26 @@
+﻿<div class="mud-codeblock">
+	<div class="html">
+		<pre>
+<span class="html-tag-delimiter">&lt;</span><span class="html-element-name">script</span><span class="html-tag-delimiter">&gt;</span>
+	window.fillCanvasWithRandomColors = (canvas) => {
+		if (!canvas) return;
+
+		const ctx = canvas.getContext('2d');
+		const width = canvas.width;
+		const height = canvas.height;
+		const imageData = ctx.createImageData(width, height);
+		const data = imageData.data;
+
+		for (let i = 0; i < data.length; i += 4) {
+			data[i] = Math.random() * 255;
+			data[i + 1] = Math.random() * 255;
+			data[i + 2] = Math.random() * 255;
+			data[i + 3] = 255;
+		}
+
+		ctx.putImageData(imageData, 0, 0);
+	};
+<span class="html-tag-delimiter">&lt;&#47;</span><span class="html-element-name">script</span> <span class="html-tag-delimiter">&gt;</span>
+</pre>
+	</div>
+</div>
