@@ -1,5 +1,6 @@
 ﻿@page "/examples"
 @page "/examples/cropperusage"
+@using Cropper.Blazor.Client.Models
 @using Cropper.Blazor.Client.Pages.BasicUsage.Examples
 
 <SeoHeader Title="Basic usage - Cropper.Blazor"
@@ -104,6 +105,40 @@
             </SectionHeader>
             <SectionContent Code="typeof(LoadCrossOriginImageExample)">
                 <LoadCrossOriginImageExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Canvas Cropper">
+                <Description>
+                    You can use the <CodeInline>
+                        <MudLink UserAttributes="@(new Dictionary<string, object>() { { "rel", "noopener" } })"
+                                 Target="_blank"
+                                 Href="/api/CropperComponentType">
+                            CropperComponentType.Canvas
+                        </MudLink>
+                    </CodeInline>
+                    mode to work directly with the HTML <CodeInline>@("<canvas>")</CodeInline> element instead of an <CodeInline>@("<img>")</CodeInline> element.
+                    <br><br />
+                    This mode is ideal for scenarios like drawing apps, painting utilities, or image editors where you need full programmatic control over the canvas.
+                    <br><br />
+                    Since <CodeInline>
+                        <MudLink UserAttributes="@(new Dictionary<string, object>() { { "rel", "noopener" } })"
+                                 Target="_blank"
+                                 Href="/api/CropperComponentType">
+                            CropperComponentType.Canvas
+                        </MudLink>
+                    </CodeInline> does not use the <CodeInline>Src</CodeInline> property, you must manually draw content to the canvas — typically via JavaScript interop or a graphics library
+                    before calling <CodeInline>InitCropper()</CodeInline>.
+                    <br><br />
+                    Since this mode doesn't use an <img> element, image-related events like
+                    <CodeInline>OnLoadImage</CodeInline> and <CodeInline>OnErrorLoadImage</CodeInline> won't be triggered.
+                    Instead, you should handle the cropper's lifecycle and error management manually using the component's available API methods.
+                    <br><br />
+                </Description>
+            </SectionHeader>
+            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", typeof(CanvasCropperComponentTypeExample)), new CodeFile("script.js", typeof(CanvasCropperComponentType_Script))})">
+                <CanvasCropperComponentTypeExample />
             </SectionContent>
         </DocsPageSection>
 

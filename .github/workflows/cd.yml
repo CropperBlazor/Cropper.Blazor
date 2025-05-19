@@ -198,3 +198,7 @@ jobs:
     - name: DotNet Build Blazor MAUI Demo Project for .net 8
       run: dotnet build --no-restore
       working-directory: examples\Cropper.Blazor.MAUI.Net8
+
+    - name: DotNet Build Blazor Server Demo Project for .net 9
+      run: dotnet build --no-restore
+      working-directory: examples\Cropper.Blazor.Server.Net9     

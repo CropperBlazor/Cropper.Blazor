@@ -6,6 +6,7 @@ using Cropper.Blazor.Events.CropMoveEvent;
 using Cropper.Blazor.Events.CropReadyEvent;
 using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
+using Cropper.Blazor.Exceptions;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -89,13 +90,31 @@ namespace Cropper.Blazor.Server.Net8.Pages
 
         public async void GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
-            string croppedCanvasDataURL = await cropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
-            DialogParameters parameters = new()
+            ImageReceiver imageReceiver = await cropperComponent!.GetCroppedCanvasDataBackgroundAsync(
+                            getCroppedCanvasOptions,
+                            maximumReceiveChunkSize: 1024 * 32);
+
+            InvokeAsync(async () =>
             {
-                { "Src", croppedCanvasDataURL }
-            };
-            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, BackdropClick = false };
-            _dialogService!.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+                try
+                {
+                    using MemoryStream croppedCanvasDataStream = await imageReceiver.GetImageChunkStreamAsync();
+                    byte[] croppedCanvasData = croppedCanvasDataStream.ToArray();
+
+                    string croppedCanvasDataURL = "data:image/png;base64," + Convert.ToBase64String(croppedCanvasData);
+
+                    DialogParameters parameters = new()
+                    {
+                        { "Src", croppedCanvasDataURL }
+                    };
+                    var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, BackdropClick = true };
+                    _dialogService!.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+                }
+                catch (ImageProcessingException ex)
+                {
+                    JSRuntime.InvokeVoidAsync("console.log", ex.ToString());
+                }
+            });
         }
 
         public async Task InputFileChange(InputFileChangeEventArgs inputFileChangeEventArgs)

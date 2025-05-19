@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Cropper.Blazor.Components;
+using Cropper.Blazor.Exceptions;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.Shared.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -87,6 +88,22 @@ namespace Cropper.Blazor.Client.Components.Docs
             else if (type == typeof(IJSObjectReference))
             {
                 value = nameof(IJSObjectReference).CreateLink();
+            }
+            else if (type == typeof(ImageReceiver))
+            {
+                value = nameof(ImageReceiver).CreateLink();
+            }
+            else if (type == typeof(CroppedCanvasReceiver))
+            {
+                value = nameof(CroppedCanvasReceiver).CreateLink();
+            }
+            else if (type == typeof(CroppedCanvas))
+            {
+                value = nameof(CroppedCanvas).CreateLink();
+            }
+            else if (type == typeof(ImageProcessingException))
+            {
+                value = nameof(ImageProcessingException).CreateLink();
             }
 
             return value;

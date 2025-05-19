@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using Cropper.Blazor.Client.Models;
+using Cropper.Blazor.Components;
 using Cropper.Blazor.Events;
+using Cropper.Blazor.Exceptions;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.Shared.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -39,8 +41,7 @@ namespace Cropper.Blazor.Client.Components.Docs
             {
                 foreach (var info in Type.GetPropertyInfosWithAttribute<ParameterAttribute>().OrderBy(x => x.Name))
                 {
-                    if (info.GetCustomAttributes(typeof(System.ObsoleteAttribute), true).Length == 0
-                        && IsEventCallback(info))
+                    if (IsEventCallback(info))
                     {
                         yield return new ApiProperty
                         {
@@ -70,12 +71,23 @@ namespace Cropper.Blazor.Client.Components.Docs
                 {
                     if (!_hiddenMethods.Any(x => x.Contains(info.Name)) && !info.Name.StartsWith("get_") && !info.Name.StartsWith("set_"))
                     {
-                        if (info.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0
-                            && info.GetCustomAttributes(typeof(JSInvokableAttribute), true).Length == 0)
+                        if (info.GetCustomAttributes(typeof(JSInvokableAttribute), true).Length == 0)
                         {
+                            Attribute? attribute = info
+                                .GetCustomAttribute(typeof(ObsoleteAttribute), true);
+                            string? warningSignatureMessage = null;
+
+                            if (attribute != null)
+                            {
+                                ObsoleteAttribute obsoleteAttr = (ObsoleteAttribute)attribute;
+
+                                warningSignatureMessage = obsoleteAttr.Message;
+                            }
+
                             yield return new ApiMethod()
                             {
                                 MethodInfo = info,
+                                WarningSignatureMessage = warningSignatureMessage,
                                 Return = info.ReturnParameter,
                                 Signature = info.GetSignature(),
                                 Parameters = info.GetParameters(),
@@ -123,8 +135,7 @@ namespace Cropper.Blazor.Client.Components.Docs
 
                 foreach (var info in types.OrderBy(x => x.Name))
                 {
-                    if (info.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0
-                        && !IsEventCallback(info))
+                    if (!IsEventCallback(info))
                     {
                         yield return ToApiProperty(info, saveTypename);
                     }
@@ -246,6 +257,14 @@ namespace Cropper.Blazor.Client.Components.Docs
                 if (Type == typeof(CroppedCanvas))
                 {
                     return info.GetValue(new CroppedCanvas(default));
+                }
+                else if (Type == typeof(CroppedCanvasReceiver))
+                {
+                    return info.GetValue(new CroppedCanvasReceiver(default, default));
+                }
+                else if (Type == typeof(ImageProcessingException))
+                {
+                    return info.GetValue(new ImageProcessingException(default));
                 }
                 else
                 {
