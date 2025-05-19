@@ -632,11 +632,15 @@ namespace Cropper.Blazor.Components
         /// <param name="getCroppedCanvasOptions">The <see cref="GetCroppedCanvasOptions"/> used to get a cropped canvas.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing canvas drawn the cropped image asynchronous operation.</returns>
+        [Obsolete("This method blocks the UI thread. Use GetCroppedCanvasInBackgroundAsync instead for background operation.")]
         public async ValueTask<CroppedCanvas> GetCroppedCanvasAsync(
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             CancellationToken cancellationToken = default)
         {
-            return await CropperJsIntertop!.GetCroppedCanvasAsync(CropperComponentId, getCroppedCanvasOptions, cancellationToken);
+            return await CropperJsIntertop!.GetCroppedCanvasAsync(
+                CropperComponentId,
+                getCroppedCanvasOptions,
+                cancellationToken);
         }
 
         /// <summary>
@@ -648,7 +652,9 @@ namespace Cropper.Blazor.Components
         /// Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality. The default value is 1 with maximum image quality.
         /// </param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <exception cref="ArgumentException">Thrown when the <paramref name="number"/> is outside the range of 0 and 1.</exception>
         /// <returns>A <see cref="ValueTask{String}"/> representing canvas drawn the cropped image in URL format asynchronous operation.</returns>
+        [Obsolete("This method blocks the UI thread. Use GetCroppedCanvasDataInBackgroundAsync instead for background operation.")]
         public async ValueTask<string> GetCroppedCanvasDataURLAsync(
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             string type = "image/png",
@@ -665,6 +671,79 @@ namespace Cropper.Blazor.Components
                     number,
                     cancellationToken)
             };
+        }
+
+        /// <summary>
+        /// Get a canvas drawn from the cropped image (lossy compression) in background.
+        /// If it is not cropped, then returns a canvas drawn the whole image.
+        /// </summary>
+        /// <param name="getCroppedCanvasOptions">The <see cref="GetCroppedCanvasOptions"/> used to get a cropped canvas.</param>
+        /// <param name="type">A string indicating the image format. The default type is image/png; this image format will be also used if the specified type is not supported.</param>
+        /// <param name="number">A number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp).
+        /// Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality. The default value is 1 with maximum image quality.
+        /// </param>
+        /// <param name="maximumReceiveChunkSize">
+        /// The maximum size of each image chunk to receive, in bytes. For example, 65536 equals 64 KB.
+        /// If specified, incoming image data will be split into chunks of this size during transmission.
+        /// If null, the chunk size will be handled automatically based on the stream's native chunking behavior.
+        /// This helps control memory usage and ensures compatibility with interop limits.
+        /// </param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <exception cref="ArgumentException">Thrown when the <paramref name="number"/> is outside the range of 0 and 1.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maximumReceiveChunkSize"/> is less than or equal to 0.</exception>
+        /// <returns>A <see cref="ValueTask{ImageReceiver}"/> representing the asynchronous operation to retrieve cropped canvas data.</returns>
+        public async ValueTask<ImageReceiver> GetCroppedCanvasDataInBackgroundAsync(
+            GetCroppedCanvasOptions getCroppedCanvasOptions,
+            string type = "image/png",
+            float number = 1,
+            int? maximumReceiveChunkSize = null,
+            CancellationToken cancellationToken = default)
+        {
+            if (number < 0 || number > 1)
+            {
+                throw new ArgumentException($"The given number should be between 0 and 1 for indicating the image quality, but found {number}.", nameof(number));
+            }
+
+            if (maximumReceiveChunkSize is not null && maximumReceiveChunkSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(maximumReceiveChunkSize), "Chunk size must be greater than 0 bytes when specified.");
+            }
+
+            ImageReceiver imageReceiver = new();
+
+            await CropperJsIntertop.GetCroppedCanvasDataInBackgroundAsync(
+                CropperComponentId,
+                getCroppedCanvasOptions,
+                DotNetObjectReference.Create(imageReceiver),
+                type,
+                number,
+                maximumReceiveChunkSize,
+                cancellationToken);
+
+            return imageReceiver;
+        }
+
+        /// <summary>
+        /// Get a canvas drawn from the cropped image (lossy compression).
+        /// If it is not cropped, then returns a canvas drawn the whole image.
+        /// </summary>
+        /// <param name="getCroppedCanvasOptions">The <see cref="GetCroppedCanvasOptions"/> used to get a cropped canvas.</param>
+        /// <param name="onReceive">A function that takes a <see cref="CroppedCanvas"/> as input and returns a <see cref="Task"/>. Used for handling the cropped image result asynchronously.</param>        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask{CroppedCanvasReceiver}"/> representing the asynchronous operation to retrieve cropped canvas receiver reference.</returns>
+        public async ValueTask<CroppedCanvasReceiver> GetCroppedCanvasInBackgroundAsync(
+            GetCroppedCanvasOptions getCroppedCanvasOptions,
+            Func<CroppedCanvas, CancellationToken, Task> onReceive,
+            CancellationToken cancellationToken = default)
+        {
+            CroppedCanvasReceiver croppedCanvasReceiver = new CroppedCanvasReceiver(onReceive, cancellationToken);
+
+            await CropperJsIntertop!.GetCroppedCanvasInBackgroundAsync(
+                CropperComponentId,
+                getCroppedCanvasOptions,
+                DotNetObjectReference.Create(croppedCanvasReceiver),
+                cancellationToken);
+
+            return croppedCanvasReceiver;
         }
 
         /// <summary>

@@ -5,6 +5,7 @@ namespace Cropper.Blazor.Client.Components.Docs
     public class ApiMethod
     {
         public string Signature { get; set; }
+        public string? WarningSignatureMessage { get; set; }
         public ParameterInfo Return { get; set; }
         public string Documentation { get; set; }
         public MethodInfo MethodInfo { get; set; }

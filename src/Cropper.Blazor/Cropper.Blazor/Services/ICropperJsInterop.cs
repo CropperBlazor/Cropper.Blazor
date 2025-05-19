@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Cropper.Blazor.Base;
+using Cropper.Blazor.Components;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -418,5 +419,46 @@ namespace Cropper.Blazor.Services
         /// </summary>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         ValueTask DisposeAsync();
+
+        /// <summary>
+        /// Get a canvas drawn the cropped image in background.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="getCroppedCanvasOptions">The config options.</param>
+        /// <param name="imageReceiverReference">Reference to image receiver.</param>
+        /// <param name="type">A string indicating the image format. The default type is image/png; this image format will be also used if the specified type is not supported.</param>
+        /// <param name="number">A number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp). A user agent will use its default quality value if this option is not specified, or if the number is outside the allowed range.
+        /// Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality.
+        /// </param>
+        /// <param name="maximumReceiveChunkSize">
+        /// The maximum size of each image chunk to receive, in bytes. For example, 65536 equals 64 KB.
+        /// If specified, incoming image data will be split into chunks of this size during transmission.
+        /// If null, the chunk size will be handled automatically based on the stream's native chunking behavior.
+        /// This helps control memory usage and ensures compatibility with interop limits.
+        /// </param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        ValueTask GetCroppedCanvasDataInBackgroundAsync(
+            [NotNull] Guid cropperComponentId,
+            GetCroppedCanvasOptions getCroppedCanvasOptions,
+            [NotNull] DotNetObjectReference<ImageReceiver> imageReceiverReference,
+            string type,
+            float number,
+            int? maximumReceiveChunkSize,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Get a canvas drawn the cropped image in background.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="getCroppedCanvasOptions">The config options.</param>
+        /// <param name="croppedCanvasReceiverReference">Reference to cropped canvas receiver.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask{CroppedCanvas}"/> representing result canvas asynchronous operation.</returns>
+        ValueTask GetCroppedCanvasInBackgroundAsync(
+            [NotNull] Guid cropperComponentId,
+            GetCroppedCanvasOptions getCroppedCanvasOptions,
+            DotNetObjectReference<CroppedCanvasReceiver> croppedCanvasReceiverReference,
+            CancellationToken cancellationToken = default);
     }
 }

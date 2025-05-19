@@ -7,6 +7,7 @@ using Bogus;
 using Bunit;
 using Bunit.TestDoubles;
 using Cropper.Blazor.Base;
+using Cropper.Blazor.Components;
 using Cropper.Blazor.Extensions;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.ModuleOptions;
@@ -269,6 +270,64 @@ namespace Cropper.Blazor.UnitTests.Services
 
             // assert
             expectedCroppedCanvasURL.Should().BeEquivalentTo(croppedCanvasURL);
+        }
+
+        [Fact]
+        public async Task Verify_GetCroppedCanvasInBackground_Async()
+        {
+            // arrange
+            Guid cropperComponentId = Guid.NewGuid();
+            Mock<IJSObjectReference> mockIJSObjectReference = new();
+
+            CroppedCanvas expectedCroppedCanvas = new Faker<CroppedCanvas>()
+                .CustomInstantiator(c => new CroppedCanvas(mockIJSObjectReference.Object));
+            GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>();
+            DotNetObjectReference<CroppedCanvasReceiver> refToCanvasReceiver = new Faker<DotNetObjectReference<CroppedCanvasReceiver>>()
+                .CustomInstantiator(f => DotNetObjectReference.Create(new CroppedCanvasReceiver((c, ct) =>
+                {
+                    return Task.CompletedTask;
+                }, default)));
+
+            _testContext.JSInterop
+                .SetupVoid("cropper.getCroppedCanvasInBackground", cropperComponentId, getCroppedCanvasOptions, refToCanvasReceiver)
+                .SetVoidResult();
+
+            // assert
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
+
+            // act
+            await _cropperJsInterop
+                .GetCroppedCanvasInBackgroundAsync(cropperComponentId, getCroppedCanvasOptions, refToCanvasReceiver);
+        }
+
+        [Fact]
+        public async Task Verify_GetCroppedCanvasDataBackground_Async()
+        {
+            // arrange
+            Guid cropperComponentId = Guid.NewGuid();
+            string expectedCroppedCanvasURL = _faker.Random.Word();
+            string type = _faker.Random.Word();
+            float number = _faker.Random.Float();
+            int? maximumReceiveChunkSize = _faker.Random.Int(0, 100);
+            GetCroppedCanvasOptions getCroppedCanvasOptions = new Faker<GetCroppedCanvasOptions>();
+            DotNetObjectReference<ImageReceiver> refToImageReceiver = new Faker<DotNetObjectReference<ImageReceiver>>()
+                .CustomInstantiator(f => DotNetObjectReference.Create(new Faker<ImageReceiver>().Generate()));
+
+            _testContext.JSInterop
+                .SetupVoid("cropper.sendImageInChunks", cropperComponentId, getCroppedCanvasOptions, refToImageReceiver, type, number, maximumReceiveChunkSize)
+                .SetVoidResult();
+
+            // assert
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
+
+            // act
+            await _cropperJsInterop.GetCroppedCanvasDataInBackgroundAsync(
+                cropperComponentId,
+                getCroppedCanvasOptions,
+                refToImageReceiver,
+                type,
+                number,
+                maximumReceiveChunkSize);
         }
 
         [Fact]

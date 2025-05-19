@@ -1,0 +1,36 @@
+﻿@page "/"
+@using Cropper.Blazor.Components
+@using Cropper.Blazor.Models
+@using MudBlazor
+
+<PageTitle>Cropper Blazor Server Demo</PageTitle>
+
+<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+    <MudTooltip Text="Import image with Blob URLs">
+        <InputFile id="imageInput" OnChange="InputFileChange" accept="image/*" hidden multiple />
+        <MudIconButton HtmlTag="label" Icon="@Icons.Material.Filled.PhotoCamera" for="imageInput" Title="Upload image file" />
+    </MudTooltip>
+    <MudTooltip Text="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })">
+        <MudButton Color="Color.Secondary" Variant="Variant.Filled"
+                   OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096}))">
+            Get Cropped Canvas
+        </MudButton>
+    </MudTooltip>
+</MudButtonGroup>
+
+<CropperComponent Class="cropper-container"
+                  ErrorLoadImageClass="cropper-error-load"
+                  @ref="cropperComponent"
+                  OnCropStartEvent="OnCropStartEvent"
+                  OnCropEndEvent="OnCropEndEvent"
+                  OnCropEvent="OnCropEvent"
+                  OnZoomEvent="OnZoomEvent"
+                  OnCropMoveEvent="OnCropMoveEvent"
+                  OnReadyEvent="OnCropReadyEvent"
+                  OnLoadImageEvent="OnLoadImageEvent"
+                  Src="@Src"
+                  InputAttributes="@InputAttributes"
+                  ErrorLoadImageSrc="@_errorLoadImageSrc"
+                  IsErrorLoadImage="@IsErrorLoadImage"
+                  OnErrorLoadImageEvent="OnErrorLoadImageEvent"
+                  Options="options" />
