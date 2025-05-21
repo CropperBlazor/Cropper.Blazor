@@ -11,6 +11,8 @@
 
     public void OnErrorLoadImageEvent(ErrorEventArgs errorEventArgs)
     {
+        // You can use 'ErrorLoadImageContent' instead of 'ErrorLoadImageSrc', 'ErrorLoadImageClass'
+        // parameters in cropper component to set up custom error image content
         IsErrorLoadImage = true;
         StateHasChanged();
     }

@@ -11,6 +11,8 @@
                 "Cropper.Blazor URL",
                 "Cropper URL",
                 "cropped image",
+                "Background Crop",
+                "Background Crop image",
                 "Crop image",
                 "Crop image Cropper.Blazor",
                 "Crop image Cropper",
@@ -55,6 +57,9 @@
                     <br>
                     <MudAlert Class="mt-3" Severity="Severity.Info">
                         <b>Note:</b> If you intend to get a JPEG image from the output canvas, you should set the <CodeInline>fillColor</CodeInline> option first, if not, the transparent part in the JPEG image will become black by default.
+                    </MudAlert>
+                    <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Warning">
+                        This method blocks the UI thread. Instead, use <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Href="/examples/cropping#crop-in-background">GetCroppedCanvasDataInBackgroundAsync</MudLink></CodeInline> to work in the background.
                     </MudAlert>
                 </Description>
             </SectionHeader>
@@ -101,6 +106,11 @@
                         default value <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL#encoderoptions">encoderOptions</MudLink>.
                         In addition, different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality.
                     </MudAlert>
+                    <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Warning">
+                        This method blocks the UI thread. Instead, use <CodeInline>GetCroppedCanvasInBackgroundAsync</CodeInline> to work in the background.
+                        See related usages for <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Href="/examples/cropping#crop-a-round-image-in-background">round</MudLink></CodeInline>
+                        or <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Href="/examples/cropping#crop-a-polygon-image-in-background">polygon</MudLink></CodeInline> cropping.
+                    </MudAlert>
                 </Description>
             </SectionHeader>
             <SectionContent Code="typeof(AdvancedCropExample)">
@@ -123,6 +133,83 @@
             </SectionHeader>
             <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", typeof(CropPolygonImageExample)), new CodeFile("script.js", typeof(CropPolygonImage_Script))})">
                 <CropPolygonImageExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Crop in Background">
+                <Description>
+                    With the <CodeInline Class="docs-code-warning">GetCroppedCanvasDataInBackgroundAsync</CodeInline> method
+                    you can get a canvas drawn from the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
+                    <br><br>
+                    <CodeInline Class="docs-code-warning">GetCroppedCanvasDataInBackgroundAsync</CodeInline> method have following argument:
+                    <MudList T="string">
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
+                            <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/GetCroppedCanvasOptions">GetCroppedCanvasOptions (required)</MudLink></CodeInline> - used to get a cropped canvas;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
+                            <CodeInline>type (not required)</CodeInline> - string indicating the image format. The default type is image/png;
+                            this image format will be also used if the specified type is not supported;
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
+                            <CodeInline>number (not required)</CodeInline> - number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp).
+                            Different browsers have different image encoder compression, usually it is 92 or 80 percent of the full image quality. The default value is 1 with maximum image quality.
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Primary">
+                            <CodeInline>maximumReceiveChunkSize (not required)</CodeInline> - the maximum size of each image chunk to receive, in bytes.
+                            For example, 65536 equals 64 KB. If specified, incoming image data will be split into chunks of this size during transmission.
+                            If null, the chunk size will be handled automatically based on the stream's native chunking behavior.
+                            This helps control memory usage and ensures compatibility with interop limits.
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small" IconColor="Color.Secondary">
+                            <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource">CancellationToken</MudLink> (not required)</CodeInline> - used to propagate notifications that the operation should be canceled.
+                        </MudListItem>
+                    </MudList>
+                    <MudAlert Class="mt-3" Severity="Severity.Info">
+                        <b>Note:</b> If you intend to get a JPEG image from the output canvas, you should set the <CodeInline>fillColor</CodeInline> option first, if not, the transparent part in the JPEG image will become black by default.
+                    </MudAlert>
+                    <br>
+                    This <CodeInline Class="docs-code-warning">GetCroppedCanvasDataInBackgroundAsync</CodeInline> method returns <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/ImageReceiver">ImageReceiver</MudLink></CodeInline>.
+                    Use <CodeInline Class="docs-code-warning">GetImageChunkStreamAsync</CodeInline> method in the
+                    <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/ImageReceiver">ImageReceiver</MudLink></CodeInline> for reads the image chunks into a memory stream
+                    or to throw an <CodeInline Class="docs-code-warning">ImageProcessingException</CodeInline> when error occurs during image processin.
+                    <br>
+                    <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Info">
+                        <b>Note:</b>
+                        Note: This is available with the release of version 1.4.1 of the Cropper.Blazor NuGet package.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(BackgroundCropExample)">
+                <BackgroundCropExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Crop a round image in Background">
+                <Description>
+                    <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Info">
+                        <b>Note:</b>
+                        Note: This is available with the release of version 1.4.1 of the Cropper.Blazor NuGet package.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", typeof(BackgroundCropRoundImageExample)), new CodeFile("script.js", typeof(BackgroundCropRoundImage_Script))})">
+                <BackgroundCropRoundImageExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Crop a polygon image in Background">
+                <Description>
+                    <MudAlert Class="mt-3 text-anywhere-wrap" Severity="Severity.Info">
+                        <b>Note:</b>
+                        Note: This is available with the release of version 1.4.1 of the Cropper.Blazor NuGet package.
+                    </MudAlert>
+                </Description>
+            </SectionHeader>
+            <SectionContent Codes="@(new[] {new CodeFile("Cropper.razor", typeof(BackgroundCropPolygonImageExample)), new CodeFile("script.js", typeof(BackgroundCropPolygonImage_Script))})">
+                <BackgroundCropPolygonImageExample />
             </SectionContent>
         </DocsPageSection>
 

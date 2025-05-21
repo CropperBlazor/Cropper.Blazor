@@ -10,6 +10,7 @@ using Cropper.Blazor.Events.CropMoveEvent;
 using Cropper.Blazor.Events.CropReadyEvent;
 using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
+using Cropper.Blazor.Exceptions;
 using Cropper.Blazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -117,11 +118,93 @@ namespace Cropper.Blazor.Client.Pages
             OpenCroppedCanvasDialog(croppedCanvasDataURL);
         }
 
+        private void ProcessAndOpenCroppedCanvasDialog(ImageReceiver imageReceiver)
+        {
+            InvokeAsync(async () =>
+            {
+                try
+                {
+                    using MemoryStream croppedCanvasDataStream = await imageReceiver.GetImageChunkStreamAsync();
+                    byte[] croppedCanvasData = croppedCanvasDataStream.ToArray();
+
+                    string croppedCanvasDataURL = "data:image/png;base64," + Convert.ToBase64String(croppedCanvasData);
+
+                    OpenCroppedCanvasDialog(croppedCanvasDataURL);
+                }
+                catch (ImageProcessingException ex)
+                {
+                    JSRuntime.InvokeVoidAsync("console.log", ex.ToString());
+                }
+            });
+        }
+
+        public async void GetCroppedCanvasDataByPolygonFilterInBackground(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        {
+            if (CropperFace == CropperFace.Default)
+            {
+                ImageReceiver imageReceiver = await CropperComponent!.GetCroppedCanvasDataInBackgroundAsync(getCroppedCanvasOptions);
+
+                ProcessAndOpenCroppedCanvasDialog(imageReceiver);
+            }
+            else if (CropperFace == CropperFace.Circle)
+            {
+                CroppedCanvasReceiver croppedCanvasReceiver = await CropperComponent!.GetCroppedCanvasInBackgroundAsync(
+                    getCroppedCanvasOptions,
+                    async (croppedCanvas, ct) =>
+                    {
+                        ImageReceiver imageReceiver = new ImageReceiver();
+
+                        await JSRuntime!.InvokeVoidAsync(
+                            "window.getEllipseImageInBackground",
+                            croppedCanvas!.JSRuntimeObjectRef,
+                            DotNetObjectReference.Create(imageReceiver));
+
+                        ProcessAndOpenCroppedCanvasDialog(imageReceiver);
+                    });
+            }
+            else
+            {
+                IEnumerable<int> croppedPathToCanvasCropper = GetCroppedPathToCanvasCropper();
+
+                CroppedCanvasReceiver croppedCanvasReceiver = await CropperComponent!.GetCroppedCanvasInBackgroundAsync(
+                getCroppedCanvasOptions,
+                async (croppedCanvas, ct) =>
+                {
+                    ImageReceiver imageReceiver = new ImageReceiver();
+
+                    await JSRuntime!.InvokeVoidAsync(
+                        "window.getPolygonImageInBackground",
+                        croppedCanvas!.JSRuntimeObjectRef,
+                        croppedPathToCanvasCropper,
+                        DotNetObjectReference.Create(imageReceiver));
+
+                    ProcessAndOpenCroppedCanvasDialog(imageReceiver);
+                });
+            }
+        }
+
         public async void GetCroppedCanvasDataURL(GetCroppedCanvasOptions getCroppedCanvasOptions)
         {
             string croppedCanvasDataURL = await CropperComponent!.GetCroppedCanvasDataURLAsync(getCroppedCanvasOptions);
 
             OpenCroppedCanvasDialog(croppedCanvasDataURL);
+        }
+
+        public async void GetCroppedCanvasInBackgroundAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        {
+            await CropperComponent!.GetCroppedCanvasInBackgroundAsync(getCroppedCanvasOptions, async (croppedCanvas, ct) =>
+            {
+                ImageReceiver imageReceiver = await CropperComponent!.GetCroppedCanvasDataInBackgroundAsync(getCroppedCanvasOptions);
+
+                ProcessAndOpenCroppedCanvasDialog(imageReceiver);
+            });
+        }
+
+        public async void GetImageChunkStreamAsync(GetCroppedCanvasOptions getCroppedCanvasOptions)
+        {
+            ImageReceiver imageReceiver = await CropperComponent!.GetCroppedCanvasDataInBackgroundAsync(getCroppedCanvasOptions);
+
+            ProcessAndOpenCroppedCanvasDialog(imageReceiver);
         }
 
         public IEnumerable<int> GetCroppedPathToCanvasCropper() =>
@@ -534,7 +617,7 @@ namespace Cropper.Blazor.Client.Pages
                 BackdropClick = false
             };
 
-            _dialogService.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+            _dialogService.ShowAsync<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
         }
 
         private void Reset()
