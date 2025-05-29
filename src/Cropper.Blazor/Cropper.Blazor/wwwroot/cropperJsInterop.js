@@ -309,7 +309,7 @@ class CropperDecorator {
     }
 
     // By default, blob.stream() reads the blob using internal chunking (typically 65536 bytes per chunk).
-    // To enforce a custom chunk size�especially to control serialized message size for JS interop or SignalR limits�we wrap it in a transformed ReadableStream.
+    // To enforce a custom chunk size, especially to control serialized message size for JS interop or SignalR limits, we wrap it in a transformed ReadableStream.
     // This allows us to split the default chunks further to stay within a maximum size constraint (e.g., for Blazor's JS interop or SignalR message limits).
     let reader = null
 
