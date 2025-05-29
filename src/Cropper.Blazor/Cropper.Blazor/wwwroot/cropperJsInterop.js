@@ -305,57 +305,62 @@ class CropperDecorator {
       throw new RangeError('maximumReceiveChunkSize must be greater than 0.')
     }
 
-    const blobStream = blob.stream().getReader()
-
-    // Binary estimation of JSON size
-    const getJsonSizeBinary = (chunk) => {
-      const length = chunk.length
-      const bytesPerElement = 3
-      const commas = length - 1
-      const brackets = 2
-      return (length * bytesPerElement) + commas + brackets
-    }
-
-    // Create a custom stream that enforces max chunk size
-    const transformedStream = new ReadableStream({
-      async pull (controller) {
-        const { done, value } = await blobStream.read()
-        if (done) {
-          controller.close()
-          return
-        }
-
-        let offset = 0
-        let lastGoodChunkSize = maximumReceiveChunkSize
-
-        while (offset < value.length) {
-          let chunkSize = Math.min(lastGoodChunkSize, value.length - offset)
-          let chunk = value.slice(offset, offset + chunkSize)
-          let jsonSize = getJsonSizeBinary(chunk)
-
-          while (jsonSize > maximumReceiveChunkSize && chunkSize > 1) {
-            chunkSize = Math.max(chunkSize - 512, 1)
-            chunk = value.slice(offset, offset + chunkSize)
-            jsonSize = getJsonSizeBinary(chunk)
-
-            if (chunkSize <= 512) {
-              break
-            }
-          }
-
-          lastGoodChunkSize = chunkSize
-
-          offset += chunkSize
-
-          controller.enqueue(chunk)
-        }
-      }
-    })
-
     // By default, blob.stream() reads the blob using internal chunking (typically 65536 bytes per chunk).
     // To enforce a custom chunk size�especially to control serialized message size for JS interop or SignalR limits�we wrap it in a transformed ReadableStream.
     // This allows us to split the default chunks further to stay within a maximum size constraint (e.g., for Blazor's JS interop or SignalR message limits).
-    const reader = (maximumReceiveChunkSize == null) ? blobStream : transformedStream.getReader()
+    let reader = null
+
+    if (maximumReceiveChunkSize == null) {
+      reader = blob.stream().getReader()
+    } else {
+      const blobStream = blob.stream().getReader()
+      // Binary estimation of JSON size
+      const getJsonSizeBinary = (chunk) => {
+        const length = chunk.length
+        const bytesPerElement = 3
+        const commas = length - 1
+        const brackets = 2
+        return (length * bytesPerElement) + commas + brackets
+      }
+
+      // Create a custom stream that enforces max chunk size
+      const transformedStream = new ReadableStream({
+        async pull (controller) {
+          const { done, value } = await blobStream.read()
+          if (done) {
+            controller.close()
+            return
+          }
+
+          let offset = 0
+          let lastGoodChunkSize = maximumReceiveChunkSize
+
+          while (offset < value.length) {
+            let chunkSize = Math.min(lastGoodChunkSize, value.length - offset)
+            let chunk = value.slice(offset, offset + chunkSize)
+            let jsonSize = getJsonSizeBinary(chunk)
+
+            while (jsonSize > maximumReceiveChunkSize && chunkSize > 1) {
+              chunkSize = Math.max(chunkSize - 512, 1)
+              chunk = value.slice(offset, offset + chunkSize)
+              jsonSize = getJsonSizeBinary(chunk)
+
+              if (chunkSize <= 512) {
+                break
+              }
+            }
+
+            lastGoodChunkSize = chunkSize
+
+            offset += chunkSize
+
+            controller.enqueue(chunk)
+          }
+        }
+      })
+
+      reader = transformedStream.getReader()
+    }
 
     try {
       while (true) {
