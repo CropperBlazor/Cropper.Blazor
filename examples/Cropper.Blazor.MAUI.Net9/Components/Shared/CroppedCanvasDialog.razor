@@ -1,0 +1,25 @@
+﻿@using MudBlazor
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+            Cropped canvas data
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudImage Src="@Src" Style="max-height: calc(80vh);" ObjectFit="ObjectFit.Contain" Class="mud-width-full">
+
+        </MudImage>
+    </DialogContent>
+    <DialogActions>
+
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    [System.ComponentModel.DataAnnotations.Required]
+    public string Src { get; set; } = null!;
+}
