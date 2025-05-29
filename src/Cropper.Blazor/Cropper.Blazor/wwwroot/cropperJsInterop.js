@@ -293,16 +293,19 @@ class CropperDecorator {
   }
 
   async readBlobInChunks (blob, dotNetImageReceiverRef, maximumReceiveChunkSize) {
+    // Validate blob
     if (!(blob instanceof Blob)) {
       throw new TypeError('blob must be a valid Blob object.')
     }
 
+    // Validate dotNetImageReceiverRef
     if (!dotNetImageReceiverRef || typeof dotNetImageReceiverRef.invokeMethodAsync !== 'function') {
-      throw new TypeError('dotNetImageReceiverRef must be a valid .NET object reference.')
+      throw new TypeError('dotNetImageReceiverRef must be a valid .NET object reference with an invokeMethodAsync function.')
     }
 
+    // Validate maximumReceiveChunkSize
     if (maximumReceiveChunkSize != null && maximumReceiveChunkSize <= 0) {
-      throw new RangeError('maximumReceiveChunkSize must be greater than 0.')
+      throw new RangeError('maximumReceiveChunkSize must be greater than 0 bytes when specified.')
     }
 
     // By default, blob.stream() reads the blob using internal chunking (typically 65536 bytes per chunk).
@@ -327,29 +330,37 @@ class CropperDecorator {
       const transformedStream = new ReadableStream({
         async pull (controller) {
           const { done, value } = await blobStream.read()
+
           if (done) {
             controller.close()
+
             return
           }
 
+          // Function to calculate JSON size for the current chunk using binary estimation
           let offset = 0
           let lastGoodChunkSize = maximumReceiveChunkSize
 
           while (offset < value.length) {
+            // Start with the last known good chunk size, or the remaining length
             let chunkSize = Math.min(lastGoodChunkSize, value.length - offset)
             let chunk = value.slice(offset, offset + chunkSize)
             let jsonSize = getJsonSizeBinary(chunk)
 
+            // If the JSON size is too large, reduce the chunk size gradually
             while (jsonSize > maximumReceiveChunkSize && chunkSize > 1) {
+              // Reduce the chunk size in steps of 512 bytes, but not below 1 byte
               chunkSize = Math.max(chunkSize - 512, 1)
               chunk = value.slice(offset, offset + chunkSize)
               jsonSize = getJsonSizeBinary(chunk)
 
+              // Stop reducing if the chunk size is already very small
               if (chunkSize <= 512) {
                 break
               }
             }
 
+            // Move the offset forward by the size of the chunk just sent with update the last good chunk size
             lastGoodChunkSize = chunkSize
 
             offset += chunkSize
