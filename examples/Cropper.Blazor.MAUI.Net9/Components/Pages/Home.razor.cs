@@ -108,7 +108,7 @@ namespace Cropper.Blazor.MAUI.Net9.Components.Pages
                         { "Src", croppedCanvasDataURL }
                     };
                     var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, BackdropClick = true };
-                    _dialogService!.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+                    _dialogService!.ShowAsync<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
                 }
                 catch (ImageProcessingException ex)
                 {

@@ -107,7 +107,7 @@ namespace Cropper.Blazor.WebView.Net6
                         { "Src", croppedCanvasDataURL }
                     };
                     var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
-                    _dialogService!.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+                    _dialogService!.ShowAsync<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
                 }
                 catch (ImageProcessingException ex)
                 {
