@@ -317,12 +317,18 @@ class CropperDecorator {
       reader = blob.stream().getReader()
     } else {
       const blobStream = blob.stream().getReader()
+
       // Binary estimation of JSON size
       const getJsonSizeBinary = (chunk) => {
         const length = chunk.length
+
+        // Max 3 digits for the number (0 to 255)
         const bytesPerElement = 3
+        // Comma between elements
         const commas = length - 1
+        // For '[' and ']'
         const brackets = 2
+
         return (length * bytesPerElement) + commas + brackets
       }
 
