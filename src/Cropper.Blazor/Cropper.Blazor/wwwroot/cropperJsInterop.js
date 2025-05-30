@@ -307,29 +307,43 @@ class CropperDecorator {
     if (maximumReceiveChunkSize != null && maximumReceiveChunkSize <= 0) {
       throw new RangeError('maximumReceiveChunkSize must be greater than 0 bytes when specified.')
     }
-    const reader = blob.stream().getReader()
 
-    async function read (dotNetImageReceiver) {
-      try {
-        const { done, value } = await reader.read()
+    // By default, blob.stream() reads the blob using internal chunking (typically 65536 bytes per chunk).
+    // To enforce a custom chunk size, especially to control serialized message size for JS interop or SignalR limits, we wrap it in a transformed ReadableStream.
+    // This allows us to split the default chunks further to stay within a maximum size constraint (e.g., for Blazor's JS interop or SignalR message limits).
+    let reader = null
 
-        if (done) {
-          await dotNetImageReceiver.invokeMethodAsync('CompleteImageTransfer')
+    if (maximumReceiveChunkSize == null) {
+      reader = blob.stream().getReader()
+    } else {
+      const blobStream = blob.stream().getReader()
 
-          return
-        }
+      // Binary estimation of JSON size
+      const getJsonSizeBinary = (chunk) => {
+        const length = chunk.length
 
-        if (maximumReceiveChunkSize) {
-          // Function to calculate JSON size for the current chunk using binary estimation
-          function getJsonSizeBinary (chunk) {
-            const length = chunk.length
-            const bytesPerElement = 3 // Max 3 digits for the number (0 to 255)
-            const commas = length - 1 // Comma between elements
-            const brackets = 2 // For '[' and ']'
+        // Max 3 digits for the number (0 to 255)
+        const bytesPerElement = 3
+        // Comma between elements
+        const commas = length - 1
+        // For '[' and ']'
+        const brackets = 2
 
-            return (length * bytesPerElement) + commas + brackets
+        return (length * bytesPerElement) + commas + brackets
+      }
+
+      // Create a custom stream that enforces max chunk size
+      const transformedStream = new ReadableStream({
+        async pull (controller) {
+          const { done, value } = await blobStream.read()
+
+          if (done) {
+            controller.close()
+
+            return
           }
 
+          // Function to calculate JSON size for the current chunk using binary estimation
           let offset = 0
           let lastGoodChunkSize = maximumReceiveChunkSize
 
@@ -352,28 +366,31 @@ class CropperDecorator {
               }
             }
 
-            // Send the valid chunk to the receiver
-            await dotNetImageReceiver.invokeMethodAsync('ReceiveImageChunk', chunk)
+            // Move the offset forward by the size of the chunk just sent with update the last good chunk size
+            lastGoodChunkSize = chunkSize
 
-            // Update the last good chunk size if current chunk was acceptable
-            if (jsonSize <= maximumReceiveChunkSize) {
-              lastGoodChunkSize = chunkSize
-            }
-
-            // Move the offset forward by the size of the chunk just sent
             offset += chunkSize
-          }
-        } else {
-          await dotNetImageReceiver.invokeMethodAsync('ReceiveImageChunk', value)
-        }
 
-        read(dotNetImageReceiver)
-      } catch (imageProcessingError) {
-        await dotNetImageReceiver.invokeMethodAsync('HandleImageProcessingError', imageProcessingError.toString())
-      }
+            controller.enqueue(chunk)
+          }
+        }
+      })
+
+      reader = transformedStream.getReader()
     }
 
-    read(dotNetImageReceiverRef)
+    try {
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        await dotNetImageReceiverRef.invokeMethodAsync('ReceiveImageChunk', value)
+      }
+
+      await dotNetImageReceiverRef.invokeMethodAsync('CompleteImageTransfer')
+    } catch (error) {
+      await dotNetImageReceiverRef.invokeMethodAsync('HandleImageProcessingError', error.toString())
+    }
   }
 
   sendImageInChunks (cropperComponentId, options, dotNetImageReceiverRef, type, encoderOptions, maximumReceiveChunkSize) {

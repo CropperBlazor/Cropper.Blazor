@@ -35,8 +35,8 @@ namespace Cropper.MVC.With.Blazor.Server.Net7.Pages.Blazor
         public Dictionary<string, object> InputAttributes { get; set; } =
             new Dictionary<string, object>()
             {
-                        { "loading", "lazy" },
-                        { "test-Attribute", "123-test" }
+                { "loading", "lazy" },
+                { "test-Attribute", "123-test" }
             };
         protected override void OnInitialized()
         {
@@ -110,7 +110,7 @@ namespace Cropper.MVC.With.Blazor.Server.Net7.Pages.Blazor
                         { "Src", croppedCanvasDataURL }
                     };
                     var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
-                    _dialogService!.Show<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
+                    _dialogService!.ShowAsync<Shared.CroppedCanvasDialog>("CroppedCanvasDialog", parameters, options);
                 }
                 catch (ImageProcessingException ex)
                 {
