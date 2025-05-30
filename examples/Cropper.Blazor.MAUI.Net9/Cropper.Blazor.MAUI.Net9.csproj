@@ -61,7 +61,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.70" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.70" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
-		<PackageReference Include="MudBlazor" Version="8.6.0" />
+		<PackageReference Include="MudBlazor" Version="8.7.0" />
 	</ItemGroup>
 
 	<ItemGroup>
