@@ -16,7 +16,7 @@
     </DialogActions>
 </MudDialog>
 @code {
-    [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = null!;
 
     [Parameter]
     [System.ComponentModel.DataAnnotations.Required]
