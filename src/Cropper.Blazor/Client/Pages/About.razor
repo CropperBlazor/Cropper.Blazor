@@ -37,22 +37,25 @@
                 <MudCard Elevation="4">
                     <MudCardHeader>
                         <CardHeaderAvatar>
-                            <MudAvatar Size="Size.Large"
-                                       Class="mud-elevation-4">
-                                <MudImage UserAttributes="@AvatarInputAttributes" Src="@teamMember.Avatar">
-
-                                </MudImage>
+                            <MudAvatar Size="Size.Large" Class="mud-elevation-4">
+                                <MudImage UserAttributes="@AvatarInputAttributes" Src="@teamMember.Avatar" Alt="GitHub Avatar" />
                             </MudAvatar>
                         </CardHeaderAvatar>
+
                         <CardHeaderContent>
-                            <MudText Typo="Typo.h6">
+                            <div class="d-flex flex-column">
+                                <MudText Typo="Typo.h6">@teamMember.Name</MudText>
+
+                                <MudText Typo="Typo.body1" Color="Color.Primary" Style="font-weight:500;">@teamMember.Role</MudText>
+                            </div>
+                           @*  <MudText Typo="Typo.h6">
                                 @teamMember.Name
                             </MudText>
                             <MudText Typo="Typo.body1"
                                      Color="Color.Primary"
                                      Style="font-weight:500;">
                                 @teamMember.Role
-                            </MudText>
+                            </MudText> *@
                         </CardHeaderContent>
                         <CardHeaderActions>
                             <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true">
