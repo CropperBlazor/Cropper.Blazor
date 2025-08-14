@@ -8,7 +8,7 @@ namespace Cropper.Blazor.Client.Shared
     {
         private MudThemeProvider _mudThemeProvider = null!;
 
-        [Inject] 
+        [Inject]
         private LayoutService LayoutService { get; set; } = null!;
 
 
