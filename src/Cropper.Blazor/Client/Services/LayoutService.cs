@@ -6,39 +6,97 @@ namespace Cropper.Blazor.Client.Services;
 
 public class LayoutService
 {
-    public ThemeMode DarkModeToggle = ThemeMode.System;
     private readonly IUserPreferencesService _userPreferencesService;
-    private bool _systemPreferences;
     private UserPreferences.UserPreferences _userPreferences = null!;
+    private bool _systemDarkMode;
     public event EventHandler MajorUpdateOccured = null!;
 
-    public MudTheme CurrentTheme { get; private set; } = null!;
+    public DarkLightMode CurrentDarkLightMode { get; private set; }
+
     public bool IsDarkMode { get; private set; }
+
+    public bool ObserveSystemThemeChange { get; private set; }
+
+    public MudTheme CurrentTheme { get; private set; } = null!;
 
     public LayoutService(IUserPreferencesService userPreferencesService) =>
         _userPreferencesService = userPreferencesService;
 
-    public async Task ApplyUserPreferencesAsync(bool isDarkModeDefaultTheme)
+    /// <summary>
+    /// Updates the dark mode state based on user preference and, optionally, the system's dark mode setting.
+    /// </summary>
+    /// <param name="systemMode">The current system dark mode setting. If <c>null</c>, the existing known system mode is used.</param>
+    public void UpdateDarkModeState(bool? systemMode = null)
     {
-        _systemPreferences = isDarkModeDefaultTheme;
+        if (systemMode.HasValue)
+        {
+            _systemDarkMode = systemMode.Value;
+        }
+
+        IsDarkMode = CurrentDarkLightMode switch
+        {
+            DarkLightMode.Dark => true,
+            DarkLightMode.Light => false,
+            _ => _systemDarkMode,
+        };
+    }
+
+    public async Task ApplyUserPreferencesAsync()
+    {
         _userPreferences = await _userPreferencesService.LoadUserPreferences();
 
-        if (_userPreferences != null)
+        if (_userPreferences is null)
         {
-            IsDarkMode = _userPreferences.ThemeMode switch
+            _userPreferences = new()
             {
-                ThemeMode.Dark => true,
-                ThemeMode.Light => false,
-                ThemeMode.System => isDarkModeDefaultTheme,
-                _ => IsDarkMode
+                DarkLightTheme = DarkLightMode.System,
             };
+            await _userPreferencesService.SaveUserPreferences(_userPreferences);
         }
         else
         {
-            IsDarkMode = isDarkModeDefaultTheme;
-            _userPreferences = new UserPreferences.UserPreferences { ThemeMode = ThemeMode.System };
-            await _userPreferencesService.SaveUserPreferences(_userPreferences);
+            CurrentDarkLightMode = _userPreferences.DarkLightTheme;
+            UpdateDarkModeState();
         }
+    }
+
+    /// <summary>
+    /// Handles changes in the system's dark mode setting.
+    /// </summary>
+    /// <param name="isSystemDarkMode"><c>true</c> if the system is in dark mode, otherwise <c>false</c>.</param>
+    public Task OnSystemModeChangedAsync(bool isSystemDarkMode)
+    {
+        _systemDarkMode = isSystemDarkMode;
+        UpdateDarkModeState();
+        OnMajorUpdateOccurred();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Cycles through the available dark/light mode options (System, Light, Dark) and saves the new preference.
+    /// </summary>
+    public async Task CycleDarkLightModeAsync()
+    {
+        CurrentDarkLightMode = CurrentDarkLightMode switch
+        {
+            DarkLightMode.System => DarkLightMode.Light,
+            DarkLightMode.Light => DarkLightMode.Dark,
+            DarkLightMode.Dark => DarkLightMode.System,
+            _ => DarkLightMode.System, // Default case, should not happen.
+        };
+
+        ObserveSystemThemeChange = CurrentDarkLightMode == DarkLightMode.System;
+        UpdateDarkModeState();
+
+        _userPreferences.DarkLightTheme = CurrentDarkLightMode;
+        await _userPreferencesService.SaveUserPreferences(_userPreferences);
+        OnMajorUpdateOccurred();
+    }
+
+    public void SetBaseTheme(MudTheme theme)
+    {
+        CurrentTheme = theme;
+        OnMajorUpdateOccurred();
     }
 
     public BasePage GetDocsBasePage(string uri)
@@ -75,66 +133,5 @@ public class LayoutService
         }
     }
 
-    public Task OnSystemPreferenceChanged(bool newValue)
-    {
-        _systemPreferences = newValue;
-
-        if (DarkModeToggle == ThemeMode.System)
-        {
-            IsDarkMode = newValue;
-            OnMajorUpdateOccured();
-        }
-
-        return Task.CompletedTask;
-    }
-
-    public void SetBaseTheme(MudTheme theme)
-    {
-        CurrentTheme = theme;
-        OnMajorUpdateOccured();
-    }
-
-    public void SetDarkMode(bool value)
-    {
-        IsDarkMode = value;
-    }
-
-    public async Task ToggleDarkModeAsync()
-    {
-        switch (DarkModeToggle)
-        {
-            case ThemeMode.System:
-                {
-                    DarkModeToggle = ThemeMode.Light;
-                    IsDarkMode = false;
-
-                    break;
-                }
-
-            case ThemeMode.Light:
-                {
-                    DarkModeToggle = ThemeMode.Dark;
-                    IsDarkMode = true;
-
-                    break;
-                }
-
-            case ThemeMode.Dark:
-                {
-                    DarkModeToggle = ThemeMode.System;
-                    IsDarkMode = _systemPreferences;
-
-                    break;
-                }
-        }
-
-        _userPreferences.ThemeMode = DarkModeToggle;
-        await _userPreferencesService.SaveUserPreferences(_userPreferences);
-        OnMajorUpdateOccured();
-    }
-
-    private void OnMajorUpdateOccured()
-    {
-        MajorUpdateOccured?.Invoke(this, EventArgs.Empty);
-    }
+    private void OnMajorUpdateOccurred() => MajorUpdateOccured?.Invoke(this, EventArgs.Empty);
 }
