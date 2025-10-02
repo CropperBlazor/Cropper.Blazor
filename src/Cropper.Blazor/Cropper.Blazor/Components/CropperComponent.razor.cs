@@ -84,7 +84,7 @@ namespace Cropper.Blazor.Components
         /// User class names, separated by space.
         /// </summary>
         [Parameter]
-        public string Class { get; set; } = null!;        
+        public string Class { get; set; } = null!;
 
         /// <summary>
         /// Additional attributes can be captured in a dictionary and then splatted onto an element when the component is rendered using the @attributes Razor directive attribute.
