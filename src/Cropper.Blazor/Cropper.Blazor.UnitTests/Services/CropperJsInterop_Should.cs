@@ -393,7 +393,7 @@ namespace Cropper.Blazor.UnitTests.Services
                 Stream jsImageStream = mockImageFile.Object.OpenReadStream(maxAllowedSize, cancellationToken);
                 using DotNetStreamReference dotnetImageStream = new(jsImageStream);
                 _testContext.JSInterop
-                    .Setup<string>("cropper.getImageUsingStreaming",
+                    .Setup<string>("cropperImageHelper.getImageUsingStreaming",
                     jSRuntimeInvocation => jSRuntimeInvocation.Arguments.Count == 1 && VerifyStreamArgument(jSRuntimeInvocation))
                     .SetResult(expectedImageData);
 
@@ -511,7 +511,7 @@ namespace Cropper.Blazor.UnitTests.Services
             string url = _faker.Random.Word();
 
             _testContext.JSInterop
-                .SetupVoid("cropper.revokeObjectUrl", url)
+                .SetupVoid("cropperImageHelper.revokeObjectUrl", url)
                 .SetVoidResult();
 
             // assert
