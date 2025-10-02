@@ -8,8 +8,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Bogus" Version="35.6.3" />
-		<PackageReference Include="bunit" Version="1.39.5" />
+		<PackageReference Include="Bogus" Version="35.6.4" />
+		<PackageReference Include="bunit" Version="1.40.0" />
 		<PackageReference Include="coverlet.msbuild" Version="6.0.4">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -40,17 +40,17 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<PackageReference Include="Microsoft.JSInterop" Version="8.0.16" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.0">
+		<PackageReference Include="Microsoft.JSInterop" Version="8.0.20" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-		<PackageReference Include="Microsoft.JSInterop" Version="9.0.5" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
+		<PackageReference Include="Microsoft.JSInterop" Version="9.0.9" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.0">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
@@ -62,8 +62,6 @@
 		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
 	</ItemGroup>
 
-	<!--https://github.com/microsoft/vstest/issues/4014-->
-	<!--Remove section after dotnet SDK 7.0.101 released-->
 	<PropertyGroup>
 		<CollectCoverage>true</CollectCoverage>
 		<CoverletOutputFormat>cobertura</CoverletOutputFormat>
