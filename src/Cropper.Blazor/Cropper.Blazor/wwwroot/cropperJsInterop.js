@@ -168,16 +168,6 @@ class CropperDecorator {
     return Cropper.setDefaults(options) // eslint-disable-line no-undef
   }
 
-  async getImageUsingStreaming (imageStream) {
-    const arrayBuffer = await imageStream.arrayBuffer()
-    const blob = new Blob([arrayBuffer])
-    return URL.createObjectURL(blob)
-  }
-
-  revokeObjectUrl (url) {
-    URL.revokeObjectURL(url)
-  }
-
   getJSEventData (instance, correlationId) {
     return {
       isTrusted: instance.isTrusted,
@@ -407,4 +397,24 @@ class CropperDecorator {
   }
 }
 
+class CropperImageHelper {
+  static async getImageUsingStreaming (imageStream) {
+    if (!imageStream || typeof imageStream.arrayBuffer !== 'function') {
+      throw new TypeError('Invalid image stream provided.')
+    }
+
+    const arrayBuffer = await imageStream.arrayBuffer()
+    const blob = new Blob([arrayBuffer])
+    return URL.createObjectURL(blob)
+  }
+
+  static revokeObjectUrl (url) {
+    if (typeof url !== 'string') {
+      throw new TypeError('Expected a string URL to revoke.')
+    }
+    URL.revokeObjectURL(url)
+  }
+}
+
+window.cropperImageHelper = CropperImageHelper
 window.cropper = new CropperDecorator()

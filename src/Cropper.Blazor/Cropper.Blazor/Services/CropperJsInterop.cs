@@ -862,7 +862,7 @@ namespace Cropper.Blazor.Services
             var dotnetImageStream = new DotNetStreamReference(jsImageStream);
 
             return await _jsRuntime.InvokeAsync<string>(
-                "cropper.getImageUsingStreaming",
+                "cropperImageHelper.getImageUsingStreaming",
                 cancellationToken,
                 dotnetImageStream);
         }
@@ -883,7 +883,7 @@ namespace Cropper.Blazor.Services
             }
 
             await _jsRuntime.InvokeVoidAsync(
-                "cropper.revokeObjectUrl",
+                "cropperImageHelper.revokeObjectUrl",
                 cancellationToken,
                 url);
         }
