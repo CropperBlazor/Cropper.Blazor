@@ -6,7 +6,9 @@ using Microsoft.JSInterop;
 namespace Cropper.Blazor.Services
 {
     /// <summary>
-    /// 
+    /// Provides JavaScript interop functionality for working with image URLs in Blazor.
+    /// <br/>
+    /// Supports creating object URLs from streamed image files and revoking them when no longer needed.
     /// </summary>
     public interface IUrlImageInterop
     {
