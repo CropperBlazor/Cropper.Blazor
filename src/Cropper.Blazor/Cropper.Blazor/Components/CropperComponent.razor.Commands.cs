@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Cropper.Blazor.Base;
 using Cropper.Blazor.Models;
@@ -265,10 +266,14 @@ namespace Cropper.Blazor.Components
 
         /// <summary>
         /// Call this method when you've finished using an object URL to let the browser know not to keep the reference to the file any longer.
+        /// <br/>
+        /// Obsolete — use <see cref="Services.IUrlImageInterop.RevokeObjectUrlAsync(string, CancellationToken)"/> 
+        /// for centralized JS interop handling.
         /// </summary>
         /// <param name="url">A string representing an object URL.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        [Obsolete("⚠️ This method will be removed in future versions. Use IUrlImageInterop.RevokeObjectUrlAsync instead for proper JS interop management.")]
         public async ValueTask RevokeObjectUrlAsync(string url, CancellationToken cancellationToken = default)
         {
             await CropperJsIntertop!.RevokeObjectUrlAsync(url, cancellationToken);

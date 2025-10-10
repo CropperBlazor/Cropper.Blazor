@@ -24,6 +24,7 @@ namespace Cropper.Blazor.Extensions
             Func<IServiceProvider, CropperJsInteropOptions> funcServiceProvider = (IServiceProvider serviceProvider) => options;
 
             services.AddSingleton<ICropperJsInteropOptions, CropperJsInteropOptions>(funcServiceProvider);
+            services.TryAddScoped<IUrlImageInterop, UrlImageInterop>();
             services.TryAddScoped<ICropperJsInterop, CropperJsInterop>();
 
             return services;

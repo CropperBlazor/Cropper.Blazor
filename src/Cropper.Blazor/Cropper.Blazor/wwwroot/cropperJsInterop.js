@@ -397,7 +397,7 @@ class CropperDecorator {
   }
 }
 
-class CropperImageHelper {
+class CropperUrlImageHelper {
   static async getImageUsingStreaming (imageStream) {
     if (!imageStream || typeof imageStream.arrayBuffer !== 'function') {
       throw new TypeError('Invalid image stream provided.')
@@ -416,5 +416,5 @@ class CropperImageHelper {
   }
 }
 
-window.cropperImageHelper = CropperImageHelper
+window.cropperUrlImageHelper = CropperUrlImageHelper
 window.cropper = new CropperDecorator()

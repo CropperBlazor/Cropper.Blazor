@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Bogus;
@@ -22,24 +21,26 @@ using Xunit;
 
 namespace Cropper.Blazor.UnitTests.Services
 {
-    public class CropperJsInterop_Should : IDisposable
+    public class CropperJsInterop_Should : BaseJsInteropService_Should, IDisposable
     {
         private readonly Faker _faker;
-        private readonly TestContext _testContext;
         private readonly ICropperJsInterop _cropperJsInterop;
         private const string PathToCropperModule = "_content/Cropper.Blazor/cropperJsInterop.min.js";
         private static string DefaultPathToCropperModule => Path.Combine("http:localhost", PathToCropperModule);
+        private readonly Mock<IUrlImageInterop> _urlImageInteropMock;
 
-        public CropperJsInterop_Should()
+        public CropperJsInterop_Should() : base()
         {
             _faker = new Faker();
-
-            _testContext = new Faker<TestContext>()
-                .Generate();
+            _urlImageInteropMock = new Mock<IUrlImageInterop>();
 
             FakeNavigationManager fakeNavigationManager = _testContext.Services.GetRequiredService<FakeNavigationManager>();
             _cropperJsInterop = new Faker<ICropperJsInterop>()
-                .CustomInstantiator(f => new CropperJsInterop(_testContext.JSInterop.JSRuntime, fakeNavigationManager, new CropperJsInteropOptions()))
+                .CustomInstantiator(f => new CropperJsInterop(
+                    _testContext.JSInterop.JSRuntime,
+                    fakeNavigationManager,
+                    new CropperJsInteropOptions(),
+                    _urlImageInteropMock.Object))
                 .Generate();
         }
 
@@ -381,39 +382,28 @@ namespace Cropper.Blazor.UnitTests.Services
             long maxAllowedSize = _faker.Random.Long();
             CancellationToken cancellationToken = new();
             Mock<IBrowserFile> mockImageFile = new();
-            string expectedText = _faker.Random.Word();
 
-            using (MemoryStream stream = new(Encoding.UTF8.GetBytes(expectedText)))
-            {
-
-                mockImageFile
-                    .Setup(m => m.OpenReadStream(maxAllowedSize, cancellationToken))
-                    .Returns(stream);
-
-                Stream jsImageStream = mockImageFile.Object.OpenReadStream(maxAllowedSize, cancellationToken);
-                using DotNetStreamReference dotnetImageStream = new(jsImageStream);
-                _testContext.JSInterop
-                    .Setup<string>("cropperImageHelper.getImageUsingStreaming",
-                    jSRuntimeInvocation => jSRuntimeInvocation.Arguments.Count == 1 && VerifyStreamArgument(jSRuntimeInvocation))
-                    .SetResult(expectedImageData);
-
-                bool VerifyStreamArgument(JSRuntimeInvocation jSRuntimeInvocation)
-                {
-                    DotNetStreamReference? streamReference = (DotNetStreamReference?)jSRuntimeInvocation.Arguments[0];
-                    string textStream = Encoding.UTF8.GetString(((MemoryStream)streamReference!.Stream).ToArray());
-
-                    return expectedText == textStream;
-                }
-            }
+            _urlImageInteropMock
+                .Setup(x => x.GetImageUsingStreamingAsync(mockImageFile.Object, maxAllowedSize, cancellationToken))
+                .ReturnsAsync(expectedImageData);
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            string imageData = await _cropperJsInterop.GetImageUsingStreamingAsync(mockImageFile.Object, maxAllowedSize);
+            string imageData = await _cropperJsInterop
+                .GetImageUsingStreamingAsync(mockImageFile.Object, maxAllowedSize, cancellationToken);
 
             // assert
-            expectedImageData.Should().BeEquivalentTo(imageData);
+            _urlImageInteropMock
+                .Verify(x => x.GetImageUsingStreamingAsync(mockImageFile.Object, maxAllowedSize, cancellationToken));
+
+            _urlImageInteropMock
+                .VerifyNoOtherCalls();
+
+            imageData
+                .Should()
+                .BeEquivalentTo(expectedImageData);
         }
 
         [Fact]
@@ -509,6 +499,7 @@ namespace Cropper.Blazor.UnitTests.Services
         {
             // arrange
             string url = _faker.Random.Word();
+            CancellationToken cancellationToken = new();
 
             _testContext.JSInterop
                 .SetupVoid("cropperImageHelper.revokeObjectUrl", url)
@@ -518,7 +509,14 @@ namespace Cropper.Blazor.UnitTests.Services
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await _cropperJsInterop.RevokeObjectUrlAsync(url);
+            await _cropperJsInterop.RevokeObjectUrlAsync(url, cancellationToken);
+
+            // assert
+            _urlImageInteropMock
+                .Verify(x => x.RevokeObjectUrlAsync(url, cancellationToken));
+
+            _urlImageInteropMock
+                .VerifyNoOtherCalls();
         }
 
         [Fact]
@@ -762,7 +760,7 @@ namespace Cropper.Blazor.UnitTests.Services
         {
             // arrange
             FakeNavigationManager fakeNavigationManager = _testContext.Services.GetRequiredService<FakeNavigationManager>();
-            CropperJsInterop cropperJsInterop = new(_testContext.JSInterop.JSRuntime, fakeNavigationManager, new CropperJsInteropOptions());
+            CropperJsInterop cropperJsInterop = new(_testContext.JSInterop.JSRuntime, fakeNavigationManager, new CropperJsInteropOptions(), Mock.Of<IUrlImageInterop>());
 
             // assert
             VerifyLoadCropperModule(DefaultPathToCropperModule);
@@ -770,13 +768,6 @@ namespace Cropper.Blazor.UnitTests.Services
             // act
             await cropperJsInterop.LoadModuleAsync();
             await cropperJsInterop.DisposeAsync();
-        }
-
-        private void VerifyLoadCropperModule(
-            string pathToCropperModule)
-        {
-            _testContext.JSInterop
-                .SetupModule(pathToCropperModule);
         }
 
         public void Dispose()

@@ -8,6 +8,7 @@ using Bunit.TestDoubles;
 using Cropper.Blazor.ModuleOptions;
 using Cropper.Blazor.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using Xunit;
 
 namespace Cropper.Blazor.UnitTests.Services
@@ -35,7 +36,7 @@ namespace Cropper.Blazor.UnitTests.Services
             FakeNavigationManager fakeNavigationManager = _testContext.Services.GetRequiredService<FakeNavigationManager>();
 
             _cropperJsInterop = new Faker<ICropperJsInterop>()
-                .CustomInstantiator(f => new CropperJsInterop(_testContext.JSInterop.JSRuntime, fakeNavigationManager, cropperJsInteropOptions))
+                .CustomInstantiator(f => new CropperJsInterop(_testContext.JSInterop.JSRuntime, fakeNavigationManager, cropperJsInteropOptions, Mock.Of<IUrlImageInterop>()))
                 .Generate();
 
             fakeNavigationManager.NavigateTo(pathToCropperModule);
