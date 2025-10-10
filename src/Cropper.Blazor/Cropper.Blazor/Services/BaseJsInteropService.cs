@@ -10,7 +10,9 @@ using Microsoft.JSInterop;
 namespace Cropper.Blazor.Services
 {
     /// <summary>
-    /// 
+    /// Provides a base implementation for JavaScript interop services used in Cropper.Blazor components.
+    /// <br/>
+    /// Handles loading of JS modules, managing interop references, and resolving paths to Cropper-related scripts.
     /// </summary>
     public abstract class BaseJsInteropService
     {
