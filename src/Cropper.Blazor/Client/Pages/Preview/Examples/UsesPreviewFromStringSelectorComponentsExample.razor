@@ -1,4 +1,5 @@
 ﻿@using Cropper.Blazor.Components
+@using Cropper.Blazor.Models
 
 <div class="img-container">
     <CropperComponent Class="cropper-example"
@@ -26,7 +27,7 @@
 </style>
 
 @code {
-    private Cropper.Blazor.Models.Options Options = new Cropper.Blazor.Models.Options
+    private Options Options = new Options
     {
         Preview = ".img-example-preview"
     };

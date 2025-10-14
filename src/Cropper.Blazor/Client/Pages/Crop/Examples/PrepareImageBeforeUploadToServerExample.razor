@@ -2,7 +2,10 @@
 @using Cropper.Blazor.Models;
 
 <div class="img-container">
-    <CropperComponent Class="big-img" Src="icon-515x512.png" @ref="cropperComponent" Options="new Blazor.Models.Options()" />
+    <CropperComponent Class="big-img"
+                      Src="icon-515x512.png"
+                      @ref="cropperComponent"
+                      Options="new Options()" />
 </div>
 
 @if (decodedImageData is { base64ImageData: null, mediaType: null })
@@ -28,7 +31,6 @@ else
 <style>
     .big-img {
         max-height: 400px;
-
         /* This rule is very important, please don't ignore this */
         max-width: 100%;
     }
