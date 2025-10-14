@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Cropper.Blazor.Services
 {
     /// <summary>
-    /// Provides the metadata of a IBaseJsInteropService.
+    /// Provides the metadata of a IBaseJsInterop.
     /// </summary>
     public interface IBaseJsInterop : IAsyncDisposable
     {
