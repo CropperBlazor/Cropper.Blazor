@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using Cropper.Blazor.ModuleOptions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -9,7 +7,7 @@ namespace Cropper.Blazor.Services
     /// <summary>
     /// This service listens to cropper js events and allows you to manage calls from cropper.
     /// </summary>
-    public partial class CropperJsInterop : BaseJsInteropService, ICropperJsInterop, IAsyncDisposable
+    public partial class CropperJsInterop : BaseJsInterop, ICropperJsInterop
     {
         private readonly IUrlImageInterop _urlImageInterop;
 
@@ -27,30 +25,6 @@ namespace Cropper.Blazor.Services
             IUrlImageInterop urlImageInterop) : base(jsRuntime, navigationManager, cropperJsInteropOptions)
         {
             _urlImageInterop = urlImageInterop;
-        }
-
-        /// <summary>
-        /// Called to dispose this instance.
-        /// </summary>
-        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        public async ValueTask DisposeAsync()
-        {
-            await DisposeAsyncCore();
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Called to dispose js module.
-        /// </summary>
-        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        protected virtual async ValueTask DisposeAsyncCore()
-        {
-            if (Module is not null)
-            {
-                await Module.DisposeAsync();
-            }
-
-            Module = null;
         }
     }
 }

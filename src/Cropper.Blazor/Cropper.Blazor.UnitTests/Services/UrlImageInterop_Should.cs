@@ -105,7 +105,7 @@ namespace Cropper.Blazor.UnitTests.Services
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await urlImageInterop.LoadModuleAsync();
+            await urlImageInterop.TryLoadModuleAsync();
             await urlImageInterop.DisposeAsync();
         }
 

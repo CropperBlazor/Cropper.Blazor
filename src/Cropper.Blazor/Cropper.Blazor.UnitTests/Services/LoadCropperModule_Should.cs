@@ -45,7 +45,7 @@ namespace Cropper.Blazor.UnitTests.Services
             VerifyLoadCropperModule(expectedPathToCropperModule);
 
             // act
-            await _cropperJsInterop.LoadModuleAsync();
+            await _cropperJsInterop.TryLoadModuleAsync();
         }
 
         public static IEnumerable<object[]> TestData_LoadCropperModule()

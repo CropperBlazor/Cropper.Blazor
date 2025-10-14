@@ -10,7 +10,7 @@ namespace Cropper.Blazor.Services
     /// <br/>
     /// Supports creating object URLs from streamed image files and revoking them when no longer needed.
     /// </summary>
-    public interface IUrlImageInterop
+    public interface IUrlImageInterop : IBaseJsInterop
     {
         /// <summary>
         /// Used to get an image from a stream.

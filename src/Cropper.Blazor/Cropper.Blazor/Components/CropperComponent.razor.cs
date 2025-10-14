@@ -112,7 +112,7 @@ namespace Cropper.Blazor.Components
         {
             if (firstRender)
             {
-                await CropperJsIntertop!.LoadModuleAsync();
+                await CropperJsIntertop!.TryLoadModuleAsync();
             }
 
             await base.OnAfterRenderAsync(firstRender);

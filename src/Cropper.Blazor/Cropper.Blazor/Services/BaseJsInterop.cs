@@ -14,18 +14,18 @@ namespace Cropper.Blazor.Services
     /// <br/>
     /// Handles loading of JS modules, managing interop references, and resolving paths to Cropper-related scripts.
     /// </summary>
-    public abstract class BaseJsInteropService
+    public abstract class BaseJsInterop : IBaseJsInterop
     {
         private readonly NavigationManager _navigationManager;
         private readonly ICropperJsInteropOptions _cropperJsInteropOptions;
 
         /// <summary>
-        /// 
+        /// JavaScript runtime interface for invoking JS functions from .NET.
         /// </summary>
         protected readonly IJSRuntime _jsRuntime;
 
         /// <summary>
-        /// 
+        /// Reference to the loaded JavaScript module.
         /// </summary>
         protected IJSObjectReference? Module = null;
 
@@ -35,7 +35,7 @@ namespace Cropper.Blazor.Services
         /// <param name="jsRuntime">The <see cref="IJSRuntime"/>.</param>
         /// <param name="navigationManager">The <see cref="NavigationManager"/>.</param>
         /// <param name="cropperJsInteropOptions">The <see cref="ICropperJsInteropOptions"/>.</param>
-        public BaseJsInteropService(
+        public BaseJsInterop(
             IJSRuntime jsRuntime,
             NavigationManager navigationManager,
             ICropperJsInteropOptions cropperJsInteropOptions)
@@ -46,13 +46,28 @@ namespace Cropper.Blazor.Services
         }
 
         /// <summary>
+        /// Try load JavaScript object into .NET when module empty.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.
+        /// </param>
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        public async Task TryLoadModuleAsync(CancellationToken cancellationToken = default)
+        {
+            if (Module is null)
+            {
+                await LoadModuleAsync(cancellationToken);
+            }
+        }
+
+        /// <summary>
         /// Load JavaScript object into .NET.
         /// </summary>
         /// <param name="cancellationToken">
         /// The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.
         /// </param>
         /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
-        public async Task LoadModuleAsync(CancellationToken cancellationToken = default)
+        private async Task LoadModuleAsync(CancellationToken cancellationToken = default)
         {
             string globalPathToCropperModule = GetGlobalPathToCropperModule();
 
@@ -77,6 +92,30 @@ namespace Cropper.Blazor.Services
 
                 return Path.Combine(hostName, _cropperJsInteropOptions.DefaultInternalPathToCropperModule);
             }
+        }
+
+        /// <summary>
+        /// Called to dispose js module.
+        /// </summary>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        protected virtual async ValueTask DisposeAsyncCore()
+        {
+            if (Module is not null)
+            {
+                await Module.DisposeAsync();
+            }
+
+            Module = null;
+        }
+
+        /// <summary>
+        /// Called to dispose this instance.
+        /// </summary>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore();
+            GC.SuppressFinalize(this);
         }
     }
 }

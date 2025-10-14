@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Cropper.Blazor.ModuleOptions;
 using Microsoft.AspNetCore.Components;
@@ -13,7 +12,7 @@ namespace Cropper.Blazor.Services
     /// <br/>
     /// Supports creating object URLs from streamed image files and revoking them when no longer needed.
     /// </summary>
-    public class UrlImageInterop : BaseJsInteropService, IUrlImageInterop, IAsyncDisposable
+    public class UrlImageInterop : BaseJsInterop, IUrlImageInterop
     {
         /// <summary>
         /// Implementation of the constructor.
@@ -43,10 +42,7 @@ namespace Cropper.Blazor.Services
             long maxAllowedSize = 512000L,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             var jsImageStream = imageFile.OpenReadStream(maxAllowedSize, cancellationToken);
             var dotnetImageStream = new DotNetStreamReference(jsImageStream);
@@ -67,39 +63,12 @@ namespace Cropper.Blazor.Services
             string url,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime.InvokeVoidAsync(
                 "cropperUrlImageHelper.revokeObjectUrl",
                 cancellationToken,
                 url);
-        }
-
-        /// <summary>
-        /// Called to dispose this instance.
-        /// </summary>
-        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        public async ValueTask DisposeAsync()
-        {
-            await DisposeAsyncCore();
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Called to dispose js module.
-        /// </summary>
-        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        protected virtual async ValueTask DisposeAsyncCore()
-        {
-            if (Module is not null)
-            {
-                await Module.DisposeAsync();
-            }
-
-            Module = null;
         }
     }
 }

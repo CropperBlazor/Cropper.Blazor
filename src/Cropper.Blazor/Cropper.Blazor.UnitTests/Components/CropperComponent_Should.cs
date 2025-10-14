@@ -495,7 +495,7 @@ namespace Cropper.Blazor.UnitTests.Components
             Guid cropperComponentId = (Guid)cropperComponent.Instance
                 .GetInstanceField("CropperComponentId");
 
-            _mockCropperJsInterop.Verify(c => c.LoadModuleAsync(cancellationToken), Times.Once());
+            _mockCropperJsInterop.Verify(c => c.TryLoadModuleAsync(cancellationToken), Times.Once());
             elementReference!.Value.Id.Should().NotBeNullOrEmpty();
             expectedElement.ClassName.Should().Be(imageClass);
             expectedElement.GetAttribute("loading").Should().Be(lazyAttributeValue);
@@ -914,7 +914,7 @@ namespace Cropper.Blazor.UnitTests.Components
             Guid cropperComponentId = (Guid)cropperComponent.Instance
                 .GetInstanceField("CropperComponentId");
 
-            _mockCropperJsInterop.Verify(c => c.LoadModuleAsync(cancellationToken), Times.Once());
+            _mockCropperJsInterop.Verify(c => c.TryLoadModuleAsync(cancellationToken), Times.Once());
             elementReference!.Value.Id.Should().NotBeNullOrEmpty();
             expectedElement.ClassName.Should().Be(imageClass);
             expectedElement.GetAttribute("loading").Should().Be(lazyAttributeValue);
@@ -1294,7 +1294,7 @@ namespace Cropper.Blazor.UnitTests.Components
             Guid cropperComponentId = (Guid)cropperComponent.Instance
                 .GetInstanceField("CropperComponentId");
 
-            _mockCropperJsInterop.Verify(c => c.LoadModuleAsync(cancellationToken), Times.Once());
+            _mockCropperJsInterop.Verify(c => c.TryLoadModuleAsync(cancellationToken), Times.Once());
             elementReference!.Value.Id.Should().NotBeNullOrEmpty();
             expectedElement.ClassName.Should().BeNull();
             expectedElement.GetAttribute("src").Should().BeNull();
@@ -1359,7 +1359,7 @@ namespace Cropper.Blazor.UnitTests.Components
             Guid cropperComponentId = (Guid)cropperComponent.Instance
                 .GetInstanceField("CropperComponentId");
 
-            _mockCropperJsInterop.Verify(c => c.LoadModuleAsync(cancellationToken), Times.Once());
+            _mockCropperJsInterop.Verify(c => c.TryLoadModuleAsync(cancellationToken), Times.Once());
             elementReference!.Value.Id.Should().NotBeNullOrEmpty();
             expectedElement.ClassName.Should().BeNull();
             expectedElement.GetAttribute("src").Should().BeNull();
@@ -1438,7 +1438,7 @@ namespace Cropper.Blazor.UnitTests.Components
             Guid cropperComponentId = (Guid)cropperComponent.Instance
                 .GetInstanceField("CropperComponentId");
 
-            _mockCropperJsInterop.Verify(c => c.LoadModuleAsync(cancellationToken), Times.Once());
+            _mockCropperJsInterop.Verify(c => c.TryLoadModuleAsync(cancellationToken), Times.Once());
             elementReference!.Value.Id.Should().NotBeNullOrEmpty();
             expectedElement.ClassName.Should().BeNull();
             expectedElement.GetAttribute("src").Should().BeNull();
@@ -1489,7 +1489,7 @@ namespace Cropper.Blazor.UnitTests.Components
             Guid cropperComponentId = (Guid)cropperComponent.Instance
                 .GetInstanceField("CropperComponentId");
 
-            _mockCropperJsInterop.Verify(c => c.LoadModuleAsync(cancellationToken), Times.Once());
+            _mockCropperJsInterop.Verify(c => c.TryLoadModuleAsync(cancellationToken), Times.Once());
             elementReference!.Value.Id.Should().NotBeNullOrEmpty();
             expectedElement.ClassName.Should().BeNull();
             expectedElement.GetAttribute("src").Should().BeNull();

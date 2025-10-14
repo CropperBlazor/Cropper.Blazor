@@ -766,7 +766,7 @@ namespace Cropper.Blazor.UnitTests.Services
             VerifyLoadCropperModule(DefaultPathToCropperModule);
 
             // act
-            await cropperJsInterop.LoadModuleAsync();
+            await cropperJsInterop.TryLoadModuleAsync();
             await cropperJsInterop.DisposeAsync();
         }
 

@@ -20,10 +20,7 @@ namespace Cropper.Blazor.Services
             [NotNull] Guid cropperComponentId,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             return await _jsRuntime!.InvokeAsync<CanvasData>(
                 "cropper.getCanvasData",
@@ -41,10 +38,7 @@ namespace Cropper.Blazor.Services
             [NotNull] Guid cropperComponentId,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             return await _jsRuntime!.InvokeAsync<ContainerData>(
                 "cropper.getContainerData",
@@ -62,10 +56,7 @@ namespace Cropper.Blazor.Services
             [NotNull] Guid cropperComponentId,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             return await _jsRuntime!.InvokeAsync<CropBoxData>(
                 "cropper.getCropBoxData",
@@ -85,10 +76,7 @@ namespace Cropper.Blazor.Services
             GetCroppedCanvasOptions getCroppedCanvasOptions,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             IJSObjectReference jSCanvas = await _jsRuntime!.InvokeAsync<IJSObjectReference>(
                 "cropper.getCroppedCanvas",
@@ -113,10 +101,7 @@ namespace Cropper.Blazor.Services
             DotNetObjectReference<CroppedCanvasReceiver> croppedCanvasReceiverReference,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.getCroppedCanvasInBackground",
@@ -144,10 +129,7 @@ namespace Cropper.Blazor.Services
             float number,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             return await _jsRuntime!.InvokeAsync<string>(
                 "cropper.getCroppedCanvasDataURL",
@@ -170,10 +152,7 @@ namespace Cropper.Blazor.Services
             bool rounded,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             return await _jsRuntime!.InvokeAsync<CropperData>(
                 "cropper.getData",
@@ -192,10 +171,7 @@ namespace Cropper.Blazor.Services
             [NotNull] Guid cropperComponentId,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             return await _jsRuntime!.InvokeAsync<ImageData>(
                 "cropper.getImageData",
@@ -230,10 +206,7 @@ namespace Cropper.Blazor.Services
             int? maximumReceiveChunkSize,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime.InvokeVoidAsync(
                 "cropper.sendImageInChunks",

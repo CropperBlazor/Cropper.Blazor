@@ -28,10 +28,7 @@ namespace Cropper.Blazor.Services
             [NotNull] DotNetObjectReference<ICropperComponentBase> cropperComponentBase,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.initCropper",
@@ -52,10 +49,7 @@ namespace Cropper.Blazor.Services
             [NotNull] Guid cropperComponentId,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.clear",
@@ -73,10 +67,7 @@ namespace Cropper.Blazor.Services
             [NotNull] Guid cropperComponentId,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.crop",
@@ -94,10 +85,7 @@ namespace Cropper.Blazor.Services
             [NotNull] Guid cropperComponentId,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.destroy",
@@ -115,10 +103,7 @@ namespace Cropper.Blazor.Services
             [NotNull] Guid cropperComponentId,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.disable",
@@ -136,10 +121,7 @@ namespace Cropper.Blazor.Services
             [NotNull] Guid cropperComponentId,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.enable",
@@ -161,10 +143,7 @@ namespace Cropper.Blazor.Services
             decimal? offsetY,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.move",
@@ -188,10 +167,7 @@ namespace Cropper.Blazor.Services
             decimal? y,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.moveTo",
@@ -215,10 +191,7 @@ namespace Cropper.Blazor.Services
             bool hasSameSize,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.replace",
@@ -238,10 +211,7 @@ namespace Cropper.Blazor.Services
             [NotNull] Guid cropperComponentId,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.reset",
@@ -261,10 +231,7 @@ namespace Cropper.Blazor.Services
             decimal degree,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.rotate",
@@ -285,10 +252,7 @@ namespace Cropper.Blazor.Services
             decimal degree,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.rotateTo",
@@ -311,10 +275,7 @@ namespace Cropper.Blazor.Services
             decimal scaleY,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.scale",
@@ -336,10 +297,7 @@ namespace Cropper.Blazor.Services
             decimal scaleX,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.scaleX",
@@ -360,10 +318,7 @@ namespace Cropper.Blazor.Services
             decimal scaleY,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.scaleY",
@@ -384,10 +339,7 @@ namespace Cropper.Blazor.Services
             decimal aspectRatio,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.setAspectRatio",
@@ -408,10 +360,7 @@ namespace Cropper.Blazor.Services
             SetCanvasDataOptions setCanvasDataOptions,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.setCanvasData",
@@ -432,10 +381,7 @@ namespace Cropper.Blazor.Services
             SetCropBoxDataOptions cropBoxDataOptions,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.setCropBoxData",
@@ -456,10 +402,7 @@ namespace Cropper.Blazor.Services
             SetDataOptions setDataOptions,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.setData",
@@ -480,10 +423,7 @@ namespace Cropper.Blazor.Services
             DragMode dragMode,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.setDragMode",
@@ -504,10 +444,7 @@ namespace Cropper.Blazor.Services
             decimal ratio,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.zoom",
@@ -532,10 +469,7 @@ namespace Cropper.Blazor.Services
             decimal pivotY,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.zoomTo",
@@ -553,10 +487,7 @@ namespace Cropper.Blazor.Services
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask NoConflictAsync(CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.noConflict",
@@ -573,10 +504,7 @@ namespace Cropper.Blazor.Services
             [NotNull] Options options,
             CancellationToken cancellationToken = default)
         {
-            if (Module is null)
-            {
-                await LoadModuleAsync(cancellationToken);
-            }
+            await TryLoadModuleAsync(cancellationToken);
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.setDefaults",
