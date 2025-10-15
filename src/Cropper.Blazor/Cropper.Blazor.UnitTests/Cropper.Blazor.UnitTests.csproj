@@ -62,14 +62,4 @@
 		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
 	</ItemGroup>
 
-	<PropertyGroup>
-		<CollectCoverage>true</CollectCoverage>
-		<CoverletOutputFormat>cobertura</CoverletOutputFormat>
-		<ExcludeByAttribute>ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
-		<Include>[Cropper.Blazor]*</Include>
-		<ExcludeByFile>**/*.g.cs</ExcludeByFile>
-		<SkipAutoProps>true</SkipAutoProps>
-		<CoverletOutput>./</CoverletOutput>
-	</PropertyGroup>
-
 </Project>
