@@ -132,8 +132,12 @@ namespace Cropper.Blazor.Components
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask DisposeAsync()
         {
-            Destroy();
-            await CropperJsIntertop!.DisposeAsync();
+            ElementReference? cropperElementReference = GetCropperElementReference();
+
+            if (cropperElementReference.HasValue)
+            {
+                await DestroyAsync();
+            }
         }
 
         /// <summary>
@@ -141,7 +145,12 @@ namespace Cropper.Blazor.Components
         /// </summary>
         public void Dispose()
         {
-            DisposeAsync();
+            ElementReference? cropperElementReference = GetCropperElementReference();
+
+            if (cropperElementReference.HasValue)
+            {
+                Destroy();
+            }
         }
     }
 }

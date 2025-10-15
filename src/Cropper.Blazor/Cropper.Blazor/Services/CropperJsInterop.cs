@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Cropper.Blazor.ModuleOptions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -25,6 +27,17 @@ namespace Cropper.Blazor.Services
             IUrlImageInterop urlImageInterop) : base(jsRuntime, navigationManager, cropperJsInteropOptions)
         {
             _urlImageInterop = urlImageInterop;
+        }
+
+        /// <summary>
+        /// Called to dispose this instance.
+        /// </summary>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public override async ValueTask DisposeAsync()
+        {
+            await _urlImageInterop.DisposeAsync();
+            await DisposeAsyncCore();
+            GC.SuppressFinalize(this);
         }
     }
 }

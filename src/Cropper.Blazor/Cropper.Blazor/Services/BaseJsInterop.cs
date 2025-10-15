@@ -112,7 +112,7 @@ namespace Cropper.Blazor.Services
         /// Called to dispose this instance.
         /// </summary>
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
-        public async ValueTask DisposeAsync()
+        public virtual async ValueTask DisposeAsync()
         {
             await DisposeAsyncCore();
             GC.SuppressFinalize(this);

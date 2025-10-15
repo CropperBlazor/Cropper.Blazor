@@ -197,7 +197,7 @@ namespace Cropper.Blazor.UnitTests.Components
 
             cropperComponent.Instance.Dispose();
 
-            _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Once());
+            _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Never());
             _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Once());
         }
 
@@ -217,7 +217,7 @@ namespace Cropper.Blazor.UnitTests.Components
 
             await cropperComponent.Instance.DisposeAsync();
 
-            _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Once());
+            _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Never());
             _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Once());
         }
 
@@ -664,11 +664,11 @@ namespace Cropper.Blazor.UnitTests.Components
                 _mockCropperJsInterop.Verify(c => c.ZoomToAsync(cropperComponentId, ratio, pivotX, pivotY, cancellationToken), Times.Once());
 
                 await cropperComponent.Instance.DisposeAsync();
-                _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Never());
                 _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Exactly(2));
 
                 cropperComponent.Instance.Dispose();
-                _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Exactly(2));
+                _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Never());
                 _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Exactly(3));
             });
         }
@@ -1067,11 +1067,11 @@ namespace Cropper.Blazor.UnitTests.Components
                 _mockCropperJsInterop.Verify(c => c.ZoomToAsync(cropperComponentId, ratio, pivotX, pivotY, cancellationToken), Times.Once());
 
                 await cropperComponent.Instance.DisposeAsync();
-                _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Once());
+                _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Never());
                 _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Exactly(2));
 
                 cropperComponent.Instance.Dispose();
-                _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Exactly(2));
+                _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Never());
                 _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Exactly(3));
             });
         }

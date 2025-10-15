@@ -205,7 +205,12 @@ namespace Cropper.Blazor.Components
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void Destroy(CancellationToken cancellationToken = default)
         {
-            CropperJsIntertop!.DestroyAsync(CropperComponentId, cancellationToken);
+            DestroyAsync(cancellationToken);
+        }
+
+        private async ValueTask DestroyAsync(CancellationToken cancellationToken = default)
+        {
+            await CropperJsIntertop!.DestroyAsync(CropperComponentId, cancellationToken);
         }
 
         /// <summary>
