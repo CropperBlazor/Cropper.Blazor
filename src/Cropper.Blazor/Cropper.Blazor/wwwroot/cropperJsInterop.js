@@ -14,9 +14,14 @@ class CropperDecorator {
   }
 
   destroy (cropperComponentId) {
-    this.cropperInstances[cropperComponentId]
-      .destroy()
-    delete this.cropperInstances[cropperComponentId]
+    const cropperInstance = this.cropperInstances[cropperComponentId]
+
+    if (cropperInstance) {
+      cropperInstance
+        .destroy()
+
+      delete this.cropperInstances[cropperComponentId]
+    }
   }
 
   disable (cropperComponentId) {
