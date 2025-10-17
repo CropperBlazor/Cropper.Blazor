@@ -2,7 +2,10 @@
 @using Cropper.Blazor.Models;
 
 <div class="img-container">
-    <CropperComponent Class="big-img" Src="images/budir-church-bu-akirkja-iceland.jpg" @ref="cropperComponent" Options="new Blazor.Models.Options()" />
+    <CropperComponent Class="big-img"
+                      Src="images/budir-church-bu-akirkja-iceland.jpg"
+                      @ref="cropperComponent"
+                      Options="new Options()" />
 </div>
 
 <div class="button" @onclick="GetCroppedCanvasDataURLAsync">
@@ -15,7 +18,6 @@
 <style>
     .big-img {
         max-height: 400px;
-
         /* This rule is very important, please don't ignore this */
         max-width: 100%;
     }

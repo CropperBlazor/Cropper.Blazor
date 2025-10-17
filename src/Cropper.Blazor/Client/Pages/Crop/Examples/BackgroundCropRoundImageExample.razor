@@ -3,7 +3,10 @@
 @using Cropper.Blazor.Exceptions;
 
 <div class="img-container cropper-face-circle">
-    <CropperComponent Class="big-img" Src="images/lone-tree.jpg" @ref="cropperComponent" Options="new Blazor.Models.Options()" />
+    <CropperComponent Class="big-img"
+                      Src="images/lone-tree.jpg"
+                      @ref="cropperComponent"
+                      Options="new Options()" />
 </div>
 
 <div class="button" @onclick="GetCroppedCanvasDataInBackgroundAsync">

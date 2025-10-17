@@ -2,7 +2,10 @@
 @using Cropper.Blazor.Models;
 
 <div class="img-container cropper-face-pentagon">
-    <CropperComponent Class="big-img" Src="images/Mushrooms.jpg" @ref="cropperComponent" Options="new Blazor.Models.Options()" />
+    <CropperComponent Class="big-img"
+                      Src="images/Mushrooms.jpg"
+                      @ref="cropperComponent"
+                      Options="new Options()" />
 </div>
 
 <div class="button" @onclick="GetCroppedCanvasAsync">
