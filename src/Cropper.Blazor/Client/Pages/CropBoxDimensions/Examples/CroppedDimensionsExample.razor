@@ -43,10 +43,10 @@
         {
             _cropBoxWidth = value;
             CropperComponent!.SetData(new SetDataOptions
-                {
-                    Width = _cropBoxWidth,
-                    Height = _cropBoxHeight
-                });
+            {
+                Width = _cropBoxWidth,
+                Height = _cropBoxHeight
+            });
             StateHasChanged();
         }
     }
@@ -58,10 +58,10 @@
         {
             _cropBoxHeight = value;
             CropperComponent!.SetData(new SetDataOptions
-                {
-                    Width = _cropBoxWidth,
-                    Height = _cropBoxHeight
-                });
+            {
+                Width = _cropBoxWidth,
+                Height = _cropBoxHeight
+            });
             StateHasChanged();
         }
     }

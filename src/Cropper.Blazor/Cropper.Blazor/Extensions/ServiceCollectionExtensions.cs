@@ -12,7 +12,7 @@ namespace Cropper.Blazor.Extensions
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Adds a see <see cref="CropperJsInterop"/> as a Scoped instance.
+        /// Adds instances of <see cref="CropperJsInterop"/>, <see cref="UrlImageInterop"/> as Scoped.
         /// </summary>
         /// <param name="services">Continues the <see cref="IServiceCollection"/> chain.</param>
         /// <param name="cropperJsInteropOptions">Continues the <see cref="CropperJsInteropOptions"/> chain.
@@ -24,6 +24,7 @@ namespace Cropper.Blazor.Extensions
             Func<IServiceProvider, CropperJsInteropOptions> funcServiceProvider = (IServiceProvider serviceProvider) => options;
 
             services.AddSingleton<ICropperJsInteropOptions, CropperJsInteropOptions>(funcServiceProvider);
+            services.TryAddScoped<IUrlImageInterop, UrlImageInterop>();
             services.TryAddScoped<ICropperJsInterop, CropperJsInterop>();
 
             return services;

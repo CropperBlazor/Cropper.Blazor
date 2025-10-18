@@ -15,7 +15,6 @@ namespace Cropper.Blazor.Client.Components.Docs
         private string? Anchor = null;
         private bool IsDisplayView;
         private string? ComponentName;
-        private bool IsRenderAds;
         [Inject] NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private IRenderQueueService RenderQueue { get; set; } = null!;
         [Parameter] public RenderFragment ChildContent { get; set; }
@@ -78,7 +77,6 @@ namespace Cropper.Blazor.Client.Components.Docs
 
             if (firstRender)
             {
-                IsRenderAds = true;
                 StateHasChanged();
             }
         }

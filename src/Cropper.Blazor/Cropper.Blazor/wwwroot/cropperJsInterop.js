@@ -14,9 +14,14 @@ class CropperDecorator {
   }
 
   destroy (cropperComponentId) {
-    this.cropperInstances[cropperComponentId]
-      .destroy()
-    delete this.cropperInstances[cropperComponentId]
+    const cropperInstance = this.cropperInstances[cropperComponentId]
+
+    if (cropperInstance) {
+      cropperInstance
+        .destroy()
+
+      delete this.cropperInstances[cropperComponentId]
+    }
   }
 
   disable (cropperComponentId) {
@@ -166,16 +171,6 @@ class CropperDecorator {
 
   setDefaults (options) {
     return Cropper.setDefaults(options) // eslint-disable-line no-undef
-  }
-
-  async getImageUsingStreaming (imageStream) {
-    const arrayBuffer = await imageStream.arrayBuffer()
-    const blob = new Blob([arrayBuffer])
-    return URL.createObjectURL(blob)
-  }
-
-  revokeObjectUrl (url) {
-    URL.revokeObjectURL(url)
   }
 
   getJSEventData (instance, correlationId) {
@@ -407,4 +402,24 @@ class CropperDecorator {
   }
 }
 
+class CropperUrlImageHelper {
+  static async getImageUsingStreaming (imageStream) {
+    if (!imageStream || typeof imageStream.arrayBuffer !== 'function') {
+      throw new TypeError('Invalid image stream provided.')
+    }
+
+    const arrayBuffer = await imageStream.arrayBuffer()
+    const blob = new Blob([arrayBuffer])
+    return URL.createObjectURL(blob)
+  }
+
+  static revokeObjectUrl (url) {
+    if (typeof url !== 'string') {
+      throw new TypeError('Expected a string URL to revoke.')
+    }
+    URL.revokeObjectURL(url)
+  }
+}
+
+window.cropperUrlImageHelper = CropperUrlImageHelper
 window.cropper = new CropperDecorator()

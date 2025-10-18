@@ -1,4 +1,6 @@
-﻿<div class="img-container">
+﻿@using Cropper.Blazor.Models
+
+<div class="img-container">
     <CropperComponent Class="big-img"
                       Src="@src"
                       ErrorLoadImageSrc="@_errorLoadImageSrc"
@@ -7,7 +9,7 @@
                       IsErrorLoadImage="@IsErrorLoadImage"
                       OnErrorLoadImageEvent="OnErrorLoadImageEvent"
                       @ref="cropperComponent"
-                      Options="new Blazor.Models.Options()" />
+                      Options="new Options()" />
 </div>
 
 <InputFile id="imageRebuildInput" OnChange="RebuildImageAsync" accept="image/*" />

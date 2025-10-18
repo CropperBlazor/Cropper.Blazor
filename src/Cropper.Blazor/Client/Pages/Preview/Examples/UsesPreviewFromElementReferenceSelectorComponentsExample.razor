@@ -1,4 +1,5 @@
 ﻿@using Cropper.Blazor.Components
+@using Cropper.Blazor.Models
 
 <div class="img-container">
     <CropperComponent Class="cropper-example"
@@ -25,7 +26,7 @@
 </style>
 
 @code {
-    private Cropper.Blazor.Models.Options Options = new();
+    private Options Options = new();
     private ElementReference ElementReference;
 
     protected override void OnAfterRender(bool firstRender)
