@@ -6,47 +6,41 @@ namespace Cropper.Blazor.Client.Shared
 {
     public partial class MainLayout : LayoutComponentBase, IDisposable
     {
-        [Inject] private LayoutService LayoutService { get; set; } = null!;
-
         private MudThemeProvider _mudThemeProvider = null!;
+
+        [Inject]
+        private LayoutService LayoutService { get; set; } = null!;
+
 
         protected override void OnInitialized()
         {
-            LayoutService.MajorUpdateOccured += LayoutServiceOnMajorUpdateOccured;
+            LayoutService.MajorUpdateOccured += OnMajorUpdateOccured;
             base.OnInitialized();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            await base.OnAfterRenderAsync(firstRender);
-
             if (firstRender)
             {
-                await ApplyUserPreferences();
-                await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+                var dark = await _mudThemeProvider.GetSystemDarkModeAsync();
+
+                LayoutService.UpdateDarkModeState(dark);
+
+                await LayoutService.ApplyUserPreferencesAsync();
+
+                await _mudThemeProvider.WatchSystemDarkModeAsync(LayoutService.OnSystemModeChangedAsync);
+
                 StateHasChanged();
             }
-        }
 
-        private async Task ApplyUserPreferences()
-        {
-            bool defaultDarkMode = await _mudThemeProvider.GetSystemPreference();
-            await LayoutService.ApplyUserPreferencesAsync(defaultDarkMode);
-        }
-
-        private async Task OnSystemPreferenceChanged(bool newValue)
-        {
-            await LayoutService.OnSystemPreferenceChanged(newValue);
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         public void Dispose()
         {
-            LayoutService.MajorUpdateOccured -= LayoutServiceOnMajorUpdateOccured;
+            LayoutService.MajorUpdateOccured -= OnMajorUpdateOccured;
         }
 
-        private void LayoutServiceOnMajorUpdateOccured(object? sender, EventArgs e)
-        {
-            StateHasChanged();
-        }
+        private void OnMajorUpdateOccured(object? sender, EventArgs e) => StateHasChanged();
     }
 }

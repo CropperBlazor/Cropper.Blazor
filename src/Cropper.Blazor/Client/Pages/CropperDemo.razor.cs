@@ -12,6 +12,7 @@ using Cropper.Blazor.Events.CropStartEvent;
 using Cropper.Blazor.Events.ZoomEvent;
 using Cropper.Blazor.Exceptions;
 using Cropper.Blazor.Models;
+using Cropper.Blazor.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -54,6 +55,7 @@ namespace Cropper.Blazor.Client.Pages
         private bool IsErrorLoadImage { get; set; } = false;
 
         [Inject] private IJSRuntime? JSRuntime { get; set; }
+        [Inject] private IUrlImageInterop UrlImageInterop { get; set; } = null!;
 
         public void Dispose()
         {
@@ -235,13 +237,13 @@ namespace Cropper.Blazor.Client.Pages
             {
                 string oldSrc = Src;
 
-                Src = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
+                Src = await UrlImageInterop.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
 
                 IsAvailableInitCropper = true;
                 IsErrorLoadImage = false;
 
                 CropperComponent?.Destroy();
-                CropperComponent?.RevokeObjectUrlAsync(oldSrc);
+                UrlImageInterop.RevokeObjectUrlAsync(oldSrc);
             }
         }
 
@@ -440,7 +442,7 @@ namespace Cropper.Blazor.Client.Pages
             if (imageFile != null)
             {
                 string oldSrc = Src;
-                string newSrc = await CropperComponent!.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
+                string newSrc = await UrlImageInterop.GetImageUsingStreamingAsync(imageFile, imageFile.Size);
 
                 if (IsErrorLoadImage)
                 {
@@ -454,7 +456,7 @@ namespace Cropper.Blazor.Client.Pages
 
                 await Task.WhenAll(
                     CropperComponent!.ReplaceAsync(newSrc, false).AsTask(),
-                    CropperComponent!.RevokeObjectUrlAsync(oldSrc).AsTask())
+                    UrlImageInterop.RevokeObjectUrlAsync(oldSrc).AsTask())
                     .ContinueWith(x =>
                     {
                         Src = newSrc;
@@ -584,7 +586,7 @@ namespace Cropper.Blazor.Client.Pages
         private void Destroy()
         {
             CropperComponent?.Destroy();
-            CropperComponent?.RevokeObjectUrlAsync(Src);
+            UrlImageInterop.RevokeObjectUrlAsync(Src);
         }
 
         private void Disable()

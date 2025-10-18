@@ -3,29 +3,37 @@
 namespace Cropper.Blazor.Client.Services.UserPreferences;
 public interface IUserPreferencesService
 {
-    Task SaveUserPreferences(UserPreferences userPreferences);
+    /// <summary>
+    /// Saves UserPreferences in local storage
+    /// </summary>
+    /// <param name="userPreferences">The userPreferences to save in the local storage</param>
+    public Task SaveUserPreferences(UserPreferences userPreferences);
 
-    Task<UserPreferences> LoadUserPreferences();
+    /// <summary>
+    /// Loads UserPreferences in local storage
+    /// </summary>
+    /// <returns>UserPreferences object. Null when no settings were found.</returns>
+    public Task<UserPreferences> LoadUserPreferences();
 }
 
 public class UserPreferencesService : IUserPreferencesService
 {
-    private readonly ILocalStorageService _localStorageService;
+    private readonly ILocalStorageService _localStorage;
     private const string Key = "userPreferences";
 
     public UserPreferencesService(ILocalStorageService localStorageService)
     {
-        _localStorageService = localStorageService;
+        _localStorage = localStorageService;
     }
 
     public async Task SaveUserPreferences(UserPreferences userPreferences)
     {
-        await _localStorageService.SetItemAsync(Key, userPreferences);
+        await _localStorage.SetItemAsync(Key, userPreferences);
     }
 
     public async Task<UserPreferences> LoadUserPreferences()
     {
-        return await _localStorageService.GetItemAsync<UserPreferences>(Key);
+        return await _localStorage.GetItemAsync<UserPreferences>(Key);
     }
 }
 

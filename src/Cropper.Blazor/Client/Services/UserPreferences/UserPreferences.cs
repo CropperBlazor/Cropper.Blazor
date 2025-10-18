@@ -6,5 +6,5 @@ public class UserPreferences
     /// <summary>
     /// The current mode of theme
     /// </summary>
-    public ThemeMode ThemeMode { get; set; }
+    public DarkLightMode DarkLightTheme { get; set; }
 }

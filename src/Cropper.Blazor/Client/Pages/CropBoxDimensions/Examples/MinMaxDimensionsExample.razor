@@ -6,8 +6,11 @@
     <MudItem xs="12" sm="8" md="8" lg="8">
         <MudPaper Class="pa-2">
             <div class="img-container">
-                <CropperComponent Class="big-img" @ref="cropperComponent" Src="images/dolphin.jpg"
-                                  Options="CropperOptions" OnCropEvent="OnCropEvent" />
+                <CropperComponent Class="big-img"
+                                  @ref="cropperComponent"
+                                  Src="images/dolphin.jpg"
+                                  Options="CropperOptions"
+                                  OnCropEvent="OnCropEvent" />
             </div>
         </MudPaper>
     </MudItem>
@@ -67,10 +70,10 @@
                         Math.Min(maxCroppedHeight, height));
 
                     cropperComponent!.SetData(new SetDataOptions
-                        {
-                            Width = nWidth,
-                            Height = nHeight
-                        });
+                    {
+                        Width = nWidth,
+                        Height = nHeight
+                    });
                 }
                 else
                 {
