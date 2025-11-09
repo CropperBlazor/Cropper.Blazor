@@ -39,7 +39,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{
 		..\..\.github\workflows\build-test-template.yml = ..\..\.github\workflows\build-test-template.yml
 		..\..\.github\workflows\cd.yml = ..\..\.github\workflows\cd.yml
 		..\..\.github\workflows\ci.yml = ..\..\.github\workflows\ci.yml
-		..\..\.github\workflows\dependabot-ci.yml = ..\..\.github\workflows\dependabot-ci.yml
 		..\..\.github\dependabot.yml = ..\..\.github\dependabot.yml
 		..\..\.github\workflows\release.yml = ..\..\.github\workflows\release.yml
 	EndProjectSection
