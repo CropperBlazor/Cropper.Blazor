@@ -38,7 +38,7 @@ jobs:
           VALIDATE_MARKDOWN: false
           VALIDATE_JAVASCRIPT_PRETTIER: false
           LOG_LEVEL: WARN
-          FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
+          FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
           FILTER_REGEX_INCLUDE: /github/workspace/src/Cropper.Blazor/.*
           JSCPD_CONFIG_FILE: '.jscpd.json'
           HTML_FILE_NAME: '.htmlhintrc'
