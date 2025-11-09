@@ -22,7 +22,7 @@ jobs:
     needs: code-quality-check
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           # super-linter needs the full git history to get the
           # list of files that changed across commits
@@ -38,7 +38,7 @@ jobs:
           VALIDATE_MARKDOWN: false
           VALIDATE_JAVASCRIPT_PRETTIER: false
           LOG_LEVEL: WARN
-          FILTER_REGEX_EXCLUDE: '(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
+          FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
           FILTER_REGEX_INCLUDE: /github/workspace/src/Cropper.Blazor/.*
           JSCPD_CONFIG_FILE: '.jscpd.json'
           HTML_FILE_NAME: '.htmlhintrc'
