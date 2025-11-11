@@ -25,9 +25,12 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         [Parameter] public Type Type { get; set; }
         [Parameter] public bool IsContract { get; set; } = false;
+        [Inject] NavigationManager NavigationManager { get; set; } = null!;
 
         // used for default value getting
         private object CompInstance;
+
+        public DocsPage DocsPage { get; set; }
 
         private IEnumerable<ApiProperty> GetEventCallbacks()
         {
@@ -227,6 +230,11 @@ namespace Cropper.Blazor.Client.Components.Docs
                 builder.AddComponentReferenceCapture(1, inst => { CompInstance = inst; });
                 builder.CloseComponent();
             });
+        }
+
+        private async Task OnPageChanged(int newPage)
+        {
+            await DocsPage.ContentNavigation.ScrollToSection(new Uri(NavigationManager.BaseUri + "/api#methods"));
         }
 
         private object GetDefaultValue(PropertyInfo info)
