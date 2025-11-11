@@ -12,6 +12,7 @@
                 "examples usage",
                 "examples cropper",
                 "examples cropper component",
+                "examples cropper canvas component",
                 "examples cropper.Blazor component",
                 "Basic usage",
                 "Basic usage cropper",
@@ -20,7 +21,9 @@
                 "cross-origin image",
                 "cross-origin",
                 "Image loading error",
-                "Cropper sizing"
+                "Cropper sizing",
+                "Overlay Cropper",
+                "overlay-cropper"
             })" />
 
 <DocsPage>
@@ -41,7 +44,7 @@
                     To start using the cropper component, <b>you must specify the path to the image</b>
                     with which you will work in the <CodeInline>Src</CodeInline> property.
                     You also need to specify the cropper settings using the <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/Options">Options</MudLink></CodeInline> property,
-                    which can be left as <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="https://github.com/fengyuanchen/cropperjs/blob/main/src/js/defaults.js">default</MudLink>, as in the example below.
+                                which can be left as <MudLink UserAttributes="@(new Dictionary<string, object>() { { "rel", "noopener" } })" Target="_blank" Href="https://github.com/fengyuanchen/cropperjs/blob/v1/src/js/defaults.js">default</MudLink>, as in the example below.
                     <br>
                     <MudAlert Class="my-3" Severity="Severity.Info">
                         Note: With the release of version 1.2.7 of the Cropper.Blazor NuGet package, сropper's default settings will be set automatically,

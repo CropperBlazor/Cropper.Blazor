@@ -46,7 +46,6 @@ namespace Cropper.Blazor.UnitTests.Services
 
             using (MemoryStream stream = new(Encoding.UTF8.GetBytes(expectedText)))
             {
-
                 mockImageFile
                     .Setup(m => m.OpenReadStream(maxAllowedSize, cancellationToken))
                     .Returns(stream);

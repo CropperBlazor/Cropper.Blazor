@@ -46,6 +46,7 @@ namespace Cropper.Blazor.Client.Shared
                 "free image cropper",
                 "online cropper",
                 "photo cropper",
+                "cropper-element",
                 "avatar cropper",
                 "photo cropper",
                 "image cropper",
@@ -59,6 +60,11 @@ namespace Cropper.Blazor.Client.Shared
                 "blazor image cropper",
                 "blazor resize image",
                 "blazor photo resizer",
+                "Canvas Cropper",
+                "canvas-cropper",
+                "image-viewing",
+                "Image Viewing",
+                "Image View Blazor",
                 .. Keywords
             ];
 
