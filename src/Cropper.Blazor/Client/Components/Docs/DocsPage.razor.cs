@@ -10,7 +10,7 @@ namespace Cropper.Blazor.Client.Components.Docs
     {
         private const char NumberSignSymbol = '#';
         private readonly Queue<DocsSectionLink> _bufferedSections = new();
-        public MudPageContentNavigation ContentNavigation {  get; set; }
+        public MudPageContentNavigation ContentNavigation { get; set; }
         private Stopwatch Stopwatch = Stopwatch.StartNew();
         private string? Anchor = null;
         private bool IsDisplayView;
