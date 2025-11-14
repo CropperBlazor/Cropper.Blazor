@@ -18,7 +18,7 @@
 
 	<!--Packages-->
 	<ItemGroup>
-		<PackageReference Include="BlazorWasmPreRendering.Build" Version="7.0.0-preview.1" />
+		<PackageReference Include="BlazorWasmPreRendering.Build" Version="7.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="10.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0" PrivateAssets="all" />
@@ -173,3 +173,4 @@
 	</ItemGroup>
 
 </Project>
+
