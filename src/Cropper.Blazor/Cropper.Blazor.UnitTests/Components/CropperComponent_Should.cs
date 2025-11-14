@@ -31,6 +31,10 @@ using Xunit;
 using ErrorEventArgs = Microsoft.AspNetCore.Components.Web.ErrorEventArgs;
 using Options = Cropper.Blazor.Models.Options;
 
+#if NET8_0_OR_GREATER
+using TestContext = Bunit.BunitContext;
+#endif
+
 namespace Cropper.Blazor.UnitTests.Components
 {
     public class CropperComponent_Should : IDisposable
@@ -64,7 +68,7 @@ namespace Cropper.Blazor.UnitTests.Components
             string imageFormatType = faker.Random.Word();
 
             IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>();
+                .GetIRenderedComponent<CropperComponent>();
 
             await cropperComponent.InvokeAsync(async () =>
             {
@@ -107,7 +111,7 @@ namespace Cropper.Blazor.UnitTests.Components
             int? maximumReceiveChunkSize = faker.Random.Int(1, 100);
 
             IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>();
+                .GetIRenderedComponent<CropperComponent>();
 
             await cropperComponent.InvokeAsync(async () =>
             {
@@ -151,7 +155,7 @@ namespace Cropper.Blazor.UnitTests.Components
             float numberImageQuality = faker.Random.Float(0f, 1f);
 
             IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>();
+                .GetIRenderedComponent<CropperComponent>();
 
             await cropperComponent.InvokeAsync(async () =>
             {
@@ -189,7 +193,7 @@ namespace Cropper.Blazor.UnitTests.Components
 
             // act
             IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>();
+                .GetIRenderedComponent<CropperComponent>();
 
             // assert
             Guid cropperComponentId = (Guid)cropperComponent.Instance
@@ -209,7 +213,7 @@ namespace Cropper.Blazor.UnitTests.Components
 
             // act
             IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>();
+                .GetIRenderedComponent<CropperComponent>();
 
             // assert
             Guid cropperComponentId = (Guid)cropperComponent.Instance
@@ -354,55 +358,6 @@ namespace Cropper.Blazor.UnitTests.Components
                 cropReadyEvent.Should().BeEquivalentTo(c);
             };
 
-            ComponentParameter imageClassParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.Class),
-                imageClass);
-            ComponentParameter errorLoadImageClassParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.ErrorLoadImageClass),
-                errorLoadImageClass);
-            ComponentParameter loadingParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.InputAttributes),
-                inputAttributes);
-            ComponentParameter errorLoadImageSrcParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.ErrorLoadImageSrc),
-                errorLoadImageSrcAttributeValue);
-            ComponentParameter srcParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.Src),
-                imageSrcAttributeValue);
-            ComponentParameter isErrorLoadImageParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.IsErrorLoadImage),
-                false);
-            ComponentParameter isAvailableInitCropperParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.IsAvailableInitCropper),
-                true);
-            ComponentParameter onLoadImageParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnLoadImageEvent),
-                onLoadImageHandler);
-            ComponentParameter onErrorLoadImageParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnErrorLoadImageEvent),
-                onErrorLoadImageHandler);
-            ComponentParameter optionsParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.Options),
-                options);
-            ComponentParameter onCropEventParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnCropEvent),
-                onCropEventHandler);
-            ComponentParameter onCropEndEventParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnCropEndEvent),
-                onCropEndEventHandler);
-            ComponentParameter onCropMoveEventParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnCropMoveEvent),
-                onCropMoveEventHandler);
-            ComponentParameter onCropStartEventParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnCropStartEvent),
-                onCropStartEventHandler);
-            ComponentParameter onZoomEventParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnZoomEvent),
-                onZoomEventHandler);
-            ComponentParameter onReadyEventParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnReadyEvent),
-                onCropReadyEventHandler);
-
             _mockCropperJsInterop
                 .Setup(c => c.GetCanvasDataAsync(It.IsAny<Guid>(), cancellationToken))
                 .ReturnsAsync(expectedCanvasData);
@@ -468,25 +423,30 @@ namespace Cropper.Blazor.UnitTests.Components
                 .Setup(c => c.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken))
                 .ReturnsAsync(expectedImage);
 
+            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
+            {
+                builder
+                    .Add(p => p.Class, imageClass)
+                    .Add(p => p.ErrorLoadImageClass, errorLoadImageClass)
+                    .Add(p => p.InputAttributes, inputAttributes)
+                    .Add(p => p.ErrorLoadImageSrc, errorLoadImageSrcAttributeValue)
+                    .Add(p => p.Src, imageSrcAttributeValue)
+                    .Add(p => p.IsErrorLoadImage, false)
+                    .Add(p => p.IsAvailableInitCropper, true)
+                    .Add(p => p.OnLoadImageEvent, onLoadImageHandler)
+                    .Add(p => p.OnErrorLoadImageEvent, onErrorLoadImageHandler)
+                    .Add(p => p.Options, options)
+                    .Add(p => p.OnCropEvent, onCropEventHandler)
+                    .Add(p => p.OnCropEndEvent, onCropEndEventHandler)
+                    .Add(p => p.OnCropMoveEvent, onCropMoveEventHandler)
+                    .Add(p => p.OnCropStartEvent, onCropStartEventHandler)
+                    .Add(p => p.OnZoomEvent, onZoomEventHandler)
+                    .Add(p => p.OnReadyEvent, onCropReadyEventHandler);
+            };
+
             // act
-            IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>(
-                    errorLoadImageClassParameter,
-                    loadingParameter,
-                    errorLoadImageSrcParameter,
-                    isErrorLoadImageParameter,
-                    isAvailableInitCropperParameter,
-                    srcParameter,
-                    imageClassParameter,
-                    onLoadImageParameter,
-                    onErrorLoadImageParameter,
-                    optionsParameter,
-                    onCropEventParameter,
-                    onCropEndEventParameter,
-                    onCropMoveEventParameter,
-                    onCropStartEventParameter,
-                    onZoomEventParameter,
-                    onReadyEventParameter);
+            IRenderedComponent<CropperComponent> cropperComponent =
+                _testContext.GetIRenderedComponent(actionParameters);
 
             // assert
             IElement expectedElement = cropperComponent.Find($"img.{imageClass}");
@@ -790,52 +750,6 @@ namespace Cropper.Blazor.UnitTests.Components
                 cropReadyEvent.Should().BeEquivalentTo(c);
             };
 
-            ComponentParameter imageClassParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.Class),
-                imageClass);
-            ComponentParameter errorLoadImageClassParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.ErrorLoadImageClass),
-                errorLoadImageClass);
-            ComponentParameter loadingParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.InputAttributes),
-                inputAttributes);
-            ComponentParameter errorLoadImageSrcParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.ErrorLoadImageSrc),
-                errorLoadImageSrcAttributeValue);
-            ComponentParameter srcParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.Src),
-                imageSrcAttributeValue);
-            ComponentParameter isErrorLoadImageParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.IsErrorLoadImage),
-                false);
-            ComponentParameter isAvailableInitCropperParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.IsAvailableInitCropper),
-                true);
-            ComponentParameter optionsParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.Options),
-                options);
-            ComponentParameter onCropEventParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnCropEvent),
-                onCropEventHandler);
-            ComponentParameter onCropEndEventParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnCropEndEvent),
-                onCropEndEventHandler);
-            ComponentParameter onCropMoveEventParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnCropMoveEvent),
-                onCropMoveEventHandler);
-            ComponentParameter onCropStartEventParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnCropStartEvent),
-                onCropStartEventHandler);
-            ComponentParameter onZoomEventParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnZoomEvent),
-                onZoomEventHandler);
-            ComponentParameter onReadyEventParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnReadyEvent),
-                onCropReadyEventHandler);
-            ComponentParameter cropperComponentTypeParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.CropperComponentType),
-                CropperComponentType.Canvas);
-
             _mockCropperJsInterop
                 .Setup(c => c.GetCanvasDataAsync(It.IsAny<Guid>(), cancellationToken))
                 .ReturnsAsync(expectedCanvasData);
@@ -889,24 +803,29 @@ namespace Cropper.Blazor.UnitTests.Components
                 .Setup(c => c.GetImageUsingStreamingAsync(imageFile, maxAllowedSize, cancellationToken))
                 .ReturnsAsync(expectedImage);
 
+            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
+            {
+                builder
+                    .Add(p => p.ErrorLoadImageClass, errorLoadImageClass)
+                    .Add(p => p.InputAttributes, inputAttributes)
+                    .Add(p => p.ErrorLoadImageSrc, errorLoadImageSrcAttributeValue)
+                    .Add(p => p.IsErrorLoadImage, false)
+                    .Add(p => p.IsAvailableInitCropper, true)
+                    .Add(p => p.Src, imageSrcAttributeValue)
+                    .Add(p => p.Class, imageClass)
+                    .Add(p => p.Options, options)
+                    .Add(p => p.OnCropEvent, onCropEventHandler)
+                    .Add(p => p.OnCropEndEvent, onCropEndEventHandler)
+                    .Add(p => p.OnCropMoveEvent, onCropMoveEventHandler)
+                    .Add(p => p.OnCropStartEvent, onCropStartEventHandler)
+                    .Add(p => p.OnZoomEvent, onZoomEventHandler)
+                    .Add(p => p.OnReadyEvent, onCropReadyEventHandler)
+                    .Add(p => p.CropperComponentType, CropperComponentType.Canvas);
+            };
+
             // act
-            IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>(
-                    errorLoadImageClassParameter,
-                    loadingParameter,
-                    errorLoadImageSrcParameter,
-                    isErrorLoadImageParameter,
-                    isAvailableInitCropperParameter,
-                    srcParameter,
-                    imageClassParameter,
-                    optionsParameter,
-                    onCropEventParameter,
-                    onCropEndEventParameter,
-                    onCropMoveEventParameter,
-                    onCropStartEventParameter,
-                    onZoomEventParameter,
-                    onReadyEventParameter,
-                    cropperComponentTypeParameter);
+            IRenderedComponent<CropperComponent> cropperComponent =
+                _testContext.GetIRenderedComponent(actionParameters);
 
             // assert
             IElement expectedElement = cropperComponent.Find($"canvas.{imageClass}");
@@ -1090,26 +1009,18 @@ namespace Cropper.Blazor.UnitTests.Components
             };
             string errorLoadImageSrcAttributeValue = "https://cropper/not-found-image.jpg";
 
-            ComponentParameter errorLoadImageClassParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.ErrorLoadImageClass),
-                errorLoadImageClass);
-            ComponentParameter loadingParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.InputAttributes),
-                inputAttributes);
-            ComponentParameter errorLoadImageSrcParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.ErrorLoadImageSrc),
-                errorLoadImageSrcAttributeValue);
-            ComponentParameter isErrorLoadImage = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.IsErrorLoadImage),
-                true);
+            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
+            {
+                builder
+                    .Add(p => p.ErrorLoadImageClass, errorLoadImageClass)
+                    .Add(p => p.InputAttributes, inputAttributes)
+                    .Add(p => p.ErrorLoadImageSrc, errorLoadImageSrcAttributeValue)
+                    .Add(p => p.IsErrorLoadImage, true);
+            };
 
             // act
-            IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>(
-                    errorLoadImageClassParameter,
-                    loadingParameter,
-                    errorLoadImageSrcParameter,
-                    isErrorLoadImage);
+            IRenderedComponent<CropperComponent> cropperComponent =
+                _testContext.GetIRenderedComponent(actionParameters);
 
             // assert
             IElement expectedElement = cropperComponent.Find($"img.{errorLoadImageClass}");
@@ -1148,22 +1059,17 @@ namespace Cropper.Blazor.UnitTests.Components
                 { "src", "new_src" }
             };
 
-            ComponentParameter errorLoadImageContentParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.ErrorLoadImageContent),
-                errorLoadImageContent);
-            ComponentParameter loadingParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.InputAttributes),
-                inputAttributes);
-            ComponentParameter isErrorLoadImage = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.IsErrorLoadImage),
-                true);
+            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
+            {
+                builder
+                    .Add(p => p.ErrorLoadImageContent, errorLoadImageContent)
+                    .Add(p => p.InputAttributes, inputAttributes)
+                    .Add(p => p.IsErrorLoadImage, true);
+            };
 
             // act
-            IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>(
-                    errorLoadImageContentParameter,
-                    loadingParameter,
-                    isErrorLoadImage);
+            IRenderedComponent<CropperComponent> cropperComponent =
+                _testContext.GetIRenderedComponent(actionParameters);
 
             // assert
             IElement expectedElement = cropperComponent.Find("div.error-img");
@@ -1195,30 +1101,19 @@ namespace Cropper.Blazor.UnitTests.Components
             };
             string errorLoadImageSrcAttributeValue = "https://cropper/not-found-image.jpg";
 
-            ComponentParameter errorLoadImageClassParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.ErrorLoadImageClass),
-                errorLoadImageClass);
-            ComponentParameter loadingParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.InputAttributes),
-                inputAttributes);
-            ComponentParameter errorLoadImageSrcParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.ErrorLoadImageSrc),
-                errorLoadImageSrcAttributeValue);
-            ComponentParameter isErrorLoadImage = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.IsErrorLoadImage),
-                true);
-            ComponentParameter isAvailableInitCropperParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.IsAvailableInitCropper),
-                false);
+            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
+            {
+                builder
+                    .Add(p => p.ErrorLoadImageClass, errorLoadImageClass)
+                    .Add(p => p.InputAttributes, inputAttributes)
+                    .Add(p => p.ErrorLoadImageSrc, errorLoadImageSrcAttributeValue)
+                    .Add(p => p.IsErrorLoadImage, true)
+                    .Add(p => p.IsAvailableInitCropper, false);
+            };
 
             // act
             IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>(
-                    errorLoadImageClassParameter,
-                    loadingParameter,
-                    errorLoadImageSrcParameter,
-                    isErrorLoadImage,
-                    isAvailableInitCropperParameter);
+                .GetIRenderedComponent(actionParameters);
 
             // assert
             IElement expectedElement = cropperComponent.Find($"img.{errorLoadImageClass}");
@@ -1270,22 +1165,17 @@ namespace Cropper.Blazor.UnitTests.Components
                 countCallsOnLoadImageHandler++;
             };
 
-            ComponentParameter optionsParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.Options),
-                options);
-            ComponentParameter onLoadImageParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnLoadImageEvent),
-                onLoadImageHandler);
-            ComponentParameter isAvailableInitCropperParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.IsAvailableInitCropper),
-                false);
+            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
+            {
+                builder
+                    .Add(p => p.Options, options)
+                    .Add(p => p.OnLoadImageEvent, onLoadImageHandler)
+                    .Add(p => p.IsAvailableInitCropper, false);
+            };
 
             // act
             IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>(
-                    optionsParameter,
-                    onLoadImageParameter,
-                    isAvailableInitCropperParameter);
+                .GetIRenderedComponent(actionParameters);
 
             // assert
             IElement expectedElement = cropperComponent.Find($"img");
@@ -1335,22 +1225,17 @@ namespace Cropper.Blazor.UnitTests.Components
                 countCallsOnLoadImageHandler++;
             };
 
-            ComponentParameter optionsParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.Options),
-                options);
-            ComponentParameter onLoadImageParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnLoadImageEvent),
-                null);
-            ComponentParameter isAvailableInitCropperParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.IsAvailableInitCropper),
-                false);
+            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
+            {
+                builder
+                    .Add(p => p.Options, options)
+                    .Add(p => p.OnLoadImageEvent, null)
+                    .Add(p => p.IsAvailableInitCropper, false);
+            };
 
             // act
             IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>(
-                    optionsParameter,
-                    onLoadImageParameter,
-                    isAvailableInitCropperParameter);
+                .GetIRenderedComponent(actionParameters);
 
             // assert
             IElement expectedElement = cropperComponent.Find($"img");
@@ -1413,23 +1298,17 @@ namespace Cropper.Blazor.UnitTests.Components
                 .Generate();
             JSEventData<CropEvent> cropEvent = new Faker<JSEventData<CropEvent>>()
                 .Generate();
-
-            ComponentParameter optionsParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.Options),
-                options);
-            ComponentParameter onLoadImageParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnLoadImageEvent),
-                null);
-            ComponentParameter onErrorLoadImageParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnErrorLoadImageEvent),
-                null);
+            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
+            {
+                builder
+                    .Add(p => p.Options, options)
+                    .Add(p => p.OnLoadImageEvent, null)
+                    .Add(p => p.OnErrorLoadImageEvent, null);
+            };
 
             // act
-            IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>(
-                    optionsParameter,
-                    onLoadImageParameter,
-                    onErrorLoadImageParameter);
+            IRenderedComponent<CropperComponent> cropperComponent =
+                _testContext.GetIRenderedComponent(actionParameters);
 
             // assert
             IElement expectedElement = cropperComponent.Find($"img");
@@ -1473,14 +1352,15 @@ namespace Cropper.Blazor.UnitTests.Components
             ProgressEventArgs progressEventArgs = new Faker<ProgressEventArgs>()
                 .Generate();
 
-            ComponentParameter onLoadImageParameter = ComponentParameter.CreateParameter(
-                nameof(CropperComponent.OnLoadImageEvent),
-                null);
+            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
+            {
+                builder
+                    .Add(p => p.OnLoadImageEvent, null);
+            };
 
             // act
-            IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .RenderComponent<CropperComponent>(
-                    onLoadImageParameter);
+            IRenderedComponent<CropperComponent> cropperComponent =
+                _testContext.GetIRenderedComponent(actionParameters);
 
             // assert
             IElement expectedElement = cropperComponent.Find($"img");
@@ -1542,7 +1422,12 @@ namespace Cropper.Blazor.UnitTests.Components
 
         public void Dispose()
         {
+#if NET8_0_OR_GREATER
+
+#else
             _testContext.DisposeComponents();
+#endif
+
             _testContext.Dispose();
             GC.SuppressFinalize(this);
         }

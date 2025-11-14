@@ -4,12 +4,17 @@ using System.IO;
 using System.Threading.Tasks;
 using Bogus;
 using Bunit;
-using Bunit.TestDoubles;
 using Cropper.Blazor.ModuleOptions;
 using Cropper.Blazor.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
+
+#if NET8_0_OR_GREATER
+using FakeNavigationManager = Bunit.TestDoubles.BunitNavigationManager;
+#else
+using Bunit.TestDoubles;
+#endif
 
 namespace Cropper.Blazor.UnitTests.Services
 {
@@ -18,7 +23,6 @@ namespace Cropper.Blazor.UnitTests.Services
         private readonly TestContext _testContext;
         private ICropperJsInterop _cropperJsInterop;
         private const string PathToCropperModule = "_content/Cropper.Blazor/cropperJsInterop.min.js";
-        private static string DefaultPathToCropperModule => Path.Combine("http:localhost", PathToCropperModule);
 
         public LoadCropperModule_Should()
         {

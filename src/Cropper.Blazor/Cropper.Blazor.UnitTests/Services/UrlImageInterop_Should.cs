@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bogus;
 using Bunit;
-using Bunit.TestDoubles;
 using Cropper.Blazor.ModuleOptions;
 using Cropper.Blazor.Services;
 using FluentAssertions;
@@ -14,6 +13,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using Moq;
 using Xunit;
+
+#if NET8_0_OR_GREATER
+using FakeNavigationManager = Bunit.TestDoubles.BunitNavigationManager;
+#else
+using Bunit.TestDoubles;
+#endif
 
 namespace Cropper.Blazor.UnitTests.Services
 {
