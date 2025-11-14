@@ -1422,9 +1422,7 @@ namespace Cropper.Blazor.UnitTests.Components
 
         public void Dispose()
         {
-#if NET8_0_OR_GREATER
-
-#else
+#if NET6_0 || NET7_0
             _testContext.DisposeComponents();
 #endif
 

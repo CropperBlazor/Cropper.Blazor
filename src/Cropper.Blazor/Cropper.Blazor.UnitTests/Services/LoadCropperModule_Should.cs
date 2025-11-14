@@ -12,6 +12,7 @@ using Xunit;
 
 #if NET8_0_OR_GREATER
 using FakeNavigationManager = Bunit.TestDoubles.BunitNavigationManager;
+using TestContext = Bunit.BunitContext;
 #else
 using Bunit.TestDoubles;
 #endif
@@ -21,7 +22,7 @@ namespace Cropper.Blazor.UnitTests.Services
     public class LoadCropperModule_Should : IDisposable
     {
         private readonly TestContext _testContext;
-        private ICropperJsInterop _cropperJsInterop;
+        private ICropperJsInterop _cropperJsInterop = null!;
         private const string PathToCropperModule = "_content/Cropper.Blazor/cropperJsInterop.min.js";
 
         public LoadCropperModule_Should()
