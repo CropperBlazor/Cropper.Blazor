@@ -3,10 +3,6 @@ name: Build and run tests
 
 on:
   workflow_call:
-    secrets:
-      CODECOV_TOKEN:
-        description: 'Token for Codecov'
-        required: false
     inputs:
       configuration:
         description: 'dotnet build configuration'
@@ -18,6 +14,9 @@ on:
         required: false
         type: boolean
         default: true
+    secrets:
+      CODECOV_TOKEN:
+        required: false
 
 permissions:
   contents: read
