@@ -4,10 +4,12 @@
     "consoleFull"
   ],
   "ignore": [
-	"**/src/Cropper.Blazor/Cropper.Blazor.UnitTests/**",
-	"**/examples/**",
-	"**/*.md",
-	"**/*excubowebcompiler.json"
+    "**/src/Cropper.Blazor/Cropper.Blazor.UnitTests/**",
+    "**/examples/**",
+    "**/*.md",
+    "**/*excubowebcompiler.json",
+    "**/bin/**",
+    "**/obj/**"
   ],
   "absolute": true,
   "minTokens": 75
