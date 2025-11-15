@@ -43,7 +43,7 @@ jobs:
            VALIDATE_BIOME_LINT: false
 
            FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
-           FILTER_REGEX_INCLUDE: /github/workspace/src/Cropper.Blazor/.*
+           FILTER_REGEX_INCLUDE: '/github/workspace/src/Cropper.Blazor/.*|/github/workspace/.github/.*'
 
            JSCPD_CONFIG_FILE: '.jscpd.json'
            HTML_FILE_NAME: '.htmlhintrc'
