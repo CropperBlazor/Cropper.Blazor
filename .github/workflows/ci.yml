@@ -8,7 +8,7 @@ concurrency:
 on:
   pull_request:
     branches-ignore:
-    - master
+      - master
 
 permissions:
   contents: read
@@ -37,29 +37,30 @@ jobs:
           # list of files that changed across commits
           fetch-depth: 0
           persist-credentials: false
-          
+
       - name: Super-Linter
         uses: super-linter/super-linter@v8.2.1
         env:
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-           OUTPUT_FOLDER: Reports
-           OUTPUT_DETAILS: detailed
-           LOG_LEVEL: WARN
+          OUTPUT_FOLDER: Reports
+          OUTPUT_DETAILS: detailed
+          LOG_LEVEL: WARN
 
-           VALIDATE_ALL_CODEBASE: true
-           VALIDATE_MARKDOWN: false
-           VALIDATE_JAVASCRIPT_PRETTIER: false
-           VALIDATE_BIOME_FORMAT: false
-           VALIDATE_BIOME_LINT: false
-           VALIDATE_DOTNET_SLN_FORMAT_STYLE: false
-           VALIDATE_DOTNET_SLN_FORMAT_ANALYZERS: false
+          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_MARKDOWN: false
+          VALIDATE_JAVASCRIPT_PRETTIER: false
+          VALIDATE_BIOME_FORMAT: false
+          VALIDATE_BIOME_LINT: false
+          VALIDATE_DOTNET_SLN_FORMAT_STYLE: false
+          VALIDATE_DOTNET_SLN_FORMAT_ANALYZERS: false
+          VALIDATE_NATURAL_LANGUAGE: false
 
-           FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
-           FILTER_REGEX_INCLUDE: '/github/workspace/src/Cropper.Blazor/.*|/github/workspace/.github/.*'
+          FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
+          FILTER_REGEX_INCLUDE: "/github/workspace/src/Cropper.Blazor/.*|/github/workspace/.github/.*"
 
-           JSCPD_CONFIG_FILE: '.jscpd.json'
-           HTML_FILE_NAME: '.htmlhintrc'
-           CSS_FILE_NAME: '.stylelintrc.json'
-           GITHUB_ACTIONS_ZIZMOR_CONFIG_FILE: '.zizmor.yaml'
-           YAML_CONFIG_FILE: '.yaml-lint.yml'
+          JSCPD_CONFIG_FILE: ".jscpd.json"
+          HTML_FILE_NAME: ".htmlhintrc"
+          CSS_FILE_NAME: ".stylelintrc.json"
+          GITHUB_ACTIONS_ZIZMOR_CONFIG_FILE: ".zizmor.yaml"
+          YAML_CONFIG_FILE: ".yaml-lint.yml"

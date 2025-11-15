@@ -1,8 +1,6 @@
 {
   "threshold": 0,
-  "reporters": [
-    "consoleFull"
-  ],
+  "reporters": ["consoleFull"],
   "ignore": [
     "**/src/Cropper.Blazor/Cropper.Blazor.UnitTests/**",
     "**/examples/**",

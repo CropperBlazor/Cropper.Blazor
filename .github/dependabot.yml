@@ -18,7 +18,6 @@ updates:
       - MaxymGorn
       - ColdForeign
 
-
   - package-ecosystem: github-actions
     directory: "/.github"
     target-branch: "dev"
