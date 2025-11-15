@@ -1,20 +1,25 @@
+---
 name: Deploy to GitHub Pages
 
-concurrency: 
+permissions:
+  contents: read
+
+concurrency:
   group: github-pages
   cancel-in-progress: true
 
 on:
   push:
-    branches: [ dev ]
+    branches: [dev]
     paths-ignore:
-      - '**.md'
-    
+      - "**.md"
+
 jobs:
   code-quality-check:
     name: Check code quality
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
-    secrets: inherit
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   deploy-to-github-pages:
     runs-on: ubuntu-latest
@@ -23,12 +28,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
-              10.0.x
+            10.0.x
 
       - name: Restore dependencies
         run: dotnet restore
@@ -53,15 +60,15 @@ jobs:
             exit 1
           fi
         working-directory: src/Cropper.Blazor/Client/wwwroot
-        
+
         # publishes Blazor project to the release-folder
       - name: Publish .NET Core Project
         run: dotnet publish ./src/Cropper.Blazor/Client/Cropper.Blazor.Client.csproj -c Release --output release --nologo
-        
-       # changes the base-tag in index.html from '/' to 'Cropper.Blazor' to match GitHub Pages repository subdirectory
-       #- name: Change base-tag in index.html from / to Cropper.Blazor
-       #  run: sed -i 's/<base href="\/" \/>/<base href="\/Cropper.Blazor\/" \/>/g' release/wwwroot/index.html
-       
+
+        # changes the base-tag in index.html from '/' to 'Cropper.Blazor' to match GitHub Pages repository subdirectory
+        #- name: Change base-tag in index.html from / to Cropper.Blazor
+        #  run: sed -i 's/<base href="\/" \/>/<base href="\/Cropper.Blazor\/" \/>/g' release/wwwroot/index.html
+
       - name: Fix service-worker-assets.js hashes
         working-directory: release/wwwroot
         run: |
@@ -97,14 +104,14 @@ jobs:
           done
           echo -n "$jsFile" > service-worker-assets.js
 
-       # copy index.html to 404.html to serve the same file when a file is not found
+        # copy index.html to 404.html to serve the same file when a file is not found
       - name: copy index.html to 404.html
         run: cp release/wwwroot/index.html release/wwwroot/404.html
 
-       # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+        # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
       - name: Add .nojekyll file
         run: touch release/wwwroot/.nojekyll
-        
+
       - name: Uploading files to gh-pages branch
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
@@ -117,93 +124,95 @@ jobs:
     name: Build Demo Projects
     runs-on: windows-latest
     needs: code-quality-check
-    env: 
-     JAVA_HOME: '/home/runner/android-sdk'
+    env:
+      JAVA_HOME: "/home/runner/android-sdk"
 
     steps:
-    - uses: actions/checkout@v4
- 
-    - name: Setup .NET 10, 9, 8, 7, 6
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Setup .NET 10, 9, 8, 7, 6
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
             6.0.x
             7.0.x
             8.0.x
             9.0.x
             10.0.x
-            
-    - name: Cache JDK
-      id: cache-jdk
-      uses: actions/cache@v4.3.0
-      with:
-        path: ${{ env.JAVA_HOME }}
-        key: ${{ runner.os }}-jdk-11
-        restore-keys: |
+
+      - name: Cache JDK
+        id: cache-jdk
+        uses: actions/cache@v4.3.0
+        with:
+          path: ${{ env.JAVA_HOME }}
+          key: ${{ runner.os }}-jdk-11
+          restore-keys: |
             ${{ runner.os }}-jdk-
 
-    - name: Setup Java JDK
-      if: steps.cache-jdk.outputs.cache-hit != 'true'
-      uses: actions/setup-java@v5
-      with:
-        distribution: 'microsoft'
-        java-version: 11
-        
-    - name: search workloads
-      run: dotnet workload search
-  
-    - name: Install Windows, Android MAUI Workloads
-      run: |
+      - name: Setup Java JDK
+        if: steps.cache-jdk.outputs.cache-hit != 'true'
+        uses: actions/setup-java@v5
+        with:
+          distribution: "microsoft"
+          java-version: 11
+
+      - name: search workloads
+        run: dotnet workload search
+
+      - name: Install Windows, Android MAUI Workloads
+        run: |
           dotnet workload install maui-windows maui-android --ignore-failed-sources
           dotnet workload install wasm-tools --ignore-failed-sources
 
-    - name: list workloads
-      run: dotnet workload list
+      - name: list workloads
+        run: dotnet workload list
 
-    - name: Restore dotnet workload 
-      run: dotnet workload restore
-      working-directory: examples
-      
-    - name: Restore dependencies for Cropper.Blazor.Demo
-      run: dotnet restore
-      working-directory: examples
+      - name: Restore dotnet workload
+        run: dotnet workload restore
+        working-directory: examples
 
-    - name: Restore dotnet tool
-      run: dotnet tool restore
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
+      - name: Restore dependencies for Cropper.Blazor.Demo
+        run: dotnet restore
+        working-directory: examples
 
-    - name: DotNet Build MVC with Blazor Server Demo Project for .net 7
-      run: dotnet build --no-restore
-      working-directory: examples\Cropper.MVC.With.Blazor.Server.Net7
+      - name: Restore dotnet tool
+        run: dotnet tool restore
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
 
-    - name: DotNet Build Blazor Server Demo Project for .net 7
-      run: dotnet build --no-restore
-      working-directory: examples\Cropper.Blazor.Server.Net7
+      - name: DotNet Build MVC with Blazor Server Demo Project for .net 7
+        run: dotnet build --no-restore
+        working-directory: examples\Cropper.MVC.With.Blazor.Server.Net7
 
-    # - name: DotNet Build Blazor MAUI Demo Project for .net 7
-    #   run: dotnet build --no-restore
-    #   working-directory: examples\Cropper.Blazor.MAUI.Net7
+      - name: DotNet Build Blazor Server Demo Project for .net 7
+        run: dotnet build --no-restore
+        working-directory: examples\Cropper.Blazor.Server.Net7
 
-    - name: DotNet Build Blazor Server Demo Project for .net 6
-      run: dotnet build --no-restore
-      working-directory: examples\Cropper.Blazor.Server.Net6
+      # - name: DotNet Build Blazor MAUI Demo Project for .net 7
+      #   run: dotnet build --no-restore
+      #   working-directory: examples\Cropper.Blazor.MAUI.Net7
 
-    # - name: DotNet Build Blazor MAUI Demo Project for .net 6
-    #   run: dotnet build --no-restore
-    #   working-directory: examples\Cropper.Blazor.MAUI.Net6
+      - name: DotNet Build Blazor Server Demo Project for .net 6
+        run: dotnet build --no-restore
+        working-directory: examples\Cropper.Blazor.Server.Net6
 
-    - name: DotNet Build Blazor Server Demo Project for .net 8
-      run: dotnet build --no-restore
-      working-directory: examples\Cropper.Blazor.Server.Net8
+      # - name: DotNet Build Blazor MAUI Demo Project for .net 6
+      #   run: dotnet build --no-restore
+      #   working-directory: examples\Cropper.Blazor.MAUI.Net6
 
-    # - name: DotNet Build Blazor MAUI Demo Project for .net 8
-    #   run: dotnet build --no-restore
-    #   working-directory: examples\Cropper.Blazor.MAUI.Net8
+      - name: DotNet Build Blazor Server Demo Project for .net 8
+        run: dotnet build --no-restore
+        working-directory: examples\Cropper.Blazor.Server.Net8
 
-    - name: DotNet Build Blazor Server Demo Project for .net 9
-      run: dotnet build --no-restore
-      working-directory: examples\Cropper.Blazor.Server.Net9
- 
-    - name: DotNet Build Blazor MAUI Demo Project for .net 9
-      run: dotnet build --no-restore
-      working-directory: examples\Cropper.Blazor.MAUI.Net9
+      # - name: DotNet Build Blazor MAUI Demo Project for .net 8
+      #   run: dotnet build --no-restore
+      #   working-directory: examples\Cropper.Blazor.MAUI.Net8
+
+      - name: DotNet Build Blazor Server Demo Project for .net 9
+        run: dotnet build --no-restore
+        working-directory: examples\Cropper.Blazor.Server.Net9
+
+      - name: DotNet Build Blazor MAUI Demo Project for .net 9
+        run: dotnet build --no-restore
+        working-directory: examples\Cropper.Blazor.MAUI.Net9

@@ -4,9 +4,7 @@
   "tools": {
     "excubo.webcompiler": {
       "version": "4.2.0",
-      "commands": [
-        "webcompiler"
-      ]
+      "commands": ["webcompiler"]
     }
   }
 }

@@ -1,3 +1,4 @@
+---
 version: 2
 updates:
   - package-ecosystem: "nuget"
@@ -16,7 +17,6 @@ updates:
     assignees:
       - MaxymGorn
       - ColdForeign
-
 
   - package-ecosystem: github-actions
     directory: "/.github"

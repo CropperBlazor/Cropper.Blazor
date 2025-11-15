@@ -1,32 +1,41 @@
+---
 name: Deploy to NuGet
 
 on:
   push:
     branches:
-    - master
-    
+      - master
+
 jobs:
   build-and-test:
     name: Build & Test
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
-    secrets: inherit
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    permissions:
+      contents: read
     with:
-      configuration: 'Release'
+      configuration: "Release"
       publish-coverage: true
 
   deploy-to-nuget:
     name: Deploy to NuGet
     runs-on: ubuntu-latest
     needs: build-and-test
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
-              10.0.x
+            10.0.x
 
       - name: Restore dependencies
         run: dotnet restore
@@ -49,7 +58,7 @@ jobs:
           error_messages=""
           for net_version in 6.0 7.0 8.0 9.0 10.0; do
             json_path="src/Cropper.Blazor/Cropper.Blazor/bin/Release/net$net_version/Cropper.Blazor.staticwebassets.runtime.json"
-          
+
             if [ -f "$json_path" ]; then
               if ! jq -e '.Root.Children["cropperJsInterop.min.js"]' "$json_path" > /dev/null; then
                 error_messages+="For .NET $net_version: Key 'cropperJsInterop.min.js' does not exist.\n"
@@ -78,7 +87,7 @@ jobs:
       - name: Push to NuGet Gallery
         run: dotnet nuget push bin/Release/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key ${{secrets.NUGET_API_KEY}} --skip-duplicate
         working-directory: src/Cropper.Blazor/Cropper.Blazor
-      
+
       - name: Add NuGet repository source
         run: dotnet nuget add source --username CropperBlazor --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/CropperBlazor/index.json"
 
