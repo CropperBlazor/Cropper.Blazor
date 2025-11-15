@@ -1,6 +1,9 @@
 ---
 name: Deploy to GitHub Pages
 
+permissions:
+  contents: read
+
 concurrency: 
   group: github-pages
   cancel-in-progress: true
@@ -24,6 +27,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v5

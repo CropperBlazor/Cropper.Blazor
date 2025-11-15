@@ -5,7 +5,11 @@ on:
   push:
     branches:
     - master
-    
+
+permissions:
+  contents: read
+  packages: write
+  
 jobs:
   build-and-test:
     name: Build & Test
