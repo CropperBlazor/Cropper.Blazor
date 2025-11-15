@@ -1,4 +1,6 @@
 ---
 rules:
   unpinned-uses:
-    disable: true
+      config:
+        policies:
+          "*": any
