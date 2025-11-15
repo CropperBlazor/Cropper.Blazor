@@ -16,7 +16,7 @@ permissions:
 jobs:
   code-quality-check:
     name: Check code quality
-    uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml
+    uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
