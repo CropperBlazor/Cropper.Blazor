@@ -55,14 +55,6 @@ jobs:
            VALIDATE_DOTNET_SLN_FORMAT_STYLE: false
            VALIDATE_DOTNET_SLN_FORMAT_ANALYZERS: false
 
-           FIX_CSS_PRETTIER: true
-           FIX_JSON_PRETTIER: true
-           FIX_HTML_PRETTIER: true
-           FIX_MARKDOWN_PRETTIER: true
-           FIX_YAML_PRETTIER: true
-           FIX_NATURAL_LANGUAGE: true
-           FIX_GITHUB_ACTIONS_ZIZMOR: true
-
            FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
            FILTER_REGEX_INCLUDE: '/github/workspace/src/Cropper.Blazor/.*|/github/workspace/.github/.*'
 
@@ -71,17 +63,3 @@ jobs:
            CSS_FILE_NAME: '.stylelintrc.json'
            GITHUB_ACTIONS_ZIZMOR_CONFIG_FILE: '.zizmor.yaml'
            YAML_CONFIG_FILE: '.yaml-lint.yml'
-
-      - name: Commit and push linting fixes
-        # Run only on:
-        # - Pull requests
-        # - Not on the default branch
-        if: >
-          github.event_name == 'pull_request' &&
-          github.ref_name != github.event.repository.default_branch
-        uses: stefanzweifel/git-auto-commit-action@v7.0.0
-        with:
-          branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
-          commit_message: "chore: fix linting issues"
-          commit_user_name: ${{secrets.COMMIT_USER_NAME}}
-          commit_user_email: ${{secrets.COMMIT_USER_EMAIL}}
