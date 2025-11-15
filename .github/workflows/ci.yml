@@ -39,6 +39,7 @@ jobs:
            VALIDATE_ALL_CODEBASE: true
            VALIDATE_MARKDOWN: false
            VALIDATE_JAVASCRIPT_PRETTIER: false
+           VALIDATE_BIOME_FORMAT: false
            VALIDATE_BIOME_LINT: false
 
            FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
