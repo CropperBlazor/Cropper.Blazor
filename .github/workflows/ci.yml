@@ -16,6 +16,11 @@ jobs:
     secrets: inherit
 
   code-linting:
+    permissions:
+      # To write linting fixes
+      contents: write
+      # To write Super-linter status checks
+      statuses: write
     name: Code linting
     if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
@@ -26,6 +31,7 @@ jobs:
           # super-linter needs the full git history to get the
           # list of files that changed across commits
           fetch-depth: 0
+          persist-credentials: false
           
       - name: Super-Linter
         uses: super-linter/super-linter@v8.2.1
@@ -42,9 +48,30 @@ jobs:
            VALIDATE_BIOME_FORMAT: false
            VALIDATE_BIOME_LINT: false
 
+           FIX_CSS_PRETTIER: true
+           FIX_JSON_PRETTIER: true
+           FIX_MARKDOWN_PRETTIER: true
+           FIX_YAML_PRETTIER: true
+           FIX_NATURAL_LANGUAGE: true
+           FIX_GITHUB_ACTIONS_ZIZMOR: true
+
            FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
            FILTER_REGEX_INCLUDE: '/github/workspace/src/Cropper.Blazor/.*|/github/workspace/.github/.*'
 
            JSCPD_CONFIG_FILE: '.jscpd.json'
            HTML_FILE_NAME: '.htmlhintrc'
            CSS_FILE_NAME: '.stylelintrc.json'
+
+      - name: Commit and push linting fixes
+        # Run only on:
+        # - Pull requests
+        # - Not on the default branch
+        if: >
+          github.event_name == 'pull_request' &&
+          github.ref_name != github.event.repository.default_branch
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
+          commit_message: "chore: fix linting issues"
+          commit_user_name: super-linter
+          commit_user_email: super-linter@super-linter.dev
