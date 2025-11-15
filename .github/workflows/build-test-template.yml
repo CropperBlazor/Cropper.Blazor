@@ -16,7 +16,7 @@ on:
         default: true
     secrets:
       CODECOV_TOKEN:
-        required: false
+        required: true
 
 permissions:
   contents: read
