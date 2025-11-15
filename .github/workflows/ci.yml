@@ -1,3 +1,4 @@
+---
 name: Build, run tests, code linting
 
 concurrency:
