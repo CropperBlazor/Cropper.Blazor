@@ -31,6 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "linters", "linters", "{4219
 		..\..\.github\linters\.htmlhintrc = ..\..\.github\linters\.htmlhintrc
 		..\..\.github\linters\.jscpd.json = ..\..\.github\linters\.jscpd.json
 		..\..\.github\linters\.stylelintrc.json = ..\..\.github\linters\.stylelintrc.json
+		..\..\.github\linters\.zizmor.yaml = ..\..\.github\linters\.zizmor.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{378A2956-8E21-434D-9480-9D4E0732098B}"
