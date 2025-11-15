@@ -47,6 +47,8 @@ jobs:
            VALIDATE_JAVASCRIPT_PRETTIER: false
            VALIDATE_BIOME_FORMAT: false
            VALIDATE_BIOME_LINT: false
+           VALIDATE_DOTNET_SLN_FORMAT_STYLE: false
+           VALIDATE_DOTNET_SLN_FORMAT_ANALYZERS: false
 
            FIX_CSS_PRETTIER: true
            FIX_JSON_PRETTIER: true
@@ -74,5 +76,5 @@ jobs:
         with:
           branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
           commit_message: "chore: fix linting issues"
-          commit_user_name: super-linter
-          commit_user_email: super-linter@super-linter.dev
+          commit_user_name: ${{secrets.COMMIT_USER_NAME}}
+          commit_user_email: ${{secrets.COMMIT_USER_EMAIL}}
