@@ -17,7 +17,8 @@ jobs:
   code-quality-check:
     name: Check code quality
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
-    secrets: inherit
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   code-linting:
     permissions:
