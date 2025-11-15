@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11201.2 d18.0
+VisualStudioVersion = 18.0.11201.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Server", "Server\Cropper.Blazor.Server.csproj", "{62A3968C-AB74-4CF5-8F5C-3AF53E3D3A85}"
 EndProject
@@ -31,6 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "linters", "linters", "{4219
 		..\..\.github\linters\.htmlhintrc = ..\..\.github\linters\.htmlhintrc
 		..\..\.github\linters\.jscpd.json = ..\..\.github\linters\.jscpd.json
 		..\..\.github\linters\.stylelintrc.json = ..\..\.github\linters\.stylelintrc.json
+		..\..\.github\linters\.yaml-lint.yml = ..\..\.github\linters\.yaml-lint.yml
 		..\..\.github\linters\.zizmor.yaml = ..\..\.github\linters\.zizmor.yaml
 	EndProjectSection
 EndProject
