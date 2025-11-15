@@ -19,7 +19,6 @@ jobs:
     name: Code linting
     if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
-    # needs: code-quality-check
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -40,9 +39,10 @@ jobs:
            VALIDATE_ALL_CODEBASE: true
            VALIDATE_MARKDOWN: false
            VALIDATE_JAVASCRIPT_PRETTIER: false
+           VALIDATE_BIOME_LINT: false
 
-           # Exclude everything not in src/Cropper.Blazor and binaries/minified files
-           FILTER_REGEX_EXCLUDE: '^(?!src/Cropper\.Blazor/).*|(^|/)obj/|(^|/)bin/|.*\.min\.css$|.*\.min\.js$'
+           FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
+           FILTER_REGEX_INCLUDE: /github/workspace/src/Cropper.Blazor/.*
 
            JSCPD_CONFIG_FILE: '.jscpd.json'
            HTML_FILE_NAME: '.htmlhintrc'
