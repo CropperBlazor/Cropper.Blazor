@@ -21,9 +21,7 @@
   "Autoprefix": {
     "Enabled": false,
     "ProcessingOptions": {
-      "Browsers": [
-        "last 4 versions"
-      ],
+      "Browsers": ["last 4 versions"],
       "Cascade": true,
       "Add": true,
       "Remove": true,
