@@ -55,6 +55,11 @@ jobs:
           VALIDATE_DOTNET_SLN_FORMAT_STYLE: false
           VALIDATE_DOTNET_SLN_FORMAT_ANALYZERS: false
           VALIDATE_NATURAL_LANGUAGE: false
+          VALIDATE_CSS_PRETTIER: false
+          VALIDATE_HTML_PRETTIER: false
+          VALIDATE_MARKDOWN_PRETTIER: false
+          VALIDATE_YAML_PRETTIER: false
+          VALIDATE_JSON_PRETTIER: false
 
           FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
           FILTER_REGEX_INCLUDE: "/github/workspace/src/Cropper.Blazor/.*|/github/workspace/.github/.*"
