@@ -50,6 +50,7 @@ jobs:
 
            FIX_CSS_PRETTIER: true
            FIX_JSON_PRETTIER: true
+           FIX_HTML_PRETTIER: true
            FIX_MARKDOWN_PRETTIER: true
            FIX_YAML_PRETTIER: true
            FIX_NATURAL_LANGUAGE: true
