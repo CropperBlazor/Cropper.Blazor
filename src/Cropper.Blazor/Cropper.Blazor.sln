@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.32014.148
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11201.2 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Server", "Server\Cropper.Blazor.Server.csproj", "{62A3968C-AB74-4CF5-8F5C-3AF53E3D3A85}"
 EndProject
@@ -21,7 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\..\.gitattributes = ..\..\.gitattributes
 		..\..\.github\codecov.yml = ..\..\.github\codecov.yml
 		..\..\.github\CODE_OF_CONDUCT.md = ..\..\.github\CODE_OF_CONDUCT.md
-		..\..\.github\dependabot.yml = ..\..\.github\dependabot.yml
 		..\..\.github\PULL_REQUEST_TEMPLATE.md = ..\..\.github\PULL_REQUEST_TEMPLATE.md
 		..\..\README.md = ..\..\README.md
 	EndProjectSection
@@ -52,6 +51,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Shared", "Cropper.Blazor.Shared\Cropper.Blazor.Shared.csproj", "{B5ECE039-10C3-4B89-A7C9-5685464930C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cropper.Blazor.Sitemap.Generator", "Cropper.Blazor.Sitemap.Generator\Cropper.Blazor.Sitemap.Generator.csproj", "{19B73412-DF12-4BC4-8DC3-D19DED26B2C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{ED062901-54C0-44CA-8CE6-29536EC28DB0}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\.github\ISSUE_TEMPLATE\bug_report.md = ..\..\.github\ISSUE_TEMPLATE\bug_report.md
+		..\..\.github\ISSUE_TEMPLATE\config.yml = ..\..\.github\ISSUE_TEMPLATE\config.yml
+		..\..\.github\ISSUE_TEMPLATE\feature_request.md = ..\..\.github\ISSUE_TEMPLATE\feature_request.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,6 +112,7 @@ Global
 		{AA2CDA13-6D81-4A3B-871D-2C5B26926D9B} = {AA493A4F-99D7-4C5D-9355-28E5159F9DB6}
 		{B5ECE039-10C3-4B89-A7C9-5685464930C9} = {AA493A4F-99D7-4C5D-9355-28E5159F9DB6}
 		{19B73412-DF12-4BC4-8DC3-D19DED26B2C8} = {AA493A4F-99D7-4C5D-9355-28E5159F9DB6}
+		{ED062901-54C0-44CA-8CE6-29536EC28DB0} = {624968C7-925A-4896-8405-4174FD48B9BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C2EE0C77-7D1D-41D9-B923-314095849A25}
