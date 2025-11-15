@@ -41,11 +41,8 @@ jobs:
            VALIDATE_MARKDOWN: false
            VALIDATE_JAVASCRIPT_PRETTIER: false
 
-           # Exclusions
-           FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
-
-           # Include only these folders
-           FILTER_REGEX_INCLUDE: (^|/)(src/Cropper\.Blazor/Cropper\.Blazor/|src/Cropper\.Blazor/Cropper\.Blazor\.UnitTests/|src/Cropper\.Blazor/Cropper\.Blazor\.Testing/)
+           # Exclude everything not in src/Cropper.Blazor and binaries/minified files
+           FILTER_REGEX_EXCLUDE: '^(?!src/Cropper\.Blazor/).*|(^|/)obj/|(^|/)bin/|.*\.min\.css$|.*\.min\.js$'
 
            JSCPD_CONFIG_FILE: '.jscpd.json'
            HTML_FILE_NAME: '.htmlhintrc'
