@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Cropper.Blazor.Base;
 using Cropper.Blazor.Models;
@@ -86,11 +87,22 @@ namespace Cropper.Blazor.Components
         [Parameter]
         public string Class { get; set; } = null!;
 
-        /// <summary>
-        /// Additional attributes can be captured in a dictionary and then splatted onto an element when the component is rendered using the @attributes Razor directive attribute.
+        /// <summary> 
+        /// Captures all additional attributes passed to the component that do not match declared [Parameter] properties.
+        /// These attributes can be applied ("splatted") onto a rendered HTML element using the Razor `@attributes` directive.
+        /// You can pass standard Blazor event handlers (like `@onclick`, `@oninput`, etc.) in this dictionary as well.
+        /// The supported DOM events are defined in <see cref="Microsoft.AspNetCore.Components.Web.EventHandlers"/> via <see cref="EventHandlerAttribute"/>.
+        /// The dictionary key should match the event name (e.g., `onclick`, `oninput`) or any valid HTML attribute.
         /// </summary>
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> InputAttributes { get; set; } = null!;
+
+        private static readonly HashSet<string> _allowedParameters =
+            typeof(CropperComponent)
+                .GetProperties()
+                .Where(p => Attribute.IsDefined(p, typeof(ParameterAttribute)))
+                .Select(p => p.Name)
+                .ToHashSet();
 
         /// <summary>
         /// Method invoked after each time the component has been rendered. Note that the component does
@@ -116,6 +128,35 @@ namespace Cropper.Blazor.Components
             }
 
             await base.OnAfterRenderAsync(firstRender);
+        }
+
+        /// <summary>
+        /// Validates and applies parameters supplied by the component's parent.
+        /// </summary>
+        /// <param name="parameters">A collection of parameters passed to the component.</param>
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        /// <remarks>
+        /// This override verifies that all incoming parameters correspond to declared
+        /// <see cref="ParameterAttribute"/> properties.
+        /// If any unknown parameters are supplied, an <see cref="ArgumentException"/> is thrown.
+        /// </remarks>
+        public override async Task SetParametersAsync(ParameterView parameters)
+        {
+            string[] invalid = parameters
+                .ToDictionary()
+                .Where(p => !_allowedParameters.Contains(p.Key))
+                .Select(p => p.Key)
+                .ToArray();
+
+            if (invalid.Length > 0)
+            {
+                string plural = invalid.Length > 1 ? "parameters" : "parameter";
+
+                throw new ArgumentException(
+                    $"Unexpected {plural} for component '{nameof(CropperComponent)}': {string.Join(", ", invalid)}");
+            }
+
+            await base.SetParametersAsync(parameters);
         }
 
         /// <summary>

@@ -1384,6 +1384,86 @@ namespace Cropper.Blazor.UnitTests.Components
                 cancellationToken), Times.Once());
         }
 
+        [Fact]
+        public void Should_Render_Custom_Input_Attributes()
+        {
+            // arrange
+            bool clicked = false;
+            bool changed = false;
+            bool inputed = false;
+
+            var customAttributes = new Dictionary<string, object>
+            {
+                { "id", "custom-input" },
+                { "data-test", "123" },
+                { "class", "custom-class" },
+                { "onclick", EventCallback.Factory.Create(this, () => clicked = true) },
+                { "onchange", EventCallback.Factory.Create(this, () => changed = true) },
+                { "oninput", EventCallback.Factory.Create(this, () => inputed = true) }
+            };
+
+            // act
+            var renderedComponent = _testContext.GetIRenderedComponent<CropperComponent>(parameters => parameters
+                .Add(p => p.InputAttributes, customAttributes)
+            );
+
+            // assert
+            var input = renderedComponent.Find("img");
+            input.GetAttribute("id").Should().Be("custom-input");
+            input.GetAttribute("data-test").Should().Be("123");
+            input.GetAttribute("class").Should().Contain("custom-class");
+
+            input.Click();
+            input.Change(new ChangeEventArgs { Value = "new value" });
+            input.Input(new ChangeEventArgs { Value = "typed value" });
+
+            clicked.Should().BeTrue();
+            changed.Should().BeTrue();
+            inputed.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Should_Throw_ArgumentException_When_Passing_Unknown_Parameter()
+        {
+            // arrange
+            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
+            {
+                builder
+                    .AddUnmatched("UnknownParam", "UnknownParamValue")
+                    .Add(p => p.ErrorLoadImageClass, "cropper-error-load");
+            };
+
+            // act
+            Action act = () => _testContext.GetIRenderedComponent(actionParameters);
+
+            // assert
+            act
+                .Should()
+                .Throw<ArgumentException>()
+                .WithMessage("Unexpected parameter for component 'CropperComponent': UnknownParam");
+        }
+
+        [Fact]
+        public void Should_Throw_ArgumentException_When_Passing_Unknown_Parameters()
+        {
+            // arrange
+            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
+            {
+                builder
+                    .AddUnmatched("UnknownParam1", "UnknownParamValue1")
+                    .AddUnmatched("UnknownParam2", "UnknownParamValue2");
+            };
+
+            // act
+            Action act = () => _testContext.GetIRenderedComponent(actionParameters);
+
+            // assert
+            act
+                .Should()
+                .Throw<ArgumentException>()
+                .WithMessage("Unexpected parameters for component 'CropperComponent': UnknownParam1, UnknownParam2");
+        }
+
         private bool VerifyOptions(Options options) =>
             options.ViewMode == ViewMode.Vm0
             && options.DragMode == DragMode.Crop.ToEnumString()
