@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Cropper.Blazor.Base;
 using Cropper.Blazor.Models;
@@ -97,13 +96,6 @@ namespace Cropper.Blazor.Components
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> InputAttributes { get; set; } = null!;
 
-        private static readonly HashSet<string> _allowedParameters =
-            typeof(CropperComponent)
-                .GetProperties()
-                .Where(p => Attribute.IsDefined(p, typeof(ParameterAttribute)))
-                .Select(p => p.Name)
-                .ToHashSet();
-
         /// <summary>
         /// Method invoked after each time the component has been rendered. Note that the component does
         /// not automatically re-render after the completion of any returned <see cref="Task"/>, because
@@ -128,35 +120,6 @@ namespace Cropper.Blazor.Components
             }
 
             await base.OnAfterRenderAsync(firstRender);
-        }
-
-        /// <summary>
-        /// Validates and applies parameters supplied by the component's parent.
-        /// </summary>
-        /// <param name="parameters">A collection of parameters passed to the component.</param>
-        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
-        /// <remarks>
-        /// This override verifies that all incoming parameters correspond to declared
-        /// <see cref="ParameterAttribute"/> properties.
-        /// If any unknown parameters are supplied, an <see cref="ArgumentException"/> is thrown.
-        /// </remarks>
-        public override async Task SetParametersAsync(ParameterView parameters)
-        {
-            string[] invalid = parameters
-                .ToDictionary()
-                .Where(p => !_allowedParameters.Contains(p.Key))
-                .Select(p => p.Key)
-                .ToArray();
-
-            if (invalid.Length > 0)
-            {
-                string plural = invalid.Length > 1 ? "parameters" : "parameter";
-
-                throw new ArgumentException(
-                    $"Unexpected {plural} for component '{nameof(CropperComponent)}': {string.Join(", ", invalid)}");
-            }
-
-            await base.SetParametersAsync(parameters);
         }
 
         /// <summary>

@@ -1422,48 +1422,6 @@ namespace Cropper.Blazor.UnitTests.Components
             inputed.Should().BeTrue();
         }
 
-        [Fact]
-        public void Should_Throw_ArgumentException_When_Passing_Unknown_Parameter()
-        {
-            // arrange
-            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
-            {
-                builder
-                    .AddUnmatched("UnknownParam", "UnknownParamValue")
-                    .Add(p => p.ErrorLoadImageClass, "cropper-error-load");
-            };
-
-            // act
-            Action act = () => _testContext.GetIRenderedComponent(actionParameters);
-
-            // assert
-            act
-                .Should()
-                .Throw<ArgumentException>()
-                .WithMessage("Unexpected parameter for component 'CropperComponent': UnknownParam");
-        }
-
-        [Fact]
-        public void Should_Throw_ArgumentException_When_Passing_Unknown_Parameters()
-        {
-            // arrange
-            Action<ComponentParameterCollectionBuilder<CropperComponent>> actionParameters = builder =>
-            {
-                builder
-                    .AddUnmatched("UnknownParam1", "UnknownParamValue1")
-                    .AddUnmatched("UnknownParam2", "UnknownParamValue2");
-            };
-
-            // act
-            Action act = () => _testContext.GetIRenderedComponent(actionParameters);
-
-            // assert
-            act
-                .Should()
-                .Throw<ArgumentException>()
-                .WithMessage("Unexpected parameters for component 'CropperComponent': UnknownParam1, UnknownParam2");
-        }
-
         private bool VerifyOptions(Options options) =>
             options.ViewMode == ViewMode.Vm0
             && options.DragMode == DragMode.Crop.ToEnumString()
