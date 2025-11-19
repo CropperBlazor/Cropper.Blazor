@@ -61,6 +61,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{
 		..\..\.github\ISSUE_TEMPLATE\feature_request.md = ..\..\.github\ISSUE_TEMPLATE\feature_request.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "compilers", "compilers", "{D7632DC9-5E92-486A-ACAF-F889E54EB9CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client", "client", "{F1F172F4-034C-4478-91E4-CBD21A8119B3}"
+	ProjectSection(SolutionItems) = preProject
+		Client\compilerconfig.json = Client\compilerconfig.json
+		Client\.config\dotnet-tools.json = Client\.config\dotnet-tools.json
+		Client\excubowebcompiler.json = Client\excubowebcompiler.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "library", "library", "{347FAF39-947D-46DF-A12E-89329F39F265}"
+	ProjectSection(SolutionItems) = preProject
+		Cropper.Blazor\.config\dotnet-tools.json = Cropper.Blazor\.config\dotnet-tools.json
+		Cropper.Blazor\excubowebcompiler.json = Cropper.Blazor\excubowebcompiler.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +130,9 @@ Global
 		{B5ECE039-10C3-4B89-A7C9-5685464930C9} = {AA493A4F-99D7-4C5D-9355-28E5159F9DB6}
 		{19B73412-DF12-4BC4-8DC3-D19DED26B2C8} = {AA493A4F-99D7-4C5D-9355-28E5159F9DB6}
 		{ED062901-54C0-44CA-8CE6-29536EC28DB0} = {624968C7-925A-4896-8405-4174FD48B9BC}
+		{D7632DC9-5E92-486A-ACAF-F889E54EB9CA} = {624968C7-925A-4896-8405-4174FD48B9BC}
+		{F1F172F4-034C-4478-91E4-CBD21A8119B3} = {D7632DC9-5E92-486A-ACAF-F889E54EB9CA}
+		{347FAF39-947D-46DF-A12E-89329F39F265} = {D7632DC9-5E92-486A-ACAF-F889E54EB9CA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C2EE0C77-7D1D-41D9-B923-314095849A25}
