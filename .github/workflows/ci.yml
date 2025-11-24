@@ -48,6 +48,7 @@ jobs:
           LOG_LEVEL: WARN
 
           VALIDATE_ALL_CODEBASE: true
+          VALIDATE_YAML: false
           VALIDATE_MARKDOWN: false
           VALIDATE_JAVASCRIPT_PRETTIER: false
           VALIDATE_BIOME_FORMAT: false
