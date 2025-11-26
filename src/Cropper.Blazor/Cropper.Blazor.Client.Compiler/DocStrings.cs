@@ -173,6 +173,14 @@ namespace Cropper.Blazor.Client.Compiler
                 {
                     return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task\">{value}</a>";
                 }
+                else if (result.EndsWith("Microsoft.AspNetCore.Components.Web.EventHandlers"))
+                {
+                    return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.web.eventhandlers\">{value}</a>";
+                }
+                else if (result.EndsWith("Microsoft.AspNetCore.Components.EventHandlerAttribute"))
+                {
+                    return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.eventhandlerattribute\">{value}</a>";
+                }
 
                 return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"api/{value}\">{value}</a>";
             });

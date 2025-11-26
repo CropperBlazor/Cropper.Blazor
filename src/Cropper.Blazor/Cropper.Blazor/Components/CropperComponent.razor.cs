@@ -86,8 +86,12 @@ namespace Cropper.Blazor.Components
         [Parameter]
         public string Class { get; set; } = null!;
 
-        /// <summary>
-        /// Additional attributes can be captured in a dictionary and then splatted onto an element when the component is rendered using the @attributes Razor directive attribute.
+        /// <summary> 
+        /// Captures all additional attributes passed to the component that do not match declared [Parameter] properties.
+        /// These attributes can be applied ("splatted") onto a rendered HTML element using the Razor `@attributes` directive.
+        /// You can pass standard Blazor event handlers (like `@onclick`, `@oninput`, etc.) in this dictionary as well.
+        /// The supported DOM events are defined in <see cref="Microsoft.AspNetCore.Components.Web.EventHandlers"/> via <see cref="EventHandlerAttribute"/>.
+        /// The dictionary key should match the event name (e.g., `onclick`, `oninput`) or any valid HTML attribute.
         /// </summary>
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> InputAttributes { get; set; } = null!;

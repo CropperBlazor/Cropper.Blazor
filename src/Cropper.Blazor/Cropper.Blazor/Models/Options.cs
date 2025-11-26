@@ -233,10 +233,26 @@ namespace Cropper.Blazor.Models
 
         /// <summary>
         /// Check if the current image is a cross-origin image.
-        /// For more information see official <seealso href="https://github.com/fengyuanchen/cropperjs#checkcrossorigin">crooper.js documentation</seealso>.
         /// </summary>
         /// <remarks>
-        /// Default: true
+        /// If the image is cross-origin, a <c>crossOrigin</c> attribute will be added to the cloned image element,  
+        /// and a timestamp parameter will be appended to its <c>src</c> attribute to reload the source image and avoid browser cache errors.  
+        /// <para>
+        /// Once the <c>crossOrigin</c> attribute is added, the timestamp will no longer be appended to the image URL,  
+        /// preventing unnecessary reloads. However, the request (<c>XMLHttpRequest</c>) used to read the image data for orientation checking  
+        /// will still require a timestamp to bypass browser cache. To disable this behavior, set the <c>checkOrientation</c> option to <c>false</c>.
+        /// </para>
+        /// <para>
+        /// If the image's <c>crossOrigin</c> attribute is set to <c>"use-credentials"</c>, the <c>withCredentials</c> flag  
+        /// will be enabled when reading the image data via <c>XMLHttpRequest</c>.
+        /// </para>
+        /// <para>
+        /// Default: <c>true</c>
+        /// </para>
+        /// <para>
+        /// For more information, see the official
+        /// <see href="https://github.com/fengyuanchen/cropperjs/tree/v1#checkcrossorigin">Cropper.js documentation</see>.
+        /// </para>
         /// </remarks>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [JsonPropertyName("checkCrossOrigin")]

@@ -71,7 +71,9 @@
                 }
 
                 &.active {
-                    background-color: var(--mud-palette-primary-darken) !important;
+                    background-color: var(
+                        --mud-palette-primary-darken
+                    ) !important;
                     color: var(--mud-palette-success-text) !important;
                 }
             }
@@ -88,7 +90,8 @@
 
             .mud-button {
                 text-transform: none;
-                font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+                font-family:
+                    Consolas, "Liberation Mono", Menlo, Courier, monospace;
                 font-size: 14px;
                 border-radius: 0;
                 padding: 4px 8px;
@@ -149,7 +152,11 @@
         }
 
         &.darken {
-            background: linear-gradient(0deg, var(--mud-palette-gray-lighter) 0%, var(--mud-palette-background-gray) 50%);
+            background: linear-gradient(
+                0deg,
+                var(--mud-palette-gray-lighter) 0%,
+                var(--mud-palette-background-gray) 50%
+            );
         }
 
         &.outlined {
@@ -190,7 +197,8 @@
     max-width: 800px;
 }
 
-.docs-content-return-api-max-width, .docs-content-description-api-max-width {
+.docs-content-return-api-max-width,
+.docs-content-description-api-max-width {
     max-width: 400px;
 }
 

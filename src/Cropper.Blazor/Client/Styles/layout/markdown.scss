@@ -1,5 +1,6 @@
 ﻿.mud-landingpage-editor {
-    & .html, .codearea {
+    & .html,
+    .codearea {
         & .html-tag-delimiter {
             color: #979797;
         }
@@ -12,7 +13,8 @@
             color: #27b5b5;
         }
 
-        & .html-operator, .quot {
+        & .html-operator,
+        .quot {
             color: #c8c8c8;
         }
 
@@ -30,7 +32,8 @@
             background-color: rgb(255 255 255 / 15%);
         }
 
-        & .enum-value, .sharp-variable {
+        & .enum-value,
+        .sharp-variable {
             color: #ededed;
             background-color: rgb(255 255 255 / 15%);
         }
@@ -184,7 +187,8 @@
         margin-top: 23px;
     }
 
-    & .html, .codearea {
+    & .html,
+    .codearea {
         mark {
             font-weight: 600;
             color: var(--mud-palette-primary);
@@ -208,7 +212,8 @@
             color: #8323d8;
         }
 
-        & .html-operator, .quot {
+        & .html-operator,
+        .quot {
             color: #737373;
         }
 
@@ -226,7 +231,8 @@
             background-color: var(--mud-palette-gray-light);
         }
 
-        & .enum-value, .sharp-variable {
+        & .enum-value,
+        .sharp-variable {
             color: var(--mud-palette-text-primary);
             background-color: var(--mud-palette-gray-light);
         }

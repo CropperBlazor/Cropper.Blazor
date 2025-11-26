@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
@@ -18,10 +18,10 @@
 
 	<!--Packages-->
 	<ItemGroup>
-		<PackageReference Include="BlazorWasmPreRendering.Build" Version="6.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.9" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.9" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.9" PrivateAssets="all" />
+		<PackageReference Include="BlazorWasmPreRendering.Build" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="10.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0" PrivateAssets="all" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
 	</ItemGroup>
 
@@ -173,3 +173,4 @@
 	</ItemGroup>
 
 </Project>
+

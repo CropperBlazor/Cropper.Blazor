@@ -6,7 +6,7 @@
 [![coverage](https://codecov.io/github/CropperBlazor/Cropper.Blazor/branch/dev/graph/badge.svg?token=39M66DO85T)](https://codecov.io/github/CropperBlazor/Cropper.Blazor)
 [![GitHub](https://img.shields.io/github/license/CropperBlazor/Cropper.Blazor?color=ff5c9b)](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/LICENSE)
 [![GitHub](https://img.shields.io/github/last-commit/CropperBlazor/Cropper.Blazor?color=009DEA)](https://github.com/CropperBlazor/Cropper.Blazor)
-![NuGet Downloads](https://img.shields.io/nuget/dt/Cropper.Blazor?logo=nuget&label=nuget%20downloads&color=ff5c9b)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Cropper.Blazor?logo=nuget&label=nuget%20downloads&color=ff5c9b)](https://www.nuget.org/packages/Cropper.Blazor)
 
 The most powerful image cropping tool for Blazor WebAssembly / Server, Hybrid with MAUI, MVC and
 other frameworks.
@@ -29,10 +29,11 @@ Cropper.Blazor is an essential component for building interactive image cropping
 | - | .NET 5 | Not supported |
 | 1.1.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) | :heavy_check_mark: |
 | 1.2.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) | :heavy_check_mark: |
-| 1.3.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) & <br/> [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) | :heavy_check_mark: |
-| 1.4.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) & <br/> [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) & [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) | :heavy_check_mark: |
+| 1.3.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) & [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) | :heavy_check_mark: |
+| 1.4.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) & [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) & [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) | :heavy_check_mark: |
+| 1.5.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) & [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) & [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) & [.NET 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) | :heavy_check_mark: |
 
-- Supported .NET 9.0, .NET 8.0, .NET 7.0, .NET 6.0 versions for these web platforms:
+- Supported .NET 10.0, .NET 9.0, .NET 8.0, .NET 7.0, .NET 6.0 versions for these web platforms:
   - Blazor WebAssembly
   - Blazor Server
   - Blazor Server Hybrid with MVC

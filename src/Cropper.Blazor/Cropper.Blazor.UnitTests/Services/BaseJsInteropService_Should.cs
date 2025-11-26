@@ -1,6 +1,10 @@
 ﻿using Bogus;
 using Bunit;
 
+#if NET8_0_OR_GREATER
+using TestContext = Bunit.BunitContext;
+#endif
+
 namespace Cropper.Blazor.UnitTests.Services
 {
     public abstract class BaseJsInteropService_Should
