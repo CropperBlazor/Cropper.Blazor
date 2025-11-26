@@ -1,21 +1,28 @@
+---
 name: Build and run tests
 
 on:
   workflow_call:
     inputs:
       configuration:
-        description: 'dotnet build configuration'
+        description: "dotnet build configuration"
         required: false
         type: string
-        default: 'Debug'
+        default: "Debug"
       publish-coverage:
-        description: 'publish coverage to codecov'
+        description: "publish coverage to codecov"
         required: false
         type: boolean
         default: true
     secrets:
       CODECOV_TOKEN:
-        required: false
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  CONFIGURATION: ${{ inputs.configuration }}
 
 jobs:
   build_and_test:
@@ -23,44 +30,46 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v5
- 
-    - name: Setup .NET 10, 9, 8, 7, 6
-      uses: actions/setup-dotnet@v5.0.0
-      with:
-        dotnet-version: |
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Setup .NET 10, 9, 8, 7, 6
+        uses: actions/setup-dotnet@v5.0.0
+        with:
+          dotnet-version: |
             6.0.x
             7.0.x
             8.0.x
             9.0.x
             10.0.x
 
-    - name: Install WASM tools Workloads
-      run: |
+      - name: Install WASM tools Workloads
+        run: |
           dotnet workload install wasm-tools --ignore-failed-sources
 
-    - name: Restore dependencies
-      run: dotnet restore
-      working-directory: src/Cropper.Blazor
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: src/Cropper.Blazor
 
-    - name: Restore dotnet tool
-      run: dotnet tool restore
-      working-directory: src/Cropper.Blazor/Cropper.Blazor
-      
-    - name: DotNet Build
-      run: dotnet build -c ${{ inputs.configuration }} --no-restore
-      working-directory: src/Cropper.Blazor
-      
-    - name: Test
-      run: dotnet test -c ${{ inputs.configuration }} --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
-      working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests
+      - name: Restore dotnet tool
+        run: dotnet tool restore
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
 
-    - name: Coverage
-      if: ${{ inputs.publish-coverage == true }}
-      uses: codecov/codecov-action@v5.5.1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml, coverage.net9.0.cobertura.xml, coverage.net10.0.cobertura.xml
-        fail_ci_if_error: true
-        verbose: true
+      - name: DotNet Build
+        run: dotnet build -c "$CONFIGURATION" --no-restore
+        working-directory: src/Cropper.Blazor
+
+      - name: Test
+        run: dotnet test -c "$CONFIGURATION" --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
+        working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests
+
+      - name: Coverage
+        if: ${{ inputs.publish-coverage == true }}
+        uses: codecov/codecov-action@v5.5.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml, coverage.net9.0.cobertura.xml, coverage.net10.0.cobertura.xml
+          fail_ci_if_error: true
+          verbose: true

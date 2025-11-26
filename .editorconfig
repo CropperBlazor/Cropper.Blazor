@@ -39,8 +39,9 @@ indent_size = 2
 
 # YML files
 [*.yml]
-indent_size = 2
+# Indentation
 indent_style = space
+indent_size = 2
 
 [*.{cs,vb}]
 #### Naming styles ####
@@ -100,3 +101,9 @@ insert_final_newline = true
 tab_width = 4
 indent_size = 4
 indent_style = tab
+
+[*.{css,scss,less}]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+quote_type = double

@@ -1,11 +1,11 @@
 ﻿.docs-title {
-    font-family: 'Public Sans', Roboto, Arial, sans-serif;
+    font-family: "Public Sans", Roboto, Arial, sans-serif;
     font-weight: 600;
     font-size: 3.75rem;
 }
 
 .docs-title-description {
-    font-family: 'Public Sans', Roboto, Arial, sans-serif;
+    font-family: "Public Sans", Roboto, Arial, sans-serif;
     font-weight: 500;
     line-height: 1.75;
     font-size: 1.1rem;
@@ -42,13 +42,14 @@
     z-index: calc(var(--mud-zindex-appbar) + 1);
 }
 
-.docs-appbar, .docs-menu-list {
+.docs-appbar,
+.docs-menu-list {
     .mud-autocomplete {
         max-width: 360px;
     }
 
     .mud-button {
-        font-family: 'Public Sans', Roboto, Arial, sans-serif;
+        font-family: "Public Sans", Roboto, Arial, sans-serif;
         font-weight: 500;
         line-height: 1.75;
         letter-spacing: 0.0286em;
@@ -56,7 +57,8 @@
     }
 }
 
-.cropperblazor-docs, .cropperblazor-landingpage {
+.cropperblazor-docs,
+.cropperblazor-landingpage {
     overflow: hidden;
 
     .docs-single-link .mud-nav-link {

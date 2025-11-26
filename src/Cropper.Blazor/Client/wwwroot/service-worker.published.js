@@ -33,6 +33,7 @@ const cacheName = `${cacheNamePrefix}${self.assetsManifest.version}`
 const offlineAssetsInclude = [/\.dll$/, /\.pdb$/, /\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/, /\.blat$/, /\.dat$/]
 const offlineAssetsExclude = [/^service-worker\.js$/]
 
+/* eslint-disable-next-line no-unused-vars */
 async function onInstall (event) {
   console.info('Service worker: Install')
 
@@ -49,6 +50,7 @@ async function onInstall (event) {
     })
 }
 
+/* eslint-disable-next-line no-unused-vars */
 async function onActivate (event) {
   console.info('Service worker: Activate')
 

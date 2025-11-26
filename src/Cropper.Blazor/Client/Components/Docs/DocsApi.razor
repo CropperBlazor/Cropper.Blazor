@@ -9,7 +9,7 @@
 @using MudBlazor;
 @using Cropper.Blazor.Shared.Extensions;
 
-<DocsPage>
+<DocsPage @ref="DocsPage">
     <DocsPageHeader Title="Cropper Component API" TitleTypo="@Typo.h4" />
     <DocsPageContent>
         @if (!IsContract)
@@ -19,7 +19,7 @@
                 <SectionHeader Title="Pages" TitleClass="mt-3" />
                 <div class="docs-page-apilinks">
                     <ul class="my-2">
-                        <li>
+                        <li style="list-style-type: none;">
                             <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
                                      Href="examples/cropperusage">
                                 <CodeInline>@Type.GetTypeDisplayName()</CodeInline>
@@ -170,7 +170,7 @@
             <DocsPageSection>
                 <SectionHeader Title="Methods" />
                 <SectionContent Class="docs-content-api" Outlined="false">
-                    <MudTable Items="@methods" FixedHeader="true" FixedFooter="false" Elevation="0" Class="ma-0 mud-width-full" Breakpoint="@Breakpoint.Sm">
+                    <MudTable CurrentPageChanged="OnPageChanged" Items="@methods" On FixedHeader="true" FixedFooter="false" Elevation="0" Class="ma-0 mud-width-full" Breakpoint="@Breakpoint.Sm">
                         <HeaderContent>
                             <MudTh Class="docs-content-api-max-width">Name</MudTh>
                             <MudTd Class="docs-content-api-max-width">Parameters</MudTd>

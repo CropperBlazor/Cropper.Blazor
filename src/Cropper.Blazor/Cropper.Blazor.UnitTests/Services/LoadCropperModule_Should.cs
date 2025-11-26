@@ -4,21 +4,26 @@ using System.IO;
 using System.Threading.Tasks;
 using Bogus;
 using Bunit;
-using Bunit.TestDoubles;
 using Cropper.Blazor.ModuleOptions;
 using Cropper.Blazor.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
 
+#if NET8_0_OR_GREATER
+using FakeNavigationManager = Bunit.TestDoubles.BunitNavigationManager;
+using TestContext = Bunit.BunitContext;
+#else
+using Bunit.TestDoubles;
+#endif
+
 namespace Cropper.Blazor.UnitTests.Services
 {
     public class LoadCropperModule_Should : IDisposable
     {
         private readonly TestContext _testContext;
-        private ICropperJsInterop _cropperJsInterop;
+        private ICropperJsInterop CropperJsInterop = null!;
         private const string PathToCropperModule = "_content/Cropper.Blazor/cropperJsInterop.min.js";
-        private static string DefaultPathToCropperModule => Path.Combine("http:localhost", PathToCropperModule);
 
         public LoadCropperModule_Should()
         {
@@ -35,7 +40,7 @@ namespace Cropper.Blazor.UnitTests.Services
             // arrange
             FakeNavigationManager fakeNavigationManager = _testContext.Services.GetRequiredService<FakeNavigationManager>();
 
-            _cropperJsInterop = new Faker<ICropperJsInterop>()
+            CropperJsInterop = new Faker<ICropperJsInterop>()
                 .CustomInstantiator(f => new CropperJsInterop(_testContext.JSInterop.JSRuntime, fakeNavigationManager, cropperJsInteropOptions, Mock.Of<IUrlImageInterop>()))
                 .Generate();
 
@@ -45,7 +50,7 @@ namespace Cropper.Blazor.UnitTests.Services
             VerifyLoadCropperModule(expectedPathToCropperModule);
 
             // act
-            await _cropperJsInterop.TryLoadModuleAsync();
+            await CropperJsInterop.TryLoadModuleAsync();
         }
 
         public static IEnumerable<object[]> TestData_LoadCropperModule()

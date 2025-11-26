@@ -20,7 +20,7 @@ namespace Cropper.Blazor.UnitTests.Components
             MethodInfo? methodInfo = typeof(CroppedCanvasReceiver)
                 .GetMethod(methodName);
 
-            JSInvokableAttribute attribute = methodInfo!
+            JSInvokableAttribute? attribute = methodInfo!
                 .GetCustomAttribute<JSInvokableAttribute>();
 
             // assert
