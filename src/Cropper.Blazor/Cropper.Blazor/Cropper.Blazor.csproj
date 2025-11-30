@@ -1,12 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
-	<PropertyGroup>
-		<ResolveStaticWebAssetsInputsDependsOn>
-			IncludeGeneratedStaticFiles;
-			$(ResolveStaticWebAssetsInputsDependsOn)
-		</ResolveStaticWebAssetsInputsDependsOn>
-	</PropertyGroup>
-
 	<PropertyGroup>
 		<TargetFrameworks>net10.0;net9.0;net8.0;net7.0;net6.0</TargetFrameworks>
 		<ImplicitUsings>disable</ImplicitUsings>
@@ -14,7 +6,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Version>1.5.0</Version>
+		<Version>1.5.1</Version>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageIcon>NuGet.png</PackageIcon>
 		<Company>Cropper.Blazor</Company>
@@ -74,11 +66,43 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+		<None Include="Cropper\cropperJsInterop.ts" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="package.json" />
+		<Content Remove="tsconfig.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<WebpackInputs Include="**\*.ts" Exclude="wwwroot\**;node_modules\**; *.d.ts" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <TypeScriptCompile Remove="node_modules\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="package.json" />
+		<None Include="tsconfig.json" />
+	</ItemGroup>
+
+	<Target Name="EnsureNpmRestored" BeforeTargets="PreBuildEvent" Condition="!Exists('package-lock.json')">
+		<Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+		<Exec Command="npm install" />
+	</Target>
+
+	<Target Name="RunWebpack" AfterTargets="ResolveReferences" Outputs="wwwroot\Cropper.Blazor.js" Inputs="@(WebpackInputs)" DependsOnTargets="EnsureNpmRestored">
+		<Exec Command="npm run build:debug" Condition="'$(Configuration)' == 'Debug'" />
+		<Exec Command="npm run build:production" Condition="'$(Configuration)' != 'Debug'" />
+		<ItemGroup>
+			<Content Include="wwwroot\**\*.js" />
+		</ItemGroup>
+	</Target>
 
 	<!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
 	<Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
@@ -90,36 +114,10 @@
 	<Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
 		<ItemGroup>
 			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js" />
+			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js.map" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
 	</Target>
-
-	<Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
-		<Exec ContinueOnError="true" Command="dotnet tool restore" StandardOutputImportance="high" />
-	</Target>
-
-	<Target Name="WebCompiler" DependsOnTargets="ToolRestore">
-		<Message Text="Running webcompiler" Importance="high" />
-		<!--Minify js-->
-		<Exec Command="dotnet webcompiler ./wwwroot/cropperJsInterop.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-	</Target>
-
-	<!--Output of Excubo webcompiler-->
-	<Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
-		<Error Condition="!Exists('wwwroot/cropper.min.css')" Text="Missing Cropper.min.css in wwwroot" />
-		<Error Condition="!Exists('wwwroot/cropper.min.js')" Text="Missing Cropper.min.js in wwwroot" />
-		<Error Condition="!Exists('wwwroot/cropperJsInterop.min.js')" Text="Missing cropperJsInterop.min.js in wwwroot" />
-		<ItemGroup>
-			<Content Include="wwwroot/cropper.min.css" Condition="!Exists('wwwroot/cropper.min.css')" />
-			<Content Include="wwwroot/cropper.min.js" Condition="!Exists('wwwroot/cropper.min.js')" />
-			<Content Include="wwwroot/cropperJsInterop.min.js" Condition="!Exists('wwwroot/cropperJsInterop.min.js')" />
-		</ItemGroup>
-	</Target>
-
-	<!--Dont Include in build output-->
-	<ItemGroup>
-		<Content Remove="excubowebcompiler.json" />
-	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.36" />
@@ -139,6 +137,25 @@
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <TypeScriptCompile Remove="Cropper\cropperJsInterop.ts" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Cropper\cropperJsInterop.ts" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.3">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 
 </Project>
