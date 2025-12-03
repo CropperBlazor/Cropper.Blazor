@@ -16,7 +16,7 @@
 [![GitHub](https://img.shields.io/github/license/CropperBlazor/Cropper.Blazor?color=ff5c9b)](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/LICENSE)
 [![GitHub](https://img.shields.io/github/last-commit/CropperBlazor/Cropper.Blazor?color=009DEA)](https://github.com/CropperBlazor/Cropper.Blazor)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Cropper.Blazor?logo=nuget&label=nuget%20downloads&color=ff5c9b)](https://www.nuget.org/packages/Cropper.Blazor)
-![NuGet Version](https://img.shields.io/nuget/v/Cropper.Blazor?logo=nuget&label=nuget%20version&color=009DEA)
+[![NuGet Version](https://img.shields.io/nuget/v/Cropper.Blazor?logo=nuget&label=nuget%20version&color=009DEA)](https://www.nuget.org/packages/Cropper.Blazor)
 
 The most powerful image cropping tool for Blazor WebAssembly / Server, Hybrid with MAUI, MVC and
 other frameworks.
