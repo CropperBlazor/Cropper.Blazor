@@ -9,8 +9,8 @@ on:
   pull_request:
     branches-ignore:
       - master
-    paths-ignore:
-      - '**/**.md'
+    paths:
+      - '!**.md'
 
 permissions:
   contents: read
