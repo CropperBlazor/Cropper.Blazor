@@ -100,7 +100,7 @@
 		<Exec Command="npm install --legacy-peer-deps" />
 	</Target>
 
-	<Target Name="RunWebpack" AfterTargets="ResolveReferences" Outputs="wwwroot\Cropper.Blazor.js" Inputs="@(WebpackInputs)" DependsOnTargets="EnsureNpmRestored">
+	<Target Name="RunWebpack" Condition="'$(TargetFramework)' == 'net10.0'" AfterTargets="ResolveReferences" Outputs="wwwroot\Cropper.Blazor.js" Inputs="@(WebpackInputs)" DependsOnTargets="EnsureNpmRestored">
 		<Exec Command="npm run build:debug" Condition="'$(Configuration)' == 'Debug'" />
 		<Exec Command="npm run build:production" Condition="'$(Configuration)' != 'Debug'" />
 		<ItemGroup>
