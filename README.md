@@ -10,38 +10,30 @@
   </p>
 </p>
 
-[![Build and run test](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/ci.yml)
-[![Deploy to GitHub Pages](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/cd.yml/badge.svg?event=push)](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/cd.yml)
 [![Deploy to NuGet](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/release.yml/badge.svg?event=push)](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/release.yml)
+[![Deploy to GitHub Pages](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/cd.yml/badge.svg?event=push)](https://github.com/CropperBlazor/Cropper.Blazor/actions/workflows/cd.yml)
 [![coverage](https://codecov.io/github/CropperBlazor/Cropper.Blazor/branch/dev/graph/badge.svg?token=39M66DO85T)](https://codecov.io/github/CropperBlazor/Cropper.Blazor)
 [![GitHub](https://img.shields.io/github/license/CropperBlazor/Cropper.Blazor?color=ff5c9b)](https://github.com/CropperBlazor/Cropper.Blazor/blob/dev/LICENSE)
 [![GitHub](https://img.shields.io/github/last-commit/CropperBlazor/Cropper.Blazor?color=009DEA)](https://github.com/CropperBlazor/Cropper.Blazor)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Cropper.Blazor?logo=nuget&label=nuget%20downloads&color=ff5c9b)](https://www.nuget.org/packages/Cropper.Blazor)
+[![NuGet Version](https://img.shields.io/nuget/v/Cropper.Blazor?logo=nuget&label=nuget%20version&color=009DEA)](https://www.nuget.org/packages/Cropper.Blazor)
 
 The most powerful image cropping tool for Blazor WebAssembly / Server, Hybrid with MAUI, MVC and
 other frameworks.
 
 Cropper.Blazor is an essential component for building interactive image cropping and manipulation features in Blazor web applications. This versatile Blazor library empowers developers to integrate intuitive image cropping functionality directly into their Blazor projects, offering users a seamless and responsive image editing experience.
 
-## Demo
-- [CropperBlazor.github.io/demo](https://CropperBlazor.github.io/demo)
-
-## API
-- [CropperBlazor.github.io/api](https://cropperblazor.github.io/api)
-
-## Examples
-- [CropperBlazor.github.io/examples/cropperusage](https://cropperblazor.github.io/examples/cropperusage)
+## 🌐 [Demo](https://CropperBlazor.github.io/demo) 📖 [API](https://cropperblazor.github.io/api) 💡 [Examples](https://cropperblazor.github.io/examples/cropperusage)
 
 ## Prerequisites
 | Cropper.Blazor | .NET | Support |
 | :--- | :---: | :---: |
-| - | .NET 3.1 | Not supported |
-| - | .NET 5 | Not supported |
+| - | .NET 3.1, .NET 5 | Not supported |
 | 1.1.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) | :heavy_check_mark: |
-| 1.2.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) | :heavy_check_mark: |
-| 1.3.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) & [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) | :heavy_check_mark: |
-| 1.4.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) & [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) & [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) | :heavy_check_mark: |
-| 1.5.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) & [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) & [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) & [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) & [.NET 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) | :heavy_check_mark: |
+| 1.2.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0), [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) | :heavy_check_mark: |
+| 1.3.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0), [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0), [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) | :heavy_check_mark: |
+| 1.4.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0), [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0), [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0), [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) | :heavy_check_mark: |
+| 1.5.x | [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0), [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0), [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0), [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0), [.NET 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) | :heavy_check_mark: |
 
 - Supported .NET 10.0, .NET 9.0, .NET 8.0, .NET 7.0, .NET 6.0 versions for these web platforms:
   - Blazor WebAssembly
@@ -49,9 +41,10 @@ Cropper.Blazor is an essential component for building interactive image cropping
   - Blazor Server Hybrid with MVC
   - MAUI Blazor Hybrid
   
-  Note: if you have problem with MAUI project dependencies: 
-  - `dotnet workload update` + rebuilt the project. If that doesn't help, try the step below about override package
-  - override package, for example: `<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" VersionOverride="7.0.1" />`
+> [!NOTE]  
+> If you have problem with MAUI project dependencies: 
+> - `dotnet workload update` + rebuilt the project. If that doesn't help, try the step below about override package
+> - override package, for example: `<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" VersionOverride="7.0.1" />`
 
  ## Key features and aspects of the Cropper.Blazor package include
 
