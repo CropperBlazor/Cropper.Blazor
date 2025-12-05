@@ -61,8 +61,9 @@ jobs:
           VALIDATE_MARKDOWN_PRETTIER: false
           VALIDATE_YAML_PRETTIER: false
           VALIDATE_JSON_PRETTIER: false
+          VALIDATE_TYPESCRIPT_PRETTIER: false
 
-          FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
+          FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/|node_modules/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
           FILTER_REGEX_INCLUDE: "/github/workspace/src/Cropper.Blazor/.*|/github/workspace/.github/.*"
 
           JSCPD_CONFIG_FILE: ".jscpd.json"

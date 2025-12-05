@@ -1,4 +1,4 @@
-import * as Cropper from 'cropperjs/src';
+import * as Cropper from 'cropperjs';
 
 
 declare global {
@@ -274,7 +274,7 @@ export class CropperDecorator {
     // Chunked Blob Streaming
     // --------------------------
 
-    async readBlobInChunks(blob: Blob, dotNetImageReceiverRef: any, maximumReceiveChunkSize?: number) {
+    async readBlobInChunks(blob: Blob | null, dotNetImageReceiverRef: any, maximumReceiveChunkSize?: number) {
         // Validate blob
         if (!(blob instanceof Blob)) {
             throw new TypeError('blob must be a valid Blob object.')

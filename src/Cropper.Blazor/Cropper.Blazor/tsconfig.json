@@ -10,7 +10,11 @@
     "strict": true,
     "alwaysStrict": true,
     "preserveConstEnums": true,
-    "allowJs": false
+    "allowJs": false,
+    "baseUrl": ".",
+    "paths": {
+      "cropperjs": [ "node_modules/cropperjs/dist/cropper.esm.js" ]
+    }
   },
   "exclude": [
     "node_modules"

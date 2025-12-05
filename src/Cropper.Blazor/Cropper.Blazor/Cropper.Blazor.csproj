@@ -75,7 +75,9 @@
 
 	<ItemGroup>
 		<Content Remove="package.json" />
+		<Content Remove="package-lock.json" />
 		<Content Remove="tsconfig.json" />
+		<Content Remove="wwwroot\cropperJsInterop.min.js.map" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -83,17 +85,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <TypeScriptCompile Remove="node_modules\**" />
+		<TypeScriptCompile Remove="node_modules\**" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="package.json" />
+		<None Include="package-lock.json" />
 		<None Include="tsconfig.json" />
+		<None Include="wwwroot\cropperJsInterop.min.js.map" />
 	</ItemGroup>
 
 	<Target Name="EnsureNpmRestored" BeforeTargets="PreBuildEvent" Condition="!Exists('package-lock.json')">
 		<Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-		<Exec Command="npm install" />
+		<Exec Command="npm install --legacy-peer-deps" />
 	</Target>
 
 	<Target Name="RunWebpack" AfterTargets="ResolveReferences" Outputs="wwwroot\Cropper.Blazor.js" Inputs="@(WebpackInputs)" DependsOnTargets="EnsureNpmRestored">
@@ -113,6 +117,7 @@
 
 	<Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
 		<ItemGroup>
+			<FilesToClean Include="./wwwroot/cropper.min.css" />
 			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js" />
 			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js.map" />
 		</ItemGroup>
@@ -140,22 +145,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <TypeScriptCompile Remove="Cropper\cropperJsInterop.ts" />
+		<TypeScriptCompile Remove="Cropper\cropperJsInterop.ts" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="Cropper\cropperJsInterop.ts" />
+		<Content Include="Cropper\cropperJsInterop.ts" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.3">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
+		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\" />
+		<Folder Include="wwwroot\" />
 	</ItemGroup>
 
 </Project>
