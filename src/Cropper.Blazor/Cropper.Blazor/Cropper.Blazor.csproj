@@ -95,7 +95,7 @@
 		<None Include="wwwroot\cropperJsInterop.min.js.map" />
 	</ItemGroup>
 
-	<Target Name="EnsureNpmRestored" BeforeTargets="PreBuildEvent" Condition="!Exists('package-lock.json')">
+	<Target Name="EnsureNpmRestored" BeforeTargets="PreBuildEvent" Condition="!Exists('node_modules/package-lock.json')">
 		<Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
 		<Exec Command="npm install --legacy-peer-deps" />
 	</Target>
