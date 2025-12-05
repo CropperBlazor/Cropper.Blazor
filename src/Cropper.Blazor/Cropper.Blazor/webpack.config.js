@@ -1,5 +1,5 @@
 const path = require('path');
-const webpack = require('webpack');
+require('webpack');
 const CleanCSS = require('clean-css')
 const CopyPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')

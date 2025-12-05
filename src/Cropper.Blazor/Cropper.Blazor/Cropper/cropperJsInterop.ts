@@ -1,4 +1,4 @@
-import * as Cropper from 'cropperjs';
+import * as Cropper from 'cropperjs/src';
 
 
 declare global {
