@@ -97,7 +97,7 @@
 
 	<Target Name="EnsureNpmRestored" BeforeTargets="PreBuildEvent" Condition="!Exists('$(ProjectDir)node_modules') OR !Exists('$(ProjectDir)package-lock.json')">
 		<Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-		<Exec Command="npm install --legacy-peer-deps" />
+		<Exec Command="npm install" />
 	</Target>
 
 	<Target Name="RunWebpack" Condition="'$(TargetFramework)' == 'net10.0'" AfterTargets="ResolveReferences" Outputs="wwwroot\Cropper.Blazor.js" Inputs="@(WebpackInputs)" DependsOnTargets="EnsureNpmRestored">
