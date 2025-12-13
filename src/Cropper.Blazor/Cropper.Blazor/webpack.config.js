@@ -28,7 +28,7 @@ module.exports = (env, args) => ({
     plugins: [new CopyPlugin({
         patterns: [{
             to: 'cropper.min.css',
-            from: path.resolve(__dirname, 'node_modules/cropperjs/src/css', 'cropper.css'),
+            from: path.resolve(__dirname, 'node_modules/cropperjs/dist', 'cropper.min.css'),
             transform: content => (new CleanCSS({
                 level: 2
             }).minify(content)).styles
