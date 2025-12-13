@@ -6,13 +6,23 @@
     "sourceMap": true,
     "target": "es6",
     "module": "commonjs",
+    "moduleResolution": "node",
     "lib": [ "es2016", "dom" ],
     "strict": true,
     "alwaysStrict": true,
     "preserveConstEnums": true,
-    "allowJs": false
+    "allowJs": false,
+    "baseUrl": ".",
+    "paths": {
+      "cropperjs/*": [ "node_modules/cropperjs/src/*" ]
+    }
   },
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "Cropper/types/global/*.d.ts",
+    "Cropper/**/*.ts",
+    "Cropper/*.ts"
   ]
 }

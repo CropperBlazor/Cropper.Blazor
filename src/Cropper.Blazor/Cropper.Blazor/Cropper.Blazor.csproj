@@ -95,7 +95,7 @@
 		<None Include="wwwroot\cropperJsInterop.min.js.map" />
 	</ItemGroup>
 
-	<Target Name="EnsureNpmRestored" BeforeTargets="PreBuildEvent" Condition="!Exists('$(ProjectDir)node_modules') OR !Exists('$(ProjectDir)package-lock.json')">
+	<Target Name="EnsureNpmRestored" BeforeTargets="PreBuildEvent" Condition="'$(TargetFramework)' == 'net10.0'&#xD;&#xA;                   AND ( !Exists('$(ProjectDir)node_modules')&#xD;&#xA;                         OR !Exists('$(ProjectDir)package-lock.json') )">
 		<Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
 		<Exec Command="npm install" />
 	</Target>
@@ -120,6 +120,10 @@
 			<FilesToClean Include="./wwwroot/cropper.min.css" />
 			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js" />
 			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js.map" />
+			<FilesToClean Include="Cropper\*.js" />
+			<FilesToClean Include="Cropper\*.js.map" />
+			<FilesToClean Include="Cropper\**\*.js" />
+			<FilesToClean Include="Cropper\**\*.js.map" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
 	</Target>
@@ -141,7 +145,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

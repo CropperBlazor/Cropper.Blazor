@@ -1,13 +1,12 @@
-import * as Cropper from 'cropperjs/src';
-
+import Cropper from 'cropperjs';
+import { ICropperComponentBase } from './types/components/cropper-component-base';
+import { CroppedCanvasReceiver } from './types/components/cropped-canvas-receiver';
+import { ImageReceiver } from './types/components/image-receiver';
+import type { CropperBlazor as CropperEventTypes } from './types/cropper-event-data';
+import type { CropperBlazor as CropperOptionsTypes } from './types/cropper-extended-options';
+import { CropperUrlImageHelper } from './helpers/cropper-url-image-helper';
 
 declare global {
-    interface DotNet {
-        createJSObjectReference(obj: any): any;
-    }
-
-    const DotNet: DotNet;
-
     interface Window {
         cropper: CropperDecorator;
         cropperUrlImageHelper: typeof CropperUrlImageHelper;
@@ -16,13 +15,8 @@ declare global {
 
 type CropperId = string;
 
-interface CropperExtendedOptions<T extends EventTarget = HTMLImageElement>
-    extends Cropper.default.Options<T> {
-    correlationId?: string;
-}
-
 export class CropperDecorator {
-    private cropperInstances: Record<CropperId, Cropper.default> = {};
+    private cropperInstances: Record<CropperId, Cropper> = {};
 
     clear(id: CropperId) {
         return this.cropperInstances[id].clear();
@@ -34,8 +28,10 @@ export class CropperDecorator {
 
     destroy(id: CropperId) {
         const instance = this.cropperInstances[id];
+
         if (instance) {
             instance.destroy();
+
             delete this.cropperInstances[id];
         }
     }
@@ -48,11 +44,11 @@ export class CropperDecorator {
         return this.cropperInstances[id].enable();
     }
 
-    getCanvasData(id: CropperId): Cropper.default.CanvasData {
+    getCanvasData(id: CropperId): Cropper.CanvasData {
         return this.cropperInstances[id].getCanvasData();
     }
 
-    getContainerData(id: CropperId): Cropper.default.ContainerData {
+    getContainerData(id: CropperId): Cropper.ContainerData {
         return this.cropperInstances[id].getContainerData();
     }
 
@@ -60,16 +56,17 @@ export class CropperDecorator {
         return this.cropperInstances[id].getCropBoxData();
     }
 
-    getCroppedCanvas(id: CropperId, options: any) {
+    getCroppedCanvas(id: CropperId, options: Cropper.GetCroppedCanvasOptions) {
         options.maxWidth ??= Infinity;
         options.maxHeight ??= Infinity;
+
         return this.cropperInstances[id].getCroppedCanvas(options);
     }
 
     async getCroppedCanvasInBackground(
         id: CropperId,
-        options: any,
-        dotNetCanvasReceiverRef: any
+        options: Cropper.GetCroppedCanvasOptions,
+        dotNetCanvasReceiverRef: DotNetObjectReference<CroppedCanvasReceiver>
     ) {
         setTimeout(async () => {
             const canvas = this.getCroppedCanvas(id, options);
@@ -83,7 +80,7 @@ export class CropperDecorator {
 
     getCroppedCanvasDataURL(
         id: CropperId,
-        options: any,
+        options: Cropper.GetCroppedCanvasOptions,
         type?: string,
         encoderOptions?: number
     ) {
@@ -95,11 +92,11 @@ export class CropperDecorator {
             .toDataURL(type, encoderOptions);
     }
 
-    getData(id: CropperId, rounded?: boolean): Cropper.default.Data {
+    getData(id: CropperId, rounded?: boolean): Cropper.Data {
         return this.cropperInstances[id].getData(rounded);
     }
 
-    getImageData(id: CropperId): Cropper.default.ImageData {
+    getImageData(id: CropperId): Cropper.ImageData {
         return this.cropperInstances[id].getImageData();
     }
 
@@ -143,19 +140,19 @@ export class CropperDecorator {
         return this.cropperInstances[id].setAspectRatio(ratio);
     }
 
-    setCanvasData(id: CropperId, data: Cropper.default.CanvasData) {
+    setCanvasData(id: CropperId, data: Cropper.CanvasData) {
         return this.cropperInstances[id].setCanvasData(data);
     }
 
-    setCropBoxData(id: CropperId, data: any) {
+    setCropBoxData(id: CropperId, data: Cropper.SetCropBoxDataOptions) {
         return this.cropperInstances[id].setCropBoxData(data);
     }
 
-    setData(id: CropperId, data: Cropper.default.Data) {
+    setData(id: CropperId, data: Cropper.Data) {
         return this.cropperInstances[id].setData(data);
     }
 
-    setDragMode(id: CropperId, mode: Cropper.default.DragMode) {
+    setDragMode(id: CropperId, mode: Cropper.DragMode) {
         return this.cropperInstances[id].setDragMode(mode);
     }
 
@@ -168,18 +165,21 @@ export class CropperDecorator {
     }
 
     noConflict() {
-        return Cropper.default.noConflict();
+        return Cropper.noConflict();
     }
 
-    setDefaults(options: Cropper.default.Options) {
-        Cropper.default.setDefaults(options);
+    setDefaults(options: Cropper.Options) {
+        Cropper.setDefaults(options);
     }
 
     // --------------------------
     // Event serialization helpers
     // --------------------------
 
-    getJSEventData(instance: any, correlationId: any) {
+    getJSEventData<T extends EventTarget>(
+        instance: Cropper.CropperEvent<T> | Cropper.CropEvent<T> | Cropper.CropStartEvent<T> | Cropper.CropMoveEvent<T> | Cropper.CropEndEvent<T>,
+        correlationId: string | undefined): CropperEventTypes.CropperJSEventData {
+
         return {
             isTrusted: instance.isTrusted,
             detail: this.getJSEventDataDetail(instance),
@@ -196,85 +196,121 @@ export class CropperDecorator {
         };
     }
 
-    getJSEventDataDetail(instance: any): any {
+    getJSEventDataDetail<T extends EventTarget>(
+        instance: Cropper.CropperEvent<T> | Cropper.CropEvent<T> | Cropper.CropStartEvent<T> | Cropper.CropMoveEvent<T> | Cropper.CropEndEvent<T>)
+        : CropperEventTypes.CropperEventDataJS {
         if (instance.type === "zoom") {
-            return {
+            const zoomEventData: CropperEventTypes.CropperEventDataJS = {
                 oldRatio: instance.detail.oldRatio,
                 ratio: instance.detail.ratio,
                 originalEvent: instance.detail.originalEvent
                     ? DotNet.createJSObjectReference(instance.detail.originalEvent)
                     : null
             };
-        }
 
-        if (["cropstart", "cropend", "cropmove"].includes(instance.type)) {
-            return {
+            return zoomEventData;
+        }
+        else if (["cropstart", "cropend", "cropmove"].includes(instance.type)) {
+            const cropEventData: CropperEventTypes.CropperEventDataJS = {
                 action: instance.detail.action,
                 originalEvent: instance.detail.originalEvent
                     ? DotNet.createJSObjectReference(instance.detail.originalEvent)
                     : null
             };
+
+            return cropEventData;
         }
 
         return instance.detail;
     }
 
-    onReady(imageObject: any, e: any, id: any) {
+    onReady(
+        imageObject: DotNetObjectReference<ICropperComponentBase>,
+        e: Cropper.ReadyEvent<HTMLImageElement | HTMLCanvasElement>, id: string | undefined)
+    {
         imageObject.invokeMethodAsync("IsReady", this.getJSEventData(e, id));
     }
 
-    onCropStart(imageObject: any, e: any, id: any) {
+    onCropStart(
+        imageObject: DotNetObjectReference<ICropperComponentBase>,
+        e: Cropper.CropStartEvent<HTMLImageElement | HTMLCanvasElement>, id: string | undefined)
+    {
         imageObject.invokeMethodAsync("CropperIsStarted", this.getJSEventData(e, id));
     }
 
-    onCropMove(imageObject: any, e: any, id: any) {
+    onCropMove(
+        imageObject: DotNetObjectReference<ICropperComponentBase>,
+        e: Cropper.CropMoveEvent<HTMLImageElement | HTMLCanvasElement>, id: string | undefined)
+    {
         imageObject.invokeMethodAsync("CropperIsMoved", this.getJSEventData(e, id));
     }
 
-    onCropEnd(imageObject: any, e: any, id: any) {
+    onCropEnd(
+        imageObject: DotNetObjectReference<ICropperComponentBase>,
+        e: Cropper.CropEndEvent<HTMLImageElement | HTMLCanvasElement>, id: string | undefined)
+    {
         imageObject.invokeMethodAsync("CropperIsEnded", this.getJSEventData(e, id));
     }
 
-    onCrop(imageObject: any, e: any, id: any) {
+    onCrop(
+        imageObject: DotNetObjectReference<ICropperComponentBase>,
+        e: Cropper.CropEvent<HTMLImageElement | HTMLCanvasElement>, id: string | undefined)
+    {
         imageObject.invokeMethodAsync("CropperIsCroped", this.getJSEventData(e, id));
     }
 
-    onZoom(imageObject: any, e: any, id: any) {
+    onZoom(
+        imageObject: DotNetObjectReference<ICropperComponentBase>,
+        e: Cropper.ZoomEvent<HTMLImageElement | HTMLCanvasElement>, id: string | undefined)
+    {
         imageObject.invokeMethodAsync("CropperIsZoomed", this.getJSEventData(e, id));
     }
 
     initCropper(
         id: CropperId,
-        image: HTMLImageElement,
-        optionsImage: CropperExtendedOptions,
-        imageObject?: any
+        image: HTMLImageElement | HTMLCanvasElement,
+        optionsImage: CropperOptionsTypes.CropperExtendedOptions,
+        imageObject?: DotNetObjectReference<ICropperComponentBase>
     ) {
         if (!image) throw new Error("Parameter 'image' must not be null");
         if (!optionsImage) throw new Error("Parameter 'optionsImage' must not be null");
 
-        const options: Cropper.default.Options<HTMLImageElement> = {};
-        const correlationId = optionsImage.correlationId;
+        const options: Cropper.Options<HTMLImageElement> | Cropper.Options<HTMLCanvasElement> = {};
+        const correlationId: string | undefined = optionsImage.correlationId;
 
         if (imageObject) {
-            options.ready = (e: any) => this.onReady(imageObject, e, correlationId);
-            options.cropstart = (e: any) => this.onCropStart(imageObject, e, correlationId);
-            options.cropmove = (e: any) => this.onCropMove(imageObject, e, correlationId);
-            options.cropend = (e: any) => this.onCropEnd(imageObject, e, correlationId);
-            options.crop = (e: any) => this.onCrop(imageObject, e, correlationId);
-            options.zoom = (e: any) => this.onZoom(imageObject, e, correlationId);
+            options.ready = (e: Cropper.ReadyEvent<HTMLImageElement | HTMLCanvasElement>) => this.onReady(imageObject, e, correlationId);
+            options.cropstart = (e: Cropper.CropStartEvent<HTMLImageElement | HTMLCanvasElement>) => this.onCropStart(imageObject, e, correlationId);
+            options.cropmove = (e: Cropper.CropMoveEvent<HTMLImageElement | HTMLCanvasElement>) => this.onCropMove(imageObject, e, correlationId);
+            options.cropend = (e: Cropper.CropEndEvent<HTMLImageElement | HTMLCanvasElement>) => this.onCropEnd(imageObject, e, correlationId);
+            options.crop = (e: Cropper.CropEvent<HTMLImageElement | HTMLCanvasElement>) => this.onCrop(imageObject, e, correlationId);
+            options.zoom = (e: Cropper.ZoomEvent<HTMLImageElement | HTMLCanvasElement>) => this.onZoom(imageObject, e, correlationId);
         }
 
         Object.assign(options, optionsImage);
 
-        const cropper = new Cropper.default(image, options);
-        this.cropperInstances[id] = cropper;
+        if (image instanceof HTMLImageElement) {
+            const cropper: Cropper = new Cropper(image, options as Cropper.Options<HTMLImageElement>);
+            this.cropperInstances[id] = cropper;
+        } else if (image instanceof HTMLCanvasElement) {
+            const cropper: Cropper = new Cropper(image, options as Cropper.Options<HTMLCanvasElement>);
+            this.cropperInstances[id] = cropper;
+        } else {
+            throw new Error(
+                `Unsupported element type for Cropper: ${Object.prototype.toString.call(image)}`
+            );
+        }
     }
 
     // --------------------------
     // Chunked Blob Streaming
     // --------------------------
 
-    async readBlobInChunks(blob: Blob | null, dotNetImageReceiverRef: any, maximumReceiveChunkSize?: number) {
+    async readBlobInChunks(
+        blob: Blob | null,
+        dotNetImageReceiverRef: DotNetObjectReference<ImageReceiver>,
+        maximumReceiveChunkSize?: number)
+    {
         // Validate blob
         if (!(blob instanceof Blob)) {
             throw new TypeError('blob must be a valid Blob object.')
@@ -375,7 +411,14 @@ export class CropperDecorator {
         }
     }
 
-    sendImageInChunks(cropperComponentId: CropperId, options, dotNetImageReceiverRef: any, type?: string, encoderOptions?: number, maximumReceiveChunkSize?: number) {
+    sendImageInChunks(
+        cropperComponentId: CropperId,
+        options: Cropper.GetCroppedCanvasOptions,
+        dotNetImageReceiverRef: DotNetObjectReference<ImageReceiver>,
+        type?: string,
+        encoderOptions?: number,
+        maximumReceiveChunkSize?: number)
+    {
         options.maxWidth ??= Infinity
         options.maxHeight ??= Infinity
 
@@ -389,21 +432,6 @@ export class CropperDecorator {
     }
 }
 
-// ---------------------------------------------------
-// URL Image Helper
-// ---------------------------------------------------
-
-export class CropperUrlImageHelper {
-    static async getImageUsingStreaming(imageStream: any): Promise<string> {
-        const buf = await imageStream.arrayBuffer();
-        const blob = new Blob([buf]);
-        return URL.createObjectURL(blob);
-    }
-
-    static revokeObjectUrl(url: string) {
-        URL.revokeObjectURL(url);
-    }
-}
 
 window.cropper = new CropperDecorator();
 window.cropperUrlImageHelper = CropperUrlImageHelper;
