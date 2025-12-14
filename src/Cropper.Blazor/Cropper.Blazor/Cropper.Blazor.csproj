@@ -75,7 +75,6 @@
 
 	<ItemGroup>
 		<Content Remove="package.json" />
-		<Content Remove="package-lock.json" />
 		<Content Remove="tsconfig.json" />
 		<Content Remove="wwwroot\cropperJsInterop.min.js.map" />
 	</ItemGroup>
@@ -90,22 +89,49 @@
 
 	<ItemGroup>
 		<None Include="package.json" />
-		<None Include="package-lock.json" />
 		<None Include="tsconfig.json" />
-		<None Include="wwwroot\cropperJsInterop.min.js.map" />
 	</ItemGroup>
 
-	<Target Name="EnsureNpmRestored" BeforeTargets="PreBuildEvent" Condition="'$(TargetFramework)' == 'net10.0'&#xD;&#xA;                   AND ( !Exists('$(ProjectDir)node_modules')&#xD;&#xA;                         OR !Exists('$(ProjectDir)package-lock.json') )">
+	<!--
+	  Ensures npm dependencies are installed.
+	  This target runs ONLY during the cross-targeting build (IsCrossTargetingBuild)
+	  (i.e., once for the entire multi-TFM build).
+	-->
+	<Target Name="EnsureNpmRestored" BeforeTargets="Build" Condition="'$(IsCrossTargetingBuild)' == 'true'
+		AND ( !Exists('$(ProjectDir)node_modules')
+		OR !Exists('$(ProjectDir)package-lock.json') )">
+
+		<!-- Informative message shown in build output -->
 		<Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+
+		<!-- Installs npm dependencies -->
 		<Exec Command="npm install" />
+
+		<!-- Diagnostic message to verify build phase -->
+		<Message Importance="high" Text="EnsureNpmRestored runned with build phase: IsCrossTargetingBuild=$(IsCrossTargetingBuild), TargetFramework=$(TargetFramework)" />
 	</Target>
 
-	<Target Name="RunWebpack" Condition="'$(TargetFramework)' == 'net10.0'" AfterTargets="ResolveReferences" Outputs="wwwroot\Cropper.Blazor.js" Inputs="@(WebpackInputs)" DependsOnTargets="EnsureNpmRestored">
+	<!--
+	  Runs webpack to produce JS assets.
+	  Scheduled via BeforeTargets="Build", so MSBuild actually executes it.
+	  Guarded by IsCrossTargetingBuild to ensure it runs ONLY ONCE
+	  for multi-target builds.
+	-->
+	<Target Name="RunWebpack" Condition="'$(IsCrossTargetingBuild)' == 'true'" BeforeTargets="Build" Outputs="wwwroot\Cropper.Blazor.js" Inputs="@(WebpackInputs)" DependsOnTargets="EnsureNpmRestored">
+		<!-- Development build -->
 		<Exec Command="npm run build:debug" Condition="'$(Configuration)' == 'Debug'" />
+
+		<!-- Production build -->
 		<Exec Command="npm run build:production" Condition="'$(Configuration)' != 'Debug'" />
+
+		<!-- Marks generated JS files as content for packing/publishing -->
 		<ItemGroup>
 			<Content Include="wwwroot\**\*.js" />
 		</ItemGroup>
+	</Target>
+
+	<Target Name="ShowBuildPhase" BeforeTargets="Build">
+		<Message Importance="high" Text="Current build phase: IsCrossTargetingBuild=$(IsCrossTargetingBuild), TargetFramework=$(TargetFramework)" />
 	</Target>
 
 	<!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
@@ -156,7 +182,7 @@
 		<Content Include="Cropper\cropperJsInterop.ts" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
 		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.3">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
