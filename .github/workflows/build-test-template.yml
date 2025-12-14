@@ -56,8 +56,12 @@ jobs:
       - name: Restore dotnet tool
         run: dotnet tool restore
         working-directory: src/Cropper.Blazor/Cropper.Blazor
-
-      - name: DotNet Build
+        
+      - name: DotNet Build library
+        run: dotnet build -c "$CONFIGURATION" --no-restore
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
+        
+      - name: DotNet Build project
         run: dotnet build -c "$CONFIGURATION" --no-restore
         working-directory: src/Cropper.Blazor
 
