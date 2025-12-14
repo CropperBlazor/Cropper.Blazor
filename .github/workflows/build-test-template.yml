@@ -61,7 +61,7 @@ jobs:
         run: dotnet build -c "$CONFIGURATION" --no-restore
         working-directory: src/Cropper.Blazor/Cropper.Blazor
         
-      - name: DotNet Build project
+      - name: DotNet Build
         run: dotnet build -c "$CONFIGURATION" --no-restore
         working-directory: src/Cropper.Blazor
 
