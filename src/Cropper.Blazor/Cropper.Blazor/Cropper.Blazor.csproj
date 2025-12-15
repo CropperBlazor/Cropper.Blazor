@@ -118,6 +118,12 @@
 	  for multi-target builds.
 	-->
 	<Target Name="RunWebpack" Condition="'$(IsCrossTargetingBuild)' == 'true'" BeforeTargets="Build" Outputs="wwwroot\Cropper.Blazor.js" Inputs="@(WebpackInputs)" DependsOnTargets="EnsureNpmRestored">
+		<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+			<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.3">
+				<PrivateAssets>all</PrivateAssets>
+				<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			</PackageReference>
+		</ItemGroup>
 		<!-- Development build -->
 		<Exec Command="npm run build:debug" Condition="'$(Configuration)' == 'Debug'" />
 
@@ -180,13 +186,6 @@
 
 	<ItemGroup>
 		<Content Include="Cropper\cropperJsInterop.ts" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
-		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.3">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
