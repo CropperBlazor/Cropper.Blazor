@@ -15,7 +15,8 @@
     "baseUrl": ".",
     "paths": {
       "cropperjs/*": [ "node_modules/cropperjs/src/*" ]
-    }
+    },
+    "declaration": false
   },
   "exclude": [
     "node_modules"

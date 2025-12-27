@@ -1,12 +1,16 @@
-﻿export class CropperUrlImageHelper {
-    static async getImageUsingStreaming(imageStream: DotNetStreamReference): Promise<string> {
-        const buf = await imageStream.arrayBuffer();
-        const blob = new Blob([buf]);
+﻿import type { CropperBlazor as DotNetTypes } from '../types/global/dotnet-global';
 
-        return URL.createObjectURL(blob);
-    }
+export namespace CropperBlazor.Helpers {
+    export class CropperUrlImageHelper {
+        static async getImageUsingStreaming(imageStream: DotNetTypes.Global.DotNetStreamReference): Promise<string> {
+            const buf = await imageStream.arrayBuffer();
+            const blob = new Blob([buf]);
 
-    static revokeObjectUrl(url: string) {
-        URL.revokeObjectURL(url);
+            return URL.createObjectURL(blob);
+        }
+
+        static revokeObjectUrl(url: string) {
+            URL.revokeObjectURL(url);
+        }
     }
 }

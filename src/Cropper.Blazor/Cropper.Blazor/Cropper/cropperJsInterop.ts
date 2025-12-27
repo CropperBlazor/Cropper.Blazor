@@ -1,17 +1,21 @@
 import Cropper from 'cropperjs';
-import { ICropperComponentBase } from './types/components/cropper-component-base';
-import { CroppedCanvasReceiver } from './types/components/cropped-canvas-receiver';
-import { ImageReceiver } from './types/components/image-receiver';
-import type { CropperBlazor as CropperEventTypes } from './types/cropper-event-data';
-import type { CropperBlazor as CropperOptionsTypes } from './types/cropper-extended-options';
-import { CropperUrlImageHelper } from './helpers/cropper-url-image-helper';
+import type { CropperBlazor as CropperComponentBaseTypes } from './types/components/cropper-component-base';
+import type { CropperBlazor as CroppedCanvasReceiverTypes } from './types/components/cropped-canvas-receiver';
+import type { CropperBlazor as ImageReceiverTypes } from './types/components/image-receiver';
+import type { CropperBlazor as DataEventTypes } from './types/data/cropper-event-data';
+import type { CropperBlazor as DataOptionsTypes } from './types/data/cropper-extended-options';
+import type { CropperBlazor as DotNetTypes } from './types/global/dotnet-global';
+import { CropperBlazor } from './helpers/cropper-url-image-helper';
+
 
 declare global {
     interface Window {
         cropper: CropperDecorator;
-        cropperUrlImageHelper: typeof CropperUrlImageHelper;
+        cropperUrlImageHelper: CropperBlazor.Helpers.CropperUrlImageHelper;
     }
 }
+
+declare const DotNet: DotNetTypes.Global.DotNetNamespace;
 
 type CropperId = string;
 
@@ -66,7 +70,7 @@ export class CropperDecorator {
     async getCroppedCanvasInBackground(
         id: CropperId,
         options: Cropper.GetCroppedCanvasOptions,
-        dotNetCanvasReceiverRef: DotNetObjectReference<CroppedCanvasReceiver>
+        dotNetCanvasReceiverRef: DotNetTypes.Global.DotNetObjectReference<CroppedCanvasReceiverTypes.Components.CroppedCanvasReceiver>
     ) {
         setTimeout(async () => {
             const canvas = this.getCroppedCanvas(id, options);
@@ -178,7 +182,7 @@ export class CropperDecorator {
 
     getJSEventData<T extends EventTarget>(
         instance: Cropper.CropperEvent<T> | Cropper.CropEvent<T> | Cropper.CropStartEvent<T> | Cropper.CropMoveEvent<T> | Cropper.CropEndEvent<T>,
-        correlationId: string | undefined): CropperEventTypes.CropperJSEventData {
+        correlationId: string | undefined): DataEventTypes.Data.CropperJSEventData {
 
         return {
             isTrusted: instance.isTrusted,
@@ -198,9 +202,9 @@ export class CropperDecorator {
 
     getJSEventDataDetail<T extends EventTarget>(
         instance: Cropper.CropperEvent<T> | Cropper.CropEvent<T> | Cropper.CropStartEvent<T> | Cropper.CropMoveEvent<T> | Cropper.CropEndEvent<T>)
-        : CropperEventTypes.CropperEventDataJS {
+        : DataEventTypes.Data.CropperEventDataJS {
         if (instance.type === "zoom") {
-            const zoomEventData: CropperEventTypes.CropperEventDataJS = {
+            const zoomEventData: DataEventTypes.Data.CropperEventDataJS = {
                 oldRatio: instance.detail.oldRatio,
                 ratio: instance.detail.ratio,
                 originalEvent: instance.detail.originalEvent
@@ -211,7 +215,7 @@ export class CropperDecorator {
             return zoomEventData;
         }
         else if (["cropstart", "cropend", "cropmove"].includes(instance.type)) {
-            const cropEventData: CropperEventTypes.CropperEventDataJS = {
+            const cropEventData: DataEventTypes.Data.CropperEventDataJS = {
                 action: instance.detail.action,
                 originalEvent: instance.detail.originalEvent
                     ? DotNet.createJSObjectReference(instance.detail.originalEvent)
@@ -225,42 +229,42 @@ export class CropperDecorator {
     }
 
     onReady(
-        imageObject: DotNetObjectReference<ICropperComponentBase>,
+        imageObject: DotNetTypes.Global.DotNetObjectReference<CropperComponentBaseTypes.Components.ICropperComponentBase>,
         e: Cropper.ReadyEvent<HTMLImageElement | HTMLCanvasElement>, id: string | undefined)
     {
         imageObject.invokeMethodAsync("IsReady", this.getJSEventData(e, id));
     }
 
     onCropStart(
-        imageObject: DotNetObjectReference<ICropperComponentBase>,
+        imageObject: DotNetTypes.Global.DotNetObjectReference<CropperComponentBaseTypes.Components.ICropperComponentBase>,
         e: Cropper.CropStartEvent<HTMLImageElement | HTMLCanvasElement>, id: string | undefined)
     {
         imageObject.invokeMethodAsync("CropperIsStarted", this.getJSEventData(e, id));
     }
 
     onCropMove(
-        imageObject: DotNetObjectReference<ICropperComponentBase>,
+        imageObject: DotNetTypes.Global.DotNetObjectReference<CropperComponentBaseTypes.Components.ICropperComponentBase>,
         e: Cropper.CropMoveEvent<HTMLImageElement | HTMLCanvasElement>, id: string | undefined)
     {
         imageObject.invokeMethodAsync("CropperIsMoved", this.getJSEventData(e, id));
     }
 
     onCropEnd(
-        imageObject: DotNetObjectReference<ICropperComponentBase>,
+        imageObject: DotNetTypes.Global.DotNetObjectReference<CropperComponentBaseTypes.Components.ICropperComponentBase>,
         e: Cropper.CropEndEvent<HTMLImageElement | HTMLCanvasElement>, id: string | undefined)
     {
         imageObject.invokeMethodAsync("CropperIsEnded", this.getJSEventData(e, id));
     }
 
     onCrop(
-        imageObject: DotNetObjectReference<ICropperComponentBase>,
+        imageObject: DotNetTypes.Global.DotNetObjectReference<CropperComponentBaseTypes.Components.ICropperComponentBase>,
         e: Cropper.CropEvent<HTMLImageElement | HTMLCanvasElement>, id: string | undefined)
     {
         imageObject.invokeMethodAsync("CropperIsCroped", this.getJSEventData(e, id));
     }
 
     onZoom(
-        imageObject: DotNetObjectReference<ICropperComponentBase>,
+        imageObject: DotNetTypes.Global.DotNetObjectReference<CropperComponentBaseTypes.Components.ICropperComponentBase>,
         e: Cropper.ZoomEvent<HTMLImageElement | HTMLCanvasElement>, id: string | undefined)
     {
         imageObject.invokeMethodAsync("CropperIsZoomed", this.getJSEventData(e, id));
@@ -269,8 +273,8 @@ export class CropperDecorator {
     initCropper(
         id: CropperId,
         image: HTMLImageElement | HTMLCanvasElement,
-        optionsImage: CropperOptionsTypes.CropperExtendedOptions,
-        imageObject?: DotNetObjectReference<ICropperComponentBase>
+        optionsImage: DataOptionsTypes.Data.CropperExtendedOptions,
+        imageObject?: DotNetTypes.Global.DotNetObjectReference<CropperComponentBaseTypes.Components.ICropperComponentBase>
     ) {
         if (!image) throw new Error("Parameter 'image' must not be null");
         if (!optionsImage) throw new Error("Parameter 'optionsImage' must not be null");
@@ -308,7 +312,7 @@ export class CropperDecorator {
 
     async readBlobInChunks(
         blob: Blob | null,
-        dotNetImageReceiverRef: DotNetObjectReference<ImageReceiver>,
+        dotNetImageReceiverRef: DotNetTypes.Global.DotNetObjectReference<ImageReceiverTypes.Components.ImageReceiver>,
         maximumReceiveChunkSize?: number)
     {
         // Validate blob
@@ -414,7 +418,7 @@ export class CropperDecorator {
     sendImageInChunks(
         cropperComponentId: CropperId,
         options: Cropper.GetCroppedCanvasOptions,
-        dotNetImageReceiverRef: DotNetObjectReference<ImageReceiver>,
+        dotNetImageReceiverRef: DotNetTypes.Global.DotNetObjectReference<ImageReceiverTypes.Components.ImageReceiver>,
         type?: string,
         encoderOptions?: number,
         maximumReceiveChunkSize?: number)
@@ -434,4 +438,4 @@ export class CropperDecorator {
 
 
 window.cropper = new CropperDecorator();
-window.cropperUrlImageHelper = CropperUrlImageHelper;
+window.cropperUrlImageHelper = new CropperBlazor.Helpers.CropperUrlImageHelper();

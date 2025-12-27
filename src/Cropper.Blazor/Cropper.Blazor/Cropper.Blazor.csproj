@@ -118,6 +118,7 @@
 	  for multi-target builds.
 	-->
 	<Target Name="RunWebpack" Condition="'$(IsCrossTargetingBuild)' == 'true'" BeforeTargets="Build" Outputs="wwwroot\Cropper.Blazor.js" Inputs="@(WebpackInputs)" DependsOnTargets="EnsureNpmRestored">
+		<!-- This package is only needed for local debugging and TypeScript compilation in Debug configuration -->
 		<ItemGroup Condition="'$(Configuration)' == 'Debug'">
 			<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.3">
 				<PrivateAssets>all</PrivateAssets>

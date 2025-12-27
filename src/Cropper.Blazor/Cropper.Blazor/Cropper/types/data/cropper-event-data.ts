@@ -1,16 +1,8 @@
-﻿export namespace CropperBlazor {
-    export type CropEventDataJS = {
-        action: string;
-        originalEvent: JsObjectReference | null;
-    };
+﻿import type { CropperBlazor as CropEventDataTypes } from './crop-event-data';
+import type { CropperBlazor as ZoomEventDataTypes } from './zoom-event-data';
 
-    export type ZoomEventDataJS = {
-        oldRatio: number;
-        ratio: number;
-        originalEvent: JsObjectReference | null;
-    };
-
-    export type CropperEventDataJS = CropEventDataJS | ZoomEventDataJS;
+export namespace CropperBlazor.Data {
+    export type CropperEventDataJS = CropEventDataTypes.Data.CropEventDataJS | ZoomEventDataTypes.Data.ZoomEventDataJS;
 
     export type CropperJSEventData = {
         isTrusted: boolean;
