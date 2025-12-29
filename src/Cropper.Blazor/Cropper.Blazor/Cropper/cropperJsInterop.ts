@@ -436,6 +436,8 @@ export class CropperDecorator {
     }
 }
 
-
-window.cropper = new CropperDecorator();
-window.cropperUrlImageHelper = new CropperBlazor.Helpers.CropperUrlImageHelper();
+if (typeof window !== 'undefined')
+{
+    window.cropper = new CropperDecorator();
+    window.cropperUrlImageHelper = new CropperBlazor.Helpers.CropperUrlImageHelper();
+}

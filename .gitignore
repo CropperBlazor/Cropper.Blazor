@@ -33,4 +33,5 @@ _ReSharper*/
 packages/
 # Node.js
 node_modules/
+coverage/
 package-lock.json

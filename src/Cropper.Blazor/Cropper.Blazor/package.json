@@ -6,7 +6,9 @@
   "scripts": {
     "build:debug": "webpack --mode=development",
     "build:production": "webpack --mode=production",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "test-ui": "vitest --ui --coverage.enabled=true",
+    "coverage": "vitest run --coverage"
   },
   "author": "",
   "license": "MIT",
@@ -17,7 +19,10 @@
     "terser-webpack-plugin": "5.3.14",
     "typescript": "5.9.3",
     "webpack": "5.103.0",
-    "webpack-cli": "6.0.1"
+    "webpack-cli": "6.0.1",
+    "vitest": "4.0.16",
+    "@vitest/coverage-v8": "4.0.16",
+    "@vitest/ui": "4.0.16"
   },
   "dependencies": {
     "cropperjs": "1.6.2"

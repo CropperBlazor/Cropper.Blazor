@@ -15,7 +15,13 @@ module.exports = (env, args) => ({
     module: {
         rules: [{
             test: /\.ts?$/,
-            loader: 'ts-loader'
+            loader: 'ts-loader',
+            exclude: [
+                /node_modules/,
+                /\.test\.ts$/,      // exclude test files
+                /\.spec\.ts$/,      // exclude spec files
+                /vitest\.setup\.ts$/ // exclude Vitest setup
+            ]
         }]
     },
     entry: {
