@@ -101,9 +101,8 @@ jobs:
           echo "Coverage files to be uploaded:"
           echo "${{ steps.coverage-files.outputs.coverage_files }}"
 
-          - name: Verify coverage files exist
-          shell: bash
-          run: |
+      - name: Verify coverage files exist
+        run: |
             echo "Verifying coverage files..."
             MISSING=0
             for FILE in ${{ steps.coverage-files.outputs.coverage_files }}; do
