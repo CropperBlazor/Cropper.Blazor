@@ -17,6 +17,7 @@ jobs:
     with:
       configuration: "Release"
       publish-coverage: true
+      run-js-tests: true
 
   deploy-to-nuget:
     name: Deploy to NuGet

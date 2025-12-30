@@ -21,6 +21,10 @@ jobs:
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    permissions:
+      contents: read
+    with:
+      run-js-tests: true
 
   code-linting:
     permissions:
