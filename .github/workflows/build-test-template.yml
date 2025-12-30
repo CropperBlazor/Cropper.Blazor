@@ -14,6 +14,11 @@ on:
         required: false
         type: boolean
         default: true
+      run-js-tests:
+        description: "Run JS/TS tests"
+        required: false
+        type: boolean
+        default: false
     secrets:
       CODECOV_TOKEN:
         required: true
@@ -23,6 +28,12 @@ permissions:
 
 env:
   CONFIGURATION: ${{ inputs.configuration }}
+  COVERAGE_FILES: |
+    Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml
+    Cropper.Blazor.UnitTests/coverage.net7.0.cobertura.xml
+    Cropper.Blazor.UnitTests/coverage.net8.0.cobertura.xml
+    Cropper.Blazor.UnitTests/coverage.net9.0.cobertura.xml
+    Cropper.Blazor.UnitTests/coverage.net10.0.cobertura.xml
 
 jobs:
   build_and_test:
@@ -55,21 +66,33 @@ jobs:
 
       - name: Restore dotnet tool
         run: dotnet tool restore
-        working-directory: src/Cropper.Blazor/Cropper.Blazor     
+        working-directory: src/Cropper.Blazor/Cropper.Blazor  
         
       - name: DotNet Build
         run: dotnet build -c "$CONFIGURATION" --no-restore
         working-directory: src/Cropper.Blazor
 
       - name: Test
-        run: dotnet test -c "$CONFIGURATION" --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
+        run: dotnet test  --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
         working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests
+
+      - name: Run JS/TS tests and generate coverage
+        if: ${{ inputs.run-js-tests == true }}
+        run: |
+          cd Cropper.Blazor
+          npm run coverage
+        working-directory: src/Cropper.Blazor
+
+      - name: Add JS/TS coverage file if needed
+        if: ${{ inputs.run-js-tests == true }}
+        run: echo "COVERAGE_FILES=$COVERAGE_FILES\nCropper.Blazor/coverage/cobertura-coverage.xml" >> $GITHUB_ENV
+        shell: bash
 
       - name: Coverage
         if: ${{ inputs.publish-coverage == true }}
         uses: codecov/codecov-action@v5.5.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml, coverage.net9.0.cobertura.xml, coverage.net10.0.cobertura.xml
+          files: ${{ env.COVERAGE_FILES }}
           fail_ci_if_error: true
           verbose: true
