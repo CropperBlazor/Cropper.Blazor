@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 
 permissions:
   contents: read
+  id-token: write
 
 concurrency:
   group: github-pages
