@@ -3,7 +3,6 @@ name: Deploy to GitHub Pages
 
 permissions:
   contents: read
-  id-token: write
 
 concurrency:
   group: github-pages
@@ -17,6 +16,8 @@ on:
 
 jobs:
   code-quality-check:
+    permissions:
+      id-token: write
     name: Check code quality
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
     secrets:
