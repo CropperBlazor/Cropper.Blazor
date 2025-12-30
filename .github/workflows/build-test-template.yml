@@ -28,12 +28,6 @@ permissions:
 
 env:
   CONFIGURATION: ${{ inputs.configuration }}
-  COVERAGE_FILES: |
-    Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml
-    Cropper.Blazor.UnitTests/coverage.net7.0.cobertura.xml
-    Cropper.Blazor.UnitTests/coverage.net8.0.cobertura.xml
-    Cropper.Blazor.UnitTests/coverage.net9.0.cobertura.xml
-    Cropper.Blazor.UnitTests/coverage.net10.0.cobertura.xml
 
 jobs:
   build_and_test:
@@ -83,16 +77,53 @@ jobs:
           npm run coverage
         working-directory: src/Cropper.Blazor
 
-      - name: Add JS/TS coverage file if needed
-        if: ${{ inputs.run-js-tests == true }}
-        run: echo "COVERAGE_FILES=$COVERAGE_FILES\nCropper.Blazor/coverage/cobertura-coverage.xml" >> $GITHUB_ENV
+      - name: Set coverage files list
+        id: coverage-files
         shell: bash
+        run: |
+          FILES="Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml
+          Cropper.Blazor.UnitTests/coverage.net7.0.cobertura.xml
+          Cropper.Blazor.UnitTests/coverage.net8.0.cobertura.xml
+          Cropper.Blazor.UnitTests/coverage.net9.0.cobertura.xml
+          Cropper.Blazor.UnitTests/coverage.net10.0.cobertura.xml"
+
+              if [ "${{ inputs.run-js-tests }}" == "true" ]; then
+                FILES="$FILES
+          Cropper.Blazor/coverage/cobertura-coverage.xml"
+              fi
+
+              echo "coverage_files<<EOF" >> $GITHUB_OUTPUT
+              echo "$FILES" >> $GITHUB_OUTPUT
+              echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Show coverage files
+        run: |
+          echo "Coverage files to be uploaded:"
+          echo "${{ steps.coverage-files.outputs.coverage_files }}"
+
+          - name: Verify coverage files exist
+          shell: bash
+          run: |
+            echo "Verifying coverage files..."
+            MISSING=0
+            for FILE in ${{ steps.coverage-files.outputs.coverage_files }}; do
+              if [ ! -f "$FILE" ]; then
+                echo "❌ File not found: $FILE"
+                MISSING=1
+              else
+                echo "✅ Found: $FILE"
+              fi
+            done
+            if [ $MISSING -eq 1 ]; then
+              echo "Some coverage files are missing!"
+              exit 1
+            fi
 
       - name: Coverage
         if: ${{ inputs.publish-coverage == true }}
         uses: codecov/codecov-action@v5.5.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ env.COVERAGE_FILES }}
+          files: ${{ steps.coverage-files.outputs.coverage_files }}
           fail_ci_if_error: true
           verbose: true
