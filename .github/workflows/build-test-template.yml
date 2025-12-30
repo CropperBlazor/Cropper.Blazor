@@ -103,20 +103,22 @@ jobs:
 
       - name: Verify coverage files exist
         run: |
-            echo "Verifying coverage files..."
-            MISSING=0
-            for FILE in ${{ steps.coverage-files.outputs.coverage_files }}; do
-              if [ ! -f "$FILE" ]; then
-                echo "❌ File not found: $FILE"
-                MISSING=1
-              else
-                echo "✅ Found: $FILE"
-              fi
-            done
-            if [ $MISSING -eq 1 ]; then
-              echo "Some coverage files are missing!"
-              exit 1
+          echo "Verifying coverage files..."
+          MISSING=0
+          # Convert the multiline output into an array
+          readarray -t FILES <<< "${{ steps.coverage-files.outputs.coverage_files }}"
+          for FILE in "${FILES[@]}"; do
+            if [ ! -f "$FILE" ]; then
+              echo "File not found: $FILE"
+              MISSING=1
+            else
+              echo "Found: $FILE"
             fi
+          done
+          if [ $MISSING -eq 1 ]; then
+            echo "Some coverage files are missing!"
+            exit 1
+          fi
 
       - name: Coverage
         if: ${{ inputs.publish-coverage == true }}
