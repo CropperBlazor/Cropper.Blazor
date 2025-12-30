@@ -119,6 +119,7 @@ jobs:
             echo "Some coverage files are missing!"
             exit 1
           fi
+        working-directory: src/Cropper.Blazor
 
       - name: Coverage
         if: ${{ inputs.publish-coverage == true }}
