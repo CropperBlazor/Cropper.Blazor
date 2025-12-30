@@ -29,6 +29,7 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 .vs/
 .idea/
+*.cobertura.xml
 #Nuget packages folder
 packages/
 # Node.js
