@@ -25,6 +25,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 env:
   CONFIGURATION: ${{ inputs.configuration }}
@@ -123,7 +124,7 @@ jobs:
 
       - name: Coverage
         if: ${{ inputs.publish-coverage == true }}
-        uses: codecov/codecov-action@v5.5.1
+        uses: codecov/codecov-action@v5.5.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ${{ steps.coverage-files.outputs.coverage_files }}
