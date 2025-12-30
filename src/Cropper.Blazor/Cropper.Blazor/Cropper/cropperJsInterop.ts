@@ -1,10 +1,10 @@
 import Cropper from 'cropperjs';
-import type { CropperBlazor as CropperComponentBaseTypes } from './types/components/cropper-component-base';
-import type { CropperBlazor as CroppedCanvasReceiverTypes } from './types/components/cropped-canvas-receiver';
-import type { CropperBlazor as ImageReceiverTypes } from './types/components/image-receiver';
+import type { CropperBlazor as CropperComponentBaseTypes } from './types/components/cropper-component-base.custom';
+import type { CropperBlazor as CroppedCanvasReceiverTypes } from './types/components/cropped-canvas-receiver.custom';
+import type { CropperBlazor as ImageReceiverTypes } from './types/components/image-receiver.custom';
 import type { CropperBlazor as DataEventTypes } from './types/data/cropper-event-data';
 import type { CropperBlazor as DataOptionsTypes } from './types/data/cropper-extended-options';
-import type { CropperBlazor as DotNetTypes } from './types/global/dotnet-global';
+import type { CropperBlazor as DotNetTypes } from './types/global/dotnet-global.custom';
 import { CropperBlazor } from './helpers/cropper-url-image-helper';
 
 

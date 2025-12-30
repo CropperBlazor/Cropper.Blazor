@@ -3,14 +3,14 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
     test: {
         globals: true,
-        environment: 'jsdom',
+        environment: 'node',
         include: ['**/*.{test,spec}.{ts,tsx,js,jsx}'],
         isolate: true,
         coverage: {
-            provider: 'v8',
-            enabled: true,
+            provider: 'istanbul',
+            enabled: false,
             reportsDirectory: './coverage',
-            reporter: ['text', 'lcov', 'cobertura'],
+            reporter: ['text', 'html', 'cobertura'],
             exclude: [
                 '**/*.d.ts',
                 '**/*.spec.*',

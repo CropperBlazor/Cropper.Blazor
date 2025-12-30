@@ -157,6 +157,8 @@
 			<FilesToClean Include="Cropper\*.js.map" />
 			<FilesToClean Include="Cropper\**\*.js" />
 			<FilesToClean Include="Cropper\**\*.js.map" />
+			<FilesToClean Include="Cropper\**\*.d.ts;Cropper\**\*.test.d.ts;Cropper\**\*.spec.d.ts"
+						  Exclude="Cropper\**\*.custom.d.ts" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
 	</Target>
@@ -179,14 +181,6 @@
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<TypeScriptCompile Remove="Cropper\cropperJsInterop.ts" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Content Include="Cropper\cropperJsInterop.ts" />
 	</ItemGroup>
 
 	<ItemGroup>
