@@ -8,12 +8,6 @@ coverage:
   precision: 2
   status:
     project:
-      default: off
-
-    patch:
-      default: off
-
-    project:
       dotnet:
         flags:
           - DotNet
