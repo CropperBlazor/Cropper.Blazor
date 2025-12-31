@@ -8,34 +8,34 @@ namespace Cropper.Blazor.UnitTests.Extensions
 {
     public class DataUrlDecoder_Should
     {
-        //[Theory, MemberData(nameof(TestData_Decode))]
-        //public void DecodeDataUrlIntoByteArrayAndMediaType(
-        //    string dataUrl,
-        //    string expectedBase64ImageData,
-        //    string expectedMediaType)
-        //{
-        //    // act
-        //    var (imageData, mediaType) = dataUrl.Decode();
+        [Theory, MemberData(nameof(TestData_Decode))]
+        public void DecodeDataUrlIntoByteArrayAndMediaType(
+            string dataUrl,
+            string expectedBase64ImageData,
+            string expectedMediaType)
+        {
+            // act
+            var (imageData, mediaType) = dataUrl.Decode();
 
-        //    // assert
-        //    imageData.Should().BeEquivalentTo(expectedBase64ImageData);
-        //    mediaType.Should().BeEquivalentTo(expectedMediaType);
-        //}
+            // assert
+            imageData.Should().BeEquivalentTo(expectedBase64ImageData);
+            mediaType.Should().BeEquivalentTo(expectedMediaType);
+        }
 
-        //[Theory, MemberData(nameof(TestData_Throw_ArgumentException_When_Decode))]
-        //public void Throw_ArgumentException_When_Decode(
-        //    string dataUrl,
-        //    string expectedMessage)
-        //{
-        //    // arrange
-        //    Action act = () => dataUrl.Decode();
+        [Theory, MemberData(nameof(TestData_Throw_ArgumentException_When_Decode))]
+        public void Throw_ArgumentException_When_Decode(
+            string dataUrl,
+            string expectedMessage)
+        {
+            // arrange
+            Action act = () => dataUrl.Decode();
 
-        //    // act & assert
-        //    act
-        //        .Should()
-        //        .Throw<ArgumentException>()
-        //        .WithMessage(expectedMessage);
-        //}
+            // act & assert
+            act
+                .Should()
+                .Throw<ArgumentException>()
+                .WithMessage(expectedMessage);
+        }
 
         public static IEnumerable<object[]> TestData_Decode()
         {
