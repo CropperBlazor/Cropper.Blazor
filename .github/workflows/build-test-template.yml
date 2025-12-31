@@ -78,66 +78,51 @@ jobs:
           npm run coverage
         working-directory: src/Cropper.Blazor
 
-      - name: Set coverage files list
-        id: coverage-files
+      - name: Verify coverage files
         shell: bash
         run: |
-          FILES="Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml
-          Cropper.Blazor.UnitTests/coverage.net7.0.cobertura.xml
-          Cropper.Blazor.UnitTests/coverage.net8.0.cobertura.xml
-          Cropper.Blazor.UnitTests/coverage.net9.0.cobertura.xml
-          Cropper.Blazor.UnitTests/coverage.net10.0.cobertura.xml"
+          FILES=(
+            Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml
+            Cropper.Blazor.UnitTests/coverage.net7.0.cobertura.xml
+            Cropper.Blazor.UnitTests/coverage.net8.0.cobertura.xml
+            Cropper.Blazor.UnitTests/coverage.net9.0.cobertura.xml
+            Cropper.Blazor.UnitTests/coverage.net10.0.cobertura.xml
+          )
 
-              if [ "${{ inputs.run-js-tests }}" == "true" ]; then
-                FILES="$FILES
-          Cropper.Blazor/coverage/cobertura-coverage.xml"
-              fi
-
-              echo "coverage_files<<EOF" >> $GITHUB_OUTPUT
-              echo "$FILES" >> $GITHUB_OUTPUT
-              echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Show coverage files
-        run: |
-          echo "Coverage files to be uploaded:"
-          echo "${{ steps.coverage-files.outputs.coverage_files }}"
-
-      - name: Verify coverage files exist
-        run: |
-          echo "Verifying coverage files..."
-          MISSING=0
-          # Convert the multiline output into an array
-          readarray -t FILES <<< "${{ steps.coverage-files.outputs.coverage_files }}"
-          for FILE in "${FILES[@]}"; do
-            if [ ! -f "$FILE" ]; then
-              echo "File not found: $FILE"
-              MISSING=1
-            else
-              echo "Found: $FILE"
-            fi
-          done
-          if [ $MISSING -eq 1 ]; then
-            echo "Some coverage files are missing!"
-            exit 1
+          if [ "${{ inputs.run-js-tests }}" = "true" ]; then
+            FILES+=("Cropper.Blazor/coverage/cobertura-coverage.xml")
           fi
-        working-directory: src/Cropper.Blazor
 
-      - name: Set Codecov flags
-        id: codecov-flags
-        run: |
-         FLAGS="net"
-         if [ "${{ inputs.run-js-tests }}" == "true" ]; then
-           FLAGS="$FLAGS,js"
-         fi
-         echo "flags=$FLAGS" >> $GITHUB_OUTPUT
+          for file in "${FILES[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "❌ Coverage file missing: $file"
+              exit 1
+            fi
+            echo "✅ Found $file"
+          done
 
-      - name: Upload coverage to Codecov
+      - name: Upload DotNet coverage to Codecov
         if: ${{ inputs.publish-coverage == true }}
         uses: codecov/codecov-action@v5.5.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ steps.coverage-files.outputs.coverage_files }}
-          flags: ${{ steps.codecov-flags.outputs.flags }}
+          files: |
+            Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml
+            Cropper.Blazor.UnitTests/coverage.net7.0.cobertura.xml
+            Cropper.Blazor.UnitTests/coverage.net8.0.cobertura.xml
+            Cropper.Blazor.UnitTests/coverage.net9.0.cobertura.xml
+            Cropper.Blazor.UnitTests/coverage.net10.0.cobertura.xml
+          flags: DotNet
           fail_ci_if_error: true
           verbose: true
-      
+
+      - name: Upload TypeScript coverage to Codecov
+        if: ${{ inputs.publish-coverage == true && inputs.run-js-tests == true }}
+        uses: codecov/codecov-action@v5.5.2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: |
+            Cropper.Blazor/coverage/cobertura-coverage.xml
+          flags: TypeScript 
+          fail_ci_if_error: true
+          verbose: true    
