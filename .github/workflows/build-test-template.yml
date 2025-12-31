@@ -79,7 +79,7 @@ jobs:
         working-directory: src/Cropper.Blazor
 
       - name: Verify coverage files
-        shell: bash
+        working-directory: src/Cropper.Blazor
         run: |
           FILES=(
             Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml
