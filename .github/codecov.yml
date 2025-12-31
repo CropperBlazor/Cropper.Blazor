@@ -8,10 +8,33 @@ coverage:
   precision: 2
   status:
     project:
-      default:
+      default: off
+
+    patch:
+      default: off
+
+    project:
+      dotnet:
+        flags:
+          - DotNet
         target: 100%
         threshold: 0%
+
+      typescript:
+        flags:
+          - TypeScript
+        target: 100%
+        threshold: 0%
+
     patch:
-      default:
+      dotnet:
+        flags:
+          - DotNet
+        target: 100%
+        threshold: 0%
+
+      typescript:
+        flags:
+          - TypeScript
         target: 100%
         threshold: 0%
