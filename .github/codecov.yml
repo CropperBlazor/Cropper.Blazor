@@ -15,14 +15,3 @@ coverage:
       default:
         target: 100%
         threshold: 0%
-
-# Strict flag mapping for each .NET version and JS
-flags:
-  net:
-    paths:
-      - "src/Cropper.Blazor/Cropper.Blazor/"
-    carryforward: false
-  js:
-    paths:
-      - "src/Cropper.Blazor/Cropper.Blazor/Cropper/"
-    carryforward: false
