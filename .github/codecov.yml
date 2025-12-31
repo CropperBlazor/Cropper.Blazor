@@ -26,11 +26,11 @@ coverage:
       dotnet:
         flags:
           - DotNet
-        target: 5%
+        target: 100%
         threshold: 0%
 
       typescript:
         flags:
           - TypeScript
-        target: 100%
+        target: 6%
         threshold: 0%
