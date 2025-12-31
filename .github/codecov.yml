@@ -20,12 +20,7 @@ coverage:
 flags:
   net:
     paths:
-      - "src/Cropper.Blazor/Cropper.Blazor/Components"
-      - "src/Cropper.Blazor/Cropper.Blazor/Events"
-      - "src/Cropper.Blazor/Cropper.Blazor/Exceptions"
-      - "src/Cropper.Blazor/Cropper.Blazor/Extensions"
-      - "src/Cropper.Blazor/Cropper.Blazor/Models"
-      - "src/Cropper.Blazor/Cropper.Blazor/Services"
+      - "src/Cropper.Blazor/Cropper.Blazor/"
     carryforward: false
   js:
     paths:
