@@ -11,6 +11,12 @@ on:
       - master
     paths-ignore:
       - '**.md'
+  push:
+    branches-ignore:
+      - master
+      - dev
+    paths-ignore:
+      - '**.md'
 
 permissions:
   contents: read
