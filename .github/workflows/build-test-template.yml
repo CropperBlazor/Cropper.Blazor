@@ -106,11 +106,10 @@ jobs:
         uses: codecov/codecov-action@v5.5.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage.net6.0.cobertura.xml,./coverage.net7.0.cobertura.xml,./coverage.net8.0.cobertura.xml,./coverage.net9.0.cobertura.xml,./coverage.net10.0.cobertura.xml
+          files: src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml,src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net7.0.cobertura.xml,src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net8.0.cobertura.xml,src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net9.0.cobertura.xml,src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net10.0.cobertura.xml
           flags: DotNet
           fail_ci_if_error: true
           disable_search: true
-          directory: ./src/Cropper.Blazor/Cropper.Blazor.UnitTests/
           verbose: true
 
       - name: Upload TypeScript coverage to Codecov
