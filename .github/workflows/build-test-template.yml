@@ -130,3 +130,4 @@ jobs:
           files: ${{ steps.coverage-files.outputs.coverage_files }}
           fail_ci_if_error: true
           verbose: true
+          flags: net,js
