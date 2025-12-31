@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Install npm dependencies
-        run: npm ci
+        run: npm install
         working-directory: src/Cropper.Blazor/Cropper.Blazor
 
       - name: Run ESLint
