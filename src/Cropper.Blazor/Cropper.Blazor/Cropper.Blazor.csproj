@@ -95,9 +95,9 @@
 	</ItemGroup>
 
 	<!--
-	  Ensures npm dependencies are installed.
-	  This target runs ONLY during the cross-targeting build (IsCrossTargetingBuild)
-	  (i.e., once for the entire multi-TFM build).
+	Ensures npm dependencies are installed.
+	This target runs ONLY during the cross-targeting build (IsCrossTargetingBuild)
+	(i.e., once for the entire multi-TFM build).
 	-->
 	<Target Name="EnsureNpmRestored" BeforeTargets="Build" Condition="'$(IsCrossTargetingBuild)' == 'true' AND ( !Exists('$(ProjectDir)node_modules') OR !Exists('$(ProjectDir)package-lock.json') )">
 		<!-- Informative message shown in build output -->
@@ -111,10 +111,10 @@
 	</Target>
 
 	<!--
-	  Runs webpack to produce JS assets.
-	  Scheduled via BeforeTargets="Build", so MSBuild actually executes it.
-	  Guarded by IsCrossTargetingBuild to ensure it runs ONLY ONCE
-	  for multi-target builds.
+	Runs webpack to produce JS assets.
+	Scheduled via BeforeTargets="Build", so MSBuild actually executes it.
+	Guarded by IsCrossTargetingBuild to ensure it runs ONLY ONCE
+	for multi-target builds.
 	-->
 	<Target Name="RunWebpack" Condition="'$(IsCrossTargetingBuild)' == 'true'" BeforeTargets="Build" Outputs="wwwroot\Cropper.Blazor.js" Inputs="@(WebpackInputs)" DependsOnTargets="EnsureNpmRestored">
 		<!-- This package is only needed for local debugging and TypeScript compilation in Debug configuration -->
