@@ -1,25 +1,37 @@
 ---
 comment:
-  require_changes: false   # always update PR comment
-  behavior: "new"          # create new comment for PR (or update if same PR
+  require_changes: false
+  behavior: "new"
 
 coverage:
   precision: 2
   status:
     project:
       default:
-        target: 100%       # required coverage value
-        threshold: 0.1%    # leniency
+        target: 100%
+        threshold: 0.1%
     patch:
       default:
         target: 100%
         threshold: 10%
 
-# Flag mapping based on file paths
+# Strict flag mapping for each .NET version and JS
 flags:
-  net:
+  net6:
     paths:
-      - "src/Cropper.Blazor/Cropper.Blazor/"
+      - "src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml"
+  net7:
+    paths:
+      - "src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net7.0.cobertura.xml"
+  net8:
+    paths:
+      - "src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net8.0.cobertura.xml"
+  net9:
+    paths:
+      - "src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net9.0.cobertura.xml"
+  net10:
+    paths:
+      - "src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net10.0.cobertura.xml"
   js:
     paths:
-      - "src/Cropper.Blazor/Cropper.Blazor/Cropper/"
+      - "src/Cropper.Blazor/Cropper.Blazor/coverage/cobertura-coverage.xml"
