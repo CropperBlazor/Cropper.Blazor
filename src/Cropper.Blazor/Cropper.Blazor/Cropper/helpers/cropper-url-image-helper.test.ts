@@ -26,7 +26,9 @@ describe("CropperUrlImageHelper", () => {
     const buffer = new Uint8Array([1, 2, 3]).buffer;
     const stream = new MockDotNetStreamReference(buffer) as any;
 
-    const result = await CropperBlazor.Helpers.CropperUrlImageHelper.getImageUsingStreaming(stream);
+    const result = await new CropperBlazor.Helpers.CropperUrlImageHelper().getImageUsingStreaming(
+      stream,
+    );
 
     expect(result).toBe(mockObjectUrl);
     expect(URL.createObjectURL).toHaveBeenCalledOnce();
@@ -34,7 +36,7 @@ describe("CropperUrlImageHelper", () => {
   });
 
   it("should revoke object URL", () => {
-    CropperBlazor.Helpers.CropperUrlImageHelper.revokeObjectUrl(mockObjectUrl);
+    new CropperBlazor.Helpers.CropperUrlImageHelper().revokeObjectUrl(mockObjectUrl);
 
     expect(URL.revokeObjectURL).toHaveBeenCalledOnce();
     expect(URL.revokeObjectURL).toHaveBeenCalledWith(mockObjectUrl);

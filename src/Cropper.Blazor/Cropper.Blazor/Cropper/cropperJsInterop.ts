@@ -6,12 +6,12 @@ import type { CropperBlazor as DataEventTypes } from "./types/data/cropper-event
 import type { CropperBlazor as DataOptionsTypes } from "./types/data/cropper-extended-options";
 import type { CropperBlazor as DotNetTypes } from "./types/global/dotnet-global.custom";
 import { CropperBlazor as BlobHelper } from "./helpers/blob-helper";
-import { CropperBlazor } from "./helpers/cropper-url-image-helper";
+import { CropperBlazor as UrlImageHelper } from "./helpers/cropper-url-image-helper";
 
 declare global {
   interface Window {
     cropper: CropperDecorator;
-    cropperUrlImageHelper: CropperBlazor.Helpers.CropperUrlImageHelper;
+    cropperUrlImageHelper: UrlImageHelper.Helpers.CropperUrlImageHelper;
   }
 }
 
@@ -365,5 +365,5 @@ export class CropperDecorator {
 
 if (typeof window !== "undefined") {
   window.cropper = new CropperDecorator();
-  window.cropperUrlImageHelper = new CropperBlazor.Helpers.CropperUrlImageHelper();
+  window.cropperUrlImageHelper = new UrlImageHelper.Helpers.CropperUrlImageHelper();
 }

@@ -2,7 +2,7 @@
 
 export namespace CropperBlazor.Helpers {
   export class CropperUrlImageHelper {
-    static async getImageUsingStreaming(
+    async getImageUsingStreaming(
       imageStream: DotNetTypes.Global.DotNetStreamReference,
     ): Promise<string> {
       const buf = await imageStream.arrayBuffer();
@@ -11,7 +11,7 @@ export namespace CropperBlazor.Helpers {
       return URL.createObjectURL(blob);
     }
 
-    static revokeObjectUrl(url: string) {
+    revokeObjectUrl(url: string) {
       URL.revokeObjectURL(url);
     }
   }
