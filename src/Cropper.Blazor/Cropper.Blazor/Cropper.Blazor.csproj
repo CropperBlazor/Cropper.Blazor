@@ -76,6 +76,7 @@
 	<ItemGroup>
 		<Content Remove="package.json" />
 		<Content Remove="tsconfig.json" />
+		<Content Remove=".prettierrc" />
 		<Content Remove="wwwroot\cropperJsInterop.min.js.map" />
 	</ItemGroup>
 
@@ -90,6 +91,7 @@
 	<ItemGroup>
 		<None Include="package.json" />
 		<None Include="tsconfig.json" />
+		<None Include=".prettierrc" />
 	</ItemGroup>
 
 	<!--
