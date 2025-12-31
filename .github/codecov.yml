@@ -18,21 +18,11 @@ coverage:
 
 # Strict flag mapping for each .NET version and JS
 flags:
-  net6:
+  net:
     paths:
-      - "src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml"
-  net7:
-    paths:
-      - "src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net7.0.cobertura.xml"
-  net8:
-    paths:
-      - "src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net8.0.cobertura.xml"
-  net9:
-    paths:
-      - "src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net9.0.cobertura.xml"
-  net10:
-    paths:
-      - "src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net10.0.cobertura.xml"
+      - "src/Cropper.Blazor/Cropper.Blazor/"
+    carryforward: false
   js:
     paths:
-      - "src/Cropper.Blazor/Cropper.Blazor/coverage/cobertura-coverage.xml"
+      - "src/Cropper.Blazor/Cropper.Blazor/Cropper/"
+    carryforward: false
