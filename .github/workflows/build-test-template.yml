@@ -122,12 +122,22 @@ jobs:
           fi
         working-directory: src/Cropper.Blazor
 
-      - name: Coverage
+      - name: Set Codecov flags
+        id: codecov-flags
+        run: |
+         FLAGS="net"
+         if [ "${{ inputs.run-js-tests }}" == "true" ]; then
+           FLAGS="$FLAGS,js"
+         fi
+         echo "flags=$FLAGS" >> $GITHUB_OUTPUT
+
+      - name: Upload coverage to Codecov
         if: ${{ inputs.publish-coverage == true }}
         uses: codecov/codecov-action@v5.5.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ${{ steps.coverage-files.outputs.coverage_files }}
+          flags: ${{ steps.codecov-flags.outputs.flags }}
           fail_ci_if_error: true
           verbose: true
-          flags: net,js
+      

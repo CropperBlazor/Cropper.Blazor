@@ -21,6 +21,7 @@ flags:
   net:
     paths:
       - "src/Cropper.Blazor/Cropper.Blazor/"
+      - "!src/Cropper.Blazor/Cropper.Blazor/Cropper/"
     carryforward: false
   js:
     paths:
