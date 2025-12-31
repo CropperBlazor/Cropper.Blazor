@@ -18,13 +18,11 @@ on:
     paths-ignore:
       - '**.md'
 
-permissions:
-  contents: read
-
 jobs:
   code-quality-check:
     permissions:
       id-token: write
+      contents: read
     name: Check code quality
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
     secrets:
