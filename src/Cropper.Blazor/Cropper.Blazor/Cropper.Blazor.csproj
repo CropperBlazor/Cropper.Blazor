@@ -99,9 +99,7 @@
 	  This target runs ONLY during the cross-targeting build (IsCrossTargetingBuild)
 	  (i.e., once for the entire multi-TFM build).
 	-->
-	<Target Name="EnsureNpmRestored" BeforeTargets="Build" Condition="'$(IsCrossTargetingBuild)' == 'true'
-		AND ( !Exists('$(ProjectDir)node_modules')
-		OR !Exists('$(ProjectDir)package-lock.json') )">
+	<Target Name="EnsureNpmRestored" BeforeTargets="Build" Condition="'$(IsCrossTargetingBuild)' == 'true'&#xD;&#xA;		AND ( !Exists('$(ProjectDir)node_modules')&#xD;&#xA;		OR !Exists('$(ProjectDir)package-lock.json') )">
 
 		<!-- Informative message shown in build output -->
 		<Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
@@ -159,8 +157,7 @@
 			<FilesToClean Include="Cropper\*.js.map" />
 			<FilesToClean Include="Cropper\**\*.js" />
 			<FilesToClean Include="Cropper\**\*.js.map" />
-			<FilesToClean Include="Cropper\**\*.d.ts;Cropper\**\*.test.d.ts;Cropper\**\*.spec.d.ts"
-						  Exclude="Cropper\**\*.custom.d.ts" />
+			<FilesToClean Include="Cropper\**\*.d.ts;Cropper\**\*.test.d.ts;Cropper\**\*.spec.d.ts" Exclude="Cropper\**\*.custom.d.ts" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
 	</Target>
