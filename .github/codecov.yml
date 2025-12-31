@@ -1,6 +1,6 @@
 ---
 comment:
-  require_changes: true
+  require_changes: false
 coverage:
   status:
     project:
