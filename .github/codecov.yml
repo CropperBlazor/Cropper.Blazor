@@ -10,11 +10,11 @@ coverage:
     project:
       default:
         target: 100%
-        threshold: 0.1%
+        threshold: 0%
     patch:
       default:
         target: 100%
-        threshold: 10%
+        threshold: 0%
 
 # Strict flag mapping for each .NET version and JS
 flags:
