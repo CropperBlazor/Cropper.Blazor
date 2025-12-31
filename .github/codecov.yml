@@ -1,6 +1,7 @@
 ---
 comment:
   require_changes: false
+  behavior: "new"
 coverage:
   status:
     project:
