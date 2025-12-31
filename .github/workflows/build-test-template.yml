@@ -117,9 +117,8 @@ jobs:
         uses: codecov/codecov-action@v5.5.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./cobertura-coverage.xml
+          files: src/Cropper.Blazor/Cropper.Blazor/coverage/cobertura-coverage.xml
           flags: TypeScript 
           fail_ci_if_error: true
           disable_search: true
-          directory: ./src/Cropper.Blazor/Cropper.Blazor
           verbose: true    
