@@ -17,21 +17,9 @@ coverage:
 
 # Flag mapping based on file paths
 flags:
-  net6:
+  net:
     paths:
-      - "Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml"
-  net7:
-    paths:
-      - "Cropper.Blazor.UnitTests/coverage.net7.0.cobertura.xml"
-  net8:
-    paths:
-      - "Cropper.Blazor.UnitTests/coverage.net8.0.cobertura.xml"
-  net9:
-    paths:
-      - "Cropper.Blazor.UnitTests/coverage.net9.0.cobertura.xml"
-  net10:
-    paths:
-      - "Cropper.Blazor.UnitTests/coverage.net10.0.cobertura.xml"
+      - "src/Cropper.Blazor/Cropper.Blazor/"
   js:
     paths:
-      - "Cropper.Blazor/coverage/cobertura-coverage.xml"
+      - "src/Cropper.Blazor/Cropper.Blazor/Cropper/"
