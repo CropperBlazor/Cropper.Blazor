@@ -2,6 +2,7 @@
 comment:
   require_changes: false
   behavior: "new"
+  show_carryforward_flags: true
 
 coverage:
   precision: 2
