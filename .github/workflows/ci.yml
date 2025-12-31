@@ -25,6 +25,8 @@ jobs:
       run-js-tests: true
 
   es-linting:
+    permissions:
+      contents: read
     needs: code-quality-check
     name: Install Node & Dependencies
     runs-on: ubuntu-latest
