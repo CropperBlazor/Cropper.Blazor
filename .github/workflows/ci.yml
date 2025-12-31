@@ -24,6 +24,22 @@ jobs:
     with:
       run-js-tests: true
 
+  es-linting:
+    needs: code-quality-check
+    name: Install Node & Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Install npm dependencies
+        run: npm ci
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
+
+      - name: Run ESLint
+        run: npm run lint
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
+
   code-linting:
     permissions:
       # To write linting fixes
@@ -41,10 +57,6 @@ jobs:
           # list of files that changed across commits
           fetch-depth: 0
           persist-credentials: false
-
-      - name: Run ESLint
-        run: npm run lint
-        working-directory: src/Cropper.Blazor/Cropper.Blazor
 
       - name: Super-Linter
         uses: super-linter/super-linter@v8.2.1
