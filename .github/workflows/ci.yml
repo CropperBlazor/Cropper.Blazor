@@ -28,7 +28,7 @@ jobs:
     permissions:
       contents: read
     needs: code-quality-check
-    name: Install Node & Dependencies
+    name: ESLint - TypeScript Linting
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
