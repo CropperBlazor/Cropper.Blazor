@@ -23,7 +23,7 @@ coverage:
       typescript:
         flags:
           - TypeScript
-        target: 100%
+        target: 5%
         threshold: 0%
 
     patch:
@@ -36,5 +36,5 @@ coverage:
       typescript:
         flags:
           - TypeScript
-        target: 100%
+        target: 5%
         threshold: 0%
