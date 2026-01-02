@@ -1,15 +1,13 @@
 {
   "compilerOptions": {
-    "noImplicitAny": false,
+    "strict": true,
     "noEmitOnError": true,
     "removeComments": true,
     "sourceMap": true,
-    "target": "es6",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "target": "es2020",
+    "module": "esnext",
+    "moduleResolution": "node",
     "lib": [ "es2016", "dom" ],
-    "strict": true,
-    "alwaysStrict": true,
     "preserveConstEnums": true,
     "allowJs": false,
     "baseUrl": ".",
@@ -19,9 +17,7 @@
     },
     "declaration": false
   },
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": [ "node_modules" ],
   "include": [
     "Cropper/types/global/*.d.ts",
     "Cropper/**/*.ts",

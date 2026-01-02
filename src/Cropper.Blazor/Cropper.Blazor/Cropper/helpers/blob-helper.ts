@@ -41,7 +41,7 @@ export namespace CropperBlazor.Helpers {
       const blobStream = blob.stream().getReader();
 
       // Binary estimation of JSON size
-      const getJsonSizeBinary = (chunk) => {
+      const getJsonSizeBinary = (chunk: Uint8Array<ArrayBuffer>) => {
         const length = chunk.length;
 
         // Max 3 digits for the number (0 to 255)

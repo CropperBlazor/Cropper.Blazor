@@ -75,8 +75,11 @@
 
 	<ItemGroup>
 		<Content Remove="package.json" />
+		<Content Remove="package-lock.json" />
 		<Content Remove="tsconfig.json" />
 		<Content Remove=".prettierrc" />
+		<Content Remove="eslint.config.cjs" />
+		<Content Remove="vitest.config.ts" />
 		<Content Remove="wwwroot\cropperJsInterop.min.js.map" />
 	</ItemGroup>
 
@@ -90,8 +93,11 @@
 
 	<ItemGroup>
 		<None Include="package.json" />
+		<None Include="package-lock.json" />
 		<None Include="tsconfig.json" />
 		<None Include=".prettierrc" />
+		<None Include="eslint.config.cjs" />
+		<None Include="vitest.config.ts" />
 	</ItemGroup>
 
 	<!--
@@ -150,6 +156,7 @@
 	<Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
 		<ItemGroup>
 			<FilesToClean Include="./wwwroot/cropper.min.css" />
+			<FilesToClean Include="./wwwroot/cropper.min.js" />
 			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js" />
 			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js.map" />
 			<FilesToClean Include="Cropper\*.js" />
