@@ -53,12 +53,12 @@ module.exports = (env, args) => ({
         splitChunks: {
             chunks: 'all', // Split all types of chunks (initial, async)
             cacheGroups: {
-                // Group for node_modules (vendor)
-                vendor: {
+                // Group for node_modules (cropper)
+                cropper: {
                     test: /[\\/]node_modules[\\/]/, // Match modules in node_modules
-                    name: 'cropper', // Output filename: vendors.js
+                    name: 'cropper', // Output filename: cropper.js
                     chunks: 'all',
-                    priority: -10 // Lower priority for vendor, higher for app
+                    priority: -10 // Lower priority for cropper, higher for app
                 }
             },
         },
