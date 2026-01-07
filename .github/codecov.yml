@@ -34,3 +34,7 @@ coverage:
           - TypeScript
         target: 6%
         threshold: 0%
+        flags:
+          - TypeScript
+        target: 100%
+        threshold: 0%
