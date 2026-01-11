@@ -74,6 +74,15 @@ jobs:
               if ! jq -e '.Root.Children["cropper.min.js"]' "$json_path" > /dev/null; then
                 error_messages+="For .NET $net_version: Key 'cropper.min.js' does not exist.\n"
               fi
+              if ! jq -e '.Root.Children["blob-helper.d.ts"]' "$json_path" > /dev/null; then
+                error_messages+="For .NET $net_version: Key 'blob-helper.d.ts' does not exist.\n"
+              fi
+              if ! jq -e '.Root.Children["cropperJsInterop.d.ts"]' "$json_path" > /dev/null; then
+                error_messages+="For .NET $net_version: Key 'cropperJsInterop.d.ts' does not exist.\n"
+              fi
+              if ! jq -e '.Root.Children["blob-helper.d.ts"]' "$json_path" > /dev/null; then
+                error_messages+="For .NET $net_version: Key 'blob-helper.d.ts' does not exist.\n"
+              fi
             else
               error_messages+="File $json_path does not exist for .NET $net_version.\n"
             fi

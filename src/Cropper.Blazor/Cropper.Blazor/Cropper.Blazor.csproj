@@ -81,6 +81,7 @@
 		<Content Remove="eslint.config.cjs" />
 		<Content Remove="vitest.config.ts" />
 		<Content Remove="wwwroot\cropperJsInterop.min.js.map" />
+		<Content Remove="wwwroot\cropper.min.js.map" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -138,7 +139,8 @@
 
 		<!-- Marks generated JS files as content for packing/publishing -->
 		<ItemGroup>
-			<Content Include="wwwroot\**\*.js" />
+			<Content Include="wwwroot\*.js" />
+			<Content Include="wwwroot\*.d.ts" />
 		</ItemGroup>
 	</Target>
 
@@ -155,8 +157,10 @@
 
 	<Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
 		<ItemGroup>
+			<FilesToClean Include="./wwwroot/*.d.ts" />
 			<FilesToClean Include="./wwwroot/cropper.min.css" />
 			<FilesToClean Include="./wwwroot/cropper.min.js" />
+			<FilesToClean Include="./wwwroot/cropper.min.js.map" />
 			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js" />
 			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js.map" />
 			<FilesToClean Include="Cropper\*.js" />
