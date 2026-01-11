@@ -7,7 +7,7 @@ module.exports = defineConfig([
     globalIgnores(['**/node_modules/**']),
 
     {
-        files: ['Cropper/**/*.{ts,tsx,mts,cts}'],
+        files: ['Cropper/**/*.{ts,tsx,mts,cts}', 'webpack.config.js'],
 
         languageOptions: {
             parser: tsParser,
