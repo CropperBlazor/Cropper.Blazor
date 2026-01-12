@@ -66,7 +66,6 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-		<None Include="Cropper\cropperJsInterop.ts" />
 	</ItemGroup>
 
 	<ItemGroup>
