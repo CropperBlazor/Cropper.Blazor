@@ -113,7 +113,7 @@
 		<Exec Command="npm install" />
 
 		<!-- Diagnostic message to verify build phase -->
-		<Message Importance="high" Text="EnsureNpmRestored runned with build phase: IsCrossTargetingBuild=$(IsCrossTargetingBuild), TargetFramework=$(TargetFramework)" />
+		<Message Importance="high" Text="EnsureNpmRestored ran with build phase: IsCrossTargetingBuild=$(IsCrossTargetingBuild), TargetFramework=$(TargetFramework)" />
 	</Target>
 
 	<!--
