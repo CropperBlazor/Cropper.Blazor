@@ -5,8 +5,8 @@ export namespace CropperBlazor.Helpers {
     async getImageUsingStreaming(
       imageStream: DotNetTypes.Global.DotNetStreamReference,
     ): Promise<string> {
-      const buf = await imageStream.arrayBuffer();
-      const blob = new Blob([buf]);
+      const buf: ArrayBuffer = await imageStream.arrayBuffer();
+      const blob: Blob = new Blob([buf]);
 
       return URL.createObjectURL(blob);
     }

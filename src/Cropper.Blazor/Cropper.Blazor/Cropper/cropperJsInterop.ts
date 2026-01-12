@@ -31,7 +31,7 @@ export class CropperDecorator {
   }
 
   destroy(id: CropperId) {
-    const instance = this.cropperInstances[id];
+    const instance: Cropper = this.cropperInstances[id];
 
     if (instance) {
       instance.destroy();
@@ -73,8 +73,9 @@ export class CropperDecorator {
     dotNetCanvasReceiverRef: DotNetTypes.Global.DotNetObjectReference<CroppedCanvasReceiverTypes.Components.CroppedCanvasReceiver>,
   ) {
     setTimeout(async () => {
-      const canvas = this.getCroppedCanvas(id, options);
-      const jsRef = DotNet.createJSObjectReference(canvas);
+      const canvas: HTMLCanvasElement = this.getCroppedCanvas(id, options);
+      const jsRef: DotNetTypes.Global.JsObjectReference = DotNet.createJSObjectReference(canvas);
+
       await dotNetCanvasReceiverRef.invokeMethodAsync("ReceiveCanvasReference", jsRef);
     }, 0);
   }
@@ -349,7 +350,7 @@ export class CropperDecorator {
     options.maxWidth ??= Infinity;
     options.maxHeight ??= Infinity;
 
-    const cropperInstance = this.cropperInstances[cropperComponentId];
+    const cropperInstance: Cropper = this.cropperInstances[cropperComponentId];
 
     setTimeout(() => {
       cropperInstance.getCroppedCanvas(options).toBlob(

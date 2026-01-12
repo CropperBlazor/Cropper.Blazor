@@ -10,7 +10,7 @@ import type { CropperBlazor as DotNetTypes } from "../types/global/dotnet-global
 export namespace CropperBlazor.Helpers {
   export async function readBlobInChunks(
     blob: Blob | null,
-    dotNetImageReceiverRef: DotNetTypes.Global.DotNetObjectReference<ImageReceiverTypes.Components.ImageReceiver>,
+    dotNetImageReceiverRef: DotNetTypes.Global.DotNetObjectReference<ImageReceiverTypes.Components.ImageReceiver> | null,
     maximumReceiveChunkSize?: number,
   ) {
     // Validate blob
@@ -38,16 +38,16 @@ export namespace CropperBlazor.Helpers {
     if (maximumReceiveChunkSize == null) {
       reader = blob.stream().getReader();
     } else {
-      const blobStream = blob.stream().getReader();
+      const blobStream: ReadableStreamDefaultReader<Uint8Array> = blob.stream().getReader();
 
       // Binary estimation of JSON size
       const getJsonSizeBinary = (chunk: Uint8Array<ArrayBuffer>) => {
-        const length = chunk.length;
+        const length: number = chunk.length;
 
         // Max 3 digits for the number (0 to 255)
         const bytesPerElement = 3;
         // Comma between elements
-        const commas = length - 1;
+        const commas: number = length - 1;
         // For '[' and ']'
         const brackets = 2;
 
@@ -71,9 +71,9 @@ export namespace CropperBlazor.Helpers {
 
           while (offset < value.length) {
             // Start with the last known good chunk size, or the remaining length
-            let chunkSize = Math.min(lastGoodChunkSize, value.length - offset);
-            let chunk = value.slice(offset, offset + chunkSize);
-            let jsonSize = getJsonSizeBinary(chunk);
+            let chunkSize: number = Math.min(lastGoodChunkSize, value.length - offset);
+            let chunk: Uint8Array<ArrayBuffer> = value.slice(offset, offset + chunkSize);
+            let jsonSize: number = getJsonSizeBinary(chunk);
 
             // If the JSON size is too large, reduce the chunk size gradually
             while (jsonSize > maximumReceiveChunkSize && chunkSize > 1) {
