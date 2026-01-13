@@ -18,7 +18,7 @@
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Cropper.Blazor?logo=nuget&label=nuget%20downloads&color=ff5c9b)](https://www.nuget.org/packages/Cropper.Blazor)
 [![NuGet Version](https://img.shields.io/nuget/v/Cropper.Blazor?logo=nuget&label=nuget%20version&color=009DEA)](https://www.nuget.org/packages/Cropper.Blazor)
 
-The most powerful image cropping tool for Blazor WebAssembly / Server, Hybrid with MAUI, MVC and
+The most powerful image cropping tool for Blazor Web App / WebAssembly / Server, Hybrid with MAUI, MVC and
 other frameworks.
 
 Cropper.Blazor is an essential component for building interactive image cropping and manipulation features in Blazor web applications. This versatile Blazor library empowers developers to integrate intuitive image cropping functionality directly into their Blazor projects, offering users a seamless and responsive image editing experience.

@@ -1,7 +1,7 @@
 {
   "name": "Cropper.Blazor",
   "version": "1.5.1",
-  "description": "",
+  "description": "The most powerful image cropping tool for Blazor Web App / WebAssembly / Server, Hybrid with MAUI, MVC and other frameworks.",
   "main": "index.js",
   "scripts": {
     "build:debug": "webpack --mode=development",
@@ -13,7 +13,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix"
   },
-  "author": "",
+  "author": "@MaxymGorn (Maksym Hornytskiy), @ColdForeign (George Radchuk)",
   "license": "MIT",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "8.52.0",
