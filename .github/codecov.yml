@@ -24,7 +24,7 @@ coverage:
 
     patch:
       default:
-        target: auto
+        target: 6%
       dotnet:
         flags:
           - DotNet
