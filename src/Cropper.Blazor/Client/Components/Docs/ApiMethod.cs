@@ -10,5 +10,6 @@ namespace Cropper.Blazor.Client.Components.Docs
         public string Documentation { get; set; }
         public MethodInfo MethodInfo { get; set; }
         public ParameterInfo[] Parameters { get; set; }
+        public bool IsJsInvokable { get; set; }
     }
 }

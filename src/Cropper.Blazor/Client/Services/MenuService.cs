@@ -36,9 +36,11 @@ namespace Cropper.Blazor.Client.Services
         public IEnumerable<DocsLink> DocsLinkApi => Api ??= new List<DocsLink>
         {
             new() {Title = "CropperComponent", Href = "api"},
-            new() {Title = "ViewMode", Href = "api/ViewMode"},
-            new() {Title = "DragMode", Href = "api/DragMode"},
-            new() {Title = "CropperComponentType", Href = "api/CropperComponentType"},
+            new() {Title = "CroppedCanvasReceiver", Href = "api/CroppedCanvasReceiver"},
+            new() {Title = "ImageReceiver", Href = "api/ImageReceiver"},
+            new() {Title = "ViewMode", Group = "Data", Href = "api/ViewMode"},
+            new() {Title = "DragMode", Group = "Data", Href = "api/DragMode"},
+            new() {Title = "CropperComponentType", Group = "Data",Href = "api/CropperComponentType"},
             new() {Group = "Options", Title = "Options", Href = "api/Options"},
             new() {Group = "Options", Title = "GetCroppedCanvasOptions", Href = "api/GetCroppedCanvasOptions"},
             new() {Group = "Options", Title = "SetCropBoxDataOptions", Href = "api/SetCropBoxDataOptions"},

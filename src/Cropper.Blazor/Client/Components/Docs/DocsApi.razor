@@ -21,7 +21,7 @@
                     <ul class="my-2">
                         <li style="list-style-type: none;">
                             <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
-                                     Href="examples/cropperusage">
+                                     Href="@GetHrefPage()">
                                 <CodeInline>@Type.GetTypeDisplayName()</CodeInline>
                             </MudLink>
                         </li>
@@ -183,6 +183,12 @@
                                     @if (!string.IsNullOrWhiteSpace(context.WarningSignatureMessage))
                                     {
                                         <CodeInline>
+                                            @if (context.IsJsInvokable)
+                                            {
+                                                <div style="color: var(--mud-palette-info);">
+                                                    Internally invokable from JS
+                                                </div>
+                                            }
                                             <div style="color: var(--mud-palette-warning);">@context.WarningSignatureMessage</div>
                                             @context.Signature
                                         </CodeInline>
@@ -190,8 +196,17 @@
                                     }
                                     else
                                     {
-                                        <CodeInline>@context.Signature</CodeInline>
+                                        <CodeInline>
+                                            @if (context.IsJsInvokable)
+                                            {
+                                                <div style="color: var(--mud-palette-info);">
+                                                    Internally invokable from JS
+                                                </div>
+                                            }
+                                            @context.Signature
+                                        </CodeInline>
                                     }
+
                                 </MudTd>
                                 <MudTd Class="docs-content-api-cell docs-content-api-max-width align-start" Style="word-wrap: break-word;" DataLabel="Parameters">
                                     @if (context.Parameters != null)
@@ -224,6 +239,14 @@
                             <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
                                 <MudTd Class="docs-content-api-cell docs-content-api-max-width" DataLabel="Name">
                                     <CodeInline>@context.Signature</CodeInline>
+                                    @if (context.IsJsInvokable)
+                                    {
+                                        <CodeInline>
+                                            <div style="color: var(--mud-palette-info); font-weight: 600;">
+                                                Internally invokable from JS
+                                            </div>
+                                        </CodeInline>
+                                    }
                                     @if (!string.IsNullOrWhiteSpace(context.WarningSignatureMessage))
                                     {
                                         <MudChip Style="height: auto; padding: 8px; margin-top: 8px;"

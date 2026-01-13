@@ -25,12 +25,31 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         [Parameter] public Type Type { get; set; }
         [Parameter] public bool IsContract { get; set; } = false;
+        [Parameter] public bool? IsComponentContract { get; set; } = null;
         [Inject] NavigationManager NavigationManager { get; set; } = null!;
 
         // used for default value getting
         private object CompInstance;
 
         public DocsPage DocsPage { get; set; }
+
+        private string? GetHrefPage()
+        {
+            if (Type == typeof(CropperComponent))
+            {
+                return "examples/cropperusage";
+            }
+            else if (Type == typeof(CroppedCanvasReceiver))
+            {
+                return "examples/cropping#crop-a-polygon-image-in-background";
+            }
+            else if (Type == typeof(ImageReceiver))
+            {
+                return "examples/cropping#crop-a-round-image-in-background";
+            }
+
+            return null;
+        }
 
         private IEnumerable<ApiProperty> GetEventCallbacks()
         {
@@ -42,7 +61,19 @@ namespace Cropper.Blazor.Client.Components.Docs
             }
             else
             {
-                foreach (var info in Type.GetPropertyInfosWithAttribute<ParameterAttribute>().OrderBy(x => x.Name))
+                IEnumerable<PropertyInfo>? propertyInfos = null;
+
+                if (IsComponentContract == true)
+                {
+                    propertyInfos = Type
+                        .GetPropertyInfos();
+                }
+                else
+                {
+                    propertyInfos = Type.GetPropertyInfosWithAttribute<ParameterAttribute>();
+                }
+
+                foreach (var info in propertyInfos.OrderBy(x => x.Name))
                 {
                     if (IsEventCallback(info))
                     {
@@ -51,7 +82,7 @@ namespace Cropper.Blazor.Client.Components.Docs
                             Name = info.Name,
                             PropertyInfo = info,
                             Default = string.Empty,
-                            Description = DocStrings.GetMemberDescription(saveTypename, info),
+                            Description = DocStrings.GetMemberDescription(saveTypename, info, IsContract, IsComponentContract),
                             IsTwoWay = CheckIsTwoWayEventCallback(info),
                             Type = info.PropertyType,
                         };
@@ -74,29 +105,29 @@ namespace Cropper.Blazor.Client.Components.Docs
                 {
                     if (!_hiddenMethods.Any(x => x.Contains(info.Name)) && !info.Name.StartsWith("get_") && !info.Name.StartsWith("set_"))
                     {
-                        if (info.GetCustomAttributes(typeof(JSInvokableAttribute), true).Length == 0)
+                        bool hasNoJsInvokableAttribute = info.GetCustomAttributes(typeof(JSInvokableAttribute), true).Length == 0;
+
+                        Attribute? attribute = info
+                            .GetCustomAttribute(typeof(ObsoleteAttribute), true);
+                        string? warningSignatureMessage = null;
+
+                        if (attribute != null)
                         {
-                            Attribute? attribute = info
-                                .GetCustomAttribute(typeof(ObsoleteAttribute), true);
-                            string? warningSignatureMessage = null;
+                            ObsoleteAttribute obsoleteAttr = (ObsoleteAttribute)attribute;
 
-                            if (attribute != null)
-                            {
-                                ObsoleteAttribute obsoleteAttr = (ObsoleteAttribute)attribute;
-
-                                warningSignatureMessage = obsoleteAttr.Message;
-                            }
-
-                            yield return new ApiMethod()
-                            {
-                                MethodInfo = info,
-                                WarningSignatureMessage = warningSignatureMessage,
-                                Return = info.ReturnParameter,
-                                Signature = info.GetSignature(),
-                                Parameters = info.GetParameters(),
-                                Documentation = DocStrings.GetMemberDescription(saveTypename, info)
-                            };
+                            warningSignatureMessage = obsoleteAttr.Message;
                         }
+
+                        yield return new ApiMethod()
+                        {
+                            MethodInfo = info,
+                            IsJsInvokable = !hasNoJsInvokableAttribute,
+                            WarningSignatureMessage = warningSignatureMessage,
+                            Return = info.ReturnParameter,
+                            Signature = info.GetSignature(),
+                            Parameters = info.GetParameters(),
+                            Documentation = DocStrings.GetMemberDescription(saveTypename, info, IsContract, IsComponentContract)
+                        };
                     }
                 }
             }
@@ -114,7 +145,7 @@ namespace Cropper.Blazor.Client.Components.Docs
             string saveTypename = DocStrings.GetSaveTypename(Type);
             IEnumerable<PropertyInfo> types = null!;
 
-            if (IsContract)
+            if (IsContract || IsComponentContract == true)
             {
                 types = Type
                     .GetPropertyInfos();
@@ -154,7 +185,7 @@ namespace Cropper.Blazor.Client.Components.Docs
                 PropertyInfo = info,
                 Default = GetDefaultValue(info),
                 IsTwoWay = CheckIsTwoWayProperty(info),
-                Description = DocStrings.GetMemberDescription(saveTypename, info, IsContract),
+                Description = DocStrings.GetMemberDescription(saveTypename, info, IsContract, IsComponentContract),
                 Type = info.PropertyType
             };
         }

@@ -11,13 +11,13 @@ namespace Cropper.Blazor.Client.Models
          *   string saveTypename = DocStrings.GetSaveTypename(type);  // calculate it only once
          *   DocStrings.GetMemberDescription(saveTypename, member);
          */
-        public static string GetMemberDescription(string saveTypename, MemberInfo member, bool isContract = false)
+        public static string GetMemberDescription(string saveTypename, MemberInfo member, bool isContract, bool? isComponentContract)
         {
             string name;
 
             if (member is PropertyInfo property)
             {
-                if (isContract)
+                if (isContract || isComponentContract == true)
                 {
                     name = saveTypename.Replace("<>", string.Empty) + "_property_" + property.Name;
                 }

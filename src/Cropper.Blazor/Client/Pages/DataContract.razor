@@ -22,6 +22,7 @@
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CroppedCanvasReceiver")]
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ImageReceiver")]
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ImageProcessingException")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropperComponent")]
 
 @using Cropper.Blazor.Client.Components.Docs
 @using Cropper.Blazor.Shared.Attributes
@@ -32,15 +33,14 @@
     <SeoHeader Title="@($"Contract {Name} - Cropper.Blazor")"
                Overview="@($"Contract {Name}.")"
                Keywords="@(
-            new []
-            {
-                Name,
-                $"Contract {Name}"
-            })" />
+               new[]
+               {
+                    Name,
+                    $"Contract {Name}"
+                })" />
 
-    <DocsApi Type="@ComponentType" IsContract="true">
+<DocsApi Type="@ComponentType" IsContract="@IsContract" IsComponentContract="@IsComponentContract" />
 
-    </DocsApi>
 }
 else
 {

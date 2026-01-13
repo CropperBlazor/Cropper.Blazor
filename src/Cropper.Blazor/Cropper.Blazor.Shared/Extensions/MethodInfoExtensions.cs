@@ -320,6 +320,10 @@ namespace Cropper.Blazor.Shared.Extensions
             {
                 return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.renderfragment\">{name}</a>";
             }
+            else if (name == "MemoryStream")
+            {
+                return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.io.memorystream\">{name}</a>";
+            }
             else if (name == "IJSObjectReference")
             {
                 return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.ijsobjectreference\">{name}</a>";
