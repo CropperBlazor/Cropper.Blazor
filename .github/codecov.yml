@@ -9,7 +9,7 @@ coverage:
   status:
     project:
       default:
-        informational: true
+        target: 80%
       dotnet:
         flags:
           - DotNet
@@ -24,7 +24,7 @@ coverage:
 
     patch:
       default:
-        informational: true
+        target: auto
       dotnet:
         flags:
           - DotNet
