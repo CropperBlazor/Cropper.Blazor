@@ -125,7 +125,7 @@ namespace Cropper.Blazor.Shared.Extensions
             Culture = CultureInfo.InvariantCulture
         };
 
-        public static string PresentDefaultValue(this object value)
+        public static string PresentDefaultValue(this object value, PropertyInfo? propertyInfo = null)
         {
             if (value is null)
             {
@@ -158,7 +158,21 @@ namespace Cropper.Blazor.Shared.Extensions
 
             if (type.IsGenericType) // for instance event callbacks
             {
-                return "";
+                if (propertyInfo == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    var propertyType = propertyInfo.PropertyType;
+
+                    // Default value for the property type
+                    object? defaultValue = propertyType.IsValueType
+                        ? Activator.CreateInstance(propertyType)
+                        : null;
+
+                    return PresentDefaultValue(defaultValue);
+                }
             }
 
             if (type.IsValueType)

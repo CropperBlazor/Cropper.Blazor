@@ -103,7 +103,7 @@
                             </MudTd>
                             <MudTd Class="docs-content-api-cell" DataLabel="Default">
                                 @{
-                                    var def = context.Default.PresentDefaultValue();
+                                    var def = context.Default.PresentDefaultValue(context.PropertyInfo);
                                 }
                                 @if (def.Contains("<path"))
                                 {
