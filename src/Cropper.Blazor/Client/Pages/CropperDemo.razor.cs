@@ -309,7 +309,7 @@ namespace Cropper.Blazor.Client.Pages
                 {
                     await InvokeAsync(() =>
                     {
-                        //JSRuntime!.InvokeVoidAsync("console.log", $"CropJSEvent {JsonSerializer.Serialize(cropJSEvent)}");
+                        JSRuntime!.InvokeVoidAsync("console.log", $"CropJSEvent {JsonSerializer.Serialize(cropJSEvent)}");
                         CropperDataPreview?.OnCropEvent(cropJSEvent.Detail);
                     });
                 }
@@ -408,7 +408,8 @@ namespace Cropper.Blazor.Client.Pages
             {
                 await InvokeAsync(() =>
                 {
-                    //JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent {JsonSerializer.Serialize(zoomJSEvent)}");
+                    JSRuntime!.InvokeVoidAsync("console.log", $"ZoomEvent {JsonSerializer.Serialize(zoomJSEvent)}");
+
                     GetSetCropperData!.OnZoomEvent(zoomJSEvent.Detail);
                 });
 

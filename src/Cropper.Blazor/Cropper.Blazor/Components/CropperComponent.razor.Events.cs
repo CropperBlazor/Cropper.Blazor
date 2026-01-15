@@ -96,7 +96,10 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box changes.
         /// </summary>
-        /// <param name="jSEventData">The <see cref="JSEventData{CropEvent}"/>.</param>
+        /// <param name="jSEventData">
+        /// The <see cref="JSEventData{CropEvent}"/> containing data of the underlying
+        /// JavaScript <c>crop</c> event.
+        /// </param>
         [JSInvokable("CropperIsCroped")]
         public void CropperIsCroped(JSEventData<CropEvent> jSEventData)
         {
@@ -106,7 +109,10 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box stops changing.
         /// </summary>
-        /// <param name="jSEventData">The <see cref="JSEventData{CropEndEvent}"/>.</param>
+        /// <param name="jSEventData">
+        /// The <see cref="JSEventData{CropEndEvent}"/> containing data of the underlying
+        /// JavaScript <c>cropend</c> event.
+        /// </param>
         [JSInvokable("CropperIsEnded")]
         public void CropperIsEnded(JSEventData<CropEndEvent> jSEventData)
         {
@@ -116,7 +122,10 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box is changing.
         /// </summary>
-        /// <param name="jSEventData">The <see cref="JSEventData{CropMoveEvent}"/>.</param>
+        /// <param name="jSEventData">
+        /// The <see cref="JSEventData{CropMoveEvent}"/> containing data of the underlying
+        /// JavaScript <c>cropmove</c> event.
+        /// </param>
         [JSInvokable("CropperIsMoved")]
         public void CropperIsMoved(JSEventData<CropMoveEvent> jSEventData)
         {
@@ -126,7 +135,10 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box starts to change.
         /// </summary>
-        /// <param name="jSEventData">The <see cref="JSEventData{CropStartEvent}"/>.</param>
+        /// <param name="jSEventData">
+        /// The <see cref="JSEventData{CropStartEvent}"/> containing data of the underlying
+        /// JavaScript <c>cropstart</c> event.
+        /// </param>
         [JSInvokable("CropperIsStarted")]
         public void CropperIsStarted(JSEventData<CropStartEvent> jSEventData)
         {
@@ -136,7 +148,10 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
         /// </summary>
-        /// <param name="jSEventData">The <see cref="JSEventData{ZoomEvent}"/>.</param>
+        /// <param name="jSEventData">
+        /// The <see cref="JSEventData{ZoomEvent}"/> containing data of the underlying
+        /// JavaScript <c>zoom</c> event.
+        /// </param>
         [JSInvokable("CropperIsZoomed")]
         public void CropperIsZoomed(JSEventData<ZoomEvent> jSEventData)
         {
@@ -146,7 +161,10 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// This event fires when the target image has been loaded and the cropper instance is ready for operating.
         /// </summary>
-        /// <param name="jSEventData">The <see cref="JSEventData{CropReadyEvent}"/>.</param>
+        /// <param name="jSEventData">
+        /// The <see cref="JSEventData{CropReadyEvent}"/> containing the data of the
+        /// underlying JavaScript <c>ready</c> event.
+        /// </param>
         [JSInvokable]
         public void IsReady(JSEventData<CropReadyEvent> jSEventData)
         {

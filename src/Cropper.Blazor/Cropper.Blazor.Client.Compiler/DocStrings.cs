@@ -202,7 +202,7 @@ namespace Cropper.Blazor.Client.Compiler
                 .Replace("<see cref=\"T:System.Threading.Tasks.Task\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task\">Task</a>")
                 .Replace("<see cref=\"T:System.Threading.Tasks.Task`1\" />", $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task\">{formattedReturnSignature}</a>")
                 .Replace("<see cref=\"T:System.Nullable`1\" />", $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1\">{formattedReturnSignature}</a>")
-                .Replace("<see cref=\"T:Cropper.Blazor.Events.JSEventData`1\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"api/JSEventData\">JSEventData<></a>")
+                .Replace("<see cref=\"T:Cropper.Blazor.Events.JSEventData`1\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"api/JSEventData\">JSEventData</a>")
                 .Replace("<see cref=\"T:System.Threading.CancellationToken\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource\">CancellationToken</a>");
 
             return result;
