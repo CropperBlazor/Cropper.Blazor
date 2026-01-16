@@ -12,9 +12,6 @@ using Microsoft.JSInterop;
 
 namespace Cropper.Blazor.Components
 {
-    /// <summary>
-    /// The cropper component.
-    /// </summary>
     public partial class CropperComponent
     {
         /// <summary>
