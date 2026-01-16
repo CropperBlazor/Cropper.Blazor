@@ -29,8 +29,8 @@ window.updateAvailable = new Promise((resolve, reject) => {
     })
 
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-        console.log('Service worker controller changed, reloading page')
-        window.location.reload()
-        resolve(true)
+      console.log('Service worker controller changed, reloading page')
+      window.location.reload()
+      resolve(true)
     });
 })
