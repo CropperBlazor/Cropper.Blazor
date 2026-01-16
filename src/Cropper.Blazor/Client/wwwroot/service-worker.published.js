@@ -3,28 +3,10 @@
 
 self.importScripts('./service-worker-assets.js')
 self.addEventListener('install', event => {
-  event.waitUntil(
-    Promise.all([
-      onInstall(),
-      self.skipWaiting()
-    ])
-  )
+  event.waitUntil(onInstall());
 })
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    Promise.all(
-      [
-        onActivate(),
-        self.clients.claim(),
-        self.skipWaiting()
-      ]
-    )
-      .catch(
-        (err) => { // eslint-disable-line
-          event.skipWaiting()
-        }
-      )
-  )
+  event.waitUntil(onActivate())
 })
 self.addEventListener('fetch', event => event.respondWith(onFetch(event)))
 
