@@ -33,6 +33,20 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         public DocsPage DocsPage { get; set; }
 
+        protected override void OnParametersSet()
+        {
+            if (!Type.IsAssignableTo(typeof(IComponent)))
+            {
+                CompInstance = null;
+            }
+            else
+            {
+                CompInstance = Activator.CreateInstance(Type);
+            }
+
+            base.OnParametersSet();
+        }
+
         private string? GetHrefPage()
         {
             if (Type == typeof(CropperComponent))
@@ -53,6 +67,11 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         private IEnumerable<ApiProperty> GetEventCallbacks()
         {
+            if (Type == null)
+            {
+                yield break;
+            }
+
             string saveTypename = DocStrings.GetSaveTypename(Type);
 
             if (IsContract)
@@ -91,8 +110,29 @@ namespace Cropper.Blazor.Client.Components.Docs
             }
         }
 
+        private string GetClassDescription()
+        {
+            if (Type.IsClass)
+            {
+                string saveTypename = DocStrings.GetSaveTypename(Type);
+
+                return DocStrings.GetClassDescription(saveTypename);
+            }
+            else if (Type.IsEnum)
+            {
+                return DocStrings.GetEnumDescription(Type.Name);
+            }
+
+            return string.Empty;
+        }
+
         private IEnumerable<ApiMethod> GetMethods()
         {
+            if (Type == null)
+            {
+                yield break;
+            }
+
             string saveTypename = DocStrings.GetSaveTypename(Type);
 
             if (IsContract)
@@ -142,6 +182,11 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         private IEnumerable<ApiProperty> GetProperties()
         {
+            if (Type == null)
+            {
+                yield break;
+            }
+
             string saveTypename = DocStrings.GetSaveTypename(Type);
             IEnumerable<PropertyInfo> types = null!;
 
@@ -179,11 +224,13 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         private ApiProperty ToApiProperty(PropertyInfo info, string saveTypename)
         {
+            object defaultValue = GetDefaultValue(info);
+
             return new ApiProperty
             {
                 Name = info.Name,
                 PropertyInfo = info,
-                Default = GetDefaultValue(info),
+                Default = defaultValue,
                 IsTwoWay = CheckIsTwoWayProperty(info),
                 Description = DocStrings.GetMemberDescription(saveTypename, info, IsContract, IsComponentContract),
                 Type = info.PropertyType
@@ -197,7 +244,7 @@ namespace Cropper.Blazor.Client.Components.Docs
                 Name = enumDisplayStatus,
                 PropertyInfo = null,
                 Default = value,
-                Description = DocStrings.GetEnumDescription(type.Name, enumDisplayStatus),
+                Description = DocStrings.GetEnumValueDescription(type.Name, enumDisplayStatus),
                 Type = type
             };
         }
@@ -249,18 +296,6 @@ namespace Cropper.Blazor.Client.Components.Docs
                 eventCallbackInfo.PropertyType.Name.Contains("EventCallback") &&
                 eventCallbackInfo.GetCustomAttribute<ParameterAttribute>() != null &&
                 eventCallbackInfo.GetCustomAttribute<ObsoleteAttribute>() == null;
-        }
-
-        RenderFragment RenderTheType()
-        {
-            if (!Type.IsAssignableTo(typeof(IComponent)))
-                return null;
-            return new RenderFragment(builder =>
-            {
-                builder.OpenComponent(0, Type);
-                builder.AddComponentReferenceCapture(1, inst => { CompInstance = inst; });
-                builder.CloseComponent();
-            });
         }
 
         private async Task OnPageChanged(int newPage)

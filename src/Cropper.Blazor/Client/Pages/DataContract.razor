@@ -1,4 +1,6 @@
-﻿@page "/api/{name}"
+﻿@page "/api"
+@page "/api/{name}"
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.8, url: "/api")]
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CanvasData")]
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ContainerData")]
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropBoxData")]
@@ -28,23 +30,31 @@
 @using Cropper.Blazor.Shared.Attributes
 @using Cropper.Blazor.Shared.Models
 
-@if (ComponentType is not null)
+@if (ComponentType is not null && !HasName)
+{
+    <SeoHeader Title="API - Cropper.Blazor"
+               Overview="Cropper component API."
+               Keywords="@(
+               new[]
+               {
+                           "API",
+                           "Cropper component API",
+                           "Cropper API",
+                           "Cropper.Blazor component API",
+                           "Cropper.Blazor API"
+                       })" />
+}
+else if (ComponentType is not null && HasName)
 {
     <SeoHeader Title="@($"Contract {Name} - Cropper.Blazor")"
                Overview="@($"Contract {Name}.")"
                Keywords="@(
                new[]
                {
-                    Name,
-                    $"Contract {Name}"
-                })" />
+                               Name,
+                               $"Contract {Name}"
+                           })" />
+
+}
 
 <DocsApi Type="@ComponentType" IsContract="@IsContract" IsComponentContract="@IsComponentContract" />
-
-}
-else
-{
-    <MudText>
-        @($"Contract '{Name}' does not exist");
-    </MudText>
-}

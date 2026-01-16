@@ -14,9 +14,22 @@ namespace Cropper.Blazor.Client.Pages
         private bool IsContract = true;
         private bool? IsComponentContract = null;
 
+        private bool HasName => !string.IsNullOrWhiteSpace(Name);
+
         protected override void OnParametersSet()
         {
-            ComponentType = ApiLink.GetTypeFromComponentLink(Name);
+            // RESET state derived from parameters
+            IsContract = true;
+            IsComponentContract = null;
+
+            if (HasName)
+            {
+                ComponentType = ApiLink.GetTypeFromComponentLink(Name);
+            }
+            else
+            {
+                ComponentType = typeof(CropperComponent);
+            }
 
             if (ComponentType == typeof(CropperComponent))
             {
@@ -28,8 +41,7 @@ namespace Cropper.Blazor.Client.Pages
                 IsContract = false;
                 IsComponentContract = true;
             }
-
-            StateHasChanged();
+            base.OnParametersSet();
         }
     }
 }

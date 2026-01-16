@@ -38,9 +38,23 @@ namespace Cropper.Blazor.Client.Models
             return GetDocStrings(name);
         }
 
-        public static string GetEnumDescription(string enumName, string? enumValue)
+        public static string GetEnumValueDescription(string enumName, string? enumValue)
         {
             string name = $"{enumName}_enum_{enumValue}";
+
+            return GetDocStrings(name);
+        }
+
+        public static string GetEnumDescription(string enumName)
+        {
+            string name = $"{enumName}_enum";
+
+            return GetDocStrings(name);
+        }
+
+        public static string GetClassDescription(string className)
+        {
+            string name = $"{className}_class";
 
             return GetDocStrings(name);
         }

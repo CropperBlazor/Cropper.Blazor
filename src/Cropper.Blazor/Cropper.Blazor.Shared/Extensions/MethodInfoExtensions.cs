@@ -228,7 +228,7 @@ namespace Cropper.Blazor.Shared.Extensions
         /// </summary>
         /// <param name="type">Type. May be generic or nullable</param>
         /// <returns>Full type name, fully qualified namespaces</returns>
-        public static string TypeName(this Type type, Func<string, string>? GenericArgumentFormatter = null)
+        public static string TypeName(this Type type, bool isShowGenericPart = true, Func<string, string>? GenericArgumentFormatter = null)
         {
             var first = true;
             var nullableType = Nullable.GetUnderlyingType(type);
@@ -243,37 +243,40 @@ namespace Cropper.Blazor.Shared.Extensions
                 return GetAliases(type.Name.ToUpperInvariant(), type);
             }
 
-            var stringBuilder = new StringBuilder(type.Name.Substring(0, type.Name.IndexOf('`')));
+            StringBuilder stringBuilder = new(type.Name.Substring(0, type.Name.IndexOf('`')));
 
-            if (GenericArgumentFormatter is not null)
+            if (isShowGenericPart)
             {
-                stringBuilder.Append("<a target=\"_blank\"><<a/ >");
-            }
-            else
-            {
-                stringBuilder.Append('<');
-            }
-
-            foreach (var t in type.GetGenericArguments())
-            {
-                if (!first)
-                {
-                    stringBuilder.Append(',');
-                }
-
-                string typeName = t.TypeName();
-
                 if (GenericArgumentFormatter is not null)
                 {
-                    typeName = GenericArgumentFormatter(typeName);
+                    stringBuilder.Append("<a target=\"_blank\"><<a/ >");
+                }
+                else
+                {
+                    stringBuilder.Append('<');
                 }
 
-                stringBuilder.Append(typeName);
+                foreach (var t in type.GetGenericArguments())
+                {
+                    if (!first)
+                    {
+                        stringBuilder.Append(',');
+                    }
 
-                first = false;
+                    string typeName = t.TypeName();
+
+                    if (GenericArgumentFormatter is not null)
+                    {
+                        typeName = GenericArgumentFormatter(typeName);
+                    }
+
+                    stringBuilder.Append(typeName);
+
+                    first = false;
+                }
+
+                stringBuilder.Append('>');
             }
-
-            stringBuilder.Append('>');
 
             // Return result
             return stringBuilder.ToString();
@@ -308,7 +311,7 @@ namespace Cropper.Blazor.Shared.Extensions
             if (callable == false)
             {
                 // Append return type
-                stringBuilder.Append(type.TypeName(CreateLink));
+                stringBuilder.Append(type.TypeName(GenericArgumentFormatter: CreateLink));
                 stringBuilder.Append(' ');
             }
 

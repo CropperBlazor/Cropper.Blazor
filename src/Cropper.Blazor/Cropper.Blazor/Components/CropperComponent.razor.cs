@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Components;
 namespace Cropper.Blazor.Components
 {
     /// <summary>
-    /// The cropper component.
+    /// A Blazor component that provides image and canvas cropping functionality
+    /// via JavaScript interop, wrapping the underlying Cropper.js behavior.
     /// </summary>
     public partial class CropperComponent : ICropperComponentBase, IAsyncDisposable, IDisposable
     {

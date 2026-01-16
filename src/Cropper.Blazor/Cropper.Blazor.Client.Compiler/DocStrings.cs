@@ -34,7 +34,10 @@ namespace Cropper.Blazor.Client.Compiler
                 cb.IndentLevel++;
 
                 Assembly assembly = typeof(CropperComponent).Assembly;
-                IOrderedEnumerable<Type> types = assembly.GetTypes().OrderBy(t => GetSaveTypename(t));
+                IOrderedEnumerable<Type> types = assembly
+                    .GetTypes()
+                    .Where(x => x.FullName.StartsWith("Cropper.Blazor."))
+                    .OrderBy(t => GetSaveTypename(t));
 
                 foreach (var type in types)
                 {
@@ -86,18 +89,33 @@ namespace Cropper.Blazor.Client.Compiler
                     if (type.IsEnum)
                     {
                         string[] enumNames = type.GetEnumNames();
+                        string docEnum = type.GetDocumentation();
+                        string description = EscapeDescription(docEnum);
 
-                        foreach (string enumName in enumNames)
+                        cb.AddLine($"public const string {GetSaveTypename(type)}_enum = @\"{description}\";\n");
+
+                        foreach (string enumItemName in enumNames)
                         {
-                            Enum enumValue = (Enum)Enum.Parse(type, enumName);
+                            Enum enumValue = (Enum)Enum.Parse(type, enumItemName);
                             string doc = enumValue.GetDocumentation();
                             doc = NormalizeWord(doc);
                             doc = ConvertCrefToHTML(doc);
                             doc = ConvertMarkdownToHTML(doc);
 
+                            string descriptionItemValue = EscapeDescription(doc);
+
+                            cb.AddLine($"public const string {GetSaveTypename(type)}_enum_{enumItemName} = @\"{descriptionItemValue}\";\n");
+                        }
+                    }
+                    else if (type.IsClass)
+                    {
+                        string doc = type.GetDocumentation();
+
+                        if (doc is not null)
+                        {
                             string description = EscapeDescription(doc);
 
-                            cb.AddLine($"public const string {GetSaveTypename(type)}_enum_{enumName} = @\"{description}\";\n");
+                            cb.AddLine($"public const string {GetSaveTypename(type)}_class = @\"{description}\";\n");
                         }
                     }
                 }

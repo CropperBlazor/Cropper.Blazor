@@ -12,297 +12,306 @@
 <DocsPage @ref="DocsPage">
     <DocsPageHeader Title="Cropper Component API" TitleTypo="@Typo.h4" />
     <DocsPageContent>
-        @if (!IsContract)
+        @if (Type is not null)
         {
-            <link rel="canonical" href="@ApiLink.GetComponentLinkFor(Type)" />
-            <DocsPageSection api-link-section>
-                <SectionHeader Title="Pages" TitleClass="mt-3" />
-                <div class="docs-page-apilinks">
-                    <ul class="my-2">
-                        <li style="list-style-type: none;">
-                            <MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
-                                     Href="@GetHrefPage()">
-                                <CodeInline>@Type.GetTypeDisplayName()</CodeInline>
-                            </MudLink>
-                        </li>
-                    </ul>
-                </div>
-            </DocsPageSection>
-        }
-        else
-        {
-            <MudText Typo="Typo.h5" Class="mt-3">
-                @if (Type.IsEnum)
-                {
-                    <div>
-                        Enum <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
+            @if (!IsContract)
+            {
+                <link rel="canonical" href="@ApiLink.GetComponentLinkFor(Type)" />
+                <DocsPageSection api-link-section>
+                    <SectionHeader Title="Pages" TitleClass="mt-3" />
+                    <div class="docs-page-apilinks">
+                        <ul class="my-2">
+                            <li style="list-style-type: none;">
+                                <MudLink UserAttributes="@(new Dictionary<string, object>() { { "rel", "noopener" } })"
+                                         Href="@GetHrefPage()">
+                                    <CodeInline>@Type.GetTypeDisplayName()</CodeInline>
+                                </MudLink>
+                            </li>
+                        </ul>
                     </div>
-                }
-                else
-                {
-                    <div>
-                        Contract <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
-                    </div>
-                }
+                </DocsPageSection>
+            }
+            else
+            {
+                <MudText Typo="Typo.h5" Class="mt-3">
+                    @if (Type.IsEnum)
+                    {
+                        <div>
+                            Enum <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            Contract <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
+                        </div>
+                    }
+                </MudText>
+            }
+            <MudText Typo="Typo.h5" Class="mt-6">
+                Description
             </MudText>
-        }
 
-        @{
+            <MudText Typo="Typo.body1" Class="mt-2">
+                @AnalyseMethodDocumentation(GetClassDescription(), "summary")
+            </MudText>
             // save as lists to speed up displaying the page
-            var properties = GetProperties().ToList();
-            var methods = GetMethods().ToList();
-            var eventCallbacks = GetEventCallbacks().ToList();
-        }
+            var properties = GetProperties()?.ToList();
+            var methods = GetMethods()?.ToList();
+            var eventCallbacks = GetEventCallbacks()?.ToList();
 
-        @if (properties.Count() > 0)
-        {
-            <DocsPageSection>
-                <SectionHeader Title="Properties" />
-                <SectionContent Class="docs-content-api" Outlined="false">
-                    <MudTable Items="@properties" Elevation="0" Class="ma-0 mud-width-full" Breakpoint="@Breakpoint.Sm" GroupBy="@PropertiesGroupDefinition">
-                        <HeaderContent>
-                            <MudTh>Name</MudTh>
-                            <MudTh>Type</MudTh>
-                            <MudTd>Default</MudTd>
-                            <MudTh>Description</MudTh>
-                        </HeaderContent>
-                        <GroupHeaderTemplate>
-                            @if (_propertiesGrouping == Grouping.Inheritance && (Type)context.Key != Type)
-                            {
-                                <MudTh colspan="4">
-                                    <MudText Typo="Typo.h6">@($"Inherited from {((Type)context.Key).GetTypeDisplayName()}")</MudText>
-                                </MudTh>
-                            }
-                            else if (_propertiesGrouping == Grouping.Categories)
-                            {
-                                <MudTh colspan="4">
-                                    <MudText Typo="Typo.h6">@context.Key</MudText>
-                                </MudTh>
-                            }
-                        </GroupHeaderTemplate>
-                        <RowTemplate>
-                            <MudTd Class="docs-content-api-cell" DataLabel="Name">
-                                <CodeInline>@context.Name</CodeInline>
-                                @if (_propertiesGrouping == Grouping.Inheritance && IsOverridden(context.PropertyInfo))
+            @if (properties?.Count() > 0)
+            {
+                <DocsPageSection>
+                    <SectionHeader Title="Properties" />
+                    <SectionContent Class="docs-content-api" Outlined="false">
+                        <MudTable Items="@properties" Elevation="0" Class="ma-0 mud-width-full" Breakpoint="@Breakpoint.Sm" GroupBy="@PropertiesGroupDefinition">
+                            <HeaderContent>
+                                <MudTh>Name</MudTh>
+                                <MudTh>Type</MudTh>
+                                <MudTd>Default</MudTd>
+                                <MudTh>Description</MudTh>
+                            </HeaderContent>
+                            <GroupHeaderTemplate>
+                                @if (_propertiesGrouping == Grouping.Inheritance && (Type)context.Key != Type)
                                 {
-                                    <MudChip T="string" Variant="Variant.Outlined" Color="Color.Secondary" Size="Size.Small">
-                                        overridden
-                                    </MudChip>
+                                    <MudTh colspan="4">
+                                        <MudText Typo="Typo.h6">@($"Inherited from {((Type)context.Key).GetTypeDisplayName()}")</MudText>
+                                    </MudTh>
                                 }
-                            </MudTd>
-                            <MudTd Class="docs-content-api-cell" DataLabel="Type">
-                                <div style="display: inline-flex; flex-direction: row; align-items: center; white-space: nowrap;">
-                                    <DocsTypeInfo Type="@context.Type" />
-                                    @if (context.IsTwoWay)
-                                    {
-                                        <MudTooltip Text="Binding TwoWay" Placement="Placement.Top">
-                                            <MudIcon Icon="@Icons.Material.Filled.SyncAlt" Color="Color.Default" Class="ml-2 mt-2" />
-                                        </MudTooltip>
-                                    }
-                                </div>
-                            </MudTd>
-                            <MudTd Class="docs-content-api-cell" DataLabel="Default">
-                                @{
-                                    var def = context.Default.PresentDefaultValue(context.PropertyInfo);
-                                }
-                                @if (def.Contains("<path"))
+                                else if (_propertiesGrouping == Grouping.Categories)
                                 {
-                                    <MudIcon Icon="@def.Substring(1, def.Length - 1)" />
+                                    <MudTh colspan="4">
+                                        <MudText Typo="Typo.h6">@context.Key</MudText>
+                                    </MudTh>
                                 }
-                                else
-                                {
-                                    @def
-                                }
-                            </MudTd>
-                            <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
-                                <MudTd Class="docs-content-api-cell docs-content-api-description" Style="text-align: end !important;" DataLabel="Description">
-                                    <div>
-                                        @(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))))
-                                    </div>
-                                </MudTd>
-                            </MudHidden>
-                            <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
-                                <MudTd Class="docs-content-api-cell docs-content-api-description" DataLabel="Description">
-                                    <div>
-                                        @(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))))
-                                    </div>
-                                </MudTd>
-                            </MudHidden>
-                        </RowTemplate>
-                        <GroupFooterTemplate></GroupFooterTemplate>
-                    </MudTable>
-                </SectionContent>
-            </DocsPageSection>
-        }
-
-        @if (eventCallbacks.Count() > 0)
-        {
-            <DocsPageSection>
-                <SectionHeader Title="EventCallbacks" />
-                <SectionContent Class="docs-content-api" Outlined="false">
-                    <MudTable Items="@eventCallbacks" Elevation="0" Class="ma-0 mud-width-full" Breakpoint="@Breakpoint.Sm">
-                        <HeaderContent>
-                            <MudTh>Name</MudTh>
-                            <MudTh>Type</MudTh>
-                            <MudTh>Description</MudTh>
-                        </HeaderContent>
-                        <RowTemplate>
-                            <MudTd Class="docs-content-api-cell" DataLabel="Name"><CodeInline>@context.Name</CodeInline></MudTd>
-                            <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
-                                <MudTd Class="docs-content-api-cell" DataLabel="Type">
-                                    <div>@(new MarkupString(context.Type.GetFormattedReturnSignature()))</div>
-                                </MudTd>
-                            </MudHidden>
-                            <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
-                                <MudTd Class="docs-content-api-cell" DataLabel="Type">@(new MarkupString(context.Type.GetFormattedReturnSignature()))</MudTd>
-                            </MudHidden>
-                            <MudTd Class="docs-content-api-cell docs-content-api-description" DataLabel="Description">
-                                @HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))
-                            </MudTd>
-                        </RowTemplate>
-                    </MudTable>
-                </SectionContent>
-            </DocsPageSection>
-        }
-
-        @if (methods.Count() > 0)
-        {
-            <DocsPageSection>
-                <SectionHeader Title="Methods" />
-                <SectionContent Class="docs-content-api" Outlined="false">
-                    <MudTable CurrentPageChanged="OnPageChanged" Items="@methods" On FixedHeader="true" FixedFooter="false" Elevation="0" Class="ma-0 mud-width-full" Breakpoint="@Breakpoint.Sm">
-                        <HeaderContent>
-                            <MudTh Class="docs-content-api-max-width">Name</MudTh>
-                            <MudTd Class="docs-content-api-max-width">Parameters</MudTd>
-                            <MudTh Class="docs-content-api-max-width">Return</MudTh>
-                            <MudTh Class="docs-content-api-max-width">Description</MudTh>
-                        </HeaderContent>
-                        <RowTemplate>
-                            <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
-                                <MudTd Class="docs-content-api-cell docs-content-api-sm-max-width" DataLabel="Name">
-                                    @if (!string.IsNullOrWhiteSpace(context.WarningSignatureMessage))
+                            </GroupHeaderTemplate>
+                            <RowTemplate>
+                                <MudTd Class="docs-content-api-cell" DataLabel="Name">
+                                    <CodeInline>@context.Name</CodeInline>
+                                    @if (_propertiesGrouping == Grouping.Inheritance && IsOverridden(context.PropertyInfo))
                                     {
-                                        <CodeInline>
-                                            @if (context.IsJsInvokable)
-                                            {
-                                                <div style="color: var(--mud-palette-info);">
-                                                    Internally invokable from JS
-                                                </div>
-                                            }
-                                            <div style="color: var(--mud-palette-warning);">@context.WarningSignatureMessage</div>
-                                            @context.Signature
-                                        </CodeInline>
-
-                                    }
-                                    else
-                                    {
-                                        <CodeInline>
-                                            @if (context.IsJsInvokable)
-                                            {
-                                                <div style="color: var(--mud-palette-info);">
-                                                    Internally invokable from JS
-                                                </div>
-                                            }
-                                            @context.Signature
-                                        </CodeInline>
-                                    }
-
-                                </MudTd>
-                                <MudTd Class="docs-content-api-cell docs-content-api-max-width align-start" Style="word-wrap: break-word;" DataLabel="Parameters">
-                                    @if (context.Parameters != null)
-                                    {
-                                        foreach (var parameterInfo in context.Parameters)
-                                        {
-                                            <div class="docs-content-api-sm-max-width">
-                                                <div>@(new MarkupString($"<div style=\"font-weight: 700;\">{TypeNameHelper.GetTypeDisplay(parameterInfo.ParameterType, false, true, Cropper.Blazor.Shared.Extensions.MethodInfoExtensions.CreateLink)} {parameterInfo.Name}</div>{AnalyseMethodDocumentation(context.Documentation, "param", parameterInfo.Name)}"))</div>
-                                            </div>
-                                        }
-                                    }
-                                </MudTd>
-                                <MudTd Class="docs-content-api-cell docs-content-api-sm-max-width" DataLabel="Return">
-                                    @{
-                                        string methodReturn = AnalyseMethodDocumentation(context.Documentation, "returns");
-                                    }
-                                    @if (!string.IsNullOrEmpty(methodReturn))
-                                    {
-                                        <div class="docs-content-api-sm-max-width">@(new MarkupString($"{methodReturn}"))</div>
-                                    }
-                                    else
-                                    {
-                                        <div>@TypeNameHelper.GetTypeDisplay(context.Return.ParameterType, false, true)</div>
-                                    }
-                                </MudTd>
-                                <MudTd Class="docs-content-api-cell docs-content-api-desc-sm-max-width" DataLabel="Description">
-                                    <div style="max-width: 400px; word-break: break-word; white-space: break-spaces;" class="docs-content-api-sm-max-width">@(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Documentation, "summary"))))</div>
-                                </MudTd>
-                            </MudHidden>
-                            <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
-                                <MudTd Class="docs-content-api-cell docs-content-api-max-width" DataLabel="Name">
-                                    <CodeInline>@context.Signature</CodeInline>
-                                    @if (context.IsJsInvokable)
-                                    {
-                                        <CodeInline>
-                                            <div style="color: var(--mud-palette-info); font-weight: 600;">
-                                                Internally invokable from JS
-                                            </div>
-                                        </CodeInline>
-                                    }
-                                    @if (!string.IsNullOrWhiteSpace(context.WarningSignatureMessage))
-                                    {
-                                        <MudChip Style="height: auto; padding: 8px; margin-top: 8px;"
-                                                 T="string"
-                                                 Variant="Variant.Outlined"
-                                                 Color="Color.Warning"
-                                                 Size="Size.Small">
-                                            <div style="white-space: normal; word-break: break-word;">
-                                                @context.WarningSignatureMessage
-                                            </div>
+                                        <MudChip T="string" Variant="Variant.Outlined" Color="Color.Secondary" Size="Size.Small">
+                                            overridden
                                         </MudChip>
                                     }
                                 </MudTd>
-                                <MudTd Class="docs-content-api-cell docs-content-api-max-width" Style="word-wrap: break-word;" DataLabel="Parameters">
-                                    @if (context.Parameters != null)
-                                    {
-                                        foreach (var parameterInfo in context.Parameters)
+                                <MudTd Class="docs-content-api-cell" DataLabel="Type">
+                                    <div style="display: inline-flex; flex-direction: row; align-items: center; white-space: nowrap;">
+                                        <DocsTypeInfo Type="@context.Type" />
+                                        @if (context.IsTwoWay)
                                         {
-                                            <div class="docs-row-flex">
-                                                <div>@(new MarkupString($"<div style=\"font-weight: 700;\">{TypeNameHelper.GetTypeDisplay(parameterInfo.ParameterType, false, true, Cropper.Blazor.Shared.Extensions.MethodInfoExtensions.CreateLink)} {parameterInfo.Name}</div>{AnalyseMethodDocumentation(context.Documentation, "param", parameterInfo.Name)}"))</div>
-                                                <div style="height: 10px;"></div>
-                                            </div>
+                                            <MudTooltip Text="Binding TwoWay" Placement="Placement.Top">
+                                                <MudIcon Icon="@Icons.Material.Filled.SyncAlt" Color="Color.Default" Class="ml-2 mt-2" />
+                                            </MudTooltip>
                                         }
-                                    }
+                                    </div>
                                 </MudTd>
-                                <MudTd Class="docs-content-api-cell docs-content-return-api-max-width" DataLabel="Return">
+                                <MudTd Class="docs-content-api-cell" DataLabel="Default">
                                     @{
-                                        string methodReturn = AnalyseMethodDocumentation(context.Documentation, "returns");
+                                        var def = context.Default.PresentDefaultValue(context.PropertyInfo);
                                     }
-                                    @if (!string.IsNullOrEmpty(methodReturn))
+                                    @if (def.Contains("<path"))
                                     {
-                                        <div>@(new MarkupString($"{methodReturn}"))</div>
+                                        <MudIcon Icon="@def.Substring(1, def.Length - 1)" />
                                     }
                                     else
                                     {
-                                        <div>@TypeNameHelper.GetTypeDisplay(context.Return.ParameterType, false, true)</div>
+                                        @def
                                     }
                                 </MudTd>
-                                <MudTd Class="docs-content-api-cell docs-content-description-api-max-width" DataLabel="Description">@(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Documentation, "summary"))))</MudTd>
-                            </MudHidden>
-                        </RowTemplate>
-                        <PagerContent>
-                            <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
-                                <MudTablePager PageSizeOptions="new int[]{5, 10}" Class="docs-content-api-table-pager" />
-                            </MudHidden>
-                            <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
-                                <MudTablePager PageSizeOptions="new int[]{10, 20, 50}" />
-                            </MudHidden>
-                        </PagerContent>
-                    </MudTable>
-                </SectionContent>
-            </DocsPageSection>
+                                <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
+                                    <MudTd Class="docs-content-api-cell docs-content-api-description" Style="text-align: end !important;" DataLabel="Description">
+                                        <div>
+                                            @(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))))
+                                        </div>
+                                    </MudTd>
+                                </MudHidden>
+                                <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
+                                    <MudTd Class="docs-content-api-cell docs-content-api-description" DataLabel="Description">
+                                        <div>
+                                            @(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))))
+                                        </div>
+                                    </MudTd>
+                                </MudHidden>
+                            </RowTemplate>
+                            <GroupFooterTemplate></GroupFooterTemplate>
+                        </MudTable>
+                    </SectionContent>
+                </DocsPageSection>
+            }
+
+            @if (eventCallbacks?.Count() > 0)
+            {
+                <DocsPageSection>
+                    <SectionHeader Title="Event Callbacks" />
+                    <SectionContent Class="docs-content-api" Outlined="false">
+                        <MudTable Items="@eventCallbacks" Elevation="0" Class="ma-0 mud-width-full" Breakpoint="@Breakpoint.Sm">
+                            <HeaderContent>
+                                <MudTh>Name</MudTh>
+                                <MudTh>Type</MudTh>
+                                <MudTh>Description</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd Class="docs-content-api-cell" DataLabel="Name"><CodeInline>@context.Name</CodeInline></MudTd>
+                                <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
+                                    <MudTd Class="docs-content-api-cell" DataLabel="Type">
+                                        <div>@(new MarkupString(context.Type.GetFormattedReturnSignature()))</div>
+                                    </MudTd>
+                                </MudHidden>
+                                <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
+                                    <MudTd Class="docs-content-api-cell" DataLabel="Type">@(new MarkupString(context.Type.GetFormattedReturnSignature()))</MudTd>
+                                </MudHidden>
+                                <MudTd Class="docs-content-api-cell docs-content-api-description" DataLabel="Description">
+                                    @HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Description, "summary"))
+                                </MudTd>
+                            </RowTemplate>
+                        </MudTable>
+                    </SectionContent>
+                </DocsPageSection>
+            }
+
+            @if (methods?.Count() > 0)
+            {
+                <DocsPageSection>
+                    <SectionHeader Title="Methods" />
+                    <SectionContent Class="docs-content-api" Outlined="false">
+                        <MudTable CurrentPageChanged="OnPageChanged" Items="@methods" On FixedHeader="true" FixedFooter="false" Elevation="0" Class="ma-0 mud-width-full" Breakpoint="@Breakpoint.Sm">
+                            <HeaderContent>
+                                <MudTh Class="docs-content-api-max-width">Name</MudTh>
+                                <MudTd Class="docs-content-api-max-width">Parameters</MudTd>
+                                <MudTh Class="docs-content-api-max-width">Return</MudTh>
+                                <MudTh Class="docs-content-api-max-width">Description</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
+                                    <MudTd Class="docs-content-api-cell docs-content-api-sm-max-width" DataLabel="Name">
+                                        @if (!string.IsNullOrWhiteSpace(context.WarningSignatureMessage))
+                                        {
+                                            <CodeInline>
+                                                @if (context.IsJsInvokable)
+                                                {
+                                                    <div style="color: var(--mud-palette-info);">
+                                                        Internally invokable from JS
+                                                    </div>
+                                                }
+                                                <div style="color: var(--mud-palette-warning);">@context.WarningSignatureMessage</div>
+                                                @context.Signature
+                                            </CodeInline>
+
+                                        }
+                                        else
+                                        {
+                                            <CodeInline>
+                                                @if (context.IsJsInvokable)
+                                                {
+                                                    <div style="color: var(--mud-palette-info);">
+                                                        Internally invokable from JS
+                                                    </div>
+                                                }
+                                                @context.Signature
+                                            </CodeInline>
+                                        }
+
+                                    </MudTd>
+                                    <MudTd Class="docs-content-api-cell docs-content-api-max-width align-start" Style="word-wrap: break-word;" DataLabel="Parameters">
+                                        @if (context.Parameters != null)
+                                        {
+                                            foreach (var parameterInfo in context.Parameters)
+                                            {
+                                                <div class="docs-content-api-sm-max-width">
+                                                    <div>@(new MarkupString($"<div style=\"font-weight: 700;\">{TypeNameHelper.GetTypeDisplay(parameterInfo.ParameterType, false, true, Cropper.Blazor.Shared.Extensions.MethodInfoExtensions.CreateLink)} {parameterInfo.Name}</div>{AnalyseMethodDocumentation(context.Documentation, "param", parameterInfo.Name)}"))</div>
+                                                </div>
+                                            }
+                                        }
+                                    </MudTd>
+                                    <MudTd Class="docs-content-api-cell docs-content-api-sm-max-width" DataLabel="Return">
+                                        @{
+                                            string methodReturn = AnalyseMethodDocumentation(context.Documentation, "returns");
+                                        }
+                                        @if (!string.IsNullOrEmpty(methodReturn))
+                                        {
+                                            <div class="docs-content-api-sm-max-width">@(new MarkupString($"{methodReturn}"))</div>
+                                        }
+                                        else
+                                        {
+                                            <div>@TypeNameHelper.GetTypeDisplay(context.Return.ParameterType, false, true)</div>
+                                        }
+                                    </MudTd>
+                                    <MudTd Class="docs-content-api-cell docs-content-api-desc-sm-max-width" DataLabel="Description">
+                                        <div style="max-width: 400px; word-break: break-word; white-space: break-spaces;" class="docs-content-api-sm-max-width">@(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Documentation, "summary"))))</div>
+                                    </MudTd>
+                                </MudHidden>
+                                <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
+                                    <MudTd Class="docs-content-api-cell docs-content-api-max-width" DataLabel="Name">
+                                        <CodeInline>@context.Signature</CodeInline>
+                                        @if (context.IsJsInvokable)
+                                        {
+                                            <CodeInline>
+                                                <div style="color: var(--mud-palette-info); font-weight: 600;">
+                                                    Internally invokable from JS
+                                                </div>
+                                            </CodeInline>
+                                        }
+                                        @if (!string.IsNullOrWhiteSpace(context.WarningSignatureMessage))
+                                        {
+                                            <MudChip Style="height: auto; padding: 8px; margin-top: 8px;"
+                                                     T="string"
+                                                     Variant="Variant.Outlined"
+                                                     Color="Color.Warning"
+                                                     Size="Size.Small">
+                                                <div style="white-space: normal; word-break: break-word;">
+                                                    @context.WarningSignatureMessage
+                                                </div>
+                                            </MudChip>
+                                        }
+                                    </MudTd>
+                                    <MudTd Class="docs-content-api-cell docs-content-api-max-width" Style="word-wrap: break-word;" DataLabel="Parameters">
+                                        @if (context.Parameters != null)
+                                        {
+                                            foreach (var parameterInfo in context.Parameters)
+                                            {
+                                                <div class="docs-row-flex">
+                                                    <div>@(new MarkupString($"<div style=\"font-weight: 700;\">{TypeNameHelper.GetTypeDisplay(parameterInfo.ParameterType, false, true, Cropper.Blazor.Shared.Extensions.MethodInfoExtensions.CreateLink)} {parameterInfo.Name}</div>{AnalyseMethodDocumentation(context.Documentation, "param", parameterInfo.Name)}"))</div>
+                                                    <div style="height: 10px;"></div>
+                                                </div>
+                                            }
+                                        }
+                                    </MudTd>
+                                    <MudTd Class="docs-content-api-cell docs-content-return-api-max-width" DataLabel="Return">
+                                        @{
+                                            string methodReturn = AnalyseMethodDocumentation(context.Documentation, "returns");
+                                        }
+                                        @if (!string.IsNullOrEmpty(methodReturn))
+                                        {
+                                            <div>@(new MarkupString($"{methodReturn}"))</div>
+                                        }
+                                        else
+                                        {
+                                            <div>@TypeNameHelper.GetTypeDisplay(context.Return.ParameterType, false, true)</div>
+                                        }
+                                    </MudTd>
+                                    <MudTd Class="docs-content-api-cell docs-content-description-api-max-width" DataLabel="Description">@(new MarkupString(HttpUtility.HtmlDecode(AnalyseMethodDocumentation(context.Documentation, "summary"))))</MudTd>
+                                </MudHidden>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudHidden Invert="true" Breakpoint="Breakpoint.SmAndDown">
+                                    <MudTablePager PageSizeOptions="new int[] { 5, 10 }" Class="docs-content-api-table-pager" />
+                                </MudHidden>
+                                <MudHidden Invert="true" Breakpoint="Breakpoint.MdAndUp">
+                                    <MudTablePager PageSizeOptions="new int[] { 10, 20, 50 }" />
+                                </MudHidden>
+                            </PagerContent>
+                        </MudTable>
+                    </SectionContent>
+                </DocsPageSection>
+            }
+        }
+        else
+        {
+            <MudText>
+                The requested contract or component does not exist.
+            </MudText>
         }
     </DocsPageContent>
 </DocsPage>
-
-<div style="display: none;">
-    @RenderTheType()
-</div>
