@@ -22,14 +22,9 @@ namespace Cropper.Blazor.Client.Pages
             IsContract = true;
             IsComponentContract = null;
 
-            if (HasName)
-            {
-                ComponentType = ApiLink.GetTypeFromComponentLink(Name);
-            }
-            else
-            {
-                ComponentType = typeof(CropperComponent);
-            }
+            ComponentType = HasName
+                ? ApiLink.GetTypeFromComponentLink(Name)
+                : typeof(CropperComponent);
 
             if (ComponentType == typeof(CropperComponent))
             {
