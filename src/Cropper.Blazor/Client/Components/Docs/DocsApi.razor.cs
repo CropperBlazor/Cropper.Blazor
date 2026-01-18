@@ -80,18 +80,9 @@ namespace Cropper.Blazor.Client.Components.Docs
             }
             else
             {
-                IEnumerable<PropertyInfo>? propertyInfos = null;
-
-                if (IsComponentContract == true)
-                {
-                    propertyInfos = Type
-                        .GetPropertyInfos();
-                }
-                else
-                {
-                    propertyInfos = Type.GetPropertyInfosWithAttribute<ParameterAttribute>();
-                }
-
+                IEnumerable<PropertyInfo>? propertyInfos = IsComponentContract == true
+                    ? Type.GetPropertyInfos()
+                    : Type.GetPropertyInfosWithAttribute<ParameterAttribute>();
                 foreach (var info in propertyInfos.OrderBy(x => x.Name))
                 {
                     if (IsEventCallback(info))
