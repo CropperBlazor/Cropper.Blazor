@@ -40,7 +40,7 @@ namespace Cropper.Blazor.Client.Services
             new() {Title = "ImageReceiver", Href = "api/ImageReceiver"},
             new() {Title = "ViewMode", Group = "Data", Href = "api/ViewMode"},
             new() {Title = "DragMode", Group = "Data", Href = "api/DragMode"},
-            new() {Title = "CropperComponentType", Group = "Data",Href = "api/CropperComponentType"},
+            new() {Title = "CropperComponentType", Group = "Data", Href = "api/CropperComponentType"},
             new() {Group = "Options", Title = "Options", Href = "api/Options"},
             new() {Group = "Options", Title = "GetCroppedCanvasOptions", Href = "api/GetCroppedCanvasOptions"},
             new() {Group = "Options", Title = "SetCropBoxDataOptions", Href = "api/SetCropBoxDataOptions"},
