@@ -192,7 +192,7 @@ namespace Cropper.Blazor.Shared.Extensions
 
             if (options.GenericArgumentFormatter is not null)
             {
-                builder.Append("<a target=\"_blank\"><<a/ >");
+                builder.Append("<a target=\"_blank\"><</a>");
             }
             else
             {
