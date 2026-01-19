@@ -11,6 +11,7 @@ namespace Cropper.Blazor.Client.Pages
 
         public Type? ComponentType { get; set; }
 
+        private bool IsHelper = false;
         private bool IsContract = true;
         private bool? IsComponentContract = null;
 
@@ -19,6 +20,7 @@ namespace Cropper.Blazor.Client.Pages
         protected override void OnParametersSet()
         {
             // RESET state derived from parameters
+            IsHelper = false;
             IsContract = true;
             IsComponentContract = null;
 
@@ -26,7 +28,13 @@ namespace Cropper.Blazor.Client.Pages
                 ? ApiLink.GetTypeFromComponentLink(Name)
                 : typeof(CropperComponent);
 
-            if (ComponentType == typeof(CropperComponent))
+            if (ComponentType is not null && ComponentType.IsInterface)
+            {
+                IsHelper = true;
+                IsContract = false;
+                IsComponentContract = false;
+            }
+            else if (ComponentType == typeof(CropperComponent))
             {
                 IsContract = false;
                 IsComponentContract = false;
@@ -36,6 +44,7 @@ namespace Cropper.Blazor.Client.Pages
                 IsContract = false;
                 IsComponentContract = true;
             }
+
             base.OnParametersSet();
         }
     }

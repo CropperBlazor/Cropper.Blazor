@@ -38,9 +38,9 @@ namespace Cropper.Blazor.Client.Services
             new() {Title = "CropperComponent", Href = "api"},
             new() {Title = "CroppedCanvasReceiver", Href = "api/CroppedCanvasReceiver"},
             new() {Title = "ImageReceiver", Href = "api/ImageReceiver"},
-            new() {Title = "ViewMode", Group = "Data", Href = "api/ViewMode"},
-            new() {Title = "DragMode", Group = "Data", Href = "api/DragMode"},
-            new() {Title = "CropperComponentType", Group = "Data", Href = "api/CropperComponentType"},
+            new() {Group = "Data", Title = "ViewMode", Href = "api/ViewMode"},
+            new() {Group = "Data", Title = "DragMode", Href = "api/DragMode"},
+            new() {Group = "Data", Title = "CropperComponentType", Href = "api/CropperComponentType"},
             new() {Group = "Options", Title = "Options", Href = "api/Options"},
             new() {Group = "Options", Title = "GetCroppedCanvasOptions", Href = "api/GetCroppedCanvasOptions"},
             new() {Group = "Options", Title = "SetCropBoxDataOptions", Href = "api/SetCropBoxDataOptions"},
@@ -61,7 +61,8 @@ namespace Cropper.Blazor.Client.Services
             new() {Group = "Data", Title = "CroppedCanvas", Href = "api/CroppedCanvas"},
             new() {Group = "Data", Title = "ActionEvent", Href = "api/ActionEvent"},
             new() {Group = "Data", Title = "ImageSmoothingQuality", Href = "api/ImageSmoothingQuality"},
-            new() {Group = "Exception", Title = "ImageProcessingException", Href = "api/ImageProcessingException"},
+            new() {Group = "Exceptions", Title = "ImageProcessingException", Href = "api/ImageProcessingException"},
+            new() {Group = "Helpers", Title = "IUrlImageInterop", Href = "api/IUrlImageInterop"},
         };
     }
 }

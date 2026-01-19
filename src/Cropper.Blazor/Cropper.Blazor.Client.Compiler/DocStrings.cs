@@ -118,6 +118,17 @@ namespace Cropper.Blazor.Client.Compiler
                             cb.AddLine($"public const string {GetSaveTypename(type)}_class = @\"{description}\";\n");
                         }
                     }
+                    else if (type.IsInterface)
+                    {
+                        string doc = type.GetDocumentation();
+
+                        if (doc is not null)
+                        {
+                            string description = EscapeDescription(doc);
+
+                            cb.AddLine($"public const string {GetSaveTypename(type)}_interface = @\"{description}\";\n");
+                        }
+                    }
                 }
 
                 cb.IndentLevel--;
@@ -214,6 +225,7 @@ namespace Cropper.Blazor.Client.Compiler
                 .Replace("<see cref=\"T:Microsoft.JSInterop.IJSObjectReference\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.ijsobjectreference\">IJSObjectReference</a>")
                 .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.ElementReference\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.elementreference\">ElementReference</a>")
                 .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.Forms.IBrowserFile\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.forms.ibrowserfile\">IBrowserFile</a>")
+                .Replace("<see cref=\"T:Microsoft.JSInterop.DotNetObjectReference\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.dotnetobjectreference\">DotNetObjectReference</a>")
                 .Replace("<see cref=\"T:Microsoft.JSInterop.DotNetStreamReference\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.dotnetstreamreference\">DotNetStreamReference</a>")
                 .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">ValueTask</a>")
                 .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask`1\" />", $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">{formattedReturnSignature}</a>")

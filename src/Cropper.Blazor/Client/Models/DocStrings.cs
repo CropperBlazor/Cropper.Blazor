@@ -59,6 +59,13 @@ namespace Cropper.Blazor.Client.Models
             return GetDocStrings(name);
         }
 
+        public static string GetInterfaceDescription(string interfaceName)
+        {
+            string name = $"{interfaceName}_interface";
+
+            return GetDocStrings(name);
+        }
+
         private static string GetDocStrings(string name)
         {
             var field = typeof(DocStrings).GetField(name, BindingFlags.Public | BindingFlags.Static | BindingFlags.GetField);

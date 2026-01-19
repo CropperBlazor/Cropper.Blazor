@@ -14,7 +14,7 @@
     <DocsPageContent>
         @if (Type is not null)
         {
-            @if (!IsContract)
+            @if (!IsContract && !IsHelper)
             {
                 <link rel="canonical" href="@ApiLink.GetComponentLinkFor(Type)" />
                 <DocsPageSection api-link-section>
@@ -40,6 +40,12 @@
                             Enum <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
                         </div>
                     }
+                    else if (Type.IsInterface)
+                    {
+                        <div>
+                            Interface <b>@TypeNameHelper.GetTypeDisplay(Type, false, true)</b>
+                        </div>
+                    }
                     else
                     {
                         <div>
@@ -53,7 +59,7 @@
             </MudText>
 
             <MudText Typo="Typo.body1" Class="mt-2">
-                @AnalyseMethodDocumentation(GetClassDescription(), "summary")
+                @(new MarkupString(AnalyseMethodDocumentation(GetClassDescription(), "summary")))
             </MudText>
             // save as lists to speed up displaying the page
             var properties = GetProperties()?.ToList();

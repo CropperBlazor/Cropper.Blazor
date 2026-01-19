@@ -15,6 +15,7 @@ namespace Cropper.Blazor.Client.Components.Docs
     {
         [Parameter] public Type Type { get; set; }
         [Parameter] public bool IsContract { get; set; } = false;
+        [Parameter] public bool IsHelper { get; set; } = false;
         [Parameter] public bool? IsComponentContract { get; set; } = null;
         [Inject] NavigationManager NavigationManager { get; set; } = null!;
 
@@ -100,6 +101,12 @@ namespace Cropper.Blazor.Client.Components.Docs
                 string saveTypename = DocStrings.GetSaveTypename(Type);
 
                 return DocStrings.GetClassDescription(saveTypename);
+            }
+            else if (Type.IsInterface)
+            {
+                string saveTypename = DocStrings.GetSaveTypename(Type);
+
+                return DocStrings.GetInterfaceDescription(saveTypename);
             }
             else if (Type.IsEnum)
             {
