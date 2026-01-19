@@ -35,14 +35,7 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         protected override void OnParametersSet()
         {
-            if (!Type.IsAssignableTo(typeof(IComponent)))
-            {
-                CompInstance = null;
-            }
-            else
-            {
-                CompInstance = Activator.CreateInstance(Type);
-            }
+            CompInstance = !Type.IsAssignableTo(typeof(IComponent)) ? null : Activator.CreateInstance(Type);
 
             base.OnParametersSet();
         }
