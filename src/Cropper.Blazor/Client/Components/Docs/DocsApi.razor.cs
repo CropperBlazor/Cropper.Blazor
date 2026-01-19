@@ -13,6 +13,15 @@ namespace Cropper.Blazor.Client.Components.Docs
 {
     public partial class DocsApi
     {
+        [Parameter] public Type Type { get; set; }
+        [Parameter] public bool IsContract { get; set; } = false;
+        [Parameter] public bool? IsComponentContract { get; set; } = null;
+        [Inject] NavigationManager NavigationManager { get; set; } = null!;
+
+        public DocsPage DocsPage { get; set; }
+
+        // used for default value getting
+        private object CompInstance;
         private readonly List<string> _hiddenMethods =
         [
             "ToString",
@@ -23,21 +32,11 @@ namespace Cropper.Blazor.Client.Components.Docs
             "ReferenceEquals"
         ];
 
-        [Parameter] public Type Type { get; set; }
-        [Parameter] public bool IsContract { get; set; } = false;
-        [Parameter] public bool? IsComponentContract { get; set; } = null;
-        [Inject] NavigationManager NavigationManager { get; set; } = null!;
-
-        // used for default value getting
-        private object CompInstance;
-
-        public DocsPage DocsPage { get; set; }
-
-        protected override void OnParametersSet()
+        protected override async Task OnParametersSetAsync()
         {
             CompInstance = !Type.IsAssignableTo(typeof(IComponent)) ? null : Activator.CreateInstance(Type);
 
-            base.OnParametersSet();
+            await base.OnParametersSetAsync();
         }
 
         private string? GetHrefPage()
@@ -355,19 +354,6 @@ namespace Cropper.Blazor.Client.Components.Docs
         private static bool IsOverridden(MethodInfo m) => m.GetBaseDefinition().DeclaringType != m.DeclaringType;
 
         private static bool IsOverridden(PropertyInfo p) => IsOverridden(p.GetMethod ?? p.SetMethod);                // used for the "overridden" chip
-
-        // used for ordering groups of properties
-        private static int NumberOfAncestorClasses(Type type)
-        {
-            int n = 0;
-
-            while ((type = type.BaseType) != null)
-            {
-                n++;
-            }
-
-            return n;
-        }
 
         #endregion
     }

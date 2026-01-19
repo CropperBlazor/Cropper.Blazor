@@ -9,7 +9,7 @@
 @using MudBlazor;
 @using Cropper.Blazor.Shared.Extensions;
 
-<DocsPage @ref="DocsPage">
+<DocsPage @ref="DocsPage" @key="CompInstance">
     <DocsPageHeader Title="Cropper Component API" TitleTypo="@Typo.h4" />
     <DocsPageContent>
         @if (Type is not null)
