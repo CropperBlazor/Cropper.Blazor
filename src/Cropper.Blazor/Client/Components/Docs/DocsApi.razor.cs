@@ -40,22 +40,22 @@ namespace Cropper.Blazor.Client.Components.Docs
             await base.OnParametersSetAsync();
         }
 
-        private string? GetHrefPage()
+        private (string? Href, string? Desc) GetHrefPageWithDesc()
         {
             if (Type == typeof(CropperComponent))
             {
-                return "examples/cropperusage";
+                return ("examples/cropperusage", "");
             }
             else if (Type == typeof(CroppedCanvasReceiver))
             {
-                return "examples/cropping#crop-a-polygon-image-in-background";
+                return ("examples/cropping#crop-a-polygon-image-in-background", "See 'Crop in Background' example.");
             }
             else if (Type == typeof(ImageReceiver))
             {
-                return "examples/cropping#crop-a-round-image-in-background";
+                return ("examples/cropping#crop-a-round-image-in-background", "See 'Crop a polygon image in Background' or 'Crop a round image in Background' examples.");
             }
 
-            return null;
+            return (null, null);
         }
 
         private IEnumerable<ApiProperty> GetEventCallbacks()
