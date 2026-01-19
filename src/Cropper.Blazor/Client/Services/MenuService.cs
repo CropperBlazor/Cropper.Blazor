@@ -51,12 +51,17 @@ namespace Cropper.Blazor.Client.Services
             new() {Group = "Event", Title = "CropStartEvent", Href = "api/CropStartEvent"},
             new() {Group = "Event", Title = "CropReadyEvent", Href = "api/CropReadyEvent"},
             new() {Group = "Event", Title = "ZoomEvent", Href = "api/ZoomEvent"},
+            new() {Group = "Event", Title = "CropEvent", Href = "api/CropEvent"},
             new() {Group = "Data", Title = "CropperData", Href = "api/CropperData"},
             new() {Group = "Data", Title = "ImageData", Href = "api/ImageData"},
             new() {Group = "Data", Title = "ContainerData", Href = "api/ContainerData"},
             new() {Group = "Data", Title = "CanvasData", Href = "api/CanvasData"},
             new() {Group = "Data", Title = "CropBoxData", Href = "api/CropBoxData"},
-            new() {Group = "Data", Title = "JSEventData", Href = "api/JSEventData"}
+            new() {Group = "Data", Title = "JSEventData", Href = "api/JSEventData"},
+            new() {Group = "Data", Title = "CroppedCanvas", Href = "api/CroppedCanvas"},
+            new() {Group = "Data", Title = "ActionEvent", Href = "api/ActionEvent"},
+            new() {Group = "Data", Title = "ImageSmoothingQuality", Href = "api/ImageSmoothingQuality"},
+            new() {Group = "Exception", Title = "ImageProcessingException", Href = "api/ImageProcessingException"},
         };
     }
 }

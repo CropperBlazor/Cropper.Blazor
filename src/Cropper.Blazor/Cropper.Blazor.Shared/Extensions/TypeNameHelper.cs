@@ -185,6 +185,10 @@ namespace Cropper.Blazor.Shared.Extensions
             {
                 builder.Append(builtInName);
             }
+            else if (options.GenericArgumentFormatter is not null)
+            {
+                builder.Append(options.GenericArgumentFormatter(type.Name.Substring(0, type.Name.IndexOf('`'))));
+            }
             else
             {
                 builder.Append(type.Name, 0, genericPartIndex);
