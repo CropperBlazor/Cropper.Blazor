@@ -1,7 +1,6 @@
-root = true
-
 # All files
 [*]
+root = true
 indent_style = space
 csharp_indent_labels = no_change
 csharp_using_directive_placement = outside_namespace:silent
