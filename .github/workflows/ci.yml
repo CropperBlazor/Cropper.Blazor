@@ -96,3 +96,4 @@ jobs:
           CSS_FILE_NAME: ".stylelintrc.json"
           GITHUB_ACTIONS_ZIZMOR_CONFIG_FILE: ".zizmor.yaml"
           YAML_CONFIG_FILE: ".yaml-lint.yml"
+          EDITORCONFIG_FILE_NAME: "../../.editorconfig"

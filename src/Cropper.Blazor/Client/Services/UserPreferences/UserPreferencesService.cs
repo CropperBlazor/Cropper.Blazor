@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 
 namespace Cropper.Blazor.Client.Services.UserPreferences;
+
 public interface IUserPreferencesService
 {
     /// <summary>
