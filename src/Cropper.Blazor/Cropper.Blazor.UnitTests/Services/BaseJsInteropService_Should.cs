@@ -1,13 +1,24 @@
-﻿using Bogus;
-using Bunit;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using System;
+using Bogus;
+using Cropper.Blazor.ModuleOptions;
+using Cropper.Blazor.Services;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
+using Xunit;
+using FluentAssertions;
 
 #if NET8_0_OR_GREATER
 using TestContext = Bunit.BunitContext;
+#else
+using Bunit;
 #endif
 
 namespace Cropper.Blazor.UnitTests.Services
 {
-    public abstract class BaseJsInteropService_Should
+    public class BaseJsInteropService_Should
     {
         protected readonly TestContext _testContext;
 
@@ -17,11 +28,55 @@ namespace Cropper.Blazor.UnitTests.Services
                 .Generate();
         }
 
-        protected void VerifyLoadCropperModule(
-            string pathToCropperModule)
+        [Fact]
+        public void IsBlazorServer_Should_Return_True_For_RemoteJSRuntime()
         {
-            _testContext.JSInterop
-                .SetupModule(pathToCropperModule);
+            // Arrange
+            RemoteJSRuntime jsRuntime = new RemoteJSRuntime();
+            NavigationManager navigation = _testContext.Services.GetRequiredService<NavigationManager>();
+            ICropperJsInteropOptions options = new Faker<CropperJsInteropOptions>().Generate();
+            TestBaseJsInterop service = new TestBaseJsInterop(jsRuntime, navigation, options);
+
+            // Act
+            bool result = service.IsBlazorServer;
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void IsBlazorServer_Should_Return_False_For_OtherJSRuntime()
+        {
+            // Arrange
+            NavigationManager navigation = _testContext.Services.GetRequiredService<NavigationManager>();
+            ICropperJsInteropOptions options = new Faker<CropperJsInteropOptions>().Generate();
+            TestBaseJsInterop service = new TestBaseJsInterop(_testContext.JSInterop.JSRuntime, navigation, options);
+
+            // Act
+            bool result = service.IsBlazorServer;
+
+            // Assert
+            result.Should().BeFalse();
+        }
+
+        private class TestBaseJsInterop : BaseJsInterop
+        {
+            public TestBaseJsInterop(
+                IJSRuntime jsRuntime,
+                NavigationManager navigationManager,
+                ICropperJsInteropOptions cropperJsInteropOptions) : base(jsRuntime, navigationManager, cropperJsInteropOptions)
+            {
+
+            }
+        }
+
+        private class RemoteJSRuntime : IJSRuntime
+        {
+            public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
+                throw new NotImplementedException();
+
+            public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
+                throw new NotImplementedException();
         }
     }
 }
