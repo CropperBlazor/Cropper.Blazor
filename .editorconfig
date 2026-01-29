@@ -1,22 +1,5 @@
-[*]
 root = true
 indent_style = space
-csharp_indent_labels = no_change
-csharp_using_directive_placement = outside_namespace:silent
-csharp_prefer_simple_using_statement = true:suggestion
-csharp_prefer_braces = true:silent
-csharp_style_namespace_declarations = block_scoped:silent
-csharp_style_prefer_method_group_conversion = true:silent
-csharp_style_prefer_top_level_statements = true:silent
-csharp_style_prefer_primary_constructors = true:suggestion
-csharp_style_expression_bodied_methods = false:silent
-csharp_style_expression_bodied_constructors = false:silent
-csharp_style_expression_bodied_operators = false:silent
-csharp_style_expression_bodied_properties = true:silent
-csharp_style_expression_bodied_indexers = true:silent
-csharp_style_expression_bodied_accessors = true:silent
-csharp_style_expression_bodied_lambdas = true:silent
-csharp_style_expression_bodied_local_functions = false:silent
 
 [*.{csproj,sln,vcxproj,vcxproj.filters,proj,nativeproj,locproj}]
 indent_size = 4
@@ -42,7 +25,23 @@ indent_style = space
 indent_size = 2
 
 [*.{cs,vb}]
-#### Naming styles ####
+# Naming styles
+csharp_indent_labels = no_change
+csharp_using_directive_placement = outside_namespace:silent
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_prefer_braces = true:silent
+csharp_style_namespace_declarations = block_scoped:silent
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_style_expression_bodied_methods = false:silent
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_operators = false:silent
+csharp_style_expression_bodied_properties = true:silent
+csharp_style_expression_bodied_indexers = true:silent
+csharp_style_expression_bodied_accessors = true:silent
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = false:silent
 
 # Naming rules
 
