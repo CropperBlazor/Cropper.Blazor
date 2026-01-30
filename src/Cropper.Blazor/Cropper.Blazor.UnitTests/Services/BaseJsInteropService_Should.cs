@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using Xunit;
 using FluentAssertions;
+using Cropper.Blazor.Testing;
 
 #if NET8_0_OR_GREATER
 using TestContext = Bunit.BunitContext;
@@ -61,7 +62,7 @@ namespace Cropper.Blazor.UnitTests.Services
 
         public void Dispose()
         {
-            _testContext.Dispose();
+            _testContext.DisposeTestContext();
             GC.SuppressFinalize(this);
         }
 
