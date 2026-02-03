@@ -125,7 +125,7 @@ namespace Cropper.Blazor.Shared.Extensions
             Culture = CultureInfo.InvariantCulture
         };
 
-        public static string PresentDefaultValue(this object value)
+        public static string PresentDefaultValue(this object value, PropertyInfo? propertyInfo = null)
         {
             if (value is null)
             {
@@ -158,7 +158,21 @@ namespace Cropper.Blazor.Shared.Extensions
 
             if (type.IsGenericType) // for instance event callbacks
             {
-                return "";
+                if (propertyInfo == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    var propertyType = propertyInfo.PropertyType;
+
+                    // Default value for the property type
+                    object? defaultValue = propertyType.IsValueType
+                        ? Activator.CreateInstance(propertyType)
+                        : null;
+
+                    return PresentDefaultValue(defaultValue);
+                }
             }
 
             if (type.IsValueType)
@@ -214,7 +228,7 @@ namespace Cropper.Blazor.Shared.Extensions
         /// </summary>
         /// <param name="type">Type. May be generic or nullable</param>
         /// <returns>Full type name, fully qualified namespaces</returns>
-        public static string TypeName(this Type type, Func<string, string>? GenericArgumentFormatter = null)
+        public static string TypeName(this Type type, bool isShowGenericPart = true, Func<string, string>? GenericArgumentFormatter = null)
         {
             var first = true;
             var nullableType = Nullable.GetUnderlyingType(type);
@@ -229,37 +243,40 @@ namespace Cropper.Blazor.Shared.Extensions
                 return GetAliases(type.Name.ToUpperInvariant(), type);
             }
 
-            var stringBuilder = new StringBuilder(type.Name.Substring(0, type.Name.IndexOf('`')));
+            StringBuilder stringBuilder = new(type.Name.Substring(0, type.Name.IndexOf('`')));
 
-            if (GenericArgumentFormatter is not null)
+            if (isShowGenericPart)
             {
-                stringBuilder.Append("<a target=\"_blank\"><<a/ >");
-            }
-            else
-            {
-                stringBuilder.Append('<');
-            }
-
-            foreach (var t in type.GetGenericArguments())
-            {
-                if (!first)
-                {
-                    stringBuilder.Append(',');
-                }
-
-                string typeName = t.TypeName();
-
                 if (GenericArgumentFormatter is not null)
                 {
-                    typeName = GenericArgumentFormatter(typeName);
+                    stringBuilder.Append("<a target=\"_blank\"><<a/ >");
+                }
+                else
+                {
+                    stringBuilder.Append('<');
                 }
 
-                stringBuilder.Append(typeName);
+                foreach (var t in type.GetGenericArguments())
+                {
+                    if (!first)
+                    {
+                        stringBuilder.Append(',');
+                    }
 
-                first = false;
+                    string typeName = t.TypeName();
+
+                    if (GenericArgumentFormatter is not null)
+                    {
+                        typeName = GenericArgumentFormatter(typeName);
+                    }
+
+                    stringBuilder.Append(typeName);
+
+                    first = false;
+                }
+
+                stringBuilder.Append('>');
             }
-
-            stringBuilder.Append('>');
 
             // Return result
             return stringBuilder.ToString();
@@ -294,7 +311,7 @@ namespace Cropper.Blazor.Shared.Extensions
             if (callable == false)
             {
                 // Append return type
-                stringBuilder.Append(type.TypeName(CreateLink));
+                stringBuilder.Append(type.TypeName(GenericArgumentFormatter: CreateLink));
                 stringBuilder.Append(' ');
             }
 
@@ -312,6 +329,22 @@ namespace Cropper.Blazor.Shared.Extensions
             {
                 return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.action-1\">{name}</a>";
             }
+            else if (name == "IBrowserFile")
+            {
+                return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.forms.ibrowserfile\">{name}</a>";
+            }
+            else if (name == "ElementReference")
+            {
+                return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.elementreference\">{name}</a>";
+            }
+            else if (name == "DotNetStreamReference")
+            {
+                return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.dotnetstreamreference\">{name}</a>";
+            }
+            else if (name == "DotNetObjectReference")
+            {
+                return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.dotnetobjectreference\">{name}</a>";
+            }
             else if (name == "ErrorEventArgs")
             {
                 return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.web\">{name}</a>";
@@ -319,6 +352,10 @@ namespace Cropper.Blazor.Shared.Extensions
             else if (name == "RenderFragment")
             {
                 return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.renderfragment\">{name}</a>";
+            }
+            else if (name == "MemoryStream")
+            {
+                return $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.io.memorystream\">{name}</a>";
             }
             else if (name == "IJSObjectReference")
             {

@@ -1,12 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
-	<PropertyGroup>
-		<ResolveStaticWebAssetsInputsDependsOn>
-			IncludeGeneratedStaticFiles;
-			$(ResolveStaticWebAssetsInputsDependsOn)
-		</ResolveStaticWebAssetsInputsDependsOn>
-	</PropertyGroup>
-
 	<PropertyGroup>
 		<TargetFrameworks>net10.0;net9.0;net8.0;net7.0;net6.0</TargetFrameworks>
 		<ImplicitUsings>disable</ImplicitUsings>
@@ -14,11 +6,11 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Version>1.5.0</Version>
+		<Version>1.5.1</Version>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageIcon>NuGet.png</PackageIcon>
 		<Company>Cropper.Blazor</Company>
-		<Authors>Max56132, ColdForeign</Authors>
+		<Authors>@MaxymGorn (Maksym Hornytskiy), @ColdForeign (George Radchuk)</Authors>
 		<Copyright>Copyright 2022-present Cropper.Blazor</Copyright>
 		<Description>Cropper.Blazor is a component that wraps around Cropper.js</Description>
 		<PackageTags>Blazor, Cropper.Blazor, Cropper.js, Blazor Components, Blazor Library, Blazor Cropper, Cropper, Image, Crop, Resize, image-cropper, crop-image, csharp, blazor-cropper </PackageTags>
@@ -80,6 +72,81 @@
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<Content Remove="package.json" />
+		<Content Remove="package-lock.json" />
+		<Content Remove="tsconfig.json" />
+		<Content Remove=".prettierrc" />
+		<Content Remove="eslint.config.cjs" />
+		<Content Remove="vitest.config.ts" />
+		<Content Remove="wwwroot\cropperJsInterop.min.js.map" />
+		<Content Remove="wwwroot\cropper.min.js.map" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<WebpackInputs Include="**\*.ts" Exclude="wwwroot\**;node_modules\**; *.d.ts" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<TypeScriptCompile Remove="node_modules\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="package.json" />
+		<None Include="package-lock.json" />
+		<None Include="tsconfig.json" />
+		<None Include=".prettierrc" />
+		<None Include="eslint.config.cjs" />
+		<None Include="vitest.config.ts" />
+	</ItemGroup>
+
+	<!--
+	Ensures npm dependencies are installed.
+	This target runs ONLY during the cross-targeting build (IsCrossTargetingBuild)
+	(i.e., once for the entire multi-TFM build).
+	-->
+	<Target Name="EnsureNpmRestored" BeforeTargets="Build" Condition="'$(IsCrossTargetingBuild)' == 'true' AND ( !Exists('$(ProjectDir)node_modules') OR !Exists('$(ProjectDir)package-lock.json') )">
+		<!-- Informative message shown in build output -->
+		<Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+
+		<!-- Installs npm dependencies -->
+		<Exec Command="npm install" />
+
+		<!-- Diagnostic message to verify build phase -->
+		<Message Importance="high" Text="EnsureNpmRestored ran with build phase: IsCrossTargetingBuild=$(IsCrossTargetingBuild), TargetFramework=$(TargetFramework)" />
+	</Target>
+
+	<!--
+	Runs webpack to produce JS assets.
+	Scheduled via BeforeTargets="Build", so MSBuild actually executes it.
+	Guarded by IsCrossTargetingBuild to ensure it runs ONLY ONCE
+	for multi-target builds.
+	-->
+	<Target Name="RunWebpack" Condition="'$(IsCrossTargetingBuild)' == 'true'" BeforeTargets="Build" Outputs="wwwroot\Cropper.Blazor.js" Inputs="@(WebpackInputs)" DependsOnTargets="EnsureNpmRestored">
+		<!-- This package is only needed for local debugging and TypeScript compilation in Debug configuration -->
+		<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+			<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.3">
+				<PrivateAssets>all</PrivateAssets>
+				<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			</PackageReference>
+		</ItemGroup>
+		<!-- Development build -->
+		<Exec Command="npm run build:debug" Condition="'$(Configuration)' == 'Debug'" />
+
+		<!-- Production build -->
+		<Exec Command="npm run build:production" Condition="'$(Configuration)' != 'Debug'" />
+
+		<!-- Marks generated JS files as content for packing/publishing -->
+		<ItemGroup>
+			<Content Include="wwwroot\*.js" />
+			<Content Include="wwwroot\*.d.ts" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="ShowBuildPhase" BeforeTargets="Build">
+		<Message Importance="high" Text="Current build phase: IsCrossTargetingBuild=$(IsCrossTargetingBuild), TargetFramework=$(TargetFramework)" />
+	</Target>
+
 	<!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
 	<Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
 		<PropertyGroup>
@@ -89,37 +156,20 @@
 
 	<Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
 		<ItemGroup>
+			<FilesToClean Include="./wwwroot/*.d.ts" />
+			<FilesToClean Include="./wwwroot/cropper.min.css" />
+			<FilesToClean Include="./wwwroot/cropper.min.js" />
+			<FilesToClean Include="./wwwroot/cropper.min.js.map" />
 			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js" />
+			<FilesToClean Include="./wwwroot/cropperJsInterop.min.js.map" />
+			<FilesToClean Include="Cropper\*.js" />
+			<FilesToClean Include="Cropper\*.js.map" />
+			<FilesToClean Include="Cropper\**\*.js" />
+			<FilesToClean Include="Cropper\**\*.js.map" />
+			<FilesToClean Include="Cropper\**\*.d.ts;Cropper\**\*.test.d.ts;Cropper\**\*.spec.d.ts" Exclude="Cropper\**\*.custom.d.ts" />
 		</ItemGroup>
 		<Delete Files="@(FilesToClean)" />
 	</Target>
-
-	<Target Name="ToolRestore" BeforeTargets="PreBuildEvent">
-		<Exec ContinueOnError="true" Command="dotnet tool restore" StandardOutputImportance="high" />
-	</Target>
-
-	<Target Name="WebCompiler" DependsOnTargets="ToolRestore">
-		<Message Text="Running webcompiler" Importance="high" />
-		<!--Minify js-->
-		<Exec Command="dotnet webcompiler ./wwwroot/cropperJsInterop.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-	</Target>
-
-	<!--Output of Excubo webcompiler-->
-	<Target Name="IncludeGeneratedStaticFiles" DependsOnTargets="WebCompiler">
-		<Error Condition="!Exists('wwwroot/cropper.min.css')" Text="Missing Cropper.min.css in wwwroot" />
-		<Error Condition="!Exists('wwwroot/cropper.min.js')" Text="Missing Cropper.min.js in wwwroot" />
-		<Error Condition="!Exists('wwwroot/cropperJsInterop.min.js')" Text="Missing cropperJsInterop.min.js in wwwroot" />
-		<ItemGroup>
-			<Content Include="wwwroot/cropper.min.css" Condition="!Exists('wwwroot/cropper.min.css')" />
-			<Content Include="wwwroot/cropper.min.js" Condition="!Exists('wwwroot/cropper.min.js')" />
-			<Content Include="wwwroot/cropperJsInterop.min.js" Condition="!Exists('wwwroot/cropperJsInterop.min.js')" />
-		</ItemGroup>
-	</Target>
-
-	<!--Dont Include in build output-->
-	<ItemGroup>
-		<Content Remove="excubowebcompiler.json" />
-	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.36" />
@@ -130,15 +180,19 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.22" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.23" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.12" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="wwwroot\" />
 	</ItemGroup>
 
 </Project>

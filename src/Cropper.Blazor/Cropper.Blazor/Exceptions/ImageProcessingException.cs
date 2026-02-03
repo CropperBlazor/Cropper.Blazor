@@ -3,7 +3,7 @@
 namespace Cropper.Blazor.Exceptions
 {
     /// <summary>
-    /// Represents an exception that is thrown when an error occurs during image processing.
+    /// Represents an exception that is thrown when an error occurs during background image processing.
     /// </summary>
     public class ImageProcessingException : Exception
     {
