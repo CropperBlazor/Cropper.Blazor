@@ -23,12 +23,12 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.2" PrivateAssets="all" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+		<PackageReference Include="Cropper.Blazor" Version="1.5.1" />
 	</ItemGroup>
 
 	<!--Project dependencies-->
 	<ItemGroup>
 		<ProjectReference Include="..\Cropper.Blazor.Shared\Cropper.Blazor.Shared.csproj" />
-		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -173,4 +173,5 @@
 	</ItemGroup>
 
 </Project>
+
 
