@@ -15,6 +15,7 @@ window.updateAvailable = new Promise((resolve, reject) => {
       }, 60 * 1000) // 60000ms -> check each minute
 
       registration.onupdatefound = () => {
+        console.info(`Service worker onupdatefound event`)
         const installingServiceWorker = registration.installing
         installingServiceWorker.onstatechange = () => {
           if (installingServiceWorker.state === 'installed') {
@@ -27,4 +28,10 @@ window.updateAvailable = new Promise((resolve, reject) => {
       console.error('Service worker registration failed with error:', error)
       reject(error)
     })
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      console.log('Service worker controller changed, reloading page')
+      window.location.reload()
+      resolve(true)
+    });
 })

@@ -22,7 +22,7 @@ using Bunit.TestDoubles;
 
 namespace Cropper.Blazor.UnitTests.Services
 {
-    public class UrlImageInterop_Should : BaseJsInteropService_Should, IDisposable
+    public class UrlImageInterop_Should : BaseJsInteropService, IDisposable
     {
         private readonly Faker _faker;
         private readonly IUrlImageInterop _urlImageInterop;

@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Components;
 namespace Cropper.Blazor.Components
 {
     /// <summary>
-    /// The cropper component.
+    /// A Blazor component that provides image and canvas cropping functionality
+    /// via JavaScript interop, wrapping the underlying Cropper.js behavior.
     /// </summary>
     public partial class CropperComponent : ICropperComponentBase, IAsyncDisposable, IDisposable
     {
@@ -96,6 +97,8 @@ namespace Cropper.Blazor.Components
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> InputAttributes { get; set; } = null!;
 
+        private bool IsRendered = false;
+
         /// <summary>
         /// Method invoked after each time the component has been rendered. Note that the component does
         /// not automatically re-render after the completion of any returned <see cref="Task"/>, because
@@ -116,6 +119,8 @@ namespace Cropper.Blazor.Components
         {
             if (firstRender)
             {
+                IsRendered = true;
+
                 await CropperJsIntertop!.TryLoadModuleAsync();
             }
 
@@ -136,6 +141,11 @@ namespace Cropper.Blazor.Components
         /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
         public async ValueTask DisposeAsync()
         {
+            if (!IsRendered && CropperJsIntertop.IsBlazorServer)
+            {
+                return;
+            }
+
             ElementReference? cropperElementReference = GetCropperElementReference();
 
             if (cropperElementReference.HasValue)
@@ -149,6 +159,11 @@ namespace Cropper.Blazor.Components
         /// </summary>
         public void Dispose()
         {
+            if (!IsRendered && CropperJsIntertop.IsBlazorServer)
+            {
+                return;
+            }
+
             ElementReference? cropperElementReference = GetCropperElementReference();
 
             if (cropperElementReference.HasValue)

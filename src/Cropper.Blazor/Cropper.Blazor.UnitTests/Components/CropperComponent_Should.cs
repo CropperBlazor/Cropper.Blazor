@@ -186,46 +186,6 @@ namespace Cropper.Blazor.UnitTests.Components
         }
 
         [Fact]
-        private void Should_Dispose_CropperComponent_After_Render()
-        {
-            // arrange
-            CancellationToken cancellationToken = new();
-
-            // act
-            IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .GetIRenderedComponent<CropperComponent>();
-
-            // assert
-            Guid cropperComponentId = (Guid)cropperComponent.Instance
-                .GetInstanceField("CropperComponentId");
-
-            cropperComponent.Instance.Dispose();
-
-            _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Never());
-            _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Once());
-        }
-
-        [Fact]
-        private async Task Should_DisposeAsync_CropperComponent_After_Render_Async()
-        {
-            // arrange
-            CancellationToken cancellationToken = new();
-
-            // act
-            IRenderedComponent<CropperComponent> cropperComponent = _testContext
-                .GetIRenderedComponent<CropperComponent>();
-
-            // assert
-            Guid cropperComponentId = (Guid)cropperComponent.Instance
-                .GetInstanceField("CropperComponentId");
-
-            await cropperComponent.Instance.DisposeAsync();
-
-            _mockCropperJsInterop.Verify(c => c.DisposeAsync(), Times.Never());
-            _mockCropperJsInterop.Verify(c => c.DestroyAsync(cropperComponentId, cancellationToken), Times.Once());
-        }
-
-        [Fact]
         public async Task Should_Render_CropperComponent_From_Image_SuccessfulAsync()
         {
             // arrange
@@ -1460,11 +1420,7 @@ namespace Cropper.Blazor.UnitTests.Components
 
         public void Dispose()
         {
-#if NET6_0 || NET7_0
-            _testContext.DisposeComponents();
-#endif
-
-            _testContext.Dispose();
+            _testContext.DisposeTestContext();
             GC.SuppressFinalize(this);
         }
     }

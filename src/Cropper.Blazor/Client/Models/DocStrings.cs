@@ -11,13 +11,13 @@ namespace Cropper.Blazor.Client.Models
          *   string saveTypename = DocStrings.GetSaveTypename(type);  // calculate it only once
          *   DocStrings.GetMemberDescription(saveTypename, member);
          */
-        public static string GetMemberDescription(string saveTypename, MemberInfo member, bool isContract = false)
+        public static string GetMemberDescription(string saveTypename, MemberInfo member, bool isContract, bool? isComponentContract)
         {
             string name;
 
             if (member is PropertyInfo property)
             {
-                if (isContract)
+                if (isContract || isComponentContract == true)
                 {
                     name = saveTypename.Replace("<>", string.Empty) + "_property_" + property.Name;
                 }
@@ -38,9 +38,30 @@ namespace Cropper.Blazor.Client.Models
             return GetDocStrings(name);
         }
 
-        public static string GetEnumDescription(string enumName, string? enumValue)
+        public static string GetEnumValueDescription(string enumName, string? enumValue)
         {
             string name = $"{enumName}_enum_{enumValue}";
+
+            return GetDocStrings(name);
+        }
+
+        public static string GetEnumDescription(string enumName)
+        {
+            string name = $"{enumName}_enum";
+
+            return GetDocStrings(name);
+        }
+
+        public static string GetClassDescription(string className)
+        {
+            string name = $"{className}_class";
+
+            return GetDocStrings(name);
+        }
+
+        public static string GetInterfaceDescription(string interfaceName)
+        {
+            string name = $"{interfaceName}_interface";
 
             return GetDocStrings(name);
         }

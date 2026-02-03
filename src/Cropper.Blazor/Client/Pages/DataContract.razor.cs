@@ -1,4 +1,5 @@
 ﻿using Cropper.Blazor.Client.Components.Docs;
+using Cropper.Blazor.Components;
 using Microsoft.AspNetCore.Components;
 
 namespace Cropper.Blazor.Client.Pages
@@ -10,10 +11,41 @@ namespace Cropper.Blazor.Client.Pages
 
         public Type? ComponentType { get; set; }
 
+        private bool IsHelper = false;
+        private bool IsContract = true;
+        private bool? IsComponentContract = null;
+
+        private bool HasName => !string.IsNullOrWhiteSpace(Name);
+
         protected override void OnParametersSet()
         {
-            ComponentType = ApiLink.GetTypeFromComponentLink(Name);
-            StateHasChanged();
+            // RESET state derived from parameters
+            IsHelper = false;
+            IsContract = true;
+            IsComponentContract = null;
+
+            ComponentType = HasName
+                ? ApiLink.GetTypeFromComponentLink(Name)
+                : typeof(CropperComponent);
+
+            if (ComponentType is not null && ComponentType.IsInterface)
+            {
+                IsHelper = true;
+                IsContract = false;
+                IsComponentContract = false;
+            }
+            else if (ComponentType == typeof(CropperComponent))
+            {
+                IsContract = false;
+                IsComponentContract = false;
+            }
+            else if (ComponentType == typeof(ImageReceiver) || ComponentType == typeof(CroppedCanvasReceiver))
+            {
+                IsContract = false;
+                IsComponentContract = true;
+            }
+
+            base.OnParametersSet();
         }
     }
 }

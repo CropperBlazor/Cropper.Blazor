@@ -36,7 +36,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Receives a cropped canvas reference from JavaScript.
         /// </summary>
-        /// <param name="jsRuntimeObjectRef">The cropped canvas reference.</param>
+        /// <param name="jsRuntimeObjectRef">The <see cref="IJSObjectReference"/> used to reference the cropped canvas in JavaScript.</param>
         [JSInvokable("ReceiveCanvasReference")]
         public void ReceiveCanvasReference(IJSObjectReference jsRuntimeObjectRef)
         {

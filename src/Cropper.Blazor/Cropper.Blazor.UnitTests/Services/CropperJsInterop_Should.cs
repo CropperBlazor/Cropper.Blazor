@@ -26,7 +26,7 @@ using Bunit.TestDoubles;
 
 namespace Cropper.Blazor.UnitTests.Services
 {
-    public class CropperJsInterop_Should : BaseJsInteropService_Should, IDisposable
+    public class CropperJsInterop_Should : BaseJsInteropService, IDisposable
     {
         private readonly Faker _faker;
         private readonly ICropperJsInterop _cropperJsInterop;
