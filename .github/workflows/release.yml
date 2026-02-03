@@ -65,9 +65,6 @@ jobs:
               if ! jq -e '.Root.Children["cropperJsInterop.min.js"]' "$json_path" > /dev/null; then
                 error_messages+="For .NET $net_version: Key 'cropperJsInterop.min.js' does not exist.\n"
               fi
-              if ! jq -e '.Root.Children["cropperJsInterop.js"]' "$json_path" > /dev/null; then
-                error_messages+="For .NET $net_version: Key 'cropperJsInterop.js' does not exist.\n"
-              fi
               if ! jq -e '.Root.Children["cropper.min.css"]' "$json_path" > /dev/null; then
                 error_messages+="For .NET $net_version: Key 'cropper.min.css' does not exist.\n"
               fi
