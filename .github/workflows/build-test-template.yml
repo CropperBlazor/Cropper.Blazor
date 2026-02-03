@@ -14,12 +14,18 @@ on:
         required: false
         type: boolean
         default: true
+      run-js-tests:
+        description: "Run JS/TS tests"
+        required: false
+        type: boolean
+        default: false
     secrets:
       CODECOV_TOKEN:
         required: true
 
 permissions:
   contents: read
+  id-token: write
 
 env:
   CONFIGURATION: ${{ inputs.configuration }}
@@ -55,21 +61,64 @@ jobs:
 
       - name: Restore dotnet tool
         run: dotnet tool restore
-        working-directory: src/Cropper.Blazor/Cropper.Blazor
-
+        working-directory: src/Cropper.Blazor/Cropper.Blazor  
+        
       - name: DotNet Build
         run: dotnet build -c "$CONFIGURATION" --no-restore
         working-directory: src/Cropper.Blazor
 
       - name: Test
-        run: dotnet test -c "$CONFIGURATION" --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
+        run: dotnet test  --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:ExcludeByAttribute='ExcludeFromCodeCoverage' /p:SkipAutoProps=true /p:Exclude="[*]Cropper.Blazor.Testing.*"
         working-directory: src/Cropper.Blazor/Cropper.Blazor.UnitTests
 
-      - name: Coverage
+      - name: Run JS/TS tests and generate coverage
+        if: ${{ inputs.run-js-tests == true }}
+        run: |
+          cd Cropper.Blazor
+          npm run coverage
+        working-directory: src/Cropper.Blazor
+
+      - name: Verify coverage files
+        working-directory: src/Cropper.Blazor
+        run: |
+          FILES=(
+            Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml
+            Cropper.Blazor.UnitTests/coverage.net7.0.cobertura.xml
+            Cropper.Blazor.UnitTests/coverage.net8.0.cobertura.xml
+            Cropper.Blazor.UnitTests/coverage.net9.0.cobertura.xml
+            Cropper.Blazor.UnitTests/coverage.net10.0.cobertura.xml
+          )
+
+          if [ "${{ inputs.run-js-tests }}" = "true" ]; then
+            FILES+=("Cropper.Blazor/coverage/cobertura-coverage.xml")
+          fi
+
+          for file in "${FILES[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "❌ Coverage file missing: $file"
+              exit 1
+            fi
+            echo "✅ Found $file"
+          done
+
+      - name: Upload DotNet coverage to Codecov
         if: ${{ inputs.publish-coverage == true }}
-        uses: codecov/codecov-action@v5.5.1
+        uses: codecov/codecov-action@v5.5.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage.net6.0.cobertura.xml, coverage.net7.0.cobertura.xml, coverage.net8.0.cobertura.xml, coverage.net9.0.cobertura.xml, coverage.net10.0.cobertura.xml
+          files: src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net6.0.cobertura.xml,src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net7.0.cobertura.xml,src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net8.0.cobertura.xml,src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net9.0.cobertura.xml,src/Cropper.Blazor/Cropper.Blazor.UnitTests/coverage.net10.0.cobertura.xml
+          flags: DotNet
           fail_ci_if_error: true
+          disable_search: true
           verbose: true
+
+      - name: Upload TypeScript coverage to Codecov
+        if: ${{ inputs.publish-coverage == true && inputs.run-js-tests == true }}
+        uses: codecov/codecov-action@v5.5.2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: src/Cropper.Blazor/Cropper.Blazor/coverage/cobertura-coverage.xml
+          flags: TypeScript 
+          fail_ci_if_error: true
+          disable_search: true
+          verbose: true    

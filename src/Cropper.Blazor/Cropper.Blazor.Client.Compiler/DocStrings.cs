@@ -34,7 +34,10 @@ namespace Cropper.Blazor.Client.Compiler
                 cb.IndentLevel++;
 
                 Assembly assembly = typeof(CropperComponent).Assembly;
-                IOrderedEnumerable<Type> types = assembly.GetTypes().OrderBy(t => GetSaveTypename(t));
+                IOrderedEnumerable<Type> types = assembly
+                    .GetTypes()
+                    .Where(x => x.FullName.StartsWith("Cropper.Blazor."))
+                    .OrderBy(t => GetSaveTypename(t));
 
                 foreach (var type in types)
                 {
@@ -86,18 +89,44 @@ namespace Cropper.Blazor.Client.Compiler
                     if (type.IsEnum)
                     {
                         string[] enumNames = type.GetEnumNames();
+                        string docEnum = type.GetDocumentation();
+                        string description = EscapeDescription(docEnum);
 
-                        foreach (string enumName in enumNames)
+                        cb.AddLine($"public const string {GetSaveTypename(type)}_enum = @\"{description}\";\n");
+
+                        foreach (string enumItemName in enumNames)
                         {
-                            Enum enumValue = (Enum)Enum.Parse(type, enumName);
+                            Enum enumValue = (Enum)Enum.Parse(type, enumItemName);
                             string doc = enumValue.GetDocumentation();
                             doc = NormalizeWord(doc);
                             doc = ConvertCrefToHTML(doc);
                             doc = ConvertMarkdownToHTML(doc);
 
+                            string descriptionItemValue = EscapeDescription(doc);
+
+                            cb.AddLine($"public const string {GetSaveTypename(type)}_enum_{enumItemName} = @\"{descriptionItemValue}\";\n");
+                        }
+                    }
+                    else if (type.IsClass)
+                    {
+                        string doc = type.GetDocumentation();
+
+                        if (doc is not null)
+                        {
                             string description = EscapeDescription(doc);
 
-                            cb.AddLine($"public const string {GetSaveTypename(type)}_enum_{enumName} = @\"{description}\";\n");
+                            cb.AddLine($"public const string {GetSaveTypename(type)}_class = @\"{description}\";\n");
+                        }
+                    }
+                    else if (type.IsInterface)
+                    {
+                        string doc = type.GetDocumentation();
+
+                        if (doc is not null)
+                        {
+                            string description = EscapeDescription(doc);
+
+                            cb.AddLine($"public const string {GetSaveTypename(type)}_interface = @\"{description}\";\n");
                         }
                     }
                 }
@@ -193,13 +222,17 @@ namespace Cropper.Blazor.Client.Compiler
             string result = doc
                 .Replace("<br />", "")
                 .Replace("<paramref name=\"scaleX\" />", "scaleX")
+                .Replace("<see cref=\"T:Microsoft.JSInterop.IJSObjectReference\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.ijsobjectreference\">IJSObjectReference</a>")
                 .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.ElementReference\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.elementreference\">ElementReference</a>")
                 .Replace("<see cref=\"T:Microsoft.AspNetCore.Components.Forms.IBrowserFile\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.forms.ibrowserfile\">IBrowserFile</a>")
+                .Replace("<see cref=\"T:Microsoft.JSInterop.DotNetObjectReference\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.dotnetobjectreference\">DotNetObjectReference</a>")
                 .Replace("<see cref=\"T:Microsoft.JSInterop.DotNetStreamReference\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/microsoft.jsinterop.dotnetstreamreference\">DotNetStreamReference</a>")
                 .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">ValueTask</a>")
                 .Replace("<see cref=\"T:System.Threading.Tasks.ValueTask`1\" />", $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask\">{formattedReturnSignature}</a>")
+                .Replace("<see cref=\"T:System.Threading.Tasks.Task\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task\">Task</a>")
+                .Replace("<see cref=\"T:System.Threading.Tasks.Task`1\" />", $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task\">{formattedReturnSignature}</a>")
                 .Replace("<see cref=\"T:System.Nullable`1\" />", $"<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1\">{formattedReturnSignature}</a>")
-                .Replace("<see cref=\"T:Cropper.Blazor.Events.JSEventData`1\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"api/JSEventData\">JSEventData<></a>")
+                .Replace("<see cref=\"T:Cropper.Blazor.Events.JSEventData`1\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"api/JSEventData\">JSEventData</a>")
                 .Replace("<see cref=\"T:System.Threading.CancellationToken\" />", "<a target=\"_blank\" rel=\"noopener\" style=\"color: var(--mud-palette-primary); \" href=\"https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource\">CancellationToken</a>");
 
             return result;

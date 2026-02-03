@@ -13,6 +13,16 @@ namespace Cropper.Blazor.Client.Components.Docs
 {
     public partial class DocsApi
     {
+        [Parameter] public Type Type { get; set; }
+        [Parameter] public bool IsContract { get; set; } = false;
+        [Parameter] public bool IsHelper { get; set; } = false;
+        [Parameter] public bool? IsComponentContract { get; set; } = null;
+        [Inject] NavigationManager NavigationManager { get; set; } = null!;
+
+        public DocsPage DocsPage { get; set; }
+
+        // used for default value getting
+        private object CompInstance;
         private readonly List<string> _hiddenMethods =
         [
             "ToString",
@@ -23,17 +33,38 @@ namespace Cropper.Blazor.Client.Components.Docs
             "ReferenceEquals"
         ];
 
-        [Parameter] public Type Type { get; set; }
-        [Parameter] public bool IsContract { get; set; } = false;
-        [Inject] NavigationManager NavigationManager { get; set; } = null!;
+        protected override async Task OnParametersSetAsync()
+        {
+            CompInstance = !Type.IsAssignableTo(typeof(IComponent)) ? null : Activator.CreateInstance(Type);
 
-        // used for default value getting
-        private object CompInstance;
+            await base.OnParametersSetAsync();
+        }
 
-        public DocsPage DocsPage { get; set; }
+        private (string? Href, string? Desc) GetHrefPageWithDesc()
+        {
+            if (Type == typeof(CropperComponent))
+            {
+                return ("examples/cropperusage", "");
+            }
+            else if (Type == typeof(CroppedCanvasReceiver))
+            {
+                return ("examples/cropping#crop-a-polygon-image-in-background", "See 'Crop in Background' example.");
+            }
+            else if (Type == typeof(ImageReceiver))
+            {
+                return ("examples/cropping#crop-a-round-image-in-background", "See 'Crop a polygon image in Background' or 'Crop a round image in Background' examples.");
+            }
+
+            return (null, null);
+        }
 
         private IEnumerable<ApiProperty> GetEventCallbacks()
         {
+            if (Type == null)
+            {
+                yield break;
+            }
+
             string saveTypename = DocStrings.GetSaveTypename(Type);
 
             if (IsContract)
@@ -42,7 +73,10 @@ namespace Cropper.Blazor.Client.Components.Docs
             }
             else
             {
-                foreach (var info in Type.GetPropertyInfosWithAttribute<ParameterAttribute>().OrderBy(x => x.Name))
+                IEnumerable<PropertyInfo>? propertyInfos = IsComponentContract == true
+                    ? Type.GetPropertyInfos()
+                    : Type.GetPropertyInfosWithAttribute<ParameterAttribute>();
+                foreach (var info in propertyInfos.OrderBy(x => x.Name))
                 {
                     if (IsEventCallback(info))
                     {
@@ -51,7 +85,7 @@ namespace Cropper.Blazor.Client.Components.Docs
                             Name = info.Name,
                             PropertyInfo = info,
                             Default = string.Empty,
-                            Description = DocStrings.GetMemberDescription(saveTypename, info),
+                            Description = DocStrings.GetMemberDescription(saveTypename, info, IsContract, IsComponentContract),
                             IsTwoWay = CheckIsTwoWayEventCallback(info),
                             Type = info.PropertyType,
                         };
@@ -60,8 +94,35 @@ namespace Cropper.Blazor.Client.Components.Docs
             }
         }
 
+        private string GetClassDescription()
+        {
+            if (Type.IsClass)
+            {
+                string saveTypename = DocStrings.GetSaveTypename(Type);
+
+                return DocStrings.GetClassDescription(saveTypename);
+            }
+            else if (Type.IsInterface)
+            {
+                string saveTypename = DocStrings.GetSaveTypename(Type);
+
+                return DocStrings.GetInterfaceDescription(saveTypename);
+            }
+            else if (Type.IsEnum)
+            {
+                return DocStrings.GetEnumDescription(Type.Name);
+            }
+
+            return string.Empty;
+        }
+
         private IEnumerable<ApiMethod> GetMethods()
         {
+            if (Type == null)
+            {
+                yield break;
+            }
+
             string saveTypename = DocStrings.GetSaveTypename(Type);
 
             if (IsContract)
@@ -74,29 +135,29 @@ namespace Cropper.Blazor.Client.Components.Docs
                 {
                     if (!_hiddenMethods.Any(x => x.Contains(info.Name)) && !info.Name.StartsWith("get_") && !info.Name.StartsWith("set_"))
                     {
-                        if (info.GetCustomAttributes(typeof(JSInvokableAttribute), true).Length == 0)
+                        bool hasNoJsInvokableAttribute = info.GetCustomAttributes(typeof(JSInvokableAttribute), true).Length == 0;
+
+                        Attribute? attribute = info
+                            .GetCustomAttribute(typeof(ObsoleteAttribute), true);
+                        string? warningSignatureMessage = null;
+
+                        if (attribute != null)
                         {
-                            Attribute? attribute = info
-                                .GetCustomAttribute(typeof(ObsoleteAttribute), true);
-                            string? warningSignatureMessage = null;
+                            ObsoleteAttribute obsoleteAttr = (ObsoleteAttribute)attribute;
 
-                            if (attribute != null)
-                            {
-                                ObsoleteAttribute obsoleteAttr = (ObsoleteAttribute)attribute;
-
-                                warningSignatureMessage = obsoleteAttr.Message;
-                            }
-
-                            yield return new ApiMethod()
-                            {
-                                MethodInfo = info,
-                                WarningSignatureMessage = warningSignatureMessage,
-                                Return = info.ReturnParameter,
-                                Signature = info.GetSignature(),
-                                Parameters = info.GetParameters(),
-                                Documentation = DocStrings.GetMemberDescription(saveTypename, info)
-                            };
+                            warningSignatureMessage = obsoleteAttr.Message;
                         }
+
+                        yield return new ApiMethod()
+                        {
+                            MethodInfo = info,
+                            IsJsInvokable = !hasNoJsInvokableAttribute,
+                            WarningSignatureMessage = warningSignatureMessage,
+                            Return = info.ReturnParameter,
+                            Signature = info.GetSignature(),
+                            Parameters = info.GetParameters(),
+                            Documentation = DocStrings.GetMemberDescription(saveTypename, info, IsContract, IsComponentContract)
+                        };
                     }
                 }
             }
@@ -111,10 +172,15 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         private IEnumerable<ApiProperty> GetProperties()
         {
+            if (Type == null)
+            {
+                yield break;
+            }
+
             string saveTypename = DocStrings.GetSaveTypename(Type);
             IEnumerable<PropertyInfo> types = null!;
 
-            if (IsContract)
+            if (IsContract || IsComponentContract == true)
             {
                 types = Type
                     .GetPropertyInfos();
@@ -148,13 +214,15 @@ namespace Cropper.Blazor.Client.Components.Docs
 
         private ApiProperty ToApiProperty(PropertyInfo info, string saveTypename)
         {
+            object defaultValue = GetDefaultValue(info);
+
             return new ApiProperty
             {
                 Name = info.Name,
                 PropertyInfo = info,
-                Default = GetDefaultValue(info),
+                Default = defaultValue,
                 IsTwoWay = CheckIsTwoWayProperty(info),
-                Description = DocStrings.GetMemberDescription(saveTypename, info, IsContract),
+                Description = DocStrings.GetMemberDescription(saveTypename, info, IsContract, IsComponentContract),
                 Type = info.PropertyType
             };
         }
@@ -166,7 +234,7 @@ namespace Cropper.Blazor.Client.Components.Docs
                 Name = enumDisplayStatus,
                 PropertyInfo = null,
                 Default = value,
-                Description = DocStrings.GetEnumDescription(type.Name, enumDisplayStatus),
+                Description = DocStrings.GetEnumValueDescription(type.Name, enumDisplayStatus),
                 Type = type
             };
         }
@@ -218,18 +286,6 @@ namespace Cropper.Blazor.Client.Components.Docs
                 eventCallbackInfo.PropertyType.Name.Contains("EventCallback") &&
                 eventCallbackInfo.GetCustomAttribute<ParameterAttribute>() != null &&
                 eventCallbackInfo.GetCustomAttribute<ObsoleteAttribute>() == null;
-        }
-
-        RenderFragment RenderTheType()
-        {
-            if (!Type.IsAssignableTo(typeof(IComponent)))
-                return null;
-            return new RenderFragment(builder =>
-            {
-                builder.OpenComponent(0, Type);
-                builder.AddComponentReferenceCapture(1, inst => { CompInstance = inst; });
-                builder.CloseComponent();
-            });
         }
 
         private async Task OnPageChanged(int newPage)
@@ -305,19 +361,6 @@ namespace Cropper.Blazor.Client.Components.Docs
         private static bool IsOverridden(MethodInfo m) => m.GetBaseDefinition().DeclaringType != m.DeclaringType;
 
         private static bool IsOverridden(PropertyInfo p) => IsOverridden(p.GetMethod ?? p.SetMethod);                // used for the "overridden" chip
-
-        // used for ordering groups of properties
-        private static int NumberOfAncestorClasses(Type type)
-        {
-            int n = 0;
-
-            while ((type = type.BaseType) != null)
-            {
-                n++;
-            }
-
-            return n;
-        }
 
         #endregion
     }

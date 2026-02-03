@@ -54,6 +54,7 @@
 					return (async function () {
 						const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });
 						if (!response.ok) {
+							alert(`Failed to fetch ${name}: ${response.statusText}`);
 							throw new Error(response.statusText);
 						}
 						const originalResponseBuffer = await response.arrayBuffer();

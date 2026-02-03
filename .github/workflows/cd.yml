@@ -1,9 +1,6 @@
 ---
 name: Deploy to GitHub Pages
 
-permissions:
-  contents: read
-
 concurrency:
   group: github-pages
   cancel-in-progress: true
@@ -16,12 +13,19 @@ on:
 
 jobs:
   code-quality-check:
+    permissions:
+      id-token: write
+      contents: read
     name: Check code quality
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    with:
+      run-js-tests: true
 
   deploy-to-github-pages:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     environment: github-pages
     needs: [code-quality-check, demo-projects-build]
@@ -121,6 +125,8 @@ jobs:
           repository-name: CropperBlazor/CropperBlazor.github.io
 
   demo-projects-build:
+    permissions:
+      contents: read
     name: Build Demo Projects
     runs-on: windows-latest
     needs: code-quality-check

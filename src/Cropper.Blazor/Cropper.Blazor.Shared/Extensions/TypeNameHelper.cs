@@ -43,10 +43,10 @@ namespace Cropper.Blazor.Shared.Extensions
         /// <param name="fullName"><c>true</c> to print a fully qualified name.</param>
         /// <param name="includeGenericParameterNames"><c>true</c> to include generic parameter names.</param>
         /// <returns>The pretty printed type name.</returns>
-        public static string GetTypeDisplay(Type type, bool fullName = true, bool includeGenericParameterNames = false)
+        public static string GetTypeDisplay(Type type, bool fullName = true, bool includeGenericParameterNames = false, Func<string, string>? genericArgumentFormatter = null)
         {
             var builder = new StringBuilder();
-            ProcessType(builder, type, new DisplayNameOptions(fullName, includeGenericParameterNames));
+            ProcessType(builder, type, new DisplayNameOptions(fullName, includeGenericParameterNames, genericArgumentFormatter));
             return builder.ToString();
         }
 
@@ -113,7 +113,15 @@ namespace Cropper.Blazor.Shared.Extensions
             }
             else
             {
-                builder.Append(options.FullName ? type.FullName ?? type.Name : type.Name);
+                if (options.GenericArgumentFormatter is not null)
+                {
+                    string typeName = type.TypeName();
+                    builder.Append(options.GenericArgumentFormatter(typeName));
+                }
+                else
+                {
+                    builder.Append(options.FullName ? type.FullName ?? type.Name : type.Name);
+                }
             }
         }
 
@@ -177,12 +185,24 @@ namespace Cropper.Blazor.Shared.Extensions
             {
                 builder.Append(builtInName);
             }
+            else if (options.GenericArgumentFormatter is not null)
+            {
+                builder.Append(options.GenericArgumentFormatter(type.Name.Substring(0, type.Name.IndexOf('`'))));
+            }
             else
             {
                 builder.Append(type.Name, 0, genericPartIndex);
             }
 
-            builder.Append('<');
+            if (options.GenericArgumentFormatter is not null)
+            {
+                builder.Append("<a target=\"_blank\"><</a>");
+            }
+            else
+            {
+                builder.Append('<');
+            }
+
             for (var i = offset; i < length; i++)
             {
                 ProcessType(builder, genericArguments[i], options);
@@ -202,15 +222,18 @@ namespace Cropper.Blazor.Shared.Extensions
 
         private struct DisplayNameOptions
         {
-            public DisplayNameOptions(bool fullName, bool includeGenericParameterNames)
+            public DisplayNameOptions(bool fullName, bool includeGenericParameterNames, Func<string, string>? genericArgumentFormatter = null)
             {
                 FullName = fullName;
                 IncludeGenericParameterNames = includeGenericParameterNames;
+                GenericArgumentFormatter = genericArgumentFormatter;
             }
 
             public bool FullName { get; }
 
             public bool IncludeGenericParameterNames { get; }
+
+            public Func<string, string>? GenericArgumentFormatter { get; }
         }
     }
 }

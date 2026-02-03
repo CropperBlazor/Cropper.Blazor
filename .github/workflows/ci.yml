@@ -9,16 +9,40 @@ on:
   pull_request:
     branches-ignore:
       - master
-
-permissions:
-  contents: read
+    paths-ignore:
+      - '**.md'
 
 jobs:
   code-quality-check:
+    permissions:
+      id-token: write
+      contents: read
     name: Check code quality
     uses: CropperBlazor/Cropper.Blazor/.github/workflows/build-test-template.yml@dev
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    with:
+      run-js-tests: true
+
+  es-linting:
+    permissions:
+      contents: read
+    needs: code-quality-check
+    name: ESLint - TypeScript Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Install npm dependencies
+        run: npm install
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
+
+      - name: Run ESLint
+        run: npm run lint
+        working-directory: src/Cropper.Blazor/Cropper.Blazor
 
   code-linting:
     permissions:
@@ -61,8 +85,10 @@ jobs:
           VALIDATE_MARKDOWN_PRETTIER: false
           VALIDATE_YAML_PRETTIER: false
           VALIDATE_JSON_PRETTIER: false
+          VALIDATE_TYPESCRIPT_PRETTIER: false
+          VALIDATE_TYPESCRIPT_ES: false
 
-          FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/)|(\W|^)(.*([.]min[.]css))($)|(\W|^)(.*([.]min[.]js))($)'
+          FILTER_REGEX_EXCLUDE: '(\W|^)(obj/|bin/|node_modules/|webpack\.config\.js)|(\W|^).*([.]min[.]css)($)|(\W|^).*([.]min[.]js)($)'
           FILTER_REGEX_INCLUDE: "/github/workspace/src/Cropper.Blazor/.*|/github/workspace/.github/.*"
 
           JSCPD_CONFIG_FILE: ".jscpd.json"

@@ -31,5 +31,14 @@ namespace Cropper.Blazor.Testing
                 .RenderComponent<T>(actionParameters);
 #endif
         }
+
+        public static void DisposeTestContext(this TestContext testContext)
+        {
+#if NET6_0 || NET7_0
+            testContext.DisposeComponents();
+#endif
+
+            testContext.Dispose();
+        }
     }
 }

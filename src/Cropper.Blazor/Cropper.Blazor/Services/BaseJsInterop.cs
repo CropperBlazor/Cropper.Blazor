@@ -76,6 +76,16 @@ namespace Cropper.Blazor.Services
         }
 
         /// <summary>
+        /// Determines whether the application is running in a Blazor Server environment
+        /// by checking if the JavaScript runtime type is RemoteJSRuntime.
+        /// </summary>
+        /// <returns>
+        /// True if running on Blazor Server; otherwise, false.
+        /// </returns>
+        public bool IsBlazorServer =>
+            string.Equals(_jsRuntime.GetType().Name, "RemoteJSRuntime", StringComparison.OrdinalIgnoreCase);
+
+        /// <summary>
         /// Finds path to the cropper module.
         /// </summary>
         /// <returns>The path to the cropper module.</returns>
