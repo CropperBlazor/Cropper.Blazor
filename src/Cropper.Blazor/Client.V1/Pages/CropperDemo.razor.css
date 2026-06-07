@@ -1,0 +1,50 @@
+﻿.img-container,
+.img-preview {
+    background-color: var(--mud-palette-background-gray);
+    text-align: center;
+    width: 100%;
+}
+
+.img-container {
+    max-height: 573px;
+    min-height: 200px;
+}
+
+@media (min-width: 768px) {
+    .img-container {
+        min-height: 573px;
+    }
+}
+
+.img-preview {
+    overflow: hidden;
+}
+
+.img-container > ::deep img {
+    max-width: 100%;
+}
+
+.img-preview > ::deep img {
+    max-width: 100%;
+}
+
+.preview-lg {
+    height: 9em;
+    width: 16em;
+}
+
+.preview-md {
+    height: 4.5em;
+    width: 8em;
+}
+
+.preview-sm {
+    height: 2.25em;
+    width: 4em;
+}
+
+.preview-xs {
+    height: 1.125em;
+    margin-right: 0;
+    width: 2em;
+}

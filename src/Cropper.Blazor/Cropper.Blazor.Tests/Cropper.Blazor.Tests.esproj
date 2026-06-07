@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.5581896">
+    <PropertyGroup>
+        <JavaScriptTestRoot>Cropper\</JavaScriptTestRoot>
+        <JavaScriptTestFramework>Vitest</JavaScriptTestFramework>
+        <ShouldRunBuildScript>false</ShouldRunBuildScript>
+    </PropertyGroup>
+</Project>

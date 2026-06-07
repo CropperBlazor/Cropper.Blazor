@@ -12,9 +12,16 @@ namespace Cropper.Blazor.Client.Extensions
         {
             // get the absolute path with out the base path
             string currentUri = navMan.Uri.Remove(0, navMan.BaseUri.Length - 1);
-            string? firstElement = currentUri
+            string[] routeParts = currentUri
                 .Split("/", StringSplitOptions.RemoveEmptyEntries)
-                .FirstOrDefault();
+                .ToArray();
+            string? firstElement = routeParts.FirstOrDefault();
+
+            if (firstElement is "v1" or "v2")
+            {
+                return routeParts.ElementAtOrDefault(1) ?? "demo";
+            }
+
             return firstElement;
         }
 
@@ -26,9 +33,12 @@ namespace Cropper.Blazor.Client.Extensions
         {
             // get the absolute path with out the base path
             string currentUri = navMan.Uri.Remove(0, navMan.BaseUri.Length - 1);
-            string? secondElement = currentUri
+            string[] routeParts = currentUri
                 .Split("/", StringSplitOptions.RemoveEmptyEntries)
-                .ElementAtOrDefault(1);
+                .ToArray();
+            string? secondElement = routeParts.FirstOrDefault() is "v1" or "v2"
+                ? routeParts.ElementAtOrDefault(2)
+                : routeParts.ElementAtOrDefault(1);
             return secondElement;
         }
 

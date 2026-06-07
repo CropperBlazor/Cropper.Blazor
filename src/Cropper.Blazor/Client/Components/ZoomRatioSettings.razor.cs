@@ -54,8 +54,22 @@ namespace Cropper.Blazor.Client.Components
             StateHasChanged();
         }
 
+        public async Task ResetAsync()
+        {
+            minZoomRatio = null;
+            maxZoomRatio = null;
+            OldRatio = null;
+            CurrentRatio = null;
+
+            await JSRuntime!.InvokeVoidAsync("cropper.setZoomLimits", CropperComponent.CropperComponentId, null, null);
+
+            StateHasChanged();
+        }
+
         public async Task ApplyZoomRulesForCropperAsync()
         {
+            await JSRuntime!.InvokeVoidAsync("cropper.setZoomLimits", CropperComponent.CropperComponentId, MinZoomRatio, MaxZoomRatio);
+
             ImageData currentImageData = await CropperComponent!.GetImageDataAsync();
             decimal currentZoomRatio = currentImageData.Width / currentImageData.NaturalWidth;
 
@@ -69,8 +83,6 @@ namespace Cropper.Blazor.Client.Components
                 ContainerData containerData = await CropperComponent.GetContainerDataAsync();
                 CropperComponent.ZoomTo((decimal)MaxZoomRatio, containerData.Width / 2, containerData.Height / 2);
             }
-
-            await JSRuntime!.InvokeVoidAsync("window.overrideOnZoomCropperEvent", MinZoomRatio, MaxZoomRatio);
         }
     }
 }

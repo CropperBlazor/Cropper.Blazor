@@ -1,0 +1,87 @@
+@using Cropper.Blazor.Models
+
+<MudPaper Class="pa-3 d-flex flex-column gap-3 advanced-selection-figures" Outlined="true" data-testid="advanced-selection-figures" data-enabled="@IsEnabled.ToString().ToLowerInvariant()">
+    <div class="advanced-selection-header">
+        <div>
+            <MudText Typo="Typo.subtitle2">Advanced multi-selection figures</MudText>
+            <MudText Typo="Typo.caption" Color="Color.Secondary">Create, resize, limit, and restyle every selection without changing the live preview viewer.</MudText>
+        </div>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" Disabled="@IsEnabled" OnClick="AllowAdvancedSelectionFigures" data-testid="allow-advanced-selection-figures">
+            Allow
+        </MudButton>
+    </div>
+
+    <div class="advanced-selection-toolbar">
+        <MudButton Color="Color.Secondary" Variant="Variant.Filled" Disabled="@(!IsEnabled)" OnClick="CreateAdvancedMultipleSelectionFigures">
+            Start 3 styled selections
+        </MudButton>
+        <MudButton Color="Color.Secondary" Variant="Variant.Filled" Disabled="@(!IsEnabled)" OnClick="AddFiveSelectionFigures" data-testid="add-five-selection-figures">
+            Add 5 styled selections
+        </MudButton>
+        <MudButton Color="Color.Info" Variant="Variant.Outlined" Disabled="@(!IsEnabled)" OnClick="RefreshSelectionItems" data-testid="refresh-selection-list">
+            Refresh list
+        </MudButton>
+    </div>
+
+    <div class="selection-card-list" data-testid="selection-card-list">
+        @foreach (CropperSelectionData selection in SelectionItems)
+        {
+            CropperDemoSelectionLimitSettings limits = GetSelectionLimits.Invoke(selection.Index);
+
+            <MudPaper Class="pa-2 selection-card" Outlined="true" data-testid="selection-card">
+                <div class="selection-card-header">
+                    <MudText Typo="Typo.subtitle2">Selection #@(selection.Index + 1)</MudText>
+                    <MudChip T="string" Size="Size.Small" Color="@(selection.Active ? Color.Success : Color.Default)">@(selection.Active ? "Active" : "Inactive")</MudChip>
+                </div>
+                <div class="selection-card-body">
+                    <div class="selection-card-preview" data-testid="selection-card-preview" data-selection-index="@selection.Index">
+                        <CropperViewer CropperState="CropperState"
+                                       Class="@($"selection-card-viewer selection-preview-{(selection.Shape ?? "default").ToLowerInvariant()}")"
+                                       style="align-items: center; background-color: var(--mud-palette-background-gray); display: flex; height: 100%; justify-content: center; overflow: hidden; width: 100%;"
+                                       ActiveSelectionVersion="ActiveSelectionVersion"
+                                       SelectionIndex="selection.Index" />
+                        <span>@Math.Round(selection.Width)&times;@Math.Round(selection.Height)</span>
+                    </div>
+                    <div class="selection-card-controls">
+                        <MudStack Row="true" Spacing="1" Class="flex-wrap">
+                            <MudButton Size="Size.Small" Variant="Variant.Outlined" Disabled="@(!IsEnabled)" OnClick="@(() => MoveSelection.InvokeAsync((selection.Index, -12, 0)))" data-testid="selection-card-move-left">Left</MudButton>
+                            <MudButton Size="Size.Small" Variant="Variant.Outlined" Disabled="@(!IsEnabled)" OnClick="@(() => MoveSelection.InvokeAsync((selection.Index, 12, 0)))" data-testid="selection-card-move-right">Right</MudButton>
+                            <MudButton Size="Size.Small" Variant="Variant.Outlined" Disabled="@(!IsEnabled)" OnClick="@(() => MoveSelection.InvokeAsync((selection.Index, 0, -12)))" data-testid="selection-card-move-up">Up</MudButton>
+                            <MudButton Size="Size.Small" Variant="Variant.Outlined" Disabled="@(!IsEnabled)" OnClick="@(() => MoveSelection.InvokeAsync((selection.Index, 0, 12)))" data-testid="selection-card-move-down">Down</MudButton>
+                        </MudStack>
+                        <MudStack Row="true" Spacing="1" Class="flex-wrap">
+                            <MudButton Size="Size.Small" Variant="Variant.Outlined" Disabled="@(!IsEnabled)" OnClick="@(() => ResizeSelection.InvokeAsync((selection.Index, 96, 72)))" data-testid="selection-card-size-small">96&times;72</MudButton>
+                            <MudButton Size="Size.Small" Variant="Variant.Outlined" Disabled="@(!IsEnabled)" OnClick="@(() => ResizeSelection.InvokeAsync((selection.Index, 160, 90)))" data-testid="selection-card-size-wide">160&times;90</MudButton>
+                        </MudStack>
+                        <MudStack Row="true" Spacing="1" Class="flex-wrap">
+                            <MudButton Size="Size.Small" Variant="Variant.Text" OnClick="@(() => SetSelectionFigure.InvokeAsync((selection.Index, "default")))">Rect</MudButton>
+                            <MudButton Size="Size.Small" Variant="Variant.Text" OnClick="@(() => SetSelectionFigure.InvokeAsync((selection.Index, "circle")))">Circle</MudButton>
+                            <MudButton Size="Size.Small" Variant="Variant.Text" OnClick="@(() => SetSelectionFigure.InvokeAsync((selection.Index, "pentagon")))">Polygon</MudButton>
+                            <MudButton Size="Size.Small" Variant="Variant.Text" OnClick="@(() => SetSelectionFigure.InvokeAsync((selection.Index, "arrow")))">Arrow</MudButton>
+                            <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Error" Disabled="@(!IsEnabled)" OnClick="@(() => RemoveSelection.InvokeAsync(selection.Index))">Remove</MudButton>
+                        </MudStack>
+                        <div class="selection-dimension-grid">
+                            <MudNumericField T="decimal?" Label="Min width" Min="0" Disabled="@(!IsEnabled)" Value="limits.MinimumWidth" ValueChanged="@(value => SetSelectionMinimumWidth.InvokeAsync((selection.Index, value)))" data-testid="selection-card-min-width" />
+                            <MudNumericField T="decimal?" Label="Max width" Min="0" Disabled="@(!IsEnabled)" Value="limits.MaximumWidth" ValueChanged="@(value => SetSelectionMaximumWidth.InvokeAsync((selection.Index, value)))" data-testid="selection-card-max-width" />
+                            <MudNumericField T="decimal?" Label="Min ratio" Min="0" Disabled="@(!IsEnabled)" Value="limits.MinimumAspectRatio" ValueChanged="@(value => SetSelectionMinimumAspectRatio.InvokeAsync((selection.Index, value)))" data-testid="selection-card-min-aspect-ratio" />
+                            <MudNumericField T="decimal?" Label="Max ratio" Min="0" Disabled="@(!IsEnabled)" Value="limits.MaximumAspectRatio" ValueChanged="@(value => SetSelectionMaximumAspectRatio.InvokeAsync((selection.Index, value)))" data-testid="selection-card-max-aspect-ratio" />
+                        </div>
+                    </div>
+                </div>
+            </MudPaper>
+        }
+    </div>
+
+    <div class="advanced-selection-limits-grid">
+        <MudNumericField T="int" Label="Min selections" Min="0" Max="5" Disabled="@(!IsEnabled)" Value="MinimumSelectionCount" ValueChanged="SetMinimumSelectionCount" data-testid="minimum-selection-count" />
+        <MudNumericField T="int" Label="Max selections" Min="1" Max="8" Disabled="@(!IsEnabled)" Value="MaximumSelectionCount" ValueChanged="SetMaximumSelectionCount" data-testid="maximum-selection-count" />
+        <MudNumericField T="int" Label="Line width" Min="1" Max="12" Disabled="@(!IsEnabled)" Value="AdvancedFigureLineWidth" ValueChanged="AdvancedFigureLineWidthChanged" data-testid="advanced-selection-line-width" />
+        <MudTextField T="string" Label="Color" Disabled="@(!IsEnabled)" Value="AdvancedFigureColor" ValueChanged="AdvancedFigureColorChanged" InputType="InputType.Color" data-testid="advanced-selection-color" />
+        <MudTextField T="string" Label="Background" Disabled="@(!IsEnabled)" Value="AdvancedFigureBackgroundColor" ValueChanged="AdvancedFigureBackgroundColorChanged" InputType="InputType.Color" data-testid="advanced-selection-background" />
+        <MudSlider T="decimal" Disabled="@(!IsEnabled)" Value="AdvancedFigureBackgroundAlpha" ValueChanged="AdvancedFigureBackgroundAlphaChanged" Min="0" Max="1" Step="0.05m" Color="Color.Primary" Size="Size.Small" data-testid="advanced-selection-background-alpha">
+            Background alpha: @AdvancedFigureBackgroundAlpha.ToString("0.00")
+        </MudSlider>
+    </div>
+
+    <MudAlert Severity="Severity.Info" Dense="true">Use width and height buttons for fast sizing, or limits for predictable multi-selection behavior on desktop and mobile.</MudAlert>
+</MudPaper>

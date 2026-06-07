@@ -1,0 +1,25 @@
+<div class="img-container cropper-js-api-crosshair-element" data-testid="cropper-js-api-crosshair-element">
+    <CropperCrosshair InputAttributes="crosshairAttributes" />
+</div>
+
+@code {
+    private readonly IReadOnlyDictionary<string, object> crosshairAttributes = new Dictionary<string, object>
+    {
+        ["centered"] = true,
+        ["theme-color"] = "rgba(255, 255, 255, 0.85)",
+    };
+}
+
+<style>
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+
+    .cropper-js-api-crosshair-element cropper-crosshair {
+        display: block;
+        height: 220px;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.35);
+    }
+</style>

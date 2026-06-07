@@ -1,10 +1,12 @@
 ﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Cropper.Blazor.Models
 {
     /// <summary>
     /// Enumeration of drag modes.
     /// </summary>
+    [JsonConverter(typeof(EnumMemberJsonConverter<DragMode>))]
     public enum DragMode
     {
         /// <summary>

@@ -1,0 +1,30 @@
+@using Cropper.Blazor.Models
+
+<div class="img-container cropper-js-api-selection-element" data-testid="cropper-js-api-selection-element">
+    <CropperComponent Class="big-img" Src="images/Rivne.jpg" Options="cropperOptions">
+        <CropperSelectionElement Dynamic="true"
+                                 Movable="true"
+                                 Resizable="true"
+                                 Zoomable="false"
+                                 Multiple="true"
+                                 Keyboard="true"
+                                 Outlined="true"
+                                 Precise="true" />
+    </CropperComponent>
+</div>
+
+@code {
+    private readonly Options cropperOptions = new();
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+</style>

@@ -24,7 +24,8 @@ namespace Cropper.Blazor.Sitemap.Generator.Services
                 {
                     foreach (SitemapUrlAttribute sitemapAttribute in sitemapAttributes)
                     {
-                        if (!string.IsNullOrWhiteSpace(sitemapAttribute?.Url))
+                        if (!string.IsNullOrWhiteSpace(sitemapAttribute?.Url)
+                            && componentType.GetCustomAttributes<RouteAttribute>().Any(route => route.Template.Contains('{')))
                         {
                             // Create a sitemap entry for the component using the sitemap URL routes
                             AddSitemapEntry(

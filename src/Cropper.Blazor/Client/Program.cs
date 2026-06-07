@@ -20,6 +20,7 @@ static void ConfigureServices(IServiceCollection services, IWebAssemblyHostEnvir
         {
             BaseAddress = new Uri(hostEnvironment.BaseAddress)
         })
+        .AddSingleton<DocsVersionService>()
         .AddSingleton<GitHubApiClient>()
         .AddCropper()
         .TryAddDocsViewServices();

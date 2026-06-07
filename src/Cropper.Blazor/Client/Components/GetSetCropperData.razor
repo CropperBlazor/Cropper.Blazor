@@ -6,7 +6,7 @@
             <TitleContent>
                 <div class="d-flex">
                     <MudIcon Icon="@Icons.Material.Filled.Handyman" class="mr-3"></MudIcon>
-                    <MudText Typo="Typo.h6">Event's settings</MudText>
+                            <MudText Typo="Typo.h6">Current cropper settings</MudText>
                 </div>
             </TitleContent>
             <ChildContent>
@@ -38,7 +38,7 @@
             <TitleContent>
                 <div class="d-flex">
                     <MudIcon Icon="@Icons.Material.Filled.MobiledataOff" class="mr-3"></MudIcon>
-                    <MudText Typo="Typo.h6">Get or Set cropper component data</MudText>
+                            <MudText Typo="Typo.h6">Cropper component data</MudText>
                 </div>
             </TitleContent>
             <ChildContent>
@@ -51,7 +51,7 @@
                                     <MudText Typo="Typo.h5">Cropper Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
-                            <MudCardContent Class="d-flex flex-column gap-y-2" @key="CropperData">
+                            <MudCardContent Class="d-flex flex-column gap-y-2 overflow-visible" Style="min-height: 430px;" @key="CropperData">
                                 <MudNumericField HideSpinButtons="true" @bind-Value="CropperData.X"
                                                  Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
                                                  Label="X" Variant="Variant.Text" Step=".2M" />
@@ -97,7 +97,7 @@
                                     <MudText Typo="Typo.h5">Crop Box Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
-                            <MudCardContent Class="d-flex flex-column gap-y-2" @key="CropBoxData">
+                            <MudCardContent Class="d-flex flex-column gap-y-2 overflow-visible" Style="min-height: 250px;" @key="CropBoxData">
                                 <MudNumericField HideSpinButtons="true" @bind-Value="CropBoxData.Left"
                                                  Label="Left" Variant="Variant.Text" Step=".2M" />
                                 <MudNumericField HideSpinButtons="true" @bind-Value="CropBoxData.Top"
@@ -130,7 +130,7 @@
                                     <MudText Typo="Typo.h5">Container Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
-                            <MudCardContent Class="d-flex flex-column gap-y-2" @key="ContainerData">
+                            <MudCardContent Class="d-flex flex-column gap-y-2 overflow-visible" Style="min-height: 130px;" @key="ContainerData">
                                 <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ContainerData.Height"
                                                  Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
                                                  Label="Height" Variant="Variant.Text" Step=".2M" />
@@ -156,7 +156,7 @@
                                     <MudText Typo="Typo.h5">Image Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
-                            <MudCardContent Class="d-flex justify-space-between flex-column gap-y-2" @key="ImageData">
+                            <MudCardContent Class="d-flex justify-space-between flex-column gap-y-2 overflow-visible" Style="min-height: 610px;" @key="ImageData">
                                 <MudNumericField ReadOnly="true" HideSpinButtons="true" @bind-Value="ImageData.Height"
                                                  Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary"
                                                  Label="Height" Variant="Variant.Text" Step=".2M" />
@@ -202,7 +202,7 @@
                                     <MudText Typo="Typo.h5">Canvas Data</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
-                            <MudCardContent Class="d-flex flex-column gap-y-2" @key="CanvasData">
+                            <MudCardContent Class="d-flex flex-column gap-y-2 overflow-visible" Style="min-height: 370px;" @key="CanvasData">
                                 <MudNumericField HideSpinButtons="true" @bind-Value="CanvasData.Left"
                                                  Label="Left" Variant="Variant.Text" Step=".2M" />
                                 <MudNumericField HideSpinButtons="true" @bind-Value="CanvasData.Top"

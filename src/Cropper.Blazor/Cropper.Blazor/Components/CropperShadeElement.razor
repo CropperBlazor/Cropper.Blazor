@@ -1,0 +1,66 @@
+@namespace Cropper.Blazor.Components
+@inherits ComponentBase
+@code {
+    /// <summary>
+    /// Provides access to the parent cropper component.
+    /// </summary>
+    [CascadingParameter]
+    public CropperComponent? CropperComponent { get; set; }
+
+    /// <summary>
+    /// Hide the shade element.
+    /// </summary>
+    [Parameter]
+    public bool? Hidden { get; set; }
+
+    /// <summary>
+    /// Set the shade theme color.
+    /// </summary>
+    [Parameter]
+    public string? ThemeColor { get; set; }
+
+    /// <summary>
+    /// The x-axis coordinate of the shade.
+    /// </summary>
+    [Parameter]
+    public decimal? X { get; set; }
+
+    /// <summary>
+    /// The y-axis coordinate of the shade.
+    /// </summary>
+    [Parameter]
+    public decimal? Y { get; set; }
+
+    /// <summary>
+    /// The shade width.
+    /// </summary>
+    [Parameter]
+    public decimal? Width { get; set; }
+
+    /// <summary>
+    /// The shade height.
+    /// </summary>
+    [Parameter]
+    public decimal? Height { get; set; }
+
+    /// <summary>
+    /// Enable the default slot for the shade element.
+    /// </summary>
+    [Parameter]
+    public bool? Slottable { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        CropperComponent?.SetShadeElementOptions(new Models.ShadeElementOptions
+        {
+            Hidden = Hidden,
+            ThemeColor = ThemeColor,
+            X = X,
+            Y = Y,
+            Width = Width,
+            Height = Height,
+            Slottable = Slottable
+        });
+    }
+}

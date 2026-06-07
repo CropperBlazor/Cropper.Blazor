@@ -1,5 +1,9 @@
-﻿@page "/api"
+@page "/api"
 @page "/api/{name}"
+@page "/v1/api"
+@page "/v2/api"
+@page "/v1/api/{name}"
+@page "/v2/api/{name}"
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.8, url: "/api")]
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.8, url: "/api/CropperComponent")]
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CanvasData")]
@@ -18,7 +22,6 @@
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/SetCanvasDataOptions")]
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/SetCropBoxDataOptions")]
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/SetDataOptions")]
-@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ViewMode")]
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ZoomEvent")]
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropperComponentType")]
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CroppedCanvas")]

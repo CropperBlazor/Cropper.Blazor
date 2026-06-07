@@ -141,6 +141,57 @@ namespace Cropper.Blazor.Services
         }
 
         /// <summary>
+        /// Get a data URL from the current cropper selection canvas.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="getCroppedCanvasOptions">The config options.</param>
+        /// <param name="type">A string indicating the image format.</param>
+        /// <param name="number">A number between 0 and 1 indicating the image quality.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask{String}"/> representing URL result canvas asynchronous operation.</returns>
+        public async ValueTask<string> GetSelectionCanvasDataURLAsync(
+            [NotNull] Guid cropperComponentId,
+            GetCroppedCanvasOptions getCroppedCanvasOptions,
+            string type,
+            float number,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            return await _jsRuntime!.InvokeAsync<string>(
+                "cropper.selectionToCanvasDataURL",
+                cancellationToken,
+                cropperComponentId,
+                getCroppedCanvasOptions,
+                type,
+                number);
+        }
+
+        /// <summary>
+        /// Get a canvas element reference from a Cropper.js v2 selection by zero-based index.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="selectionIndex">The zero-based selection index.</param>
+        /// <param name="getCroppedCanvasOptions">The config options.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask{TResult}"/> containing a JavaScript object reference to the selection canvas element.</returns>
+        public async ValueTask<IJSObjectReference?> GetSelectionCanvasReferenceByIndexAsync(
+            [NotNull] Guid cropperComponentId,
+            int selectionIndex,
+            GetCroppedCanvasOptions getCroppedCanvasOptions,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            return await _jsRuntime!.InvokeAsync<IJSObjectReference?>(
+                "cropper.selectionToCanvasByIndex",
+                cancellationToken,
+                cropperComponentId,
+                selectionIndex,
+                getCroppedCanvasOptions);
+        }
+
+        /// <summary>
         /// Get the cropped area position and size data (base on the original image).
         /// </summary>
         /// <param name="cropperComponentId">The identifier of the cropper component.</param>

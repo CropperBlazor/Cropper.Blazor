@@ -1,0 +1,34 @@
+@using Cropper.Blazor.Models
+
+<MudPaper Class="pa-3 d-flex flex-column gap-3 cropped-image-quality" Outlined="true" data-testid="cropped-image-quality-panel">
+    <div>
+        <MudText Typo="Typo.subtitle2">Cropped image quality</MudText>
+        <MudText Typo="Typo.caption" Color="Color.Secondary">Control output size and smoothing before generating cropped canvas data.</MudText>
+    </div>
+
+    <div class="cropped-image-quality-grid">
+        <MudNumericField T="double" Label="Quality" Min="0.1" Max="1" Step="0.05" Value="CroppedImageQuality" ValueChanged="SetCroppedImageQualityAsync" data-testid="cropped-image-quality" />
+        <MudSelect T="ImageSmoothingQuality" Label="Smoothing" Value="CroppedImageSmoothingQuality" ValueChanged="CroppedImageSmoothingQualityChanged" data-testid="cropped-image-smoothing-quality" data-current-smoothing-quality="@CroppedImageSmoothingQuality">
+            <MudSelectItem Value="ImageSmoothingQuality.Low" data-testid="cropped-image-smoothing-quality-low">Low</MudSelectItem>
+            <MudSelectItem Value="ImageSmoothingQuality.Medium" data-testid="cropped-image-smoothing-quality-medium">Medium</MudSelectItem>
+            <MudSelectItem Value="ImageSmoothingQuality.High" data-testid="cropped-image-smoothing-quality-high">High</MudSelectItem>
+        </MudSelect>
+        <MudNumericField T="decimal?" Label="Min width" Min="0" Immediate="true" Format="0.####" Value="CroppedImageMinimumWidth" ValueChanged="SetCroppedImageMinimumWidthAsync" data-testid="cropped-image-min-width" />
+        <MudNumericField T="decimal?" Label="Max width" Min="0" Immediate="true" Format="0.####" Value="CroppedImageMaximumWidth" ValueChanged="SetCroppedImageMaximumWidthAsync" data-testid="cropped-image-max-width" />
+        <MudNumericField T="decimal?" Label="Min height" Min="0" Immediate="true" Format="0.####" Value="CroppedImageMinimumHeight" ValueChanged="SetCroppedImageMinimumHeightAsync" data-testid="cropped-image-min-height" />
+        <MudNumericField T="decimal?" Label="Max height" Min="0" Immediate="true" Format="0.####" Value="CroppedImageMaximumHeight" ValueChanged="SetCroppedImageMaximumHeightAsync" data-testid="cropped-image-max-height" />
+    </div>
+
+    <MudButtonGroup Size="Size.Small" Variant="Variant.Outlined" Color="Color.Primary">
+        <MudButton OnClick="@(() => CroppedImageSmoothingQualityChanged.InvokeAsync(ImageSmoothingQuality.Low))"
+                   Style="@(CroppedImageSmoothingQuality == ImageSmoothingQuality.Low ? "background-color: var(--mud-palette-primary-hover)" : "")"
+                   data-testid="cropped-image-smoothing-quality-low-button">
+            Low
+        </MudButton>
+        <MudButton OnClick="@(() => CroppedImageSmoothingQualityChanged.InvokeAsync(ImageSmoothingQuality.High))"
+                   Style="@(CroppedImageSmoothingQuality == ImageSmoothingQuality.High ? "background-color: var(--mud-palette-primary-hover)" : "")"
+                   data-testid="cropped-image-smoothing-quality-high-button">
+            High
+        </MudButton>
+    </MudButtonGroup>
+</MudPaper>

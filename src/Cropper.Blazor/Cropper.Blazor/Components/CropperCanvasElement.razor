@@ -1,0 +1,59 @@
+@namespace Cropper.Blazor.Components
+@inherits ComponentBase
+@code {
+    /// <summary>
+    /// Provides access to the parent cropper component.
+    /// </summary>
+    [CascadingParameter]
+    public CropperComponent? CropperComponent { get; set; }
+
+    /// <summary>
+    /// Hide the canvas element.
+    /// </summary>
+    [Parameter]
+    public bool? Hidden { get; set; }
+
+    /// <summary>
+    /// Show the canvas background.
+    /// </summary>
+    [Parameter]
+    public bool? Background { get; set; }
+
+    /// <summary>
+    /// Disable canvas interactions.
+    /// </summary>
+    [Parameter]
+    public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// Set the canvas scale step.
+    /// </summary>
+    [Parameter]
+    public decimal? ScaleStep { get; set; }
+
+    /// <summary>
+    /// Set the canvas theme color.
+    /// </summary>
+    [Parameter]
+    public string? ThemeColor { get; set; }
+
+    /// <summary>
+    /// Enable the default slot for the canvas element.
+    /// </summary>
+    [Parameter]
+    public bool? Slottable { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        CropperComponent?.SetCanvasElementOptions(new Models.CanvasElementOptions
+        {
+            Hidden = Hidden,
+            Background = Background,
+            Disabled = Disabled,
+            ScaleStep = ScaleStep,
+            ThemeColor = ThemeColor,
+            Slottable = Slottable
+        });
+    }
+}

@@ -53,6 +53,13 @@ namespace Cropper.Blazor.Client.Components
             ZoomRatioSettings!.SetRatio(ratio);
         }
 
+        public async Task ResetSettingsAsync()
+        {
+            CroppedDimensionsSettings.Reset();
+            AspectRatioSettings.Reset();
+            await ZoomRatioSettings.ResetAsync();
+        }
+
         public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions)
         {
             SetCropBoxDataOptions.Invoke(cropBoxDataOptions);

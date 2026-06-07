@@ -1,20 +1,20 @@
-﻿<MudCard Class="mud-height-full">
+﻿<MudCard Class="mud-height-full" data-testid="aspect-ratio-settings">
     <MudCardHeader Class="border-solid border-b mud-border-lines-default">
         <CardHeaderContent>
             <div class="d-flex flex-column gap-2">
-                <MudText Typo="Typo.h5">Aspect Ratio Settings</MudText>
-                <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Dense="true">
-                    This option work's only for <b>FREE</b> aspect ratio mode!
+                <MudText Typo="Typo.h5">Aspect ratio limits</MudText>
+                <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true">
+                    These limits apply while the cropper is in <b>FREE</b> aspect ratio mode.
                 </MudAlert>
             </div>
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardContent Class="mud-height-full pt-0">
-        <MudNumericField @bind-Value="MinAspectRatio" Label="Min aspect ratio"
+        <MudNumericField @bind-Value="MinAspectRatio" Label="Min aspect ratio" data-testid="aspect-min-ratio"
                          Disabled="!IsFreeAspectRatioEnabled"
                          Min="0" Max="MaxAspectRatio">
         </MudNumericField>
-        <MudNumericField @bind-Value="MaxAspectRatio" Label="Max aspect ratio"
+        <MudNumericField @bind-Value="MaxAspectRatio" Label="Max aspect ratio" data-testid="aspect-max-ratio"
                          Disabled="!IsFreeAspectRatioEnabled"
                          Min="MinAspectRatio ?? 0">
         </MudNumericField>
@@ -22,7 +22,7 @@
             <MudChip T="string" Variant="Variant.Outlined" Color="Color.Primary" Class="flex-1 ma-0 mt-4">
                 Current aspect ratio:
             </MudChip>
-            <MudNumericField @bind-Value="AspectRatio" Format="N4" Variant="Variant.Text"
+            <MudNumericField @bind-Value="AspectRatio" Format="N4" Variant="Variant.Text" data-testid="aspect-current-ratio"
                              HideSpinButtons="true" ReadOnly="true" Class="flex-1" />
         </div>
     </MudCardContent>

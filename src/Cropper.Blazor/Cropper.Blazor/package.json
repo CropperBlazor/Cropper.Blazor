@@ -6,10 +6,10 @@
   "scripts": {
     "build:debug": "webpack --mode=development",
     "build:production": "webpack --mode=production",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:ui": "vitest --ui --coverage.enabled=true",
-    "coverage": "vitest run --coverage",
+    "test": "npm --prefix ../Cropper.Blazor.Tests test",
+    "test:watch": "npm --prefix ../Cropper.Blazor.Tests run test:watch",
+    "test:ui": "npm --prefix ../Cropper.Blazor.Tests run test:ui",
+    "coverage": "npm --prefix ../Cropper.Blazor.Tests run coverage",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
   },
@@ -26,6 +26,7 @@
     "eslint": "9.39.2",
     "eslint-plugin-n": "17.23.2",
     "eslint-plugin-prettier": "5.5.5",
+    "jsdom": "27.2.0",
     "prettier": "3.8.1",
     "terser-webpack-plugin": "5.3.16",
     "ts-loader": "9.5.4",
@@ -35,6 +36,6 @@
     "webpack-cli": "6.0.1"
   },
   "dependencies": {
-    "cropperjs": "1.6.2"
+    "cropperjs": "2.1.1"
   }
 }

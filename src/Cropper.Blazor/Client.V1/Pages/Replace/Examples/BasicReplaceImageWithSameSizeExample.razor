@@ -1,0 +1,71 @@
+﻿@using Cropper.Blazor.Models
+
+<div class="img-container">
+    <CropperComponent Class="big-img"
+                      Src="images/Landscape-Color.jpg"
+                      @ref="CropperComponent"
+                      Options="new Options()" />
+</div>
+
+@if (!IsReplaced)
+{
+    <div class="button" @onclick="ReplaceImageAsync">
+        Replace image
+    </div>
+}
+
+@* Make sure the size of the image fits perfectly into the container *@
+<style>
+    .big-img {
+        max-height: 400px;
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 400px;
+        width: 100%;
+    }
+
+    /* These styles are just needed for a nice button and don't related with cropper component */
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+
+@code {
+    private CropperComponent? CropperComponent = null!;
+
+    /* This property is only needed to display the 'Replace image' block. */
+    private bool IsReplaced = false;
+
+    public async Task ReplaceImageAsync()
+    {
+        IsReplaced = true;
+
+        // In the .NET 8 with new render modes, SDK parameters components are not updated timely when using 'blazor.web.js'.
+        // We strongly recommend using StateHasChanged() method after changing a component's parameter,
+        // but be careful with this because you're updating the entire component where there may be more than one component,
+        // which can also affect performance a bit when there are too many components on the page or animations.
+        // As an option, make a separate wrapper with minimal functionality in this case.
+        //StateHasChanged();
+
+        await CropperComponent!.ReplaceAsync("images/raspberry.jpg", true);
+
+        // Releases an existing object URL which was previously created by calling URL.
+        // Call this method when you've finished using an object URL to let the browser know not to keep the reference to the file any longer.
+        // For certain platforms based on WebView in MAUI, Windows Forms and WPF Blazor Hybrids, the 'RevokeObjectUrlAsync(OldSrc)' method does not work correctly in this place.
+        // Note: from version 1.3.2 of the Cropper.Blazor NuGet package and 'IsAvailableInitCropper = false' triggers the 'OnLoadImageEvent' event after a successful image replacement. Previously it only worked with 'IsAvailableInitCropper = true'
+        // We recommend clearing redundant Blob resources (old src) in the 'OnLoadImageEvent' event of cropper component or use equivalent "Rebuild cropper" functionality instead of replace functionality with 'hasSameSize = false' argument.
+        // cropperComponent!.RevokeObjectUrlAsync(OldSrc);
+    }
+}

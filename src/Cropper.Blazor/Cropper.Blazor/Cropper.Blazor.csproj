@@ -3,6 +3,7 @@
 		<TargetFrameworks>net10.0;net9.0;net8.0;net7.0;net6.0</TargetFrameworks>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -78,17 +79,19 @@
 		<Content Remove="tsconfig.json" />
 		<Content Remove=".prettierrc" />
 		<Content Remove="eslint.config.cjs" />
-		<Content Remove="vitest.config.ts" />
 		<Content Remove="wwwroot\cropperJsInterop.min.js.map" />
 		<Content Remove="wwwroot\cropper.min.js.map" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<WebpackInputs Include="**\*.ts" Exclude="wwwroot\**;node_modules\**; *.d.ts" />
+		<WebpackInputs Include="**\*.ts" Exclude="wwwroot\**;node_modules\**;*.d.ts;**\*.test.ts;**\*.spec.ts" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<TypeScriptCompile Remove="node_modules\**" />
+		<TypeScriptCompile Remove="**\*.test.ts" />
+		<TypeScriptCompile Remove="**\*.coverage.test.ts" />
+		<TypeScriptCompile Remove="**\*.spec.ts" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -97,8 +100,32 @@
 		<None Include="tsconfig.json" />
 		<None Include=".prettierrc" />
 		<None Include="eslint.config.cjs" />
-		<None Include="vitest.config.ts" />
+		<None Include="webpack.config.js" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="Cropper\**\*.ts" Exclude="Cropper\**\*.d.ts" />
+		<None Include="Cropper\**\*.d.ts" />
+		<None Include="wwwroot\*.js" />
+		<None Include="wwwroot\*.js.map" />
+		<None Include="wwwroot\*.d.ts" />
+	</ItemGroup>
+
+	<Target Name="NpmBuildDebug" DependsOnTargets="EnsureNpmRestored">
+		<Exec Command="npm run build:debug" WorkingDirectory="$(ProjectDir)" />
+	</Target>
+
+	<Target Name="NpmBuildProduction" DependsOnTargets="EnsureNpmRestored">
+		<Exec Command="npm run build:production" WorkingDirectory="$(ProjectDir)" />
+	</Target>
+
+	<Target Name="NpmTest" DependsOnTargets="EnsureNpmRestored">
+		<Exec Command="npm test" WorkingDirectory="$(ProjectDir)" />
+	</Target>
+
+	<Target Name="NpmLint" DependsOnTargets="EnsureNpmRestored">
+		<Exec Command="npm run lint" WorkingDirectory="$(ProjectDir)" />
+	</Target>
 
 	<!--
 	Ensures npm dependencies are installed.

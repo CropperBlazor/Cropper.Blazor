@@ -1,0 +1,38 @@
+@namespace Cropper.Blazor.Components
+@inherits ComponentBase
+@code {
+    /// <summary>
+    /// Provides access to the parent cropper component.
+    /// </summary>
+    [CascadingParameter]
+    public CropperComponent? CropperComponent { get; set; }
+
+    /// <summary>
+    /// Hide the resize handle elements.
+    /// </summary>
+    [Parameter]
+    public bool? Hidden { get; set; }
+
+    /// <summary>
+    /// Set the resize handle theme color.
+    /// </summary>
+    [Parameter]
+    public string? ThemeColor { get; set; }
+
+    /// <summary>
+    /// Enable the default slot for the resize handle elements.
+    /// </summary>
+    [Parameter]
+    public bool? Slottable { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        CropperComponent?.SetResizeHandleElementOptions(new Models.ResizeHandleElementOptions
+        {
+            Hidden = Hidden,
+            ThemeColor = ThemeColor,
+            Slottable = Slottable
+        });
+    }
+}

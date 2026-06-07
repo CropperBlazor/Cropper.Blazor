@@ -1,0 +1,216 @@
+@page "/examples/cropperjs-api"
+@page "/v1/examples/cropperjs-api"
+@page "/v2/examples/cropperjs-api"
+@using Cropper.Blazor.Client.Pages.CropperJsApi.Examples
+
+<SeoHeader Title="Cropper.js API examples - Cropper.Blazor"
+           Overview="Blazor equivalents of the core Cropper.js v2 API examples."
+           Keywords="@(
+            new []
+            {
+                "Cropper.js API",
+                "Cropper.js v2",
+                "Cropper.Blazor examples",
+                "cropper-canvas",
+                "cropper-image",
+                "cropper-selection",
+                "multiple selections"
+            })" />
+
+<DocsPage>
+    <DocsPageHeader Title="Cropper.js API in Blazor" SubTitle="One-to-one Blazor equivalents for the main Cropper.js v2 API examples." />
+    <DocsPageContent>
+
+        <DocsPageSection>
+            <SectionHeader Title="Create a cropper">
+                <Description>
+                    Cropper.js creates an instance with <CodeInline>new Cropper(image, options)</CodeInline>.
+                    In Blazor, use <CodeInline>CropperComponent</CodeInline>, bind <CodeInline>Src</CodeInline>, and pass an <CodeInline>Options</CodeInline> object.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiBasicExample)">
+                <CropperJsApiBasicExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Cropper image methods">
+                <Description>
+                    Cropper.js image element methods such as <CodeInline>image.$center()</CodeInline>, <CodeInline>image.$move()</CodeInline>, <CodeInline>image.$rotate()</CodeInline>, <CodeInline>image.$scale()</CodeInline>, and <CodeInline>image.$zoom()</CodeInline> map to component methods.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiImageMethodsExample)">
+                <CropperJsApiImageMethodsExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Internal custom elements">
+                <Description>
+                    Official Cropper.js v2 examples work directly with internal custom elements: <CodeInline>cropper-canvas</CodeInline>, <CodeInline>cropper-image</CodeInline>, <CodeInline>cropper-shade</CodeInline>, <CodeInline>cropper-handle</CodeInline>, <CodeInline>cropper-selection</CodeInline>, <CodeInline>cropper-grid</CodeInline>, <CodeInline>cropper-crosshair</CodeInline>, and <CodeInline>cropper-viewer</CodeInline>.
+                    In Blazor, configure those elements with element-specific option objects and use <CodeInline>CropperViewer</CodeInline> for the viewer element.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiElementsOptionsExample)">
+                <CropperJsApiElementsOptionsExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="cropper-canvas element">
+                <Description>
+                    Configure the Cropper.js <CodeInline>cropper-canvas</CodeInline> element with <CodeInline>CropperCanvasElement</CodeInline> for background, scale step, disabled state, and theme color.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiCanvasElementExample)">
+                <CropperJsApiCanvasElementExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="cropper-image element">
+                <Description>
+                    Configure the Cropper.js <CodeInline>cropper-image</CodeInline> element with <CodeInline>CropperImageElement</CodeInline> for image transform capabilities and initial centering.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiImageElementExample)">
+                <CropperJsApiImageElementExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="cropper-shade element">
+                <Description>
+                    Render the standalone Cropper.js <CodeInline>cropper-shade</CodeInline> element with the <CodeInline>CropperShade</CodeInline> Blazor wrapper.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiShadeElementExample)">
+                <CropperJsApiShadeElementExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="cropper-handle elements">
+                <Description>
+                    Configure Cropper.js <CodeInline>cropper-handle</CodeInline> elements with <CodeInline>CropperHandleElement</CodeInline> and <CodeInline>CropperResizeHandleElement</CodeInline> for select, move, and resize handles.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiHandleElementExample)">
+                <CropperJsApiHandleElementExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="cropper-selection element">
+                <Description>
+                    Configure the Cropper.js <CodeInline>cropper-selection</CodeInline> element with <CodeInline>CropperSelectionElement</CodeInline> for dynamic updates, movement, resizing, keyboard control, precision, and multiple selections.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiSelectionElementExample)">
+                <CropperJsApiSelectionElementExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="cropper-selection multiple initialization">
+                <Description>
+                    Initialize multiple-selection behavior from the Blazor child element. The child component flag overrides the conflicting root option so the rendered Blazor element, Cropper.js property, and HTML element stay aligned.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiSelectionElementMultipleInitExample)">
+                <CropperJsApiSelectionElementMultipleInitExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="cropper-selection multiple disabled override">
+                <Description>
+                    Disable multiple-selection behavior from the Blazor child element even when the root options request multiple selections.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiSelectionMultipleDisabledExample)">
+                <CropperJsApiSelectionMultipleDisabledExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Initial multiple cropper-selection elements">
+                <Description>
+                    Render two or more <CodeInline>cropper-selection</CodeInline> elements at startup using Blazor element wrappers, including per-selection figure, color, background, line width, animation, grid, crosshair, and resize handles.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiInitialMultipleSelectionsExample)">
+                <CropperJsApiInitialMultipleSelectionsExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="cropper-grid element">
+                <Description>
+                    Render the standalone Cropper.js <CodeInline>cropper-grid</CodeInline> element with the <CodeInline>CropperGrid</CodeInline> Blazor wrapper.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiGridElementExample)">
+                <CropperJsApiGridElementExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="cropper-crosshair element">
+                <Description>
+                    Render the standalone Cropper.js <CodeInline>cropper-crosshair</CodeInline> element with the <CodeInline>CropperCrosshair</CodeInline> Blazor wrapper.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiCrosshairElementExample)">
+                <CropperJsApiCrosshairElementExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="cropper-viewer element">
+                <Description>
+                    Use <CodeInline>CropperViewer</CodeInline> to render a synchronized Cropper.js <CodeInline>cropper-viewer</CodeInline> element for the active selection.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiViewerElementExample)">
+                <CropperJsApiViewerElementExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Cropper selection methods">
+                <Description>
+                    Cropper.js selection methods such as <CodeInline>selection.$change()</CodeInline>, <CodeInline>selection.$moveTo()</CodeInline>, <CodeInline>selection.$center()</CodeInline>, <CodeInline>selection.$reset()</CodeInline>, and <CodeInline>selection.$clear()</CodeInline> map to selection methods on <CodeInline>CropperComponent</CodeInline>.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiSelectionMethodsExample)">
+                <CropperJsApiSelectionMethodsExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Multiple selections">
+                <Description>
+                    Cropper.js exposes <CodeInline>getCropperSelections()</CodeInline> for multiple <CodeInline>cropper-selection</CodeInline> elements.
+                    The Blazor API provides index-based methods to create, count, resize, and style individual selections.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiMultipleSelectionsExample)">
+                <CropperJsApiMultipleSelectionsExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
+            <SectionHeader Title="Export the selection canvas">
+                <Description>
+                    Cropper.js uses <CodeInline>selection.$toCanvas()</CodeInline> to generate a cropped canvas.
+                    In Blazor, use <CodeInline>GetCroppedCanvasDataURLAsync</CodeInline> or <CodeInline>GetCroppedCanvasAsync</CodeInline> with <CodeInline>GetCroppedCanvasOptions</CodeInline>.
+                </Description>
+            </SectionHeader>
+            <SectionContent Code="typeof(CropperJsApiCanvasExportExample)">
+                <CropperJsApiCanvasExportExample />
+            </SectionContent>
+        </DocsPageSection>
+
+    </DocsPageContent>
+</DocsPage>

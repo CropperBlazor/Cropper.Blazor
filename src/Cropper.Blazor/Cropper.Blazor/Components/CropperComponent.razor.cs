@@ -5,6 +5,7 @@ using Cropper.Blazor.Base;
 using Cropper.Blazor.Models;
 using Cropper.Blazor.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace Cropper.Blazor.Components
 {
@@ -29,13 +30,37 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// The unique identifier of the cropper component.
         /// </summary>
-        private Guid CropperComponentId;
+        public Guid CropperComponentId;
 
         /// <summary>
         /// The options for cropping. Check out the available <see cref="Models.Options"/>.
         /// </summary>
         [Parameter]
         public Options Options { get; set; } = new Options();
+
+        /// <summary>
+        /// Declarative Cropper.js internal element configuration.
+        /// </summary>
+        [Parameter]
+        public RenderFragment? ChildContent { get; set; }
+
+        private CanvasElementOptions? canvasElementOptions;
+
+        private ImageElementOptions? imageElementOptions;
+
+        private ShadeElementOptions? shadeElementOptions;
+
+        private HandleElementOptions? handleElementOptions;
+
+        private SelectionElementOptions? selectionElementOptions;
+
+        private GridElementOptions? gridElementOptions;
+
+        private CrosshairElementOptions? crosshairElementOptions;
+
+        private HandleElementOptions? moveHandleElementOptions;
+
+        private ResizeHandleElementOptions? resizeHandleElementOptions;
 
         /// <summary>
         /// Specifies the path to the image.
@@ -97,7 +122,15 @@ namespace Cropper.Blazor.Components
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> InputAttributes { get; set; } = null!;
 
+        /// <summary>
+        /// Provides shared synchronization state between this cropper component and cropper viewers.
+        /// </summary>
+        [Parameter]
+        public CropperState? CropperState { get; set; }
+
         private bool IsRendered = false;
+
+        private DotNetObjectReference<ICropperComponentBase>? cropperComponentBaseReference;
 
         /// <summary>
         /// Method invoked after each time the component has been rendered. Note that the component does
@@ -135,6 +168,103 @@ namespace Cropper.Blazor.Components
             CropperComponentId = Guid.NewGuid();
         }
 
+        internal void SetCanvasElementOptions(CanvasElementOptions options)
+        {
+            canvasElementOptions = options;
+        }
+
+        internal void SetImageElementOptions(ImageElementOptions options)
+        {
+            imageElementOptions = options;
+        }
+
+        internal void SetShadeElementOptions(ShadeElementOptions options)
+        {
+            shadeElementOptions = options;
+        }
+
+        internal void SetHandleElementOptions(HandleElementOptions options)
+        {
+            handleElementOptions = options;
+        }
+
+        internal void SetSelectionElementOptions(SelectionElementOptions options)
+        {
+            selectionElementOptions = options;
+        }
+
+        internal void SetGridElementOptions(GridElementOptions options)
+        {
+            gridElementOptions = options;
+        }
+
+        internal void SetCrosshairElementOptions(CrosshairElementOptions options)
+        {
+            crosshairElementOptions = options;
+        }
+
+        internal void SetMoveHandleElementOptions(HandleElementOptions options)
+        {
+            moveHandleElementOptions = options;
+        }
+
+        internal void SetResizeHandleElementOptions(ResizeHandleElementOptions options)
+        {
+            resizeHandleElementOptions = options;
+        }
+
+        private Options GetEffectiveOptions()
+        {
+            Options effectiveOptions = Options;
+
+            if (canvasElementOptions is not null)
+            {
+                effectiveOptions.CanvasOptions = canvasElementOptions;
+            }
+
+            if (imageElementOptions is not null)
+            {
+                effectiveOptions.ImageOptions = imageElementOptions;
+            }
+
+            if (shadeElementOptions is not null)
+            {
+                effectiveOptions.ShadeOptions = shadeElementOptions;
+            }
+
+            if (handleElementOptions is not null)
+            {
+                effectiveOptions.HandleOptions = handleElementOptions;
+            }
+
+            if (selectionElementOptions is not null)
+            {
+                effectiveOptions.SelectionOptions = selectionElementOptions;
+            }
+
+            if (gridElementOptions is not null)
+            {
+                effectiveOptions.GridOptions = gridElementOptions;
+            }
+
+            if (crosshairElementOptions is not null)
+            {
+                effectiveOptions.CrosshairOptions = crosshairElementOptions;
+            }
+
+            if (moveHandleElementOptions is not null)
+            {
+                effectiveOptions.MoveHandleOptions = moveHandleElementOptions;
+            }
+
+            if (resizeHandleElementOptions is not null)
+            {
+                effectiveOptions.ResizeHandleOptions = resizeHandleElementOptions;
+            }
+
+            return effectiveOptions;
+        }
+
         /// <summary>
         /// Called to dispose this instance and internal services.
         /// </summary>
@@ -152,6 +282,9 @@ namespace Cropper.Blazor.Components
             {
                 await DestroyAsync();
             }
+
+            cropperComponentBaseReference?.Dispose();
+            cropperComponentBaseReference = null;
         }
 
         /// <summary>
@@ -170,6 +303,9 @@ namespace Cropper.Blazor.Components
             {
                 Destroy();
             }
+
+            cropperComponentBaseReference?.Dispose();
+            cropperComponentBaseReference = null;
         }
     }
 }

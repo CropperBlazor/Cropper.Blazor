@@ -152,6 +152,33 @@ namespace Cropper.Blazor.Components
         }
 
         /// <summary>
+        /// Get a data URL from the current cropper selection canvas.
+        /// </summary>
+        /// <param name="getCroppedCanvasOptions">The <see cref="GetCroppedCanvasOptions"/> used to get a cropped canvas.</param>
+        /// <param name="type">A string indicating the image format. The default type is image/png; this image format will be also used if the specified type is not supported.</param>
+        /// <param name="number">A number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <exception cref="ArgumentException">Thrown when the <paramref name="number"/> is outside the range of 0 and 1.</exception>
+        /// <returns>A <see cref="ValueTask{String}"/> representing canvas drawn the cropped image in URL format asynchronous operation.</returns>
+        public async ValueTask<string> GetSelectionCanvasDataURLAsync(
+            GetCroppedCanvasOptions getCroppedCanvasOptions,
+            string type = "image/png",
+            float number = 1,
+            CancellationToken cancellationToken = default)
+        {
+            return number switch
+            {
+                < 0 or > 1 => throw new ArgumentException($"The given number should be between 0 and 1 for indication the image quality, but found {number}.", nameof(number)),
+                _ => await CropperJsIntertop!.GetSelectionCanvasDataURLAsync(
+                    CropperComponentId,
+                    getCroppedCanvasOptions,
+                    type,
+                    number,
+                    cancellationToken)
+            };
+        }
+
+        /// <summary>
         /// Get a canvas drawn from the cropped image (lossy compression) in background.
         /// If it is not cropped, then returns a canvas drawn the whole image.
         /// </summary>

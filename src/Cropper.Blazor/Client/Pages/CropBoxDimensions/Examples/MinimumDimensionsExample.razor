@@ -1,8 +1,8 @@
-﻿@using Cropper.Blazor.Models;
+@using Cropper.Blazor.Models;
 @using Cropper.Blazor.Events;
 @using Cropper.Blazor.Events.CropEvent;
 
-<MudPaper Class="img-container">
+<MudPaper Class="dimensions-example-cropper-container">
     <CropperComponent Class="big-img"
                       @ref="cropperComponent"
                       Src="images/Odesa.jpg"
@@ -20,7 +20,6 @@
     {
         MinCropBoxWidth = minCropBoxWidth,
         MinCropBoxHeight = minCropBoxHeight,
-        ViewMode = ViewMode.Vm3
     };
 }
 
@@ -31,8 +30,14 @@
         max-width: 100%;
     }
 
-    .img-container {
-        max-height: 400px;
+    .dimensions-example-cropper-container {
+        height: 400px;
+        overflow: hidden;
         width: 100%;
     }
+
+        .dimensions-example-cropper-container cropper-canvas {
+            height: 400px;
+            width: 100%;
+        }
 </style>

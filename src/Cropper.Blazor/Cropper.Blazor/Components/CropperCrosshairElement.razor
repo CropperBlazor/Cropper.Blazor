@@ -1,0 +1,45 @@
+@namespace Cropper.Blazor.Components
+@inherits ComponentBase
+@code {
+    /// <summary>
+    /// Provides access to the parent cropper component.
+    /// </summary>
+    [CascadingParameter]
+    public CropperComponent? CropperComponent { get; set; }
+
+    /// <summary>
+    /// Hide the crosshair element.
+    /// </summary>
+    [Parameter]
+    public bool? Hidden { get; set; }
+
+    /// <summary>
+    /// Center the crosshair element.
+    /// </summary>
+    [Parameter]
+    public bool? Centered { get; set; }
+
+    /// <summary>
+    /// Set the crosshair theme color.
+    /// </summary>
+    [Parameter]
+    public string? ThemeColor { get; set; }
+
+    /// <summary>
+    /// Enable the default slot for the crosshair element.
+    /// </summary>
+    [Parameter]
+    public bool? Slottable { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        CropperComponent?.SetCrosshairElementOptions(new Models.CrosshairElementOptions
+        {
+            Hidden = Hidden,
+            Centered = Centered,
+            ThemeColor = ThemeColor,
+            Slottable = Slottable
+        });
+    }
+}

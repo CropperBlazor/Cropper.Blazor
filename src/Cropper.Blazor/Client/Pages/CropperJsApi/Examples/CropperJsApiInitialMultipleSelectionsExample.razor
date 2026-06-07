@@ -1,0 +1,149 @@
+<div class="cropper-js-api-initial-multiple-selections" data-testid="cropper-js-api-initial-multiple-selections">
+    <CropperCanvas Class="initial-multi-canvas" InputAttributes="canvasAttributes">
+        <CropperImage InputAttributes="imageAttributes" />
+        <CropperShade InputAttributes="shadeAttributes" />
+        <CropperHandle InputAttributes="selectHandleAttributes" />
+        @foreach (InitialSelection selection in selections)
+        {
+            <CropperSelection Class="@($"initial-selection initial-selection-{selection.Shape}")" InputAttributes="GetSelectionAttributes(selection)">
+                <CropperGrid InputAttributes="gridAttributes" />
+                <CropperCrosshair InputAttributes="crosshairAttributes" />
+                <CropperHandle InputAttributes="moveHandleAttributes" />
+                @foreach (string action in resizeActions)
+                {
+                    <CropperHandle InputAttributes="GetResizeHandleAttributes(action)" />
+                }
+            </CropperSelection>
+        }
+    </CropperCanvas>
+</div>
+
+@code {
+    private readonly IReadOnlyList<string> resizeActions = new[]
+    {
+        "n-resize",
+        "e-resize",
+        "s-resize",
+        "w-resize",
+        "ne-resize",
+        "nw-resize",
+        "se-resize",
+        "sw-resize"
+    };
+
+    private readonly IReadOnlyList<InitialSelection> selections = new[]
+    {
+        new InitialSelection("circle", 20, 20, 72, 72, "rgba(51, 153, 255, 0.50)", "3px"),
+        new InitialSelection("polygon", 112, 56, 108, 92, "rgba(255, 193, 7, 0.55)", "4px"),
+        new InitialSelection("arrow", 252, 84, 128, 80, "rgba(76, 175, 80, 0.55)", "2px")
+    };
+
+    private readonly IReadOnlyDictionary<string, object> canvasAttributes = new Dictionary<string, object>
+    {
+        ["background"] = true,
+        ["theme-color"] = "#3399ff",
+        ["style"] = "height: 360px;"
+    };
+
+    private readonly IReadOnlyDictionary<string, object> imageAttributes = new Dictionary<string, object>
+    {
+        ["src"] = "images/Rivne.jpg",
+        ["alt"] = "Initial multiple selections example",
+        ["rotatable"] = true,
+        ["scalable"] = true,
+        ["skewable"] = true,
+        ["translatable"] = true,
+        ["initial-center-size"] = "contain"
+    };
+
+    private readonly IReadOnlyDictionary<string, object> shadeAttributes = new Dictionary<string, object>
+    {
+        ["hidden"] = true,
+        ["theme-color"] = "rgba(0, 0, 0, 0.35)"
+    };
+
+    private readonly IReadOnlyDictionary<string, object> selectHandleAttributes = new Dictionary<string, object>
+    {
+        ["action"] = "select",
+        ["plain"] = true,
+        ["theme-color"] = "rgba(51, 153, 255, 0.35)"
+    };
+
+    private readonly IReadOnlyDictionary<string, object> gridAttributes = new Dictionary<string, object>
+    {
+        ["role"] = "grid",
+        ["covered"] = true,
+        ["bordered"] = true,
+        ["theme-color"] = "rgba(255, 255, 255, 0.60)"
+    };
+
+    private readonly IReadOnlyDictionary<string, object> crosshairAttributes = new Dictionary<string, object>
+    {
+        ["centered"] = true,
+        ["theme-color"] = "rgba(255, 255, 255, 0.85)"
+    };
+
+    private readonly IReadOnlyDictionary<string, object> moveHandleAttributes = new Dictionary<string, object>
+    {
+        ["action"] = "move",
+        ["theme-color"] = "rgba(255, 255, 255, 0.45)"
+    };
+
+    private IReadOnlyDictionary<string, object> GetSelectionAttributes(InitialSelection selection) => new Dictionary<string, object>
+    {
+        ["x"] = selection.X,
+        ["y"] = selection.Y,
+        ["width"] = selection.Width,
+        ["height"] = selection.Height,
+        ["movable"] = true,
+        ["resizable"] = true,
+        ["multiple"] = true,
+        ["keyboard"] = true,
+        ["outlined"] = true,
+        ["data-cropper-face"] = selection.Shape,
+        ["style"] = $"--cropper-selection-color: {selection.Color}; --cropper-selection-line-width: {selection.LineWidth};"
+    };
+
+    private IReadOnlyDictionary<string, object> GetResizeHandleAttributes(string action) => new Dictionary<string, object>
+    {
+        ["action"] = action,
+        ["theme-color"] = "rgba(255, 255, 255, 0.85)"
+    };
+
+    private sealed record InitialSelection(string Shape, decimal X, decimal Y, decimal Width, decimal Height, string Color, string LineWidth);
+}
+
+<style>
+    .cropper-js-api-initial-multiple-selections .initial-multi-canvas {
+        min-height: 360px;
+        width: 100%;
+    }
+
+    .cropper-js-api-initial-multiple-selections .initial-selection {
+        animation: cropper-selection-pulse 1.8s ease-in-out infinite alternate;
+        border: var(--cropper-selection-line-width) solid var(--cropper-selection-color);
+        background-color: color-mix(in srgb, var(--cropper-selection-color), transparent 78%);
+    }
+
+    .cropper-js-api-initial-multiple-selections .initial-selection-circle {
+        border-radius: 50%;
+    }
+
+    .cropper-js-api-initial-multiple-selections .initial-selection-polygon {
+        clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    }
+
+    .cropper-js-api-initial-multiple-selections .initial-selection-arrow {
+        clip-path: polygon(40% 0%, 40% 40%, 100% 40%, 100% 60%, 40% 60%, 40% 100%, 0% 50%);
+    }
+
+    @@keyframes cropper-selection-pulse {
+        from {
+            box-shadow: 0 0 0 0 var(--cropper-selection-color);
+        }
+
+        to {
+            box-shadow: 0 0 0 8px transparent;
+        }
+    }
+</style>

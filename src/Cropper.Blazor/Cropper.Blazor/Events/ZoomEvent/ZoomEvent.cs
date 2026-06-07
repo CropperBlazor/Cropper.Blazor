@@ -1,13 +1,11 @@
-﻿using System;
-using System.Text.Json.Serialization;
-using Microsoft.JSInterop;
+﻿using System.Text.Json.Serialization;
 
 namespace Cropper.Blazor.Events.ZoomEvent
 {
     /// <summary>
     /// Provides the metadata of a Zoom Event.
     /// </summary>
-    public class ZoomEvent : IDisposable
+    public class ZoomEvent
     {
         /// <summary>
         /// The old (current) ratio of the canvas.
@@ -25,14 +23,6 @@ namespace Cropper.Blazor.Events.ZoomEvent
         /// Represents a wheel, pointermove, touchmove, mousemove original event.
         /// </summary>
         [JsonPropertyName("originalEvent")]
-        public IJSObjectReference? OriginalEvent { get; set; }
-
-        /// <summary>
-        /// Called to dispose this instance and internal services.
-        /// </summary>
-        public void Dispose()
-        {
-            OriginalEvent?.DisposeAsync();
-        }
+        public OriginalEvent? OriginalEvent { get; set; }
     }
 }

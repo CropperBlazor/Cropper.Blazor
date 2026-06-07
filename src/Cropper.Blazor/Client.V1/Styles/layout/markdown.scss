@@ -1,0 +1,253 @@
+﻿.mud-landingpage-editor {
+    & .html,
+    .codearea {
+        & .html-tag-delimiter {
+            color: #979797;
+        }
+
+        & .html-element-name {
+            color: #988ef1;
+        }
+
+        & .html-attribute-name {
+            color: #27b5b5;
+        }
+
+        & .html-operator,
+        .quot {
+            color: #c8c8c8;
+        }
+
+        & .html-attribute-value {
+            color: #ededed;
+        }
+
+        & .html-link {
+            color: #61afef;
+            text-decoration: underline;
+        }
+
+        & .enum {
+            color: #b4eb8f;
+            background-color: rgb(255 255 255 / 15%);
+        }
+
+        & .enum-value,
+        .sharp-variable {
+            color: #ededed;
+            background-color: rgb(255 255 255 / 15%);
+        }
+
+        & .keyword {
+            color: #61afef;
+            background-color: rgb(255 255 255 / 15%);
+        }
+
+        & .at-sign {
+            color: #8323d8;
+        }
+
+        & .comment {
+            color: #57a64a;
+        }
+    }
+
+    & .csharp {
+        & .at-sign {
+            color: #000;
+            background-color: #d2d295;
+        }
+
+        & .keyword {
+            color: #569cd6;
+        }
+
+        & .string {
+            color: #d69d85;
+        }
+
+        & .function {
+            color: #dcdcaa;
+        }
+
+        & .class {
+            color: #4ec9b0;
+        }
+
+        & .local-var {
+            color: #9cdcfe;
+        }
+
+        & .interface {
+            color: #b0d7a3;
+        }
+
+        & .number {
+            color: #b0d7a3;
+        }
+
+        & .enum {
+            color: #b4eb8f;
+        }
+
+        & .comment {
+            color: #57a64a;
+        }
+    }
+}
+
+.mud-codeblock {
+    height: 100%;
+    padding: 24px;
+    overflow: visible;
+
+    & pre {
+        height: 100%;
+        color: var(--mud-palette-text-primary);
+        padding: 0;
+        font-size: 1em;
+        font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        -webkit-font-smoothing: subpixel-antialiased;
+        direction: ltr;
+    }
+
+    & .css {
+        & .property {
+            color: hsl(76deg 21% 52%);
+        }
+
+        & .comment {
+            color: #57a64a;
+        }
+    }
+
+    & .csharp {
+        & .at-sign {
+            color: #8323d8;
+        }
+
+        & .keyword {
+            color: var(--mud-palette-primary);
+        }
+
+        & .string {
+            color: #e68c32;
+        }
+
+        & .function {
+            color: #ff9800;
+        }
+
+        & .class {
+            color: #1ec8a5;
+        }
+
+        & .local-var {
+            color: #2196f3;
+        }
+
+        & .interface {
+            color: #ff4081;
+        }
+
+        & .number {
+            color: #b0d7a3;
+        }
+
+        & .enum {
+            color: #b4eb8f;
+        }
+
+        & .comment {
+            color: #57a64a;
+        }
+
+        & .html-element-name {
+            color: #7e6fffff;
+        }
+
+        & .html-attribute-name {
+            color: #8323d8;
+        }
+
+        & .html-attribute-value {
+            color: #ff4081;
+        }
+
+        & .html-operator {
+            color: #737373;
+        }
+
+        & .quot {
+            color: #737373;
+        }
+    }
+
+    & .html + .csharp {
+        margin-top: 23px;
+    }
+
+    & .html,
+    .codearea {
+        mark {
+            font-weight: 600;
+            color: var(--mud-palette-primary);
+            background-color: var(--mud-palette-action-default-hover);
+            border-radius: 2px;
+            padding: 1px 3px;
+            margin: 0 0 0 2px;
+            user-select: all;
+        }
+
+        & .html-tag-delimiter {
+            color: #979797;
+        }
+
+        & .html-element-name {
+            color: var(--mud-palette-primary);
+            font-weight: 600;
+        }
+
+        & .html-attribute-name {
+            color: #8323d8;
+        }
+
+        & .html-operator,
+        .quot {
+            color: #737373;
+        }
+
+        & .html-attribute-value {
+            color: #ff4081;
+        }
+
+        & .html-link {
+            color: #ff4081;
+            text-decoration: underline;
+        }
+
+        & .enum {
+            color: #00c853;
+            background-color: var(--mud-palette-gray-light);
+        }
+
+        & .enum-value,
+        .sharp-variable {
+            color: var(--mud-palette-text-primary);
+            background-color: var(--mud-palette-gray-light);
+        }
+
+        & .keyword {
+            color: #2196f3;
+            background-color: var(--mud-palette-gray-light);
+        }
+
+        & .at-sign {
+            color: #8323d8;
+        }
+
+        & .comment {
+            color: #57a64a;
+        }
+    }
+}

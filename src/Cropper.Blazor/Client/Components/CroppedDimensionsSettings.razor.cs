@@ -17,5 +17,15 @@ namespace Cropper.Blazor.Client.Components
         public decimal? MaximumWidth { get => maximumWidth; set { maximumWidth = value; ResetCropperAction.Invoke(); } }
         public decimal? MinimumHeight { get => minimumHeight; set { minimumHeight = value; ResetCropperAction.Invoke(); } }
         public decimal? MaximumHeight { get => maximumHeight; set { maximumHeight = value; ResetCropperAction.Invoke(); } }
+
+        public void Reset()
+        {
+            minimumWidth = null;
+            maximumWidth = null;
+            minimumHeight = null;
+            maximumHeight = null;
+
+            StateHasChanged();
+        }
     }
 }

@@ -1,0 +1,21 @@
+﻿@using MudBlazor
+<MudDialog Class="cropped-canvas-dialog">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudTooltip Text="Download image by click button">
+                <MudIconButton OnClick="DownloadImageSrcAsync" Icon="@Icons.Material.Rounded.Download" />
+            </MudTooltip>
+            Cropped canvas data
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudImage Src="@Src" UserAttributes="@CroppedImageInputAttributes" Style="max-height: calc(80vh);" ObjectFit="ObjectFit.Contain" Class="mud-width-full">
+
+        </MudImage>
+    </DialogContent>
+    <DialogActions>
+        <a href="@Src" download="@($"{Guid.NewGuid()}.png")" target="_top">
+            Download image by link
+        </a>
+    </DialogActions>
+</MudDialog>

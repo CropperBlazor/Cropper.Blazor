@@ -1,30 +1,28 @@
-﻿<MudCard Class="mud-height-full">
+﻿<MudCard Class="mud-height-full" data-testid="dimensions-settings">
     <MudCardHeader Class="border-solid border-b mud-border-lines-default">
         <CardHeaderContent>
             <div class="d-flex flex-column gap-2">
-                <MudText Typo="Typo.h5">Dimensions Settings</MudText>
-                <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Dense="true">
-                    <b>This setting may not work with a specific aspect ratio.</b>
-                    It is recommended to use a <b>FREE</b> aspect ratio for this
-                    option or calculate the valid values yourself.
+                <MudText Typo="Typo.h5">Selection size limits</MudText>
+                <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true">
+                    Apply minimum and maximum crop selection dimensions to the current component. Use <b>FREE</b> aspect ratio for unrestricted resizing.
                 </MudAlert>
             </div>
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardContent Class="mud-height-full pt-0">
         <div class="d-flex gap-x-6 flex-wrap flex-sm-nowrap">
-            <MudNumericField @bind-Value="MinimumHeight" Label="Minimum Height" Min="0" Max="MaximumHeight"
+            <MudNumericField T="decimal?" @bind-Value="MinimumHeight" Label="Minimum height" Min="0" Max="MaximumHeight" data-testid="dimensions-min-height"
                              Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary">
             </MudNumericField>
-            <MudNumericField @bind-Value="MinimumWidth" Label="Minimum Width" Min="0" Max="MaximumWidth"
+            <MudNumericField T="decimal?" @bind-Value="MinimumWidth" Label="Minimum width" Min="0" Max="MaximumWidth" data-testid="dimensions-min-width"
                              Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary">
             </MudNumericField>
         </div>
         <div class="d-flex gap-x-6 flex-wrap flex-sm-nowrap">
-            <MudNumericField @bind-Value="MaximumHeight" Label="Maximum Height" Min="MinimumHeight ?? 0"
+            <MudNumericField T="decimal?" @bind-Value="MaximumHeight" Label="Maximum height" Min="MinimumHeight ?? 0" data-testid="dimensions-max-height"
                              Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary">
             </MudNumericField>
-            <MudNumericField @bind-Value="MaximumWidth" Label="Maximum Width" Min="MinimumWidth ?? 0"
+            <MudNumericField T="decimal?" @bind-Value="MaximumWidth" Label="Maximum width" Min="MinimumWidth ?? 0" data-testid="dimensions-max-width"
                              Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary">
             </MudNumericField>
         </div>

@@ -1,0 +1,74 @@
+﻿@page "/releases"
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.8)]
+
+@using System.Globalization
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
+
+<SeoHeader Title="Releases - Cropper.Blazor"
+           Overview="Cropper.Blazor releases and update history."
+           Keywords="@(
+            new []
+            {
+                "releases",
+                "Releases Cropper.Blazor",
+                "Releases Cropper"
+            })" />
+
+<DocsPage DisplayFooter="true">
+    <DocsPageHeader DocsPageHeaderClass="mt-8 mb-12">
+        <SpecialHeaderContent>
+            <MudText Typo="Typo.h3" Class="mb-0" GutterBottom="true">
+                Releases
+            </MudText>
+            <MudLink Href="https://github.com/CropperBlazor/Cropper.Blazor/releases"
+                     Class="pl-1"
+                     UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })"
+                     Target="_blank">
+                Look at GitHub
+            </MudLink>
+        </SpecialHeaderContent>
+    </DocsPageHeader>
+    <DocsPageContent>
+        @if (HasGitHubReleasesRequestError is null)
+        {
+            <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+        }
+        else if (HasGitHubReleasesRequestError == true)
+        {
+            <MudText Class="mb-2">
+                Oops something went wrong. Please try again later.
+            </MudText>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary"
+                       OnClick="@(()=>GetReleasesAsync())">
+                Get Releases
+            </MudButton>
+        }
+        else
+        {
+            <MudGrid Spacing="3" Class="docs-github-releases">
+                @foreach (var release in GitHubReleases)
+                {
+                    <MudItem xs="12" md="4">
+                        <div class="docs-sticky-info">
+                            <MudText Typo="Typo.h5" Inline="true">
+                                Version
+                            </MudText>
+                            <MudText Typo="Typo.h5" Inline="true" Color="Color.Primary">
+                                <b>@release.TagName</b>
+                            </MudText>
+                            <MudText Typo="Typo.subtitle1">
+                                Released on @release.PublishedAt.ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture)
+                            </MudText>
+                        </div>
+                    </MudItem>
+                    <MudItem xs="12" md="8">
+                        <div class="docs-github-release-body">
+                            @((MarkupString)GetBody(release.Body))
+                        </div>
+                    </MudItem>
+                }
+            </MudGrid>
+        }
+    </DocsPageContent>
+</DocsPage>

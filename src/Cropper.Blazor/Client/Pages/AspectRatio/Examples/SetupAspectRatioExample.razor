@@ -1,6 +1,6 @@
-﻿@using Cropper.Blazor.Models;
+@using Cropper.Blazor.Models;
 
-<div class="img-container">
+<div class="aspect-ratio-example-cropper-container">
     <CropperComponent Class="big-img" Options="cropperOptions"
                       Src="images/dolphin.jpg" />
 </div>
@@ -9,7 +9,6 @@
     private Options cropperOptions = new Options
     {
         AspectRatio = (decimal)16 / 9,
-        ViewMode = ViewMode.Vm3
     };
 }
 
@@ -20,8 +19,14 @@
         max-width: 100%;
     }
 
-    .img-container {
-        max-height: 400px;
+    .aspect-ratio-example-cropper-container {
+        height: 400px;
         max-width: 800px;
+        overflow: hidden;
     }
+
+        .aspect-ratio-example-cropper-container cropper-canvas {
+            height: 400px;
+            width: 100%;
+        }
 </style>

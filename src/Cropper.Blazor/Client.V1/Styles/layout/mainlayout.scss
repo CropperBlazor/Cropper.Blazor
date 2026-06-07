@@ -1,0 +1,113 @@
+﻿.docs-title {
+    font-family: "Public Sans", Roboto, Arial, sans-serif;
+    font-weight: 600;
+    font-size: 3.75rem;
+}
+
+.docs-title-description {
+    font-family: "Public Sans", Roboto, Arial, sans-serif;
+    font-weight: 500;
+    line-height: 1.75;
+    font-size: 1.1rem;
+    margin: 0 4px;
+}
+
+@media (max-width: 600px) {
+    .docs-title {
+        font-size: 2.5rem;
+    }
+
+    .docs-title-description {
+        font-size: 0.875rem;
+    }
+}
+
+.docs-sticky-info {
+    position: sticky;
+    top: 128px;
+
+    &.explore-text {
+        .mud-typography-h5 {
+            font-weight: 500;
+        }
+    }
+}
+
+.docs-appbar {
+    z-index: calc(var(--mud-zindex-appbar) + 1);
+}
+
+.docs-appbar-filter {
+    backdrop-filter: blur(12px);
+    z-index: calc(var(--mud-zindex-appbar) + 1);
+}
+
+.docs-appbar,
+.docs-menu-list {
+    .mud-autocomplete {
+        max-width: 360px;
+    }
+
+    .mud-button {
+        font-family: "Public Sans", Roboto, Arial, sans-serif;
+        font-weight: 500;
+        line-height: 1.75;
+        letter-spacing: 0.0286em;
+        text-transform: none;
+    }
+}
+
+.cropperblazor-docs,
+.cropperblazor-landingpage {
+    overflow: hidden;
+
+    .docs-single-link .mud-nav-link {
+        font-weight: 500 !important;
+    }
+}
+
+.landing-appbar {
+    z-index: calc(var(--mud-zindex-appbar) + 1);
+}
+
+.cropperblazor-logo {
+    width: 40px;
+}
+
+.docs-brand-text {
+    letter-spacing: 0.1rem;
+    font-weight: 500;
+    font-family: Roboto, sans-serif;
+    margin-inline-start: 12px;
+    user-select: none;
+}
+
+.docs-text-dec {
+    text-decoration: underline dotted var(--mud-palette-primary);
+}
+
+.docs-footer {
+    .mud-link {
+        margin: 8px 0;
+        cursor: pointer;
+        transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    }
+}
+
+@media (max-width: 960px) {
+    :root {
+        --mud-drawer-width-left: 300px !important;
+    }
+}
+
+.docs-gray-bg {
+    background-color: var(--mud-palette-background-gray);
+}
+
+.text-with-dots {
+    max-width: 100%;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

@@ -1,0 +1,26 @@
+@using Cropper.Blazor.Models
+
+<div class="img-container cropper-js-api-grid-element" data-testid="cropper-js-api-grid-element">
+    <CropperComponent Class="big-img" Src="images/Rivne.jpg" Options="cropperOptions">
+        <CropperGridElement Rows="4" Columns="4" Bordered="true" Covered="true" ThemeColor="rgba(255, 255, 255, 0.65)" />
+    </CropperComponent>
+</div>
+
+@code {
+    private readonly Options cropperOptions = new()
+    {
+        Guides = true
+    };
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+</style>

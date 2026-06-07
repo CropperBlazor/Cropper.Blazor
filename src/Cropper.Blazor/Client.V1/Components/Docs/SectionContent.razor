@@ -1,0 +1,64 @@
+﻿@using System;
+@using System.IO;
+@using System.Linq;
+@using System.Text.RegularExpressions;
+@using System.Threading.Tasks;
+@using Microsoft.AspNetCore.Components;
+@using Cropper.Blazor.Client.Extensions;
+@using Cropper.Blazor.Client.Models;
+@using MudBlazor;
+
+@if (((Codes != null && Codes.Any()) || ChildContent != null) && !IsOnlySingleSectionCode)
+{
+    <div class="@ClassName" style="@Style">
+        @if ((Codes != null && Codes.Any()) || ChildContent != null)
+        {
+            <MudToolBar Class="@ToolbarClassName" WrapContent="IsVerticalAlign">
+                @if (Codes != null && Codes.Any())
+                {
+                    @foreach (var codeFile in Codes)
+                    {
+                        <MudButton Class="@GetActiveCode(codeFile.Code.Name)"
+                                   Variant="@(IsVerticalAlign ? Variant.Filled : Variant.Text)"
+                                   Color="@(IsVerticalAlign ? Color.Primary : Color.Default)"
+                                   FullWidth="IsVerticalAlign"
+                                   OnClick="@(() => SetActiveCode(codeFile.Code.Name))"
+                                   Style="word-break: break-word;"
+                                   Size="Size.Small">
+                            @codeFile.Title
+                        </MudButton>
+                    }
+                }
+
+                @if (!IsVerticalAlign)
+                {
+                    <MudSpacer />
+                }
+
+                @if (HasCode && ChildContent != null)
+                {
+                    <MudButton OnClick="OnShowCode"
+                               FullWidth="IsVerticalAlign"
+                               StartIcon="@(ShowCode ? @Icons.Material.Rounded.CodeOff : Icons.Material.Rounded.Code)"
+                               Size="Size.Small">
+                        @(ShowCode ? "Hide code" : "Show code")
+                    </MudButton>
+                }
+            </MudToolBar>
+        }
+        @if (ChildContent != null)
+        {
+            <div class="@InnerClassName">
+                @ChildContent
+            </div>
+        }
+    </div>
+}
+@if (HasCode || IsOnlySingleSectionCode)
+{
+    <SectionCode SourceClassName="@SourceClassName" CopyTextToClipboard="CopyTextToClipboardAsync">
+        <CodeComponent>
+            @CodeComponent(ActiveCode)
+        </CodeComponent>
+    </SectionCode>
+}

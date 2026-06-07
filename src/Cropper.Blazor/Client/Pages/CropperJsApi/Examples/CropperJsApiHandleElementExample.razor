@@ -1,0 +1,25 @@
+@using Cropper.Blazor.Models
+
+<div class="img-container cropper-js-api-handle-element" data-testid="cropper-js-api-handle-element">
+    <CropperComponent Class="big-img" Src="images/Rivne.jpg" Options="cropperOptions">
+        <CropperHandleElement Action="CropperAction.Select" Plain="true" ThemeColor="rgba(51, 153, 255, 0.35)" />
+        <CropperHandleElement Target="CropperHandleElementTarget.Move" Action="CropperAction.Move" ThemeColor="rgba(255, 255, 255, 0.45)" />
+        <CropperResizeHandleElement ThemeColor="rgba(51, 153, 255, 0.65)" />
+    </CropperComponent>
+</div>
+
+@code {
+    private readonly Options cropperOptions = new();
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+</style>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,6 +54,24 @@ namespace Cropper.Blazor.Services
 
             await _jsRuntime!.InvokeVoidAsync(
                 "cropper.clear",
+                cancellationToken,
+                cropperComponentId);
+        }
+
+        /// <summary>
+        /// Get the current Cropper.js v2 selection elements for a cropper component.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask{TResult}"/> containing the current selections.</returns>
+        public async ValueTask<IReadOnlyList<CropperSelectionData>> GetSelectionsDataAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            return await _jsRuntime!.InvokeAsync<IReadOnlyList<CropperSelectionData>>(
+                "cropper.getSelectionsData",
                 cancellationToken,
                 cropperComponentId);
         }
@@ -175,6 +194,267 @@ namespace Cropper.Blazor.Services
                 cropperComponentId,
                 x,
                 y);
+        }
+
+        /// <summary>
+        /// Center the image within the cropper canvas.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="size">The center sizing mode. Supported values are <c>contain</c> and <c>cover</c>.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask CenterAsync(
+            [NotNull] Guid cropperComponentId,
+            string size,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.center",
+                cancellationToken,
+                cropperComponentId,
+                size);
+        }
+
+        /// <summary>
+        /// Reset the cropper selection to its initial state.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask ResetSelectionAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.resetSelection",
+                cancellationToken,
+                cropperComponentId);
+        }
+
+        /// <summary>
+        /// Center the cropper selection within the canvas.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask CenterSelectionAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.centerSelection",
+                cancellationToken,
+                cropperComponentId);
+        }
+
+        /// <summary>
+        /// Clear the cropper selection.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask ClearSelectionAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.clearSelection",
+                cancellationToken,
+                cropperComponentId);
+        }
+
+        /// <summary>
+        /// Move the cropper selection to an absolute point.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="x">The x-axis coordinate.</param>
+        /// <param name="y">The y-axis coordinate.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask MoveSelectionToAsync(
+            [NotNull] Guid cropperComponentId,
+            decimal x,
+            decimal y,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.moveSelectionTo",
+                cancellationToken,
+                cropperComponentId,
+                x,
+                y);
+        }
+
+        /// <summary>
+        /// Change the cropper selection position and size.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="x">The x-axis coordinate.</param>
+        /// <param name="y">The y-axis coordinate.</param>
+        /// <param name="width">The selection width.</param>
+        /// <param name="height">The selection height.</param>
+        /// <param name="aspectRatio">The optional selection aspect ratio.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask ChangeSelectionAsync(
+            [NotNull] Guid cropperComponentId,
+            decimal x,
+            decimal y,
+            decimal width,
+            decimal height,
+            decimal? aspectRatio = null,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.changeSelection",
+                cancellationToken,
+                cropperComponentId,
+                x,
+                y,
+                width,
+                height,
+                aspectRatio);
+        }
+
+        /// <summary>
+        /// Create a new Cropper.js v2 selection when multiple selection mode is enabled.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="x">The x-axis coordinate.</param>
+        /// <param name="y">The y-axis coordinate.</param>
+        /// <param name="width">The selection width.</param>
+        /// <param name="height">The selection height.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask CreateSelectionAsync(
+            [NotNull] Guid cropperComponentId,
+            decimal x,
+            decimal y,
+            decimal width,
+            decimal height,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.createSelection",
+                cancellationToken,
+                cropperComponentId,
+                x,
+                y,
+                width,
+                height);
+        }
+
+        /// <summary>
+        /// Remove a cropper selection by zero-based selection index.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="selectionIndex">The zero-based selection index.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask RemoveSelectionByIndexAsync(
+            [NotNull] Guid cropperComponentId,
+            int selectionIndex,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.removeSelectionByIndex",
+                cancellationToken,
+                cropperComponentId,
+                selectionIndex);
+        }
+
+        /// <summary>
+        /// Change a cropper selection by zero-based selection index.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="selectionIndex">The zero-based selection index.</param>
+        /// <param name="x">The x-axis coordinate.</param>
+        /// <param name="y">The y-axis coordinate.</param>
+        /// <param name="width">The selection width.</param>
+        /// <param name="height">The selection height.</param>
+        /// <param name="aspectRatio">The optional selection aspect ratio.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask ChangeSelectionByIndexAsync(
+            [NotNull] Guid cropperComponentId,
+            int selectionIndex,
+            decimal x,
+            decimal y,
+            decimal width,
+            decimal height,
+            decimal? aspectRatio = null,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.changeSelectionByIndex",
+                cancellationToken,
+                cropperComponentId,
+                selectionIndex,
+                x,
+                y,
+                width,
+                height,
+                aspectRatio);
+        }
+
+        /// <summary>
+        /// Set a cropper selection figure by zero-based selection index.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="selectionIndex">The zero-based selection index.</param>
+        /// <param name="shape">The selection figure.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask"/> representing any asynchronous operation.</returns>
+        public async ValueTask SetSelectionShapeByIndexAsync(
+            [NotNull] Guid cropperComponentId,
+            int selectionIndex,
+            string shape,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            await _jsRuntime!.InvokeVoidAsync(
+                "cropper.setSelectionShapeByIndex",
+                cancellationToken,
+                cropperComponentId,
+                selectionIndex,
+                shape);
+        }
+
+        /// <summary>
+        /// Get the number of Cropper.js v2 selection elements for a cropper component.
+        /// </summary>
+        /// <param name="cropperComponentId">The identifier of the cropper component.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+        /// <returns>A <see cref="ValueTask{TResult}"/> containing selection count.</returns>
+        public async ValueTask<int> GetSelectionCountAsync(
+            [NotNull] Guid cropperComponentId,
+            CancellationToken cancellationToken = default)
+        {
+            await TryLoadModuleAsync(cancellationToken);
+
+            return await _jsRuntime!.InvokeAsync<int>(
+                "cropper.getSelectionCount",
+                cancellationToken,
+                cropperComponentId);
         }
 
         /// <summary>

@@ -1,0 +1,30 @@
+@using Cropper.Blazor.Components
+<MudPaper Class="pa-4 d-flex flex-column justify-center mud-height-full" Elevation="2">
+    <MudText Typo="Typo.h5" Class="mb-1">Live selection</MudText>
+    <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">
+        Preview sizes and crop values stay synchronized with the active Cropper component.
+    </MudText>
+    <div class="d-flex flex-row flex-wrap justify-center gap-1 mb-2 mh-100" data-testid="live-selection-preview-list">
+        <CropperViewer CropperState="CropperState" Class="img-preview preview-lg" Style="height: 9em; width: 16em;" ActiveSelectionVersion="ActiveSelectionVersion" />
+        <div class="d-flex flex-row flex-wrap gap-1">
+            <CropperViewer CropperState="CropperState" Class="img-preview preview-md" Style="height: 4.5em; width: 8em;" ActiveSelectionVersion="ActiveSelectionVersion" />
+            <div class="d-flex flex-column flex-wrap align-center gap-1">
+                <CropperViewer CropperState="CropperState" Class="img-preview preview-sm" Style="height: 2.25em; width: 4em;" ActiveSelectionVersion="ActiveSelectionVersion" />
+                <CropperViewer CropperState="CropperState" Class="img-preview preview-xs" Style="height: 1.125em; margin-right: 0; width: 2em;" ActiveSelectionVersion="ActiveSelectionVersion" />
+            </div>
+        </div>
+    </div>
+    <div class="docs-data" data-testid="live-selection-data">
+        <CropperDataPreview @ref="CropperDataPreview"></CropperDataPreview>
+    </div>
+    <MudDivider Class="my-4" />
+    <MudText Typo="Typo.subtitle2" Class="mb-2">Related images</MudText>
+    <div class="d-flex flex-row flex-wrap gap-2" data-testid="related-images-section">
+        @foreach (string relatedImageSource in RelatedImageSources)
+        {
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" Class="pa-1" OnClick="@(() => RelatedImageSelected.InvokeAsync(relatedImageSource))" data-testid="related-image-button">
+                <MudImage Src="@relatedImageSource" Alt="Related cropper demo image" Width="80" Height="50" ObjectFit="ObjectFit.Cover" />
+            </MudButton>
+        }
+    </div>
+</MudPaper>

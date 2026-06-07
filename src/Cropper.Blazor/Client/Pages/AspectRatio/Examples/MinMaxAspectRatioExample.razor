@@ -1,4 +1,4 @@
-﻿@using Cropper.Blazor.Models;
+@using Cropper.Blazor.Models;
 @using Cropper.Blazor.Events;
 @using Cropper.Blazor.Events.CropMoveEvent;
 
@@ -43,7 +43,6 @@
     {
         InitialAspectRatio = (decimal)1,
         AspectRatio = 0,
-        ViewMode = ViewMode.Vm3
     };
 
     public async void OnCropMoveEvent(JSEventData<CropMoveEvent> cropMoveJSEvent)

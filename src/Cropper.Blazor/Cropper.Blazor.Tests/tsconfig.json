@@ -1,0 +1,16 @@
+{
+  "extends": "../Cropper.Blazor/tsconfig.json",
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": [ "vitest/globals", "jsdom" ],
+    "noEmit": true
+  },
+  "include": [
+    "./Cropper/**/*.test.ts",
+    "./Cropper/**/*.spec.ts",
+    "../Cropper.Blazor/Cropper/**/*.ts",
+    "../Cropper.Blazor/Cropper/**/*.d.ts"
+  ],
+  "exclude": [ "./node_modules" ]
+}

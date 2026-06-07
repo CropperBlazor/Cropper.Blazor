@@ -1,0 +1,51 @@
+﻿@page "/api"
+@page "/api/{name}"
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.8, url: "/api")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.8, url: "/api/CropperComponent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CanvasData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ContainerData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropBoxData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropEndEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropMoveEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropReadyEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropStartEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropperData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/DragMode")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/GetCroppedCanvasOptions")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ImageData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/JSEventData")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/Options")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/SetCanvasDataOptions")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/SetCropBoxDataOptions")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/SetDataOptions")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ViewMode")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ZoomEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropperComponentType")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CroppedCanvas")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CroppedCanvasReceiver")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ImageReceiver")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ImageProcessingException")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/CropEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ActionEvent")]
+@attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.7, url: "/api/ImageSmoothingQuality")]
+
+@using Cropper.Blazor.Client.Components.Docs
+@using Cropper.Blazor.Shared.Attributes
+@using Cropper.Blazor.Shared.Models
+
+@if (ComponentType is not null && !HasName)
+{
+    <SeoHeader Title="API - Cropper.Blazor"
+               Overview="Cropper component API."
+               Keywords="@(
+               new[] { "API", "Cropper component API", "Cropper API", "Cropper.Blazor component API", "Cropper.Blazor API" })" />
+}
+else if (ComponentType is not null && HasName)
+{
+    <SeoHeader Title="@($"Contract {Name} - Cropper.Blazor")"
+               Overview="@($"Contract {Name}.")"
+               Keywords="@(
+               new[] { Name, $"Contract {Name}" })" />
+}
+
+<DocsApi Type="@ComponentType" IsContract="@IsContract" IsComponentContract="@IsComponentContract" IsHelper="@IsHelper" />

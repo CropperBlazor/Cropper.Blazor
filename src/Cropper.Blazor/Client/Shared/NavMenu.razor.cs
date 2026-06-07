@@ -8,9 +8,13 @@ namespace Cropper.Blazor.Client.Shared
     {
         [Inject] private IMenuService MenuService { get; set; } = null!;
 
+        [Inject] private DocsVersionService DocsVersionService { get; set; } = null!;
+
         [Inject] private NavigationManager NavMan { get; set; } = null!;
 
         private string? Section;
+
+        private string RoutePrefix => DocsVersionService.GetRoutePrefix(NavMan.Uri);
 
         protected override void OnInitialized()
         {

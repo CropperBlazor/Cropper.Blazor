@@ -103,7 +103,7 @@ public class LayoutService
     {
         Uri webUri = new(uri);
 
-        if (webUri.AbsolutePath.Contains("/demo"))
+        if (webUri.AbsolutePath.Contains("/demo") || webUri.AbsolutePath is "/v1" or "/v2")
         {
             return BasePage.Demo;
         }

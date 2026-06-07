@@ -1,0 +1,46 @@
+@using System
+@using System.Linq
+@using Microsoft.AspNetCore.Components
+@using MudBlazor
+@using System.Collections.Generic
+@using System.Text.RegularExpressions
+@using MudBlazor.Utilities
+
+@if (SpecialHeaderContent != null)
+{
+    <div class="@DocsPageHeaderClassName">
+        @SpecialHeaderContent
+    </div>
+}
+else
+{
+    <div class="@DocsPageHeaderClassName">
+        <MudText Typo="@TitleTypo">@Title</MudText>
+            <MudText>@GetSubTitle() @Description</MudText>
+        </div>
+}
+
+@code {
+
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string SubTitle { get; set; }
+    [Parameter] public RenderFragment Description { get; set; }
+    [Parameter] public RenderFragment SpecialHeaderContent { get; set; }
+    [Parameter] public Typo TitleTypo { get; set; } = Typo.h3;
+    [Parameter] public string DocsPageHeaderClass { get; set; }
+
+    protected string DocsPageHeaderClassName =>
+        new CssBuilder("docs-page-header")
+            .AddClass(!string.IsNullOrWhiteSpace(DocsPageHeaderClass) ? DocsPageHeaderClass : "mt-6 mb-12")
+            .Build();
+
+
+    string GetTitle() => $"{Title} - Cropper.Blazor";
+
+    string GetSubTitle()
+    {
+        if (string.IsNullOrEmpty(SubTitle))
+            return "";
+        return SubTitle.TrimEnd('.') + ".";
+    }
+}

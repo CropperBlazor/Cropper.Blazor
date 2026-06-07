@@ -1,0 +1,38 @@
+﻿<MudMainContent Class="mb-8">
+    <MudContainer MaxWidth="MaxWidth.Large">
+        <div id="docspage" class="docs-page">
+            <CascadingValue Value="this" IsFixed>
+                @ChildContent
+            </CascadingValue>
+        </div>
+    </MudContainer>
+    @if (DisplayFooter)
+    {
+        <MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
+            <Footer />
+        </MudContainer>
+    }
+    else
+    {
+        <MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+            <MudToolBar Gutters="false" Dense="true" WrapContent="true">
+                <MudText Typo="Typo.body1">Copyright © 2022-@DateTime.Now.Year <span class="text-gradient">Cropper.Blazor</span></MudText>
+                <MudSpacer />
+                <MudText Typo="Typo.body1">Powered by .NET @Environment.Version.ToString()</MudText>
+                </MudToolBar>
+            </MudContainer>
+    }
+    <MudDrawer Class="docs-page-content-navigation-drawer" @bind-Open="_contentDrawerOpen" Breakpoint="Breakpoint.Lg" Anchor="MudBlazor.Anchor.End" ClipMode="DrawerClipMode.Always" Elevation="0" Color="Color.Transparent">
+        @if (IsDisplayView)
+        {
+            <MudText Typo="Typo.subtitle1" Class="title" GutterBottom="true">
+                Mode
+            </MudText>
+            <div class="d-flex px-2 mb-2">
+                <NavLink class="mode-links mr-2" href="@($"components/{ComponentName}")" Match="NavLinkMatch.All">Overview</NavLink>
+                <NavLink class="mode-links ml-2" href="@($"api/{ComponentName}")" Match="NavLinkMatch.All">API</NavLink>
+            </div>
+        }
+        <MudPageContentNavigation SectionClassSelector="docs-section-header" @ref="ContentNavigation" ActivateFirstSectionAsDefault="true" />
+    </MudDrawer>
+</MudMainContent>
