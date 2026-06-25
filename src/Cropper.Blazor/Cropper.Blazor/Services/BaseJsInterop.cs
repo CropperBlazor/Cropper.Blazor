@@ -100,6 +100,12 @@ namespace Cropper.Blazor.Services
                 Uri baseUri = new(_navigationManager.BaseUri);
                 string hostName = baseUri.GetHostName();
 
+                string absolutePath = baseUri.AbsolutePath.TrimEnd('/');
+                if (!string.IsNullOrEmpty(absolutePath))
+                {
+                    hostName = hostName + absolutePath;
+                }
+
                 return Path.Combine(hostName, _cropperJsInteropOptions.DefaultInternalPathToCropperModule);
             }
         }
