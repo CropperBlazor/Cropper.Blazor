@@ -1,9 +1,0 @@
-@inherits LayoutComponentBase
-
-<PageTitle>Cropper.Blazor - blazor component for cropping images</PageTitle>
-
-<MudThemeProvider @ref="@_mudThemeProvider" Theme="@LayoutService.CurrentTheme" ObserveSystemThemeChange="@LayoutService.ObserveSystemThemeChange" IsDarkMode="@LayoutService.IsDarkMode" IsDarkModeChanged="@((dark) => LayoutService.UpdateDarkModeState(dark))" />
-<MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.ExtraSmall" />
-<MudSnackbarProvider />
-<MudPopoverProvider />
-@Body
