@@ -1,4 +1,6 @@
-﻿@page "/examples/dimensions"
+@page "/examples/dimensions"
+@page "/v1/examples/dimensions"
+@page "/v2/examples/dimensions"
 @using Cropper.Blazor.Client.Pages.CropBoxDimensions.Examples
 
 <SeoHeader Title="Crop box dimensions - Cropper.Blazor"
@@ -25,7 +27,7 @@
     <DocsPageHeader Title="Crop box dimensions" SubTitle="" />
     <DocsPageContent>
 
-        <DocsPageSection>
+        <DocsPageSection UserAttributes="@(new Dictionary<string, object> { ["data-testid"] = "dimensions-basic-section" })">
             <SectionHeader Title="Basic dimensions settings">
                 <Description>
                     To set the <b>initial dimensions</b> of crop area (crop box), you can use the
@@ -35,9 +37,8 @@
                     To resize the crop area of ​​an <b>already initialized</b> cropper component
                     you can use its <CodeInline Class="docs-code-warning">SetData</CodeInline> method.
                     <br>
-                    <MudAlert Class="mt-3" Severity="Severity.Warning">
-                        <b>Note:</b> This method only available when the value of the
-                        <CodeInline><MudLink UserAttributes="@(new Dictionary<string, object>(){ {"rel", "noopener"} })" Target="_blank" Href="/api/ViewMode">ViewMode</MudLink></CodeInline> option is greater than or equal to 1.
+                    <MudAlert Class="mt-3" Severity="Severity.Info">
+                        Cropper.js v2 boundary restrictions are applied with <CodeInline>cropper-selection</CodeInline> change events instead of the legacy <CodeInline>viewMode</CodeInline> option.
                     </MudAlert>
                     <MudAlert Class="mt-2" Severity="Severity.Info">
                         Height and width of the crop area are based on the <b>natural size of the original image</b>.
@@ -49,7 +50,7 @@
             </SectionContent>
         </DocsPageSection>
 
-        <DocsPageSection>
+        <DocsPageSection UserAttributes="@(new Dictionary<string, object> { ["data-testid"] = "dimensions-min-max-section" })">
             <SectionHeader Title="Min and Max dimensions">
                 <Description>
                     You can use the <CodeInline Class="docs-code-tertiary">OnCropEvent</CodeInline> to create
@@ -69,7 +70,7 @@
             </SectionContent>
         </DocsPageSection>
 
-        <DocsPageSection>
+        <DocsPageSection UserAttributes="@(new Dictionary<string, object> { ["data-testid"] = "dimensions-minimum-relative-section" })">
             <SectionHeader Title="Minimum relative dimensions">
                 <Description>
                     Use the <CodeInline>MinCropBoxHeight</CodeInline> and <CodeInline>MinCropBoxWidth</CodeInline>

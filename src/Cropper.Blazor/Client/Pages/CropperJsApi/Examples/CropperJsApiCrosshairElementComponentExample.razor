@@ -1,0 +1,26 @@
+@using Cropper.Blazor.Models
+
+<div class="img-container cropper-js-api-crosshair-element" data-testid="cropper-js-api-crosshair-element">
+    <CropperComponent Class="big-img" Src="images/Rivne.jpg" Options="cropperOptions">
+        <CropperCrosshairElement Centered="true" ThemeColor="rgba(255, 255, 255, 0.85)" />
+    </CropperComponent>
+</div>
+
+@code {
+    private readonly Options cropperOptions = new()
+    {
+        Center = true
+    };
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+</style>

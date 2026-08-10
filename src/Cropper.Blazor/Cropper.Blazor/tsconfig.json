@@ -5,23 +5,20 @@
     "removeComments": true,
     "sourceMap": true,
     "target": "es2020",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "lib": [ "es2016", "dom" ],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "baseUrl": ".",
+    "types": [ "node" ],
+    "lib": [ "es2020", "dom" ],
     "preserveConstEnums": true,
     "allowJs": false,
-    "baseUrl": ".",
-    "paths": {
-      "cropperjs/*": [ "node_modules/cropperjs/src/*" ],
-      "vitest/*": [ "node_modules/vitest/*" ]
-    },
     "declaration": false
   },
-  "exclude": [ "node_modules" ],
+  "exclude": [ "./node_modules", "./**/*.test.ts", "./**/*.coverage.test.ts", "./**/*.spec.ts" ],
   "include": [
-    "Cropper/types/global/*.d.ts",
-    "Cropper/**/*.ts",
-    "Cropper/*.ts",
-    "vitest.config.ts"
+    "./Cropper/types/global/*.d.ts",
+    "./node_modules/cropperjs/dist/cropper.d.ts",
+    "./Cropper/**/*.ts",
+    "./Cropper/*.ts"
   ]
 }

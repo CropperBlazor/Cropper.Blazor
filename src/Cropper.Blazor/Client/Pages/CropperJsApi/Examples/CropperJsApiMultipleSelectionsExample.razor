@@ -1,0 +1,106 @@
+@using Cropper.Blazor.Models
+@using System.Linq
+
+<div class="img-container cropper-js-api-multiple-selections">
+    <CropperComponent @ref="cropperComponent"
+                      Class="big-img"
+                      Src="images/Rivne.jpg"
+                      Options="cropperOptions" />
+</div>
+
+<MudStack Row="true" Spacing="2" Class="mt-3 flex-wrap">
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateSelectionsAsync">
+        Create selections
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => ChangeSelectionAsync(0, 24, 24, 120, 90, "circle"))">
+        #1 Circle
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => ChangeSelectionAsync(1, 168, 40, 110, 110, "pentagon"))">
+        #2 Pentagon
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => ChangeSelectionAsync(2, 300, 48, 130, 80, "arrow"))">
+        #3 Arrow
+    </MudButton>
+</MudStack>
+
+<MudText Typo="Typo.body2" Class="mt-2">Selection count: @selectionCount</MudText>
+<MudText Typo="Typo.body2" Class="mt-1" data-testid="cropper-js-api-selection-shapes">Selection figures: @selectionFigures</MudText>
+
+@code {
+    private CropperComponent? cropperComponent;
+    private int selectionCount;
+    private string selectionFigures = string.Empty;
+
+    private readonly Options cropperOptions = new()
+    {
+        AutoCropArea = 0.4m,
+        SelectionMultiple = true,
+        HandleAction = CropperAction.Select,
+        SelectionOptions = new SelectionElementOptions
+        {
+            Multiple = true,
+            Movable = true,
+            Resizable = true
+        }
+    };
+
+    private async Task CreateSelectionsAsync()
+    {
+        cropperComponent!.ChangeSelectionByIndex(0, 24, 24, 120, 90);
+        cropperComponent.SetSelectionShapeByIndex(0, "circle");
+        cropperComponent.CreateSelection(168, 40, 110, 110);
+        cropperComponent.CreateSelection(300, 48, 130, 80);
+
+        await Task.Delay(50);
+        cropperComponent.ChangeSelectionByIndex(1, 168, 40, 110, 110);
+        cropperComponent.SetSelectionShapeByIndex(1, "pentagon");
+        cropperComponent.ChangeSelectionByIndex(2, 300, 48, 130, 80);
+        cropperComponent.SetSelectionShapeByIndex(2, "arrow");
+        await UpdateSelectionsAsync();
+    }
+
+    private async Task ChangeSelectionAsync(int index, decimal x, decimal y, decimal width, decimal height, string shape)
+    {
+        while (await cropperComponent!.GetSelectionCountAsync() <= index)
+        {
+            cropperComponent.CreateSelection(x, y, width, height);
+            await Task.Delay(50);
+        }
+
+        cropperComponent.ChangeSelectionByIndex(index, x, y, width, height);
+        cropperComponent.SetSelectionShapeByIndex(index, shape);
+        await UpdateSelectionsAsync();
+    }
+
+    private async Task UpdateSelectionsAsync()
+    {
+        IReadOnlyList<CropperSelectionData> selections = await cropperComponent!.GetSelectionsDataAsync();
+
+        selectionCount = selections.Count;
+        selectionFigures = string.Join(", ", selections.Select(selection => selection.Shape ?? "default"));
+    }
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+
+    .cropper-js-api-multiple-selections cropper-selection[data-cropper-face="circle"] {
+        border-radius: 50%;
+    }
+
+    .cropper-js-api-multiple-selections cropper-selection[data-cropper-face="pentagon"] {
+        clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    }
+
+    .cropper-js-api-multiple-selections cropper-selection[data-cropper-face="arrow"] {
+        clip-path: polygon(40% 0%, 40% 40%, 100% 40%, 100% 60%, 40% 60%, 40% 100%, 0% 50%);
+    }
+</style>

@@ -8,7 +8,8 @@ module.exports = (env, args) => ({
   resolve: {
     extensions: [".ts", ".js", ".css"],
     alias: {
-      cropperjs: path.resolve(__dirname, "node_modules/cropperjs/src"),
+      // Use the distribution ESM build from cropperjs v2
+      cropperjs: path.resolve(__dirname, "node_modules/cropperjs/dist/cropper.esm.js"),
     },
   },
   devtool: args.mode === "development" ? "inline-source-map" : "hidden-source-map",

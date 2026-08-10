@@ -1,18 +1,16 @@
-﻿using System;
-using System.Text.Json.Serialization;
-using Microsoft.JSInterop;
+﻿using System.Text.Json.Serialization;
 
 namespace Cropper.Blazor.Events.CropMoveEvent
 {
     /// <summary>
     /// Provides the metadata of a Crop Move Event.
     /// </summary>
-    public class CropMoveEvent : IDisposable
+    public class CropMoveEvent
     {
         /// <summary>
         /// Event actions.
         /// </summary>
-        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [JsonConverter(typeof(ActionEventJsonConverter))]
         [JsonPropertyName("action")]
         public ActionEvent ActionEvent { get; set; }
 
@@ -20,14 +18,6 @@ namespace Cropper.Blazor.Events.CropMoveEvent
         /// Represents a pointermove, touchmove, mousemove original event.
         /// </summary>
         [JsonPropertyName("originalEvent")]
-        public IJSObjectReference? OriginalEvent { get; set; }
-
-        /// <summary>
-        /// Called to dispose this instance and internal services.
-        /// </summary>
-        public void Dispose()
-        {
-            OriginalEvent?.DisposeAsync();
-        }
+        public OriginalEvent? OriginalEvent { get; set; }
     }
 }

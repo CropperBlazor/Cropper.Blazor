@@ -70,4 +70,11 @@
 		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
 	</ItemGroup>
 
+	<Target Name="CleanCoverageReports" AfterTargets="Clean">
+		<ItemGroup>
+			<CoverageReportFiles Include="$(MSBuildProjectDirectory)\coverage*.cobertura.xml" />
+		</ItemGroup>
+		<Delete Files="@(CoverageReportFiles)" TreatErrorsAsWarnings="true" />
+	</Target>
+
 </Project>

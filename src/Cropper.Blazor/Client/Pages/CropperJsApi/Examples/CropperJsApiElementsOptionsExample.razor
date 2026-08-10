@@ -1,0 +1,125 @@
+@using Cropper.Blazor.Models
+
+<div class="cropper-js-api-elements-options" data-testid="cropper-js-api-elements-options">
+    <MudAlert Severity="Severity.Info" Class="mb-3" Dense="true">
+        Configure Cropper.js internal elements as Blazor child components inside <CodeInline>CropperComponent</CodeInline>.
+    </MudAlert>
+
+    <div class="img-container">
+        <CropperComponent Class="big-img"
+                          Src="images/Rivne.jpg"
+                          Options="cropperOptions"
+                          CropperState="cropperState">
+            <CropperCanvasElement Background="false" ScaleStep="0.2m" ThemeColor="rgba(51, 153, 255, 0.12)" />
+            <CropperImageElement InitialCenterSize="CropperImageInitialCenterSize.Contain"
+                                 Alt="Cropper.js API internal elements example"
+                                 Rotatable="true"
+                                 Scalable="true"
+                                 Skewable="true"
+                                 Translatable="true" />
+            <CropperShadeElement Hidden="false" ThemeColor="rgba(0, 0, 0, 0.45)" />
+            <CropperHandleElement Action="CropperAction.Select" Plain="true" ThemeColor="rgba(51, 153, 255, 0.35)" />
+            <CropperSelectionElement Dynamic="true"
+                                     Movable="true"
+                                     Resizable="true"
+                                     Zoomable="false"
+                                     Multiple="false"
+                                     Keyboard="true"
+                                     Outlined="true"
+                                     Precise="true" />
+            <CropperGridElement Rows="4" Columns="4" Bordered="true" Covered="true" ThemeColor="rgba(255, 255, 255, 0.65)" />
+            <CropperCrosshairElement Centered="true" ThemeColor="rgba(255, 255, 255, 0.85)" />
+            <CropperHandleElement Target="CropperHandleElementTarget.Move" Action="CropperAction.Move" ThemeColor="rgba(255, 255, 255, 0.45)" />
+            <CropperResizeHandleElement ThemeColor="rgba(51, 153, 255, 0.65)" />
+        </CropperComponent>
+    </div>
+
+    <MudGrid Class="mt-3" Spacing="2">
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="pa-3 h-100" Outlined="true">
+                <MudText Typo="Typo.subtitle2">cropper-canvas</MudText>
+                <MudText Typo="Typo.caption">Background, scale step, disabled state, and theme color.</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="pa-3 h-100" Outlined="true">
+                <MudText Typo="Typo.subtitle2">cropper-image</MudText>
+                <MudText Typo="Typo.caption">Initial center size, alt text, rotate, scale, skew, and translate flags.</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="pa-3 h-100" Outlined="true">
+                <MudText Typo="Typo.subtitle2">cropper-shade</MudText>
+                <MudText Typo="Typo.caption">Modal shade visibility and overlay theme color.</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="pa-3 h-100" Outlined="true">
+                <MudText Typo="Typo.subtitle2">cropper-handle[action="select"]</MudText>
+                <MudText Typo="Typo.caption">Plain canvas handle used to create a new selection.</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="pa-3 h-100" Outlined="true">
+                <MudText Typo="Typo.subtitle2">cropper-selection</MudText>
+                <MudText Typo="Typo.caption">Movement, resize, zoom, keyboard, outline, precise, and multi-selection flags.</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="pa-3 h-100" Outlined="true">
+                <MudText Typo="Typo.subtitle2">cropper-grid</MudText>
+                <MudText Typo="Typo.caption">Rows, columns, borders, coverage, and theme color.</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="pa-3 h-100" Outlined="true">
+                <MudText Typo="Typo.subtitle2">cropper-crosshair</MudText>
+                <MudText Typo="Typo.caption">Centered guide and theme color.</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="pa-3 h-100" Outlined="true">
+                <MudText Typo="Typo.subtitle2">cropper-handle[action="move"]</MudText>
+                <MudText Typo="Typo.caption">Selection face handle used to move the active crop box.</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="pa-3 h-100" Outlined="true">
+                <MudText Typo="Typo.subtitle2">resize cropper-handle elements</MudText>
+                <MudText Typo="Typo.caption">Eight directional resize handles: n, e, s, w, ne, nw, se, and sw.</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12">
+            <MudPaper Class="pa-3 h-100" Outlined="true">
+                <MudText Typo="Typo.subtitle2">cropper-viewer</MudText>
+                <MudText Typo="Typo.caption">A synchronized viewer bound to the current cropper selection.</MudText>
+                <CropperViewer CropperState="cropperState" Class="cropper-js-api-viewer mt-2" data-testid="cropper-js-api-viewer" />
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</div>
+
+@code {
+    private readonly CropperState cropperState = new();
+
+    private readonly Options cropperOptions = new();
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+
+    .cropper-js-api-viewer {
+        height: 120px;
+        max-width: 220px;
+        overflow: hidden;
+        width: 100%;
+    }
+</style>

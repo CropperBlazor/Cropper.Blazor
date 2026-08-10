@@ -1,4 +1,5 @@
-﻿@page "/"
+@page "/"
+@page "/v2/home"
 @layout LandingLayout
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 1)]
 
@@ -7,8 +8,11 @@
 @using Cropper.Blazor.Client.Models;
 @using Cropper.Blazor.Client.Pages.Examples
 @using Cropper.Blazor.Client.Pages.Home.Installation.Examples
+@using Cropper.Blazor.Client.Services
 @using Cropper.Blazor.Shared.Attributes
 @using Cropper.Blazor.Shared.Models
+@inject NavigationManager NavigationManager
+@inject DocsVersionService DocsVersionService
 
 <SeoHeader Title="Cropper Blazor component for cropping images"
            Overview="Getting started with Cropper.Blazor for faster and easier web development."
@@ -42,14 +46,18 @@
                             <a target="_blank" rel="noopener" href="https://github.com/fengyuanchen/cropperjs">
                                 <span style="color: var(--mud-palette-secondary)"><b>Cropper.js</b></span>
                             </a>
-                            version 1.6.2
+                            version @(DocsVersionService.GetVersion(NavigationManager.Uri) == DocsVersion.V2 ? "2.1.1" : "1.6.2")
                         </MudText>
                     </MudItem>
 
                     <MudItem xl="12" lg="12" md="12" sm="12" xs="12" Class="d-flex justify-center gap-4 pb-8">
                         <MudButton Color="Color.Primary" Variant="Variant.Filled" DisableElevation="true"
-                                   Class="button-gradient" Size="Size.Large" Href="/demo">
+                                   Class="button-gradient" Size="Size.Large" Href="@DocsVersionService.GetDemoRoute(NavigationManager.Uri)">
                             <MudText Align="Align.Center">View Demo</MudText>
+                        </MudButton>
+                        <MudButton Color="Color.Default" Variant="Variant.Outlined" DisableElevation="true"
+                                   Size="Size.Large" Href="@DocsVersionService.GetOtherVersionHomeRoute(NavigationManager.Uri)">
+                            <MudText Align="Align.Center">Switch to @(DocsVersionService.GetVersion(NavigationManager.Uri) == DocsVersion.V2 ? "v1" : "v2") docs</MudText>
                         </MudButton>
                         <MudButton Color="Color.Default" Variant="Variant.Outlined" StartIcon="@Icons.Custom.Brands.GitHub"
                                    Size="Size.Large" Class="ms-4" Href="https://github.com/CropperBlazor/Cropper.Blazor" Target="_blank">

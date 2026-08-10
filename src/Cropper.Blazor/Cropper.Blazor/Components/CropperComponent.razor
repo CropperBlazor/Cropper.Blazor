@@ -1,5 +1,9 @@
 ﻿@using Models;
 
+<CascadingValue Value="this" IsFixed="true">
+    @ChildContent
+</CascadingValue>
+
 @if (IsErrorLoadImage == true)
 {
     @if (ErrorLoadImageContent is null)

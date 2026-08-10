@@ -1,45 +1,30 @@
-﻿using System.Collections.Generic;
-using Bogus;
-using Microsoft.JSInterop;
-using Moq;
+﻿using Bogus;
 using Xunit;
+using Cropper.Blazor.Events;
 using Event = Cropper.Blazor.Events.ZoomEvent.ZoomEvent;
 
 namespace Cropper.Blazor.UnitTests.Events.ZoomEvent
 {
     public class ZoomEvent_Should
     {
-        private static Mock<IJSObjectReference> _mockIJSObjectReference = null!;
-
-        [Theory, MemberData(nameof(TestData_Verify_Dispose))]
-        public void Verify_Dispose(IJSObjectReference? jSObjectReference, Times times)
+        [Fact]
+        public void Create_WithOriginalEventMetadata()
         {
             // arrange
-            Event @event = new Faker<Event>()
-                .RuleFor(x => x.OriginalEvent, jSObjectReference);
+            OriginalEvent originalEvent = new()
+            {
+                Type = "wheel",
+                DeltaY = -120,
+                ClientX = 34,
+                ClientY = 56
+            };
 
             // act
-            @event.Dispose();
+            Event @event = new Faker<Event>()
+                .RuleFor(x => x.OriginalEvent, originalEvent);
 
             // assert
-            _mockIJSObjectReference.Verify(c => c.DisposeAsync(), times);
-        }
-
-        public static IEnumerable<object[]> TestData_Verify_Dispose()
-        {
-            yield return WrapArgs(null, Times.Never());
-
-            _mockIJSObjectReference = new Mock<IJSObjectReference>();
-            yield return WrapArgs(_mockIJSObjectReference.Object, Times.Once());
-
-            static object[] WrapArgs(
-                IJSObjectReference? jSObjectReference,
-                Times times)
-                => new object[]
-                {
-                    jSObjectReference,
-                    times
-                };
+            Assert.Same(originalEvent, @event.OriginalEvent);
         }
     }
 }

@@ -1,0 +1,28 @@
+<div class="img-container cropper-js-api-grid-element" data-testid="cropper-js-api-grid-element">
+    <CropperGrid InputAttributes="gridAttributes" />
+</div>
+
+@code {
+    private readonly IReadOnlyDictionary<string, object> gridAttributes = new Dictionary<string, object>
+    {
+        ["rows"] = 4,
+        ["columns"] = 4,
+        ["bordered"] = true,
+        ["covered"] = true,
+        ["theme-color"] = "rgba(255, 255, 255, 0.65)",
+    };
+}
+
+<style>
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+
+    .cropper-js-api-grid-element cropper-grid {
+        display: block;
+        height: 220px;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.35);
+    }
+</style>

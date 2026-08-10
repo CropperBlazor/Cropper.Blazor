@@ -2,20 +2,20 @@
 @using System.Text.RegularExpressions
 
 <MudText Typo="Typo.subtitle1" Class="mt-1 mb-2 ml-2 d-flex d-md-none"><b>Docs</b></MudText>
-<MudNavLink Href="demo" Class="docs-single-link">Demo</MudNavLink>
+<MudNavLink Href="@(DocsVersionService.GetDemoRoute(NavMan.Uri).TrimStart('/'))" Class="docs-single-link">Demo</MudNavLink>
 <MudNavGroup Title="Examples" Expanded="@(Section == "examples")" ExpandIcon="@Icons.Material.Filled.ExpandMore">
-    @foreach (var link in MenuService.DocsLinkExamples)
+    @foreach (var link in MenuService.GetDocsLinkExamples(RoutePrefix))
     {
         <MudNavLink Href="@link.Href" Match="NavLinkMatch.Prefix">@link.Title</MudNavLink>
     }
 </MudNavGroup>
 <MudNavGroup Title="API" Expanded="@(Section == "api")" ExpandIcon="@Icons.Material.Filled.ExpandMore">
-    @foreach (var title in MenuService.DocsLinkApi.GroupBy(x => x.Group).Select(x => x.Key))
+    @foreach (var title in MenuService.GetDocsLinkApi(RoutePrefix).GroupBy(x => x.Group).Select(x => x.Key))
     {
         <div class="docs-css-api-header">
             @title
         </div>
-        @foreach (var link in MenuService.DocsLinkApi.Where(x => x.Group == title))
+        @foreach (var link in MenuService.GetDocsLinkApi(RoutePrefix).Where(x => x.Group == title))
         {
             <MudNavLink Href="@link.Href" Match="NavLinkMatch.All">@link.Title</MudNavLink>
         }

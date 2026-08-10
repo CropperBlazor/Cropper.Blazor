@@ -1,9 +1,9 @@
-﻿@using Cropper.Blazor.Models;
+@using Cropper.Blazor.Models;
 
 <MudGrid>
     <MudItem xs="12" sm="8" md="9" lg="9">
         <MudPaper Class="pa-2">
-            <div class="img-container">
+            <div class="dimensions-example-cropper-container">
                 <CropperComponent Class="big-img" @ref="CropperComponent"
                                   Src="images/Rivne2.jpg" Options="CropperOptions" />
             </div>
@@ -30,7 +30,6 @@
             Width = 400,
             Height = 400,
         },
-        ViewMode = ViewMode.Vm3
     };
 
     decimal _cropBoxWidth = 400;
@@ -74,8 +73,14 @@
         max-width: 100%;
     }
 
-    .img-container {
-        max-height: 400px;
+    .dimensions-example-cropper-container {
+        height: 400px;
+        overflow: hidden;
         width: 100%;
     }
+
+        .dimensions-example-cropper-container cropper-canvas {
+            height: 400px;
+            width: 100%;
+        }
 </style>

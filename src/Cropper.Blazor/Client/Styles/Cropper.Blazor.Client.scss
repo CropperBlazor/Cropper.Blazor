@@ -187,6 +187,43 @@
     );
 }
 
+.img-container cropper-selection {
+    overflow: hidden;
+}
+
+.selection-card-viewer cropper-viewer {
+    display: block;
+    height: 100% !important;
+    min-height: 100%;
+    min-width: 100%;
+    width: 100%;
+}
+
+.img-container cropper-selection::part(outline),
+.img-container cropper-selection::after {
+    overflow: hidden;
+}
+
+.img-container.cropper-face-close cropper-selection,
+.img-container cropper-selection[data-cropper-face="close"],
+.img-container.cropper-face-close cropper-selection::part(outline),
+.img-container.cropper-face-close cropper-selection::after {
+    clip-path: polygon(
+        20% 0%,
+        0% 20%,
+        30% 50%,
+        0% 80%,
+        20% 100%,
+        50% 70%,
+        80% 100%,
+        100% 80%,
+        70% 50%,
+        100% 20%,
+        80% 0%,
+        50% 30%
+    );
+}
+
 .button-gradient:hover {
     box-shadow:
         0.3px 0.5px 0.4px hsl(200deg 100% 38% / 62%),
@@ -261,10 +298,47 @@
     );
 }
 
+.img-container.cropper-face-arrow cropper-selection,
+.img-container cropper-selection[data-cropper-face="arrow"],
+.img-container.cropper-face-arrow cropper-selection::part(outline),
+.img-container.cropper-face-arrow cropper-selection::after {
+    clip-path: polygon(
+        40% 0%,
+        40% 40%,
+        100% 40%,
+        100% 60%,
+        40% 60%,
+        40% 100%,
+        0% 50%
+    );
+}
+
+.img-container cropper-selection[data-cropper-face="arrow"] {
+    outline: var(--cropper-advanced-selection-line-width, 4px) solid var(--cropper-advanced-selection-color, #3399ff);
+    outline-offset: calc(var(--cropper-advanced-selection-line-width, 4px) * -1);
+    background-color: var(--cropper-advanced-selection-background, rgba(51, 153, 255, 0.18));
+}
+
+.img-container cropper-selection[data-cropper-face="arrow"]::after {
+    content: "";
+    position: absolute;
+    inset: var(--cropper-advanced-selection-line-width, 4px);
+    clip-path: polygon(40% 0%, 40% 40%, 100% 40%, 100% 60%, 40% 60%, 40% 100%, 0% 50%);
+    border: var(--cropper-advanced-selection-line-width, 4px) solid var(--cropper-advanced-selection-color, #3399ff);
+    pointer-events: none;
+}
+
 .img-container.cropper-face-circle
     .cropper-container
     .cropper-crop-box
     .cropper-face {
+    border-radius: 50%;
+}
+
+.img-container.cropper-face-circle cropper-selection,
+.img-container cropper-selection[data-cropper-face="circle"],
+.img-container.cropper-face-circle cropper-selection::part(outline),
+.img-container.cropper-face-circle cropper-selection::after {
     border-radius: 50%;
 }
 
@@ -273,4 +347,26 @@
     .cropper-crop-box
     .cropper-face {
     clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+
+.img-container.cropper-face-pentagon cropper-selection,
+.img-container cropper-selection[data-cropper-face="pentagon"],
+.img-container.cropper-face-pentagon cropper-selection::part(outline),
+.img-container.cropper-face-pentagon cropper-selection::after {
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+
+.img-container cropper-selection[data-cropper-face="pentagon"] {
+    outline: var(--cropper-advanced-selection-line-width, 4px) solid var(--cropper-advanced-selection-color, #3399ff);
+    outline-offset: calc(var(--cropper-advanced-selection-line-width, 4px) * -1);
+    background-color: var(--cropper-advanced-selection-background, rgba(51, 153, 255, 0.18));
+}
+
+.img-container cropper-selection[data-cropper-face="pentagon"]::after {
+    content: "";
+    position: absolute;
+    inset: var(--cropper-advanced-selection-line-width, 4px);
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    border: var(--cropper-advanced-selection-line-width, 4px) solid var(--cropper-advanced-selection-color, #3399ff);
+    pointer-events: none;
 }

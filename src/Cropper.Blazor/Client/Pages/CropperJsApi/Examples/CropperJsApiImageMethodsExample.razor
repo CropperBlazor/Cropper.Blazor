@@ -1,0 +1,58 @@
+@using Cropper.Blazor.Models
+
+<div class="img-container">
+    <CropperComponent @ref="cropperComponent"
+                      Class="big-img"
+                      Src="images/Rivne.jpg"
+                      Options="cropperOptions" />
+</div>
+
+<MudStack Row="true" Spacing="2" Class="mt-3 flex-wrap">
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => cropperComponent?.Center("contain"))">
+        Center contain
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => cropperComponent?.Center("cover"))">
+        Center cover
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => cropperComponent?.Move(10, 0))">
+        Move right
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => cropperComponent?.MoveTo(0, 0))">
+        Move to origin
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => cropperComponent?.Rotate(45))">
+        Rotate 45°
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => cropperComponent?.Scale(-1, 1))">
+        Flip X
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => cropperComponent?.Zoom(0.1m))">
+        Zoom in
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(() => cropperComponent?.Reset())">
+        Reset
+    </MudButton>
+</MudStack>
+
+@code {
+    private CropperComponent? cropperComponent;
+
+    private readonly Options cropperOptions = new()
+    {
+        AspectRatio = 16m / 9m,
+        ImageInitialCenterSize = CropperImageInitialCenterSize.Contain,
+        Zoomable = true
+    };
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+</style>

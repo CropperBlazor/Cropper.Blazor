@@ -54,5 +54,30 @@ namespace Cropper.Blazor.UnitTests.Components
             receiver.CroppedCanvas!.JSRuntimeObjectRef.Should().BeSameAs(mockJsRef.Object);
             completedCroppedCanvasTask.Should().BeSameAs(receiver.CroppedCanvas);
         }
+
+        [Fact]
+        public void ReceiveCanvasReference_Should_Pass_Filled_JSObjectReference_To_Callback()
+        {
+            // arrange
+            Mock<IJSObjectReference> mockJsRef = new Mock<IJSObjectReference>();
+            CroppedCanvas? receivedCanvas = null;
+
+            var receiver = new CroppedCanvasReceiver(
+                (canvas, _) =>
+                {
+                    receivedCanvas = canvas;
+
+                    return Task.CompletedTask;
+                },
+                CancellationToken.None);
+
+            // act
+            receiver.ReceiveCanvasReference(mockJsRef.Object);
+
+            // assert
+            receivedCanvas.Should().NotBeNull();
+            receivedCanvas!.JSRuntimeObjectRef.Should().BeSameAs(mockJsRef.Object);
+            receiver.CroppedCanvas.JSRuntimeObjectRef.Should().BeSameAs(mockJsRef.Object);
+        }
     }
 }

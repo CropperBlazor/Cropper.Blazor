@@ -1,0 +1,67 @@
+@namespace Cropper.Blazor.Components
+@inherits ComponentBase
+@code {
+    /// <summary>
+    /// Provides access to the parent cropper component.
+    /// </summary>
+    [CascadingParameter]
+    public CropperComponent? CropperComponent { get; set; }
+
+    /// <summary>
+    /// Selects which Cropper.js handle element receives these options.
+    /// </summary>
+    [Parameter]
+    public CropperHandleElementTarget Target { get; set; } = CropperHandleElementTarget.Plain;
+
+    /// <summary>
+    /// Hide the handle element.
+    /// </summary>
+    [Parameter]
+    public bool? Hidden { get; set; }
+
+    /// <summary>
+    /// Set the Cropper.js action performed by the handle.
+    /// </summary>
+    [Parameter]
+    public Models.CropperAction? Action { get; set; }
+
+    /// <summary>
+    /// Render the handle as a plain handle.
+    /// </summary>
+    [Parameter]
+    public bool? Plain { get; set; }
+
+    /// <summary>
+    /// Set the handle theme color.
+    /// </summary>
+    [Parameter]
+    public string? ThemeColor { get; set; }
+
+    /// <summary>
+    /// Enable the default slot for the handle element.
+    /// </summary>
+    [Parameter]
+    public bool? Slottable { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        Models.HandleElementOptions options = new()
+        {
+            Hidden = Hidden,
+            Action = Action,
+            Plain = Plain,
+            ThemeColor = ThemeColor,
+            Slottable = Slottable
+        };
+
+        if (Target == CropperHandleElementTarget.Move)
+        {
+            CropperComponent?.SetMoveHandleElementOptions(options);
+        }
+        else
+        {
+            CropperComponent?.SetHandleElementOptions(options);
+        }
+    }
+}

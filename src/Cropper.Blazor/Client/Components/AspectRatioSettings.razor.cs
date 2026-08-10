@@ -55,6 +55,11 @@ namespace Cropper.Blazor.Client.Components
 
         public async Task ApplyAspectRatioRulesForCropperAsync()
         {
+            if (!IsFreeAspectRatioEnabled)
+            {
+                return;
+            }
+
             if (minAspectRatio is not null || maxAspectRatio is not null)
             {
                 ContainerData containerData = await CropperComponent!.GetContainerDataAsync();
@@ -64,9 +69,15 @@ namespace Cropper.Blazor.Client.Components
                 {
                     decimal aspectRatio = cropBoxData.Width / cropBoxData.Height;
 
-                    if (aspectRatio < minAspectRatio || aspectRatio > maxAspectRatio)
+                    decimal lowerAspectRatio = minAspectRatio ?? 0M;
+                    decimal upperAspectRatio = maxAspectRatio ?? decimal.MaxValue;
+
+                    if (aspectRatio < lowerAspectRatio || aspectRatio > upperAspectRatio)
                     {
-                        decimal? newCropBoxWidth = cropBoxData.Height * ((minAspectRatio + maxAspectRatio) / 2);
+                        decimal targetAspectRatio = aspectRatio < lowerAspectRatio
+                            ? lowerAspectRatio
+                            : upperAspectRatio;
+                        decimal? newCropBoxWidth = cropBoxData.Height * targetAspectRatio;
                         decimal? left = (containerData.Width - newCropBoxWidth) / 2;
 
                         CropperComponent!.SetCropBoxData(new SetCropBoxDataOptions
@@ -87,6 +98,15 @@ namespace Cropper.Blazor.Client.Components
         public void SetUpAspectRatio(decimal? aspectRatio)
         {
             AspectRatio = aspectRatio;
+            StateHasChanged();
+        }
+
+        public void Reset()
+        {
+            minAspectRatio = null;
+            maxAspectRatio = null;
+            AspectRatio = null;
+
             StateHasChanged();
         }
     }

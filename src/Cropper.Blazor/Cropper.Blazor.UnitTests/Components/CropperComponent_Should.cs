@@ -269,6 +269,8 @@ namespace Cropper.Blazor.UnitTests.Components
             decimal scaleY = faker.Random.Decimal();
             decimal aspectRatio = faker.Random.Decimal();
             DragMode dragMode = faker.Random.Enum<DragMode>();
+            int selectionIndex = faker.Random.Int(0, 3);
+            string selectionShape = "circle";
             decimal ratio = faker.Random.Decimal();
             decimal pivotX = faker.Random.Decimal();
             decimal pivotY = faker.Random.Decimal();
@@ -342,6 +344,14 @@ namespace Cropper.Blazor.UnitTests.Components
                     numberImageQuality,
                     cancellationToken))
                 .ReturnsAsync(expectedCroppedCanvasDataURL);
+
+            _mockCropperJsInterop
+                .Setup(c => c.GetSelectionCanvasReferenceByIndexAsync(
+                    It.IsAny<Guid>(),
+                    selectionIndex,
+                    getCroppedCanvasOptions,
+                    cancellationToken))
+                .ReturnsAsync(mockIJSObjectReference.Object);
 
             _mockCropperJsInterop
                 .Setup(c => c.GetCroppedCanvasDataInBackgroundAsync(
@@ -577,6 +587,22 @@ namespace Cropper.Blazor.UnitTests.Components
                 cropperComponent.Instance.SetDragMode(dragMode);
                 _mockCropperJsInterop.Verify(c => c.SetDragModeAsync(cropperComponentId, dragMode, cancellationToken), Times.Once());
 
+                cropperComponent.Instance.CreateSelection(x, y ?? 0, scaleX, scaleY);
+                _mockCropperJsInterop.Verify(c => c.CreateSelectionAsync(cropperComponentId, x, y ?? 0, scaleX, scaleY, cancellationToken), Times.Once());
+
+                cropperComponent.Instance.ChangeSelectionByIndex(selectionIndex, x, y ?? 0, scaleX, scaleY, aspectRatio);
+                _mockCropperJsInterop.Verify(c => c.ChangeSelectionByIndexAsync(cropperComponentId, selectionIndex, x, y ?? 0, scaleX, scaleY, aspectRatio, cancellationToken), Times.Once());
+
+                cropperComponent.Instance.SetSelectionShapeByIndex(selectionIndex, selectionShape);
+                _mockCropperJsInterop.Verify(c => c.SetSelectionShapeByIndexAsync(cropperComponentId, selectionIndex, selectionShape, cancellationToken), Times.Once());
+
+                await cropperComponent.Instance.GetSelectionCountAsync();
+                _mockCropperJsInterop.Verify(c => c.GetSelectionCountAsync(cropperComponentId, cancellationToken), Times.Once());
+
+                IJSObjectReference? selectionCanvasReference = await cropperComponent.Instance.GetSelectionCanvasReferenceByIndexAsync(selectionIndex, getCroppedCanvasOptions);
+                selectionCanvasReference.Should().Be(mockIJSObjectReference.Object);
+                _mockCropperJsInterop.Verify(c => c.GetSelectionCanvasReferenceByIndexAsync(cropperComponentId, selectionIndex, getCroppedCanvasOptions, cancellationToken), Times.Once());
+
                 cropperComponent.Instance.Zoom(ratio);
                 _mockCropperJsInterop.Verify(c => c.ZoomAsync(cropperComponentId, ratio, cancellationToken), Times.Once());
 
@@ -670,6 +696,8 @@ namespace Cropper.Blazor.UnitTests.Components
             decimal scaleY = faker.Random.Decimal();
             decimal aspectRatio = faker.Random.Decimal();
             DragMode dragMode = faker.Random.Enum<DragMode>();
+            int selectionIndex = faker.Random.Int(0, 3);
+            string selectionShape = "circle";
             decimal ratio = faker.Random.Decimal();
             decimal pivotX = faker.Random.Decimal();
             decimal pivotY = faker.Random.Decimal();
@@ -734,6 +762,14 @@ namespace Cropper.Blazor.UnitTests.Components
                     numberImageQuality,
                     cancellationToken))
                 .ReturnsAsync(expectedCroppedCanvasDataURL);
+
+            _mockCropperJsInterop
+                .Setup(c => c.GetSelectionCanvasReferenceByIndexAsync(
+                    It.IsAny<Guid>(),
+                    selectionIndex,
+                    getCroppedCanvasOptions,
+                    cancellationToken))
+                .ReturnsAsync(mockIJSObjectReference.Object);
 
             _mockCropperJsInterop
                 .Setup(c => c.GetCroppedCanvasDataInBackgroundAsync(
@@ -1383,8 +1419,7 @@ namespace Cropper.Blazor.UnitTests.Components
         }
 
         private bool VerifyOptions(Options options) =>
-            options.ViewMode == ViewMode.Vm0
-            && options.DragMode == DragMode.Crop.ToEnumString()
+            options.DragMode == DragMode.Crop
             && options.InitialAspectRatio == null
             && options.AspectRatio == null
             && options.SetDataOptions == null
@@ -1399,11 +1434,11 @@ namespace Cropper.Blazor.UnitTests.Components
             && options.Highlight == true
             && options.Background == true
             && options.AutoCrop == true
-            && options.AutoCropArea == 0.8m
+            && options.AutoCropArea == 0.5m
             && options.Movable == true
             && options.Rotatable == true
             && options.Scalable == true
-            && options.Zoomable == true
+            && options.Zoomable == false
             && options.ZoomOnTouch == true
             && options.ZoomOnWheel == true
             && options.WheelZoomRatio == 0.1m

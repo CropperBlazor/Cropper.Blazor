@@ -1,0 +1,28 @@
+@using Cropper.Blazor.Models
+
+<div class="img-container cropper-js-api-image-element" data-testid="cropper-js-api-image-element">
+    <CropperComponent Class="big-img" Src="images/Rivne.jpg" Options="cropperOptions">
+        <CropperImageElement InitialCenterSize="CropperImageInitialCenterSize.Cover"
+                             Alt="Cropper.js API image element example"
+                             Rotatable="true"
+                             Scalable="true"
+                             Skewable="true"
+                             Translatable="true" />
+    </CropperComponent>
+</div>
+
+@code {
+    private readonly Options cropperOptions = new();
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+</style>

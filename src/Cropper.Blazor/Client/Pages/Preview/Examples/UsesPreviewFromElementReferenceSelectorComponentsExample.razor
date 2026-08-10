@@ -1,14 +1,25 @@
 ﻿@using Cropper.Blazor.Components
 @using Cropper.Blazor.Models
 
-<div class="img-container">
+<div class="preview-example-cropper-container">
     <CropperComponent Class="cropper-example"
                       Src="cropperblazor.png"
                       Options="Options" />
 </div>
-<div @ref="ElementReference" class="img-example-preview" />
+<div @ref="ElementReference" class="img-example-preview" data-testid="preview-example-element-reference" />
 
 <style>
+    .preview-example-cropper-container {
+        height: 300px;
+        overflow: hidden;
+        width: 100%;
+    }
+
+        .preview-example-cropper-container cropper-canvas {
+            height: 300px;
+            width: 100%;
+        }
+
     .cropper-example {
         max-height: 300px;
         width: 100%;

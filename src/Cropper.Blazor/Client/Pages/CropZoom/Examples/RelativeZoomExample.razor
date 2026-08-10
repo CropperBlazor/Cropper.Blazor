@@ -1,4 +1,4 @@
-﻿@using Cropper.Blazor.Models;
+@using Cropper.Blazor.Models;
 @using Cropper.Blazor.Events;
 @using Cropper.Blazor.Events.ZoomEvent;
 @using Cropper.Blazor.Events.CropReadyEvent;
@@ -36,7 +36,6 @@
     private Options cropperOptions = new Options
     {
         AspectRatio = 1m,
-        ViewMode = ViewMode.Vm3
     };
 
     decimal _zoomRatio;

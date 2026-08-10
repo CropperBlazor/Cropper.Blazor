@@ -1,0 +1,27 @@
+@using Cropper.Blazor.Models
+
+<div class="img-container">
+    <CropperComponent Class="big-img"
+                      Src="images/Rivne.jpg"
+                      Options="cropperOptions" />
+</div>
+
+@code {
+    private readonly Options cropperOptions = new()
+    {
+        AspectRatio = 16m / 9m,
+        AutoCropArea = 0.65m
+    };
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+</style>

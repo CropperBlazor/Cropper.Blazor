@@ -7,6 +7,8 @@ namespace Cropper.Blazor.Client.Services
         //Menu sections
         IEnumerable<DocsLink> DocsLinkExamples { get; }
         IEnumerable<DocsLink> DocsLinkApi { get; }
+        IEnumerable<DocsLink> GetDocsLinkExamples(string routePrefix);
+        IEnumerable<DocsLink> GetDocsLinkApi(string routePrefix);
     }
 
     /// <summary>
@@ -30,6 +32,7 @@ namespace Cropper.Blazor.Client.Services
             new() {Title = "Zooming", Href = "examples/zooming"},
             new() {Title = "Cropping", Href = "examples/cropping"},
             new() {Title = "Replacing", Href = "examples/replacing"},
+            new() {Title = "Cropper.js API", Href = "examples/cropperjs-api"},
             new() {Title = "Rebuild cropper", Href = "examples/rebuild"}
         };
 
@@ -38,7 +41,6 @@ namespace Cropper.Blazor.Client.Services
             new() {Title = "CropperComponent", Href = "api"},
             new() {Title = "CroppedCanvasReceiver", Href = "api/CroppedCanvasReceiver"},
             new() {Title = "ImageReceiver", Href = "api/ImageReceiver"},
-            new() {Group = "Data", Title = "ViewMode", Href = "api/ViewMode"},
             new() {Group = "Data", Title = "DragMode", Href = "api/DragMode"},
             new() {Group = "Data", Title = "CropperComponentType", Href = "api/CropperComponentType"},
             new() {Group = "Data", Title = "CropperData", Href = "api/CropperData"},
@@ -64,5 +66,30 @@ namespace Cropper.Blazor.Client.Services
             new() {Group = "Exceptions", Title = "ImageProcessingException", Href = "api/ImageProcessingException"},
             new() {Group = "Helpers", Title = "IUrlImageInterop", Href = "api/IUrlImageInterop"},
         };
+
+        public IEnumerable<DocsLink> GetDocsLinkExamples(string routePrefix)
+        {
+            return DocsLinkExamples.Select(link => new DocsLink { Group = link.Group, Title = link.Title, Href = PrefixHref(routePrefix, link.Href) });
+        }
+
+        public IEnumerable<DocsLink> GetDocsLinkApi(string routePrefix)
+        {
+            return DocsLinkApi.Select(link => new DocsLink { Group = link.Group, Title = link.Title, Href = PrefixHref(routePrefix, link.Href) });
+        }
+
+        private static string PrefixHref(string routePrefix, string href)
+        {
+            string normalizedPrefix = routePrefix.TrimEnd('/');
+            string normalizedHref = href.StartsWith('/') ? href : $"/{href}";
+
+            if (normalizedHref.StartsWith("/v1", StringComparison.OrdinalIgnoreCase)
+                || normalizedHref.StartsWith("/v2", StringComparison.OrdinalIgnoreCase)
+                || normalizedHref.StartsWith("/releases", StringComparison.OrdinalIgnoreCase))
+            {
+                return normalizedHref.TrimStart('/');
+            }
+
+            return $"{normalizedPrefix}{normalizedHref}".TrimStart('/');
+        }
     }
 }

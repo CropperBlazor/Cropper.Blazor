@@ -723,6 +723,91 @@ namespace Cropper.Blazor.UnitTests.Services
         }
 
         [Fact]
+        public async Task Verify_CreateSelectionAsync()
+        {
+            Guid cropperComponentId = Guid.NewGuid();
+            decimal x = _faker.Random.Decimal();
+            decimal y = _faker.Random.Decimal();
+            decimal width = _faker.Random.Decimal();
+            decimal height = _faker.Random.Decimal();
+
+            _testContext.JSInterop
+                .SetupVoid("cropper.createSelection", cropperComponentId, x, y, width, height)
+                .SetVoidResult();
+
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
+
+            await _cropperJsInterop.CreateSelectionAsync(cropperComponentId, x, y, width, height);
+        }
+
+        [Fact]
+        public async Task Verify_RemoveSelectionByIndexAsync()
+        {
+            Guid cropperComponentId = Guid.NewGuid();
+            int selectionIndex = _faker.Random.Int(0, 3);
+
+            _testContext.JSInterop
+                .SetupVoid("cropper.removeSelectionByIndex", cropperComponentId, selectionIndex)
+                .SetVoidResult();
+
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
+
+            await _cropperJsInterop.RemoveSelectionByIndexAsync(cropperComponentId, selectionIndex);
+        }
+
+        [Fact]
+        public async Task Verify_ChangeSelectionByIndexAsync()
+        {
+            Guid cropperComponentId = Guid.NewGuid();
+            int selectionIndex = _faker.Random.Int(0, 3);
+            decimal x = _faker.Random.Decimal();
+            decimal y = _faker.Random.Decimal();
+            decimal width = _faker.Random.Decimal();
+            decimal height = _faker.Random.Decimal();
+            decimal aspectRatio = _faker.Random.Decimal();
+
+            _testContext.JSInterop
+                .SetupVoid("cropper.changeSelectionByIndex", cropperComponentId, selectionIndex, x, y, width, height, aspectRatio)
+                .SetVoidResult();
+
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
+
+            await _cropperJsInterop.ChangeSelectionByIndexAsync(cropperComponentId, selectionIndex, x, y, width, height, aspectRatio);
+        }
+
+        [Fact]
+        public async Task Verify_SetSelectionShapeByIndexAsync()
+        {
+            Guid cropperComponentId = Guid.NewGuid();
+            int selectionIndex = _faker.Random.Int(0, 3);
+            string shape = "circle";
+
+            _testContext.JSInterop
+                .SetupVoid("cropper.setSelectionShapeByIndex", cropperComponentId, selectionIndex, shape)
+                .SetVoidResult();
+
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
+
+            await _cropperJsInterop.SetSelectionShapeByIndexAsync(cropperComponentId, selectionIndex, shape);
+        }
+
+        [Fact]
+        public async Task Verify_GetSelectionCountAsync()
+        {
+            Guid cropperComponentId = Guid.NewGuid();
+
+            _testContext.JSInterop
+                .Setup<int>("cropper.getSelectionCount", cropperComponentId)
+                .SetResult(3);
+
+            VerifyLoadCropperModule(DefaultPathToCropperModule);
+
+            int result = await _cropperJsInterop.GetSelectionCountAsync(cropperComponentId);
+
+            result.Should().Be(3);
+        }
+
+        [Fact]
         public async Task Verify_ZoomAsync()
         {
             // arrange

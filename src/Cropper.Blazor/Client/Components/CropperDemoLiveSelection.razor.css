@@ -1,0 +1,33 @@
+.img-preview {
+    align-items: center;
+    background-color: var(--mud-palette-background-gray);
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+}
+
+.img-preview img {
+    max-width: 100%;
+}
+
+.preview-lg {
+    height: 9em;
+    width: 16em;
+}
+
+.preview-md {
+    height: 4.5em;
+    width: 8em;
+}
+
+.preview-sm {
+    height: 2.25em;
+    width: 4em;
+}
+
+.preview-xs {
+    height: 1.125em;
+    margin-right: 0;
+    width: 2em;
+}

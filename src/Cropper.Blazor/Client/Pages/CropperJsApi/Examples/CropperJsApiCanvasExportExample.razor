@@ -1,0 +1,61 @@
+@using Cropper.Blazor.Extensions
+@using Cropper.Blazor.Models
+
+<div class="img-container">
+    <CropperComponent @ref="cropperComponent"
+                      Class="big-img"
+                      Src="images/Rivne.jpg"
+                      Options="cropperOptions" />
+</div>
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-3" OnClick="GetSelectionCanvasAsync">
+    Export selection to canvas data URL
+</MudButton>
+
+@if (!string.IsNullOrWhiteSpace(croppedCanvasDataUrl))
+{
+    <MudPaper Class="pa-2 mt-3">
+        <img class="cropped-img-container" src="@croppedCanvasDataUrl" alt="Cropped selection result" />
+    </MudPaper>
+}
+
+@code {
+    private CropperComponent? cropperComponent;
+    private string? croppedCanvasDataUrl;
+
+    private readonly Options cropperOptions = new()
+    {
+        AspectRatio = 16m / 9m,
+        AutoCropArea = 0.6m
+    };
+
+    private async Task GetSelectionCanvasAsync()
+    {
+        GetCroppedCanvasOptions options = new()
+        {
+            MaxWidth = 640,
+            MaxHeight = 360,
+            FillColor = "#ffffff",
+            ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString()
+        };
+
+        croppedCanvasDataUrl = await cropperComponent!.GetCroppedCanvasDataURLAsync(options, "image/jpeg", 0.92f);
+    }
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+
+    .cropped-img-container {
+        width: 100%;
+        max-width: 640px;
+    }
+</style>

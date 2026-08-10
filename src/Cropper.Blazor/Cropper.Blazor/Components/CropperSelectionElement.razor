@@ -1,0 +1,136 @@
+@namespace Cropper.Blazor.Components
+@inherits ComponentBase
+@code {
+    /// <summary>
+    /// Provides access to the parent cropper component.
+    /// </summary>
+    [CascadingParameter]
+    public CropperComponent? CropperComponent { get; set; }
+
+    /// <summary>
+    /// Hide the selection element.
+    /// </summary>
+    [Parameter]
+    public bool? Hidden { get; set; }
+
+    /// <summary>
+    /// The x-axis coordinate of the selection.
+    /// </summary>
+    [Parameter]
+    public decimal? X { get; set; }
+
+    /// <summary>
+    /// The y-axis coordinate of the selection.
+    /// </summary>
+    [Parameter]
+    public decimal? Y { get; set; }
+
+    /// <summary>
+    /// The selection width.
+    /// </summary>
+    [Parameter]
+    public decimal? Width { get; set; }
+
+    /// <summary>
+    /// The selection height.
+    /// </summary>
+    [Parameter]
+    public decimal? Height { get; set; }
+
+    /// <summary>
+    /// The selection aspect ratio.
+    /// </summary>
+    [Parameter]
+    public decimal? AspectRatio { get; set; }
+
+    /// <summary>
+    /// The initial selection aspect ratio.
+    /// </summary>
+    [Parameter]
+    public decimal? InitialAspectRatio { get; set; }
+
+    /// <summary>
+    /// The initial selection coverage.
+    /// </summary>
+    [Parameter]
+    public decimal? InitialCoverage { get; set; }
+
+    /// <summary>
+    /// Enable dynamic selection updates.
+    /// </summary>
+    [Parameter]
+    public bool? Dynamic { get; set; }
+
+    /// <summary>
+    /// Enable selection movement.
+    /// </summary>
+    [Parameter]
+    public bool? Movable { get; set; }
+
+    /// <summary>
+    /// Enable selection resizing.
+    /// </summary>
+    [Parameter]
+    public bool? Resizable { get; set; }
+
+    /// <summary>
+    /// Enable zooming from the selection.
+    /// </summary>
+    [Parameter]
+    public bool? Zoomable { get; set; }
+
+    /// <summary>
+    /// Enable multiple selections.
+    /// </summary>
+    [Parameter]
+    public bool? Multiple { get; set; }
+
+    /// <summary>
+    /// Enable keyboard interactions for the selection.
+    /// </summary>
+    [Parameter]
+    public bool? Keyboard { get; set; }
+
+    /// <summary>
+    /// Show the selection outline.
+    /// </summary>
+    [Parameter]
+    public bool? Outlined { get; set; }
+
+    /// <summary>
+    /// Enable precise selection changes.
+    /// </summary>
+    [Parameter]
+    public bool? Precise { get; set; }
+
+    /// <summary>
+    /// Enable the default slot for the selection element.
+    /// </summary>
+    [Parameter]
+    public bool? Slottable { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        CropperComponent?.SetSelectionElementOptions(new Models.SelectionElementOptions
+        {
+            Hidden = Hidden,
+            X = X,
+            Y = Y,
+            Width = Width,
+            Height = Height,
+            AspectRatio = AspectRatio,
+            InitialAspectRatio = InitialAspectRatio,
+            InitialCoverage = InitialCoverage,
+            Dynamic = Dynamic,
+            Movable = Movable,
+            Resizable = Resizable,
+            Zoomable = Zoomable,
+            Multiple = Multiple,
+            Keyboard = Keyboard,
+            Outlined = Outlined,
+            Precise = Precise,
+            Slottable = Slottable
+        });
+    }
+}

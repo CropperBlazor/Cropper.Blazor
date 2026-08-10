@@ -1,9 +1,9 @@
-﻿import type { CropperBlazor as DotNetTypes } from "../../types/global/dotnet-global.custom";
+﻿import type { CropperBlazor as CropEventDataTypes } from "./crop-event-data";
 
 export namespace CropperBlazor.Data {
   export type ZoomEventDataJS = {
     oldRatio: number;
     ratio: number;
-    originalEvent: DotNetTypes.Global.JsObjectReference | null;
+    originalEvent: CropEventDataTypes.Data.OriginalEventDataJS | null;
   };
 }

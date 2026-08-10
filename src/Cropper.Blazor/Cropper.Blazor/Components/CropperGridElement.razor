@@ -1,0 +1,66 @@
+@namespace Cropper.Blazor.Components
+@inherits ComponentBase
+@code {
+    /// <summary>
+    /// Provides access to the parent cropper component.
+    /// </summary>
+    [CascadingParameter]
+    public CropperComponent? CropperComponent { get; set; }
+
+    /// <summary>
+    /// Hide the grid element.
+    /// </summary>
+    [Parameter]
+    public bool? Hidden { get; set; }
+
+    /// <summary>
+    /// Set the grid row count.
+    /// </summary>
+    [Parameter]
+    public decimal? Rows { get; set; }
+
+    /// <summary>
+    /// Set the grid column count.
+    /// </summary>
+    [Parameter]
+    public decimal? Columns { get; set; }
+
+    /// <summary>
+    /// Show grid borders.
+    /// </summary>
+    [Parameter]
+    public bool? Bordered { get; set; }
+
+    /// <summary>
+    /// Cover the grid element.
+    /// </summary>
+    [Parameter]
+    public bool? Covered { get; set; }
+
+    /// <summary>
+    /// Set the grid theme color.
+    /// </summary>
+    [Parameter]
+    public string? ThemeColor { get; set; }
+
+    /// <summary>
+    /// Enable the default slot for the grid element.
+    /// </summary>
+    [Parameter]
+    public bool? Slottable { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        CropperComponent?.SetGridElementOptions(new Models.GridElementOptions
+        {
+            Hidden = Hidden,
+            Rows = Rows,
+            Columns = Columns,
+            Bordered = Bordered,
+            Covered = Covered,
+            ThemeColor = ThemeColor,
+            Slottable = Slottable
+        });
+    }
+}

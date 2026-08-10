@@ -1,0 +1,59 @@
+@using Cropper.Blazor.Models
+
+<div class="img-container cropper-js-api-selection-multiple-disabled" data-testid="cropper-js-api-selection-multiple-disabled">
+    <CropperComponent @ref="cropperComponent"
+                      Class="big-img"
+                      Src="images/Rivne.jpg"
+                      Options="cropperOptions">
+        <CropperSelectionElement Dynamic="true"
+                                 Movable="true"
+                                 Resizable="true"
+                                 Zoomable="false"
+                                 Multiple="false"
+                                 Keyboard="true"
+                                 Outlined="true"
+                                 Precise="true" />
+    </CropperComponent>
+</div>
+
+<MudStack Row="true" Spacing="2" Class="mt-3 flex-wrap">
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="TryCreateSelectionsAsync">
+        Try create disabled multi selections
+    </MudButton>
+</MudStack>
+
+<MudText Typo="Typo.body2" Class="mt-2" data-testid="cropper-js-api-selection-multiple-disabled-count">Selection count: @selectionCount</MudText>
+
+@code {
+    private CropperComponent? cropperComponent;
+    private int selectionCount;
+
+    private readonly Options cropperOptions = new()
+    {
+        AutoCropArea = 0.35m,
+        SelectionMultiple = true,
+        HandleAction = CropperAction.Select
+    };
+
+    private async Task TryCreateSelectionsAsync()
+    {
+        cropperComponent!.ChangeSelectionByIndex(0, 24, 28, 140, 92);
+        cropperComponent.CreateSelection(180, 44, 110, 90);
+        cropperComponent.CreateSelection(310, 52, 120, 82);
+
+        await Task.Delay(50);
+        selectionCount = await cropperComponent.GetSelectionCountAsync();
+    }
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+</style>

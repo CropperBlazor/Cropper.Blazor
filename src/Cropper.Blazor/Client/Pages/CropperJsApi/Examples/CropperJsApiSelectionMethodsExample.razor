@@ -1,0 +1,50 @@
+@using Cropper.Blazor.Models
+
+<div class="img-container">
+    <CropperComponent @ref="cropperComponent"
+                      Class="big-img"
+                      Src="images/Rivne.jpg"
+                      Options="cropperOptions" />
+</div>
+
+<MudStack Row="true" Spacing="2" Class="mt-3 flex-wrap">
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => cropperComponent?.ChangeSelection(32, 32, 180, 120))">
+        Change
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => cropperComponent?.MoveSelectionTo(0, 0))">
+        Move to origin
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => cropperComponent?.CenterSelection())">
+        Center
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => cropperComponent?.ResetSelection())">
+        Reset
+    </MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(() => cropperComponent?.ClearSelection())">
+        Clear
+    </MudButton>
+</MudStack>
+
+@code {
+    private CropperComponent? cropperComponent;
+
+    private readonly Options cropperOptions = new()
+    {
+        AspectRatio = 3m / 2m,
+        AutoCropArea = 0.5m,
+        CropBoxMovable = true,
+        CropBoxResizable = true
+    };
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+</style>

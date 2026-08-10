@@ -1,4 +1,6 @@
 @page "/demo"
+@page "/v1"
+@page "/v2"
 @implements IBrowserViewportObserver
 @layout LandingLayout
 @attribute [SitemapUrl(changeFreq: ChangeFreq.Daily, priority: 0.9)]
@@ -13,17 +15,33 @@
 <SeoHeader Title="Demo - Cropper.Blazor"
            Overview="Cropper.Blazor is a component that wraps around Cropper.js."
            Keywords="@(
-            new []
-            {
-                "demo"
-            })" />
+                       new[]
+                       {
+                           "demo"
+                       })" />
 
 <MudContainer Class="@((Start.Equals(Breakpoint.Xl) || Start.Equals(Breakpoint.Xxl) ? "mud-container-maxwidth-xl " : "") + "mt-5")">
     <MudGrid Spacing="3" Class="mt-2">
-        @*//---Cropper Component---//*@
+        <MudItem sm="12" xs="12">
+            <MudPaper Class="pa-4 demo-hero" Elevation="2">
+                <div>
+                    <MudText Typo="Typo.h4" Class="mb-2">Cropper.Blazor interactive demo</MudText>
+                    <MudText Typo="Typo.body1">
+                        Work with one Cropper component, tune the current selection, preview output, and validate data from a single focused page.
+                    </MudText>
+                </div>
+                <MudButton Color="Color.Secondary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.RestartAlt" OnClick="ResetAllDemoState">
+                    Reset demo
+                </MudButton>
+            </MudPaper>
+        </MudItem>
         <MudItem xxl="7" xl="8" lg="8" md="9" sm="12" xs="12">
             <MudPaper Class="pa-4" Elevation="2">
-                <div class="@GetClassNameCropper()">
+                <MudText Typo="Typo.h5" Class="mb-1">Crop workspace</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">
+                    Use the controls below to adjust the active component and apply live settings to the current crop selection.
+                </MudText>
+                <div class="@GetClassNameCropper()" style="@GetAdvancedFigureStyle()" @ref="CropperContainer">
                     <CropperComponent Class="cropper-container"
                                       ErrorLoadImageClass="cropper-error-load"
                                       @ref="CropperComponent"
@@ -40,27 +58,18 @@
                                       IsErrorLoadImage="@IsErrorLoadImage"
                                       OnErrorLoadImageEvent="OnErrorLoadImageEvent"
                                       Options="Options"
+                                      CropperState="CropperState"
                                       IsAvailableInitCropper="IsAvailableInitCropper" />
                 </div>
             </MudPaper>
         </MudItem>
         @*//---Img preview and data---//*@
         <MudItem xxl="5" xl="4" lg="4" md="3" sm="12" xs="12">
-            <MudPaper Class="pa-4 d-flex flex-column justify-center mud-height-full" Elevation="2">
-                <div class="d-flex flex-row flex-wrap justify-center gap-1 mb-2 mh-100">
-                    <div @ref="ElementReferencePreviewLg" class="img-preview preview-lg"></div>
-                    <div class="d-flex flex-row flex-wrap gap-1">
-                        <div @ref="ElementReferencePreviewMd" class="img-preview preview-md"></div>
-                        <div class="d-flex flex-column flex-wrap align-center gap-1">
-                            <div @ref="ElementReferencePreviewSm" class="img-preview preview-sm"></div>
-                            <div @ref="ElementReferencePreviewXs" class="img-preview preview-xs"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="docs-data">
-                    <CropperDataPreview @ref="CropperDataPreview"></CropperDataPreview>
-                </div>
-            </MudPaper>
+            <CropperDemoLiveSelection @ref="LiveSelection"
+                                      CropperState="CropperState"
+                                      ActiveSelectionVersion="ActiveSelectionVersion"
+                                      RelatedImageSources="RelatedImageSources"
+                                      RelatedImageSelected="ReplaceImageFromRelatedSectionAsync" />
         </MudItem>
 
         <MudItem sm="12" xs="12" Class="pt-0">
@@ -76,7 +85,7 @@
                         <MudGrid Spacing="3">
                             @*//---Buttons for test cropper functional---//*@
                             <MudItem xxl="8" xl="7" lg="7" md="7" sm="12" xs="12">
-                                <MudPaper Class="pa-4 d-flex flex-row flex-wrap gap-x-4 gap-y-4 justify-center" Elevation="2">
+                                <MudPaper Class="pa-4 d-flex flex-row flex-wrap gap-x-4 gap-y-4 justify-center demo-actions-panel" Elevation="2">
                                     <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
                                         <MudTooltip Text="@("cropper.setDragMode(\"move\")")">
                                             <MudToggleIconButton Icon="@Icons.Material.Filled.OpenWith" ToggledIcon="@Icons.Material.Filled.OpenWith"
@@ -90,43 +99,43 @@
 
                                     <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
                                         <MudTooltip Text="Zoom In">
-                                            <MudIconButton Icon="@Icons.Material.Filled.ZoomIn" OnClick="@(()=>Zoom(0.1m))" title="Zoom In" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.ZoomIn" OnClick="@(() => Zoom(0.1m))" title="Zoom In" />
                                         </MudTooltip>
                                         <MudTooltip Text="Zoom Out">
-                                            <MudIconButton Icon="@Icons.Material.Filled.ZoomOut" OnClick="@(()=>Zoom(-0.1m))" Title="Zoom Out" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.ZoomOut" OnClick="@(() => Zoom(-0.1m))" Title="Zoom Out" />
                                         </MudTooltip>
                                     </MudButtonGroup>
 
                                     <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
                                         <MudTooltip Text="cropper.move(-10, 0)">
-                                            <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" OnClick="@(()=>Move(-10, 0))" title="Move Left" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" OnClick="@(() => Move(-10, 0))" title="Move Left" />
                                         </MudTooltip>
                                         <MudTooltip Text="cropper.move(10, 0)">
-                                            <MudIconButton Icon="@Icons.Material.Filled.ArrowRightAlt" OnClick="@(()=>Move(10, 0))" title="Move Right" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.ArrowRightAlt" OnClick="@(() => Move(10, 0))" title="Move Right" />
                                         </MudTooltip>
                                         <MudTooltip Text="cropper.move(0, -10)">
-                                            <MudIconButton Icon="@Icons.Material.Filled.ArrowUpward" OnClick="@(()=>Move(0, -10))" title="Move Up" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.ArrowUpward" OnClick="@(() => Move(0, -10))" title="Move Up" />
                                         </MudTooltip>
                                         <MudTooltip Text="cropper.move(0, 10)">
-                                            <MudIconButton Icon="@Icons.Material.Filled.ArrowDownward" OnClick="@(()=>Move(0, 10))" title="Move Down" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.ArrowDownward" OnClick="@(() => Move(0, 10))" title="Move Down" />
                                         </MudTooltip>
                                     </MudButtonGroup>
 
                                     <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
                                         <MudTooltip Text="cropper.rotate(-45)">
-                                            <MudIconButton Icon="@Icons.Material.Filled.RotateLeft" OnClick="@(()=>Rotate(-45))" title="Rotate Left" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.RotateLeft" OnClick="@(() => Rotate(-45))" title="Rotate Left" />
                                         </MudTooltip>
                                         <MudTooltip Text="cropper.rotate(45)">
-                                            <MudIconButton Icon="@Icons.Material.Filled.RotateRight" OnClick="@(()=>Rotate(45))" title="Rotate Right" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.RotateRight" OnClick="@(() => Rotate(45))" title="Rotate Right" />
                                         </MudTooltip>
                                     </MudButtonGroup>
 
                                     <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
                                         <MudTooltip Text="cropper.scaleX(-1)">
-                                            <MudIconButton Icon="@Icons.Material.Filled.SwapHoriz" OnClick="@(()=>ScaleX(-1m * ScaleXValue))" title="Flip Horizontal" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.SwapHoriz" OnClick="@(() => ScaleX(-1m * ScaleXValue))" title="Flip Horizontal" />
                                         </MudTooltip>
                                         <MudTooltip Text="cropper.scaleY(-1)">
-                                            <MudIconButton Icon="@Icons.Material.Filled.SwapVert" OnClick="@(()=>ScaleY(-1m * ScaleYValue))" title="Flip Vertical" />
+                                            <MudIconButton Icon="@Icons.Material.Filled.SwapVert" OnClick="@(() => ScaleY(-1m * ScaleYValue))" title="Flip Vertical" />
                                         </MudTooltip>
                                     </MudButtonGroup>
 
@@ -166,58 +175,198 @@
                                     </MudButtonGroup>
 
                                     <MudTooltip Text="cropper.moveTo(0)">
-                                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(()=>MoveTo(0, 0))">
+                                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(() => MoveTo(0, 0))">
                                             Move to [0,0]
                                         </MudButton>
                                     </MudTooltip>
+                                    <MudTooltip Text="Cropper.js v2: cropper.center('contain')">
+                                        <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="CenterContain">
+                                            Center contain
+                                        </MudButton>
+                                    </MudTooltip>
+                                    <MudTooltip Text="Cropper.js v2: cropper.center('cover')">
+                                        <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="CenterCover">
+                                            Center cover
+                                        </MudButton>
+                                    </MudTooltip>
+                                    <MudTooltip Text="Cropper.js v2: selection.$change(0, 0, 160, 90)">
+                                        <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="ChangeSelectionAsync">
+                                            Selection 160&times;90
+                                        </MudButton>
+                                    </MudTooltip>
+                                    <MudButtonGroup Color="Color.Info" Variant="Variant.Filled">
+                                        <MudTooltip Text="Cropper.js v2: selection.$change(0, 0, 100, 90)">
+                                            <MudButton OnClick="@(() => ChangeSelectionAsync(100, 90))">
+                                                100&times;90
+                                            </MudButton>
+                                        </MudTooltip>
+                                        <MudTooltip Text="Cropper.js v2: selection.$change(0, 0, 160, 60)">
+                                            <MudButton OnClick="@(() => ChangeSelectionAsync(160, 60))">
+                                                160&times;60
+                                            </MudButton>
+                                        </MudTooltip>
+                                        <MudTooltip Text="Cropper.js v2: selection.$change(0, 0, 200, 90)">
+                                            <MudButton OnClick="@(() => ChangeSelectionAsync(200, 90))">
+                                                200&times;90
+                                            </MudButton>
+                                        </MudTooltip>
+                                        <MudTooltip Text="Cropper.js v2: selection.$change(0, 0, 160, 120)">
+                                            <MudButton OnClick="@(() => ChangeSelectionAsync(160, 120))">
+                                                160&times;120
+                                            </MudButton>
+                                        </MudTooltip>
+                                        <MudTooltip Text="Cropper.js v2: selection.$change(0, 0, 320, 200)">
+                                            <MudButton OnClick="@(() => ChangeSelectionAsync(320, 200))">
+                                                320&times;200
+                                            </MudButton>
+                                        </MudTooltip>
+                                        <MudTooltip Text="Cropper.js v2: selection.$change(0, 0, 80, 50)">
+                                            <MudButton OnClick="@(() => ChangeSelectionAsync(80, 50))">
+                                                80&times;50
+                                            </MudButton>
+                                        </MudTooltip>
+                                    </MudButtonGroup>
+                                    <MudButtonGroup Color="Color.Secondary" Variant="Variant.Filled">
+                                        <MudTooltip Text="Enable multiple selections and create three selection figures">
+                                            <MudButton OnClick="CreateMultipleSelectionFiguresAsync" data-testid="create-multiple-selection-figures">
+                                                Multi figures
+                                            </MudButton>
+                                        </MudTooltip>
+                                        <MudTooltip Text="Change first selection">
+                                            <MudButton OnClick="@(() => ChangeSelectionByIndexAsync(0, 24, 24, 120, 90, CropperFace.Circle))" data-testid="selection-index-0-circle">
+                                                #1 Circle
+                                            </MudButton>
+                                        </MudTooltip>
+                                        <MudTooltip Text="Change second selection">
+                                            <MudButton OnClick="@(() => ChangeSelectionByIndexAsync(1, 168, 40, 110, 110, CropperFace.Pentagon))" data-testid="selection-index-1-pentagon">
+                                                #2 Pentagon
+                                            </MudButton>
+                                        </MudTooltip>
+                                        <MudTooltip Text="Change third selection">
+                                            <MudButton OnClick="@(() => ChangeSelectionByIndexAsync(2, 300, 48, 130, 80, CropperFace.Arrow))" data-testid="selection-index-2-arrow">
+                                                #3 Arrow
+                                            </MudButton>
+                                        </MudTooltip>
+                                    </MudButtonGroup>
+                                    <MudTooltip Text="Cropper.js v2: selection.$center()">
+                                        <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="CenterSelectionAsync">
+                                            Center Selection
+                                        </MudButton>
+                                    </MudTooltip>
+                                    <MudTooltip Text="Cropper.js v2: cropper.resetSelection()">
+                                        <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="ResetSelectionAsync">
+                                            Reset Selection
+                                        </MudButton>
+                                    </MudTooltip>
+                                    <MudTooltip Text="Cropper.js v2: selection.$clear()">
+                                        <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="ClearSelectionAsync">
+                                            Clear Selection
+                                        </MudButton>
+                                    </MudTooltip>
+                                    <MudTooltip Text="Cropper.js v2: selection.$moveTo(0, 0)">
+                                        <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="MoveSelectionToOriginAsync">
+                                            Selection to [0,0]
+                                        </MudButton>
+                                    </MudTooltip>
+                                    <MudTooltip Text="Cropper.js v2: selection.$toCanvas()">
+                                        <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="GetSelectionCanvasDataUrlAsync">
+                                            Selection to Canvas
+                                        </MudButton>
+                                    </MudTooltip>
+                                    <MudTooltip Text="Refresh CropperState subscribers for the active component">
+                                        <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="RefreshCurrentCropperAsync">
+                                            Refresh selection
+                                        </MudButton>
+                                    </MudTooltip>
                                     <MudTooltip Text="cropper.zoomTo(1)">
-                                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(()=>ZoomTo(1, 0, 0))">
+                                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(() => ZoomTo(1, 0, 0))">
                                             Zoom to 100%
                                         </MudButton>
                                     </MudTooltip>
                                     <MudTooltip Text="cropper.rotateTo(180)">
-                                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(()=>Rotate(180))" StartIcon="@Icons.Material.Filled.RotateRight">
+                                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(() => Rotate(180))" StartIcon="@Icons.Material.Filled.RotateRight">
                                             180&#176;
                                         </MudButton>
                                     </MudTooltip>
                                     <MudTooltip Text="cropper.scale(-2, -1)">
-                                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(()=>Scale(-2 * ScaleXValue, -1 * ScaleYValue))">
+                                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(() => Scale(-2 * ScaleXValue, -1 * ScaleYValue))">
                                             Scale (-2, -1)
                                         </MudButton>
                                     </MudTooltip>
                                     <MudTooltip Text="cropper.getCroppedCanvasDataURL({ maxWidth: 16096, maxHeight: 16096 })">
                                         <MudButton Color="Color.Secondary" Variant="Variant.Filled"
-                                                   OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                                                   OnClick="@(()=>GetCroppedCanvasDataURL(CreateCroppedCanvasOptions(16096, 16096)))">
                                             Get Cropped Canvas by URL
                                         </MudButton>
                                     </MudTooltip>
                                     <MudTooltip Text="cropper.getCroppedCanvasData({ maxWidth: 16096, maxHeight: 16096 })">
                                         <MudButton Color="Color.Secondary" Variant="Variant.Filled"
-                                                   OnClick="@(()=>GetCroppedCanvasData(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                                                   OnClick="@(()=>GetCroppedCanvasData(CreateCroppedCanvasOptions(16096, 16096)))">
                                             Get Cropped Canvas by element
                                         </MudButton>
                                     </MudTooltip>
                                     <MudButtonGroup Color="Color.Secondary" Variant="Variant.Filled">
                                         <MudTooltip Text="cropper.getCroppedCanvasDataURL({ width: 320, height: 180 })">
-                                            <MudButton OnClick="@(()=>GetCroppedCanvasDataURL(new GetCroppedCanvasOptions(){ MaxHeight = 180, MaxWidth = 320, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                                            <MudButton OnClick="@(() => GetCroppedCanvasDataURL(CreatePresetCroppedCanvasOptions(320, 180)))">
                                                 320&times;180
                                             </MudButton>
                                         </MudTooltip>
                                         <MudTooltip Text="cropper.getCroppedCanvasData({ width: 640, height: 360 })">
-                                            <MudButton OnClick="@(()=>GetCroppedCanvasData(new GetCroppedCanvasOptions(){ MaxHeight = 360, MaxWidth = 480, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                                            <MudButton OnClick="@(() => GetCroppedCanvasData(CreatePresetCroppedCanvasOptions(640, 360)))">
                                                 640&times;360
                                             </MudButton>
                                         </MudTooltip>
                                     </MudButtonGroup>
+                                    <CropperDemoAdvancedSelections IsEnabled="IsAdvancedSelectionFiguresEnabled"
+                                                                   SelectionItems="SelectionItems"
+                                                                   CropperState="CropperState"
+                                                                   ActiveSelectionVersion="ActiveSelectionVersion"
+                                                                   MinimumSelectionCount="MinimumSelectionCount"
+                                                                   MaximumSelectionCount="MaximumSelectionCount"
+                                                                   AdvancedFigureLineWidth="AdvancedFigureLineWidth"
+                                                                   AdvancedFigureColor="AdvancedFigureColor"
+                                                                   AdvancedFigureBackgroundColor="AdvancedFigureBackgroundColor"
+                                                                   AdvancedFigureBackgroundAlpha="AdvancedFigureBackgroundAlpha"
+                                                                   AllowAdvancedSelectionFigures="AllowAdvancedSelectionFiguresAsync"
+                                                                   CreateAdvancedMultipleSelectionFigures="CreateAdvancedMultipleSelectionFiguresAsync"
+                                                                   AddFiveSelectionFigures="AddFiveSelectionFiguresAsync"
+                                                                   RefreshSelectionItems="RefreshSelectionItemsAsync"
+                                                                   RemoveSelection="RemoveSelectionByIndexAsync"
+                                                                   SetMinimumSelectionCount="SetMinimumSelectionCountAsync"
+                                                                   SetMaximumSelectionCount="SetMaximumSelectionCountAsync"
+                                                                   AdvancedFigureLineWidthChanged="@(value => AdvancedFigureLineWidth = value)"
+                                                                   AdvancedFigureColorChanged="@(value => AdvancedFigureColor = NormalizeHexColor(value, AdvancedFigureColor))"
+                                                                   AdvancedFigureBackgroundColorChanged="@(value => AdvancedFigureBackgroundColor = NormalizeHexColor(value, AdvancedFigureBackgroundColor))"
+                                                                   AdvancedFigureBackgroundAlphaChanged="@(value => AdvancedFigureBackgroundAlpha = Math.Clamp(value, 0, 1))"
+                                                                   MoveSelection="MoveSelectionCardAsync"
+                                                                   ResizeSelection="ResizeSelectionCardAsync"
+                                                                   SetSelectionFigure="SetSelectionCardFigureAsync"
+                                                                   SetSelectionMinimumWidth="SetSelectionMinimumWidthAsync"
+                                                                   SetSelectionMaximumWidth="SetSelectionMaximumWidthAsync"
+                                                                   SetSelectionMinimumAspectRatio="SetSelectionMinimumAspectRatioAsync"
+                                                                   SetSelectionMaximumAspectRatio="SetSelectionMaximumAspectRatioAsync"
+                                                                   GetSelectionLimits="GetSelectionLimits" />
+                                    <CropperDemoCroppedImageQuality CroppedImageQuality="CroppedImageQuality"
+                                                                    CroppedImageQualityChanged="@(value => { CroppedImageQuality = NormalizeCroppedImageQuality(value); })"
+                                                                    CroppedImageSmoothingQuality="CroppedImageSmoothingQuality"
+                                                                    CroppedImageSmoothingQualityChanged="SetCroppedImageSmoothingQuality"
+                                                                    CroppedImageMinimumWidth="CroppedImageMinimumWidth"
+                                                                    CroppedImageMinimumWidthChanged="@(value => { CroppedImageMinimumWidth = NormalizeMinimumCroppedImageWidth(value); })"
+                                                                    CroppedImageMaximumWidth="CroppedImageMaximumWidth"
+                                                                    CroppedImageMaximumWidthChanged="@(value => { CroppedImageMaximumWidth = NormalizeMaximumCroppedImageWidth(value); })"
+                                                                    CroppedImageMinimumHeight="CroppedImageMinimumHeight"
+                                                                    CroppedImageMinimumHeightChanged="@(value => { CroppedImageMinimumHeight = NormalizeMinimumCroppedImageHeight(value); })"
+                                                                    CroppedImageMaximumHeight="CroppedImageMaximumHeight"
+                                                                    CroppedImageMaximumHeightChanged="@(value => { CroppedImageMaximumHeight = NormalizeMaximumCroppedImageHeight(value); })" />
                                     <MudTooltip Text="Get Cropped Canvas by element In Background ({ maxWidth: 16096, maxHeight: 16096 })">
                                         <MudButton Color="Color.Secondary" Variant="Variant.Filled"
-                                                   OnClick="@(()=>GetCroppedCanvasInBackgroundAsync(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                                                   OnClick="@(()=>GetCroppedCanvasInBackgroundAsync(CreateCroppedCanvasOptions(4096, 4096)))">
                                             Get Cropped Canvas by element In Background
                                         </MudButton>
                                     </MudTooltip>
                                     <MudTooltip Text="Get Chunked Stream Image In Background ({ maxWidth: 16096, maxHeight: 16096 })">
                                         <MudButton Color="Color.Secondary" Variant="Variant.Filled"
-                                                   OnClick="@(()=>GetImageChunkStreamAsync(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))">
+                                                   OnClick="@(()=>GetImageChunkStreamAsync(CreateCroppedCanvasOptions(4096, 4096)))">
                                             Get Chunked Stream Image In Background
                                         </MudButton>
                                     </MudTooltip>
@@ -225,252 +374,186 @@
                             </MudItem>
                             @*//---Aspect Ratio | View Mode | Get Cropped Canvas---//*@
                             <MudItem xxl="4" xl="5" lg="5" md="5" sm="12" xs="12">
-                                <MudPaper Class="pa-4 d-flex flex-column justify-center gap-4 mud-height-full" Elevation="2">
-                                    <MudBreakpointProvider>
-                                        <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true">
-                                            <MudButtonGroup Vertical="false" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
-                                                <MudTooltip Text="Get cropped image with polygon filter" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>GetCroppedCanvasDataByPolygonFilter(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))"
-                                                               Color="Color.Secondary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.CropOriginal"
-                                                               Class="ml-0 mud-width-full" Style="height: 100%">
-                                                        GET
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="Get cropped image with polygon filter in background" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>GetCroppedCanvasDataByPolygonFilterInBackground(new GetCroppedCanvasOptions(){ MaxHeight = 16096, MaxWidth = 16096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))"
-                                                               Color="Color.Secondary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.CropOriginal"
-                                                               Class="ml-0 mud-width-full" Style="height: 100%">
-                                                        GET In Background
-                                                    </MudButton>
-                                                </MudTooltip>
-                                            </MudButtonGroup>
-                                            <MudButtonGroup Vertical="false" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
-                                                <MudMenu Dense="true" Class="mud-width-full" MaxHeight="350"
-                                                         AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopCenter">
-                                                    <ActivatorContent>
-                                                        <MudTooltip RootClass="mud-width-full" Text="Toggle options with three state options - default (null), true, false">
-                                                            <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" FullWidth="true">Toggle Options</MudButton>
-                                                        </MudTooltip>
-                                                    </ActivatorContent>
-                                                    <ChildContent>
-                                                        <MudList T="bool" ReadOnly="false" Dense="true">
-                                                            @foreach (var item in Options.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool?)))
-                                                            {
-                                                                <MudListItem>
-                                                                    <MudCheckBox Label="@item.Name" Size="Size.Small" Dense="true" TriState="true" Value="(bool?)item.GetValue(Options, null)"
-                                                                                 ValueChanged="@((bool? newValue) => OptionsChecked(item.Name, newValue))" />
-                                                                </MudListItem>
-                                                            }
-                                                        </MudList>
-                                                    </ChildContent>
-                                                </MudMenu>
-                                            </MudButtonGroup>
-                                            <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
-                                                <MudTooltip Text="aspectRatio: 16 / 9" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetAspectRatio(1.7777777777777777m))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(Options.AspectRatio == 1.7777777777777777m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        16:9
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="aspectRatio: 4 / 3" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetAspectRatio(1.3333333333333333m))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
-                                                               Style="@(Options.AspectRatio == 1.3333333333333333m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        4:3
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="aspectRatio: 1 / 1" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetAspectRatio(1m))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
-                                                               Style="@(Options.AspectRatio == 1m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        1:1
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="aspectRatio: 0" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetAspectRatio(0m))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
-                                                               Style="@(Options.AspectRatio == 0m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        Free
-                                                    </MudButton>
-                                                </MudTooltip>
-                                            </MudButtonGroup>
-                                            <MudButtonGroup Color="Color.Success" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
-                                                <MudTooltip Text="View Mode 0" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm0))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
-                                                               Style="@(Options.ViewMode == ViewMode.Vm0 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        VM0
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="View Mode 1" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm1))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
-                                                               Style="@(Options.ViewMode == ViewMode.Vm1 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        VM1
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="View Mode 2" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm2))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
-                                                               Style="@(Options.ViewMode == ViewMode.Vm2 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        VM2
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="View Mode 3" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm3))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
-                                                               Style="@(Options.ViewMode == ViewMode.Vm3 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        VM3
-                                                    </MudButton>
-                                                </MudTooltip>
-                                            </MudButtonGroup>
-                                            <MudButtonGroup Color="Color.Success" Vertical="false" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
-                                                <MudTooltip Text="Default (Rectangle)" RootClass="mud-width-full">
-                                                    <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Default))" Color="Color.Success"
-                                                                   Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.CropFree"
-                                                                   Style="@(CropperFace == Enums.CropperFace.Default ? "background-color: var(--mud-palette-success-darken)" : "")" />
-                                                </MudTooltip>
-                                                <MudTooltip Text="Close" RootClass="mud-width-full">
-                                                    <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Close))" Color="Color.Success"
-                                                                   Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.Close"
-                                                                   Style="@(CropperFace == Enums.CropperFace.Close ? "background-color: var(--mud-palette-success-darken)" : "")" />
-                                                </MudTooltip>
-                                                <MudTooltip Text="Pentagon" RootClass="mud-width-full">
-                                                    <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Pentagon))" Color="Color.Success"
-                                                                   Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.Pentagon"
-                                                                   Style="@(CropperFace == Enums.CropperFace.Pentagon ? "background-color: var(--mud-palette-success-darken)" : "")" />
-                                                </MudTooltip>
-                                                <MudTooltip Text="Circle" RootClass="mud-width-full">
-                                                    <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Circle))" Color="Color.Success"
-                                                                   Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.Circle"
-                                                                   Style="@(CropperFace == Enums.CropperFace.Circle ? "background-color: var(--mud-palette-success-darken)" : "")" />
-                                                </MudTooltip>
-                                                <MudTooltip Text="Arrow" RootClass="mud-width-full">
-                                                    <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Arrow))" Color="Color.Success"
-                                                                   Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.ArrowBack"
-                                                                   Style="@(CropperFace == Enums.CropperFace.Arrow ? "background-color: var(--mud-palette-success-darken)" : "")" />
-                                                </MudTooltip>
-                                            </MudButtonGroup>
-                                        </MudHidden>
-                                        <MudHidden Breakpoint="Breakpoint.Xs" Invert="true">
-                                            <MudButtonGroup Vertical="true" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
-                                                <MudTooltip Text="Get cropped image with polygon filter" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>GetCroppedCanvasDataByPolygonFilter(new GetCroppedCanvasOptions(){ MaxHeight = 4096, MaxWidth = 4096, ImageSmoothingQuality = ImageSmoothingQuality.High.ToEnumString() }))"
-                                                               Color="Color.Secondary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.CropOriginal"
-                                                               Class="ml-0 mud-width-full" Style="height: 100%">
-                                                        GET
-                                                    </MudButton>
-                                                </MudTooltip>
-
-                                                <MudMenu Dense="true" Class="mud-width-full" MaxHeight="300"
-                                                         AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
-                                                    <ActivatorContent>
-                                                        <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" FullWidth="true">
-                                                            Toggle Options
-                                                        </MudButton>
-                                                    </ActivatorContent>
-                                                    <ChildContent>
-                                                        <MudList T="bool" ReadOnly="false" Dense="true">
-                                                            @foreach (var item in Options.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool?)))
-                                                            {
-                                                                <MudListItem>
-                                                                    <MudCheckBox Label="@item.Name" Size="Size.Small" Dense="true" TriState="true" Value="(bool?)item.GetValue(Options, null)"
-                                                                                 ValueChanged="@((bool? newValue) => OptionsChecked(item.Name, newValue))" />
-                                                                </MudListItem>
-                                                            }
-                                                        </MudList>
-                                                    </ChildContent>
-                                                </MudMenu>
-                                            </MudButtonGroup>
-                                            <MudButtonGroup Color="Color.Success" Vertical="true" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
-                                                <MudTooltip Text="aspectRatio: 16 / 9" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetAspectRatio(1.7777777777777777m))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(Options.AspectRatio == 1.7777777777777777m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        16:9
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="aspectRatio: 4 / 3" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetAspectRatio(1.3333333333333333m))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(Options.AspectRatio == 1.3333333333333333m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        4:3
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="aspectRatio: 1 / 1" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetAspectRatio(1m))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(Options.AspectRatio == 1m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        1:1
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="aspectRatio: 2 / 3" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetAspectRatio(0.6666666666666666m))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(Options.AspectRatio == 0.6666666666666666m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        2:3
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="aspectRatio: 0" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetAspectRatio(0m))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(Options.AspectRatio == 0m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        Free
-                                                    </MudButton>
-                                                </MudTooltip>
-                                            </MudButtonGroup>
-                                            <MudButtonGroup Color="Color.Success" Vertical="true" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
-                                                <MudTooltip Text="View Mode 0" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm0))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(Options.ViewMode == ViewMode.Vm0 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        VM0
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="View Mode 1" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm1))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(Options.ViewMode == ViewMode.Vm1 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        VM1
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="View Mode 2" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm2))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(Options.ViewMode == ViewMode.Vm2 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        VM2
-                                                    </MudButton>
-                                                </MudTooltip>
-                                                <MudTooltip Text="View Mode 3" RootClass="mud-width-full">
-                                                    <MudButton OnClick="@(()=>SetViewMode(ViewMode.Vm3))" Color="Color.Success" Variant="Variant.Filled"
-                                                               Style="@(Options.ViewMode == ViewMode.Vm3 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
-                                                        VM3
-                                                    </MudButton>
-                                                </MudTooltip>
-                                            </MudButtonGroup>
-                                            <MudButtonGroup Color="Color.Success" Vertical="true" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
-                                                <MudTooltip Text="Default (Rectangle)" RootClass="mud-width-full">
-                                                    <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Default))" Color="Color.Success"
-                                                                   Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.CropFree"
-                                                                   Style="@(CropperFace == Enums.CropperFace.Default ? "background-color: var(--mud-palette-success-darken)" : "")" />
-                                                </MudTooltip>
-                                                <MudTooltip Text="Close" RootClass="mud-width-full">
-                                                    <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Close))" Color="Color.Success"
-                                                                   Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.Close"
-                                                                   Style="@(CropperFace == Enums.CropperFace.Close ? "background-color: var(--mud-palette-success-darken)" : "")" />
-                                                </MudTooltip>
-                                                <MudTooltip Text="Pentagon" RootClass="mud-width-full">
-                                                    <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Pentagon))" Color="Color.Success"
-                                                                   Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.Pentagon"
-                                                                   Style="@(CropperFace == Enums.CropperFace.Pentagon ? "background-color: var(--mud-palette-success-darken)" : "")" />
-                                                </MudTooltip>
-                                                <MudTooltip Text="Circle" RootClass="mud-width-full">
-                                                    <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Circle))" Color="Color.Success"
-                                                                   Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.Circle"
-                                                                   Style="@(CropperFace == Enums.CropperFace.Circle ? "background-color: var(--mud-palette-success-darken)" : "")" />
-                                                </MudTooltip>
-                                                <MudTooltip Text="Arrow" RootClass="mud-width-full">
-                                                    <MudIconButton OnClick="@(()=>SetCropperFace(Enums.CropperFace.Arrow))" Color="Color.Success"
-                                                                   Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.ArrowBack"
-                                                                   Style="@(CropperFace == Enums.CropperFace.Arrow ? "background-color: var(--mud-palette-success-darken)" : "")" />
-                                                </MudTooltip>
-                                            </MudButtonGroup>
-                                        </MudHidden>
-                                    </MudBreakpointProvider>
-                                </MudPaper>
+                                <CropperDemoPresets Options="Options"
+                                                    CropperFace="CropperFace"
+                                                    GetPolygonFilterCanvas="GetCroppedCanvasDataByPolygonFilter"
+                                                    GetPolygonFilterCanvasInBackground="GetCroppedCanvasDataByPolygonFilterInBackground"
+                                                    OptionChecked="OptionsChecked"
+                                                    AspectRatioChanged="SetAspectRatio"
+                                                    ViewMode="ViewMode"
+                                                    ViewModeChanged="SetViewMode"
+                                                    CropperFaceChanged="SetCropperFace" />
                             </MudItem>
                         </MudGrid>
                     </ChildContent>
                 </MudExpansionPanel>
             </MudExpansionPanels>
         </MudItem>
+        <MudItem sm="12" xs="12" Class="pt-0">
+            <MudExpansionPanels Dense="true" Gutters="true" Outlined="false" Elevation="0">
+                <MudExpansionPanel Expanded="true" Gutters="true" Style="background-color: var(--mud-palette-background)" data-testid="v2-custom-elements-panel">
+                    <TitleContent>
+                        <div class="d-flex align-center">
+                            <MudIcon Icon="@Icons.Material.Filled.Tune" class="mr-3"></MudIcon>
+                            <MudText Typo="Typo.h6">Cropper.js v2 main cropper settings</MudText>
+                        </div>
+                    </TitleContent>
+                    <ChildContent>
+                        <MudPaper Class="pa-4 main-cropper-settings" Elevation="2">
+                            <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween" Class="settings-header" Spacing="2">
+                                <div>
+                                    <MudText Typo="Typo.h6">Tune active Cropper component</MudText>
+                                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                        These controls update the main cropper above. No second cropper is rendered on this page.
+                                    </MudText>
+                                </div>
+                                <MudButton Color="Color.Secondary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.RestartAlt" OnClick="ResetMainCropperSettings" data-testid="custom-elements-reset">
+                                    Reset settings
+                                </MudButton>
+                            </MudStack>
+                            <MudDivider Class="my-4" />
+                            <MudGrid Spacing="3" Class="settings-grid">
+                                <MudItem xl="3" lg="3" md="6" sm="12" xs="12">
+                                    <MudCard Class="settings-card" Outlined="true">
+                                        <MudCardHeader>
+                                            <CardHeaderContent>
+                                                <MudText Typo="Typo.subtitle1">Canvas</MudText>
+                                            </CardHeaderContent>
+                                        </MudCardHeader>
+                                        <MudCardContent>
+                                            <MudStack Spacing="2">
+                                                <MudSwitch T="bool" Label="Hidden" Value="@(Options.CanvasHidden ?? false)" ValueChanged="SetCanvasHidden" Color="Color.Primary" Dense="true" data-testid="v2-main-canvas-hidden" />
+                                                <MudSwitch T="bool" Label="Background" Value="@(Options.Background ?? true)" ValueChanged="SetCanvasBackground" Color="Color.Primary" Dense="true" data-testid="v2-main-background" />
+                                                <MudSwitch T="bool" Label="Disabled" Value="@(Options.Disabled ?? false)" ValueChanged="SetCanvasDisabled" Color="Color.Primary" Dense="true" data-testid="v2-main-canvas-disabled" />
+                                                <MudSwitch T="bool" Label="Modal shade" Value="@(Options.Modal ?? true)" ValueChanged="SetModalVisible" Color="Color.Primary" Dense="true" data-testid="v2-main-modal" />
+                                                <MudSlider T="decimal" Value="@(Options.WheelZoomRatio ?? 0.1m)" ValueChanged="SetWheelZoomRatio" Min="0.01m" Max="0.5m" Step="0.01m" Color="Color.Primary" Size="Size.Small" data-testid="v2-main-scale-step">
+                                                    Wheel zoom step: @((Options.WheelZoomRatio ?? 0.1m).ToString("0.00"))
+                                                </MudSlider>
+                                                <MudTextField T="string" Label="Theme color" Value="@CanvasThemeColor" ValueChanged="SetCanvasThemeColor" InputType="InputType.Color" data-testid="v2-main-canvas-theme-color" />
+                                                <MudSwitch T="bool" Label="Shade hidden" Value="@(Options.ShadeHidden ?? true)" ValueChanged="SetShadeHidden" Color="Color.Primary" Dense="true" data-testid="v2-main-shade-hidden" />
+                                                <MudTextField T="string" Label="Shade theme color" Value="@ShadeThemeColor" ValueChanged="SetShadeThemeColor" InputType="InputType.Color" data-testid="v2-main-shade-theme-color" />
+                                                <MudSlider T="decimal" Value="ShadeThemeAlpha" ValueChanged="SetShadeThemeAlpha" Min="0" Max="1" Step="0.05m" Color="Color.Primary" Size="Size.Small" data-testid="v2-main-shade-theme-alpha">
+                                                    Shade alpha: @ShadeThemeAlpha.ToString("0.00")
+                                                </MudSlider>
+                                            </MudStack>
+                                        </MudCardContent>
+                                    </MudCard>
+                                </MudItem>
+                                <MudItem xl="3" lg="3" md="6" sm="12" xs="12">
+                                    <MudCard Class="settings-card" Outlined="true">
+                                        <MudCardHeader>
+                                            <CardHeaderContent>
+                                                <MudText Typo="Typo.subtitle1">Image</MudText>
+                                            </CardHeaderContent>
+                                        </MudCardHeader>
+                                        <MudCardContent>
+                                            <MudStack Spacing="2">
+                                                <MudSwitch T="bool" Label="Hidden" Value="@(Options.ImageHidden ?? false)" ValueChanged="SetImageHidden" Color="Color.Primary" Dense="true" data-testid="v2-main-image-hidden" />
+                                                <MudSwitch T="bool" Label="Rotatable" Value="@(Options.Rotatable ?? true)" ValueChanged="SetImageRotatable" Color="Color.Primary" Dense="true" data-testid="v2-main-rotatable" />
+                                                <MudSwitch T="bool" Label="Scalable" Value="@(Options.Scalable ?? true)" ValueChanged="SetImageScalable" Color="Color.Primary" Dense="true" data-testid="v2-main-scalable" />
+                                                <MudSwitch T="bool" Label="Skewable" Value="@(Options.Skewable ?? true)" ValueChanged="SetImageSkewable" Color="Color.Primary" Dense="true" data-testid="v2-main-skewable" />
+                                                <MudSwitch T="bool" Label="Movable" Value="@(Options.Movable ?? true)" ValueChanged="SetImageMovable" Color="Color.Primary" Dense="true" data-testid="v2-main-movable" />
+                                                <MudSelect T="CropperImageInitialCenterSize" Label="Initial center size" Value="@(Options.ImageInitialCenterSize ?? CropperImageInitialCenterSize.Contain)" ValueChanged="SetImageInitialCenterSize" Dense="true" data-testid="v2-main-image-initial-center-size">
+                                                    <MudSelectItem T="CropperImageInitialCenterSize" Value="CropperImageInitialCenterSize.Contain">contain</MudSelectItem>
+                                                    <MudSelectItem T="CropperImageInitialCenterSize" Value="CropperImageInitialCenterSize.Cover">cover</MudSelectItem>
+                                                </MudSelect>
+                                                <MudTextField T="string" Label="Alt" Value="@(Options.ImageAlt ?? "Cropper.Blazor demo image")" ValueChanged="SetImageAlt" data-testid="v2-main-image-alt" />
+                                            </MudStack>
+                                        </MudCardContent>
+                                    </MudCard>
+                                </MudItem>
+                                <MudItem xl="3" lg="3" md="6" sm="12" xs="12">
+                                    <MudCard Class="settings-card" Outlined="true">
+                                        <MudCardHeader>
+                                            <CardHeaderContent>
+                                                <MudText Typo="Typo.subtitle1">Selection</MudText>
+                                            </CardHeaderContent>
+                                        </MudCardHeader>
+                                        <MudCardContent>
+                                            <MudStack Spacing="2">
+                                                <MudSwitch T="bool" Label="Hidden" Value="@(Options.SelectionHidden ?? false)" ValueChanged="SetSelectionHidden" Color="Color.Primary" Dense="true" data-testid="v2-main-selection-hidden" />
+                                                <MudSlider T="decimal" Value="@(Options.AutoCropArea ?? 0.5m)" ValueChanged="SetAutoCropArea" Min="0.1m" Max="1m" Step="0.05m" Color="Color.Primary" Size="Size.Small" data-testid="v2-main-initial-coverage">
+                                                    Initial coverage: @((Options.AutoCropArea ?? 0.5m).ToString("0.00"))
+                                                </MudSlider>
+                                                <MudSwitch T="bool" Label="Dynamic" Value="@(Options.SelectionDynamic ?? false)" ValueChanged="SetSelectionDynamic" Color="Color.Primary" Dense="true" data-testid="v2-main-selection-dynamic" />
+                                                <MudSwitch T="bool" Label="Movable" Value="@(Options.CropBoxMovable ?? true)" ValueChanged="SetSelectionMovable" Color="Color.Primary" Dense="true" data-testid="v2-main-selection-movable" />
+                                                <MudSwitch T="bool" Label="Resizable" Value="@(Options.CropBoxResizable ?? true)" ValueChanged="SetSelectionResizable" Color="Color.Primary" Dense="true" data-testid="v2-main-selection-resizable" />
+                                                <MudSwitch T="bool" Label="Zoomable" Value="@(Options.Zoomable ?? false)" ValueChanged="SetSelectionZoomable" Color="Color.Primary" Dense="true" data-testid="v2-main-selection-zoomable" />
+                                                <MudSwitch T="bool" Label="Multiple" Value="@(Options.SelectionMultiple ?? false)" ValueChanged="SetSelectionMultiple" Color="Color.Primary" Dense="true" data-testid="v2-main-selection-multiple" />
+                                                <MudSwitch T="bool" Label="Keyboard" Value="@(Options.Keyboard ?? false)" ValueChanged="SetSelectionKeyboard" Color="Color.Primary" Dense="true" data-testid="v2-main-selection-keyboard" />
+                                                <MudSwitch T="bool" Label="Outlined" Value="@(Options.Outlined ?? false)" ValueChanged="SetSelectionOutlined" Color="Color.Primary" Dense="true" data-testid="v2-main-selection-outlined" />
+                                                <MudSwitch T="bool" Label="Precise" Value="@(Options.SelectionPrecise ?? false)" ValueChanged="SetSelectionPrecise" Color="Color.Primary" Dense="true" data-testid="v2-main-selection-precise" />
+                                            </MudStack>
+                                        </MudCardContent>
+                                    </MudCard>
+                                </MudItem>
+                                <MudItem xl="3" lg="3" md="6" sm="12" xs="12">
+                                    <MudCard Class="settings-card" Outlined="true">
+                                        <MudCardHeader>
+                                            <CardHeaderContent>
+                                                <MudText Typo="Typo.subtitle1">Guides</MudText>
+                                            </CardHeaderContent>
+                                        </MudCardHeader>
+                                        <MudCardContent>
+                                            <MudStack Spacing="2">
+                                                <MudSwitch T="bool" Label="Grid" Value="@(Options.Guides ?? true)" ValueChanged="SetGridVisible" Color="Color.Primary" Dense="true" data-testid="v2-main-grid" />
+                                                <MudSwitch T="bool" Label="Grid hidden" Value="@(Options.GridHidden ?? false)" ValueChanged="SetGridHidden" Color="Color.Primary" Dense="true" data-testid="v2-main-grid-hidden" />
+                                                <MudNumericField T="decimal" Label="Grid rows" Value="@(Options.GridRows ?? 3)" ValueChanged="SetGridRows" Min="0" Max="9" data-testid="v2-main-grid-rows" />
+                                                <MudNumericField T="decimal" Label="Grid columns" Value="@(Options.GridColumns ?? 3)" ValueChanged="SetGridColumns" Min="0" Max="9" data-testid="v2-main-grid-columns" />
+                                                <MudSwitch T="bool" Label="Grid bordered" Value="@(Options.GridBordered ?? true)" ValueChanged="SetGridBordered" Color="Color.Primary" Dense="true" data-testid="v2-main-grid-bordered" />
+                                                <MudSwitch T="bool" Label="Grid covered" Value="@(Options.GridCovered ?? true)" ValueChanged="SetGridCovered" Color="Color.Primary" Dense="true" data-testid="v2-main-grid-covered" />
+                                                <MudTextField T="string" Label="Grid theme color" Value="@GridThemeColor" ValueChanged="SetGridThemeColor" InputType="InputType.Color" data-testid="v2-main-grid-theme-color" />
+                                                <MudSlider T="decimal" Value="GridThemeAlpha" ValueChanged="SetGridThemeAlpha" Min="0" Max="1" Step="0.05m" Color="Color.Primary" Size="Size.Small" data-testid="v2-main-grid-theme-alpha">
+                                                    Grid alpha: @GridThemeAlpha.ToString("0.00")
+                                                </MudSlider>
+                                                <MudSwitch T="bool" Label="Crosshair" Value="@(Options.Center ?? true)" ValueChanged="SetCrosshairVisible" Color="Color.Primary" Dense="true" data-testid="v2-main-crosshair" />
+                                                <MudSwitch T="bool" Label="Crosshair hidden" Value="@(Options.CrosshairHidden ?? false)" ValueChanged="SetCrosshairHidden" Color="Color.Primary" Dense="true" data-testid="v2-main-crosshair-hidden" />
+                                                <MudSwitch T="bool" Label="Crosshair centered" Value="@(Options.CrosshairCentered ?? true)" ValueChanged="SetCrosshairCentered" Color="Color.Primary" Dense="true" data-testid="v2-main-crosshair-centered" />
+                                                <MudTextField T="string" Label="Crosshair theme color" Value="@CrosshairThemeColor" ValueChanged="SetCrosshairThemeColor" InputType="InputType.Color" data-testid="v2-main-crosshair-theme-color" />
+                                                <MudSlider T="decimal" Value="CrosshairThemeAlpha" ValueChanged="SetCrosshairThemeAlpha" Min="0" Max="1" Step="0.05m" Color="Color.Primary" Size="Size.Small" data-testid="v2-main-crosshair-theme-alpha">
+                                                    Crosshair alpha: @CrosshairThemeAlpha.ToString("0.00")
+                                                </MudSlider>
+                                                <MudSwitch T="bool" Label="Move handle" Value="@(Options.Highlight ?? true)" ValueChanged="SetMoveHandleVisible" Color="Color.Primary" Dense="true" data-testid="v2-main-move-handle" />
+                                                <MudSwitch T="bool" Label="Move handle hidden" Value="@(Options.MoveHandleHidden ?? false)" ValueChanged="SetMoveHandleHidden" Color="Color.Primary" Dense="true" data-testid="v2-main-move-handle-hidden" />
+                                                <MudSelect T="CropperAction" Label="Move handle action" Value="@(Options.MoveHandleAction ?? CropperAction.Move)" ValueChanged="SetMoveHandleAction" Dense="true" data-testid="v2-main-move-handle-action">
+                                                    <MudSelectItem T="CropperAction" Value="CropperAction.Select">select</MudSelectItem>
+                                                    <MudSelectItem T="CropperAction" Value="CropperAction.Move">move</MudSelectItem>
+                                                    <MudSelectItem T="CropperAction" Value="CropperAction.None">none</MudSelectItem>
+                                                </MudSelect>
+                                                <MudTextField T="string" Label="Move handle theme color" Value="@MoveHandleThemeColor" ValueChanged="SetMoveHandleThemeColor" InputType="InputType.Color" data-testid="v2-main-move-handle-theme-color" />
+                                                <MudSlider T="decimal" Value="MoveHandleThemeAlpha" ValueChanged="SetMoveHandleThemeAlpha" Min="0" Max="1" Step="0.05m" Color="Color.Primary" Size="Size.Small" data-testid="v2-main-move-handle-theme-alpha">
+                                                    Move handle alpha: @MoveHandleThemeAlpha.ToString("0.00")
+                                                </MudSlider>
+                                                <MudSwitch T="bool" Label="Resize handles hidden" Value="@(Options.ResizeHandleHidden ?? false)" ValueChanged="SetResizeHandleHidden" Color="Color.Primary" Dense="true" data-testid="v2-main-resize-handle-hidden" />
+                                                <MudTextField T="string" Label="Resize handle theme color" Value="@ResizeHandleThemeColor" ValueChanged="SetResizeHandleThemeColor" InputType="InputType.Color" data-testid="v2-main-resize-handle-theme-color" />
+                                                <MudSlider T="decimal" Value="ResizeHandleThemeAlpha" ValueChanged="SetResizeHandleThemeAlpha" Min="0" Max="1" Step="0.05m" Color="Color.Primary" Size="Size.Small" data-testid="v2-main-resize-handle-theme-alpha">
+                                                    Resize handle alpha: @ResizeHandleThemeAlpha.ToString("0.00")
+                                                </MudSlider>
+                                                <MudDivider />
+                                                <MudSwitch T="bool" Label="Plain handle hidden" Value="@(Options.HandleHidden ?? false)" ValueChanged="SetHandleHidden" Color="Color.Primary" Dense="true" data-testid="v2-main-handle-hidden" />
+                                                <MudSelect T="CropperAction" Label="Plain handle action" Value="@(Options.HandleAction ?? CropperAction.Select)" ValueChanged="SetHandleAction" Dense="true" data-testid="v2-main-handle-action">
+                                                    <MudSelectItem T="CropperAction" Value="CropperAction.Select">select</MudSelectItem>
+                                                    <MudSelectItem T="CropperAction" Value="CropperAction.Move">move</MudSelectItem>
+                                                    <MudSelectItem T="CropperAction" Value="CropperAction.None">none</MudSelectItem>
+                                                    <MudSelectItem T="CropperAction" Value="CropperAction.Scale">scale</MudSelectItem>
+                                                </MudSelect>
+                                                <MudSwitch T="bool" Label="Plain handle" Value="@(Options.HandlePlain ?? true)" ValueChanged="SetHandlePlain" Color="Color.Primary" Dense="true" data-testid="v2-main-handle-plain" />
+                                                <MudTextField T="string" Label="Plain handle theme color" Value="@HandleThemeColor" ValueChanged="SetHandleThemeColor" InputType="InputType.Color" data-testid="v2-main-handle-theme-color" />
+                                                <MudSlider T="decimal" Value="HandleThemeAlpha" ValueChanged="SetHandleThemeAlpha" Min="0" Max="1" Step="0.05m" Color="Color.Primary" Size="Size.Small" data-testid="v2-main-handle-theme-alpha">
+                                                    Plain handle alpha: @HandleThemeAlpha.ToString("0.00")
+                                                </MudSlider>
+                                            </MudStack>
+                                        </MudCardContent>
+                                    </MudCard>
+                                </MudItem>
+                            </MudGrid>
+                        </MudPaper>
+                    </ChildContent>
+                </MudExpansionPanel>
+            </MudExpansionPanels>
+        </MudItem>
         @*//+---// Get/Set all cropper data //---+//*@
-        <CascadingValue Value="@Reset" IsFixed="true" Name="ResetCropperAction">
+        <CascadingValue Value="@ResetCropperSelection" IsFixed="true" Name="ResetCropperAction">
             <CascadingValue Value="@Options.AspectRatio" Name="AspectRatio">
                 <CascadingValue Value="@IsFreeAspectRatioEnabled" Name="IsFreeAspectRatioEnabled">
                     <CascadingValue Value="@CropperComponent" Name="CropperComponent">

@@ -1,0 +1,161 @@
+@using System.Reflection
+@using Cropper.Blazor.Client.Enums
+@using Cropper.Blazor.Extensions
+@using Cropper.Blazor.Models
+
+<MudPaper Class="pa-4 d-flex flex-column justify-center gap-4 mud-height-full demo-presets-panel" Elevation="2">
+    <MudBreakpointProvider>
+        <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true">
+            <MudButtonGroup Vertical="false" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
+                <MudTooltip Text="Get cropped image with polygon filter" RootClass="mud-width-full">
+                    <MudButton OnClick="GetPolygonFilterCanvas"
+                               Color="Color.Secondary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.CropOriginal"
+                               Class="ml-0 mud-width-full" Style="height: 100%">
+                        GET
+                    </MudButton>
+                </MudTooltip>
+                <MudTooltip Text="Get cropped image with polygon filter in background" RootClass="mud-width-full">
+                    <MudButton OnClick="GetPolygonFilterCanvasInBackground"
+                               Color="Color.Secondary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.CropOriginal"
+                               Class="ml-0 mud-width-full" Style="height: 100%">
+                        GET In Background
+                    </MudButton>
+                </MudTooltip>
+            </MudButtonGroup>
+            <MudButtonGroup Vertical="false" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
+                @OptionsMenu
+            </MudButtonGroup>
+            @AspectRatioButtons(false)
+            @ViewModeButtons(false)
+            @FaceButtons(false)
+        </MudHidden>
+        <MudHidden Breakpoint="Breakpoint.Xs" Invert="true">
+            <MudButtonGroup Vertical="true" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
+                <MudTooltip Text="Get cropped image with polygon filter" RootClass="mud-width-full">
+                    <MudButton OnClick="GetPolygonFilterCanvas"
+                               Color="Color.Secondary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.CropOriginal"
+                               Class="ml-0 mud-width-full" Style="height: 100%">
+                        GET
+                    </MudButton>
+                </MudTooltip>
+                @OptionsMenu
+            </MudButtonGroup>
+            @AspectRatioButtons(true)
+            @ViewModeButtons(true)
+            @FaceButtons(true)
+        </MudHidden>
+    </MudBreakpointProvider>
+</MudPaper>
+
+@code {
+    private RenderFragment OptionsMenu => @<MudMenu Dense="true" Class="mud-width-full" MaxHeight="350"
+                                                 AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopCenter">
+        <ActivatorContent>
+            <MudTooltip RootClass="mud-width-full" Text="Toggle options with three state options - default (null), true, false">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" FullWidth="true">Toggle Options</MudButton>
+            </MudTooltip>
+        </ActivatorContent>
+        <ChildContent>
+            <MudList T="bool" ReadOnly="false" Dense="true">
+                @foreach (PropertyInfo item in Options.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool?)))
+                {
+                    <MudListItem>
+                        <MudCheckBox Label="@item.Name" Size="Size.Small" Dense="true" TriState="true" Value="(bool?)item.GetValue(Options, null)"
+                                     ValueChanged="@((bool? newValue) => OptionChecked.InvokeAsync((item.Name, newValue)))" />
+                    </MudListItem>
+                }
+            </MudList>
+        </ChildContent>
+    </MudMenu>;
+
+    private RenderFragment AspectRatioButtons(bool vertical) => @<MudButtonGroup Color="Color.Success" Vertical="vertical" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
+        <MudTooltip Text="aspectRatio: 16 / 9" RootClass="mud-width-full">
+            <MudButton OnClick="@(() => AspectRatioChanged.InvokeAsync(1.7777777777777777m))" Color="Color.Success" Variant="Variant.Filled"
+                       Style="@(Options.AspectRatio == 1.7777777777777777m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                16:9
+            </MudButton>
+        </MudTooltip>
+        <MudTooltip Text="aspectRatio: 4 / 3" RootClass="mud-width-full">
+            <MudButton OnClick="@(() => AspectRatioChanged.InvokeAsync(1.3333333333333333m))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
+                       Style="@(Options.AspectRatio == 1.3333333333333333m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                4:3
+            </MudButton>
+        </MudTooltip>
+        <MudTooltip Text="aspectRatio: 1 / 1" RootClass="mud-width-full">
+            <MudButton OnClick="@(() => AspectRatioChanged.InvokeAsync(1m))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
+                       Style="@(Options.AspectRatio == 1m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                1:1
+            </MudButton>
+        </MudTooltip>
+        @if (vertical)
+        {
+            <MudTooltip Text="aspectRatio: 2 / 3" RootClass="mud-width-full">
+                <MudButton OnClick="@(() => AspectRatioChanged.InvokeAsync(0.6666666666666666m))" Color="Color.Success" Variant="Variant.Filled"
+                           Style="@(Options.AspectRatio == 0.6666666666666666m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                    2:3
+                </MudButton>
+            </MudTooltip>
+        }
+        <MudTooltip Text="aspectRatio: 0" RootClass="mud-width-full">
+            <MudButton OnClick="@(() => AspectRatioChanged.InvokeAsync(0m))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
+                       Style="@(Options.AspectRatio == 0m ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                Free
+            </MudButton>
+        </MudTooltip>
+    </MudButtonGroup>;
+
+    private RenderFragment ViewModeButtons(bool vertical) => @<MudButtonGroup Color="Color.Success" Vertical="vertical" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
+        <MudTooltip Text="View Mode 0" RootClass="mud-width-full">
+            <MudButton OnClick="@(() => ViewModeChanged.InvokeAsync(CropperViewMode.Vm0))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
+                       Style="@(ViewMode == CropperViewMode.Vm0 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                VM0
+            </MudButton>
+        </MudTooltip>
+        <MudTooltip Text="View Mode 1" RootClass="mud-width-full">
+            <MudButton OnClick="@(() => ViewModeChanged.InvokeAsync(CropperViewMode.Vm1))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
+                       Style="@(ViewMode == CropperViewMode.Vm1 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                VM1
+            </MudButton>
+        </MudTooltip>
+        <MudTooltip Text="View Mode 2" RootClass="mud-width-full">
+            <MudButton OnClick="@(() => ViewModeChanged.InvokeAsync(CropperViewMode.Vm2))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
+                       Style="@(ViewMode == CropperViewMode.Vm2 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                VM2
+            </MudButton>
+        </MudTooltip>
+        <MudTooltip Text="View Mode 3" RootClass="mud-width-full">
+            <MudButton OnClick="@(() => ViewModeChanged.InvokeAsync(CropperViewMode.Vm3))" Color="Color.Success" Variant="Variant.Filled" Class="ml-0"
+                       Style="@(ViewMode == CropperViewMode.Vm3 ? "background-color: var(--mud-palette-success-darken)" : "")" FullWidth="true">
+                VM3
+            </MudButton>
+        </MudTooltip>
+    </MudButtonGroup>;
+
+    private RenderFragment FaceButtons(bool vertical) => @<MudButtonGroup Color="Color.Success" Vertical="vertical" Variant="Variant.Filled" OverrideStyles="false" Class="mud-width-full">
+        <MudTooltip Text="Default (Rectangle)" RootClass="mud-width-full">
+            <MudIconButton OnClick="@(() => CropperFaceChanged.InvokeAsync(CropperFace.Default))" Color="Color.Success"
+                           Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.CropFree"
+                           Style="@(CropperFace == CropperFace.Default ? "background-color: var(--mud-palette-success-darken)" : "")" data-testid="cropper-face-default" />
+        </MudTooltip>
+        <MudTooltip Text="Close" RootClass="mud-width-full">
+            <MudIconButton OnClick="@(() => CropperFaceChanged.InvokeAsync(CropperFace.Close))" Color="Color.Success"
+                           Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.Close"
+                           Style="@(CropperFace == CropperFace.Close ? "background-color: var(--mud-palette-success-darken)" : "")" data-testid="cropper-face-close" />
+        </MudTooltip>
+        <MudTooltip Text="Pentagon" RootClass="mud-width-full">
+            <MudIconButton OnClick="@(() => CropperFaceChanged.InvokeAsync(CropperFace.Pentagon))" Color="Color.Success"
+                           Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.Pentagon"
+                           Style="@(CropperFace == CropperFace.Pentagon ? "background-color: var(--mud-palette-success-darken)" : "")" data-testid="cropper-face-pentagon" />
+        </MudTooltip>
+        <MudTooltip Text="Circle" RootClass="mud-width-full">
+            <MudIconButton OnClick="@(() => CropperFaceChanged.InvokeAsync(CropperFace.Circle))" Color="Color.Success"
+                           Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.Circle"
+                           Style="@(CropperFace == CropperFace.Circle ? "background-color: var(--mud-palette-success-darken)" : "")" data-testid="cropper-face-circle" />
+        </MudTooltip>
+        <MudTooltip Text="Arrow" RootClass="mud-width-full">
+            <MudIconButton OnClick="@(() => CropperFaceChanged.InvokeAsync(CropperFace.Arrow))" Color="Color.Success"
+                           Variant="Variant.Filled" Class="ml-0 mud-width-full" Icon="@Icons.Material.Filled.ArrowBack"
+                           Style="@(CropperFace == CropperFace.Arrow ? "background-color: var(--mud-palette-success-darken)" : "")" data-testid="cropper-face-arrow" />
+        </MudTooltip>
+    </MudButtonGroup>;
+}

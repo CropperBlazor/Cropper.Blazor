@@ -18,17 +18,18 @@
 
 	<!--Packages-->
 	<ItemGroup>
+        <PackageReference Include="Cropper.Blazor" Version="1.4.2" Aliases="CropperBlazorV1" />
 		<PackageReference Include="BlazorWasmPreRendering.Build" Version="7.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="10.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.2" PrivateAssets="all" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
-		<PackageReference Include="Cropper.Blazor" Version="1.5.1" />
 	</ItemGroup>
 
 	<!--Project dependencies-->
 	<ItemGroup>
 		<ProjectReference Include="..\Cropper.Blazor.Shared\Cropper.Blazor.Shared.csproj" />
+		<ProjectReference Include="..\Cropper.Blazor\Cropper.Blazor.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -109,7 +110,6 @@
 			<FilesToClean Include="./wwwroot/Cropper.Blazor.Client.min.css" />
 			<FilesToClean Include="./wwwroot/service-worker.min.js" />
 			<FilesToClean Include="./wwwroot/service-worker.published.min.js" />
-			<FilesToClean Include="./wwwroot/overrideCropperJsInteropModule.min.js" />
 			<FilesToClean Include="./wwwroot/jsObjectModule.min.js" />
 			<FilesToClean Include="./Models/DocStrings.generated.cs" />
 			<FilesToClean Include="./Models/Snippets.generated.cs" />
@@ -136,7 +136,6 @@
 		<!--Compile and minify js-->
 		<Exec Command="dotnet webcompiler ./wwwroot/service-worker.published.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
 		<Exec Command="dotnet webcompiler ./wwwroot/service-worker.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
-		<Exec Command="dotnet webcompiler ./wwwroot/overrideCropperJsInteropModule.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
 		<Exec Command="dotnet webcompiler ./wwwroot/jsObjectModule.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
 		<Exec Command="dotnet webcompiler ./wwwroot/helper.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
 		<Exec Command="dotnet webcompiler ./wwwroot/sw-registrator.js -c excubowebcompiler.json" StandardOutputImportance="high" StandardErrorImportance="high" />
@@ -148,7 +147,6 @@
 		<Error Condition="!Exists('$(MSBuildProjectDirectory)/wwwroot/Cropper.Blazor.Client.min.css')" Text="Missing Cropper.Blazor.Client.min.css in wwwroot" />
 		<Error Condition="!Exists('$(MSBuildProjectDirectory)/wwwroot/service-worker.min.js')" Text="Missing service-worker.min.js in wwwroot" />
 		<Error Condition="!Exists('$(MSBuildProjectDirectory)/wwwroot/service-worker.published.min.js')" Text="Missing service-worker.published.min.js in wwwroot" />
-		<Error Condition="!Exists('$(MSBuildProjectDirectory)/wwwroot/overrideCropperJsInteropModule.min.js')" Text="Missing overrideCropperJsInteropModule.min.js in wwwroot" />
 		<Error Condition="!Exists('$(MSBuildProjectDirectory)/wwwroot/jsObjectModule.min.js')" Text="Missing jsObjectModule.min.js in wwwroot" />
 		<Error Condition="!Exists('$(MSBuildProjectDirectory)/wwwroot/helper.min.js')" Text="Missing helper.min.js in wwwroot" />
 		<Error Condition="!Exists('$(MSBuildProjectDirectory)/wwwroot/sw-registrator.min.js')" Text="Missing sw-registrator.min.js in wwwroot" />
@@ -158,7 +156,6 @@
 			<Content Include="wwwroot/Cropper.Blazor.Client.min.css" Condition="!Exists('wwwroot/Cropper.Blazor.Client.min.css')" />
 			<Content Include="wwwroot/service-worker.min.js" Condition="!Exists('wwwroot/service-worker.min.js')" />
 			<Content Include="wwwroot/service-worker.published.min.js" Condition="!Exists('wwwroot/service-worker.published.min.js')" />
-			<Content Include="wwwroot/overrideCropperJsInteropModule.min.js" Condition="!Exists('wwwroot/overrideCropperJsInteropModule.min.js')" />
 			<Content Include="wwwroot/jsObjectModule.min.js" Condition="!Exists('wwwroot/jsObjectModule.min.js')" />
 			<Content Include="wwwroot/helper.min.js" Condition="!Exists('wwwroot/helper.min.js')" />
 			<Content Include="wwwroot/sw-registrator.min.js" Condition="!Exists('wwwroot/sw-registrator.min.js')" />
@@ -170,6 +167,9 @@
 	<ItemGroup>
 		<Content Remove="compilerconfig.json" />
 		<Content Remove="excubowebcompiler.json" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Pages\ViewModes\Code\" />
 	</ItemGroup>
 
 </Project>

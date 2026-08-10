@@ -11,7 +11,7 @@ namespace Cropper.Blazor.Components
     public partial class CropperComponent
     {
         /// <summary>
-        /// Initializes cropper. 
+        /// Initializes cropper.
         /// </summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         public void InitCropper(CancellationToken cancellationToken = default)
@@ -21,134 +21,38 @@ namespace Cropper.Blazor.Components
 
             if (cropperElementReference.HasValue)
             {
-                CropperJsIntertop!.InitCropperAsync(
+                cropperComponentBaseReference?.Dispose();
+                cropperComponentBaseReference = DotNetObjectReference.Create(cropperComponentBase);
+
+                _ = InitializeCropperAsync(
                     CropperComponentId,
                     cropperElementReference.Value,
-                    Options!,
-                    DotNetObjectReference.Create(cropperComponentBase),
+                    GetEffectiveOptions(),
+                    cropperComponentBaseReference,
                     cancellationToken);
 
                 OnLoadImageEvent?.Invoke();
             }
         }
 
-        /// <summary>
-        /// Change the drag mode.
-        /// </summary>
-        /// <param name="dragMode">The <see cref="DragMode"/> used to set new drag mode.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void SetDragMode(DragMode dragMode = DragMode.None, CancellationToken cancellationToken = default)
+        private async Task InitializeCropperAsync(
+            Guid cropperComponentId,
+            ElementReference cropperElementReference,
+            Options options,
+            DotNetObjectReference<ICropperComponentBase> cropperComponentBase,
+            CancellationToken cancellationToken)
         {
-            CropperJsIntertop!.SetDragModeAsync(CropperComponentId, dragMode, cancellationToken);
-        }
+            await CropperJsIntertop!.InitCropperAsync(
+                cropperComponentId,
+                cropperElementReference,
+                options,
+                cropperComponentBase,
+                cancellationToken);
 
-        /// <summary>
-        /// Zoom the canvas (image wrapper) with a relative ratio.
-        /// </summary>
-        /// <param name="ratio">
-        /// Zoom in: requires a positive number (ratio &gt; 0).
-        /// <br/>
-        /// Zoom out: requires a negative number (ratio &lt; 0).
-        /// </param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void Zoom(decimal ratio, CancellationToken cancellationToken = default)
-        {
-            CropperJsIntertop!.ZoomAsync(CropperComponentId, ratio, cancellationToken);
-        }
-
-        /// <summary>
-        /// Zoom the canvas (image wrapper) to an absolute ratio.
-        /// </summary>
-        /// <param name="ratio">Requires a positive number (ratio > 0)</param>
-        /// <param name="pivotX">The X coordinate of the center point for zooming, base on the top left corner of the cropper container.</param>
-        /// <param name="pivotY">The Y coordinate of the center point for zooming, base on the top left corner of the cropper container.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void ZoomTo(decimal ratio, decimal pivotX, decimal pivotY, CancellationToken cancellationToken = default)
-        {
-            CropperJsIntertop!.ZoomToAsync(CropperComponentId, ratio, pivotX, pivotY, cancellationToken);
-        }
-
-        /// <summary>
-        /// Move the canvas (image wrapper) with relative offsets.
-        /// </summary>
-        /// <param name="offsetX">Moving size (px) in the horizontal direction.</param>
-        /// <param name="offsetY">Moving size (px) in the vertical direction. If not present, its default value is offsetX.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void Move(decimal offsetX, decimal? offsetY, CancellationToken cancellationToken = default)
-        {
-            CropperJsIntertop!.MoveAsync(CropperComponentId, offsetX, offsetY, cancellationToken);
-        }
-
-        /// <summary>
-        /// Move the canvas (image wrapper) to an absolute point.
-        /// </summary>
-        /// <param name="x">The left value of the canvas</param>
-        /// <param name="y">The top value of the canvas. If not present, its default value is x.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void MoveTo(decimal x, decimal? y, CancellationToken cancellationToken = default)
-        {
-            CropperJsIntertop!.MoveToAsync(CropperComponentId, x, y, cancellationToken);
-        }
-
-        /// <summary>
-        /// Rotate the image to a relative degree.
-        /// </summary>
-        /// <param name="degree"> 
-        /// Rotate right: requires a positive number (degree &gt; 0).
-        /// <br/>
-        /// Rotate left: requires a negative number (degree &lt; 0).
-        /// </param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void Rotate(decimal degree, CancellationToken cancellationToken = default)
-        {
-            CropperJsIntertop!.RotateAsync(CropperComponentId, degree, cancellationToken);
-        }
-
-        /// <summary>
-        /// Scale the abscissa of the image.
-        /// </summary>
-        /// <param name="scaleX"> 
-        /// The scaling factor applies to the abscissa of the image.
-        /// <br/>
-        /// When equal to 1 (default value) it does nothing.
-        /// </param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void ScaleX(decimal scaleX, CancellationToken cancellationToken = default)
-        {
-            CropperJsIntertop!.ScaleXAsync(CropperComponentId, scaleX, cancellationToken);
-        }
-
-        /// <summary>
-        /// Scale the ordinate of the image.
-        /// </summary>
-        /// <param name="scaleY">
-        /// The scaling factor to apply on the ordinate of the image.
-        /// <br/>
-        /// When equal to 1 (default value) it does nothing.
-        /// </param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void ScaleY(decimal scaleY, CancellationToken cancellationToken = default)
-        {
-            CropperJsIntertop!.ScaleYAsync(CropperComponentId, scaleY, cancellationToken);
-        }
-
-        /// <summary>
-        /// Scale the image.
-        /// </summary>
-        /// <param name="scaleX"> 
-        /// The scaling factor applies to the abscissa of the image.
-        /// <br/>
-        /// When equal to 1 (default value) it does nothing.
-        /// </param>
-        /// <param name="scaleY">
-        /// The scaling factor to apply on the ordinate of the image.
-        /// <br/>
-        /// If not present, its default value is <paramref name="scaleX"/>.
-        /// </param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void Scale(decimal scaleX, decimal scaleY, CancellationToken cancellationToken = default)
-        {
-            CropperJsIntertop!.ScaleAsync(CropperComponentId, scaleX, scaleY, cancellationToken);
+            if (CropperState is not null)
+            {
+                await CropperState.NotifyCropperInitializedAsync(this);
+            }
         }
 
         /// <summary>
@@ -211,46 +115,6 @@ namespace Cropper.Blazor.Components
         }
 
         /// <summary>
-        /// Change the aspect ratio of the crop box.
-        /// </summary>
-        /// <param name="aspectRatio">Requires a positive number.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void SetAspectRatio(decimal aspectRatio, CancellationToken cancellationToken = default)
-        {
-            CropperJsIntertop!.SetAspectRatioAsync(CropperComponentId, aspectRatio, cancellationToken);
-        }
-
-        /// <summary>
-        /// Change the crop box position and size with new data.
-        /// </summary>
-        /// <param name="cropBoxDataOptions">The <see cref="SetCropBoxDataOptions"/> used to set new crop box data.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void SetCropBoxData(SetCropBoxDataOptions cropBoxDataOptions, CancellationToken cancellationToken = default)
-        {
-            CropperJsIntertop!.SetCropBoxDataAsync(CropperComponentId, cropBoxDataOptions, cancellationToken);
-        }
-
-        /// <summary>
-        /// Change the cropped area position and size with new data (based on the original image).
-        /// </summary>
-        /// <param name="setDataOptions">The <see cref="SetDataOptions"/> used to set new data.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void SetData(SetDataOptions setDataOptions, CancellationToken cancellationToken = default)
-        {
-            CropperJsIntertop!.SetDataAsync(CropperComponentId, setDataOptions, cancellationToken);
-        }
-
-        /// <summary>
-        /// Change the canvas (image wrapper) position and size with new data.
-        /// </summary>
-        /// <param name="setCanvasDataOptions">The <see cref="SetCanvasDataOptions"/> used to set new canvas data.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        public void SetCanvasData(SetCanvasDataOptions setCanvasDataOptions, CancellationToken cancellationToken = default)
-        {
-            CropperJsIntertop!.SetCanvasDataAsync(CropperComponentId, setCanvasDataOptions, cancellationToken);
-        }
-
-        /// <summary>
         /// Replace the image's src and rebuild the cropper.
         /// </summary>
         /// <param name="url">The new URL.</param>
@@ -269,7 +133,7 @@ namespace Cropper.Blazor.Components
         /// <summary>
         /// Call this method when you've finished using an object URL to let the browser know not to keep the reference to the file any longer.
         /// <br/>
-        /// Obsolete — use <see cref="Services.IUrlImageInterop.RevokeObjectUrlAsync(string, CancellationToken)"/> 
+        /// Obsolete — use <see cref="Services.IUrlImageInterop.RevokeObjectUrlAsync(string, CancellationToken)"/>
         /// for centralized JS interop handling.
         /// </summary>
         /// <param name="url">A string representing an object URL.</param>

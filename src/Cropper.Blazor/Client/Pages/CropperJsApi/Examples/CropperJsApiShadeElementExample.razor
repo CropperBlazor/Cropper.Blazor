@@ -1,0 +1,28 @@
+<div class="img-container cropper-js-api-shade-element" data-testid="cropper-js-api-shade-element">
+    <CropperShade InputAttributes="shadeAttributes" />
+</div>
+
+@code {
+    private readonly IReadOnlyDictionary<string, object> shadeAttributes = new Dictionary<string, object>
+    {
+        ["theme-color"] = "rgba(0, 0, 0, 0.45)",
+    };
+}
+
+<style>
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+
+    .cropper-js-api-shade-element cropper-shade {
+        display: block;
+        height: 220px;
+        visibility: visible;
+        width: 100%;
+    }
+
+    .cropper-js-api-shade-element cropper-shade[hidden] {
+        display: block;
+    }
+</style>

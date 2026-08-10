@@ -1,0 +1,26 @@
+@using Cropper.Blazor.Models
+
+<div class="img-container cropper-js-api-shade-element" data-testid="cropper-js-api-shade-element">
+    <CropperComponent Class="big-img" Src="images/Rivne.jpg" Options="cropperOptions">
+        <CropperShadeElement Hidden="false" ThemeColor="rgba(0, 0, 0, 0.45)" />
+    </CropperComponent>
+</div>
+
+@code {
+    private readonly Options cropperOptions = new()
+    {
+        Modal = true
+    };
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+</style>

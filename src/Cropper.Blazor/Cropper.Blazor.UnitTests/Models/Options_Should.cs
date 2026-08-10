@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Cropper.Blazor.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Components;
@@ -55,7 +56,9 @@ namespace Cropper.Blazor.UnitTests.Models
             // assert
             _options.Preview.Should().BeEquivalentTo(preview);
 
-            resultObj.Should().BeEquivalentTo(expectedObject);
+            JsonNode.DeepEquals(JsonNode.Parse(resultObj), JsonNode.Parse(expectedObject))
+                .Should()
+                .BeTrue();
         }
 
         [Theory, MemberData(nameof(TestData_Throw_ArgumentException_When_Setup_Options_Preview))]
@@ -71,23 +74,89 @@ namespace Cropper.Blazor.UnitTests.Models
                 .WithMessage(expectedMessage);
         }
 
+        [Fact]
+        public void Verify_Serialize_V2_Element_Options()
+        {
+            // arrange
+            _options.CanvasOptions = new CanvasElementOptions
+            {
+                Hidden = true,
+                ThemeColor = "#ff0000"
+            };
+            _options.ImageOptions = new ImageElementOptions
+            {
+                Hidden = true,
+                InitialCenterSize = CropperImageInitialCenterSize.Cover,
+                Alt = "Updated v2 alt"
+            };
+            _options.GridOptions = new GridElementOptions
+            {
+                Hidden = true,
+                Rows = 5,
+                Columns = 4,
+                Bordered = false,
+                Covered = false,
+                ThemeColor = "#00ff00"
+            };
+            _options.CrosshairOptions = new CrosshairElementOptions
+            {
+                Hidden = true,
+                Centered = false,
+                ThemeColor = "#0000ff"
+            };
+            _options.MoveHandleOptions = new HandleElementOptions
+            {
+                Hidden = true,
+                ThemeColor = "#ff00ff"
+            };
+            _options.ResizeHandleOptions = new ResizeHandleElementOptions
+            {
+                Hidden = true,
+                ThemeColor = "#00ffff"
+            };
+
+            // act
+            string resultObj = JsonSerializer.Serialize(
+                _options,
+                _internalJSRuntime.GetJsonSerializerOptions);
+
+            // assert
+            resultObj.Should().Contain("\"canvasOptions\":{");
+            resultObj.Should().Contain("\"hidden\":true");
+            resultObj.Should().Contain("\"themeColor\":\"#ff0000\"");
+            resultObj.Should().Contain("\"imageOptions\":{");
+            resultObj.Should().Contain("\"initialCenterSize\":\"cover\"");
+            resultObj.Should().Contain("\"alt\":\"Updated v2 alt\"");
+            resultObj.Should().Contain("\"gridOptions\":{");
+            resultObj.Should().Contain("\"rows\":5");
+            resultObj.Should().Contain("\"columns\":4");
+            resultObj.Should().Contain("\"bordered\":false");
+            resultObj.Should().Contain("\"covered\":false");
+            resultObj.Should().Contain("\"crosshairOptions\":{");
+            resultObj.Should().Contain("\"centered\":false");
+            resultObj.Should().Contain("\"moveHandleOptions\":{");
+            resultObj.Should().Contain("\"themeColor\":\"#ff00ff\"");
+            resultObj.Should().Contain("\"resizeHandleOptions\":{");
+            resultObj.Should().Contain("\"themeColor\":\"#00ffff\"");
+        }
+
         public static IEnumerable<object[]> TestData_Setup_Options_Preview()
         {
             yield return WrapArgs(
                 null,
-                "{\"autoCrop\":true,\"autoCropArea\":0.8,\"background\":true,\"center\":true,\"checkCrossOrigin\":true,\"checkOrientation\":true,\"cropBoxMovable\":true,\"cropBoxResizable\":true,\"dragMode\":\"crop\",\"guides\":true,\"highlight\":true,\"minCanvasHeight\":0,\"minCanvasWidth\":0,\"minContainerHeight\":100,\"minContainerWidth\":200,\"minCropBoxHeight\":0,\"minCropBoxWidth\":0,\"modal\":true,\"movable\":true,\"responsive\":true,\"restore\":true,\"rotatable\":true,\"scalable\":true,\"toggleDragModeOnDblclick\":true,\"viewMode\":0,\"wheelZoomRatio\":0.1,\"zoomOnTouch\":true,\"zoomOnWheel\":true,\"zoomable\":true,\"correlationId\":\"Cropper.Blazor\"}");
+                GetExpectedSerializedOptions());
 
             yield return WrapArgs(
                 ".testClass",
-                "{\"preview\":\".testClass\",\"autoCrop\":true,\"autoCropArea\":0.8,\"background\":true,\"center\":true,\"checkCrossOrigin\":true,\"checkOrientation\":true,\"cropBoxMovable\":true,\"cropBoxResizable\":true,\"dragMode\":\"crop\",\"guides\":true,\"highlight\":true,\"minCanvasHeight\":0,\"minCanvasWidth\":0,\"minContainerHeight\":100,\"minContainerWidth\":200,\"minCropBoxHeight\":0,\"minCropBoxWidth\":0,\"modal\":true,\"movable\":true,\"responsive\":true,\"restore\":true,\"rotatable\":true,\"scalable\":true,\"toggleDragModeOnDblclick\":true,\"viewMode\":0,\"wheelZoomRatio\":0.1,\"zoomOnTouch\":true,\"zoomOnWheel\":true,\"zoomable\":true,\"correlationId\":\"Cropper.Blazor\"}");
+                "{\"preview\":\".testClass\"," + GetExpectedSerializedOptions()[1..]);
 
             yield return WrapArgs(
                 new ElementReference("ElementReferenceId"),
-                "{\"preview\":{\"id\":\"ElementReferenceId\",\"context\":null},\"autoCrop\":true,\"autoCropArea\":0.8,\"background\":true,\"center\":true,\"checkCrossOrigin\":true,\"checkOrientation\":true,\"cropBoxMovable\":true,\"cropBoxResizable\":true,\"dragMode\":\"crop\",\"guides\":true,\"highlight\":true,\"minCanvasHeight\":0,\"minCanvasWidth\":0,\"minContainerHeight\":100,\"minContainerWidth\":200,\"minCropBoxHeight\":0,\"minCropBoxWidth\":0,\"modal\":true,\"movable\":true,\"responsive\":true,\"restore\":true,\"rotatable\":true,\"scalable\":true,\"toggleDragModeOnDblclick\":true,\"viewMode\":0,\"wheelZoomRatio\":0.1,\"zoomOnTouch\":true,\"zoomOnWheel\":true,\"zoomable\":true,\"correlationId\":\"Cropper.Blazor\"}");
+                "{\"preview\":{\"id\":\"ElementReferenceId\",\"context\":null}," + GetExpectedSerializedOptions()[1..]);
 
             yield return WrapArgs(
                 new ElementReference("ElementReferenceId", new CustomElementReferenceContext()),
-                "{\"preview\":{\"id\":\"ElementReferenceId\",\"context\":{}},\"autoCrop\":true,\"autoCropArea\":0.8,\"background\":true,\"center\":true,\"checkCrossOrigin\":true,\"checkOrientation\":true,\"cropBoxMovable\":true,\"cropBoxResizable\":true,\"dragMode\":\"crop\",\"guides\":true,\"highlight\":true,\"minCanvasHeight\":0,\"minCanvasWidth\":0,\"minContainerHeight\":100,\"minContainerWidth\":200,\"minCropBoxHeight\":0,\"minCropBoxWidth\":0,\"modal\":true,\"movable\":true,\"responsive\":true,\"restore\":true,\"rotatable\":true,\"scalable\":true,\"toggleDragModeOnDblclick\":true,\"viewMode\":0,\"wheelZoomRatio\":0.1,\"zoomOnTouch\":true,\"zoomOnWheel\":true,\"zoomable\":true,\"correlationId\":\"Cropper.Blazor\"}");
+                "{\"preview\":{\"id\":\"ElementReferenceId\",\"context\":{}}," + GetExpectedSerializedOptions()[1..]);
 
             yield return WrapArgs(
                 new ElementReference[]
@@ -95,7 +164,7 @@ namespace Cropper.Blazor.UnitTests.Models
                     new ElementReference("ElementReferenceId"),
                     new ElementReference("ElementReferenceId", new CustomElementReferenceContext())
                 },
-                "{\"preview\":[{\"id\":\"ElementReferenceId\",\"context\":null},{\"id\":\"ElementReferenceId\",\"context\":{}}],\"autoCrop\":true,\"autoCropArea\":0.8,\"background\":true,\"center\":true,\"checkCrossOrigin\":true,\"checkOrientation\":true,\"cropBoxMovable\":true,\"cropBoxResizable\":true,\"dragMode\":\"crop\",\"guides\":true,\"highlight\":true,\"minCanvasHeight\":0,\"minCanvasWidth\":0,\"minContainerHeight\":100,\"minContainerWidth\":200,\"minCropBoxHeight\":0,\"minCropBoxWidth\":0,\"modal\":true,\"movable\":true,\"responsive\":true,\"restore\":true,\"rotatable\":true,\"scalable\":true,\"toggleDragModeOnDblclick\":true,\"viewMode\":0,\"wheelZoomRatio\":0.1,\"zoomOnTouch\":true,\"zoomOnWheel\":true,\"zoomable\":true,\"correlationId\":\"Cropper.Blazor\"}");
+                "{\"preview\":[{\"id\":\"ElementReferenceId\",\"context\":null},{\"id\":\"ElementReferenceId\",\"context\":{}}]," + GetExpectedSerializedOptions()[1..]);
 
             static object[] WrapArgs(
                 object? preview,
@@ -106,6 +175,9 @@ namespace Cropper.Blazor.UnitTests.Models
                         expectedObject
                     };
         }
+
+        private static string GetExpectedSerializedOptions()
+            => "{\"autoCrop\":true,\"autoCropArea\":0.5,\"background\":true,\"center\":true,\"checkCrossOrigin\":true,\"checkOrientation\":true,\"cropBoxMovable\":true,\"cropBoxResizable\":true,\"dragMode\":\"crop\",\"guides\":true,\"highlight\":true,\"minCanvasHeight\":0,\"minCanvasWidth\":0,\"minContainerHeight\":100,\"minContainerWidth\":200,\"minCropBoxHeight\":0,\"minCropBoxWidth\":0,\"modal\":true,\"movable\":true,\"responsive\":true,\"restore\":true,\"rotatable\":true,\"scalable\":true,\"toggleDragModeOnDblclick\":true,\"wheelZoomRatio\":0.1,\"zoomOnTouch\":true,\"zoomOnWheel\":true,\"zoomable\":false,\"handleAction\":\"select\",\"moveHandleAction\":\"move\",\"handlePlain\":false,\"correlationId\":\"Cropper.Blazor\"}";
 
         public static IEnumerable<object[]> TestData_Throw_ArgumentException_When_Setup_Options_Preview()
         {

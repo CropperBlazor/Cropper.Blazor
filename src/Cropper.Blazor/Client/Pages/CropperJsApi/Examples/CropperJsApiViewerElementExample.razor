@@ -1,0 +1,40 @@
+@using Cropper.Blazor.Models
+
+<div class="cropper-js-api-viewer-element" data-testid="cropper-js-api-viewer-element">
+    <div class="img-container">
+        <CropperComponent Class="big-img"
+                          Src="images/Rivne.jpg"
+                          Options="cropperOptions"
+                          CropperState="cropperState" />
+    </div>
+
+    <CropperViewer CropperState="cropperState" Class="cropper-js-api-viewer mt-2" data-testid="cropper-js-api-dedicated-viewer" />
+</div>
+
+@code {
+    private readonly CropperState cropperState = new();
+
+    private readonly Options cropperOptions = new()
+    {
+        AspectRatio = 16m / 9m
+    };
+}
+
+<style>
+    .big-img {
+        max-height: 420px;
+        max-width: 100%;
+    }
+
+    .img-container {
+        max-height: 420px;
+        width: 100%;
+    }
+
+    .cropper-js-api-viewer {
+        height: 120px;
+        max-width: 220px;
+        overflow: hidden;
+        width: 100%;
+    }
+</style>

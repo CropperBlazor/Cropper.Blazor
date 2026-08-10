@@ -9,6 +9,14 @@ public partial class DocsLayout : LayoutComponentBase
 
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
+    [Inject] private DocsVersionService DocsVersionService { get; set; } = null!;
+
+    private string RoutePrefix => DocsVersionService.GetRoutePrefix(NavigationManager.Uri).TrimStart('/');
+
+    private string HomeRoute => DocsVersionService.GetHomeRoute(NavigationManager.Uri).TrimStart('/');
+
+    private string DemoRoute => DocsVersionService.GetDemoRoute(NavigationManager.Uri).TrimStart('/');
+
     private NavMenu? NavMenuRef;
     private bool _drawerOpen = true;
     private bool _topMenuOpen = false;

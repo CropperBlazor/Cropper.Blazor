@@ -1,0 +1,73 @@
+@namespace Cropper.Blazor.Components
+@inherits ComponentBase
+@code {
+    /// <summary>
+    /// Provides access to the parent cropper component.
+    /// </summary>
+    [CascadingParameter]
+    public CropperComponent? CropperComponent { get; set; }
+
+    /// <summary>
+    /// Hide the image element.
+    /// </summary>
+    [Parameter]
+    public bool? Hidden { get; set; }
+
+    /// <summary>
+    /// Enable image rotation.
+    /// </summary>
+    [Parameter]
+    public bool? Rotatable { get; set; }
+
+    /// <summary>
+    /// Enable image scaling.
+    /// </summary>
+    [Parameter]
+    public bool? Scalable { get; set; }
+
+    /// <summary>
+    /// Enable image skewing.
+    /// </summary>
+    [Parameter]
+    public bool? Skewable { get; set; }
+
+    /// <summary>
+    /// Enable image translation.
+    /// </summary>
+    [Parameter]
+    public bool? Translatable { get; set; }
+
+    /// <summary>
+    /// Set how the image is initially centered in the canvas.
+    /// </summary>
+    [Parameter]
+    public Models.CropperImageInitialCenterSize? InitialCenterSize { get; set; }
+
+    /// <summary>
+    /// Set the image alternative text.
+    /// </summary>
+    [Parameter]
+    public string? Alt { get; set; }
+
+    /// <summary>
+    /// Enable the default slot for the image element.
+    /// </summary>
+    [Parameter]
+    public bool? Slottable { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        CropperComponent?.SetImageElementOptions(new Models.ImageElementOptions
+        {
+            Hidden = Hidden,
+            Rotatable = Rotatable,
+            Scalable = Scalable,
+            Skewable = Skewable,
+            Translatable = Translatable,
+            InitialCenterSize = InitialCenterSize,
+            Alt = Alt,
+            Slottable = Slottable
+        });
+    }
+}

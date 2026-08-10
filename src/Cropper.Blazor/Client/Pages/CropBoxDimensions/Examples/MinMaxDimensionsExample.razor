@@ -1,11 +1,11 @@
-﻿@using Cropper.Blazor.Models;
+@using Cropper.Blazor.Models;
 @using Cropper.Blazor.Events;
 @using Cropper.Blazor.Events.CropEvent;
 
 <MudGrid>
     <MudItem xs="12" sm="8" md="8" lg="8">
         <MudPaper Class="pa-2">
-            <div class="img-container">
+            <div class="dimensions-example-cropper-container" data-testid="dimensions-min-max-example">
                 <CropperComponent Class="big-img"
                                   @ref="cropperComponent"
                                   Src="images/dolphin.jpg"
@@ -19,13 +19,13 @@
             @if (currentCropperData != null)
             {
                 // Current crop box data
-                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="currentCropperData.X" Step=".2M" Label="X" Variant="Variant.Text"
+                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="currentCropperData.X" Step=".2M" Label="X" Variant="Variant.Text" data-testid="dimensions-current-x"
                                  Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Margin="Margin.Dense" Format="N4" />
-                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="currentCropperData.Y" Label="Y" Step=".2M" Variant="Variant.Text"
+                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="currentCropperData.Y" Label="Y" Step=".2M" Variant="Variant.Text" data-testid="dimensions-current-y"
                                  Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Margin="Margin.Dense" Format="N4" />
-                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="currentCropperData.Width" Label="Width" Step=".2M" Variant="Variant.Text"
+                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="currentCropperData.Width" Label="Width" Step=".2M" Variant="Variant.Text" data-testid="dimensions-current-width"
                                  Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Margin="Margin.Dense" Format="N4" />
-                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="currentCropperData.Height" Label="Height" Step=".2M" Variant="Variant.Text"
+                <MudNumericField ReadOnly="true" Class="mb-2" HideSpinButtons="true" @bind-Value="currentCropperData.Height" Label="Height" Step=".2M" Variant="Variant.Text" data-testid="dimensions-current-height"
                                  Adornment="Adornment.End" AdornmentText="px" AdornmentColor="Color.Primary" Margin="Margin.Dense" Format="N4" />
             }
         </MudPaper>
@@ -39,7 +39,7 @@
     // Minimum and maximum cropped dimensions settings
     private static decimal minCroppedWidth = 320;
     private static decimal minCroppedHeight = 160;
-    private static decimal maxCroppedWidth = 640;
+    private static decimal maxCroppedWidth = 480;
     private static decimal maxCroppedHeight = 320;
 
     private Options CropperOptions = new Options
@@ -49,45 +49,60 @@
             Width = (minCroppedWidth + maxCroppedWidth) / 2,
             Height = (minCroppedHeight + maxCroppedHeight) / 2
         },
-        ViewMode = ViewMode.Vm3
     };
 
-    public async void OnCropEvent(JSEventData<CropEvent> cropJSEvent)
+    private void OnCropEvent(JSEventData<CropEvent> cropJSEvent)
     {
-        await InvokeAsync(() =>
+        if (cropJSEvent?.Detail is null)
         {
-            if (cropJSEvent?.Detail is not null)
+            return;
+        }
+
+        CropperData cropperData = cropJSEvent.Detail;
+        decimal width = Math.Round(cropperData.Width ?? 0);
+        decimal height = Math.Round(cropperData.Height ?? 0);
+        decimal nextWidth = Math.Max(minCroppedWidth, Math.Min(maxCroppedWidth, width));
+        decimal nextHeight = Math.Max(minCroppedHeight, Math.Min(maxCroppedHeight, height));
+
+        if (Math.Abs(nextWidth - width) > 0.5m || Math.Abs(nextHeight - height) > 0.5m)
+        {
+            currentCropperData = new CropperData
             {
-                decimal width = Math.Round(cropJSEvent.Detail.Width ?? 0);
-                decimal height = Math.Round(cropJSEvent.Detail.Height ?? 0);
+                X = cropperData.X,
+                Y = cropperData.Y,
+                Width = nextWidth,
+                Height = nextHeight,
+                Rotate = cropperData.Rotate,
+                ScaleX = cropperData.ScaleX,
+                ScaleY = cropperData.ScaleY
+            };
 
-                if (width < minCroppedWidth || height < minCroppedHeight
-                    || width > maxCroppedWidth || height > maxCroppedHeight)
-                {
-                    decimal nWidth = Math.Max(minCroppedWidth,
-                        Math.Min(maxCroppedWidth, width));
-                    decimal nHeight = Math.Max(minCroppedHeight,
-                        Math.Min(maxCroppedHeight, height));
+            cropperComponent?.SetData(new SetDataOptions
+            {
+                X = cropperData.X,
+                Y = cropperData.Y,
+                Width = nextWidth,
+                Height = nextHeight
+            });
+        }
+        else
+        {
+            currentCropperData = cropperData;
+        }
 
-                    cropperComponent!.SetData(new SetDataOptions
-                    {
-                        Width = nWidth,
-                        Height = nHeight
-                    });
-                }
-                else
-                {
-                    currentCropperData = cropJSEvent.Detail;
-                    StateHasChanged();
-                }
-            }
-        });
+        StateHasChanged();
     }
 }
 
 <style>
-    .img-container {
-        max-height: 400px;
+    .dimensions-example-cropper-container {
+        height: 400px;
+        overflow: hidden;
         width: 100%;
     }
+
+        .dimensions-example-cropper-container cropper-canvas {
+            height: 400px;
+            width: 100%;
+        }
 </style>
